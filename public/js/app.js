@@ -1914,6 +1914,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BusquedaApi",
   mounted: function mounted() {
@@ -37651,40 +37657,78 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "PAGINAS" } }, [
-                        _vm._v("Numero de paginas")
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", { attrs: { for: "PAGINAS" } }, [
+                          _vm._v("Numero de paginas")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.NUMERO_PAGINAS,
+                              expression: "EJEMPLAR.NUMERO_PAGINAS"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "PAGINAS",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "NUMERO_PAGINAS",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
                       ]),
                       _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.EJEMPLAR.NUMERO_PAGINAS,
-                            expression: "EJEMPLAR.NUMERO_PAGINAS"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "PAGINAS",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", { attrs: { for: "COPIAS" } }, [
+                          _vm._v("Numero de copias")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.COPIAS,
+                              expression: "EJEMPLAR.COPIAS"
                             }
-                            _vm.$set(
-                              _vm.EJEMPLAR,
-                              "NUMERO_PAGINAS",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "COPIAS",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.EJEMPLAR.COPIAS },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "COPIAS",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
+                        })
+                      ])
                     ]),
                     _vm._v(" "),
                     _c(
@@ -50183,8 +50227,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Arnulfo\Documents\GitHub\pruebaVue\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Arnulfo\Documents\GitHub\pruebaVue\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\Biblioteca\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -59,9 +59,15 @@
                                 <label for="AUTOR">Autor/es</label>
                                 <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR" aria-describedby="emailHelp" >
                             </div>
-                            <div class="form-group">
-                                <label for="PAGINAS">Numero de paginas</label>
-                                <input type="text" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS" aria-describedby="emailHelp">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="PAGINAS">Numero de paginas</label>
+                                    <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS" aria-describedby="emailHelp">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="COPIAS">Numero de copias</label>
+                                    <input type="number" class="form-control" id="COPIAS" v-model="EJEMPLAR.COPIAS" aria-describedby="emailHelp">
+                                </div>
                             </div>
                             <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Guardar cambios</button>

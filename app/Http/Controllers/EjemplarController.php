@@ -35,21 +35,14 @@ class EjemplarController extends Controller
      */
     public function store(Request $request)
     {
-        /*Ejemplar::create(
-            $request->DESCRIPCION = Descripcion,
-            $request->AUTOR = Autor,
-            $request->EJEMPLAR= NOMBRE,
-            $request->NUMERO_PAGINAS= Paginas,
-            $request->ISBN = ISBN
-        );*/
         $Ejemplar= new Ejemplar();
-
-        $Ejemplar->DESCRIPCION= $request->DESCRIPCION;
-        $Ejemplar->AUTOR= 'Autor de prueba me dice que intento convertir un array en string';
-            $Ejemplar->NOMBRE = $request->EJEMPLAR;
-            $Ejemplar->ISBN = $request->ISBN;
-            $Ejemplar->PAGINAS= $request->NUMERO_PAGINAS;
-            $Ejemplar->save();
+        $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
+        $Ejemplar->AUTOR = 'Autor de prueba me dice que intento convertir un array en string';
+        $Ejemplar->NOMBRE = $request->EJEMPLAR;
+        $Ejemplar->ISBN = $request->ISBN;
+        $Ejemplar->PAGINAS = $request->NUMERO_PAGINAS;
+        $Ejemplar->COPIAS = $request->COPIAS;
+        $Ejemplar->save();
 
 
     }
