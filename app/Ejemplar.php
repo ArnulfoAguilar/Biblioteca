@@ -8,6 +8,15 @@ class Ejemplar extends Model
 {
     protected $table = 'Ejemplar';
     protected $fillable = [
-        'NOMBRE', 'DESCRIPCION', 'ISBN', 'AUTOR', 'PAGINAS'
+        'ISBN',
+        'EJEMPLAR',
+        'IMAGEN',
+        'DESCRIPCION',
+        'PALABRAS_CLAVE',
+        'NUMERO_PAGINAS',
+        'NUMERO_COPIAS',
+        'ID_AUTOR',
+        'ID_CATEGORIA',
+        'ID_TERCER_SUMARIO',
         ];
 }
