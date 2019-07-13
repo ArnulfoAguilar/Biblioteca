@@ -39,8 +39,8 @@ class EjemplarController extends Controller
         $url = $request->IMAGEN;
         $contents = file_get_contents($url);
         $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
-
         Storage::put($file, $contents);
+
         $Ejemplar= new Ejemplar();
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
         $Ejemplar->AUTOR = 'Autor de prueba me dice que intento convertir un array en string';
@@ -49,7 +49,7 @@ class EjemplarController extends Controller
         $Ejemplar->IMAGEN = $file;
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
-        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCERSUMARIO;
+
         $Ejemplar->save();
 
 

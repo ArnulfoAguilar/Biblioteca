@@ -25,7 +25,7 @@ class CreateLibrosTable extends Migration
                 ->onDelete('restrict');
             $table->unsignedInteger('ID_EJEMPLAR');
             $table->foreign('ID_EJEMPLAR')
-                ->references('ID_EJEMPLAR')
+                ->references('id')
                 ->on('Ejemplar')
                 ->onUpdate('restrict')
                 ->onDelete('restrict');

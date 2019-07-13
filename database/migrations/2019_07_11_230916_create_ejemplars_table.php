@@ -14,20 +14,20 @@ class CreateEjemplarsTable extends Migration
     public function up()
     {
         Schema::create('Ejemplar', function (Blueprint $table) {
-            $table->increments('ID_EJEMPLAR');
+            $table->bigIncrements('id');
             $table->string('ISBN','13')->unique();
             $table->string('EJEMPLAR','500');
             $table->string('IMAGEN','100');
             $table->string('DESCRIPCION','1500');
-            $table->string('PALABRAS_CLAVE',500);
-            $table->integer('NUMERO_PAGINAS');
+            $table->string('PALABRAS_CLAVE',500)->nullable();
+            $table->integer('NUMERO_PAGINAS')->nullable();
             $table->integer('NUMERO_COPIAS');
-            $table->string('AUTOR','255');
-            $table->unsignedInteger('ID_CATEGORIA');
+            $table->string('AUTOR','255')->nullable();
+            $table->unsignedInteger('ID_CATEGORIA')->nullable();
             $table->foreign('ID_CATEGORIA')
                 ->references('ID_CATEGORIA')
                 ->on('categoriaLibro');
-            $table->unsignedInteger('ID_TERCER_SUMARIO');
+            $table->unsignedInteger('ID_TERCER_SUMARIO')->nullable();
             $table->foreign('ID_TERCER_SUMARIO')
                 ->references('ID_TERCER_SUMARIO')
                 ->on('tercerSumario');
