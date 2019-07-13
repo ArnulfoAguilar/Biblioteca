@@ -31,7 +31,7 @@
         <!--/BUSQUEDA-->
 
         <!--Modal formulario nuevo libro-->
-        <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -54,6 +54,34 @@
                             <div class="form-group">
                                 <label for="ISBN">ISBN</label>
                                 <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN" aria-describedby="emailHelp" >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">
+                                    Primer Sumario
+                                </label>
+                                <div >
+                                    <select2  :options="primerSumarios" v-model="EJEMPLAR.PRIMERSUMARIO" @input="getSegundoSumario">
+                                    </select2>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" >
+                                    Segundo Sumario
+                                </label>
+                                <div >
+                                    <select2  :options="segundoSumarios" v-model="EJEMPLAR.SEGUNDOSUMARIO" @input="getTercerSumario">
+                                    </select2>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" >
+                                    Tercer Sumario
+                                </label>
+                                <div >
+                                    <select2  :options="tercerSumarios" v-model="EJEMPLAR.TERCERSUMARIO">
+                                    </select2>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="AUTOR">Autor/es</label>
@@ -84,7 +112,11 @@
     export default {
         name: "BusquedaApi",
         mounted() {
+            axios.get('/PrimerSumarioSelect').then((response)=>{
+                this.primerSumarios = response.data;
+            })
             console.log('Component mounted.')
+
         },
         data() {
             return {
@@ -94,11 +126,15 @@
                 Nbooks:'&maxResults=20',
                 chooseTerm:'',
                 URLChoose:'https://www.googleapis.com/books/v1/volumes/',
+                primerSumarios :[],
+                segundoSumarios: [],
+                tercerSumarios: [],
                 chooseResults: [],
                 chooseIndustry : [],
                 chooseAutors : [],
                 chooseImg: [],
-                EJEMPLAR: { ISBN:'', EJEMPLAR:'', DESCRIPCION: '', NUMERO_PAGINAS:'', AUTOR:'' },
+                EJEMPLAR: { ISBN:'', EJEMPLAR:'', DESCRIPCION: '', NUMERO_PAGINAS:'', AUTOR:'' , PRIMERSUMARIO:'',IMAGEN:'', SEGUNDOSUMARIO:'',TERCERSUMARIO:''},
+
 
             }
         },
@@ -128,9 +164,12 @@
             },
 
             chooseBook(){
+
                 axios.get(this.URLChoose+this.chooseTerm)
                     .then(response => {
-                        this.chooseImg= response.data.volumeInfo.imageLinks
+                        this.chooseImg= response.data.volumeInfo.imageLinks;
+                        this.EJEMPLAR.IMAGEN =this.chooseImg.large;
+                        console.log(this.EJEMPLAR.IMAGEN);
                         this.EJEMPLAR.DESCRIPCION = response.data.volumeInfo.description;
                         this.EJEMPLAR.EJEMPLAR = response.data.volumeInfo.title;
                         this.EJEMPLAR.ISBN = response.data.volumeInfo.industryIdentifiers[1].identifier;
@@ -138,6 +177,19 @@
                         this.EJEMPLAR.NUMERO_PAGINAS = response.data.volumeInfo.pageCount;
                 }).catch(e=>{
                     console.log(e)
+                })
+
+
+            },
+
+            getSegundoSumario(){
+                axios.get('/SegundoSumarioSelect/'+this.EJEMPLAR.PRIMERSUMARIO).then((response)=>{
+                    this.segundoSumarios = response.data;
+                })
+            },
+            getTercerSumario(){
+                axios.get('/TercerSumarioSelect/'+this.EJEMPLAR.SEGUNDOSUMARIO).then((response)=>{
+                    this.tercerSumarios = response.data;
                 })
             },
             Agregar(){

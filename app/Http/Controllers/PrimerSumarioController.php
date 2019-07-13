@@ -12,6 +12,23 @@ class PrimerSumarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function primerSumarioSelect()
+    {
+        $primerSumarios = primerSumario::all();
+        $data = [];
+        $data[0] = [
+            'id'   => 0,
+            'text' =>'Seleccione',
+        ];
+        foreach ($primerSumarios as $key => $value) {
+            $data[$key+1] =[
+                'id'   => $value->ID_PRIMER_SUMARIO,
+                'text' => $value->DESCRIPCION,
+            ];
+        }
+        return response()->json($data);
+    }
     public function index()
     {
         //

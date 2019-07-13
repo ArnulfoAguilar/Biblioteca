@@ -12,6 +12,22 @@ class TercerSumarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function  tercerSumarioSelect($id)
+    {
+        $segundoSumarios = tercerSumario::where('ID_SEGUNDO_SUMARIO',$id)->get();
+        $data = [];
+        $data[0] = [
+            'id'   => 0,
+            'text' =>'Seleccione',
+        ];
+        foreach ($segundoSumarios as $key => $value) {
+            $data[$key+1] =[
+                'id'   => $value->ID_TERCER_SUMARIO,
+                'text' => $value->DESCRIPCION,
+            ];
+        }
+        return response()->json($data);
+    }
     public function index()
     {
         //

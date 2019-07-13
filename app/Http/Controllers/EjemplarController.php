@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ejemplar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EjemplarController extends Controller
 {
@@ -35,13 +36,22 @@ class EjemplarController extends Controller
      */
     public function store(Request $request)
     {
+        //$url = $request->IMAGEN;
+        $url='https://www.chiquipedia.com/imagenes/imagenes-amor08.jpg';
+        $info = pathinfo($url);
+        $contents = file_get_contents($url);
+        $file = '/bookImages/' . $info['basename'];
+        Storage::put($file, $contents);
+        
         $Ejemplar= new Ejemplar();
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
         $Ejemplar->AUTOR = 'Autor de prueba me dice que intento convertir un array en string';
-        $Ejemplar->NOMBRE = $request->EJEMPLAR;
+        $Ejemplar->EJEMPLAR = $request->EJEMPLAR;
         $Ejemplar->ISBN = $request->ISBN;
-        $Ejemplar->PAGINAS = $request->NUMERO_PAGINAS;
-        $Ejemplar->COPIAS = $request->COPIAS;
+        $Ejemplar->IMAGEN = $file;
+        $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
+        $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
+        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCERSUMARIO;
         $Ejemplar->save();
 
 

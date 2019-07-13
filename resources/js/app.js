@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('busqueda-api', require('./components/BusquedaApi.vue').default);
+Vue.component('select2', require('./components/select.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

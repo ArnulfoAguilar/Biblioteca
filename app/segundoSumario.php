@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class segundoSumario extends Model
 {
-    protected $table = 'segundopSumario';
+    protected $table = 'segundoSumario';
     protected $fillable = [
         'DESCRIPCION',
         'ID_PRIMER_SUMARIO'
