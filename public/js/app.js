@@ -1956,6 +1956,9 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('/PrimerSumarioSelect').then(function (response) {
       _this.primerSumarios = response.data;
     });
+    axios.get('/SegundoSumarioSelect/' + this.EJEMPLAR.PRIMERSUMARIO).then(function (response) {
+      _this.segundoSumarios = response.data;
+    });
     console.log('Component mounted.');
   },
   data: function data() {
@@ -2015,7 +2018,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get(this.URLChoose + this.chooseTerm).then(function (response) {
         _this3.chooseImg = response.data.volumeInfo.imageLinks;
-        _this3.EJEMPLAR.IMAGEN = _this3.chooseImg.large;
+        _this3.EJEMPLAR.IMAGEN = _this3.chooseImg.thumbnail;
         console.log(_this3.EJEMPLAR.IMAGEN);
         _this3.EJEMPLAR.DESCRIPCION = response.data.volumeInfo.description;
         _this3.EJEMPLAR.EJEMPLAR = response.data.volumeInfo.title;
@@ -2049,7 +2052,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.post('Ejemplar', ejemplarNuevo).then(function (response) {
           alert("Guardado correctamente");
         })["catch"](function (e) {
-          console.log("problemas");
+          console.log(e);
         });
       }
     }

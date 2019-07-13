@@ -115,6 +115,9 @@
             axios.get('/PrimerSumarioSelect').then((response)=>{
                 this.primerSumarios = response.data;
             })
+            axios.get('/SegundoSumarioSelect/'+this.EJEMPLAR.PRIMERSUMARIO).then((response)=>{
+                this.segundoSumarios = response.data;
+            })
             console.log('Component mounted.')
 
         },
@@ -168,7 +171,7 @@
                 axios.get(this.URLChoose+this.chooseTerm)
                     .then(response => {
                         this.chooseImg= response.data.volumeInfo.imageLinks;
-                        this.EJEMPLAR.IMAGEN =this.chooseImg.large;
+                        this.EJEMPLAR.IMAGEN =this.chooseImg.thumbnail;
                         console.log(this.EJEMPLAR.IMAGEN);
                         this.EJEMPLAR.DESCRIPCION = response.data.volumeInfo.description;
                         this.EJEMPLAR.EJEMPLAR = response.data.volumeInfo.title;
@@ -206,7 +209,7 @@
                         .then(response=>{
                             alert("Guardado correctamente")
                             }).catch(e=>{
-                        console.log("problemas")
+                        console.log(e)
                     })
                 }
             }

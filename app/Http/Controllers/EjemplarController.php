@@ -36,13 +36,11 @@ class EjemplarController extends Controller
      */
     public function store(Request $request)
     {
-        //$url = $request->IMAGEN;
-        $url='https://www.chiquipedia.com/imagenes/imagenes-amor08.jpg';
-        $info = pathinfo($url);
+        $url = $request->IMAGEN;
         $contents = file_get_contents($url);
-        $file = '/bookImages/' . $info['basename'];
+        $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
+
         Storage::put($file, $contents);
-        
         $Ejemplar= new Ejemplar();
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
         $Ejemplar->AUTOR = 'Autor de prueba me dice que intento convertir un array en string';
