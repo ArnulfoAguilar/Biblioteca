@@ -1,5 +1,5 @@
-# Biblioteca
-Como usar
+## Biblioteca
+# Como usar
 
 Clona el repositorio con git clone
 
