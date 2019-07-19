@@ -165,7 +165,6 @@
                     .then(response => {
                         this.chooseImg= response.data.volumeInfo.imageLinks;
                         this.EJEMPLAR.IMAGEN =this.chooseImg.thumbnail;
-                        console.log(this.EJEMPLAR.IMAGEN);
                         this.EJEMPLAR.DESCRIPCION = response.data.volumeInfo.description;
                         this.EJEMPLAR.EJEMPLAR = response.data.volumeInfo.title;
                         this.EJEMPLAR.ISBN = response.data.volumeInfo.industryIdentifiers[1].identifier;

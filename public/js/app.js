@@ -2038,7 +2038,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(this.URLChoose + this.chooseTerm).then(function (response) {
         _this3.chooseImg = response.data.volumeInfo.imageLinks;
         _this3.EJEMPLAR.IMAGEN = _this3.chooseImg.thumbnail;
-        console.log(_this3.EJEMPLAR.IMAGEN);
         _this3.EJEMPLAR.DESCRIPCION = response.data.volumeInfo.description;
         _this3.EJEMPLAR.EJEMPLAR = response.data.volumeInfo.title;
         _this3.EJEMPLAR.ISBN = response.data.volumeInfo.industryIdentifiers[1].identifier;
