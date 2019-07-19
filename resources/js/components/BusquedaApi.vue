@@ -65,16 +65,16 @@
                                     </select2>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" v-if="EJEMPLAR.PRIMERSUMARIO != 0">
                                 <label for="" >
                                     Segundo Sumario
                                 </label>
                                 <div >
-                                    <select2  :options="segundoSumarios" v-model="EJEMPLAR.SEGUNDOSUMARIO" @input="getTercerSumario">
+                                    <select2  :options="segundoSumarios"   v-model="EJEMPLAR.SEGUNDOSUMARIO" @input="getTercerSumario" >
                                     </select2>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" v-if="EJEMPLAR.SEGUNDOSUMARIO  != 0 && EJEMPLAR.PRIMERSUMARIO  != 0">
                                 <label for="" >
                                     Tercer Sumario
                                 </label>
@@ -114,12 +114,8 @@
         mounted() {
             axios.get('/PrimerSumarioSelect').then((response)=>{
                 this.primerSumarios = response.data;
-            })
-            axios.get('/SegundoSumarioSelect/'+this.EJEMPLAR.PRIMERSUMARIO).then((response)=>{
-                this.segundoSumarios = response.data;
-            })
+            });
             console.log('Component mounted.')
-
         },
         data() {
             return {
@@ -137,8 +133,6 @@
                 chooseAutors : [],
                 chooseImg: [],
                 EJEMPLAR: { ISBN:'', EJEMPLAR:'', DESCRIPCION: '', NUMERO_PAGINAS:'', AUTOR:'' , PRIMERSUMARIO:'',IMAGEN:'', SEGUNDOSUMARIO:'',TERCERSUMARIO:''},
-
-
             }
         },
         methods: {
@@ -167,7 +161,6 @@
             },
 
             chooseBook(){
-
                 axios.get(this.URLChoose+this.chooseTerm)
                     .then(response => {
                         this.chooseImg= response.data.volumeInfo.imageLinks;
@@ -181,19 +174,21 @@
                 }).catch(e=>{
                     console.log(e)
                 })
-
-
             },
 
             getSegundoSumario(){
+                if(this.EJEMPLAR.PRIMERSUMARIO!=0){
                 axios.get('/SegundoSumarioSelect/'+this.EJEMPLAR.PRIMERSUMARIO).then((response)=>{
                     this.segundoSumarios = response.data;
-                })
+                });
+                }
             },
             getTercerSumario(){
+                if(this.EJEMPLAR.PRIMERSUMARIO!=0 &&this.EJEMPLAR.SEGUNDOSUMARIO!=0){
                 axios.get('/TercerSumarioSelect/'+this.EJEMPLAR.SEGUNDOSUMARIO).then((response)=>{
                     this.tercerSumarios = response.data;
                 })
+                }
             },
             Agregar(){
                 if(this.EJEMPLAR.EJEMPLAR === '' ||
@@ -209,7 +204,7 @@
                         .then(response=>{
                             alert("Guardado correctamente")
                             }).catch(e=>{
-                        console.log(e)
+                        alert("Error al Guardar" + e);
                     })
                 }
             }

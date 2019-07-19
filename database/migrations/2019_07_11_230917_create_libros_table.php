@@ -17,13 +17,13 @@ class CreateLibrosTable extends Migration
             $table->bigIncrements('ID_LIBRO');
             $table->string('CODIGO_BARRA','25');
             $table->integer('COPIA_NUMERO');
-            $table->unsignedInteger('ID_MATERIAL');
+            $table->unsignedInteger('ID_MATERIAL')->nullable();
             $table->foreign('ID_MATERIAL')
                 ->references('ID_MATERIAL')
                 ->on('materialBibliotecario')
                 ->onUpdate('restrict')
                 ->onDelete('restrict');
-            $table->unsignedInteger('ID_EJEMPLAR');
+            $table->unsignedInteger('ID_EJEMPLAR')->nullable();
             $table->foreign('ID_EJEMPLAR')
                 ->references('id')
                 ->on('Ejemplar')

@@ -83,6 +83,13 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
       <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
       <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/vendor/creativeorange/gravatar" />
+      <path value="$PROJECT_DIR$/vendor/facebook/webdriver" />
+      <path value="$PROJECT_DIR$/vendor/acacha/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/acacha/user" />
+      <path value="$PROJECT_DIR$/vendor/acacha/admin-lte-template-laravel" />
+      <path value="$PROJECT_DIR$/vendor/acacha/helpers" />
+      <path value="$PROJECT_DIR$/vendor/laravel/dusk" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
