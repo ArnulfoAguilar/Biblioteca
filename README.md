@@ -1,16 +1,20 @@
-# Biblioteca
+# Biblioteca Padre Arrupe
 ## Como usar
 
-Clona el repositorio con git clone
+1. Clona el repositorio con git clone
 
-Copia el .env.example archivo a .env
+2. Copia el .env.example archivo a .env
 
-Run composer install
+3. Run composer install
 
-Run php artisan key:generate
+4. Run php artisan key:generate
 
-Run npm install
+5. Run npm install
 
-Run npm run dev
+6. Run npm run watch
 
-Run php artisan serve
+7. Run php artisan migrate
+
+8. Ir a la base de datos, copiar y pegar los script que se encuentran en la carpeta Script BD
+
+9. Run php artisan serve
