@@ -16,13 +16,15 @@ class CreateFilaEstantesTable extends Migration
         Schema::create('filaEstante', function (Blueprint $table) {
             $table->bigIncrements('ID_FILA');
             $table->string('FILAESTANTE','255');
-            $table->unsignedInteger('ID_ESTANTE');
+            $table->bigInteger('ID_ESTANTE')->unsigned();
+            // $table->unsignedInteger('ID_ESTANTE');
             $table->foreign('ID_ESTANTE')
                 ->references('ID_ESTANTE')
                 ->on('Estante')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-            $table->unsignedInteger('ID_BIBLIOTECA');
+            $table->bigInteger('ID_BIBLIOTECA')->unsigned();
+            // $table->unsignedInteger('ID_BIBLIOTECA');
             $table->foreign('ID_BIBLIOTECA')
                 ->references('ID_BIBLIOTECA')
                 ->on('Biblioteca')

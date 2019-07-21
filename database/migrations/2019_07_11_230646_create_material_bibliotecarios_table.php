@@ -15,19 +15,23 @@ class CreateMaterialBibliotecariosTable extends Migration
     {
         Schema::create('materialBibliotecario', function (Blueprint $table) {
             $table->bigIncrements('ID_MATERIAL');
-            $table->unsignedInteger('ID_FILA');
+            $table->bigInteger('ID_FILA')->unsigned();
+            // $table->unsignedInteger('ID_FILA');
             $table->foreign('ID_FILA')
                 ->references('ID_FILA')
                 ->on('filaEstante');
-            $table->unsignedInteger('ID_ESTANTE');
+            $table->bigInteger('ID_ESTANTE')->unsigned();
+            // $table->unsignedInteger('ID_ESTANTE');
             $table->foreign('ID_ESTANTE')
                 ->references('ID_ESTANTE')
                 ->on('Estante');
-            $table->unsignedInteger('ID_BIBLIOTECA');
+            $table->bigInteger('ID_BIBLIOTECA')->unsigned();
+            // $table->unsignedInteger('ID_BIBLIOTECA');
             $table->foreign('ID_BIBLIOTECA')
                 ->references('ID_BIBLIOTECA')
                 ->on('Biblioteca');
-            $table->unsignedInteger('ID_CATALOGO_MATERIAL');
+            $table->bigInteger('ID_CATALOGO_MATERIAL')->unsigned();
+            // $table->unsignedInteger('ID_CATALOGO_MATERIAL');
             $table->foreign('ID_CATALOGO_MATERIAL')
                 ->references('ID_CATALOGO_MATERIAL')
                 ->on('catalogoMaterial')

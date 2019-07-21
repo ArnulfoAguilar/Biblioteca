@@ -23,11 +23,13 @@ class CreateEjemplarsTable extends Migration
             $table->integer('NUMERO_PAGINAS')->nullable();
             $table->integer('NUMERO_COPIAS');
             $table->string('AUTOR','255')->nullable();
-            $table->unsignedInteger('ID_CATEGORIA')->nullable();
+            $table->bigInteger('ID_CATEGORIA')->nullable()->unsigned();
+            // $table->unsignedInteger('ID_CATEGORIA')->nullable();
             $table->foreign('ID_CATEGORIA')
                 ->references('ID_CATEGORIA')
                 ->on('categoriaLibro');
-            $table->unsignedInteger('ID_TERCER_SUMARIO')->nullable();
+            $table->bigInteger('ID_TERCER_SUMARIO')->nullable()->unsigned();
+            // $table->unsignedInteger('ID_TERCER_SUMARIO')->nullable();
             $table->foreign('ID_TERCER_SUMARIO')
                 ->references('ID_TERCER_SUMARIO')
                 ->on('tercerSumario');

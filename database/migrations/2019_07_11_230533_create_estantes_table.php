@@ -15,7 +15,8 @@ class CreateEstantesTable extends Migration
     {
         Schema::create('Estante', function (Blueprint $table) {
             $table->bigIncrements('ID_ESTANTE');
-            $table->unsignedInteger('ID_BIBLIOTECA');
+            $table->bigInteger('ID_BIBLIOTECA')->unsigned();
+            // $table->unsignedInteger('ID_BIBLIOTECA');
             $table->foreign('ID_BIBLIOTECA')
                 ->references('ID_BIBLIOTECA')
                 ->on('Biblioteca')
