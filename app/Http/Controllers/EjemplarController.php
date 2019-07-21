@@ -46,7 +46,7 @@ class EjemplarController extends Controller
         Storage::put($file, $contents);
         $Ejemplar= new Ejemplar();
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
-        $Ejemplar->AUTOR = 'Autor de prueba me dice que intento convertir un array en string';
+        $Ejemplar->AUTOR = $request->AUTOR;
         $Ejemplar->EJEMPLAR = $request->EJEMPLAR;
         $Ejemplar->ISBN = $request->ISBN;
         $Ejemplar->IMAGEN = $file;

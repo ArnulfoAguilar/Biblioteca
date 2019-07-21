@@ -168,7 +168,7 @@
                         this.EJEMPLAR.DESCRIPCION = response.data.volumeInfo.description;
                         this.EJEMPLAR.EJEMPLAR = response.data.volumeInfo.title;
                         this.EJEMPLAR.ISBN = response.data.volumeInfo.industryIdentifiers[1].identifier;
-                        this.EJEMPLAR.AUTOR = response.data.volumeInfo.authors;
+                        this.EJEMPLAR.AUTOR = response.data.volumeInfo.authors.toString();
                         this.EJEMPLAR.NUMERO_PAGINAS = response.data.volumeInfo.pageCount;
                 }).catch(e=>{
                     console.log(e)
@@ -197,7 +197,8 @@
                 {
                     alert("Debes llenar todos los datos");
                     return;
-                }else{
+                }
+                else{
                     const ejemplarNuevo = this.EJEMPLAR;
                     axios.post('Ejemplar', ejemplarNuevo)
                         .then(response=>{

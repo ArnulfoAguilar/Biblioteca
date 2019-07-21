@@ -2019,7 +2019,7 @@ __webpack_require__.r(__webpack_exports__);
         _this3.EJEMPLAR.DESCRIPCION = response.data.volumeInfo.description;
         _this3.EJEMPLAR.EJEMPLAR = response.data.volumeInfo.title;
         _this3.EJEMPLAR.ISBN = response.data.volumeInfo.industryIdentifiers[1].identifier;
-        _this3.EJEMPLAR.AUTOR = response.data.volumeInfo.authors;
+        _this3.EJEMPLAR.AUTOR = response.data.volumeInfo.authors.toString();
         _this3.EJEMPLAR.NUMERO_PAGINAS = response.data.volumeInfo.pageCount;
       })["catch"](function (e) {
         console.log(e);
