@@ -2049,10 +2049,10 @@ __webpack_require__.r(__webpack_exports__);
         return;
       } else {
         var ejemplarNuevo = this.EJEMPLAR;
-        axios.get('Ejemplar', ejemplarNuevo).then(function (response) {
+        axios.post('Ejemplar', ejemplarNuevo).then(function (response) {
           alert("Guardado correctamente");
         })["catch"](function (e) {
-          console.log("Error al Guardar" + e);
+          alert("Error al Guardar" + e);
         });
       }
     }
