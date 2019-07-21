@@ -199,11 +199,11 @@
                     return;
                 }else{
                     const ejemplarNuevo = this.EJEMPLAR;
-                    axios.get('Ejemplar', ejemplarNuevo)
+                    axios.post('Ejemplar', ejemplarNuevo)
                         .then(response=>{
                             alert("Guardado correctamente")
                             }).catch(e=>{
-                        console.log("Error al Guardar" + e);
+                            alert("Error al Guardar" + e);
                     })
                 }
             }

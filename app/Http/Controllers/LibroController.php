@@ -8,13 +8,12 @@ use Illuminate\Http\Request;
 class LibroController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Muestra las etiquetas de todos
+     *los libros, para imprimir
      */
-    public function index()
+    public function Alltags()
     {
-        //
+        
     }
 
     /**
