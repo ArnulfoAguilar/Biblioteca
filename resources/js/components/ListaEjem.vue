@@ -5,36 +5,36 @@
                 <div class="card">
                     <div class="card-header">Lista de ejemplares</div>
                     <div class="card-body">
-                        <form @submit.prevent="editarEjemplar(ejemplar)" v-if="modoEditar">
+                        <form @submit.prevent="editarEjemplar(EJEMPLAR)" v-if="modoEditar">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model="ejemplar.ejemplar" class="form-control" id="NOMBRE"
+                                <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
                                     aria-describedby="emailHelp">
                             </div>
                             <div class="form-group">
-                                <label for="descripcion">Descripción</label>
-                                <textarea class="form-control" id="descripcion" v-model="ejemplar.descripcion"
+                                <label for="DESCRIPCION">Descripción</label>
+                                <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
                                     rows="3"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="isbn">isbn</label>
-                                <input type="text" class="form-control" v-model="ejemplar.isbn" id="isbn"
+                                <label for="ISBN">ISBN</label>
+                                <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
                                     aria-describedby="emailHelp">
                             </div>
                             <div class="form-group">
-                                <label for="autor">autor/es</label>
-                                <input type="text" class="form-control" v-model="ejemplar.autor" id="autor"
+                                <label for="AUTOR">AUTOR/es</label>
+                                <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
                                     aria-describedby="emailHelp">
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="PAGINAS">Numero de paginas</label>
-                                    <input type="number" class="form-control" id="PAGINAS" v-model="ejemplar.numero_paginas"
+                                    <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="copias">Numero de copias</label>
-                                    <input type="number" class="form-control" id="copias" v-model="ejemplar.copias"
+                                    <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
                                         aria-describedby="emailHelp">
                                 </div>
                             </div>
@@ -45,34 +45,34 @@
                         <form @submit.prevent="agregar" v-else>
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model="ejemplar.ejemplar" class="form-control" id="NOMBRE"
-                                    aria-describedby="emailHelp">
+                                <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
+                                    aria-describedby="emailHelp" required>
                             </div>
                             <div class="form-group">
-                                <label for="descripcion">Descripción</label>
-                                <textarea class="form-control" id="descripcion" v-model="ejemplar.descripcion"
-                                    rows="3"></textarea>
+                                <label for="DESCRIPCION">Descripción</label>
+                                <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
+                                    rows="3" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="isbn">isbn</label>
-                                <input type="text" class="form-control" v-model="ejemplar.isbn" id="isbn"
-                                    aria-describedby="emailHelp">
+                                <label for="ISBN">ISBN</label>
+                                <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
+                                    aria-describedby="emailHelp" required>
                             </div>
                             <div class="form-group">
-                                <label for="autor">autor/es</label>
-                                <input type="text" class="form-control" v-model="ejemplar.autor" id="autor"
-                                    aria-describedby="emailHelp">
+                                <label for="AUTOR">AUTOR/es</label>
+                                <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
+                                    aria-describedby="emailHelp" required>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="PAGINAS">Numero de paginas</label>
-                                    <input type="number" class="form-control" id="PAGINAS" v-model="ejemplar.numero_paginas"
-                                        aria-describedby="emailHelp">
+                                    <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
+                                        aria-describedby="emailHelp" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="copias">Numero de copias</label>
-                                    <input type="number" class="form-control" id="copias" v-model="ejemplar.copias"
-                                        aria-describedby="emailHelp">
+                                    <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
+                                        aria-describedby="emailHelp" required>
                                 </div>
                             </div>
                             <button class="btn btn-primary" type="submit">Agregar</button>
@@ -85,11 +85,11 @@
                             <span class="badge badge-primary float-right">
                                 {{item.updated_at}}
                             </span>
-                            <p>{{item.EJEMPLAR}}</p>
-                            <p>{{item.AUTOR}}</p>
-                            <p>{{item.ISBN}}</p>
-                            <p>{{item.NUMERO_PAGINAS}}</p>
-                            <p>{{item.COPIAS}}</p>
+                            <p>TITULO: {{item.EJEMPLAR}}</p>
+                            <p>AUTOR: {{item.AUTOR}}</p>
+                            <p>ISBN: {{item.ISBN}}</p>
+                            <p>NÚMERO DE PÁGINAS: {{item.NUMERO_PAGINAS}}</p>
+                            <p>COPIAS: {{item.NUMERO_COPIAS}}</p>
                             <p>
                                 <button class="btn btn-warning btn-sm" 
                                     @click="editarFormulario(item)">Editar</button>
@@ -116,7 +116,7 @@
             return {
                 ejemplars: [],
                 modoEditar: false,
-                ejemplar: { ejemplar: '', descripcion: '', isbn: '',  autor: '', numero_paginas: '', copias:'', },
+                EJEMPLAR: { EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:'', },
             }
         },
         created(){
@@ -126,65 +126,57 @@
         },
         methods: {
             agregar() {
-                if(
-                    this.ejemplar.ejemplar.trim() === '' || 
-                    this.ejemplar.descripcion.trim() === '' ||
-                    this.ejemplar.isbn.trim() === '' ||
-                    this.ejemplar.autor.trim() === '' ||
-                    this.ejemplar.numero_paginas.trim() === '' ||
-                    this.ejemplar.copias.trim() === ''
-                    )
-                {
-                    alert('Debes completar todos los campos antes de guardar');
-                    return;
-                }
-                const ejemplarNuevo = this.ejemplar;
-                this.ejemplar = {nombre: '', descripcion: ''};    
+                const ejemplarNuevo = this.EJEMPLAR;
+                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};    
                 axios.post('/ejemplars', ejemplarNuevo)
                     .then((res) =>{
                     const ejemplarServidor = res.data;
                     this.ejemplars.push(ejemplarServidor);
+                    alert("Guardado correctamente");
+                    console.log("Guardado");
                     })
             },
             editarFormulario(item){
-            this.ejemplar.ejemplar = item.EJEMPLAR;
-            this.ejemplar.descripcion = item.DESCRIPCION;
-            this.ejemplar.isbn = item.ISBN;
-            this.ejemplar.autor = item.AUTOR;
-            this.ejemplar.numero_paginas = item.NUMERO_PAGINAS;
-            this.ejemplar.copias = item.COPIAS;
+            this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
+            this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
+            this.EJEMPLAR.ISBN = item.ISBN;
+            this.EJEMPLAR.AUTOR = item.AUTOR;
+            this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
+            this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
 
-            this.ejemplar.id = item.id;
+            this.EJEMPLAR.id = item.id;
             this.modoEditar = true;
             },
-            editarEjemplar(ejemplar){
+            editarEjemplar(EJEMPLAR){
             const params = {
-                ejemplar: ejemplar.ejemplar, 
-                descripcion: ejemplar.descripcion,
-                isbn: ejemplar.isbn,
-                autor: ejemplar.autor,
-                numero_paginas: ejemplar.numero_paginas,
-                copias: ejemplar.copias
+                EJEMPLAR: EJEMPLAR.EJEMPLAR, 
+                DESCRIPCION: EJEMPLAR.DESCRIPCION,
+                ISBN: EJEMPLAR.ISBN,
+                AUTOR: EJEMPLAR.AUTOR,
+                NUMERO_PAGINAS: EJEMPLAR.NUMERO_PAGINAS,
+                COPIAS: EJEMPLAR.COPIAS
                 };
-            axios.put(`/ejemplars/${ejemplar.id}`, params)
+            axios.put(`/ejemplars/${EJEMPLAR.id}`, params)
                 .then(res=>{
                 this.modoEditar = false;
-                const index = this.ejemplars.findIndex(item => item.id === ejemplar.id);
+                const index = this.ejemplars.findIndex(item => item.id === EJEMPLAR.id);
                 this.ejemplars[index] = res.data;
                 })
             },
-            eliminarEjemplar(ejemplar, index){
-            const confirmacion = confirm(`Eliminar ejemplar ${ejemplar.EJEMPLAR}`);
+            eliminarEjemplar(EJEMPLAR, index){
+            const confirmacion = confirm(`Eliminar EJEMPLAR ${EJEMPLAR.EJEMPLAR}`);
             if(confirmacion){
-                axios.delete(`/ejemplars/${ejemplar.id}`)
+                axios.delete(`/ejemplars/${EJEMPLAR.id}`)
                 .then(()=>{
                     this.ejemplars.splice(index, 1);
+                    alert("EJEMPLAR ELIMINADO");
+                    console.log("EJEMPLAR ELIMINADO");
                 })
             }
             },
             cancelarEdicion(){
             this.modoEditar = false;
-            this.ejemplar = {nombre: '', descripcion: ''};
+            this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
             }
 
         }

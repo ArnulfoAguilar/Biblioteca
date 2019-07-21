@@ -41,15 +41,19 @@ class EjemplarController extends Controller
     public function store(Request $request)
     {
         $url = $request->IMAGEN;
-        $contents = file_get_contents($url);
-        $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
-        Storage::put($file, $contents);
+        if($url != null){
+            $contents = file_get_contents($url);
+            $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
+            Storage::put($file, $contents);
+        }
         $Ejemplar= new Ejemplar();
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
         $Ejemplar->AUTOR = $request->AUTOR;
         $Ejemplar->EJEMPLAR = $request->EJEMPLAR;
         $Ejemplar->ISBN = $request->ISBN;
-        $Ejemplar->IMAGEN = $file;
+        if($url == null){
+            $Ejemplar->IMAGEN = '';
+        }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
         $Ejemplar->save();
@@ -95,8 +99,10 @@ class EjemplarController extends Controller
      * @param  \App\Ejemplar  $ejemplar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ejemplar $ejemplar)
+    public function destroy(Request $request)
+    // public function destroy(Ejemplar $ejemplar)
     {
-        //
+        $ejemplar = Ejemplar::find($request->id);
+        $ejemplar->delete();
     }
 }

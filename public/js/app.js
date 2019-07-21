@@ -2221,13 +2221,13 @@ __webpack_require__.r(__webpack_exports__);
     return {
       ejemplars: [],
       modoEditar: false,
-      ejemplar: {
-        ejemplar: '',
-        descripcion: '',
-        isbn: '',
-        autor: '',
-        numero_paginas: '',
-        copias: ''
+      EJEMPLAR: {
+        EJEMPLAR: '',
+        DESCRIPCION: '',
+        ISBN: '',
+        AUTOR: '',
+        NUMERO_PAGINAS: '',
+        COPIAS: ''
       }
     };
   },
@@ -2242,69 +2242,78 @@ __webpack_require__.r(__webpack_exports__);
     agregar: function agregar() {
       var _this2 = this;
 
-      if (this.ejemplar.ejemplar.trim() === '' || this.ejemplar.descripcion.trim() === '' || this.ejemplar.isbn.trim() === '' || this.ejemplar.autor.trim() === '' || this.ejemplar.numero_paginas.trim() === '' || this.ejemplar.copias.trim() === '') {
-        alert('Debes completar todos los campos antes de guardar');
-        return;
-      }
-
-      var ejemplarNuevo = this.ejemplar;
-      this.ejemplar = {
-        nombre: '',
-        descripcion: ''
+      var ejemplarNuevo = this.EJEMPLAR;
+      this.EJEMPLAR = {
+        EJEMPLAR: '',
+        DESCRIPCION: '',
+        ISBN: '',
+        AUTOR: '',
+        NUMERO_PAGINAS: '',
+        COPIAS: ''
       };
       axios.post('/ejemplars', ejemplarNuevo).then(function (res) {
         var ejemplarServidor = res.data;
 
         _this2.ejemplars.push(ejemplarServidor);
+
+        alert("Guardado correctamente");
+        console.log("Guardado");
       });
     },
     editarFormulario: function editarFormulario(item) {
-      this.ejemplar.ejemplar = item.EJEMPLAR;
-      this.ejemplar.descripcion = item.DESCRIPCION;
-      this.ejemplar.isbn = item.ISBN;
-      this.ejemplar.autor = item.AUTOR;
-      this.ejemplar.numero_paginas = item.NUMERO_PAGINAS;
-      this.ejemplar.copias = item.COPIAS;
-      this.ejemplar.id = item.id;
+      this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
+      this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
+      this.EJEMPLAR.ISBN = item.ISBN;
+      this.EJEMPLAR.AUTOR = item.AUTOR;
+      this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
+      this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
+      this.EJEMPLAR.id = item.id;
       this.modoEditar = true;
     },
-    editarEjemplar: function editarEjemplar(ejemplar) {
+    editarEjemplar: function editarEjemplar(EJEMPLAR) {
       var _this3 = this;
 
       var params = {
-        ejemplar: ejemplar.ejemplar,
-        descripcion: ejemplar.descripcion,
-        isbn: ejemplar.isbn,
-        autor: ejemplar.autor,
-        numero_paginas: ejemplar.numero_paginas,
-        copias: ejemplar.copias
+        EJEMPLAR: EJEMPLAR.EJEMPLAR,
+        DESCRIPCION: EJEMPLAR.DESCRIPCION,
+        ISBN: EJEMPLAR.ISBN,
+        AUTOR: EJEMPLAR.AUTOR,
+        NUMERO_PAGINAS: EJEMPLAR.NUMERO_PAGINAS,
+        COPIAS: EJEMPLAR.COPIAS
       };
-      axios.put("/ejemplars/".concat(ejemplar.id), params).then(function (res) {
+      axios.put("/ejemplars/".concat(EJEMPLAR.id), params).then(function (res) {
         _this3.modoEditar = false;
 
         var index = _this3.ejemplars.findIndex(function (item) {
-          return item.id === ejemplar.id;
+          return item.id === EJEMPLAR.id;
         });
 
         _this3.ejemplars[index] = res.data;
       });
     },
-    eliminarEjemplar: function eliminarEjemplar(ejemplar, index) {
+    eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
       var _this4 = this;
 
-      var confirmacion = confirm("Eliminar ejemplar ".concat(ejemplar.EJEMPLAR));
+      var confirmacion = confirm("Eliminar EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR));
 
       if (confirmacion) {
-        axios["delete"]("/ejemplars/".concat(ejemplar.id)).then(function () {
+        axios["delete"]("/ejemplars/".concat(EJEMPLAR.id)).then(function () {
           _this4.ejemplars.splice(index, 1);
+
+          alert("EJEMPLAR ELIMINADO");
+          console.log("EJEMPLAR ELIMINADO");
         });
       }
     },
     cancelarEdicion: function cancelarEdicion() {
       this.modoEditar = false;
-      this.ejemplar = {
-        nombre: '',
-        descripcion: ''
+      this.EJEMPLAR = {
+        EJEMPLAR: '',
+        DESCRIPCION: '',
+        ISBN: '',
+        AUTOR: '',
+        NUMERO_PAGINAS: '',
+        COPIAS: ''
       };
     }
   }
@@ -44808,7 +44817,7 @@ var render = function() {
                     on: {
                       submit: function($event) {
                         $event.preventDefault()
-                        return _vm.editarEjemplar(_vm.ejemplar)
+                        return _vm.editarEjemplar(_vm.EJEMPLAR)
                       }
                     }
                   },
@@ -44823,8 +44832,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.ejemplar.ejemplar,
-                            expression: "ejemplar.ejemplar"
+                            value: _vm.EJEMPLAR.EJEMPLAR,
+                            expression: "EJEMPLAR.EJEMPLAR"
                           }
                         ],
                         staticClass: "form-control",
@@ -44833,15 +44842,15 @@ var render = function() {
                           id: "NOMBRE",
                           "aria-describedby": "emailHelp"
                         },
-                        domProps: { value: _vm.ejemplar.ejemplar },
+                        domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
                             _vm.$set(
-                              _vm.ejemplar,
-                              "ejemplar",
+                              _vm.EJEMPLAR,
+                              "EJEMPLAR",
                               $event.target.value
                             )
                           }
@@ -44850,7 +44859,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "descripcion" } }, [
+                      _c("label", { attrs: { for: "DESCRIPCION" } }, [
                         _vm._v("Descripción")
                       ]),
                       _vm._v(" "),
@@ -44859,21 +44868,21 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.ejemplar.descripcion,
-                            expression: "ejemplar.descripcion"
+                            value: _vm.EJEMPLAR.DESCRIPCION,
+                            expression: "EJEMPLAR.DESCRIPCION"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "descripcion", rows: "3" },
-                        domProps: { value: _vm.ejemplar.descripcion },
+                        attrs: { id: "DESCRIPCION", rows: "3" },
+                        domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
                             _vm.$set(
-                              _vm.ejemplar,
-                              "descripcion",
+                              _vm.EJEMPLAR,
+                              "DESCRIPCION",
                               $event.target.value
                             )
                           }
@@ -44882,38 +44891,38 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "isbn" } }, [_vm._v("isbn")]),
+                      _c("label", { attrs: { for: "ISBN" } }, [_vm._v("ISBN")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.ejemplar.isbn,
-                            expression: "ejemplar.isbn"
+                            value: _vm.EJEMPLAR.ISBN,
+                            expression: "EJEMPLAR.ISBN"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
-                          id: "isbn",
+                          id: "ISBN",
                           "aria-describedby": "emailHelp"
                         },
-                        domProps: { value: _vm.ejemplar.isbn },
+                        domProps: { value: _vm.EJEMPLAR.ISBN },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.ejemplar, "isbn", $event.target.value)
+                            _vm.$set(_vm.EJEMPLAR, "ISBN", $event.target.value)
                           }
                         }
                       })
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "autor" } }, [
-                        _vm._v("autor/es")
+                      _c("label", { attrs: { for: "AUTOR" } }, [
+                        _vm._v("AUTOR/es")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -44921,23 +44930,23 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.ejemplar.autor,
-                            expression: "ejemplar.autor"
+                            value: _vm.EJEMPLAR.AUTOR,
+                            expression: "EJEMPLAR.AUTOR"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
-                          id: "autor",
+                          id: "AUTOR",
                           "aria-describedby": "emailHelp"
                         },
-                        domProps: { value: _vm.ejemplar.autor },
+                        domProps: { value: _vm.EJEMPLAR.AUTOR },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.ejemplar, "autor", $event.target.value)
+                            _vm.$set(_vm.EJEMPLAR, "AUTOR", $event.target.value)
                           }
                         }
                       })
@@ -44954,8 +44963,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.ejemplar.numero_paginas,
-                              expression: "ejemplar.numero_paginas"
+                              value: _vm.EJEMPLAR.NUMERO_PAGINAS,
+                              expression: "EJEMPLAR.NUMERO_PAGINAS"
                             }
                           ],
                           staticClass: "form-control",
@@ -44964,15 +44973,15 @@ var render = function() {
                             id: "PAGINAS",
                             "aria-describedby": "emailHelp"
                           },
-                          domProps: { value: _vm.ejemplar.numero_paginas },
+                          domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
                               _vm.$set(
-                                _vm.ejemplar,
-                                "numero_paginas",
+                                _vm.EJEMPLAR,
+                                "NUMERO_PAGINAS",
                                 $event.target.value
                               )
                             }
@@ -44990,8 +44999,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.ejemplar.copias,
-                              expression: "ejemplar.copias"
+                              value: _vm.EJEMPLAR.COPIAS,
+                              expression: "EJEMPLAR.COPIAS"
                             }
                           ],
                           staticClass: "form-control",
@@ -45000,15 +45009,15 @@ var render = function() {
                             id: "copias",
                             "aria-describedby": "emailHelp"
                           },
-                          domProps: { value: _vm.ejemplar.copias },
+                          domProps: { value: _vm.EJEMPLAR.COPIAS },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
                               _vm.$set(
-                                _vm.ejemplar,
-                                "copias",
+                                _vm.EJEMPLAR,
+                                "COPIAS",
                                 $event.target.value
                               )
                             }
@@ -45058,25 +45067,26 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.ejemplar.ejemplar,
-                            expression: "ejemplar.ejemplar"
+                            value: _vm.EJEMPLAR.EJEMPLAR,
+                            expression: "EJEMPLAR.EJEMPLAR"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
                           id: "NOMBRE",
-                          "aria-describedby": "emailHelp"
+                          "aria-describedby": "emailHelp",
+                          required: ""
                         },
-                        domProps: { value: _vm.ejemplar.ejemplar },
+                        domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
                             _vm.$set(
-                              _vm.ejemplar,
-                              "ejemplar",
+                              _vm.EJEMPLAR,
+                              "EJEMPLAR",
                               $event.target.value
                             )
                           }
@@ -45085,7 +45095,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "descripcion" } }, [
+                      _c("label", { attrs: { for: "DESCRIPCION" } }, [
                         _vm._v("Descripción")
                       ]),
                       _vm._v(" "),
@@ -45094,21 +45104,21 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.ejemplar.descripcion,
-                            expression: "ejemplar.descripcion"
+                            value: _vm.EJEMPLAR.DESCRIPCION,
+                            expression: "EJEMPLAR.DESCRIPCION"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "descripcion", rows: "3" },
-                        domProps: { value: _vm.ejemplar.descripcion },
+                        attrs: { id: "DESCRIPCION", rows: "3", required: "" },
+                        domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
                             _vm.$set(
-                              _vm.ejemplar,
-                              "descripcion",
+                              _vm.EJEMPLAR,
+                              "DESCRIPCION",
                               $event.target.value
                             )
                           }
@@ -45117,38 +45127,39 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "isbn" } }, [_vm._v("isbn")]),
+                      _c("label", { attrs: { for: "ISBN" } }, [_vm._v("ISBN")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.ejemplar.isbn,
-                            expression: "ejemplar.isbn"
+                            value: _vm.EJEMPLAR.ISBN,
+                            expression: "EJEMPLAR.ISBN"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
-                          id: "isbn",
-                          "aria-describedby": "emailHelp"
+                          id: "ISBN",
+                          "aria-describedby": "emailHelp",
+                          required: ""
                         },
-                        domProps: { value: _vm.ejemplar.isbn },
+                        domProps: { value: _vm.EJEMPLAR.ISBN },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.ejemplar, "isbn", $event.target.value)
+                            _vm.$set(_vm.EJEMPLAR, "ISBN", $event.target.value)
                           }
                         }
                       })
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "autor" } }, [
-                        _vm._v("autor/es")
+                      _c("label", { attrs: { for: "AUTOR" } }, [
+                        _vm._v("AUTOR/es")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -45156,23 +45167,24 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.ejemplar.autor,
-                            expression: "ejemplar.autor"
+                            value: _vm.EJEMPLAR.AUTOR,
+                            expression: "EJEMPLAR.AUTOR"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
-                          id: "autor",
-                          "aria-describedby": "emailHelp"
+                          id: "AUTOR",
+                          "aria-describedby": "emailHelp",
+                          required: ""
                         },
-                        domProps: { value: _vm.ejemplar.autor },
+                        domProps: { value: _vm.EJEMPLAR.AUTOR },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.ejemplar, "autor", $event.target.value)
+                            _vm.$set(_vm.EJEMPLAR, "AUTOR", $event.target.value)
                           }
                         }
                       })
@@ -45189,25 +45201,26 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.ejemplar.numero_paginas,
-                              expression: "ejemplar.numero_paginas"
+                              value: _vm.EJEMPLAR.NUMERO_PAGINAS,
+                              expression: "EJEMPLAR.NUMERO_PAGINAS"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "number",
                             id: "PAGINAS",
-                            "aria-describedby": "emailHelp"
+                            "aria-describedby": "emailHelp",
+                            required: ""
                           },
-                          domProps: { value: _vm.ejemplar.numero_paginas },
+                          domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
                               _vm.$set(
-                                _vm.ejemplar,
-                                "numero_paginas",
+                                _vm.EJEMPLAR,
+                                "NUMERO_PAGINAS",
                                 $event.target.value
                               )
                             }
@@ -45225,25 +45238,26 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.ejemplar.copias,
-                              expression: "ejemplar.copias"
+                              value: _vm.EJEMPLAR.COPIAS,
+                              expression: "EJEMPLAR.COPIAS"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "number",
                             id: "copias",
-                            "aria-describedby": "emailHelp"
+                            "aria-describedby": "emailHelp",
+                            required: ""
                           },
-                          domProps: { value: _vm.ejemplar.copias },
+                          domProps: { value: _vm.EJEMPLAR.COPIAS },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
                               _vm.$set(
-                                _vm.ejemplar,
-                                "copias",
+                                _vm.EJEMPLAR,
+                                "COPIAS",
                                 $event.target.value
                               )
                             }
@@ -45287,15 +45301,19 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(item.EJEMPLAR))]),
+                    _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(item.AUTOR))]),
+                    _c("p", [_vm._v("AUTOR: " + _vm._s(item.AUTOR))]),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(item.ISBN))]),
+                    _c("p", [_vm._v("ISBN: " + _vm._s(item.ISBN))]),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(item.NUMERO_PAGINAS))]),
+                    _c("p", [
+                      _vm._v(
+                        "NÚMERO DE PÁGINAS: " + _vm._s(item.NUMERO_PAGINAS)
+                      )
+                    ]),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(item.COPIAS))]),
+                    _c("p", [_vm._v("COPIAS: " + _vm._s(item.NUMERO_COPIAS))]),
                     _vm._v(" "),
                     _c("p", [
                       _c(
