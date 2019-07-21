@@ -24,4 +24,7 @@ Route::get('/PrimerSumarioSelect','primerSumarioController@primerSumarioSelect')
 Route::get('/SegundoSumarioSelect/{id}','segundoSumarioController@segundoSumarioSelect');
 Route::get('/TercerSumarioSelect/{id}','tercerSumarioController@tercerSumarioSelect');
 
+Route::get('/busqueda', 'HomeController@busqueda')->name('busqueda');
+Route::get('/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
+Route::resource('/ejemplars','EjemplarController');
 

@@ -15,6 +15,10 @@
                     @endif
 
                     You are logged in!
+                    <br><br>
+                    <a href="{{ route('busqueda') }}" class="btn btn-info">Ir al modulo de busqueda de libros</a>
+                    <br><br>
+                    <a href="{{ route('lista.ejemplares') }}" class="btn btn-success">Ir al modulo de lista de libros</a>
                 </div>
             </div>
         </div>

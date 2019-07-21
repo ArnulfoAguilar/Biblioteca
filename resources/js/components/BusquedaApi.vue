@@ -201,7 +201,9 @@
                     const ejemplarNuevo = this.EJEMPLAR;
                     axios.get('Ejemplar', ejemplarNuevo)
                         .then(response=>{
-                            alert("Guardado correctamente")
+                            alert("Guardado correctamente");
+                            console.log("Guardado");
+
                             }).catch(e=>{
                         console.log("Error al Guardar" + e);
                     })

@@ -2049,10 +2049,11 @@ __webpack_require__.r(__webpack_exports__);
         return;
       } else {
         var ejemplarNuevo = this.EJEMPLAR;
-        axios.post('Ejemplar', ejemplarNuevo).then(function (response) {
+        axios.get('Ejemplar', ejemplarNuevo).then(function (response) {
           alert("Guardado correctamente");
+          console.log("Guardado");
         })["catch"](function (e) {
-          alert("Error al Guardar" + e);
+          console.log("Error al Guardar" + e);
         });
       }
     }
@@ -2089,6 +2090,223 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjem.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListaEjem.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "BusquedaApi",
+  mounted: function mounted() {
+    console.log('Lista ejemplares mounted.');
+  },
+  data: function data() {
+    return {
+      ejemplars: [],
+      modoEditar: false,
+      ejemplar: {
+        ejemplar: '',
+        descripcion: '',
+        isbn: '',
+        autor: '',
+        numero_paginas: '',
+        copias: ''
+      }
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/ejemplars').then(function (res) {
+      _this.ejemplars = res.data;
+    });
+  },
+  methods: {
+    agregar: function agregar() {
+      var _this2 = this;
+
+      if (this.ejemplar.ejemplar.trim() === '' || this.ejemplar.descripcion.trim() === '' || this.ejemplar.isbn.trim() === '' || this.ejemplar.autor.trim() === '' || this.ejemplar.numero_paginas.trim() === '' || this.ejemplar.copias.trim() === '') {
+        alert('Debes completar todos los campos antes de guardar');
+        return;
+      }
+
+      var ejemplarNuevo = this.ejemplar;
+      this.ejemplar = {
+        nombre: '',
+        descripcion: ''
+      };
+      axios.post('/ejemplars', ejemplarNuevo).then(function (res) {
+        var ejemplarServidor = res.data;
+
+        _this2.ejemplars.push(ejemplarServidor);
+      });
+    },
+    editarFormulario: function editarFormulario(item) {
+      this.ejemplar.ejemplar = item.EJEMPLAR;
+      this.ejemplar.descripcion = item.DESCRIPCION;
+      this.ejemplar.isbn = item.ISBN;
+      this.ejemplar.autor = item.AUTOR;
+      this.ejemplar.numero_paginas = item.NUMERO_PAGINAS;
+      this.ejemplar.copias = item.COPIAS;
+      this.ejemplar.id = item.id;
+      this.modoEditar = true;
+    },
+    editarEjemplar: function editarEjemplar(ejemplar) {
+      var _this3 = this;
+
+      var params = {
+        ejemplar: ejemplar.ejemplar,
+        descripcion: ejemplar.descripcion,
+        isbn: ejemplar.isbn,
+        autor: ejemplar.autor,
+        numero_paginas: ejemplar.numero_paginas,
+        copias: ejemplar.copias
+      };
+      axios.put("/ejemplars/".concat(ejemplar.id), params).then(function (res) {
+        _this3.modoEditar = false;
+
+        var index = _this3.ejemplars.findIndex(function (item) {
+          return item.id === ejemplar.id;
+        });
+
+        _this3.ejemplars[index] = res.data;
+      });
+    },
+    eliminarEjemplar: function eliminarEjemplar(ejemplar, index) {
+      var _this4 = this;
+
+      var confirmacion = confirm("Eliminar ejemplar ".concat(ejemplar.EJEMPLAR));
+
+      if (confirmacion) {
+        axios["delete"]("/ejemplars/".concat(ejemplar.id)).then(function () {
+          _this4.ejemplars.splice(index, 1);
+        });
+      }
+    },
+    cancelarEdicion: function cancelarEdicion() {
+      this.modoEditar = false;
+      this.ejemplar = {
+        nombre: '',
+        descripcion: ''
+      };
+    }
   }
 });
 
@@ -44559,6 +44777,571 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v("Lista de ejemplares")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _vm.modoEditar
+              ? _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.editarEjemplar(_vm.ejemplar)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "NOMBRE" } }, [
+                        _vm._v("Nombre")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ejemplar.ejemplar,
+                            expression: "ejemplar.ejemplar"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "NOMBRE",
+                          "aria-describedby": "emailHelp"
+                        },
+                        domProps: { value: _vm.ejemplar.ejemplar },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.ejemplar,
+                              "ejemplar",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "descripcion" } }, [
+                        _vm._v("Descripción")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ejemplar.descripcion,
+                            expression: "ejemplar.descripcion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "descripcion", rows: "3" },
+                        domProps: { value: _vm.ejemplar.descripcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.ejemplar,
+                              "descripcion",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "isbn" } }, [_vm._v("isbn")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ejemplar.isbn,
+                            expression: "ejemplar.isbn"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "isbn",
+                          "aria-describedby": "emailHelp"
+                        },
+                        domProps: { value: _vm.ejemplar.isbn },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.ejemplar, "isbn", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "autor" } }, [
+                        _vm._v("autor/es")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ejemplar.autor,
+                            expression: "ejemplar.autor"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "autor",
+                          "aria-describedby": "emailHelp"
+                        },
+                        domProps: { value: _vm.ejemplar.autor },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.ejemplar, "autor", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", { attrs: { for: "PAGINAS" } }, [
+                          _vm._v("Numero de paginas")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ejemplar.numero_paginas,
+                              expression: "ejemplar.numero_paginas"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "PAGINAS",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.ejemplar.numero_paginas },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.ejemplar,
+                                "numero_paginas",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", { attrs: { for: "copias" } }, [
+                          _vm._v("Numero de copias")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ejemplar.copias,
+                              expression: "ejemplar.copias"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "copias",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.ejemplar.copias },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.ejemplar,
+                                "copias",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-warning",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Editar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "submit" },
+                        on: { click: _vm.cancelarEdicion }
+                      },
+                      [_vm._v("Cancelar")]
+                    )
+                  ]
+                )
+              : _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.agregar($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "NOMBRE" } }, [
+                        _vm._v("Nombre")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ejemplar.ejemplar,
+                            expression: "ejemplar.ejemplar"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "NOMBRE",
+                          "aria-describedby": "emailHelp"
+                        },
+                        domProps: { value: _vm.ejemplar.ejemplar },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.ejemplar,
+                              "ejemplar",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "descripcion" } }, [
+                        _vm._v("Descripción")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ejemplar.descripcion,
+                            expression: "ejemplar.descripcion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "descripcion", rows: "3" },
+                        domProps: { value: _vm.ejemplar.descripcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.ejemplar,
+                              "descripcion",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "isbn" } }, [_vm._v("isbn")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ejemplar.isbn,
+                            expression: "ejemplar.isbn"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "isbn",
+                          "aria-describedby": "emailHelp"
+                        },
+                        domProps: { value: _vm.ejemplar.isbn },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.ejemplar, "isbn", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "autor" } }, [
+                        _vm._v("autor/es")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ejemplar.autor,
+                            expression: "ejemplar.autor"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "autor",
+                          "aria-describedby": "emailHelp"
+                        },
+                        domProps: { value: _vm.ejemplar.autor },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.ejemplar, "autor", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", { attrs: { for: "PAGINAS" } }, [
+                          _vm._v("Numero de paginas")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ejemplar.numero_paginas,
+                              expression: "ejemplar.numero_paginas"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "PAGINAS",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.ejemplar.numero_paginas },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.ejemplar,
+                                "numero_paginas",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", { attrs: { for: "copias" } }, [
+                          _vm._v("Numero de copias")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ejemplar.copias,
+                              expression: "ejemplar.copias"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "copias",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.ejemplar.copias },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.ejemplar,
+                                "copias",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Agregar")]
+                    )
+                  ]
+                ),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("h3", [_vm._v("Lista de ejemplars:")]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              { staticClass: "list-group" },
+              _vm._l(_vm.ejemplars, function(item, index) {
+                return _c(
+                  "li",
+                  { key: index, staticClass: "list-group-item" },
+                  [
+                    _c(
+                      "span",
+                      { staticClass: "badge badge-primary float-right" },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(item.updated_at) +
+                            "\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(item.EJEMPLAR))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(item.AUTOR))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(item.ISBN))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(item.NUMERO_PAGINAS))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(item.COPIAS))]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.editarFormulario(item)
+                            }
+                          }
+                        },
+                        [_vm._v("Editar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.eliminarEjemplar(item, index)
+                            }
+                          }
+                        },
+                        [_vm._v("Eliminar")]
+                      )
+                    ])
+                  ]
+                )
+              }),
+              0
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/select.vue?vue&type=template&id=be0badf2&":
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/select.vue?vue&type=template&id=be0badf2& ***!
@@ -56747,6 +57530,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('busqueda-api', __webpack_require__(/*! ./components/BusquedaApi.vue */ "./resources/js/components/BusquedaApi.vue")["default"]);
 Vue.component('select2', __webpack_require__(/*! ./components/select.vue */ "./resources/js/components/select.vue")["default"]);
+Vue.component('lista-ejem', __webpack_require__(/*! ./components/ListaEjem.vue */ "./resources/js/components/ListaEjem.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -56950,6 +57734,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaEjem.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/ListaEjem.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ListaEjem_vue_vue_type_template_id_5056f455___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListaEjem.vue?vue&type=template&id=5056f455& */ "./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455&");
+/* harmony import */ var _ListaEjem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaEjem.vue?vue&type=script&lang=js& */ "./resources/js/components/ListaEjem.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ListaEjem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ListaEjem_vue_vue_type_template_id_5056f455___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ListaEjem_vue_vue_type_template_id_5056f455___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ListaEjem.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaEjem.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/ListaEjem.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ListaEjem.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjem.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455& ***!
+  \******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_template_id_5056f455___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ListaEjem.vue?vue&type=template&id=5056f455& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_template_id_5056f455___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_template_id_5056f455___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
