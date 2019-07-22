@@ -19,17 +19,20 @@ class LibroController extends Controller
                     ->join('Libro', 'Ejemplar.id', '=', 'Libro.ID_EJEMPLAR')
                     ->select('Ejemplar.EJEMPLAR','Libro.CODIGO_BARRA')
                     ->get();
-                    return view('Etiquetas.AllTags')->with(['tags' => $tags]);
+            return view('Etiquetas.AllTags')->with('tags',$tags)->render();
+        
+            // No me funciona el css en el pdf y no soy muy bueno haciendolo desde cero
+            /* 
+            $pdf = new Dompdf();
+             $view =  \View::make("Etiquetas.AllTags", compact('tags'))->render();
+             $pdf = \App::make('dompdf.wrapper');
+             $pdf->loadHTML($view);        
+             return $pdf->stream('reporte.pdf');
+             */         
         //}else{
           //  return view('home');
         //}
-        /*$pdf = new Dompdf;
-         // $date = date('Y-m-d');
-        $view =  \View::make("certificado.certificado1", compact('data', 'date'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        
-        return $pdf->stream('reporte.pdf');*/
+       
     }
     public function Tags(){
         
