@@ -78,7 +78,7 @@
                             <button class="btn btn-primary" type="submit">Agregar</button>
                         </form>
                         <hr>
-                        <h3>Lista de ejemplars:</h3>
+                        <h3>Lista de ejemplares:</h3>
                         <ul class="list-group">
                             <li class="list-group-item" 
                                 v-for="(item, index) in ejemplars" :key="index" >

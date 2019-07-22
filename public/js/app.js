@@ -45279,7 +45279,7 @@ var render = function() {
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),
-            _c("h3", [_vm._v("Lista de ejemplars:")]),
+            _c("h3", [_vm._v("Lista de ejemplares:")]),
             _vm._v(" "),
             _c(
               "ul",

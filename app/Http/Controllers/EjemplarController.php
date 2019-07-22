@@ -53,6 +53,8 @@ class EjemplarController extends Controller
         $Ejemplar->ISBN = $request->ISBN;
         if($url == null){
             $Ejemplar->IMAGEN = '';
+        }else {
+            $Ejemplar->IMAGEN = $file;
         }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
