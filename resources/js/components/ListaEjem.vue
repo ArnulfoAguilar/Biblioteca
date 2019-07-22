@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">Lista de ejemplares</div>
+                    <div class="card-header">Información del ejemplar</div>
                     <div class="card-body">
                         <form @submit.prevent="editarEjemplar(EJEMPLAR)" v-if="modoEditar">
                             <div class="form-group">
@@ -40,7 +40,7 @@
                             </div>
                             <button class="btn btn-warning" type="submit">Editar</button>
                             <button class="btn btn-danger" type="submit" 
-                                @click="cancelarEdicion">Cancelar</button>
+                                @click="cancelarEdicion">Cancelar edición</button>
                         </form>
                         <form @submit.prevent="agregar" v-else>
                             <div class="form-group">
@@ -75,15 +75,26 @@
                                         aria-describedby="emailHelp" required>
                                 </div>
                             </div>
-                            <button class="btn btn-primary" type="submit">Agregar</button>
+                            <button class="btn btn-primary" type="submit">Agregar Ejemplar</button>
                         </form>
-                        <hr>
-                        <h3>Lista de ejemplars:</h3>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="overflow: auto; height:600px; ">
+                <div class="card">
+                    <div class="card-header">
+                        Lista de ejemplares
+                        <input class="float-right" placeholder="Buscar por titulo..." v-model="search">
+                    </div>
+                    <div class="card-body">
                         <ul class="list-group">
                             <li class="list-group-item" 
-                                v-for="(item, index) in ejemplars" :key="index" >
+                                v-for="(item, index) in searchEjemplar" :key="index" >
                             <span class="badge badge-primary float-right">
-                                {{item.updated_at}}
+                                Actualizado el: {{item.updated_at}}
                             </span>
                             <p>TITULO: {{item.EJEMPLAR}}</p>
                             <p>AUTOR: {{item.AUTOR}}</p>
@@ -101,6 +112,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -114,6 +126,7 @@
         },
         data() {
             return {
+                search:'',
                 ejemplars: [],
                 modoEditar: false,
                 EJEMPLAR: { EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:'', },
@@ -134,6 +147,7 @@
                     this.ejemplars.push(ejemplarServidor);
                     alert("Guardado correctamente");
                     console.log("Guardado");
+                    this.actualizar();
                     })
             },
             editarFormulario(item){
@@ -161,24 +175,42 @@
                 this.modoEditar = false;
                 const index = this.ejemplars.findIndex(item => item.id === EJEMPLAR.id);
                 this.ejemplars[index] = res.data;
+                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
+                alert("Editado correctamente");
+                console.log("Editado correctamente");
+                this.actualizar();
                 })
             },
             eliminarEjemplar(EJEMPLAR, index){
-            const confirmacion = confirm(`Eliminar EJEMPLAR ${EJEMPLAR.EJEMPLAR}`);
-            if(confirmacion){
-                axios.delete(`/ejemplars/${EJEMPLAR.id}`)
-                .then(()=>{
-                    this.ejemplars.splice(index, 1);
-                    alert("EJEMPLAR ELIMINADO");
-                    console.log("EJEMPLAR ELIMINADO");
-                })
-            }
+                const confirmacion = confirm(`Eliminar EJEMPLAR ${EJEMPLAR.EJEMPLAR}`);
+                if(confirmacion){
+                    axios.delete(`/ejemplars/${EJEMPLAR.id}`)
+                    .then(()=>{
+                        this.ejemplars.splice(index, 1);
+                        alert("EJEMPLAR ELIMINADO");
+                        console.log("EJEMPLAR ELIMINADO");
+                    })
+                }
             },
             cancelarEdicion(){
-            this.modoEditar = false;
-            this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
+                this.modoEditar = false;
+                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
+            },
+            actualizar(){
+                axios.get('/ejemplars').then(res=>{
+                this.ejemplars = res.data;
+                })
             }
 
+        },
+        computed:{
+            searchEjemplar: function(){
+                return this.ejemplars.filter((item) => 
+                    item.EJEMPLAR.includes(this.search) ||
+                    item.AUTOR.includes(this.search) ||
+                    item.ISBN.includes(this.search)
+                );
+            }
         }
     }
 

@@ -53,6 +53,8 @@ class EjemplarController extends Controller
         $Ejemplar->ISBN = $request->ISBN;
         if($url == null){
             $Ejemplar->IMAGEN = '';
+        }else{
+            $Ejemplar->IMAGEN = $file;
         }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
@@ -90,7 +92,26 @@ class EjemplarController extends Controller
      */
     public function update(Request $request, Ejemplar $ejemplar)
     {
-        //
+        $url = $request->IMAGEN;
+        if($url != null){
+            $contents = file_get_contents($url);
+            $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
+            Storage::put($file, $contents);
+        }
+        $Ejemplar= Ejemplar::find($ejemplar->id);
+        $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
+        $Ejemplar->AUTOR = $request->AUTOR;
+        $Ejemplar->EJEMPLAR = $request->EJEMPLAR;
+        $Ejemplar->ISBN = $request->ISBN;
+        if($url == null){
+            $Ejemplar->IMAGEN = '';
+        }else{
+            $Ejemplar->IMAGEN = $file;
+        }
+        $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
+        $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
+        $Ejemplar->save();
+        return $Ejemplar;
     }
 
     /**
@@ -99,10 +120,10 @@ class EjemplarController extends Controller
      * @param  \App\Ejemplar  $ejemplar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
-    // public function destroy(Ejemplar $ejemplar)
+    // public function destroy(Request $request)
+    public function destroy(Ejemplar $ejemplar)
     {
-        $ejemplar = Ejemplar::find($request->id);
-        $ejemplar->delete();
+        $Ejemplar = Ejemplar::find($ejemplar->id);
+        $Ejemplar->delete();
     }
 }

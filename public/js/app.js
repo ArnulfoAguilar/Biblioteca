@@ -2212,6 +2212,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BusquedaApi",
   mounted: function mounted() {
@@ -2219,6 +2231,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      search: '',
       ejemplars: [],
       modoEditar: false,
       EJEMPLAR: {
@@ -2258,6 +2271,8 @@ __webpack_require__.r(__webpack_exports__);
 
         alert("Guardado correctamente");
         console.log("Guardado");
+
+        _this2.actualizar();
       });
     },
     editarFormulario: function editarFormulario(item) {
@@ -2289,6 +2304,18 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         _this3.ejemplars[index] = res.data;
+        _this3.EJEMPLAR = {
+          EJEMPLAR: '',
+          DESCRIPCION: '',
+          ISBN: '',
+          AUTOR: '',
+          NUMERO_PAGINAS: '',
+          COPIAS: ''
+        };
+        alert("Editado correctamente");
+        console.log("Editado correctamente");
+
+        _this3.actualizar();
       });
     },
     eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
@@ -2315,6 +2342,22 @@ __webpack_require__.r(__webpack_exports__);
         NUMERO_PAGINAS: '',
         COPIAS: ''
       };
+    },
+    actualizar: function actualizar() {
+      var _this5 = this;
+
+      axios.get('/ejemplars').then(function (res) {
+        _this5.ejemplars = res.data;
+      });
+    }
+  },
+  computed: {
+    searchEjemplar: function searchEjemplar() {
+      var _this6 = this;
+
+      return this.ejemplars.filter(function (item) {
+        return item.EJEMPLAR.includes(_this6.search) || item.AUTOR.includes(_this6.search) || item.ISBN.includes(_this6.search);
+      });
     }
   }
 });
@@ -44801,12 +44844,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
+      _c("div", { staticClass: "col-md-4" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header" }, [
-            _vm._v("Lista de ejemplares")
+            _vm._v("Información del ejemplar")
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
@@ -45042,7 +45085,7 @@ var render = function() {
                         attrs: { type: "submit" },
                         on: { click: _vm.cancelarEdicion }
                       },
-                      [_vm._v("Cancelar")]
+                      [_vm._v("Cancelar edición")]
                     )
                   ]
                 )
@@ -45272,84 +45315,122 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit" }
                       },
-                      [_vm._v("Agregar")]
+                      [_vm._v("Agregar Ejemplar")]
                     )
                   ]
-                ),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c("h3", [_vm._v("Lista de ejemplars:")]),
-            _vm._v(" "),
-            _c(
-              "ul",
-              { staticClass: "list-group" },
-              _vm._l(_vm.ejemplars, function(item, index) {
-                return _c(
-                  "li",
-                  { key: index, staticClass: "list-group-item" },
-                  [
-                    _c(
-                      "span",
-                      { staticClass: "badge badge-primary float-right" },
-                      [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(item.updated_at) +
-                            "\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v("AUTOR: " + _vm._s(item.AUTOR))]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v("ISBN: " + _vm._s(item.ISBN))]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v(
-                        "NÚMERO DE PÁGINAS: " + _vm._s(item.NUMERO_PAGINAS)
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v("COPIAS: " + _vm._s(item.NUMERO_COPIAS))]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-warning btn-sm",
-                          on: {
-                            click: function($event) {
-                              return _vm.editarFormulario(item)
-                            }
-                          }
-                        },
-                        [_vm._v("Editar")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger btn-sm",
-                          on: {
-                            click: function($event) {
-                              return _vm.eliminarEjemplar(item, index)
-                            }
-                          }
-                        },
-                        [_vm._v("Eliminar")]
-                      )
-                    ])
-                  ]
                 )
-              }),
-              0
-            )
           ])
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "col-md-6",
+          staticStyle: { overflow: "auto", height: "600px" }
+        },
+        [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v(
+                "\n                    Lista de ejemplares\n                    "
+              ),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "float-right",
+                attrs: { placeholder: "Buscar por titulo..." },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "ul",
+                { staticClass: "list-group" },
+                _vm._l(_vm.searchEjemplar, function(item, index) {
+                  return _c(
+                    "li",
+                    { key: index, staticClass: "list-group-item" },
+                    [
+                      _c(
+                        "span",
+                        { staticClass: "badge badge-primary float-right" },
+                        [
+                          _vm._v(
+                            "\n                            Actualizado el: " +
+                              _vm._s(item.updated_at) +
+                              "\n                        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("AUTOR: " + _vm._s(item.AUTOR))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("ISBN: " + _vm._s(item.ISBN))]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "NÚMERO DE PÁGINAS: " + _vm._s(item.NUMERO_PAGINAS)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v("COPIAS: " + _vm._s(item.NUMERO_COPIAS))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.editarFormulario(item)
+                              }
+                            }
+                          },
+                          [_vm._v("Editar")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.eliminarEjemplar(item, index)
+                              }
+                            }
+                          },
+                          [_vm._v("Eliminar")]
+                        )
+                      ])
+                    ]
+                  )
+                }),
+                0
+              )
+            ])
+          ])
+        ]
+      )
     ])
   ])
 }
