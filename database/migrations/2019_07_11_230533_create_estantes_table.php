@@ -14,11 +14,11 @@ class CreateEstantesTable extends Migration
     public function up()
     {
         Schema::create('Estante', function (Blueprint $table) {
-            $table->bigIncrements('ID_ESTANTE');
+            $table->bigIncrements('id');
             $table->bigInteger('ID_BIBLIOTECA')->unsigned();
             // $table->unsignedInteger('ID_BIBLIOTECA');
             $table->foreign('ID_BIBLIOTECA')
-                ->references('ID_BIBLIOTECA')
+                ->references('id')
                 ->on('Biblioteca')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');

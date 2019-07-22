@@ -14,7 +14,7 @@ class CreateAutorsTable extends Migration
     public function up()
     {
         Schema::create('Autor', function (Blueprint $table) {
-            $table->bigIncrements('ID_AUTOR');
+            $table->bigIncrements('id');
             $table->string('Autor','255');
             $table->string('DESCRIPCION','500');
             $table->timestamps();

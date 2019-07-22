@@ -14,7 +14,7 @@ class CreateCategoriaLibrosTable extends Migration
     public function up()
     {
         Schema::create('categoriaLibro', function (Blueprint $table) {
-            $table->bigIncrements('ID_CATEGORIA');
+            $table->bigIncrements('id');
             $table->string('CATEGORIA_LIBRO','255');
             $table->timestamps();
         });

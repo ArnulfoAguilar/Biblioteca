@@ -26,12 +26,12 @@ class CreateEjemplarsTable extends Migration
             $table->bigInteger('ID_CATEGORIA')->nullable()->unsigned();
             // $table->unsignedInteger('ID_CATEGORIA')->nullable();
             $table->foreign('ID_CATEGORIA')
-                ->references('ID_CATEGORIA')
+                ->references('id')
                 ->on('categoriaLibro');
             $table->bigInteger('ID_TERCER_SUMARIO')->nullable()->unsigned();
             // $table->unsignedInteger('ID_TERCER_SUMARIO')->nullable();
             $table->foreign('ID_TERCER_SUMARIO')
-                ->references('ID_TERCER_SUMARIO')
+                ->references('id')
                 ->on('tercerSumario');
             $table->timestamps();
         });

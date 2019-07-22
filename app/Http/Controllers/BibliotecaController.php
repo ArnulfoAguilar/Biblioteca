@@ -12,9 +12,13 @@ class BibliotecaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function biblioteca(){
+        return view('Biblioteca.listaBiblioteca');
+    }
     public function index()
     {
-        //
+        $biblioteca= Biblioteca::all();
+        return $biblioteca;
     }
 
     /**
@@ -35,7 +39,9 @@ class BibliotecaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $biblioteca = new Biblioteca();
+        $biblioteca->BIBLIOTECA = $request->BIBLIOTECA;
+        $biblioteca->save();
     }
 
     /**
@@ -67,9 +73,11 @@ class BibliotecaController extends Controller
      * @param  \App\Biblioteca  $biblioteca
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Biblioteca $biblioteca)
+    public function update(Request $request, $id)
     {
-        //
+        $biblioteca = Biblioteca::find($id);
+        $biblioteca->BIBLIOTECA = $request -> BIBLIOTECA;
+        $biblioteca->save();
     }
 
     /**
@@ -78,8 +86,9 @@ class BibliotecaController extends Controller
      * @param  \App\Biblioteca  $biblioteca
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Biblioteca $biblioteca)
+    public function destroy($id)
     {
-        //
+        $biblioteca = Biblioteca::find($id);
+        $biblioteca->delete();
     }
 }

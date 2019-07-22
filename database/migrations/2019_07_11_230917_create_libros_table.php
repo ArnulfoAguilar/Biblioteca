@@ -20,7 +20,7 @@ class CreateLibrosTable extends Migration
             $table->bigInteger('ID_MATERIAL')->nullable()->unsigned();
             // $table->unsignedInteger('ID_MATERIAL')->nullable();
             $table->foreign('ID_MATERIAL')
-                ->references('ID_MATERIAL')
+                ->references('id')
                 ->on('materialBibliotecario')
                 ->onUpdate('restrict')
                 ->onDelete('restrict');
