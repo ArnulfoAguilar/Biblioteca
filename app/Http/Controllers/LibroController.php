@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
+use Dompdf\Dompdf;
 use App\Libro;
 use Illuminate\Http\Request;
 
@@ -11,8 +12,26 @@ class LibroController extends Controller
      * Muestra las etiquetas de todos
      *los libros, para imprimir
      */
-    public function Alltags()
+    public function Alltags(Request $request)
     {
+        //if($request->ajax()){
+            $tags= DB::table('Ejemplar')
+                    ->join('Libro', 'Ejemplar.id', '=', 'Libro.ID_EJEMPLAR')
+                    ->select('Ejemplar.EJEMPLAR','Libro.CODIGO_BARRA')
+                    ->get();
+                    return view('Etiquetas.AllTags')->with(['tags' => $tags]);
+        //}else{
+          //  return view('home');
+        //}
+        /*$pdf = new Dompdf;
+         // $date = date('Y-m-d');
+        $view =  \View::make("certificado.certificado1", compact('data', 'date'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        
+        return $pdf->stream('reporte.pdf');*/
+    }
+    public function Tags(){
         
     }
 

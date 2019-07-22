@@ -23,6 +23,7 @@ Vue.component('busqueda-api', require('./components/BusquedaApi.vue').default);
 Vue.component('select2', require('./components/select.vue').default);
 Vue.component('lista-ejem', require('./components/ListaEjem.vue').default);
 
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

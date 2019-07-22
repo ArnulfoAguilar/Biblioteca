@@ -26,5 +26,7 @@ Route::get('/TercerSumarioSelect/{id}','tercerSumarioController@tercerSumarioSel
 
 Route::get('/busqueda', 'HomeController@busqueda')->name('busqueda');
 Route::get('/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
+Route::get('/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
+Route::get('/imprimir', 'LibroController@Tags')->name('imprimir');
 Route::resource('/ejemplars','EjemplarController');
 
