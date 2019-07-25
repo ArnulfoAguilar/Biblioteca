@@ -117,10 +117,11 @@
     </div>
 </template>
 
-
 <script>
+    // import toastr from 'toastr';
+
     export default {
-        name: "BusquedaApi",
+        name: "ListaEJem",
         mounted() {
             console.log('Lista ejemplares mounted.')
         },
@@ -145,7 +146,10 @@
                     .then((res) =>{
                     const ejemplarServidor = res.data;
                     this.ejemplars.push(ejemplarServidor);
-                    alert("Guardado correctamente");
+                    toastr.clear();
+                    toastr.options.closeButton = true;
+                    toastr.success('Agregado correctamente', 'Exito');
+                    this.actualizar();
                     console.log("Guardado");
                     this.actualizar();
                     })
@@ -176,18 +180,26 @@
                 const index = this.ejemplars.findIndex(item => item.id === EJEMPLAR.id);
                 this.ejemplars[index] = res.data;
                 this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
-                alert("Editado correctamente");
+                // alert("Editado correctamente");
                 console.log("Editado correctamente");
+                toastr.clear();
+                toastr.options.closeButton = true;
+                toastr.success('Editado correctamente', 'Exito');
                 this.actualizar();
                 })
+            
             },
             eliminarEjemplar(EJEMPLAR, index){
-                const confirmacion = confirm(`Eliminar EJEMPLAR ${EJEMPLAR.EJEMPLAR}`);
+                swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+                const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
                 if(confirmacion){
                     axios.delete(`/ejemplars/${EJEMPLAR.id}`)
                     .then(()=>{
                         this.ejemplars.splice(index, 1);
-                        alert("EJEMPLAR ELIMINADO");
+                        toastr.clear();
+                        toastr.options.closeButton = true;
+                        toastr.success('Eliminado correctamente', 'Exito');
+                        this.actualizar();
                         console.log("EJEMPLAR ELIMINADO");
                     })
                 }
