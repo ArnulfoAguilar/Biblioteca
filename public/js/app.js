@@ -2223,6 +2223,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import toastr from 'toastr';
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ListaEJem",
@@ -48187,25 +48222,156 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Información del ejemplar")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm.modoEditar
-              ? _c(
-                  "form",
+      _c(
+        "div",
+        {
+          staticClass: "col-md-12",
+          staticStyle: { overflow: "auto", height: "500px" }
+        },
+        [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v(
+                "\n                    Lista de ejemplares\n                    \n                    "
+              ),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-info btn-sm float-none",
+                  attrs: {
+                    type: "button",
+                    "data-toggle": "modal",
+                    "data-target": "#modalAgregar"
+                  }
+                },
+                [_vm._v("Agregar")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
                   {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.editarEjemplar(_vm.EJEMPLAR)
-                      }
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "form-control col-md-3 float-right",
+                attrs: { placeholder: "Buscar por titulo..." },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
                     }
-                  },
-                  [
+                    _vm.search = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "ul",
+                { staticClass: "list-group" },
+                _vm._l(_vm.searchEjemplar, function(item, index) {
+                  return _c(
+                    "li",
+                    { key: index, staticClass: "list-group-item" },
+                    [
+                      _c(
+                        "span",
+                        { staticClass: "badge badge-primary float-right" },
+                        [
+                          _vm._v(
+                            "\n                            Actualizado el: " +
+                              _vm._s(item.updated_at) +
+                              "\n                        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("AUTOR: " + _vm._s(item.AUTOR))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("ISBN: " + _vm._s(item.ISBN))]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "NÚMERO DE PÁGINAS: " + _vm._s(item.NUMERO_PAGINAS)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v("COPIAS: " + _vm._s(item.NUMERO_COPIAS))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-sm",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "modal",
+                              "data-target": "#modalEditar"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.editarFormulario(item)
+                              }
+                            }
+                          },
+                          [_vm._v("Editar")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.eliminarEjemplar(item, index)
+                              }
+                            }
+                          },
+                          [_vm._v("Eliminar")]
+                        )
+                      ])
+                    ]
+                  )
+                }),
+                0
+              )
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: { id: "modalEditar", role: "dialog" }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.editarEjemplar(_vm.EJEMPLAR)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "NOMBRE" } }, [
                         _vm._v("Nombre")
@@ -48408,12 +48574,14 @@ var render = function() {
                           }
                         })
                       ])
-                    ]),
-                    _vm._v(" "),
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-warning",
+                        staticClass: "btn btn-warning float-left",
                         attrs: { type: "submit" }
                       },
                       [_vm._v("Editar")]
@@ -48423,24 +48591,42 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-danger",
-                        attrs: { type: "submit" },
+                        attrs: { type: "submit", "data-dismiss": "modal" },
                         on: { click: _vm.cancelarEdicion }
                       },
                       [_vm._v("Cancelar edición")]
                     )
-                  ]
-                )
-              : _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.agregar($event)
-                      }
-                    }
-                  },
-                  [
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: { id: "modalAgregar", role: "dialog" }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.agregar($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "NOMBRE" } }, [
                         _vm._v("Nombre")
@@ -48648,8 +48834,10 @@ var render = function() {
                           }
                         })
                       ])
-                    ]),
-                    _vm._v(" "),
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
                     _c(
                       "button",
                       {
@@ -48657,125 +48845,63 @@ var render = function() {
                         attrs: { type: "submit" }
                       },
                       [_vm._v("Agregar Ejemplar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "submit", "data-dismiss": "modal" },
+                        on: { click: _vm.cancelarEdicion }
+                      },
+                      [_vm._v("Cancelar")]
                     )
-                  ]
-                )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "col-md-6",
-          staticStyle: { overflow: "auto", height: "600px" }
-        },
-        [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v(
-                "\n                    Lista de ejemplares\n                    "
-              ),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.search,
-                    expression: "search"
-                  }
-                ],
-                staticClass: "float-right",
-                attrs: { placeholder: "Buscar por titulo..." },
-                domProps: { value: _vm.search },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.search = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c(
-                "ul",
-                { staticClass: "list-group" },
-                _vm._l(_vm.searchEjemplar, function(item, index) {
-                  return _c(
-                    "li",
-                    { key: index, staticClass: "list-group-item" },
-                    [
-                      _c(
-                        "span",
-                        { staticClass: "badge badge-primary float-right" },
-                        [
-                          _vm._v(
-                            "\n                            Actualizado el: " +
-                              _vm._s(item.updated_at) +
-                              "\n                        "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
-                      _vm._v(" "),
-                      _c("p", [_vm._v("AUTOR: " + _vm._s(item.AUTOR))]),
-                      _vm._v(" "),
-                      _c("p", [_vm._v("ISBN: " + _vm._s(item.ISBN))]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v(
-                          "NÚMERO DE PÁGINAS: " + _vm._s(item.NUMERO_PAGINAS)
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v("COPIAS: " + _vm._s(item.NUMERO_COPIAS))
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            on: {
-                              click: function($event) {
-                                return _vm.editarFormulario(item)
-                              }
-                            }
-                          },
-                          [_vm._v("Editar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            on: {
-                              click: function($event) {
-                                return _vm.eliminarEjemplar(item, index)
-                              }
-                            }
-                          },
-                          [_vm._v("Eliminar")]
-                        )
-                      ])
-                    ]
-                  )
-                }),
-                0
-              )
-            ])
+                  ])
+                ])
+              ]
+            )
           ])
         ]
       )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Editar un ejemplar")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Agregar Ejemplar")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
