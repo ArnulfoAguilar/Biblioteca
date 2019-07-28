@@ -19,7 +19,7 @@
         </div>
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 1</a>
+            <a class="dropdown-item" href="{{ route('busqueda') }}">Busqueda de libros</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Item 2</a>
             <div class="dropdown-divider"></div>
@@ -44,11 +44,11 @@
             <!-- <a class="dropdown-item" href="#">Action</a> -->
             <a class="dropdown-item" href="{{ route('lista.ejemplares') }}">Lista de libros</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 2</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 3</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 4</a>
             <div class="dropdown-divider"></div>
         </div>
     </div>
@@ -64,13 +64,13 @@
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 1</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 2</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 3</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 4</a>
             <div class="dropdown-divider"></div>
         </div>
     </div>
@@ -86,13 +86,13 @@
         </div>
         <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 1</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 2</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 3</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 4</a>
             <div class="dropdown-divider"></div>
         </div>
     </div>
