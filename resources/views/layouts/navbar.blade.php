@@ -1,5 +1,6 @@
 <div class="accordion" id="accordionExample">
-    <div class="card">
+
+    <div class="card" >
         <div class="card-header" id="headingCero">
             <a class="dropdown-item" href="{{route('home')}}" role="button" data-toggle="" data-target=""
                     aria-expanded="false" aria-controls="collapseCero">
@@ -7,6 +8,8 @@
             </a>
         </div>
     </div>
+
+@if(Auth::user())
     <div class="card">
         <div class="card-header" id="headingOne">
             <a class="dropdown-item" href="" role="button" data-toggle="collapse" data-target="#collapseOne"
@@ -16,16 +19,19 @@
         </div>
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Item 1</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Item 2</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Item 3</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <a class="dropdown-item" href="#">Item 4</a>
             <div class="dropdown-divider"></div>
         </div>
     </div>
+@endif
+
+@if(Auth::user())
     <div class="card">
         <div class="card-header" id="headingTwo">
             <a class="dropdown-item" href="" role="button" data-toggle="collapse" data-target="#collapseTwo"
@@ -40,12 +46,15 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
         </div>
     </div>
+@endif
+
+@if(Auth::user())
     <div class="card">
         <div class="card-header" id="headingThree">
             <a class="dropdown-item" href="" role="button" data-toggle="collapse" data-target="#collapseThree"
@@ -55,35 +64,38 @@
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
         </div>
     </div>
+@endif
+
+@if(Auth::user())
     <div class="card">
         <div class="card-header" id="headingFour">
-            <a class="dropdown-item" href="" role="button" data-toggle="collapse" data-target="#collapseThree"
+            <a class="dropdown-item" href="" role="button" data-toggle="collapse" data-target="#collapseFour"
                     aria-expanded="false" aria-controls="collapseThree">
                     Adquisiciones
             </a>
         </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Action</a>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
         </div>
     </div>
-    
+@endif    
 </div>
 
