@@ -7,5 +7,5 @@
         </div>
     @endif
 
-    Usted se ha logeado con exito!
+    ¡ Bienvenido a la pagina principal !
 @endsection
