@@ -2311,6 +2311,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.actualizar();
 
         console.log("Guardado");
+        $("#modalAgregar").modal('hide');
 
         _this2.actualizar();
       });
@@ -2357,6 +2358,7 @@ __webpack_require__.r(__webpack_exports__);
         toastr.clear();
         toastr.options.closeButton = true;
         toastr.success('Editado correctamente', 'Exito');
+        $("#modalEditar").modal('hide');
 
         _this3.actualizar();
       });
@@ -2364,7 +2366,7 @@ __webpack_require__.r(__webpack_exports__);
     eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
       var _this4 = this;
 
-      swal.fire('¿Está seguro de eliminar ese registro?', 'Esta accion es irreversible', 'question');
+      // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
       var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
 
       if (confirmacion) {

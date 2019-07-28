@@ -186,6 +186,7 @@
                     toastr.success('Agregado correctamente', 'Exito');
                     this.actualizar();
                     console.log("Guardado");
+                    $("#modalAgregar").modal('hide');
                     this.actualizar();
                     })
             },
@@ -220,12 +221,13 @@
                 toastr.clear();
                 toastr.options.closeButton = true;
                 toastr.success('Editado correctamente', 'Exito');
+                $("#modalEditar").modal('hide');
                 this.actualizar();
                 })
             
             },
             eliminarEjemplar(EJEMPLAR, index){
-                swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+                // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
                 const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
                 if(confirmacion){
                     axios.delete(`/ejemplars/${EJEMPLAR.id}`)
