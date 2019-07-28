@@ -6,7 +6,7 @@
                     <div class="card-header">
                         Lista de ejemplares
                         
-                        <button type="button" class="btn btn-info btn-sm float-none" data-toggle="modal" data-target="#modalAgregar">Agregar</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalAgregar">Agregar</button>
 
                         <input class="form-control col-md-3 float-right" placeholder="Buscar por titulo..." v-model="search">
                     </div>
@@ -14,21 +14,22 @@
                         <ul class="list-group">
                             <li class="list-group-item" 
                                 v-for="(item, index) in searchEjemplar" :key="index" >
-                            <span class="badge badge-primary float-right">
-                                Actualizado el: {{item.updated_at}}
-                            </span>
-                            <p>TITULO: {{item.EJEMPLAR}}</p>
-                            <p>AUTOR: {{item.AUTOR}}</p>
-                            <p>ISBN: {{item.ISBN}}</p>
-                            <p>NÚMERO DE PÁGINAS: {{item.NUMERO_PAGINAS}}</p>
-                            <p>COPIAS: {{item.NUMERO_COPIAS}}</p>
-                            <p>
-                                <!-- <button class="btn btn-warning btn-sm" 
-                                    @click="editarFormulario(item)">Editar</button> -->
-                                <button @click="editarFormulario(item)" type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditar">Editar</button>
-                                <button class="btn btn-danger btn-sm" 
-                                    @click="eliminarEjemplar(item, index)">Eliminar</button>
-                            </p>
+                                <h5>
+                                    <span class="badge  float-right">
+                                    Actualizado el: {{item.updated_at}}
+                                    <!-- Actualizado el: {{date_format(item.updated_at, 'Y-m-d')}} -->
+                                </span>
+                                </h5>
+                                <p>TITULO: {{item.EJEMPLAR}}</p>
+                                <p>AUTOR: {{item.AUTOR}}</p>
+                                <p>ISBN: {{item.ISBN}}</p>
+                                <p>NÚMERO DE PÁGINAS: {{item.NUMERO_PAGINAS}}</p>
+                                <p>COPIAS: {{item.NUMERO_COPIAS}}</p>
+                                <p>
+                                    <button @click="editarFormulario(item)" type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditar">Editar</button>
+                                    <button class="btn btn-danger btn-sm " 
+                                        @click="eliminarEjemplar(item, index)">Eliminar</button>
+                                </p>
                             </li>
                         </ul>
                     </div>

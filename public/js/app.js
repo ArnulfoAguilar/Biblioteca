@@ -2258,6 +2258,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // import toastr from 'toastr';
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ListaEJem",
@@ -48239,7 +48240,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-info btn-sm float-none",
+                  staticClass: "btn btn-primary btn-sm",
                   attrs: {
                     type: "button",
                     "data-toggle": "modal",
@@ -48281,17 +48282,15 @@ var render = function() {
                     "li",
                     { key: index, staticClass: "list-group-item" },
                     [
-                      _c(
-                        "span",
-                        { staticClass: "badge badge-primary float-right" },
-                        [
+                      _c("h5", [
+                        _c("span", { staticClass: "badge  float-right" }, [
                           _vm._v(
-                            "\n                            Actualizado el: " +
+                            "\n                                Actualizado el: " +
                               _vm._s(item.updated_at) +
-                              "\n                        "
+                              "\n                                "
                           )
-                        ]
-                      ),
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
                       _vm._v(" "),
@@ -48331,7 +48330,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-danger btn-sm",
+                            staticClass: "btn btn-danger btn-sm ",
                             on: {
                               click: function($event) {
                                 return _vm.eliminarEjemplar(item, index)
