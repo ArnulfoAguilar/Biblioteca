@@ -75,10 +75,10 @@
         <main class="py-4">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                     @include('layouts.navbar')
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                         <div class="card">
                             <div class="card-body">
                                 @yield('content')

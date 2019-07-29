@@ -6,10 +6,9 @@
 
 require('./bootstrap');
 
-// window.Vue = require('jquery');
 window.Vue = require('vue');
 window.toastr = require('toastr');
-window.swal = require('vue-sweetalert2');
+
 
 /**
  * The following block of code may be used to automatically register your

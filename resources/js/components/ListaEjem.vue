@@ -28,7 +28,7 @@
                                 <p>
                                     <button @click="editarFormulario(item)" type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditar">Editar</button>
                                     <button class="btn btn-danger btn-sm " 
-                                        @click="eliminarEjemplar(item, index)">Eliminar</button>
+                                        @click="eliminarEjemplar(item, index)"><i class="fe fe-eye"></i>Eliminar</button>
                                 </p>
                             </li>
                         </ul>
