@@ -19,7 +19,7 @@
         </div>
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route('busqueda') }}">Busqueda de libros</a>
+            <a class="dropdown-item" href="{{ route('busqueda') }}">Ingreso de libros</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Item 2</a>
             <div class="dropdown-divider"></div>
