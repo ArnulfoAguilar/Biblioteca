@@ -12,7 +12,7 @@
 @if(Auth::user())
     <div class="card">
         <div class="card-header" id="headingOne">
-            <a class="dropdown-item" href="" role="button" data-toggle="collapse" data-target="#collapseOne"
+            <a class="dropdown-item {{ ( request()->is('busqueda') ) ?'active':''}}" href="" role="button" data-toggle="collapse" data-target="#collapseOne"
                     aria-expanded="false" aria-controls="collapseOne">
                 Biblioteca
             </a>
