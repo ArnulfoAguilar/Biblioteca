@@ -2217,8 +2217,11 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         var ejemplarNuevo = this.EJEMPLAR;
         axios.post('Ejemplar', ejemplarNuevo).then(function (response) {
+          $("#exampleModal").modal('hide');
           alert("Guardado correctamente");
+          $("#exampleModal").modal('hide');
           console.log("Guardado");
+          $("#exampleModal").modal('hide');
         })["catch"](function (e) {
           alert("Error al Guardar" + e);
         });
@@ -45403,7 +45406,8 @@ var render = function() {
                         attrs: {
                           type: "text",
                           id: "NOMBRE",
-                          "aria-describedby": "emailHelp"
+                          "aria-describedby": "emailHelp",
+                          required: ""
                         },
                         domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
                         on: {
@@ -45436,7 +45440,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "DESCRIPCION", rows: "3" },
+                        attrs: { id: "DESCRIPCION", rows: "3", required: "" },
                         domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
                         on: {
                           input: function($event) {
@@ -45469,7 +45473,8 @@ var render = function() {
                         attrs: {
                           type: "text",
                           id: "ISBN",
-                          "aria-describedby": "emailHelp"
+                          "aria-describedby": "emailHelp",
+                          required: ""
                         },
                         domProps: { value: _vm.EJEMPLAR.ISBN },
                         on: {
@@ -45656,7 +45661,8 @@ var render = function() {
                           attrs: {
                             type: "number",
                             id: "COPIAS",
-                            "aria-describedby": "emailHelp"
+                            "aria-describedby": "emailHelp",
+                            required: ""
                           },
                           domProps: { value: _vm.EJEMPLAR.COPIAS },
                           on: {

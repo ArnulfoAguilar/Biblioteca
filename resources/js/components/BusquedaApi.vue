@@ -45,15 +45,15 @@
                             <img :src="chooseImg.thumbnail" class="card-img-top " style="max-width:170px;max-height: 250px;display: block; margin-left: auto; margin-right: auto;" >
                             <div class="form-group">
                                 <label for="NOMBRE" >Nombre</label>
-                                <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE" aria-describedby="emailHelp" >
+                                <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE" aria-describedby="emailHelp" required >
                             </div>
                             <div class="form-group">
                                 <label for="DESCRIPCION">Descripción</label>
-                                <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION" rows="3"></textarea>
+                                <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION" rows="3" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="ISBN">ISBN</label>
-                                <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN" aria-describedby="emailHelp" >
+                                <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN" aria-describedby="emailHelp" required>
                             </div>
 
                             <div class="form-group">
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="COPIAS">Numero de copias</label>
-                                    <input type="number" class="form-control" id="COPIAS" v-model="EJEMPLAR.COPIAS" aria-describedby="emailHelp">
+                                    <input type="number" class="form-control" id="COPIAS" v-model="EJEMPLAR.COPIAS" aria-describedby="emailHelp" required>
                                 </div>
                             </div>
                             <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -202,12 +202,14 @@
                     const ejemplarNuevo = this.EJEMPLAR;
                     axios.post('Ejemplar', ejemplarNuevo)
                         .then(response=>{
+                            $("#exampleModal").modal('hide');
                             alert("Guardado correctamente");
+                            $("#exampleModal").modal('hide');
                             console.log("Guardado");
-
-                            }).catch(e=>{
+                            $("#exampleModal").modal('hide');   
+                        }).catch(e=>{
                             alert("Error al Guardar" + e);
-                    })
+                        })
                 }
             }
 

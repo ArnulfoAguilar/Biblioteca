@@ -44,7 +44,7 @@
             <!-- <a class="dropdown-item" href="#">Action</a> -->
             <a class="dropdown-item {{ ( request()->is('inventario/ejemplares') ) ?'active':''}}" href="{{ route('lista.ejemplares') }}">Lista de ejemplares</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 2</a>
+            <a class="dropdown-item" href="{{ route('imprimir.all') }}">Codigos de Barra</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Item 3</a>
             <div class="dropdown-divider"></div>
