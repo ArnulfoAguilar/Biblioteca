@@ -18,8 +18,7 @@
             </a>
         </div>
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route('busqueda') }}">Ingreso de libros</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Item 2</a>
             <div class="dropdown-divider"></div>
@@ -40,6 +39,8 @@
             </a>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ route('busqueda') }}">Ingreso de libros</a>
             <div class="dropdown-divider"></div>
             <!-- <a class="dropdown-item" href="#">Action</a> -->
             <a class="dropdown-item {{ ( request()->is('inventario/ejemplares') ) ?'active':''}}" href="{{ route('lista.ejemplares') }}">Lista de ejemplares</a>
