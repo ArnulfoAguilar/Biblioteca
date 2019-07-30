@@ -16,9 +16,9 @@
 
                     You are logged in!
                     <br><br>
-                    <a href="{{ route('busqueda') }}" class="btn btn-info">Ir al modulo de busqueda de libros</a>
-                    <br><br>
-                    <a href="{{ route('lista.ejemplares') }}" class="btn btn-success">Ir al modulo de lista de libros</a>
+                    <a href="{{ route('busqueda') }}" class="btn btn-success col-md-6">Ingresar libros</a>
+                    <br>
+                    <a href="{{ route('lista.ejemplares') }}" class="btn btn-success col-md-6">Lista de libros</a>
                 </div>
             </div>
         </div>

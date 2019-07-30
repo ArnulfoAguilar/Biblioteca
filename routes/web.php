@@ -29,7 +29,6 @@ Route::get('/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.e
  /* RUTAS PARA IMPRIMIR ETIQUETAS CON CODIGO DE BARRA*/
 Route::get('/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
 Route::get('/imprimir', 'LibroController@Tags')->name('imprimir');
-Route::get('/imprimir', 'LibroController@Tags')->name('imprimir');
 /* FIN RUTAS PARA IMPRIMIR ETIQUETAS CON CODIGO DE BARRA*/
 
 /*Rutas para el CRUD biblioteca*/ 
