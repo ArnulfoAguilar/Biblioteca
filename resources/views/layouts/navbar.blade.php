@@ -20,11 +20,11 @@
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 2</a>
+            <a class="dropdown-item" href="#">Prestar Libro</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 3</a>
+            <a class="dropdown-item" href="#">Ver Deudores</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 4</a>
+            <a class="dropdown-item" href="#">Penalizaciones</a>
             <div class="dropdown-divider"></div>
         </div>
     </div>
@@ -39,18 +39,17 @@
             </a>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ route('busqueda') }}">Ingreso de libros</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ route('biblioteca') }}">Biblioteca</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ route('busqueda') }}">Ingreso de libros</a>
             <div class="dropdown-divider"></div>
             <!-- <a class="dropdown-item" href="#">Action</a> -->
             <a class="dropdown-item {{ ( request()->is('inventario/ejemplares') ) ?'active':''}}" href="{{ route('lista.ejemplares') }}">Lista de ejemplares</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('imprimir.all') }}">Codigos de Barra</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 3</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 4</a>
-            <div class="dropdown-divider"></div>
+            
         </div>
     </div>
 @endif
@@ -87,14 +86,11 @@
         </div>
         <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 1</a>
+            <a class="dropdown-item" href="#">Sugerir Adquisicion </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 2</a>
+            <a class="dropdown-item" href="#">Ver Sugerencias</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 3</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Item 4</a>
-            <div class="dropdown-divider"></div>
+     
         </div>
     </div>
 @endif    
