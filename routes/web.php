@@ -25,6 +25,7 @@ Route::get('/SegundoSumarioSelect/{id}','segundoSumarioController@segundoSumario
 Route::get('/TercerSumarioSelect/{id}','tercerSumarioController@tercerSumarioSelect');
 Route::resource('/ejemplars','EjemplarController');
 Route::get('/busqueda', 'HomeController@busqueda')->name('busqueda');
+
 Route::get('/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
  /* RUTAS PARA IMPRIMIR ETIQUETAS CON CODIGO DE BARRA*/
 Route::get('/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
@@ -36,4 +37,7 @@ Route::get('/Bibliotecaliv', 'BibliotecaController@biblioteca')->name('bibliotec
 Route::resource('/Biblioteca','BibliotecaController');
 /*Rutas para el CRUD biblioteca*/ 
 
+
+Route::get('/inventario/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
+Route::resource('/ejemplars','EjemplarController');
 
