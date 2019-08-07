@@ -1,4 +1,4 @@
-@extends('layouts.app_2')
+@extends('layouts.adminLTE')
 
 @section('content')
     <busqueda-api></busqueda-api>

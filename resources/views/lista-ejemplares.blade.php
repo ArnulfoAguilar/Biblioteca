@@ -1,5 +1,5 @@
-@extends('layouts.app_2')
+@extends('layouts.adminLTE')
 
 @section('content')
-    <lista-ejem ></lista-ejem> 
+    <lista-ejem ></lista-ejem>
 @endsection
