@@ -38,3 +38,7 @@ Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 const app = new Vue({
     el: '#app',
 });
+
+$(document).ready(function(){
+    $('#DESCRIPCIONSummernote').summernote();
+});

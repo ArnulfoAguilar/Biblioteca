@@ -8,4 +8,7 @@
     <link rel="stylesheet" href="{{url('css/app.css')}}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- CSS PARA SUMMERNOTE -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 </head>
