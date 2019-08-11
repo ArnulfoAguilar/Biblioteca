@@ -97,13 +97,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+              <a href="{{route('aportes.create')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Item 1</p>
+                  <p>Nuevo Aporte</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('areas')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Item 2</p>
                 </a>

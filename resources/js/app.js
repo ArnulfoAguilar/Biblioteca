@@ -40,5 +40,5 @@ const app = new Vue({
 });
 
 $(document).ready(function(){
-    $('#DESCRIPCIONSummernote').summernote();
+    $('#Summernote').summernote();
 });

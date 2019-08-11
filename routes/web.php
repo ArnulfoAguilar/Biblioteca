@@ -41,6 +41,10 @@ Route::resource('/Biblioteca','BibliotecaController');
 Route::resource('/aportes','AporteController');
 /*Rutas Aportes*/
 
+/*RUTA para select de Area*/
+Route::get('/area','AreaController@areaSelect')->name('areas');
+/*RUTA para select de Area*/
+
 Route::get('/inventario/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
 Route::resource('/ejemplars','EjemplarController');
 

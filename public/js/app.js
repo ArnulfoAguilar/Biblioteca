@@ -2646,22 +2646,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/area').then(function (response) {
+      _this.Areas = response.data;
+    });
     console.log('Component mounted.');
   },
   data: function data() {
     return {
-      search: '',
-      ejemplars: [],
-      modoEditar: false,
-      EJEMPLAR: {
-        EJEMPLAR: '',
+      Areas: [],
+      APORTE: {
+        TITULO: '',
         DESCRIPCION: '',
-        ISBN: '',
-        AUTOR: '',
-        NUMERO_PAGINAS: '',
-        COPIAS: ''
+        PALABRAS_CLAVE: '',
+        ID_AREA: '',
+        COMENTARIOS: ''
       }
     };
   }
@@ -54371,113 +54397,192 @@ var render = function() {
           _c("div", { staticClass: "card-header" }, [_vm._v("Nuevo Aporte")]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.agregar($event)
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "NOMBRE" } }, [_vm._v("Nombre")]),
+            _c("form", [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "form-group col-md-6 col-xs-12" }, [
+                  _c("label", { attrs: { for: "NOMBRE" } }, [_vm._v("Titulo")]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.EJEMPLAR.EJEMPLAR,
-                        expression: "EJEMPLAR.EJEMPLAR"
+                        value: _vm.APORTE.TITULO,
+                        expression: "APORTE.TITULO"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: {
                       type: "text",
-                      id: "NOMBRE",
+                      id: "Titulo",
                       "aria-describedby": "emailHelp",
                       required: ""
                     },
-                    domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
+                    domProps: { value: _vm.APORTE.TITULO },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.EJEMPLAR, "EJEMPLAR", $event.target.value)
+                        _vm.$set(_vm.APORTE, "TITULO", $event.target.value)
                       }
                     }
                   })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "DESCRIPCION" } }, [
-                    _vm._v("Descripción")
+                _c("div", { staticClass: "form-group col-md-6 col-xs-12" }, [
+                  _c("label", { attrs: { for: "" } }, [
+                    _vm._v(
+                      "\n                                   Area\n                                "
+                    )
                   ]),
                   _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.EJEMPLAR.DESCRIPCION,
-                        expression: "EJEMPLAR.DESCRIPCION"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "DESCRIPCIONSummernote",
-                      rows: "10",
-                      required: ""
-                    },
-                    domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c(
+                    "div",
+                    [
+                      _c("select2", {
+                        attrs: { options: _vm.Areas },
+                        model: {
+                          value: _vm.APORTE.ID_AREA,
+                          callback: function($$v) {
+                            _vm.$set(_vm.APORTE, "ID_AREA", $$v)
+                          },
+                          expression: "APORTE.ID_AREA"
                         }
-                        _vm.$set(
-                          _vm.EJEMPLAR,
-                          "DESCRIPCION",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "modal-footer" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "submit" }
-                    },
-                    [_vm._v("Agregar Ejemplar")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger",
-                      attrs: { type: "submit", "data-dismiss": "modal" },
-                      on: { click: _vm.cancelarEdicion }
-                    },
-                    [_vm._v("Cancelar")]
+                      })
+                    ],
+                    1
                   )
                 ])
-              ]
-            )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "DESCRIPCION" } }, [
+                  _vm._v("Descripción")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.APORTE.DESCRIPCION,
+                      expression: "APORTE.DESCRIPCION"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "Summernote", rows: "20", required: "" },
+                  domProps: { value: _vm.APORTE.DESCRIPCION },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.APORTE, "DESCRIPCION", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "PALABRAS_CLAVE" } }, [
+                  _vm._v("Palabras Clave")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.APORTE.PALABRAS_CLAVE,
+                      expression: "APORTE.PALABRAS_CLAVE"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "NOMBRE",
+                    "aria-describedby": "emailHelp",
+                    required: ""
+                  },
+                  domProps: { value: _vm.APORTE.PALABRAS_CLAVE },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.APORTE,
+                        "PALABRAS_CLAVE",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
           ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "custom-control custom-switch custom-switch-off-danger custom-switch-on-success"
+        },
+        [
+          _c("input", {
+            staticClass: "custom-control-input",
+            attrs: { type: "checkbox", id: "customSwitch3" }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "custom-control-label",
+              attrs: { for: "customSwitch3" }
+            },
+            [_vm._v("¿Permitir comentarios?")]
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Guardar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "submit", "data-dismiss": "modal" }
+        },
+        [_vm._v("Cancelar")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -66714,7 +66819,7 @@ var app = new Vue({
   el: '#app'
 });
 $(document).ready(function () {
-  $('#DESCRIPCIONSummernote').summernote();
+  $('#Summernote').summernote();
 });
 
 /***/ }),
