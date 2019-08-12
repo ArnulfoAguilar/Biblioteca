@@ -2667,9 +2667,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var _this = this;
@@ -2678,6 +2675,7 @@ __webpack_require__.r(__webpack_exports__);
       _this.Areas = response.data;
     });
     console.log('Component mounted.');
+    this.APORTE.DESCRIPCION = 'HOLA';
   },
   data: function data() {
     return {
@@ -2690,6 +2688,26 @@ __webpack_require__.r(__webpack_exports__);
         COMENTARIOS: ''
       }
     };
+  },
+  methods: {
+    Agregar: function Agregar() {
+      var AporteNuevo = this.APORTE;
+      console.log(AporteNuevo);
+      axios.post('/aportes', AporteNuevo).then(function (response) {
+        console.log("Guardado");
+      })["catch"](function (e) {
+        alert("Error al Guardar" + e);
+      });
+    },
+    Cancelar: function Cancelar() {
+      this.APORTE = {
+        TITULO: '',
+        DESCRIPCION: '',
+        PALABRAS_CLAVE: '',
+        ID_AREA: '',
+        COMENTARIOS: ''
+      };
+    }
   }
 });
 
@@ -44470,10 +44488,10 @@ module.exports = function (css) {
 
 /***/ }),
 
-/***/ "./node_modules/summernote/dist/summernote.js":
-/*!****************************************************!*\
-  !*** ./node_modules/summernote/dist/summernote.js ***!
-  \****************************************************/
+/***/ "./node_modules/summernote/dist/summernote-bs4.js":
+/*!********************************************************!*\
+  !*** ./node_modules/summernote/dist/summernote-bs4.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44548,14 +44566,15 @@ module.exports = function (css) {
       }
   };
 
-  var editor = renderer.create('<div class="note-editor note-frame panel panel-default"/>');
-  var toolbar = renderer.create('<div class="note-toolbar panel-heading" role="toolbar"></div></div>');
+  var editor = renderer.create('<div class="note-editor note-frame card"/>');
+  var toolbar = renderer.create('<div class="note-toolbar card-header" role="toolbar"></div>');
   var editingArea = renderer.create('<div class="note-editing-area"/>');
   var codable = renderer.create('<textarea class="note-codable" role="textbox" aria-multiline="true"/>');
-  var editable = renderer.create('<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"/>');
+  var editable = renderer.create('<div class="note-editable card-block" contentEditable="true" role="textbox" aria-multiline="true"/>');
   var statusbar = renderer.create([
       '<output class="note-status-output" aria-live="polite"/>',
       '<div class="note-statusbar" role="status">',
+      '  <output class="note-status-output" aria-live="polite"></output>',
       '  <div class="note-resizebar" role="seperator" aria-orientation="horizontal" aria-label="Resize">',
       '    <div class="note-icon-bar"/>',
       '    <div class="note-icon-bar"/>',
@@ -44569,25 +44588,25 @@ module.exports = function (css) {
       '<output class="note-status-output" aria-live="polite"/>',
   ].join(''));
   var buttonGroup = renderer.create('<div class="note-btn-group btn-group">');
-  var dropdown = renderer.create('<ul class="dropdown-menu" role="list">', function ($node, options) {
+  var dropdown = renderer.create('<div class="dropdown-menu" role="list">', function ($node, options) {
       var markup = Array.isArray(options.items) ? options.items.map(function (item) {
           var value = (typeof item === 'string') ? item : (item.value || '');
           var content = options.template ? options.template(item) : item;
           var option = (typeof item === 'object') ? item.option : undefined;
           var dataValue = 'data-value="' + value + '"';
           var dataOption = (option !== undefined) ? ' data-option="' + option + '"' : '';
-          return '<li role="listitem" aria-label="' + value + '"><a href="#" ' + (dataValue + dataOption) + '>' + content + '</a></li>';
+          return '<a class="dropdown-item" href="#" ' + (dataValue + dataOption) + ' role="listitem" aria-label="' + value + '">' + content + '</a>';
       }).join('') : options.items;
       $node.html(markup).attr({ 'aria-label': options.title });
   });
-  var dropdownButtonContents = function (contents, options) {
-      return contents + ' ' + icon(options.icons.caret, 'span');
+  var dropdownButtonContents = function (contents) {
+      return contents;
   };
-  var dropdownCheck = renderer.create('<ul class="dropdown-menu note-check" role="list">', function ($node, options) {
+  var dropdownCheck = renderer.create('<div class="dropdown-menu note-check" role="list">', function ($node, options) {
       var markup = Array.isArray(options.items) ? options.items.map(function (item) {
           var value = (typeof item === 'string') ? item : (item.value || '');
           var content = options.template ? options.template(item) : item;
-          return '<li role="listitem" aria-label="' + item + '"><a href="#" data-value="' + value + '">' + icon(options.checkClassName) + ' ' + content + '</a></li>';
+          return '<a class="dropdown-item" href="#" data-value="' + value + '" role="listitem" aria-label="' + item + '">' + icon(options.checkClassName) + ' ' + content + '</a>';
       }).join('') : options.items;
       $node.html(markup).attr({ 'aria-label': options.title });
   });
@@ -44634,8 +44653,8 @@ module.exports = function (css) {
           '  <div class="modal-content">',
           (options.title
               ? '    <div class="modal-header">' +
-                  '      <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>' +
                   '      <h4 class="modal-title">' + options.title + '</h4>' +
+                  '      <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>' +
                   '    </div>' : ''),
           '    <div class="modal-body">' + options.body + '</div>',
           (options.footer
@@ -44656,14 +44675,14 @@ module.exports = function (css) {
           $node.find('.arrow').hide();
       }
   });
-  var checkbox = renderer.create('<div class="checkbox"></div>', function ($node, options) {
+  var checkbox = renderer.create('<div class="form-check"></div>', function ($node, options) {
       $node.html([
-          '<label' + (options.id ? ' for="' + options.id + '"' : '') + '>',
-          ' <input role="checkbox" type="checkbox"' + (options.id ? ' id="' + options.id + '"' : ''),
+          '<label class="form-check-label"' + (options.id ? ' for="' + options.id + '"' : '') + '>',
+          ' <input role="checkbox" type="checkbox" class="form-check-input"' + (options.id ? ' id="' + options.id + '"' : ''),
           (options.checked ? ' checked' : ''),
+          ' aria-label="' + (options.text ? options.text : '') + '"',
           ' aria-checked="' + (options.checked ? 'true' : 'false') + '"/>',
-          (options.text ? options.text : ''),
-          '</label>',
+          ' ' + (options.text ? options.text : '') + '</label>',
       ].join(''));
   });
   var icon = function (iconClassName, tagName) {
@@ -44686,11 +44705,11 @@ module.exports = function (css) {
       palette: palette,
       dialog: dialog,
       popover: popover,
-      checkbox: checkbox,
       icon: icon,
+      checkbox: checkbox,
       options: {},
       button: function ($node, options) {
-          return renderer.create('<button type="button" class="note-btn btn btn-default btn-sm" role="button" tabindex="-1">', function ($node, options) {
+          return renderer.create('<button type="button" class="note-btn btn btn-light btn-sm" role="button" tabindex="-1">', function ($node, options) {
               if (options && options.tooltip) {
                   $node.attr({
                       title: options.tooltip,
@@ -52235,9 +52254,14 @@ module.exports = function (css) {
   $$1.summernote = $$1.extend($$1.summernote, {
       ui: ui
   });
+  $$1.summernote.options.styleTags = [
+      'p',
+      { title: 'Blockquote', tag: 'blockquote', className: 'blockquote', value: 'blockquote' },
+      'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  ];
 
 }));
-//# sourceMappingURL=summernote.js.map
+//# sourceMappingURL=summernote-bs4.js.map
 
 
 /***/ }),
@@ -54397,192 +54421,246 @@ var render = function() {
           _c("div", { staticClass: "card-header" }, [_vm._v("Nuevo Aporte")]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c("form", [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "form-group col-md-6 col-xs-12" }, [
-                  _c("label", { attrs: { for: "NOMBRE" } }, [_vm._v("Titulo")]),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.Agregar($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-6 col-xs-12" }, [
+                    _c("label", { attrs: { for: "Titulo" } }, [
+                      _vm._v("Titulo " + _vm._s(this.APORTE.TITULO))
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.APORTE.TITULO,
+                          expression: "APORTE.TITULO"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        name: "Titulo",
+                        "aria-describedby": "emailHelp",
+                        required: ""
+                      },
+                      domProps: { value: _vm.APORTE.TITULO },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.APORTE, "TITULO", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-md-6 col-xs-12" }, [
+                    _c("label", { attrs: { for: "AREAS" } }, [
+                      _vm._v(
+                        "\n                                   Area\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      [
+                        _c("select2", {
+                          attrs: { name: "AREAS", options: _vm.Areas },
+                          model: {
+                            value: _vm.APORTE.ID_AREA,
+                            callback: function($$v) {
+                              _vm.$set(_vm.APORTE, "ID_AREA", $$v)
+                            },
+                            expression: "APORTE.ID_AREA"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "Summernote" } }, [
+                    _vm._v("Descripción")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.APORTE.DESCRIPCION,
+                        expression: "APORTE.DESCRIPCION"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      id: "Summernote",
+                      rows: "20",
+                      required: ""
+                    },
+                    domProps: { value: _vm.APORTE.DESCRIPCION },
+                    on: {
+                      change: function(value) {
+                        _vm.APORTE.DESCRIPCION = value
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.APORTE, "DESCRIPCION", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "PALABRAS_CLAVE" } }, [
+                    _vm._v("Palabras Clave")
+                  ]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.APORTE.TITULO,
-                        expression: "APORTE.TITULO"
+                        value: _vm.APORTE.PALABRAS_CLAVE,
+                        expression: "APORTE.PALABRAS_CLAVE"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: {
                       type: "text",
-                      id: "Titulo",
+                      name: "PALABRAS_CLAVE",
                       "aria-describedby": "emailHelp",
                       required: ""
                     },
-                    domProps: { value: _vm.APORTE.TITULO },
+                    domProps: { value: _vm.APORTE.PALABRAS_CLAVE },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.APORTE, "TITULO", $event.target.value)
+                        _vm.$set(
+                          _vm.APORTE,
+                          "PALABRAS_CLAVE",
+                          $event.target.value
+                        )
                       }
                     }
                   })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group col-md-6 col-xs-12" }, [
-                  _c("label", { attrs: { for: "" } }, [
-                    _vm._v(
-                      "\n                                   Area\n                                "
-                    )
-                  ]),
-                  _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
                   _c(
                     "div",
+                    {
+                      staticClass:
+                        "custom-control custom-switch custom-switch-off-danger custom-switch-on-success"
+                    },
                     [
-                      _c("select2", {
-                        attrs: { options: _vm.Areas },
-                        model: {
-                          value: _vm.APORTE.ID_AREA,
-                          callback: function($$v) {
-                            _vm.$set(_vm.APORTE, "ID_AREA", $$v)
-                          },
-                          expression: "APORTE.ID_AREA"
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.APORTE.COMENTARIOS,
+                            expression: "APORTE.COMENTARIOS"
+                          }
+                        ],
+                        staticClass: "custom-control-input",
+                        attrs: { type: "checkbox", id: "customSwitch3" },
+                        domProps: {
+                          checked: Array.isArray(_vm.APORTE.COMENTARIOS)
+                            ? _vm._i(_vm.APORTE.COMENTARIOS, null) > -1
+                            : _vm.APORTE.COMENTARIOS
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.APORTE.COMENTARIOS,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.APORTE,
+                                    "COMENTARIOS",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.APORTE,
+                                    "COMENTARIOS",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.APORTE, "COMENTARIOS", $$c)
+                            }
+                          }
                         }
-                      })
-                    ],
-                    1
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "custom-control-label",
+                          attrs: { for: "customSwitch3" }
+                        },
+                        [_vm._v("¿Permitir comentarios?")]
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" },
+                      on: { click: _vm.Agregar }
+                    },
+                    [_vm._v("Guardar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "submit" },
+                      on: { click: _vm.Cancelar }
+                    },
+                    [_vm._v("Cancelar")]
                   )
                 ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "DESCRIPCION" } }, [
-                  _vm._v("Descripción")
-                ]),
-                _vm._v(" "),
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.APORTE.DESCRIPCION,
-                      expression: "APORTE.DESCRIPCION"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { id: "Summernote", rows: "20", required: "" },
-                  domProps: { value: _vm.APORTE.DESCRIPCION },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.APORTE, "DESCRIPCION", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "PALABRAS_CLAVE" } }, [
-                  _vm._v("Palabras Clave")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.APORTE.PALABRAS_CLAVE,
-                      expression: "APORTE.PALABRAS_CLAVE"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "NOMBRE",
-                    "aria-describedby": "emailHelp",
-                    required: ""
-                  },
-                  domProps: { value: _vm.APORTE.PALABRAS_CLAVE },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.APORTE,
-                        "PALABRAS_CLAVE",
-                        $event.target.value
-                      )
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _vm._m(0),
-              _vm._v(" "),
-              _vm._m(1)
-            ])
+              ]
+            )
           ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "custom-control custom-switch custom-switch-off-danger custom-switch-on-success"
-        },
-        [
-          _c("input", {
-            staticClass: "custom-control-input",
-            attrs: { type: "checkbox", id: "customSwitch3" }
-          }),
-          _vm._v(" "),
-          _c(
-            "label",
-            {
-              staticClass: "custom-control-label",
-              attrs: { for: "customSwitch3" }
-            },
-            [_vm._v("¿Permitir comentarios?")]
-          )
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Guardar")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { type: "submit", "data-dismiss": "modal" }
-        },
-        [_vm._v("Cancelar")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -66819,7 +66897,9 @@ var app = new Vue({
   el: '#app'
 });
 $(document).ready(function () {
-  $('#Summernote').summernote();
+  $('#Summernote').summernote({
+    focus: true
+  });
 });
 
 /***/ }),
@@ -66846,7 +66926,7 @@ try {
 
   __webpack_require__(/*! admin-lte */ "./node_modules/admin-lte/dist/js/adminlte.min.js");
 
-  __webpack_require__(/*! summernote */ "./node_modules/summernote/dist/summernote.js");
+  __webpack_require__(/*! summernote/dist/summernote-bs4.js */ "./node_modules/summernote/dist/summernote-bs4.js");
 } catch (e) {}
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

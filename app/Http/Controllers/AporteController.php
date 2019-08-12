@@ -35,7 +35,13 @@ class AporteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Aporte = new Aporte();
+        $Aporte->TITULO = $request->TITULO;
+        $Aporte->DESCRIPCION = $request->DESCRIPCION;
+        $Aporte->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
+        $Aporte->ID_AREA = $request->ID_AREA;
+        $Aporte->COMENTARIOS = $request->COMENTARIOS;
+        $Aporte->Save();
     }
 
     /**

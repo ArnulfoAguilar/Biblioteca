@@ -40,5 +40,7 @@ const app = new Vue({
 });
 
 $(document).ready(function(){
-    $('#Summernote').summernote();
+    $('#Summernote').summernote({
+        focus: true      
+    });
 });

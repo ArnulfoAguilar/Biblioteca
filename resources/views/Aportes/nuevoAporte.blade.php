@@ -1,8 +1,8 @@
 @extends('layouts.adminLTE')
 @section('cssextra')
-<!--ESTE ES PARA SUMMERNOTE-->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+<!--ESTE ES PARA SUMMERNOTE
 
+-->
 @endsection
 @section('content')
     @if (session('status'))
