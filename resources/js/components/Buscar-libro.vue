@@ -4,9 +4,28 @@
             <div class="col-md-12" style="overflow: auto; height:500px; ">
                 <div class="card">
                     <div class="card-header">
-                        Ingrese algun parametro de busqueda
+                        <div>
+                            <form class="was-validated">
+                                <h4>Seleccione el filtro para la busqueda</h4>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input v-model="filtro" value="1" type="radio" class="custom-control-input" id="customControlValidation1" name="radio-stacked" required>
+                                    <label class="custom-control-label" for="customControlValidation1">Titulo</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input v-model="filtro" value="2" type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked" required>
+                                    <label class="custom-control-label" for="customControlValidation2">Autor</label>
+                                    <!-- <div class="invalid-feedback">More example invalid feedback text</div> -->
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input v-model="filtro" value="3" type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
+                                    <label class="custom-control-label" for="customControlValidation3">ISBN</label>
+                                    <!-- <div class="invalid-feedback">More example invalid feedback text</div> -->
+                                </div>
+                            </form>
+                            <input class="form-control mt-2" placeholder="Escriba para buscar..." v-model="search">
+                        </div>
+
                         
-                        <input class="form-control col-md-6 float-right" placeholder="Buscar por titulo..." v-model="search">
                     </div>
                     <div class="card-body">
                         <ul class="list-group">
@@ -178,6 +197,8 @@
             return {
                 hoy: new Date(),
                 search:'',
+                campo:'ABCdef',
+                filtro:'',
                 ejemplars: [],
                 modoEditar: false,
                 EJEMPLAR: { EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:'', },
@@ -269,15 +290,23 @@
         },
         computed:{
             searchEjemplar: function(){
-                // console.log(this.search);
                 if(this.search == ""){
                     return "";
                 }else{
-                    return this.ejemplars.filter((item) => 
-                    item.EJEMPLAR.includes(this.search) ||
-                    item.AUTOR.includes(this.search) ||
-                    item.ISBN.includes(this.search)
-                    );
+                    this.campo = this.search.toUpperCase();
+                    switch (this.filtro) {
+                        case '1':
+                            return this.ejemplars.filter((item) =>item.EJEMPLAR.toUpperCase().includes(this.campo));
+                            break;
+                        case '2':
+                            return this.ejemplars.filter((item) =>item.AUTOR.toUpperCase().includes(this.campo));
+                            break;
+                        case '3':
+                            return this.ejemplars.filter((item) =>item.ISBN.toUpperCase().includes(this.campo));
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
