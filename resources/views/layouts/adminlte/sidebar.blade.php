@@ -31,6 +31,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="{{ route('buscar.disponible') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Busqueda Para Prestamo</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Prestar libro</p>

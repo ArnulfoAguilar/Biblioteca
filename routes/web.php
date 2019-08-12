@@ -41,3 +41,4 @@ Route::resource('/Biblioteca','BibliotecaController');
 Route::get('/inventario/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
 Route::resource('/ejemplars','EjemplarController');
 
+Route::get('/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
