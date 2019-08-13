@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Aporte;
+use App\Area;
+use App\User;
 use Illuminate\Http\Request;
 
 class AporteController extends Controller
@@ -24,7 +26,8 @@ class AporteController extends Controller
      */
     public function create()
     {
-        return view('Aportes.NuevoAporte');
+        $Areas = Area::all();
+        return view('Aportes.NuevoAporte')->with(['Areas' => $Areas]);
     }
 
     /**
@@ -35,13 +38,24 @@ class AporteController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
         $Aporte = new Aporte();
+        
         $Aporte->TITULO = $request->TITULO;
         $Aporte->DESCRIPCION = $request->DESCRIPCION;
         $Aporte->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
         $Aporte->ID_AREA = $request->ID_AREA;
-        $Aporte->COMENTARIOS = $request->COMENTARIOS;
+        $Aporte->ID_TIPO_APORTE = 1;
+        if($request->customSwitch3 == '' || $request->customSwitch3 == null){
+            $Aporte->COMENTARIOS = false;
+        }else{
+            $Aporte->COMENTARIOS = true;
+        }
+        
+        $Aporte->ID_USUARIO = auth()->id();
         $Aporte->Save();
+        return redirect()->route('home');
+        
     }
 
     /**

@@ -2675,11 +2675,12 @@ __webpack_require__.r(__webpack_exports__);
       _this.Areas = response.data;
     });
     console.log('Component mounted.');
-    this.APORTE.DESCRIPCION = 'HOLA';
+    this.APORTE.COMENTARIOS = 'True';
   },
   data: function data() {
     return {
       Areas: [],
+      Summernote: '',
       APORTE: {
         TITULO: '',
         DESCRIPCION: '',
@@ -2692,6 +2693,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     Agregar: function Agregar() {
       var AporteNuevo = this.APORTE;
+      console.log(this.Summernote);
       console.log(AporteNuevo);
       axios.post('/aportes', AporteNuevo).then(function (response) {
         console.log("Guardado");
@@ -54411,6 +54413,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 var render = function() {
+  var this$1 = this
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -54435,7 +54438,7 @@ var render = function() {
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-6 col-xs-12" }, [
                     _c("label", { attrs: { for: "Titulo" } }, [
-                      _vm._v("Titulo " + _vm._s(this.APORTE.TITULO))
+                      _vm._v("Titulo" + _vm._s(this.Summernote))
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -54443,8 +54446,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.APORTE.TITULO,
-                          expression: "APORTE.TITULO"
+                          value: _vm.Summernote,
+                          expression: "Summernote"
                         }
                       ],
                       staticClass: "form-control",
@@ -54454,13 +54457,13 @@ var render = function() {
                         "aria-describedby": "emailHelp",
                         required: ""
                       },
-                      domProps: { value: _vm.APORTE.TITULO },
+                      domProps: { value: _vm.Summernote },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.APORTE, "TITULO", $event.target.value)
+                          _vm.Summernote = $event.target.value
                         }
                       }
                     })
@@ -54494,7 +54497,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "Summernote" } }, [
-                    _vm._v("Descripción")
+                    _vm._v("Descripción " + _vm._s(this.Summernote))
                   ]),
                   _vm._v(" "),
                   _c("textarea", {
@@ -54502,8 +54505,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.APORTE.DESCRIPCION,
-                        expression: "APORTE.DESCRIPCION"
+                        value: _vm.Summernote,
+                        expression: "Summernote"
                       }
                     ],
                     staticClass: "form-control",
@@ -54513,16 +54516,16 @@ var render = function() {
                       rows: "20",
                       required: ""
                     },
-                    domProps: { value: _vm.APORTE.DESCRIPCION },
+                    domProps: { value: _vm.Summernote },
                     on: {
                       change: function(value) {
-                        _vm.APORTE.DESCRIPCION = value
+                        this$1.Summernote = value
                       },
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.APORTE, "DESCRIPCION", $event.target.value)
+                        _vm.Summernote = $event.target.value
                       }
                     }
                   })

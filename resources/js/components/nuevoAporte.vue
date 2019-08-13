@@ -9,8 +9,8 @@
                         <form  @submit.prevent="Agregar">
                                 <div class="row">
                                 <div class="form-group col-md-6 col-xs-12">
-                                    <label for="Titulo">Titulo {{this.APORTE.TITULO}}</label>
-                                    <input type="text" v-model="APORTE.TITULO" class="form-control" name="Titulo"
+                                    <label for="Titulo">Titulo{{this.Summernote}}</label>
+                                    <input type="text" v-model="Summernote" class="form-control" name="Titulo"
                                         aria-describedby="emailHelp" required>
                                 </div>
 
@@ -27,8 +27,8 @@
                  
 
                                 <div class="form-group">
-                                    <label for="Summernote">Descripción</label>
-                                    <textarea type="text" class="form-control" id="Summernote" v-model="APORTE.DESCRIPCION"  rows="20" required  v-on:change="value => { APORTE.DESCRIPCION = value }">
+                                    <label for="Summernote">Descripción {{this.Summernote}}</label>
+                                    <textarea type="text" class="form-control" id="Summernote" v-model="Summernote"  rows="20" required  v-on:change="value => { this.Summernote = value }">
                                     </textarea>
                                 </div>
                                 <div class="form-group">
@@ -62,11 +62,18 @@
                 this.Areas = response.data;
             });
             console.log('Component mounted.');
-            this.APORTE.DESCRIPCION = 'HOLA'
+            this.APORTE.COMENTARIOS= 'True';
+
+        
+
+  
+
+    
         },
         data() {
             return {
                 Areas:[],
+                Summernote: '',
                 APORTE: { TITULO: '', DESCRIPCION: '', PALABRAS_CLAVE: '',  ID_AREA: '', COMENTARIOS:'' },
             }
         },
@@ -74,6 +81,7 @@
             Agregar(){
                      
                     const AporteNuevo = this.APORTE;
+                    console.log(this.Summernote)
                     console.log(AporteNuevo);
                     axios.post('/aportes', AporteNuevo)
                         .then(response=>{
