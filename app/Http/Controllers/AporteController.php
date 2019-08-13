@@ -38,9 +38,8 @@ class AporteController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
-        $Aporte = new Aporte();
         
+        $Aporte = new Aporte();
         $Aporte->TITULO = $request->TITULO;
         $Aporte->DESCRIPCION = $request->DESCRIPCION;
         $Aporte->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
@@ -54,7 +53,7 @@ class AporteController extends Controller
         
         $Aporte->ID_USUARIO = auth()->id();
         $Aporte->Save();
-        return redirect()->route('home');
+        return redirect()->route('aportes.show',['aporte' => $Aporte]);
         
     }
 
@@ -66,7 +65,9 @@ class AporteController extends Controller
      */
     public function show(Aporte $aporte)
     {
-        //
+       // dd($aporte);
+        return view('Aportes.verAporte')->with(['aporte' => $aporte]);
+        
     }
 
     /**
