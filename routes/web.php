@@ -37,6 +37,13 @@ Route::get('/Bibliotecaliv', 'BibliotecaController@biblioteca')->name('bibliotec
 Route::resource('/Biblioteca','BibliotecaController');
 /*Rutas para el CRUD biblioteca*/
 
+/*Rutas Aportes*/
+Route::resource('/aportes','AporteController');
+/*Rutas Aportes*/
+
+/*RUTA para select de Area*/
+Route::get('/area','AreaController@areaSelect')->name('areas');
+/*RUTA para select de Area*/
 
 Route::get('/inventario/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
 Route::resource('/ejemplars','EjemplarController');

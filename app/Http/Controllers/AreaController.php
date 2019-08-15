@@ -2,35 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\segundoSumario;
+use App\Area;
 use Illuminate\Http\Request;
 
-class SegundoSumarioController extends Controller
+class AreaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function segundoSumarioSelect($id)
+    public function areaSelect()
     {
-        $segundoSumarios = segundoSumario::where('ID_PRIMER_SUMARIO',$id)->get();
+        
+         $Areas = Area::all();
         $data = [];
         $data[0] = [
             'id'   => 0,
             'text' =>'Seleccione',
         ];
-        foreach ($segundoSumarios as $key => $value) {
+        foreach ($Areas as $key => $value) {
             $data[$key+1] =[
                 'id'   => $value->id,
-                'text' => $value->DESCRIPCION,
+                'text' => $value->AREA,
             ];
         }
         return response()->json($data);
-    }
-    public function index()
-    {
-        //
+       
     }
 
     /**
@@ -57,10 +55,10 @@ class SegundoSumarioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\segundoSumario  $segundoSumario
+     * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function show(segundoSumario $segundoSumario)
+    public function show(Area $area)
     {
         //
     }
@@ -68,10 +66,10 @@ class SegundoSumarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\segundoSumario  $segundoSumario
+     * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function edit(segundoSumario $segundoSumario)
+    public function edit(Area $area)
     {
         //
     }
@@ -80,10 +78,10 @@ class SegundoSumarioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\segundoSumario  $segundoSumario
+     * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, segundoSumario $segundoSumario)
+    public function update(Request $request, Area $area)
     {
         //
     }
@@ -91,10 +89,10 @@ class SegundoSumarioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\segundoSumario  $segundoSumario
+     * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function destroy(segundoSumario $segundoSumario)
+    public function destroy(Area $area)
     {
         //
     }
