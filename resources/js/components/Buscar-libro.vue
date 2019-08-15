@@ -5,7 +5,21 @@
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <form class="was-validated">
+
+                            <div class="row">
+                                <div class="form-check ">
+                                    <input type="checkbox" class="form-check-input" id="check_titulo" v-model="check_titulo" >
+                                    <label class="form-check-label" for="exampleCheck1">Titulo</label>
+                                    <input type="text" class="form-control" name="" id="" :disabled="!check_titulo" v-model="search_titulo">
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="check_autor" v-model="check_autor" >
+                                    <label class="form-check-label" for="exampleCheck1">Autor</label>
+                                    <input type="text" class="form-control" name="" id="" :disabled="!check_autor" v-model="search_autor">
+                                </div>
+                            </div>
+
+                            <!-- <form class="was-validated">
                                 <h4>Seleccione el filtro para la busqueda</h4>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input v-model="filtro" value="1" type="radio" class="custom-control-input" id="customControlValidation1" name="radio-stacked" required>
@@ -14,15 +28,10 @@
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input v-model="filtro" value="2" type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked" required>
                                     <label class="custom-control-label" for="customControlValidation2">Autor</label>
-                                    <!-- <div class="invalid-feedback">More example invalid feedback text</div> -->
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input v-model="filtro" value="3" type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
-                                    <label class="custom-control-label" for="customControlValidation3">ISBN</label>
-                                    <!-- <div class="invalid-feedback">More example invalid feedback text</div> -->
                                 </div>
                             </form>
-                            <input class="form-control mt-2" placeholder="Escriba para buscar..." v-model="search">
+                            <input class="form-control mt-2 col-md-6" placeholder="Escriba para buscar..." v-model="search"> -->
+
                         </div>
 
                         
@@ -54,7 +63,7 @@
                 </div>
             </div>
             
-            <!-- Modal para editar-->
+            <!-- Modal para realizar prestamo -->
             <div id="modalPrestamo" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
@@ -123,62 +132,9 @@
 
                 </div>
             </div>
-            <!-- fin modal editar-->
+            <!-- fin modal realizar prestamo -->
 
-            <!-- Modal para agregar-->
-            <div id="modalAgregar" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <form @submit.prevent="agregar" >
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Agregar Ejemplar</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="NOMBRE">Nombre</label>
-                                    <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
-                                        aria-describedby="emailHelp" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="DESCRIPCION">Descripción</label>
-                                    <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
-                                        rows="3" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="ISBN">ISBN</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
-                                        aria-describedby="emailHelp" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="AUTOR">AUTOR/es</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
-                                        aria-describedby="emailHelp" required>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="PAGINAS">Numero de paginas</label>
-                                        <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
-                                            aria-describedby="emailHelp" required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="copias">Numero de copias</label>
-                                        <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
-                                            aria-describedby="emailHelp" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit">Agregar Ejemplar</button>
-                                <button class="btn btn-danger" type="submit" 
-                                    @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- fin modal agregar -->
+
 
         </div>
     </div>
@@ -195,9 +151,19 @@
         },
         data() {
             return {
+                check_titulo:false,
+                check_autor:false,
+                search_titulo:'',
+                campo_titulo:'',
+                search_autor:'',
+                campo_autor:'',
+
+                // filtro:'',
+                // search:'',
+                // campo:'',
+
                 hoy: new Date(),
-                search:'',
-                campo:'ABCdef',
+                campo:'',
                 filtro:'',
                 ejemplars: [],
                 modoEditar: false,
@@ -210,104 +176,54 @@
             })
         },
         methods: {
-            agregar() {
-                const ejemplarNuevo = this.EJEMPLAR;
-                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};    
-                axios.post('/ejemplars', ejemplarNuevo)
-                    .then((res) =>{
-                    const ejemplarServidor = res.data;
-                    this.ejemplars.push(ejemplarServidor);
-                    toastr.clear();
-                    toastr.options.closeButton = true;
-                    toastr.success('Agregado correctamente', 'Exito');
-                    this.actualizar();
-                    console.log("Guardado");
-                    $("#modalAgregar").modal('hide');
-                    this.actualizar();
-                    })
-            },
-            editarFormulario(item){
-            this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
-            this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
-            this.EJEMPLAR.ISBN = item.ISBN;
-            this.EJEMPLAR.AUTOR = item.AUTOR;
-            this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
-            this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
-
-            this.EJEMPLAR.id = item.id;
-            this.modoEditar = true;
-            },
-            editarEjemplar(EJEMPLAR){
-            const params = {
-                EJEMPLAR: EJEMPLAR.EJEMPLAR, 
-                DESCRIPCION: EJEMPLAR.DESCRIPCION,
-                ISBN: EJEMPLAR.ISBN,
-                AUTOR: EJEMPLAR.AUTOR,
-                NUMERO_PAGINAS: EJEMPLAR.NUMERO_PAGINAS,
-                COPIAS: EJEMPLAR.COPIAS
-                };
-            axios.put(`/ejemplars/${EJEMPLAR.id}`, params)
-                .then(res=>{
-                this.modoEditar = false;
-                const index = this.ejemplars.findIndex(item => item.id === EJEMPLAR.id);
-                this.ejemplars[index] = res.data;
-                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
-                // alert("Editado correctamente");
-                console.log("Editado correctamente");
-                toastr.clear();
-                toastr.options.closeButton = true;
-                toastr.success('Editado correctamente', 'Exito');
-                $("#modalEditar").modal('hide');
-                this.actualizar();
-                })
-            
-            },
-            eliminarEjemplar(EJEMPLAR, index){
-                // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-                const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
-                if(confirmacion){
-                    axios.delete(`/ejemplars/${EJEMPLAR.id}`)
-                    .then(()=>{
-                        this.ejemplars.splice(index, 1);
-                        toastr.clear();
-                        toastr.options.closeButton = true;
-                        toastr.success('Eliminado correctamente', 'Exito');
-                        this.actualizar();
-                        console.log("EJEMPLAR ELIMINADO");
-                    })
-                }
-            },
             cancelarEdicion(){
                 this.modoEditar = false;
                 this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
             },
-            actualizar(){
-                axios.get('/ejemplars').then(res=>{
-                this.ejemplars = res.data;
-                })
-            }
-
         },
         computed:{
             searchEjemplar: function(){
-                if(this.search == ""){
+                
+                if(this.search_titulo=="" && this.search_autor==""){
                     return "";
                 }else{
-                    this.campo = this.search.toUpperCase();
-                    switch (this.filtro) {
-                        case '1':
-                            return this.ejemplars.filter((item) =>item.EJEMPLAR.toUpperCase().includes(this.campo));
-                            break;
-                        case '2':
-                            return this.ejemplars.filter((item) =>item.AUTOR.toUpperCase().includes(this.campo));
-                            break;
-                        case '3':
-                            return this.ejemplars.filter((item) =>item.ISBN.toUpperCase().includes(this.campo));
-                            break;
-                        default:
-                            break;
+                    if(this.check_titulo==true && this.search_titulo!=''){
+                        this.campo_titulo = this.search_titulo.toUpperCase();
+                        if(this.check_autor==true){
+                            this.campo_autor = this.search_autor.toUpperCase();
+                            return this.ejemplars.filter((item) =>
+                                item.EJEMPLAR.toUpperCase().includes(this.campo_titulo) &&
+                                item.AUTOR.toUpperCase().includes(this.campo_autor)
+                            );
+                        }
+                        return this.ejemplars.filter((item) =>item.EJEMPLAR.toUpperCase().includes(this.campo_titulo));
+                    }else{
+                        if(this.check_autor==true && this.search_autor !=''){
+                            this.campo_autor = this.search_autor.toUpperCase();
+                            return this.ejemplars.filter((item) =>
+                                item.AUTOR.toUpperCase().includes(this.campo_autor)
+                            );
+                        }
                     }
                 }
+
+                // if(this.search == ""){
+                //     return "";
+                // }else{
+                //     this.campo = this.search.toUpperCase();
+                //     switch (this.filtro) {
+                //         case '1':
+                //             return this.ejemplars.filter((item) =>item.EJEMPLAR.toUpperCase().includes(this.campo));
+                //             break;
+                //         case '2':
+                //             return this.ejemplars.filter((item) =>item.AUTOR.toUpperCase().includes(this.campo));
+                //             break;
+                //         default:
+                //             break;
+                //     }
+                // }
+                
+                
             }
         }
     }
