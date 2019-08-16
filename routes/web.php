@@ -27,7 +27,7 @@ Route::resource('/ejemplars','EjemplarController');
 Route::get('/busqueda', 'HomeController@busqueda')->name('busqueda');
 
 Route::get('/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
- /* RUTAS PARA IMPRIMIR ETIQUETAS CON CODIGO DE BARRA*/
+/* RUTAS PARA IMPRIMIR ETIQUETAS CON CODIGO DE BARRA*/
 Route::get('/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
 Route::get('/imprimir', 'LibroController@Tags')->name('imprimir');
 /* FIN RUTAS PARA IMPRIMIR ETIQUETAS CON CODIGO DE BARRA*/
@@ -49,3 +49,7 @@ Route::get('/inventario/ejemplares', 'HomeController@listaEjemplares')->name('li
 Route::resource('/ejemplars','EjemplarController');
 
 Route::get('/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
+
+/*Rutas Revisiones*/
+Route::resource('/revisiones','RevisionController');
+/*Rutas Revisiones*/
