@@ -6,11 +6,11 @@
             {{ session('status') }}
         </div>
     @endif
-    <h2 class="col-md-12">¡ Bienvenido a la pagina principal !</h2>
+    <h2 class="text-center">¡ Bienvenido a la principal !</h2>
+    <lista-ejem-table></lista-ejem-table>
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
-
         </div>
     @endif
 @endsection
