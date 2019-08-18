@@ -12,14 +12,14 @@
                                 <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-7" id="NOMBRE"
                                     placeholder="Escriba aca la nueva Observación..." required>
                                 <div class="col-md-2">
-                                    <div v-if="Revision.ID_ESTADO_REVISION === 1">
-                                        <input type="checkbox" class="col-md-2" id="check_titulo" v-model="Revision.ID_ESTADO_REVISION" checked>
+                                    <!-- <div v-if="Revision.ID_ESTADO_REVISION === 1"> -->
+                                        <input type="checkbox" class="col-md-2" id="check_titulo" v-model="check">
                                         <label class="form-check-label" for="exampleCheck1">Solventado</label>
-                                    </div>
-                                    <div v-else>
-                                        <input type="checkbox" class="col-md-2" id="check_titulo" v-model="Revision.ID_ESTADO_REVISION">
+                                    <!-- </div> -->
+                                    <!-- <div v-else>
+                                        <input type="checkbox" class="col-md-2" id="check_titulo" v-model="check">
                                         <label class="form-check-label" for="exampleCheck1">Pendiente</label>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="row col-md-3">
                                     <button class="btn btn-success col-md-6" type="submit">Guardar</button>
@@ -110,13 +110,13 @@
             </div>
 
         </div>
-
-        <div class="row">
-                <div class="col-md-12 bg-warning">
-                    <pre>{{ $data }}</pre>
-                </div>
+<!-- Datos del componente VUE -->
+        <!-- <div class="row">
+            <div class="col-md-12 bg-warning">
+                <pre>{{ $data }}</pre>
             </div>
-
+        </div> -->
+<!-- Datos del componente VUE -->
     </div>
 </template>
 
@@ -155,9 +155,10 @@
                     .then((response) =>{
                         alert("Guardado correctamente");
                         console.log("Guardado");
-                        this.Revision = {id: '', DETALLE_REVISION: '',};
+                        this.Revision= { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''};
+                        this.check='';
                         this.cargar();
-                        
+
                     
                     }).catch(e=>{
                             alert("Error al Guardar" + e);
@@ -165,19 +166,28 @@
             },
 
             editarFormulario(item){
-            this.Revision.DETALLE_REVISION = item.DETALLE_REVISION;
-            this.Revision.ID_ESTADO_REVISION = item.ID_ESTADO_REVISION;
-            this.Revision.id = item.id
-            this.modoEditar = true;
+                this.Revision.id = item.id
+                this.Revision.DETALLE_REVISION = item.DETALLE_REVISION;
+                    if(item.ID_ESTADO_REVISION == 1){
+                        this.check = true 
+                    }else{
+                        this.check = false
+                    }
+                this.Revision.ID_ESTADO_REVISION = this.check;
+                this.Revision.ID_COMITE = this.area;
+                this.Revision.ID_APORTE = this.aporte;
+                this.Revision.ID_USUARIO = '';
+                this.modoEditar = true;
             },
 
             editarRevision(Revision){
                 
             const parametros = {
                 DETALLE_REVISION: Revision.DETALLE_REVISION,
-                ID_ESTADO_REVISION: Revision.ID_ESTADO_REVISION,
-                ID_COMITE:this.area,
-                ID_APORTE:this.aporte 
+                ID_ESTADO_REVISION: this.check,
+                ID_COMITE: Revision.ID_COMITE,
+                ID_APORTE: Revision.ID_APORTE, 
+                ID_USUARIO: Revision.ID_USUARIO
                 };
                 
             axios.put(`/revisiones/${Revision.id}`, parametros)
@@ -185,7 +195,8 @@
                 this.modoEditar = false;
                 alert("Editado correctamente");
                 console.log("Editado correctamente");
-                this.Revision = {id: '', DETALLE_REVISION: '', ID_ESTADO_REVISION:''};
+                this.Revision= { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''};
+                this.check='';
                 this.cargar();
                 })
             },
@@ -205,18 +216,27 @@
             
             cancelarEdicion(){
                 this.modoEditar = false;
-                this.Revision = {id: '', DETALLE_REVISION: '', ID_ESTADO_REVISION:''};
+                this.Revision= { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''};
+                this.check='';
             }
         },
         computed:{
-            cheched: function(){
-                if(check==true){
-                    Revision.ID_ESTADO_REVISION = true;
-                }else{
-                    Revision.ID_ESTADO_REVISION = false;
+            checked: {
+                get: function(){
+                    if(this.Revision.ID_ESTADO_REVISION == 1){
+                        this.check = false;
+                    }else{
+                        this.check = true;
+                    }
+                    return this.check;
+                },
+                set: function (newValue) {
+                    this.check = newValue
+                    // console.log(newValue, 'check'+this.check);
+                    // return this.check;
                 }
-                return Revision.ID_ESTADO_REVISION;
             }
+                
         }
     }
 </script>
