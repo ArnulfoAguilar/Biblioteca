@@ -38,10 +38,34 @@ class AporteController extends Controller
      */
     public function store(Request $request)
     {
+
+        $detalle=$request->DESCRIPCION;//รับค่าจาก messageInput
+        $dom = new \domdocument();
+        $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
+        //ดึงเอาส่วนที่เป็นรูปภาพมาจาก summernote
+        $images = $dom->getelementsbytagname('img');
+        //ลูปรูปภาพและทำการเข้ารหัสรูปภาพ
+        foreach($images as $k => $img)
+        {
+            $data = $img->getattribute('src');
+            list($type, $data) = explode(';', $data);
+            list(, $data)= explode(',', $data);
+            $data = base64_decode($data);
+            //ตั้งชื่อรูปภาพใหม่โดยอ้างอิงจากเวลา
+            $image_name= auth()->id().time().$k.'.png';           
+            //อัพโหลดภาพไปยัง public
+            $path = public_path() .'\aportesImages'."\\". $image_name;
+            dd($path);
+            //ทำการอัพโหลดภาพ
+            file_put_contents($path, $data);
+            $img->removeattribute('src');
+            $img->setattribute('src', $path);
+        }
+        $detalle = $dom->savehtml();
         
         $Aporte = new Aporte();
         $Aporte->TITULO = $request->TITULO;
-        $Aporte->DESCRIPCION = $request->DESCRIPCION;
+        $Aporte->DESCRIPCION = $detalle;
         $Aporte->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
         $Aporte->ID_AREA = $request->ID_AREA;
         $Aporte->ID_TIPO_APORTE = 1;
@@ -53,6 +77,7 @@ class AporteController extends Controller
         
         $Aporte->ID_USUARIO = auth()->id();
         $Aporte->Save();
+
         return redirect()->route('aportes.show',['aporte' => $Aporte]);
         
     }
@@ -65,7 +90,7 @@ class AporteController extends Controller
      */
     public function show(Aporte $aporte)
     {
-       // dd($aporte);
+        //dd($aporte);
         return view('Aportes.verAporte')->with(['aporte' => $aporte]);
         
     }
