@@ -6,6 +6,7 @@ use App\Aporte;
 use App\Area;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AporteController extends Controller
 {
@@ -39,27 +40,41 @@ class AporteController extends Controller
     public function store(Request $request)
     {
 
-        $detalle=$request->DESCRIPCION;//รับค่าจาก messageInput
+        /*$detalle=$request->DESCRIPCION;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
-        //ดึงเอาส่วนที่เป็นรูปภาพมาจาก summernote
         $images = $dom->getelementsbytagname('img');
-        //ลูปรูปภาพและทำการเข้ารหัสรูปภาพ
         foreach($images as $k => $img)
         {
             $data = $img->getattribute('src');
             list($type, $data) = explode(';', $data);
             list(, $data)= explode(',', $data);
             $data = base64_decode($data);
-            //ตั้งชื่อรูปภาพใหม่โดยอ้างอิงจากเวลา
             $image_name= auth()->id().time().$k.'.png';           
-            //อัพโหลดภาพไปยัง public
-            $path = public_path() .'\aportesImages'."\\". $image_name;
-            dd($path);
-            //ทำการอัพโหลดภาพ
+            $path =public_path().'/aportesImages/'. $image_name;
             file_put_contents($path, $data);
             $img->removeattribute('src');
-            $img->setattribute('src', $path);
+            $img->setattribute('src', urldecode($path));
+            
+        }
+        $detalle = $dom->savehtml();*/
+
+        $detalle=$request->DESCRIPCION;
+        $dom = new \domdocument();
+        $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
+        $images = $dom->getelementsbytagname('img');
+        foreach($images as $k => $img)
+        {
+            $data = $img->getattribute('src');
+            list($type, $data) = explode(';', $data);
+            list(, $data)= explode(',', $data);
+            $data = base64_decode($data);
+            $image_name= auth()->id().time().$k.'.png';           
+            $path = public_path().'/aportesImages/'. $image_name;
+            file_put_contents($path, $data);
+            $img->removeattribute('src');
+            $img->setattribute('src', "/aportesImages/". $image_name);
+            
         }
         $detalle = $dom->savehtml();
         
