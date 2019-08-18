@@ -14,8 +14,9 @@ class RevisionController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request);
         if($request->ajax()){
-            return Revision::all();
+            return Revision::where('ID_APORTE', $request->id)->orderBy('id', 'asc')->get();
         }else{
             return view('home');
         }
@@ -41,7 +42,7 @@ class RevisionController extends Controller
     {
         $revision = new Revision();
         $revision->DETALLE_REVISION = $request->DETALLE_REVISION;
-        $revision->ID_ESTADO_REVISION = $request->ID_ESTADO_REVISION;
+        $revision->ID_ESTADO_REVISION = 2;
         $revision->ID_COMITE = $request->ID_COMITE;
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
@@ -81,7 +82,11 @@ class RevisionController extends Controller
     {
         $revision = Revision::find($id);
         $revision->DETALLE_REVISION = $request->DETALLE_REVISION;
-        $revision->ID_ESTADO_REVISION = $request->ID_ESTADO_REVISION;
+        if($request->ID_ESTADO_REVISION==true){
+            $revision->ID_ESTADO_REVISION = 1;
+        }else{
+            $revision->ID_ESTADO_REVISION = 2;
+        }
         $revision->ID_COMITE = $request->ID_COMITE;
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
@@ -97,6 +102,7 @@ class RevisionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $revision = Revision::find($id);
+        $revision->delete();
     }
 }

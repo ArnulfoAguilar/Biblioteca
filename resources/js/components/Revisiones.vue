@@ -7,13 +7,47 @@
                     <!-- <div class="card-body"> -->
                         <form @submit.prevent="editarRevision(Revision)" v-if="modoEditar">
                             <label for="NOMBRE">Nueva Observación:</label>
-                            <div class="input-group">
+                            
+                            <div class="row">
+                                <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-7" id="NOMBRE"
+                                    placeholder="Escriba aca la nueva Observación..." required>
+                                <div class="col-md-2">
+                                    <div v-if="Revision.ID_ESTADO_REVISION === 1">
+                                        <input type="checkbox" class="col-md-2" id="check_titulo" v-model="Revision.ID_ESTADO_REVISION" checked>
+                                        <label class="form-check-label" for="exampleCheck1">Solventado</label>
+                                    </div>
+                                    <div v-else>
+                                        <input type="checkbox" class="col-md-2" id="check_titulo" v-model="Revision.ID_ESTADO_REVISION">
+                                        <label class="form-check-label" for="exampleCheck1">Pendiente</label>
+                                    </div>
+                                </div>
+                                <div class="row col-md-3">
+                                    <button class="btn btn-success col-md-6" type="submit">Guardar</button>
+                                    <button class="btn btn-danger col-md-6" type="submit" 
+                                    @click="cancelarEdicion">Cancelar</button>
+                                </div>
+                                
+                            </div>
+
+                            <!-- <div class="input-group">
                                 <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-8" id="NOMBRE"
                                     placeholder="Escriba aca la nueva Observación..." required>
                                 <button class="btn btn-success col-md-2" type="submit">Editar Observación</button>
                                 <button class="btn btn-danger col-md-2" type="submit" 
                                     @click="cancelarEdicion">Cancelar edición</button>
-                            </div>
+                            </div> -->
+
+                            <!-- <div class="input-group">
+                                <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-8" id="NOMBRE"
+                                    placeholder="Escriba aca la nueva Observación..." required>
+                                
+                                <div class="row col-md-4">
+                                    <button class="btn btn-success col-md-6" type="submit">Editar Observación</button>
+                                    <button class="btn btn-danger col-md-6" type="submit" 
+                                    @click="cancelarEdicion">Cancelar edición</button>
+                                </div>
+                            </div> -->
+
                         </form>
                         <form @submit.prevent="agregar" v-else>
                             <label for="NOMBRE">Nueva Observación:</label>
@@ -38,13 +72,22 @@
                     <!-- </div> -->
                     <!-- <div class="card-body"> -->
 
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="(item, index) in revisiones" :key="index" >
+                        <ul class="list-group" v-for="(item, index) in revisiones" :key="index">
+                            <li class="list-group-item">
                                 <div class="d-flex justify-content-between">
-                                    <div>
-                                        <p class="mb-0">Observación: {{item.DETALLE_REVISION}}</p>
+                                    <div class="col-md-8">
+                                        <p class="mb-0">{{item.DETALLE_REVISION}}</p>
                                     </div>
-                                    <div>
+                                    <div class="col-md-2 form-check ">
+                                        <div v-if="item.ID_ESTADO_REVISION === 1">
+                                            <label class="form-check-label" for="exampleCheck1">Solventado</label>
+                                        </div>
+                                        <div v-else>
+                                            <label class="form-check-label" for="exampleCheck1">Pendiente</label>
+                                        </div>
+                                        <!-- <input type="checkbox" class="form-check-input" id="check_titulo" v-model="item.ID_ESTADO_REVISION" disabled> -->
+                                    </div>
+                                    <div class="col-md-2">
                                         <p class="mb-0">
                                             <button class="btn btn-warning btn-sm" 
                                             @click="editarFormulario(item)">Editar</button>
@@ -52,6 +95,12 @@
                                             @click="eliminarRevision(item, index)">Eliminar</button>
                                         </p>
                                     </div>
+                                    <!-- <div class="col-md-1">
+                                        <input type="checkbox" class="col-md-12">
+                                    </div> -->
+                                    
+                                    
+
                                 </div>
                             </li>
                         </ul>
@@ -61,6 +110,13 @@
             </div>
 
         </div>
+
+        <div class="row">
+                <div class="col-md-12 bg-warning">
+                    <pre>{{ $data }}</pre>
+                </div>
+            </div>
+
     </div>
 </template>
 
@@ -75,9 +131,10 @@
         data() {
             return {
                 // search:'',
+                check:'',
                 revisiones: [],
                 modoEditar: false,
-                Revision: { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'1', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''},
+                Revision: { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''},
             }
         },
         created(){
@@ -85,8 +142,9 @@
         },
         methods: {
             cargar(){
-                axios.get('/revisiones').then(res=>{
+                axios.get('/revisiones?id='+this.aporte).then(res=>{
                 this.revisiones = res.data;
+                console.log(res.data);
                 })
                 console.log('Datos leidos');
             },
@@ -97,8 +155,9 @@
                     .then((response) =>{
                         alert("Guardado correctamente");
                         console.log("Guardado");
+                        this.Revision = {id: '', DETALLE_REVISION: '',};
                         this.cargar();
-                        this.Revision.DETALLE_REVISION = '';
+                        
                     
                     }).catch(e=>{
                             alert("Error al Guardar" + e);
@@ -107,22 +166,26 @@
 
             editarFormulario(item){
             this.Revision.DETALLE_REVISION = item.DETALLE_REVISION;
+            this.Revision.ID_ESTADO_REVISION = item.ID_ESTADO_REVISION;
             this.Revision.id = item.id
             this.modoEditar = true;
             },
 
             editarRevision(Revision){
+                
             const parametros = {
                 DETALLE_REVISION: Revision.DETALLE_REVISION,
-                ID_ESTADO_REVISION:'1',
+                ID_ESTADO_REVISION: Revision.ID_ESTADO_REVISION,
                 ID_COMITE:this.area,
                 ID_APORTE:this.aporte 
                 };
+                
             axios.put(`/revisiones/${Revision.id}`, parametros)
                 .then(response=>{
                 this.modoEditar = false;
                 alert("Editado correctamente");
                 console.log("Editado correctamente");
+                this.Revision = {id: '', DETALLE_REVISION: '', ID_ESTADO_REVISION:''};
                 this.cargar();
                 })
             },
@@ -142,15 +205,18 @@
             
             cancelarEdicion(){
                 this.modoEditar = false;
-                this.Biblioteca = {id: '', BIBLIOTECA: '',};
+                this.Revision = {id: '', DETALLE_REVISION: '', ID_ESTADO_REVISION:''};
             }
         },
-        // computed:{
-        //     searchEjemplar: function(){
-        //         return this.revisiones.filter((item) => 
-        //             item.DETALLE_REVISION.includes(this.search) 
-        //         );
-        //     }
-        // }
+        computed:{
+            cheched: function(){
+                if(check==true){
+                    Revision.ID_ESTADO_REVISION = true;
+                }else{
+                    Revision.ID_ESTADO_REVISION = false;
+                }
+                return Revision.ID_ESTADO_REVISION;
+            }
+        }
     }
 </script>
