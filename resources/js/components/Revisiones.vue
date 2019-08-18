@@ -73,7 +73,7 @@
                     <!-- <div class="card-body"> -->
 
                         <ul class="list-group" v-for="(item, index) in revisiones" :key="index">
-                            <li class="list-group-item">
+                            <li class="list-group-item ">
                                 <div class="d-flex justify-content-between">
                                     <div class="col-md-8">
                                         <p class="mb-0">{{item.DETALLE_REVISION}}</p>
@@ -153,7 +153,9 @@
                 const revisionNueva = this.Revision;
                 axios.post('/revisiones', revisionNueva)
                     .then((response) =>{
-                        alert("Guardado correctamente");
+                        toastr.clear();
+                        toastr.options.closeButton = true;
+                        toastr.success('Revisión guardada correctamente', 'Exito');
                         console.log("Guardado");
                         this.Revision= { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''};
                         this.check='';
@@ -193,7 +195,9 @@
             axios.put(`/revisiones/${Revision.id}`, parametros)
                 .then(response=>{
                 this.modoEditar = false;
-                alert("Editado correctamente");
+                toastr.clear();
+                toastr.options.closeButton = true;
+                toastr.success('Revisión Editada correctamente', 'Exito');
                 console.log("Editado correctamente");
                 this.Revision= { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''};
                 this.check='';
@@ -207,7 +211,9 @@
                     axios.delete(`/revisiones/${Revision.id}`)
                     .then(()=>{
                         //this.ejemplars.splice(index, 1);
-                        alert("Revision ELIMINADO");
+                        toastr.clear();
+                        toastr.options.closeButton = true;
+                        toastr.success('Revisión ELIMINADA', 'Exito');
                         console.log("Revision ELIMINADO");
                         this.cargar();
                     })
