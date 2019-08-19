@@ -39,26 +39,6 @@ class AporteController extends Controller
      */
     public function store(Request $request)
     {
-
-        /*$detalle=$request->DESCRIPCION;
-        $dom = new \domdocument();
-        $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
-        $images = $dom->getelementsbytagname('img');
-        foreach($images as $k => $img)
-        {
-            $data = $img->getattribute('src');
-            list($type, $data) = explode(';', $data);
-            list(, $data)= explode(',', $data);
-            $data = base64_decode($data);
-            $image_name= auth()->id().time().$k.'.png';           
-            $path =public_path().'/aportesImages/'. $image_name;
-            file_put_contents($path, $data);
-            $img->removeattribute('src');
-            $img->setattribute('src', urldecode($path));
-            
-        }
-        $detalle = $dom->savehtml();*/
-
         $detalle=$request->DESCRIPCION;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
@@ -116,9 +96,16 @@ class AporteController extends Controller
      * @param  \App\Aporte  $aporte
      * @return \Illuminate\Http\Response
      */
-    public function edit(Aporte $aporte)
+    public function edit($id)
     {
-        //
+        $aporte = Aporte::find($id);
+        $Areas = Area::all();
+        $AreaSelec=Area::find($aporte->ID_AREA);
+        return view('Aportes.editarAporte')
+        ->with(['aporte' => $aporte])
+        ->with(['Areas' => $Areas])
+        ->with(['AreaSelec' => $AreaSelec]);
+
     }
 
     /**
