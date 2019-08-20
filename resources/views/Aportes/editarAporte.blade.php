@@ -25,7 +25,7 @@ Editar
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">Nuevo Aporte</div>
+                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">Editar Aporte</div>
 
                     <div class="card-body">
                         <form  action="{{ route('aportes.store') }}" method="post">
@@ -57,7 +57,7 @@ Editar
                                 <div class="form-group">
                                     <label for="DESCRIPCION">Descripción</label>
                                 <textarea type="text" class="form-control" id="Summernote" name ="DESCRIPCION"rows="20" 
-                                value=" {{ $aporte->DESCRIPCION }} " required>
+                                value="" required>{{ $aporte->DESCRIPCION }}
                                     </textarea>
                                 </div>
                                 <div class="form-group">
@@ -67,7 +67,7 @@ Editar
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch3" name="customSwitch3" >
+                                    <input type="checkbox" class="custom-control-input" value="{{ $aporte->COMENTARIOS }}" id="customSwitch3" name="customSwitch3" >
                                     <label class="custom-control-label" for="customSwitch3">¿Permitir comentarios?</label>
                                     </div>
                                 </div>     
