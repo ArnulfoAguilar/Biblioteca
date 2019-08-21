@@ -49,6 +49,13 @@
                         <h3>Revisiones</h3>
                     </div>
                     <div class="card-body">
+                        
+                        {{-- Si esto en algun momento da problemas, yo lo solvente asi:  --}}
+                        {{-- copien la linea de revisiones con los parametros, se los quitan, y luego guardan --}}
+                        {{-- luego se los vuelven a poner tal y como estaba  --}}
+
+                    {{-- <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}"></revisiones> --}}
+                    {{-- <revisiones></revisiones> --}}
                     <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}"></revisiones>
                     </div>
                 </div>
