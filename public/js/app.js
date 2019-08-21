@@ -2013,6 +2013,260 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// import toastr from 'toastr';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  // name: "ListaEJem",
+  name: "BusquedaDispo",
+  mounted: function mounted() {
+    console.log('Busqueda Disponibles mounted.');
+  },
+  data: function data() {
+    return {
+      check_titulo: false,
+      check_autor: false,
+      search_titulo: '',
+      campo_titulo: '',
+      search_autor: '',
+      campo_autor: '',
+      // filtro:'',
+      // search:'',
+      // campo:'',
+      hoy: new Date(),
+      campo: '',
+      filtro: '',
+      ejemplars: [],
+      modoEditar: false,
+      EJEMPLAR: {
+        EJEMPLAR: '',
+        DESCRIPCION: '',
+        ISBN: '',
+        AUTOR: '',
+        NUMERO_PAGINAS: '',
+        COPIAS: ''
+      }
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/ejemplars').then(function (res) {
+      _this.ejemplars = res.data;
+    });
+  },
+  methods: {
+    cancelarEdicion: function cancelarEdicion() {
+      this.modoEditar = false;
+      this.EJEMPLAR = {
+        EJEMPLAR: '',
+        DESCRIPCION: '',
+        ISBN: '',
+        AUTOR: '',
+        NUMERO_PAGINAS: '',
+        COPIAS: ''
+      };
+    }
+  },
+  computed: {
+    searchEjemplar: function searchEjemplar() {
+      var _this2 = this;
+
+      if (this.search_titulo == "" && this.search_autor == "") {
+        return "";
+      } else {
+        if (this.check_titulo == true && this.search_titulo != '') {
+          this.campo_titulo = this.search_titulo.toUpperCase();
+
+          if (this.check_autor == true) {
+            this.campo_autor = this.search_autor.toUpperCase();
+            return this.ejemplars.filter(function (item) {
+              return item.EJEMPLAR.toUpperCase().includes(_this2.campo_titulo) && item.AUTOR.toUpperCase().includes(_this2.campo_autor);
+            });
+          }
+
+          return this.ejemplars.filter(function (item) {
+            return item.EJEMPLAR.toUpperCase().includes(_this2.campo_titulo);
+          });
+        } else {
+          if (this.check_autor == true && this.search_autor != '') {
+            this.campo_autor = this.search_autor.toUpperCase();
+            return this.ejemplars.filter(function (item) {
+              return item.AUTOR.toUpperCase().includes(_this2.campo_autor);
+            });
+          }
+        }
+      } // if(this.search == ""){
+      //     return "";
+      // }else{
+      //     this.campo = this.search.toUpperCase();
+      //     switch (this.filtro) {
+      //         case '1':
+      //             return this.ejemplars.filter((item) =>item.EJEMPLAR.toUpperCase().includes(this.campo));
+      //             break;
+      //         case '2':
+      //             return this.ejemplars.filter((item) =>item.AUTOR.toUpperCase().includes(this.campo));
+      //             break;
+      //         default:
+      //             break;
+      //     }
+      // }
+
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BusquedaApi.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BusquedaApi.vue?vue&type=script&lang=js& ***!
@@ -53079,6 +53333,567 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Buscar-libro.vue?vue&type=template&id=391e7d98&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Buscar-libro.vue?vue&type=template&id=391e7d98& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c(
+        "div",
+        {
+          staticClass: "col-md-12",
+          staticStyle: { overflow: "auto", height: "500px" }
+        },
+        [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("div", [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-check " }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.check_titulo,
+                          expression: "check_titulo"
+                        }
+                      ],
+                      staticClass: "form-check-input",
+                      attrs: { type: "checkbox", id: "check_titulo" },
+                      domProps: {
+                        checked: Array.isArray(_vm.check_titulo)
+                          ? _vm._i(_vm.check_titulo, null) > -1
+                          : _vm.check_titulo
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.check_titulo,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.check_titulo = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.check_titulo = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.check_titulo = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form-check-label",
+                        attrs: { for: "exampleCheck1" }
+                      },
+                      [_vm._v("Titulo")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.search_titulo,
+                          expression: "search_titulo"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        name: "",
+                        id: "",
+                        disabled: !_vm.check_titulo
+                      },
+                      domProps: { value: _vm.search_titulo },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.search_titulo = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-check" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.check_autor,
+                          expression: "check_autor"
+                        }
+                      ],
+                      staticClass: "form-check-input",
+                      attrs: { type: "checkbox", id: "check_autor" },
+                      domProps: {
+                        checked: Array.isArray(_vm.check_autor)
+                          ? _vm._i(_vm.check_autor, null) > -1
+                          : _vm.check_autor
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.check_autor,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.check_autor = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.check_autor = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.check_autor = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form-check-label",
+                        attrs: { for: "exampleCheck1" }
+                      },
+                      [_vm._v("Autor")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.search_autor,
+                          expression: "search_autor"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        name: "",
+                        id: "",
+                        disabled: !_vm.check_autor
+                      },
+                      domProps: { value: _vm.search_autor },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.search_autor = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "ul",
+                { staticClass: "list-group" },
+                _vm._l(_vm.searchEjemplar, function(item, index) {
+                  return _c(
+                    "li",
+                    { key: index, staticClass: "list-group-item" },
+                    [
+                      _c("h5", [
+                        _c("span", { staticClass: "badge  float-right" }, [
+                          _vm._v(
+                            "\n                                Actualizado el: " +
+                              _vm._s(item.updated_at) +
+                              "\n                                "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("AUTOR: " + _vm._s(item.AUTOR))]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "NÚMERO DE PÁGINAS: " + _vm._s(item.NUMERO_PAGINAS)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "modal",
+                              "data-target": "#modalPrestamo"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.editarFormulario(item)
+                              }
+                            }
+                          },
+                          [_vm._v("Realizar Prestamo")]
+                        )
+                      ])
+                    ]
+                  )
+                }),
+                0
+              )
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: { id: "modalPrestamo", role: "dialog" }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.editarEjemplar(_vm.EJEMPLAR)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "NOMBRE" } }, [
+                        _vm._v("Nombre del libro")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.EJEMPLAR.EJEMPLAR,
+                            expression: "EJEMPLAR.EJEMPLAR"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "NOMBRE",
+                          "aria-describedby": "emailHelp",
+                          disabled: ""
+                        },
+                        domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.EJEMPLAR,
+                              "EJEMPLAR",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "DESCRIPCION" } }, [
+                        _vm._v("Descripción")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.EJEMPLAR.DESCRIPCION,
+                            expression: "EJEMPLAR.DESCRIPCION"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "DESCRIPCION", rows: "3", disabled: "" },
+                        domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.EJEMPLAR,
+                              "DESCRIPCION",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "AUTOR" } }, [
+                        _vm._v("AUTOR/es")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.EJEMPLAR.AUTOR,
+                            expression: "EJEMPLAR.AUTOR"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "AUTOR",
+                          "aria-describedby": "emailHelp",
+                          disabled: ""
+                        },
+                        domProps: { value: _vm.EJEMPLAR.AUTOR },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.EJEMPLAR, "AUTOR", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-md-4" }, [
+                        _c("label", { attrs: { for: "PAGINAS" } }, [
+                          _vm._v("Numero de paginas")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.NUMERO_PAGINAS,
+                              expression: "EJEMPLAR.NUMERO_PAGINAS"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "PAGINAS",
+                            "aria-describedby": "emailHelp",
+                            disabled: ""
+                          },
+                          domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "NUMERO_PAGINAS",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-md-4" }, [
+                        _c("label", { attrs: { for: "PAGINAS" } }, [
+                          _vm._v("Fecha de préstamo")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.NUMERO_PAGINAS,
+                              expression: "EJEMPLAR.NUMERO_PAGINAS"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "PAGINAS",
+                            "aria-describedby": "emailHelp",
+                            disabled: ""
+                          },
+                          domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "NUMERO_PAGINAS",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-md-4" }, [
+                        _c("label", { attrs: { for: "PAGINAS" } }, [
+                          _vm._v("Fecha de devolución")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.NUMERO_PAGINAS,
+                              expression: "EJEMPLAR.NUMERO_PAGINAS"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "PAGINAS",
+                            "aria-describedby": "emailHelp",
+                            disabled: ""
+                          },
+                          domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "NUMERO_PAGINAS",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success float-left",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Realizar Préstamo")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "submit", "data-dismiss": "modal" },
+                        on: { click: _vm.cancelarEdicion }
+                      },
+                      [_vm._v("Cancelar Préstamo")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [
+        _vm._v("Realizar prestamo de libro")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "AUTOR" } }, [
+        _vm._v("Persona que realiza prestamo")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          id: "",
+          value: "",
+          "aria-describedby": "emailHelp",
+          disabled: ""
+        }
+      })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BusquedaApi.vue?vue&type=template&id=056644be&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BusquedaApi.vue?vue&type=template&id=056644be& ***!
@@ -66889,6 +67704,7 @@ Vue.component('busqueda-api', __webpack_require__(/*! ./components/BusquedaApi.v
 Vue.component('select2', __webpack_require__(/*! ./components/select.vue */ "./resources/js/components/select.vue")["default"]);
 Vue.component('lista-ejem', __webpack_require__(/*! ./components/ListaEjem.vue */ "./resources/js/components/ListaEjem.vue")["default"]);
 Vue.component('biblioteca-list', __webpack_require__(/*! ./components/Biblioteca-list.vue */ "./resources/js/components/Biblioteca-list.vue")["default"]);
+Vue.component('buscar-libro', __webpack_require__(/*! ./components/Buscar-libro.vue */ "./resources/js/components/Buscar-libro.vue")["default"]);
 Vue.component('nuevo-aporte', __webpack_require__(/*! ./components/nuevoAporte.vue */ "./resources/js/components/nuevoAporte.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -67033,6 +67849,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Biblioteca_list_vue_vue_type_template_id_ff989dac___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Biblioteca_list_vue_vue_type_template_id_ff989dac___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Buscar-libro.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/Buscar-libro.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Buscar_libro_vue_vue_type_template_id_391e7d98___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Buscar-libro.vue?vue&type=template&id=391e7d98& */ "./resources/js/components/Buscar-libro.vue?vue&type=template&id=391e7d98&");
+/* harmony import */ var _Buscar_libro_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Buscar-libro.vue?vue&type=script&lang=js& */ "./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Buscar_libro_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Buscar_libro_vue_vue_type_template_id_391e7d98___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Buscar_libro_vue_vue_type_template_id_391e7d98___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Buscar-libro.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Buscar_libro_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Buscar-libro.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Buscar_libro_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Buscar-libro.vue?vue&type=template&id=391e7d98&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/Buscar-libro.vue?vue&type=template&id=391e7d98& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Buscar_libro_vue_vue_type_template_id_391e7d98___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Buscar-libro.vue?vue&type=template&id=391e7d98& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Buscar-libro.vue?vue&type=template&id=391e7d98&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Buscar_libro_vue_vue_type_template_id_391e7d98___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Buscar_libro_vue_vue_type_template_id_391e7d98___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

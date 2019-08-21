@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -34,5 +35,9 @@ class HomeController extends Controller
     public function listaEjemplares()
     {
         return view('lista-ejemplares');
+    }
+
+    public function busquedaLibro(){
+        return view('buscar-libro');
     }
 }
