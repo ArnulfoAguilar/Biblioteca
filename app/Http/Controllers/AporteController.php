@@ -115,9 +115,52 @@ class AporteController extends Controller
      * @param  \App\Aporte  $aporte
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Aporte $aporte)
+    public function update(Request $request, $aporteid)
     {
-        //
+        
+        $detalle=$request->DESCRIPCION;
+        $dom = new \domdocument();
+        $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
+        $images = $dom->getelementsbytagname('img');
+        foreach($images as $k => $img)
+        {
+            $data = $img->getattribute('src');
+            //dd(count(explode(';', $data)));
+            if (count(explode(';', $data)) == 1) {
+                //si entra aqui es porque ya existe la 
+                //imagen en el servidor asi que la saltara 
+            }else {
+                list($type, $data) = explode(';', $data);
+                list(, $data)= explode(',', $data);
+                $data = base64_decode($data);
+                $image_name= auth()->id().time().$k.'.png';           
+                $path = public_path().'/aportesImages/'. $image_name;
+                file_put_contents($path, $data);
+                $img->removeattribute('src');
+                $img->setattribute('src', "/aportesImages/". $image_name);
+            }
+        }
+        $detalle = $dom->savehtml();
+        
+        $Aporte = Aporte::find($aporteid);
+        $Aporte->TITULO = $request->TITULO;
+        $Aporte->DESCRIPCION = $detalle;
+        $Aporte->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
+        if ($request->ID_AREA != null) {
+            $Aporte->ID_AREA = $request->ID_AREA;
+        }
+        $Aporte->ID_TIPO_APORTE = 1;
+        if($request->customSwitch3 == '' || $request->customSwitch3 == null){
+            $Aporte->COMENTARIOS = false;
+        }else{
+            $Aporte->COMENTARIOS = true;
+        }
+        
+        //$Aporte->ID_USUARIO = auth()->id();
+        $Aporte->Save();
+
+        return redirect()->route('aportes.show',['aporte' => $Aporte]);
+
     }
 
     /**

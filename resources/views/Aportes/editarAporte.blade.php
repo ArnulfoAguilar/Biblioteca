@@ -28,8 +28,9 @@ Editar
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;">Editar Aporte</div>
 
                     <div class="card-body">
-                        <form  action="{{ route('aportes.store') }}" method="post">
-                            {{ csrf_field() }}
+                        <form  action="{{ route('aportes.update', $aporte->id) }}" method="post">
+                            {{ csrf_field() }}  
+                            {{ method_field('PUT') }}                         
                                 <div class="row">
                                 <div class="form-group col-md-6 col-xs-12">
                                     <label for="Titulo">Titulo</label>
@@ -67,7 +68,11 @@ Editar
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    <input type="checkbox" class="custom-control-input" value="{{ $aporte->COMENTARIOS }}" id="customSwitch3" name="customSwitch3" >
+                                    @if ( $aporte->COMENTARIOS )
+                                    <input type="checkbox" class="custom-control-input" checked id="customSwitch3" name="customSwitch3" >
+                                    @endif
+                                    
+                                    <input type="checkbox" class="custom-control-input"  id="customSwitch3" name="customSwitch3" >
                                     <label class="custom-control-label" for="customSwitch3">¿Permitir comentarios?</label>
                                     </div>
                                 </div>     
