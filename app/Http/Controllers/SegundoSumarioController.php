@@ -22,7 +22,7 @@ class SegundoSumarioController extends Controller
         ];
         foreach ($segundoSumarios as $key => $value) {
             $data[$key+1] =[
-                'id'   => $value->ID_SEGUNDO_SUMARIO,
+                'id'   => $value->id,
                 'text' => $value->DESCRIPCION,
             ];
         }
