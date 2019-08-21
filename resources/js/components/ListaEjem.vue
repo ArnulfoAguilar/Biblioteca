@@ -227,6 +227,7 @@
             },
             eliminarEjemplar(EJEMPLAR, index){
                 // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+                console.log(EJEMPLAR.id);
                 const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
                 if(confirmacion){
                     axios.delete(`/ejemplars/${EJEMPLAR.id}`)

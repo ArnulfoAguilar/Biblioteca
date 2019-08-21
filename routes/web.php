@@ -17,39 +17,37 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// ------------------------------- RUTAS DEL MODULO BIBLIOTECA ------------------------------//
+
+Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
+Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
+Route::get('/bublioteca/imprimir', 'LibroController@Tags')->name('imprimir');
+
+// ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
+
+Route::get('/inventario/bibliotecas', 'BibliotecaController@biblioteca')->name('biblioteca');
+Route::resource('/Biblioteca','BibliotecaController');
+Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
+Route::resource('/ejemplars','EjemplarController');
+Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
 Route::resource('/Ejemplar','EjemplarController');
-// Route::resource('/Ejemplar','EjemplarController');
+
+// ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
+
+Route::resource('/aportes','AporteController');
+Route::resource('/revisiones','RevisionController');
+
+
+// ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
+
+// -----------------------------------------OTRAS RUTAS -------------------------------------//
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/PrimerSumarioSelect','PrimerSumarioController@primerSumarioSelect');
 Route::get('/SegundoSumarioSelect/{id}','segundoSumarioController@segundoSumarioSelect');
 Route::get('/TercerSumarioSelect/{id}','tercerSumarioController@tercerSumarioSelect');
-Route::resource('/ejemplars','EjemplarController');
-Route::get('/busqueda', 'HomeController@busqueda')->name('busqueda');
-
-Route::get('/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
-/* RUTAS PARA IMPRIMIR ETIQUETAS CON CODIGO DE BARRA*/
-Route::get('/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
-Route::get('/imprimir', 'LibroController@Tags')->name('imprimir');
-/* FIN RUTAS PARA IMPRIMIR ETIQUETAS CON CODIGO DE BARRA*/
-
-/*Rutas para el CRUD biblioteca*/
-Route::get('/Bibliotecaliv', 'BibliotecaController@biblioteca')->name('biblioteca');
-Route::resource('/Biblioteca','BibliotecaController');
-/*Rutas para el CRUD biblioteca*/
-
-/*Rutas Aportes*/
-Route::resource('/aportes','AporteController');
-/*Rutas Aportes*/
 
 /*RUTA para select de Area*/
 Route::get('/area','AreaController@areaSelect')->name('areas');
 /*RUTA para select de Area*/
-
-Route::get('/inventario/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
-Route::resource('/ejemplars','EjemplarController');
-
-Route::get('/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
-
-/*Rutas Revisiones*/
-Route::resource('/revisiones','RevisionController');
-/*Rutas Revisiones*/
