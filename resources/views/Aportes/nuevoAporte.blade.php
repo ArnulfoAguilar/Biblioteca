@@ -4,6 +4,17 @@
 
 -->
 @endsection
+@section('Encabezado')
+Nuevo Aporte Escrito   
+@endsection
+
+@section('breadcrumbs')
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="#">Aportes</a></li>
+    <li class="breadcrumb-item active">Nuevo Aporte Escrito</li>
+  </ol>
+@endsection
+
 @section('content')
     @if (session('status'))
         <div class="alert alert-success" role="alert">
@@ -14,7 +25,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Nuevo Aporte</div>
+                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">Nuevo Aporte</div>
 
                     <div class="card-body">
                         <form  action="{{ route('aportes.store') }}" method="post">
@@ -54,7 +65,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch3" name="customSwitch3">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch3" name="customSwitch3" >
                                     <label class="custom-control-label" for="customSwitch3">¿Permitir comentarios?</label>
                                     </div>
                                 </div>     

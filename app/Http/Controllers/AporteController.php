@@ -6,6 +6,7 @@ use App\Aporte;
 use App\Area;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AporteController extends Controller
 {
@@ -38,10 +39,28 @@ class AporteController extends Controller
      */
     public function store(Request $request)
     {
+        $detalle=$request->DESCRIPCION;
+        $dom = new \domdocument();
+        $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
+        $images = $dom->getelementsbytagname('img');
+        foreach($images as $k => $img)
+        {
+            $data = $img->getattribute('src');
+            list($type, $data) = explode(';', $data);
+            list(, $data)= explode(',', $data);
+            $data = base64_decode($data);
+            $image_name= auth()->id().time().$k.'.png';           
+            $path = public_path().'/aportesImages/'. $image_name;
+            file_put_contents($path, $data);
+            $img->removeattribute('src');
+            $img->setattribute('src', "/aportesImages/". $image_name);
+            
+        }
+        $detalle = $dom->savehtml();
         
         $Aporte = new Aporte();
         $Aporte->TITULO = $request->TITULO;
-        $Aporte->DESCRIPCION = $request->DESCRIPCION;
+        $Aporte->DESCRIPCION = $detalle;
         $Aporte->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
         $Aporte->ID_AREA = $request->ID_AREA;
         $Aporte->ID_TIPO_APORTE = 1;
@@ -53,6 +72,7 @@ class AporteController extends Controller
         
         $Aporte->ID_USUARIO = auth()->id();
         $Aporte->Save();
+
         return redirect()->route('aportes.show',['aporte' => $Aporte]);
         
     }
@@ -65,7 +85,7 @@ class AporteController extends Controller
      */
     public function show(Aporte $aporte)
     {
-       // dd($aporte);
+        //dd($aporte);
         return view('Aportes.verAporte')->with(['aporte' => $aporte]);
         
     }
@@ -76,9 +96,16 @@ class AporteController extends Controller
      * @param  \App\Aporte  $aporte
      * @return \Illuminate\Http\Response
      */
-    public function edit(Aporte $aporte)
+    public function edit($id)
     {
-        //
+        $aporte = Aporte::find($id);
+        $Areas = Area::all();
+        $AreaSelec=Area::find($aporte->ID_AREA);
+        return view('Aportes.editarAporte')
+        ->with(['aporte' => $aporte])
+        ->with(['Areas' => $Areas])
+        ->with(['AreaSelec' => $AreaSelec]);
+
     }
 
     /**
