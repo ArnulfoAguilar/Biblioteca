@@ -59,9 +59,18 @@
                     <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}"></revisiones>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <input class="col-md-12 form-control form-control-lg" placeholder="Escribe un comentario..." v-model="search">
+                    </div>
+                    <div class="card-body">
+                    <comentarios></comentarios>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>    
+    </div>
     
     
 
