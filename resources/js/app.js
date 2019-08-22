@@ -26,7 +26,7 @@ Vue.component('select2', require('./components/select.vue').default);
 Vue.component('lista-ejem', require('./components/ListaEjem.vue').default);
 Vue.component('biblioteca-list', require('./components/Biblioteca-list.vue').default);
 Vue.component('buscar-libro', require('./components/Buscar-libro.vue').default);
-Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
+//Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
 
 
