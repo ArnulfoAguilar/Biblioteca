@@ -23,7 +23,7 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-atlas"></i>
               <p>
                 Biblioteca
                 <i class="right fas fa-angle-left"></i>
@@ -53,7 +53,7 @@
           <!--inventario-->
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-book"></i>
               <p>
                 Inventario
                 <i class="right fas fa-angle-left"></i>
@@ -89,7 +89,7 @@
           <!--aportes-->
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
                 Aportes
                 <i class="right fas fa-angle-left"></i>
@@ -113,7 +113,7 @@
           <!--adquisiciones-->
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-archive"></i>
               <p>
                 Adquisiciones
                 <i class="right fas fa-angle-left"></i>

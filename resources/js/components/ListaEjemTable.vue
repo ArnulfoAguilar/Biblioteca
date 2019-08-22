@@ -1,11 +1,11 @@
 <template>
         <div>
-                <JDTable
-                    :option="tableOptions"
-                    :loader="tableLoader"
-                    :event-from-app="eventFromApp"
-                    :event-from-app-trigger="eventFromAppTrigger"
-                    @event-from-jd-table="processEventFromApp($event)"/>
+            <JDTable
+                :option="tableOptions"
+                :loader="tableLoader"
+                :event-from-app="eventFromApp"
+                :event-from-app-trigger="eventFromAppTrigger"
+                @event-from-jd-table="processEventFromApp($event)"/>
             <iframe id="excelExportArea" style="display:none"></iframe>
         </div>
 </template>
@@ -24,7 +24,7 @@ export default {
             columns: [
                     {
                         name:'EJEMPLAR',
-                        title:'Nombre ejemplar',
+                        title:'Ejemplar',
                         order: 1,
                         sort: true,
                         type: 'string',
@@ -33,7 +33,7 @@ export default {
                     },
                     {
                         name:'AUTOR',
-                        title:'Autor del ejemplar',
+                        title:'Autor',
                         order: 2,
                         sort: true,
                         type: 'string',
@@ -56,17 +56,28 @@ export default {
     created(){
         this.tableOptions = {
             columns: this.columns,
-            responsiveTable: true
+            responsiveTable: true,
+            addNew: true,
+            deleteItem: true
         };
+        this.sendData();
         console.log('componente creado')
     },
     mounted(){
-        this.sendData();
         console.log('tabla montada')
     },
     methods:{
         sendData(){
             this.tableLoader = true;
+            /*axios.get('/Biblioteca').then(res=>{
+                this.eventFromApp = {
+                    name: 'sendData',
+                    payload: res.data
+                };
+                this.triggerEvent();
+                this.tableLoader = false;
+                //this.bibliotecas = res.data;
+                });*/
             this.getData().then((result)=>
             {
                 this.eventFromApp = {
@@ -74,7 +85,7 @@ export default {
                     payload: result
                 };
                 this.triggerEvent();
-                this.tableLoader = true;
+                this.tableLoader = false;
             });
 
         },
@@ -93,6 +104,9 @@ export default {
                     };
                     this.triggerEvent();
                 })
+            }
+            if (componentState.lastAction ==='AddItem') {
+                window.location.href='/busqueda';
             }
         },
         getData(){
