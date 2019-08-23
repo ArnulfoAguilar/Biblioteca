@@ -23,6 +23,6 @@ class Ejemplar extends Model
     
     public function libros()
     {
-        return $this->hasMany('App\Libro', 'ID_EJEMPLAR');
+        return $this->hasMany('App\Libro', 'ID_EJEMPLAR', 'id');
     }
 }

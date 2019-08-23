@@ -18,7 +18,7 @@ class Libro extends Model
 
     public function ejemplar()
     {
-        return $this->belongsTo('App\Ejemplar', 'ID_EJEMPLAR');
+        return $this->belongsTo('App\Ejemplar', 'ID_EJEMPLAR', 'id');
     }
     
 }
