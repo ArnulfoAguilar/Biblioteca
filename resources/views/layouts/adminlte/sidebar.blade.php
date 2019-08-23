@@ -23,7 +23,8 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview {{ ( request()->is('biblioteca/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('biblioteca/*') ) ? 'active' : '' }}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-atlas"></i>
+
               <p>
                 Biblioteca
                 <i class="right fas fa-angle-left"></i>
@@ -59,7 +60,8 @@
           <!--inventario-->
           <li class="nav-item has-treeview {{ ( request()->is('inventario/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('inventario/*') ) ? 'active' : '' }}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-book"></i>
+
               <p>
                 Inventario
                 <i class="right fas fa-angle-left"></i>
@@ -93,9 +95,9 @@
             </ul>
           </li>
           <!--aportes-->
-          <li class="nav-item has-treeview {{ ( request()->is('aportes/*') ) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ ( request()->is('aportes/*') ) ? 'active' : '' }}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
                 Aportes
                 <i class="right fas fa-angle-left"></i>
@@ -119,7 +121,7 @@
           <!--adquisiciones-->
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-archive"></i>
               <p>
                 Adquisiciones
                 <i class="right fas fa-angle-left"></i>

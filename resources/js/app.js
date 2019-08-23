@@ -1,3 +1,5 @@
+import JDTable from 'vue-jd-table/src/jd-table.vue';
+import 'vue-jd-table/dist/jd-table.min.css';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -21,11 +23,14 @@ window.toastr = require('toastr');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('JDTable', JDTable);
 Vue.component('busqueda-api', require('./components/BusquedaApi.vue').default);
 Vue.component('select2', require('./components/select.vue').default);
 Vue.component('lista-ejem', require('./components/ListaEjem.vue').default);
 Vue.component('biblioteca-list', require('./components/Biblioteca-list.vue').default);
 Vue.component('buscar-libro', require('./components/Buscar-libro.vue').default);
+Vue.component('lista-ejem-table', require('./components/ListaEjemTable.vue').default);
+Vue.component('ejemplar-component',require('./components/EjemplarComponent.vue').default);
 Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
 
@@ -42,6 +47,6 @@ const app = new Vue({
 
 $(document).ready(function(){
     $('#Summernote').summernote({
-        focus: true      
+        focus: true
     });
 });
