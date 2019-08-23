@@ -2326,11 +2326,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      /*Estos son los parametros que recibe el componente
+       *de la tabla, tableOptions y columns seran los que
+       *mas cambien dependiendo de la circunstancia en que
+       *se necesite la tabla. columns es la configuracion
+       *de las columnas en la tabla, este arreglo contendra
+       *un objeto por columna que poseera la tabla*/
       tableOptions: {},
       tableLoader: false,
       eventFromAppTrigger: false,
@@ -2364,8 +2368,9 @@ __webpack_require__.r(__webpack_exports__);
         enabled: true
       }],
 
-      /*Aca comienzan las variables del modelo, las variables anteriores son de la tabla
-      * despues profundizare esto*/
+      /*isEditing nos hace la distincion si se esta editando o
+       *ingresando un nuevo registro, y los titulos son los
+       *del modal segun la situacion*/
       search: '',
       ejemplars: [],
       modoEditar: false,
@@ -2380,11 +2385,12 @@ __webpack_require__.r(__webpack_exports__);
       isEditing: false,
       createTitle: 'Agregar Ejemplar',
       editTitle: 'Editar Ejemplar',
-      titleToShow: '',
-      submit: function submit() {}
+      titleToShow: ''
     };
   },
   created: function created() {
+    /*en la creacion del componente, se establecen las opciones
+     *de la tabla*/
     this.tableOptions = {
       columns: this.columns,
       responsiveTable: true,
@@ -2402,6 +2408,7 @@ __webpack_require__.r(__webpack_exports__);
     sendData: function sendData() {
       var _this = this;
 
+      debugger;
       this.tableLoader = true;
       axios.get('/ejemplars').then(function (res) {
         _this.ejemplars = res.data;
@@ -2423,6 +2430,9 @@ __webpack_require__.r(__webpack_exports__);
         _this2.eventFromAppTrigger = false;
       });
     },
+
+    /*este metodo contiene las acciones de la tabla, todo depende del
+     *evento realizado es lo que hara la funcion*/
     processEventFromApp: function processEventFromApp(componentState) {
       var _this3 = this;
 
@@ -2456,13 +2466,20 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
 
-    /*metodos del componente anterior. igual que en el data, lo anterior es codigo
-    * de la tabla. no ha cambiado mucho, solo la forma de actualizar el contenido
-    * que se va a listar despues de insertar un registro*/
-    agregar: function agregar() {
+    /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
+     *escena la variable del data isEditing*/
+    guardar: function guardar() {
       var _this4 = this;
 
-      var ejemplarNuevo = this.EJEMPLAR;
+      var ejemplarToSave = this.EJEMPLAR;
+      var msg = this.isEditing ? 'Editado correctamente' : 'Agregado correctamente';
+      if (this.isEditing) axios.put("/ejemplars/".concat(this.EJEMPLAR.id), ejemplarToSave).then(function (res) {
+        _this4.modoEditar = false;
+
+        _this4.success(msg);
+      });else axios.post('/ejemplars', ejemplarToSave).then(function (res) {
+        _this4.success(msg);
+      });
       this.EJEMPLAR = {
         EJEMPLAR: '',
         DESCRIPCION: '',
@@ -2471,16 +2488,7 @@ __webpack_require__.r(__webpack_exports__);
         NUMERO_PAGINAS: '',
         COPIAS: ''
       };
-      axios.post('/ejemplars', ejemplarNuevo).then(function (res) {
-        toastr.clear();
-        toastr.options.closeButton = true;
-        toastr.success('Agregado correctamente', 'Exito');
-
-        _this4.sendData();
-
-        console.log("Guardado");
-        $("#modalAgregar").modal('hide');
-      });
+      $("#modalAgregar").modal('hide');
     },
     editarFormulario: function editarFormulario(item) {
       this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
@@ -2492,40 +2500,8 @@ __webpack_require__.r(__webpack_exports__);
       this.EJEMPLAR.id = item.id;
       this.isEditing = true;
     },
-    editarEjemplar: function editarEjemplar(EJEMPLAR) {
-      var _this5 = this;
-
-      var params = {
-        EJEMPLAR: EJEMPLAR.EJEMPLAR,
-        DESCRIPCION: EJEMPLAR.DESCRIPCION,
-        ISBN: EJEMPLAR.ISBN,
-        AUTOR: EJEMPLAR.AUTOR,
-        NUMERO_PAGINAS: EJEMPLAR.NUMERO_PAGINAS,
-        COPIAS: EJEMPLAR.COPIAS
-      };
-      axios.put("/ejemplars/".concat(EJEMPLAR.id), params).then(function (res) {
-        _this5.modoEditar = false;
-        _this5.EJEMPLAR = {
-          EJEMPLAR: '',
-          DESCRIPCION: '',
-          ISBN: '',
-          AUTOR: '',
-          NUMERO_PAGINAS: '',
-          COPIAS: ''
-        };
-
-        _this5.sendData(); // alert("Editado correctamente");
-
-
-        console.log("Editado correctamente");
-        toastr.clear();
-        toastr.options.closeButton = true;
-        toastr.success('Editado correctamente', 'Exito');
-        $("#modalEditar").modal('hide');
-      });
-    },
     eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
-      var _this6 = this;
+      var _this5 = this;
 
       // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
       var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
@@ -2534,7 +2510,7 @@ __webpack_require__.r(__webpack_exports__);
         axios["delete"]("/ejemplars/".concat(EJEMPLAR.id)).then(function () {
           toastr.clear();
 
-          _this6.sendData();
+          _this5.sendData();
 
           toastr.options.closeButton = true;
           toastr.success('Eliminado correctamente', 'Exito');
@@ -2553,16 +2529,15 @@ __webpack_require__.r(__webpack_exports__);
         COPIAS: ''
       };
     },
-    submitFunction: function submitFunction(item) {
-      var submit;
 
-      if (isEditing && item !== undefined) {
-        submit = this.editarEjemplar;
-      } else {
-        submit = this.agregar;
-      }
-
-      return submit;
+    /*este metodo se ejecuta en respuesta de la promesa del axios
+     *basicamente es el toastr indicandonos el exitos de la operacion
+     *y la actualizacion del contenido de la tabla*/
+    success: function success(msg) {
+      this.sendData();
+      toastr.clear();
+      toastr.options.closeButton = true;
+      toastr.success(msg, 'Exito');
     }
   }
 });
@@ -61113,7 +61088,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.submit($event)
+                    return _vm.guardar($event)
                   }
                 }
               },

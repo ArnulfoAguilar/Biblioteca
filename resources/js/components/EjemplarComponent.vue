@@ -1,8 +1,6 @@
 <template>
-<!--La onda esta asi xD: Como JDTable trae un monton de opciones, la idea seria usarlas para facilitarnos
-    en cierta forma, solo que hay q leer la documentacion del plugin ese. Si ven, el template del componente
-    solo tiene la tabla y un modal que seria el formulario para agregar un registro o editar un registro-->
     <div>
+        <!--Tabla para visualizacion de ejemplares-->
         <JDTable
             :option="tableOptions"
             :loader="tableLoader"
@@ -11,60 +9,60 @@
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
 
-        <!-- Modal para agregar-->
-            <div id="modalAgregar" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <form @submit.prevent="submit" >
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">{{titleToShow}}</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <!-- Modal con el formulario para agregar un nuevo libro o editar uno existente-->
+        <div id="modalAgregar" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <form @submit.prevent="guardar" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{titleToShow}}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="NOMBRE">Nombre</label>
+                                <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
+                                    aria-describedby="emailHelp" required>
                             </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="NOMBRE">Nombre</label>
-                                    <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
-                                        aria-describedby="emailHelp" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="DESCRIPCION">Descripción</label>
-                                    <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
-                                        rows="3" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="ISBN">ISBN</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
-                                        aria-describedby="emailHelp" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="AUTOR">AUTOR/es</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
-                                        aria-describedby="emailHelp" required>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="PAGINAS">Numero de paginas</label>
-                                        <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
-                                            aria-describedby="emailHelp" required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="copias">Numero de copias</label>
-                                        <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
-                                            aria-describedby="emailHelp" required>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="DESCRIPCION">Descripción</label>
+                                <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
+                                    rows="3" required></textarea>
                             </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit">Guardar Ejemplar</button>
-                                <button class="btn btn-danger" type="submit"
-                                    @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
+                            <div class="form-group">
+                                <label for="ISBN">ISBN</label>
+                                <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
+                                    aria-describedby="emailHelp" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="AUTOR">AUTOR/es</label>
+                                <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
+                                    aria-describedby="emailHelp" required>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="PAGINAS">Numero de paginas</label>
+                                    <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
+                                        aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="copias">Numero de copias</label>
+                                    <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
+                                        aria-describedby="emailHelp" required>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Guardar Ejemplar</button>
+                            <button class="btn btn-danger" type="submit"
+                                @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <!-- fin modal agregar -->
+        </div>
+        <!-- fin modal agregar -->
     </div>
 </template>
 
@@ -72,6 +70,12 @@
 export default {
     data(){
         return {
+            /*Estos son los parametros que recibe el componente
+             *de la tabla, tableOptions y columns seran los que
+             *mas cambien dependiendo de la circunstancia en que
+             *se necesite la tabla. columns es la configuracion
+             *de las columnas en la tabla, este arreglo contendra
+             *un objeto por columna que poseera la tabla*/
             tableOptions:{},
             tableLoader: false,
             eventFromAppTrigger: false,
@@ -108,8 +112,9 @@ export default {
                     enabled: true
                 }
             ],
-            /*Aca comienzan las variables del modelo, las variables anteriores son de la tabla
-            * despues profundizare esto*/
+            /*isEditing nos hace la distincion si se esta editando o
+             *ingresando un nuevo registro, y los titulos son los
+             *del modal segun la situacion*/
             search:'',
             ejemplars: [],
             modoEditar: false,
@@ -117,11 +122,12 @@ export default {
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
             editTitle: 'Editar Ejemplar',
-            titleToShow: '',
-            submit: function(){}
+            titleToShow: ''
         }
     },
     created(){
+        /*en la creacion del componente, se establecen las opciones
+         *de la tabla*/
         this.tableOptions = {
             columns: this.columns,
             responsiveTable: true,
@@ -137,6 +143,7 @@ export default {
     },
     methods:{
         sendData(){
+            debugger;
             this.tableLoader = true;
             axios.get('/ejemplars').then(res=>{
                 this.ejemplars=res.data;
@@ -154,6 +161,8 @@ export default {
                 this.eventFromAppTrigger = false;
             });
         },
+        /*este metodo contiene las acciones de la tabla, todo depende del
+         *evento realizado es lo que hara la funcion*/
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
                 axios.get('/ejemplars').then((result)=>{
@@ -180,85 +189,61 @@ export default {
                 this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
             }
         },
-        /*metodos del componente anterior. igual que en el data, lo anterior es codigo
-        * de la tabla. no ha cambiado mucho, solo la forma de actualizar el contenido
-        * que se va a listar despues de insertar un registro*/
-        agregar() {
-                const ejemplarNuevo = this.EJEMPLAR;
-                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
-                axios.post('/ejemplars', ejemplarNuevo)
-                    .then((res) =>{
+        /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
+         *escena la variable del data isEditing*/
+        guardar() {
+            const ejemplarToSave = this.EJEMPLAR;
+            const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
+            if(this.isEditing)
+                axios.put(`/ejemplars/${this.EJEMPLAR.id}`, ejemplarToSave).then(res=>{
+                    this.modoEditar = false;
+                    this.success(msg);
+                });
+            else
+                axios.post('/ejemplars', ejemplarToSave).then((res) =>{
+                    this.success(msg);
+                });
+            this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
+            $("#modalAgregar").modal('hide');
+        },
+        editarFormulario(item){
+        this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
+        this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
+        this.EJEMPLAR.ISBN = item.ISBN;
+        this.EJEMPLAR.AUTOR = item.AUTOR;
+        this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
+        this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
+        this.EJEMPLAR.id = item.id;
+        this.isEditing = true;
+        },
+        eliminarEjemplar(EJEMPLAR, index){
+            // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+            const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
+            if(confirmacion){
+                axios.delete(`/ejemplars/${EJEMPLAR.id}`)
+                .then(()=>{
                     toastr.clear();
-                    toastr.options.closeButton = true;
-                    toastr.success('Agregado correctamente', 'Exito');
                     this.sendData();
-                    console.log("Guardado");
-                    $("#modalAgregar").modal('hide');
-                    })
-            },
-            editarFormulario(item){
-            this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
-            this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
-            this.EJEMPLAR.ISBN = item.ISBN;
-            this.EJEMPLAR.AUTOR = item.AUTOR;
-            this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
-            this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
-
-            this.EJEMPLAR.id = item.id;
-            this.isEditing = true;
-            },
-            editarEjemplar(EJEMPLAR){
-            const params = {
-                EJEMPLAR: EJEMPLAR.EJEMPLAR,
-                DESCRIPCION: EJEMPLAR.DESCRIPCION,
-                ISBN: EJEMPLAR.ISBN,
-                AUTOR: EJEMPLAR.AUTOR,
-                NUMERO_PAGINAS: EJEMPLAR.NUMERO_PAGINAS,
-                COPIAS: EJEMPLAR.COPIAS
-                };
-            axios.put(`/ejemplars/${EJEMPLAR.id}`, params)
-                .then(res=>{
-                this.modoEditar = false;
-                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
-                this.sendData();
-                // alert("Editado correctamente");
-                console.log("Editado correctamente");
-                toastr.clear();
-                toastr.options.closeButton = true;
-                toastr.success('Editado correctamente', 'Exito');
-                $("#modalEditar").modal('hide');
+                    toastr.options.closeButton = true;
+                    toastr.success('Eliminado correctamente', 'Exito');
+                    console.log("EJEMPLAR ELIMINADO");
                 })
-
-            },
-            eliminarEjemplar(EJEMPLAR, index){
-                // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-                const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
-                if(confirmacion){
-                    axios.delete(`/ejemplars/${EJEMPLAR.id}`)
-                    .then(()=>{
-                        toastr.clear();
-                        this.sendData();
-                        toastr.options.closeButton = true;
-                        toastr.success('Eliminado correctamente', 'Exito');
-                        console.log("EJEMPLAR ELIMINADO");
-                    })
-                }
-            },
-            cancelarEdicion(){
-                this.modoEditar = false;
-                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
-            },
-            submitFunction(item){
-                var submit;
-                if (isEditing && item!==undefined) {
-                    submit = this.editarEjemplar;
-                } else {
-                    submit = this.agregar;
-                }
-                return submit;
             }
+        },
+        cancelarEdicion(){
+            this.modoEditar = false;
+            this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
+        },
+        /*este metodo se ejecuta en respuesta de la promesa del axios
+         *basicamente es el toastr indicandonos el exitos de la operacion
+         *y la actualizacion del contenido de la tabla*/
+        success(msg){
+            this.sendData();
+            toastr.clear();
+            toastr.options.closeButton = true;
+            toastr.success(msg, 'Exito');
+        }
     }
-
 }
 </script>
 
