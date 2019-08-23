@@ -2503,6 +2503,301 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EjemplarComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EjemplarComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      /*Estos son los parametros que recibe el componente
+       *de la tabla, tableOptions y columns seran los que
+       *mas cambien dependiendo de la circunstancia en que
+       *se necesite la tabla. columns es la configuracion
+       *de las columnas en la tabla, este arreglo contendra
+       *un objeto por columna que poseera la tabla*/
+      tableOptions: {},
+      tableLoader: false,
+      eventFromAppTrigger: false,
+      eventFromApp: {
+        name: null,
+        data: null
+      },
+      columns: [{
+        name: 'EJEMPLAR',
+        title: 'Ejemplar',
+        order: 1,
+        sort: true,
+        type: 'string',
+        filterable: true,
+        enabled: true
+      }, {
+        name: 'AUTOR',
+        title: 'Autor',
+        order: 2,
+        sort: true,
+        type: 'string',
+        filterable: true,
+        enabled: true
+      }, {
+        name: 'ISBN',
+        title: 'ISBN',
+        order: 3,
+        sort: true,
+        type: 'string',
+        filterable: true,
+        enabled: true
+      }],
+
+      /*isEditing nos hace la distincion si se esta editando o
+       *ingresando un nuevo registro, y los titulos son los
+       *del modal segun la situacion*/
+      search: '',
+      ejemplars: [],
+      modoEditar: false,
+      EJEMPLAR: {
+        EJEMPLAR: '',
+        DESCRIPCION: '',
+        ISBN: '',
+        AUTOR: '',
+        NUMERO_PAGINAS: '',
+        COPIAS: ''
+      },
+      isEditing: false,
+      createTitle: 'Agregar Ejemplar',
+      editTitle: 'Editar Ejemplar',
+      titleToShow: ''
+    };
+  },
+  created: function created() {
+    /*en la creacion del componente, se establecen las opciones
+     *de la tabla*/
+    this.tableOptions = {
+      columns: this.columns,
+      responsiveTable: true,
+      addNew: true,
+      editItem: true,
+      deleteItem: true
+    };
+    this.sendData();
+    console.log('componente creado');
+  },
+  mounted: function mounted() {
+    console.log('tabla montada');
+  },
+  methods: {
+    sendData: function sendData() {
+      var _this = this;
+
+      debugger;
+      this.tableLoader = true;
+      axios.get('/ejemplars').then(function (res) {
+        _this.ejemplars = res.data;
+        _this.eventFromApp = {
+          name: 'sendData',
+          payload: _this.ejemplars
+        };
+
+        _this.triggerEvent();
+
+        _this.tableLoader = false;
+      });
+    },
+    triggerEvent: function triggerEvent() {
+      var _this2 = this;
+
+      this.eventFromAppTrigger = true;
+      this.$nextTick(function () {
+        _this2.eventFromAppTrigger = false;
+      });
+    },
+
+    /*este metodo contiene las acciones de la tabla, todo depende del
+     *evento realizado es lo que hara la funcion*/
+    processEventFromApp: function processEventFromApp(componentState) {
+      var _this3 = this;
+
+      if (componentState.lastAction === 'Refresh') {
+        axios.get('/ejemplars').then(function (result) {
+          _this3.ejemplars = result.data;
+          _this3.eventFromApp = {
+            name: 'sendData',
+            payload: _this3.ejemplars
+          };
+
+          _this3.triggerEvent();
+        });
+      }
+
+      if (componentState.lastAction === 'AddItem') {
+        this.submit = this.agregar;
+        this.titleToShow = this.createTitle;
+        $('#modalAgregar').modal('show');
+      }
+
+      if (componentState.lastAction === 'EditItem') {
+        this.submit = this.editarEjemplar;
+        this.titleToShow = this.editTitle;
+        this.editarFormulario(componentState.selectedItem);
+        $('#modalAgregar').modal('show');
+      }
+
+      if (componentState.lastAction === 'DeleteItem') {
+        this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
+      }
+    },
+
+    /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
+     *escena la variable del data isEditing*/
+    guardar: function guardar() {
+      var _this4 = this;
+
+      var ejemplarToSave = this.EJEMPLAR;
+      var msg = this.isEditing ? 'Editado correctamente' : 'Agregado correctamente';
+      if (this.isEditing) axios.put("/ejemplars/".concat(this.EJEMPLAR.id), ejemplarToSave).then(function (res) {
+        _this4.modoEditar = false;
+
+        _this4.success(msg);
+      });else axios.post('/ejemplars', ejemplarToSave).then(function (res) {
+        _this4.success(msg);
+      });
+      this.EJEMPLAR = {
+        EJEMPLAR: '',
+        DESCRIPCION: '',
+        ISBN: '',
+        AUTOR: '',
+        NUMERO_PAGINAS: '',
+        COPIAS: ''
+      };
+      $("#modalAgregar").modal('hide');
+    },
+    editarFormulario: function editarFormulario(item) {
+      this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
+      this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
+      this.EJEMPLAR.ISBN = item.ISBN;
+      this.EJEMPLAR.AUTOR = item.AUTOR;
+      this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
+      this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
+      this.EJEMPLAR.id = item.id;
+      this.isEditing = true;
+    },
+    eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
+      var _this5 = this;
+
+      // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+      var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
+
+      if (confirmacion) {
+        axios["delete"]("/ejemplars/".concat(EJEMPLAR.id)).then(function () {
+          toastr.clear();
+
+          _this5.sendData();
+
+          toastr.options.closeButton = true;
+          toastr.success('Eliminado correctamente', 'Exito');
+          console.log("EJEMPLAR ELIMINADO");
+        });
+      }
+    },
+    cancelarEdicion: function cancelarEdicion() {
+      this.modoEditar = false;
+      this.EJEMPLAR = {
+        EJEMPLAR: '',
+        DESCRIPCION: '',
+        ISBN: '',
+        AUTOR: '',
+        NUMERO_PAGINAS: '',
+        COPIAS: ''
+      };
+    },
+
+    /*este metodo se ejecuta en respuesta de la promesa del axios
+     *basicamente es el toastr indicandonos el exitos de la operacion
+     *y la actualizacion del contenido de la tabla*/
+    success: function success(msg) {
+      this.sendData();
+      toastr.clear();
+      toastr.options.closeButton = true;
+      toastr.success(msg, 'Exito');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -2545,6 +2840,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2848,6 +3145,156 @@ __webpack_require__.r(__webpack_exports__);
 
       return this.ejemplars.filter(function (item) {
         return item.EJEMPLAR.includes(_this6.search) || item.AUTOR.includes(_this6.search) || item.ISBN.includes(_this6.search);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjemTable.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListaEjemTable.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      tableOptions: {},
+      tableLoader: false,
+      eventFromAppTrigger: false,
+      eventFromApp: {
+        name: null,
+        data: null
+      },
+      columns: [{
+        name: 'EJEMPLAR',
+        title: 'Ejemplar',
+        order: 1,
+        sort: true,
+        type: 'string',
+        filterable: true,
+        enabled: true
+      }, {
+        name: 'AUTOR',
+        title: 'Autor',
+        order: 2,
+        sort: true,
+        type: 'string',
+        filterable: true,
+        enabled: true
+      }, {
+        name: 'ISBN',
+        title: 'ISBN',
+        order: 3,
+        sort: true,
+        type: 'string',
+        filterable: true,
+        enabled: true
+      }]
+    };
+  },
+  created: function created() {
+    this.tableOptions = {
+      columns: this.columns,
+      responsiveTable: true,
+      addNew: true,
+      deleteItem: true
+    };
+    this.sendData();
+    console.log('componente creado');
+  },
+  mounted: function mounted() {
+    console.log('tabla montada');
+  },
+  methods: {
+    sendData: function sendData() {
+      var _this = this;
+
+      this.tableLoader = true;
+      /*axios.get('/Biblioteca').then(res=>{
+          this.eventFromApp = {
+              name: 'sendData',
+              payload: res.data
+          };
+          this.triggerEvent();
+          this.tableLoader = false;
+          //this.bibliotecas = res.data;
+          });*/
+
+      this.getData().then(function (result) {
+        _this.eventFromApp = {
+          name: 'sendData',
+          payload: result
+        };
+
+        _this.triggerEvent();
+
+        _this.tableLoader = false;
+      });
+    },
+    triggerEvent: function triggerEvent() {
+      var _this2 = this;
+
+      this.eventFromAppTrigger = true;
+      this.$nextTick(function () {
+        _this2.eventFromAppTrigger = false;
+      });
+    },
+    processEventFromApp: function processEventFromApp(componentState) {
+      var _this3 = this;
+
+      if (componentState.lastAction === 'Refresh') {
+        this.getData.then(function (result) {
+          _this3.eventFromApp = {
+            name: 'sendData',
+            payload: result
+          };
+
+          _this3.triggerEvent();
+        });
+      }
+
+      if (componentState.lastAction === 'AddItem') {
+        window.location.href = '/busqueda';
+      }
+    },
+    getData: function getData() {
+      return new Promise(function (resolve, reject) {
+        var data = [// Row 1
+        {
+          EJEMPLAR: 'Burger King',
+          AUTOR: 'James McLamore',
+          ISBN: '98439573945'
+        }, // Row 2
+        {
+          EJEMPLAR: 'Mc Donalds',
+          AUTOR: 'Maurice McDonald',
+          ISBN: '353453453453' // Row 3
+
+        }, {
+          EJEMPLAR: 'Wendies',
+          AUTOR: 'Dave Thomas',
+          ISBN: '132321547' // etc.
+
+        }];
+        resolve(data);
       });
     }
   }
@@ -7458,6 +7905,25 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-jd-table/dist/jd-table.min.css":
+/*!*****************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-jd-table/dist/jd-table.min.css ***!
+  \*****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".jd-table {\r\n  position: relative;\r\n  min-width: 320px;\r\n  width: 100%;\r\n  background-color: #FFFFFF;\r\n  color: #252627;\r\n  font-size: 0.9rem;\r\n  font-weight: 400;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-direction: column;\r\n  -webkit-box-pack: center;\r\n          justify-content: center;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  align-content: center;\r\n  align-self: center;\r\n  z-index: 1;\r\n  overflow: hidden;\r\n  -webkit-transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  box-sizing: content-box;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale; }\r\n  .jd-table.jd-maximized {\r\n    height: 100%;\r\n    min-height: 100%;\r\n    max-height: 100%;\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    padding: 1.2rem;\r\n    z-index: 9998;\r\n    box-sizing: border-box;\r\n    background-color: rgba(255, 255, 255, 0.6); }\r\n    .jd-table.jd-maximized .jd-layerHighlight {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerControl {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerOption {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerContent {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      overflow-x: auto;\r\n      min-width: 320px;\r\n      -webkit-box-flex: 0;\r\n              flex-grow: 0;\r\n      flex-shrink: 1; }\r\n      .jd-table.jd-maximized .jd-layerContent .table .body {\r\n        height: 100%;\r\n        -webkit-box-flex: 0;\r\n                flex-grow: 0;\r\n        flex-shrink: 1; }\r\n      .jd-table.jd-maximized .jd-layerContent .jd-contentTable .jd-body {\r\n        height: 100%; }\r\n    .jd-table.jd-maximized .jd-layerFooter {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerPopup {\r\n      border-radius: 0; }\r\n      .jd-table.jd-maximized .jd-layerPopup.jd-fullFrameZone {\r\n        padding: 3rem; }\r\n      .jd-table.jd-maximized .jd-layerPopup .jd-searchArrow {\r\n        top: 5.15rem; }\r\n      .jd-table.jd-maximized .jd-layerPopup .jd-filterArrow {\r\n        top: 5.15rem;\r\n        right: 1.2rem; }\r\n    .jd-table.jd-maximized .jd-layerTitle {\r\n      padding-top: 0;\r\n      min-width: 320px; }\r\n  .jd-table.jd-fullBody {\r\n    height: 100%;\r\n    min-height: 100%;\r\n    max-height: 100%; }\r\n    .jd-table.jd-fullBody .jd-layerContent {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      overflow-x: auto; }\r\n      .jd-table.jd-fullBody .jd-layerContent .jd-contentTable .jd-body {\r\n        height: 100%; }\r\n  .jd-table .jd-layerTitle {\r\n    font-size: 1.8rem;\r\n    padding-top: 1.2rem;\r\n    padding-bottom: 1.2rem;\r\n    font-weight: 500;\r\n    width: 100%;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-pack: center;\r\n            justify-content: center; }\r\n  .jd-table .jd-layerHighlight {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 0.45rem;\r\n    min-height: 0.45rem;\r\n    background-color: #494949;\r\n    border-top-left-radius: 0.5rem;\r\n    border-top-right-radius: 0.5rem;\r\n    z-index: 99; }\r\n  .jd-table .jd-layerControl {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 2.5rem;\r\n    min-height: 2.5rem;\r\n    min-height: 2.5rem;\r\n    max-height: 2.5rem;\r\n    background-color: #757575;\r\n    color: #FFFFFF;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    flex-wrap: nowrap;\r\n    -webkit-box-orient: horizontal;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: row;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: justify;\r\n            justify-content: space-between;\r\n    z-index: 99; }\r\n    .jd-table .jd-layerControl .jd-controlSearch {\r\n      position: relative;\r\n      height: 100%;\r\n      width: 2rem;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row;\r\n      -webkit-box-flex: 0;\r\n              flex-grow: 0;\r\n      flex-shrink: 1;\r\n      transition: all 0.5s ease;\r\n      -webkit-transition: all 0.5s ease;\r\n      -moz-transition: all 0.5s ease;\r\n      -o-transition: all 0.5s ease; }\r\n      .jd-table .jd-layerControl .jd-controlSearch input {\r\n        width: 100%;\r\n        max-width: 10rem;\r\n        height: 100%;\r\n        box-shadow: none;\r\n        border: none;\r\n        background: transparent;\r\n        -webkit-box-flex: 0;\r\n                flex-grow: 0;\r\n        flex-shrink: 1; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input:focus {\r\n          outline: none; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input::-ms-clear {\r\n          display: none; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-decoration, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-cancel-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-decoration {\r\n          display: none; }\r\n      .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\r\n        width: 14rem;\r\n        color: #494949;\r\n        background-color: #E0E0E0; }\r\n        @media only screen and (max-width: 375px) {\r\n          .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\r\n            width: 100%; } }\r\n    .jd-table .jd-layerControl .jd-controlFeature {\r\n      position: relative;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      margin-left: auto;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row; }\r\n      @media only screen and (max-width: 375px) {\r\n        .jd-table .jd-layerControl .jd-controlFeature.jd-searching {\r\n          display: none; } }\r\n    .jd-table .jd-layerControl .jd-controlItem {\r\n      height: 100%;\r\n      position: relative;\r\n      cursor: pointer;\r\n      color: #FFFFFF;\r\n      display: inline-block;\r\n      width: 2rem;\r\n      min-width: 2rem;\r\n      user-select: none;\r\n      -webkit-touch-callout: none;\r\n      -webkit-user-select: none;\r\n      -moz-user-select: none;\r\n      -ms-user-select: none; }\r\n      .jd-table .jd-layerControl .jd-controlItem i {\r\n        width: 2rem;\r\n        min-width: 2rem;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        -webkit-box-align: center;\r\n                align-items: center; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-active i {\r\n        -webkit-animation: activeFeature 1.5s infinite;\r\n                animation: activeFeature 1.5s infinite; }\r\n\r\n@-webkit-keyframes activeFeature {\r\n  0% {\r\n    color: #FFFFFF; }\r\n  100% {\r\n    color: #ff1a1a; } }\r\n\r\n@keyframes activeFeature {\r\n  0% {\r\n    color: #FFFFFF; }\r\n  100% {\r\n    color: #ff1a1a; } }\r\n      .jd-table .jd-layerControl .jd-controlItem:hover {\r\n        color: #494949;\r\n        background-color: #E0E0E0; }\r\n        .jd-table .jd-layerControl .jd-controlItem:hover:active {\r\n          color: #C00; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-selected {\r\n        color: #C00;\r\n        background-color: #E0E0E0; }\r\n        .jd-table .jd-layerControl .jd-controlItem.jd-selected:active {\r\n          color: #FFFFFF; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-clearSearch {\r\n        color: #E53935; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-search {\r\n        color: #757575; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-noSelect {\r\n        cursor: default; }\r\n        .jd-table .jd-layerControl .jd-controlItem.jd-noSelect:hover:active {\r\n          color: #757575; }\r\n      .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow {\r\n        position: absolute;\r\n        top: 2.95rem;\r\n        right: -0.5rem;\r\n        background: #c9c9c9;\r\n        border: 1px solid #494949;\r\n        padding: 0.5rem;\r\n        color: #252627;\r\n        -webkit-animation: bounce 2s infinite;\r\n                animation: bounce 2s infinite;\r\n        border-radius: 6px;\r\n        white-space: nowrap; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\r\n          bottom: 100%;\r\n          right: 1.5rem;\r\n          border: solid transparent;\r\n          content: \" \";\r\n          height: 0;\r\n          width: 0;\r\n          position: absolute;\r\n          pointer-events: none; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after {\r\n          border-color: rgba(224, 224, 224, 0);\r\n          border-bottom-color: #c9c9c9;\r\n          border-width: 12px;\r\n          margin-right: -12px; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\r\n          border-color: rgba(73, 73, 73, 0);\r\n          border-bottom-color: #494949;\r\n          border-width: 18px;\r\n          margin-right: -18px; }\r\n      .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow {\r\n        position: absolute;\r\n        top: 2.95rem;\r\n        left: 3.5rem;\r\n        background: #c9c9c9;\r\n        border: 1px solid #494949;\r\n        padding: 0.5rem;\r\n        color: #252627;\r\n        -webkit-animation: bounce 2s infinite;\r\n                animation: bounce 2s infinite;\r\n        border-radius: 6px;\r\n        white-space: nowrap; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\r\n          bottom: 100%;\r\n          left: 50%;\r\n          border: solid transparent;\r\n          content: \" \";\r\n          height: 0;\r\n          width: 0;\r\n          position: absolute;\r\n          pointer-events: none; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after {\r\n          border-color: rgba(224, 224, 224, 0);\r\n          border-bottom-color: #c9c9c9;\r\n          border-width: 12px;\r\n          margin-left: -12px; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\r\n          border-color: rgba(73, 73, 73, 0);\r\n          border-bottom-color: #494949;\r\n          border-width: 18px;\r\n          margin-left: -18px; }\r\n  .jd-table .jd-layerOption {\r\n    width: 100%;\r\n    position: relative; }\r\n    .jd-table .jd-layerOption .jd-optionDropdown {\r\n      background-color: #E0E0E0;\r\n      width: 310px;\r\n      right: 5px;\r\n      top: -1px;\r\n      position: absolute;\r\n      z-index: 80;\r\n      padding: 0.5rem 0rem;\r\n      box-sizing: border-box;\r\n      -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n      transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      overflow-y: auto;\r\n      overflow-x: hidden;\r\n      box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.54);\r\n      border-bottom-right-radius: 0.5rem;\r\n      border-bottom-left-radius: 0.5rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader {\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        padding-top: 0.5rem;\r\n        padding-bottom: 1rem;\r\n        font-size: 1.35rem;\r\n        text-transform: uppercase;\r\n        color: #252627;\r\n        font-weight: 600;\r\n        align-self: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-subHeader {\r\n          padding-top: 1rem;\r\n          font-size: 1.17rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-smallHeader {\r\n          font-size: 0.81rem;\r\n          font-weight: 400;\r\n          font-style: italic;\r\n          text-transform: none;\r\n          padding-top: 0rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        width: 100%; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility {\r\n          padding-left: 1rem;\r\n          padding-right: 1rem;\r\n          color: #357e37; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility .jd-notVisible {\r\n            color: #E53935; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnTitle {\r\n          padding-right: 1rem;\r\n          width: 100%;\r\n          overflow: hidden;\r\n          text-overflow: ellipsis;\r\n          white-space: nowrap; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem:hover {\r\n          background-color: #FFFFFF; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected {\r\n          background-color: #757575;\r\n          color: #FFFFFF; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected:hover {\r\n            background-color: #757575; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput {\r\n        position: relative;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        margin: 0rem 1rem 0.5rem 1rem;\r\n        border: 1px solid #C00;\r\n        border-left: 5px solid #C00;\r\n        outline: none;\r\n        box-sizing: border-box;\r\n        font-size: 0.765rem;\r\n        font-weight: 500;\r\n        background-color: #FFFFFF;\r\n        align-items: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label {\r\n          width: 100%;\r\n          height: 100%;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-touch-callout: none;\r\n          -webkit-user-select: none;\r\n          -moz-user-select: none;\r\n          -ms-user-select: none;\r\n          user-select: none; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label span {\r\n            white-space: nowrap;\r\n            overflow: hidden;\r\n            text-overflow: ellipsis;\r\n            margin-left: 0.5rem;\r\n            margin-right: 2rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul {\r\n          position: absolute;\r\n          max-height: 12rem;\r\n          overflow-x: hidden;\r\n          overflow-y: auto;\r\n          top: 100%;\r\n          left: -1px;\r\n          right: -1px;\r\n          list-style: none;\r\n          padding: 0rem;\r\n          margin: 0rem;\r\n          border: 1px solid #ff6666;\r\n          background-color: #FFFFFF;\r\n          box-sizing: border-box;\r\n          z-index: 9998; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li {\r\n            overflow: hidden;\r\n            white-space: nowrap;\r\n            text-overflow: ellipsis;\r\n            padding: 0.2rem;\r\n            -webkit-touch-callout: none;\r\n            -webkit-user-select: none;\r\n            -moz-user-select: none;\r\n            -ms-user-select: none;\r\n            user-select: none; }\r\n            .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li:hover {\r\n              background-color: #ff4d4d;\r\n              color: #FFFFFF; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput input {\r\n          width: 100%;\r\n          font-family: inherit;\r\n          border: none;\r\n          font-size: 0.765rem;\r\n          font-weight: 500;\r\n          background-color: #FFFFFF;\r\n          outline: none;\r\n          box-sizing: border-box; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-addPadding {\r\n          padding: 0rem 0.5rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-removeIcon {\r\n          position: absolute;\r\n          right: 0.5rem;\r\n          top: 0.35rem;\r\n          color: #E53935;\r\n          font-size: 1.35rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-disabled {\r\n          border: 1px solid #949494;\r\n          border-left: 5px solid #949494; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-carrot:after {\r\n          content: \"\";\r\n          width: 0;\r\n          height: 0;\r\n          position: absolute;\r\n          right: 0.5rem;\r\n          top: 50%;\r\n          margin-top: -3px;\r\n          border-width: 6px 6px 0 6px;\r\n          border-style: solid;\r\n          border-color: #C00 transparent; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        padding: 0rem 1rem;\r\n        align-items: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow.jd-separate {\r\n          -webkit-box-pack: justify;\r\n                  justify-content: space-between; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow button {\r\n          width: 5rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-errorMessage {\r\n        color: #E53935;\r\n        font-size: 0.765rem;\r\n        margin-bottom: 0.5rem;\r\n        text-align: center;\r\n        font-weight: 500; }\r\n  .jd-table .jd-layerContent {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: #FFFFFF;\r\n    color: #252627;\r\n    display: block;\r\n    box-sizing: border-box;\r\n    overflow-y: hidden;\r\n    z-index: 50; }\r\n    .jd-table .jd-layerContent .jd-rowView {\r\n      position: absolute;\r\n      top: 0px;\r\n      left: 0px;\r\n      width: 100%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      -webkit-box-pack: center;\r\n              justify-content: center;\r\n      background-color: rgba(0, 0, 0, 0.2);\r\n      z-index: 99;\r\n      padding: 1rem;\r\n      box-sizing: border-box; }\r\n    .jd-table .jd-layerContent .jd-contentTable {\r\n      position: relative;\r\n      width: 100%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      flex-wrap: nowrap; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-head {\r\n        position: relative;\r\n        width: 100%;\r\n        overflow: hidden;\r\n        box-sizing: border-box;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        background-color: #757575; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell {\r\n          position: relative;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          box-sizing: border-box;\r\n          font-size: 0.9rem;\r\n          padding: 0.2rem 0.5rem;\r\n          -webkit-box-flex: 1;\r\n                  flex-grow: 1;\r\n          -webkit-touch-callout: none;\r\n          -webkit-user-select: none;\r\n          -moz-user-select: none;\r\n          -ms-user-select: none;\r\n          user-select: none;\r\n          border-top: 4px solid #990000;\r\n          border-top-left-radius: 5px;\r\n          border-top-right-radius: 5px;\r\n          background-color: #C00;\r\n          color: #FFFFFF;\r\n          border-right: 1px solid #990000; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-cellText {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-orient: horizontal;\r\n            -webkit-box-direction: normal;\r\n                    flex-direction: row;\r\n            width: 100%;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            -webkit-box-pack: justify;\r\n                    justify-content: space-between; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-hoverSort {\r\n            display: none; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-hoverAssist {\r\n            background-color: #ff4d4d; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell:first-child {\r\n            border-top-left-radius: 0px; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-scrollBuffer:last-child {\r\n            margin-right: 17px; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort {\r\n            cursor: pointer; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover {\r\n              border-top: 4px solid #999999;\r\n              background-color: #FFFFFF;\r\n              color: #252627;\r\n              font-weight: 500; }\r\n              .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover .jd-hoverSort {\r\n                display: block;\r\n                color: #252627; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-scrollFix {\r\n          width: 19px;\r\n          min-width: 19px;\r\n          max-width: 19px;\r\n          border-top-right-radius: 0px;\r\n          border-right: none;\r\n          border-top: 4px solid #990000;\r\n          box-sizing: border-box;\r\n          position: relative;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          background-color: #C00;\r\n          border-left: none; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize {\r\n          position: absolute;\r\n          height: 100%;\r\n          width: 8px;\r\n          display: block;\r\n          cursor: w-resize;\r\n          right: -5px;\r\n          top: 0;\r\n          z-index: 10;\r\n          overflow: hidden; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize.jd-selected {\r\n            width: 500px;\r\n            right: -250px; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-body {\r\n        position: relative;\r\n        width: 100%;\r\n        display: block;\r\n        overflow-x: hidden;\r\n        background-color: #F7F7F7;\r\n        z-index: 50;\r\n        background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 5px, rgba(0, 0, 0, 0.1) 5px, rgba(0, 0, 0, 0.1) 10px); }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row {\r\n          position: relative;\r\n          z-index: 50;\r\n          background-color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row:hover {\r\n            background-color: #ff4d4d !important;\r\n            color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-zebra:nth-child(even) {\r\n            background-color: #f2f2f2; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-rowSelect {\r\n            background-color: #e60000 !important;\r\n            color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell {\r\n            position: relative;\r\n            font-size: 0.81rem;\r\n            display: block;\r\n            white-space: nowrap;\r\n            text-overflow: ellipsis;\r\n            overflow: hidden; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell.jd-rowFlex {\r\n              display: -webkit-box;\r\n              display: flex;\r\n              height: 100%;\r\n              -webkit-box-align: center;\r\n                      align-items: center;\r\n              white-space: inherit;\r\n              min-height: inherit; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell:after {\r\n              display: block;\r\n              content: '';\r\n              min-height: inherit;\r\n              font-size: 0; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell .jd-list {\r\n              list-style-type: circle;\r\n              padding-left: 1rem; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-virtualBody {\r\n          position: absolute;\r\n          opacity: 0;\r\n          top: 0;\r\n          left: 0;\r\n          width: 1px;\r\n          background: transparent; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-row {\r\n        width: 100%;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        cursor: pointer; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-row .jd-cell {\r\n          width: 100%;\r\n          box-sizing: border-box;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-box-flex: 1;\r\n                  flex-grow: 1;\r\n          padding-left: 0.5rem;\r\n          overflow-wrap: break-word;\r\n          word-wrap: break-word;\r\n          word-break: break-all;\r\n          word-break: break-word;\r\n          -ms-word-break: break-all;\r\n          hyphens: auto;\r\n          -ms-hyphens: auto;\r\n          -moz-hyphens: auto;\r\n          -webkit-hyphens: auto; }\r\n  .jd-table .jd-layerFooter {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 2rem;\r\n    min-height: 2rem;\r\n    background-color: #494949;\r\n    color: #FFFFFF;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    flex-wrap: nowrap;\r\n    -webkit-box-orient: horizontal;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: row;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    border-bottom-left-radius: 0.5rem;\r\n    border-bottom-right-radius: 0.5rem;\r\n    z-index: 99;\r\n    font-size: 0.81rem;\r\n    user-select: none;\r\n    -webkit-touch-callout: none;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none; }\r\n    .jd-table .jd-layerFooter .jd-resultRows {\r\n      font-size: 0.765rem; }\r\n    .jd-table .jd-layerFooter .jd-pagination {\r\n      width: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      -webkit-box-pack: justify;\r\n              justify-content: space-between;\r\n      height: 100%; }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        cursor: pointer;\r\n        height: 100%;\r\n        -webkit-box-align: center;\r\n                align-items: center; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-left {\r\n          position: absolute;\r\n          top: 0;\r\n          left: 0;\r\n          background-color: #494949;\r\n          border-bottom-left-radius: 0.5rem; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-right {\r\n          position: absolute;\r\n          top: 0;\r\n          right: 0;\r\n          background-color: #494949;\r\n          border-bottom-right-radius: 0.5rem; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled {\r\n          cursor: no-drop; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:hover {\r\n            background-color: #494949; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:active {\r\n            background-color: #494949; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          width: 3rem;\r\n          height: 100%;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:hover {\r\n            background-color: #6f6f6f; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:active {\r\n            background-color: #898989; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-start {\r\n            border-bottom-left-radius: 0.5rem; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-end {\r\n            border-bottom-right-radius: 0.5rem; }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationRows {\r\n        position: absolute;\r\n        background-color: #494949;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        overflow: hidden;\r\n        text-overflow: ellipsis;\r\n        white-space: nowrap;\r\n        font-size: 0.72rem;\r\n        padding: 0rem 1rem;\r\n        top: 0;\r\n        left: 50%;\r\n        -webkit-transform: translateX(-50%);\r\n                transform: translateX(-50%); }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea {\r\n        width: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        justify-content: space-around; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center;\r\n          height: 100%; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            -webkit-box-pack: center;\r\n                    justify-content: center;\r\n            padding: 0rem 0.3rem;\r\n            height: 100%;\r\n            box-sizing: border-box;\r\n            font-size: 0.72rem; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage span {\r\n              border: 1px solid #6f6f6f;\r\n              padding: 0.2rem 0.4rem;\r\n              min-width: 1.5rem;\r\n              text-align: center;\r\n              box-sizing: border-box; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover {\r\n              cursor: pointer; }\r\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover span {\r\n                background-color: #6f6f6f;\r\n                color: #FFFFFF; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected span {\r\n              background-color: #6f6f6f; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover {\r\n              cursor: default !important; }\r\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover span {\r\n                background-color: #6f6f6f !important;\r\n                color: #FFFFFF !important; }\r\n  .jd-table .jd-layerPopup {\r\n    position: absolute;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    background-color: rgba(255, 255, 255, 0.6);\r\n    border-radius: 0.5rem; }\r\n    .jd-table .jd-layerPopup.jd-fullBrowser {\r\n      position: fixed; }\r\n    .jd-table .jd-layerPopup.jd-fullFrame {\r\n      z-index: 9998; }\r\n    .jd-table .jd-layerPopup.jd-contentFrame {\r\n      z-index: 50;\r\n      padding-top: 2.95rem;\r\n      padding-bottom: 2rem; }\r\n    .jd-table .jd-layerPopup.jd-fullFrameZone {\r\n      width: 100%;\r\n      box-sizing: border-box;\r\n      padding: 1rem; }\r\n    .jd-table .jd-layerPopup .jd-errorMessage {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      padding: 1rem;\r\n      border-radius: 0.5rem;\r\n      background-color: #FFFFFF;\r\n      color: #E53935;\r\n      font-size: 1.17rem; }\r\n    .jd-table .jd-layerPopup.jd-filterOverride {\r\n      z-index: 85; }\r\n    .jd-table .jd-layerPopup.jd-fullOverride {\r\n      z-index: 999; }\r\n    .jd-table .jd-layerPopup .jd-noDataFrame {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      padding: 1rem; }\r\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-title {\r\n        font-size: 1.17rem;\r\n        font-weight: 500;\r\n        text-transform: uppercase; }\r\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-filters {\r\n        margin-top: 1rem; }\r\n    .jd-table .jd-layerPopup .jd-quickView {\r\n      position: relative;\r\n      min-width: 314px;\r\n      max-width: 95%;\r\n      max-height: 95%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      border-radius: 0.5rem;\r\n      background-color: #494949;\r\n      box-sizing: border-box;\r\n      overflow: hidden;\r\n      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_1 {\r\n        width: 100%;\r\n        height: 0.3375rem;\r\n        min-height: 0.3375rem;\r\n        background-color: #494949;\r\n        border-top-right-radius: 0.5rem;\r\n        border-top-left-radius: 0.5rem; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_2 {\r\n        width: 100%;\r\n        height: 0.225rem;\r\n        min-height: 0.225rem;\r\n        background-color: #C00; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl {\r\n        width: 100%;\r\n        height: 2.5rem;\r\n        min-height: 2.5rem;\r\n        background-color: #757575;\r\n        position: relative;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-pack: justify;\r\n                justify-content: space-between;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        color: #FFFFFF;\r\n        user-select: none;\r\n        -webkit-touch-callout: none;\r\n        -webkit-user-select: none;\r\n        -moz-user-select: none;\r\n        -ms-user-select: none; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction {\r\n          height: 100%;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span {\r\n            width: 2rem;\r\n            font-size: 0.9rem;\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-pack: center;\r\n                    justify-content: center;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            height: 100%;\r\n            cursor: pointer; }\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span:hover {\r\n              background-color: #9b9b9b; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\r\n          font-size: 0.9rem;\r\n          position: absolute;\r\n          left: 50%;\r\n          top: 50%;\r\n          -webkit-transform: translate(-50%, -50%);\r\n                  transform: translate(-50%, -50%); }\r\n          @media only screen and (max-width: 350px) {\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\r\n              display: none; } }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent {\r\n        width: 100%;\r\n        height: 100%;\r\n        overflow: auto;\r\n        background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09) 5px, rgba(255, 255, 255, 0.09) 5px, rgba(0, 0, 0, 0.1) 10px); }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: vertical;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: column;\r\n          width: 100%;\r\n          background-color: #FFFFFF; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowTitle {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            font-size: 0.99rem;\r\n            font-weight: 600;\r\n            word-break: break-all;\r\n            padding: 0.5rem 1rem;\r\n            background-color: #e6e6e6; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            min-height: 2rem;\r\n            padding: 0.5rem 1rem;\r\n            word-break: break-all; }\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData ul {\r\n              list-style-type: circle;\r\n              padding-left: 1rem; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter {\r\n        width: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-pack: justify;\r\n                justify-content: space-between;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        background-color: #494949;\r\n        color: #FFFFFF;\r\n        border-bottom-right-radius: 0.5rem;\r\n        border-bottom-left-radius: 0.5rem;\r\n        font-size: 0.81rem;\r\n        user-select: none;\r\n        -webkit-touch-callout: none;\r\n        -webkit-user-select: none;\r\n        -moz-user-select: none;\r\n        -ms-user-select: none; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center;\r\n          width: 5rem;\r\n          cursor: pointer;\r\n          height: 100%;\r\n          -webkit-box-align: center;\r\n                  align-items: center; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:hover {\r\n            background-color: #6f6f6f; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:active {\r\n            background-color: #898989; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-previous {\r\n            border-bottom-left-radius: 0.5rem; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-next {\r\n            border-bottom-right-radius: 0.5rem; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerItem {\r\n          font-size: 0.765rem; }\r\n    .jd-table .jd-layerPopup .jd-tableMessage {\r\n      font-size: 1.5rem;\r\n      text-align: center; }\r\n\r\n@-webkit-keyframes bounce {\r\n  0%, 20%, 50%, 80%, 100% {\r\n    -webkit-transform: translateY(0);\r\n            transform: translateY(0); }\r\n  40% {\r\n    -webkit-transform: translateY(30px);\r\n            transform: translateY(30px); }\r\n  60% {\r\n    -webkit-transform: translateY(15px);\r\n            transform: translateY(15px); } }\r\n\r\n@keyframes bounce {\r\n  0%, 20%, 50%, 80%, 100% {\r\n    -webkit-transform: translateY(0);\r\n            transform: translateY(0); }\r\n  40% {\r\n    -webkit-transform: translateY(30px);\r\n            transform: translateY(30px); }\r\n  60% {\r\n    -webkit-transform: translateY(15px);\r\n            transform: translateY(15px); } }\r\n  .jd-table .jd-contextMenu {\r\n    width: auto;\r\n    min-width: 10rem;\r\n    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);\r\n    position: fixed;\r\n    z-index: 9998;\r\n    background: #FFF;\r\n    border-radius: 0.5rem; }\r\n    .jd-table .jd-contextMenu .jd-contextMenuOptions {\r\n      list-style: none;\r\n      z-index: 1; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption {\r\n        width: 100%;\r\n        height: 100%;\r\n        font-weight: 500;\r\n        z-index: 1;\r\n        font-size: 14px;\r\n        cursor: pointer;\r\n        display: -webkit-box;\r\n        display: flex; }\r\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span {\r\n          display: block;\r\n          height: 100%;\r\n          padding: 8px 12px 8px 12px;\r\n          white-space: nowrap; }\r\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:hover {\r\n            background: rgba(0, 0, 0, 0.2); }\r\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:first-child {\r\n            width: 100%; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader {\r\n        width: 100%;\r\n        height: 100%;\r\n        font-weight: 500;\r\n        z-index: 1;\r\n        font-size: 14px;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        background: #494949;\r\n        color: #FFFFFF; }\r\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader span {\r\n          display: block;\r\n          height: 100%;\r\n          width: 100%;\r\n          padding: 10px;\r\n          white-space: nowrap;\r\n          text-align: center; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:first-child {\r\n        border-bottom-left-radius: 0.5rem; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:last-child {\r\n        border-bottom-right-radius: 0.5rem; }\r\n\r\n.jd-reset * {\r\n  box-sizing: border-box; }\r\n\r\n.jd-reset ::before, .jd-reset ::after {\r\n  box-sizing: inherit; }\r\n\r\n.jd-reset html {\r\n  line-height: 1.15;\r\n  /* 1 */\r\n  -webkit-text-size-adjust: 100%;\r\n  /* 2 */\r\n  -webkit-tap-highlight-color: transparent;\r\n  /* 3*/ }\r\n\r\n.jd-reset body {\r\n  margin: 0; }\r\n\r\n.jd-reset main {\r\n  display: block; }\r\n\r\n.jd-reset p,\r\n.jd-reset table,\r\n.jd-reset blockquote,\r\n.jd-reset address,\r\n.jd-reset pre,\r\n.jd-reset iframe,\r\n.jd-reset form,\r\n.jd-reset figure,\r\n.jd-reset dl {\r\n  margin: 0; }\r\n\r\n.jd-reset h1,\r\n.jd-reset h2,\r\n.jd-reset h3,\r\n.jd-reset h4,\r\n.jd-reset h5,\r\n.jd-reset h6 {\r\n  font-size: inherit;\r\n  line-height: inherit;\r\n  font-weight: inherit;\r\n  margin: 0; }\r\n\r\n.jd-reset ul,\r\n.jd-reset ol {\r\n  margin: 0;\r\n  padding: 0;\r\n  list-style: none; }\r\n\r\n.jd-reset dt {\r\n  font-weight: bold; }\r\n\r\n.jd-reset dd {\r\n  margin-left: 0; }\r\n\r\n.jd-reset hr {\r\n  box-sizing: content-box;\r\n  /* 1 */\r\n  height: 0;\r\n  /* 1 */\r\n  overflow: visible;\r\n  /* 2 */\r\n  border: 0;\r\n  border-top: 1px solid;\r\n  margin: 0;\r\n  clear: both; }\r\n\r\n.jd-reset pre {\r\n  font-family: monospace, monospace;\r\n  /* 1 */\r\n  font-size: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset address {\r\n  font-style: inherit; }\r\n\r\n.jd-reset a {\r\n  background-color: transparent;\r\n  text-decoration: none;\r\n  color: inherit; }\r\n\r\n.jd-reset abb\r\n[title] {\r\n  border-bottom: none;\r\n  /* 1 */\r\n  text-decoration: underline;\r\n  /* 2 */\r\n  -webkit-text-decoration: underline dotted;\r\n          text-decoration: underline dotted;\r\n  /* 2 */ }\r\n\r\n.jd-reset b, .jd-resetstrong {\r\n  font-weight: bolder; }\r\n\r\n.jd-reset code,\r\n.jd-reset kbd,\r\n.jd-reset samp {\r\n  font-family: monospace, monospace;\r\n  /* 1 */\r\n  font-size: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset small {\r\n  font-size: 80%; }\r\n\r\n.jd-reset sub,\r\n.jd-reset sup {\r\n  ont-size: 75%;\r\n  line-height: 0;\r\n  position: relative;\r\n  vertical-align: baseline; }\r\n\r\n.jd-reset sub {\r\n  bottom: -0.25em; }\r\n\r\n.jd-reset sup {\r\n  top: -0.5em; }\r\n\r\n.jd-reset img {\r\n  border-style: none;\r\n  vertical-align: bottom; }\r\n\r\n.jd-reset embed,\r\n.jd-reset object,\r\n.jd-reset iframe {\r\n  border: 0;\r\n  vertical-align: bottom; }\r\n\r\n.jd-reset button,\r\n.jd-reset input,\r\n.jd-reset optgroup,\r\n.jd-reset select,\r\n.jd-reset textarea {\r\n  vertical-align: middle;\r\n  color: inherit;\r\n  font: inherit;\r\n  border: 0;\r\n  background: transparent;\r\n  padding: 0;\r\n  margin: 0;\r\n  outline: 0; }\r\n\r\n.jd-reset select {\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n       appearance: none;\r\n  border-radius: 0; }\r\n\r\n.jd-reset button,\r\n.jd-reset input {\r\n  overflow: visible; }\r\n\r\n.jd-reset button,\r\n.jd-reset select {\r\n  text-transform: none; }\r\n\r\n.jd-reset button,\r\n.jd-reset [type='button'],\r\n.jd-reset [type='reset'],\r\n.jd-reset [type='submit'] {\r\n  cursor: pointer;\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n       appearance: none; }\r\n\r\n.jd-reset button[disabled],\r\n.jd-reset [type='button'][disabled],\r\n.jd-reset [type='reset'][disabled],\r\n.jd-reset [type='submit'][disabled] {\r\n  cursor: default; }\r\n\r\n.jd-reset button::-moz-focus-inner,\r\n.jd-reset [type='button']::-moz-focus-inner,\r\n.jd-reset [type='reset']::-moz-focus-inner,\r\n.jd-reset [type='submit']::-moz-focus-inner {\r\n  border-style: none;\r\n  padding: 0; }\r\n\r\n.jd-reset button:-moz-focusring,\r\n.jd-reset [type='button']:-moz-focusring,\r\n.jd-reset [type='reset']:-moz-focusring,\r\n.jd-reset [type='submit']:-moz-focusring {\r\n  outline: 1px dotted ButtonText; }\r\n\r\n.jd-reset fieldset {\r\n  margin: 0;\r\n  padding: 0;\r\n  border: 0;\r\n  min-width: 0; }\r\n\r\n.jd-reset legend {\r\n  color: inherit;\r\n  /* 2 */\r\n  display: table;\r\n  /* 1 */\r\n  max-width: 100%;\r\n  /* 1 */\r\n  padding: 0;\r\n  /* 3 */\r\n  white-space: normal;\r\n  /* 1 */ }\r\n\r\n.jd-reset progress {\r\n  vertical-align: baseline; }\r\n\r\n.jd-reset textarea {\r\n  overflow: auto; }\r\n\r\n.jd-reset [type='checkbox'],\r\n.jd-reset [type='radio'] {\r\n  box-sizing: border-box;\r\n  /* 1 */\r\n  padding: 0;\r\n  /* 2 */ }\r\n\r\n.jd-reset [type='number']::-webkit-inner-spin-button,\r\n.jd-reset [type='number']::-webkit-outer-spin-button {\r\n  height: auto; }\r\n\r\n.jd-reset [type='search'] {\r\n  -webkit-appearance: textfield;\r\n  /* 1 */\r\n  outline-offset: -2px;\r\n  /* 2 */ }\r\n\r\n.jd-reset [type='search']::-webkit-search-decoration {\r\n  -webkit-appearance: none; }\r\n\r\n.jd-reset ::-webkit-file-upload-button {\r\n  -webkit-appearance: button;\r\n  /* 1 */\r\n  font: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset ::-webkit-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset :-ms-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::-ms-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::-moz-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset label[for] {\r\n  cursor: pointer; }\r\n\r\n.jd-reset details {\r\n  display: block; }\r\n\r\n.jd-reset summary {\r\n  display: list-item; }\r\n\r\n.jd-reset table {\r\n  border-collapse: collapse;\r\n  border-spacing: 0; }\r\n\r\n.jd-reset caption {\r\n  text-align: left; }\r\n\r\n.jd-reset td,\r\n.jd-reset th {\r\n  vertical-align: top; }\r\n\r\n.jd-reset th {\r\n  text-align: left;\r\n  font-weight: bold; }\r\n\r\n.jd-reset template {\r\n  display: none; }\r\n\r\n.jd-reset [hidden] {\r\n  display: none; }\r\n\r\n.jd-clickable {\r\n  cursor: pointer; }\r\n\r\n.jd-noneSelectable {\r\n  user-select: none;\r\n  -webkit-touch-callout: none;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  -ms-user-select: none; }\r\n\r\n.jd-loader {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  padding: 1rem;\r\n  padding-top: 1.5rem;\r\n  border-radius: 0.5rem; }\r\n  .jd-loader .jd-loadingText {\r\n    margin-top: 0.6rem;\r\n    font-weight: 500; }\r\n  .jd-loader .fulfilling-square-spinner, .jd-loader .fulfilling-square-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .fulfilling-square-spinner {\r\n    height: 50px;\r\n    width: 50px;\r\n    position: relative;\r\n    border: 4px solid #C00;\r\n    -webkit-animation: fulfilling-square-spinner-animation 4s infinite ease;\r\n            animation: fulfilling-square-spinner-animation 4s infinite ease; }\r\n  .jd-loader .fulfilling-square-spinner .spinner-inner {\r\n    vertical-align: top;\r\n    display: inline-block;\r\n    background-color: #C00;\r\n    width: 100%;\r\n    opacity: 1;\r\n    -webkit-animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in;\r\n            animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in; }\r\n\r\n@-webkit-keyframes fulfilling-square-spinner-animation {\r\n  0% {\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg); }\r\n  25% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  50% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  75% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); }\r\n  100% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); } }\r\n\r\n@keyframes fulfilling-square-spinner-animation {\r\n  0% {\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg); }\r\n  25% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  50% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  75% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); }\r\n  100% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); } }\r\n\r\n@-webkit-keyframes fulfilling-square-spinner-inner-animation {\r\n  0% {\r\n    height: 0%; }\r\n  25% {\r\n    height: 0%; }\r\n  50% {\r\n    height: 100%; }\r\n  75% {\r\n    height: 100%; }\r\n  100% {\r\n    height: 0%; } }\r\n\r\n@keyframes fulfilling-square-spinner-inner-animation {\r\n  0% {\r\n    height: 0%; }\r\n  25% {\r\n    height: 0%; }\r\n  50% {\r\n    height: 100%; }\r\n  75% {\r\n    height: 100%; }\r\n  100% {\r\n    height: 0%; } }\r\n  .jd-loader .self-building-square-spinner, .jd-loader .self-building-square-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .self-building-square-spinner {\r\n    height: 40px;\r\n    width: 40px;\r\n    top: calc( -10px * 2 / 3); }\r\n  .jd-loader .self-building-square-spinner .square {\r\n    height: 10px;\r\n    width: 10px;\r\n    top: calc( -10px * 2 / 3);\r\n    margin-right: calc(10px / 3);\r\n    margin-top: calc(10px / 3);\r\n    background: #C00;\r\n    float: left;\r\n    position: relative;\r\n    opacity: 0;\r\n    -webkit-animation: self-building-square-spinner 6s infinite;\r\n            animation: self-building-square-spinner 6s infinite; }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(1) {\r\n    -webkit-animation-delay: calc( 300ms * 6);\r\n            animation-delay: calc( 300ms * 6); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(2) {\r\n    -webkit-animation-delay: calc( 300ms * 7);\r\n            animation-delay: calc( 300ms * 7); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(3) {\r\n    -webkit-animation-delay: calc( 300ms * 8);\r\n            animation-delay: calc( 300ms * 8); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(4) {\r\n    -webkit-animation-delay: calc( 300ms * 3);\r\n            animation-delay: calc( 300ms * 3); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(5) {\r\n    -webkit-animation-delay: calc( 300ms * 4);\r\n            animation-delay: calc( 300ms * 4); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(6) {\r\n    -webkit-animation-delay: calc( 300ms * 5);\r\n            animation-delay: calc( 300ms * 5); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(7) {\r\n    -webkit-animation-delay: calc( 300ms * 0);\r\n            animation-delay: calc( 300ms * 0); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(8) {\r\n    -webkit-animation-delay: calc( 300ms * 1);\r\n            animation-delay: calc( 300ms * 1); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(9) {\r\n    -webkit-animation-delay: calc( 300ms * 2);\r\n            animation-delay: calc( 300ms * 2); }\r\n  .jd-loader .self-building-square-spinner .clear {\r\n    clear: both; }\r\n\r\n@-webkit-keyframes self-building-square-spinner {\r\n  0% {\r\n    opacity: 0; }\r\n  5% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  50.9% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  55.9% {\r\n    opacity: 0;\r\n    top: inherit; } }\r\n\r\n@keyframes self-building-square-spinner {\r\n  0% {\r\n    opacity: 0; }\r\n  5% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  50.9% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  55.9% {\r\n    opacity: 0;\r\n    top: inherit; } }\r\n  .jd-loader .looping-rhombuses-spinner, .jd-loader .looping-rhombuses-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .looping-rhombuses-spinner {\r\n    width: calc(15px * 4);\r\n    height: 15px;\r\n    position: relative; }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus {\r\n    height: 15px;\r\n    width: 15px;\r\n    background-color: #C00;\r\n    left: calc(15px * 4);\r\n    position: absolute;\r\n    margin: 0 auto;\r\n    border-radius: 2px;\r\n    -webkit-transform: translateY(0) rotate(45deg) scale(0);\r\n            transform: translateY(0) rotate(45deg) scale(0);\r\n    -webkit-animation: looping-rhombuses-spinner-animation 2500ms linear infinite;\r\n            animation: looping-rhombuses-spinner-animation 2500ms linear infinite; }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(1) {\r\n    -webkit-animation-delay: calc(2500ms * 1 / -1.5);\r\n            animation-delay: calc(2500ms * 1 / -1.5); }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(2) {\r\n    -webkit-animation-delay: calc(2500ms * 2 / -1.5);\r\n            animation-delay: calc(2500ms * 2 / -1.5); }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(3) {\r\n    -webkit-animation-delay: calc(2500ms * 3 / -1.5);\r\n            animation-delay: calc(2500ms * 3 / -1.5); }\r\n\r\n@-webkit-keyframes looping-rhombuses-spinner-animation {\r\n  0% {\r\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\r\n            transform: translateX(0) rotate(45deg) scale(0); }\r\n  50% {\r\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\r\n            transform: translateX(-233%) rotate(45deg) scale(1); }\r\n  100% {\r\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\r\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\r\n\r\n@keyframes looping-rhombuses-spinner-animation {\r\n  0% {\r\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\r\n            transform: translateX(0) rotate(45deg) scale(0); }\r\n  50% {\r\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\r\n            transform: translateX(-233%) rotate(45deg) scale(1); }\r\n  100% {\r\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\r\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\r\n\r\n.jd-button {\r\n  position: relative;\r\n  margin: 0.5rem 0rem !important;\r\n  width: auto;\r\n  height: 1.8rem;\r\n  overflow: hidden !important;\r\n  border-width: 0;\r\n  outline: none !important;\r\n  border-radius: 2px !important;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);\r\n  background-color: #C00;\r\n  color: #FFFFFF;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-pack: center;\r\n          justify-content: center;\r\n  cursor: pointer;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  white-space: nowrap;\r\n  overflow-wrap: normal;\r\n  transition: background-color .3s;\r\n  -webkit-transition: background-color .3s;\r\n  -moz-transition: background-color .3s;\r\n  -o-transition: background-color .3s; }\r\n  .jd-button:hover {\r\n    background-color: red; }\r\n  .jd-button:focus {\r\n    background-color: #990000; }\r\n  .jd-button:focus:hover {\r\n    background-color: red; }\r\n  .jd-button:before {\r\n    content: \"\";\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    display: block;\r\n    width: 0;\r\n    padding-top: 0;\r\n    border-radius: 100%;\r\n    background-color: #E0E0E0;\r\n    opacity: 0;\r\n    transform: translate(-50%, -50%);\r\n    -webkit-transform: translate(-50%, -50%);\r\n    -moz-transform: translate(-50%, -50%);\r\n    -ms-transform: translate(-50%, -50%);\r\n    -o-transform: translate(-50%, -50%); }\r\n  .jd-button:active:before {\r\n    width: 120%;\r\n    padding-top: 120%;\r\n    opacity: 0.32;\r\n    transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -webkit-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -moz-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -ms-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -o-transition: width .2s ease-out, padding-top .2s ease-out; }\r\n  .jd-button:disabled {\r\n    background-color: #660000;\r\n    cursor: not-allowed;\r\n    color: #cccccc; }\r\n  .jd-button.jd-small {\r\n    min-width: 3rem !important; }\r\n  .jd-button.jd-medium {\r\n    min-width: 5rem !important; }\r\n  .jd-button.jd-large {\r\n    min-width: 7rem !important; }\r\n  .jd-button.jd-danger {\r\n    background-color: #E53935;\r\n    color: #FFFFFF; }\r\n    .jd-button.jd-danger:hover {\r\n      background-color: #cd1e1a; }\r\n    .jd-button.jd-danger:focus {\r\n      background-color: #eb6562; }\r\n    .jd-button.jd-danger:focus:hover {\r\n      background-color: #cd1e1a; }\r\n    .jd-button.jd-danger:disabled {\r\n      background-color: #9f1815;\r\n      color: #cccccc;\r\n      cursor: not-allowed; }\r\n  .jd-button.jd-success {\r\n    background-color: #3C903F;\r\n    color: #FFFFFF; }\r\n    .jd-button.jd-success:hover {\r\n      background-color: #2d6c2f; }\r\n    .jd-button.jd-success:focus {\r\n      background-color: #4bb44f; }\r\n    .jd-button.jd-success:focus:hover {\r\n      background-color: #2d6c2f; }\r\n    .jd-button.jd-success:disabled {\r\n      background-color: #1e4820;\r\n      color: #cccccc;\r\n      cursor: not-allowed; }\r\n\r\n.jdTableFade-enter-active, .jdTableFade-leave-active {\r\n  transition: opacity 0.3s;\r\n  -webkit-transition: opacity 0.3s;\r\n  -moz-transition: opacity 0.3s;\r\n  -o-transition: opacity 0.3s; }\r\n\r\n.jdTableFade-enter, .jdTableFade-leave-to {\r\n  opacity: 0; }\r\n\r\n.jdTableSlideDown-enter-active, .jdTableSlideDown-leave-active {\r\n  transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -moz-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -o-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1); }\r\n\r\n.jdTableSlideDown-enter, .jdTableSlideDown-leave-to {\r\n  -webkit-transform: translateY(-2.95rem);\r\n          transform: translateY(-2.95rem);\r\n  opacity: 0; }\r\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -53079,6 +53545,6927 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
 
 /***/ }),
 
+/***/ "./node_modules/vue-jd-table/dist/jd-table.min.css":
+/*!*********************************************************!*\
+  !*** ./node_modules/vue-jd-table/dist/jd-table.min.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../postcss-loader/src??ref--6-2!./jd-table.min.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-jd-table/dist/jd-table.min.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-jd-table/src/jd-table.vue":
+/*!****************************************************!*\
+  !*** ./node_modules/vue-jd-table/src/jd-table.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _jd_table_vue_vue_type_template_id_ed0ee648_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jd-table.vue?vue&type=template&id=ed0ee648&scoped=true& */ "./node_modules/vue-jd-table/src/jd-table.vue?vue&type=template&id=ed0ee648&scoped=true&");
+/* harmony import */ var _jd_table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./jd-table.vue?vue&type=script&lang=js& */ "./node_modules/vue-jd-table/src/jd-table.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _jd_table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _jd_table_vue_vue_type_template_id_ed0ee648_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _jd_table_vue_vue_type_template_id_ed0ee648_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "ed0ee648",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "node_modules/vue-jd-table/src/jd-table.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./node_modules/vue-jd-table/src/jd-table.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/vue-jd-table/src/jd-table.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_loader_lib_index_js_vue_loader_options_jd_table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../vue-loader/lib??vue-loader-options!./jd-table.vue?vue&type=script&lang=js& */ "./node_modules/vue-loader/lib/index.js?!./node_modules/vue-jd-table/src/jd-table.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_vue_loader_lib_index_js_vue_loader_options_jd_table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./node_modules/vue-jd-table/src/jd-table.vue?vue&type=template&id=ed0ee648&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/vue-jd-table/src/jd-table.vue?vue&type=template&id=ed0ee648&scoped=true& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_jd_table_vue_vue_type_template_id_ed0ee648_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../vue-loader/lib??vue-loader-options!./jd-table.vue?vue&type=template&id=ed0ee648&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue-jd-table/src/jd-table.vue?vue&type=template&id=ed0ee648&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_jd_table_vue_vue_type_template_id_ed0ee648_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_jd_table_vue_vue_type_template_id_ed0ee648_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/index.js?!./node_modules/vue-jd-table/src/jd-table.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue-jd-table/src/jd-table.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name : 'JDTable',
+
+	data ()
+	{
+		return {
+			status :
+			{
+				tableError     : null,
+				getStarted     : false,
+				processingData : false,
+				updatingPage   : false,
+				searching      : false,
+				mobileSize     : false,
+				isIE11         : false,
+				tableScroll    : false,
+				lastAction     : null,
+				contextMenu    : false,
+				tableReady     : false
+			},
+			currentTableData : [],
+			data             : [],
+
+			feature :
+			{
+				maximized : false,
+				searching : false
+			},
+
+			rendering :
+			{
+				engine            : 0,
+				isScrolling       : null,
+				resettingScroll   : false,
+				contentFrameWidth : null,
+				isResizing        : null,
+				pagination        :
+				{
+					currentPage                  : null,
+					currentPageHightlight        : null,
+					currentStartIndex            : null,
+					currentEndIndex              : null,
+					availablePages               : null,
+					currentPageRows              : null,
+					pageRowOptions               : [],
+					changingRows                 : false,
+					leftPages                    : [],
+					rightPages                   : [],
+					currentSelectedPageRowOption : null,
+				},
+				virtual :
+				{
+					rowMiddleIndex          : 0,
+					rowTopIndex             : 0,
+					rowBottomIndex          : 0,
+					triggerTopPositionPX    : null,
+					triggerBottomPositionPX : null,
+					height                  : null,
+					virtualBufferSize       : 5
+				},
+				external :
+				{
+					dataSize : null
+				},
+				views :
+				{
+					changingViews       : false,
+					currentSelectedView : null,
+					list                : [],
+					currentView         : []
+				}
+			},
+
+			processedData : [],
+
+			row :
+			{
+				selectedIndex        : null,
+				activeHoverIndex     : null,
+				activeHoverElement   : null,
+				activeContextIndex   : null,
+				activeContextElement : null
+			},
+
+			columns :
+			{
+				list               : [],
+				activeHoverIndex   : null,
+				activeResize       : null,
+				activeResizeStart  : null,
+				activeSortIndex    : 0,
+				activeSortName     : null,
+				activeSortAsc      : false,
+				activeSortSpecial  : null,
+				selecting          : false,
+				selectionItemWidth : 25,
+				selectionError     : false
+			},
+
+			search :
+			{
+				text      : '',
+				searching : false
+			},
+
+			filters :
+			{
+				show           : false,
+				active         : [],
+				activeDropdown : null,
+				error          : false,
+				errorText      : '',
+				beingBuilt     :
+				{
+					column : null,
+					option : null,
+					value  : null
+				}
+			}
+		}
+	},
+
+	// ---------------
+	// Component Props
+	// ---------------
+	//
+	// OPTIONS ----
+	//
+	// Prop        : option.dataProvider
+	// Value       : [NUMBER]
+	// Default     : 0
+	// Description : Sets the manner of which data will be provided to JD-Table.
+	//
+	// -----
+	// | 0 | FULL    : All data will be provided as one single injection to the table. Search/filtering will be performed on that data by JD-Table.
+	// | 1 | REQUEST : All data will be provided via external requests for all data based actions (search, filtering, pagination, sorting, etc.).
+	// -----         : These data based actions will instead emit events to the parent app for processing.
+	//
+	// Prop        : option.columns
+	// Value       : [ARRAY]
+	// Default     : Empty
+	// Description : An array of objects which configure the columns of the table.
+	// Format      : [
+	//				 	{
+	//						name          : [STRING] name of the column in the JSON data.
+	//						title         : [STRING] title used in the table header.
+	//						width         : [NUMBER] used for the width of the column.
+	//							          : When option.responsiveTable = FALSE --> Width provided will be PX.
+	//                                    : When option.responsiveTable = TRUE --> Width provided will be %.
+	//	 					order         : [NUMBER] which defines the order of columns from left to right.
+	//                      sort          : [BOOLEAN] sets the column as the initially sorted column.
+	// 					    sortDirection : [STRING] sets the direction of the initially sorted column: 'desc' or 'asc'.
+	// 						type          : [STRING] which defines the type of data in the column. Options are: 'String' and 'Number'.
+	// 						filterable    : [BOOLEAN] which determines if the column can be filtered.
+	// 						enabled       : [BOOLEAN] which determines if the column is shown/enabled on initial load.
+	//					}
+	//               ]
+	//
+	// Prop        : startBySearch
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Enables/disables the startBySearchMessage when search text or a filter are not applied.
+	//             : This is useful for large dataset's where you don't want to load the entire DB.
+	//             : Instead, this prompts the user to search or apply a filter to view any data.
+	//
+	// Prop        : startBySearchMessage
+	// Value       : [STRING]
+	// Default     : NULL
+	// Description : Message which will be displayed when no search/filter is being applied.
+	//
+	// Prop        : startBySearchArrowSearch
+	// Value       : [BOOLEAN]
+	// Default     : NULL
+	// Description : When startBySearchMessage is active, displays a pointer to the search box.
+	//
+	// Prop        : startBySearchArrowFilter
+	// Value       : [BOOLEAN]
+	// Default     : NULL
+	// Description : When startBySearchMessage is active, displays a pointer to the filter box.
+	//
+	// Prop        : startBySearchArrowSearchText
+	// Value       : [BOOLEAN]
+	// Default     : NULL
+	// Description : Text to be displayed when startBySearchArrorSearch is enabled.
+	//
+	// Prop        : startBySearchArrowFilterText
+	// Value       : [BOOLEAN]
+	// Default     : NULL
+	// Description : Text to be displayed when startBySearchArrorFilter is enabled.
+	//
+	// Prop        : option.maxMinimize
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the min/maximize feature button.
+	//
+	// Prop        : option.addNew
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Enables/disables the Add New feature button.
+	//
+	// Prop        : option.editItem
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Enables/disables the Edit Item feature button (quick view).
+	//
+	// Prop        : option.viewItem
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Enables/disables the View Item feature button (quick view).
+	//
+	// Prop        : option.deleteItem
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Enables/disables the Delete Item feature button (quick view).
+	//
+	// Prop        : option.refresh
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the refresh feature button.
+	//
+	// Prop        : option.search
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the search feature button/input.
+	//
+	// Prop        : option.columnSelect
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the column select feature.
+	//
+	// Prop        : option.resize
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables resizing of columns. Only works when responsiveTable is set to FALSE.
+	//
+	// Prop        : option.filter
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the filter feature.
+	//
+	// Prop        : option.export
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the export to excel feature. Not compatible with IE11 or lower.
+	//
+	// Prop        : option.exportLimit
+	// Value       : [NUMBER]
+	// Default     : null (ALL)
+	// Description : Sets a restriction on how many records can be exported via Excel.
+	//
+	// Prop        : option.columnSort
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the ability to sort by column.
+	//
+	// Prop        : option.quickView
+	// Value       : [NUMBER]
+	// Default     : 1
+	// Description : Enables/disables the ability to click or double click a row to see the quick view.
+	//
+	// -----
+	// | 0 | NONE         : Disables quick view.
+	// | 1 | CLICK        : Quick view appears on single (left) click.
+	// | 2 | DOUBLE CLICK : Quick view appears on double (left) click.
+	// -----
+	//
+	// Prop        : option.contextMenu
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Enables/disables a row context menu for when a user right clicks on a row.
+	//
+	// Prop        : option.contextMenuQuickView
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the row context menu option for Quick Viewing the row data.
+	//
+	// Prop        : option.contextMenuView
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the row context menu option for Viewing the row data.
+	//
+	// Prop        : option.contextMenuEdit
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the row context menu option for Editing the row data.
+	//
+	// Prop        : option.contextMenuDelete
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the row context menu option for Delete the row data.
+	//
+	// Prop        : option.contextMenuAdd
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enables/disables the row context menu option for Adding a row of data.
+	//
+	// Prop        : option.renderEngine
+	// Value       : [NUMBER]
+	// Default     : NULL
+	// Description : Selects the rendering engine JD-Table uses when rendering rows of data.
+	//
+	// -----
+	// | 0 | VIRTUAL    : Render only a small amount of rows based on the table view size. Use this for large tables.
+	// | 1 | ALL        : Render all rows regardless of how many there are.
+	// | 2 | PAGINATION : Render a specific number of rows and enables 'Next'/'Previous' buttons.
+	// -----
+	//
+	// -------------------------------------
+	// | responsiveFrame | responsiveTable |
+	// | true            | true            | : Frame fits parent & columns are auto adjusted (%).
+	// | true            | false           | : Frame fits parent to a min-width of sum of columns & column are set (PX) size.
+	// | false           | true            | : Frame is set (PX) size & column are auto adjusted (%).
+	// | false           | false           | : Frame is set (PX) size and columns are set (PX) size.
+	// -------------------------------------
+	//
+	// Prop        : option.responsiveFrame
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Renders the entire JD-Table frame responsively or not.
+	//
+	// ---------
+	// | TRUE  | : Renders the entire JD-Table responsively. It will fit to the parent container.
+	// | FALSE | : Renders the entire JD-Table to the width set to the option.frameWidth in pixels.
+	// ---------
+	//
+	// Prop        : option.responsiveFrameForceFullWidth
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : When responsiveFrame is set to true and the number of columns in the table shrink the entire table will as well
+	//             : (according it its parent). However sometimes you want the table to be 100% no matter what. Set this option to
+	//             : True and it will force the table to ignore column widths when the table shrinks.
+	//
+	// Prop        : option.responsiveTable
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Renders the data table within JD-Table responsively or not.
+	//
+	// ---------
+	// | TRUE  | : Renders the data table responsively to the width of the entire JD-Table frame.
+	// | FALSE | : Renders the data table according to the option.columns.width values for each column.
+	// ---------
+	//
+	// Prop        : option.virtualEngineRowStart
+	// Value       : [NUMBER]
+	// Default     : 250
+	// Description : Indicates the amount of rows that if the data exceeds will trigger the virtual rendering engine.
+	//             : Only used when renderEngine is set to 0 (auto).
+	//
+	// Prop        : option.frameWidth
+	// Value       : [NUMBER]
+	// Default     : Null
+	// Description : A number value (PX) which will be assigned to the width of JD-Table when option.responsiveFrame is set to False.
+	//
+	// Prop        : option.headerHeight
+	// Value       : [NUMBER]
+	// Default     : 40
+	// Description : A number value (PX) which will applied to the table header row height.
+	//
+	// Prop        : option.dataHeight
+	// Value       : [NUMBER]
+	// Default     : NULL
+	// Description : A number value (PX) which will applied to the data table body height. Null = 100%.
+	//
+	// Prop        : option.rowHeight
+	// Value       : [NUMBER]
+	// Default     : 42
+	// Description : A number value (PX) which will applied as the height for each data row.
+	//
+	// Prop        : option.paginationRowLimits
+	// Value       : [ARRAY]
+	// Default     : [20, 50, 100]
+	// Description : Array of numbers that will be provided as options for how many rows appear per page (pagination engine).
+	//
+	// Prop        : option.paginationRowStart
+	// Value       : [NUMBER]
+	// Default     : 20
+	// Description : A number that will be used as the default selection for how many rows to appear per page (pagination engine).
+	//
+	// Prop        : option.paginationRowAll
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Enable/disable the "ALL" option for how many rows to appear per page (pagination).
+	//
+	// Prop        : option.pageSideQuantity
+	// Value       : [NUMBER]
+	// Default     : 5
+	// Description : The number of page choices that will be available on either side of the row display on the footer. (pagination engine).
+	//
+	// Prop        : option.forceSearchOpen
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Force search to be open and cannot be closed.
+	//
+	// Prop        : option.searchPlaceHolder
+	// Value       : [STRING]
+	// Default     : NULL
+	// Description : The placeholder text for the search input box.
+	//
+	// Prop        : option.startMaximized
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Renders the table maximized.
+	//
+	// Prop        : option.forceMaximized
+	// Value       : [BOOLEAN]
+	// Default     : False
+	// Description : Renders the table maximized and removes the min/maximize button.
+	//
+	// Prop        : option.rowZebra
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Renders all even rows with a light background.
+	//
+	// Prop        : option.rowFlex
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : Allows the row height to be flexible according to the data in the columns.
+	//
+	// Prop        : option.resizeForceMinWidth
+	// Value       : [BOOLEAN]
+	// Default     : True
+	// Description : When enabled, columns cannot be resized smaller then their initial option.column.width.
+	// 			   : Only applies when option.resize is enabled.
+	//
+	// Prop        : option.highlight
+	// Value       : [BOOLEAN]
+	// Default     : true
+	// Description : Renders the top highlight bar on the frame.
+	//
+	// Prop        : option.controls
+	// Value       : [BOOLEAN]
+	// Default     : true
+	// Description : Renders the control bar.
+	//
+	// Prop        : option.footer
+	// Value       : [BOOLEAN]
+	// Default     : true
+	// Description : Renders the footer. Must be true for pagination.
+	//
+	// Prop        : option.title
+	// Value       : [STRING]
+	// Default     : Null
+	// Description : Display's a title at the top of the table.
+	//
+	// Prop        : option.views
+	// Value       : [ARRAY]
+	// Default     : Null
+	// Description : List of available views that are in addition to the default. Each array item should be an object with column view details.
+	//             : [
+	//             :    {   // View #1
+	//             :        viewName : 'My Awesome View',
+	//             :        schema   :
+	//             :        [
+	//             :            {   // Column #1
+	//			   :	        	name          : [STRING] name of the column in the JSON data.
+	//			   :	        	title         : [STRING] title used in the table header.
+	//			   :	        	width         : [NUMBER] used for the width of the column.
+	//			   :	        		          : When option.responsiveTable = FALSE --> Width provided will be PX.
+	//             :                              : When option.responsiveTable = TRUE --> Width provided will be %.
+	//	 		   :	        	order         : [NUMBER] which defines the order of columns from left to right.
+	//             :                sort          : [BOOLEAN] sets the column as the initially sorted column.
+	// 			   :	            sortDirection : [STRING] sets the direction of the initially sorted column: 'desc' or 'asc'.
+	// 			   :	        	type          : [STRING] which defines the type of data in the column. Options are: 'String' and 'Number'.
+	// 			   :	        	filterable    : [BOOLEAN] which determines if the column can be filtered.
+	// 			   :	        	enabled       : [BOOLEAN] which determines if the column is shown/enabled on initial load.
+	//             :            }, ...
+	//             :        ]
+	//             :    }, ...
+	//             : ]
+	//
+	// EVENT ----
+	//
+	// Prop        : eventFromApp.name
+	// Value       : [STRING]
+	// Default     : ''
+	// Description : Name of event you want to trigger on JD-Table.
+	//
+	// Prop        : eventFromApp.payload
+	// Value       : [ANY]
+	// Default     : NULL
+	// Description : Optional payload for the event.
+	//
+	// Prop        : eventFromAppTrigger
+	// Value       : [BOOLEAN]
+	// Default     : FALSE
+	// Description : Triggers the stored event in event.name/payload to execute.
+
+	props :
+	{
+		option :
+		{
+			type    : Object,
+			default : () => ({})
+		},
+
+		eventFromApp :
+		{
+			type    : Object,
+			default : () =>
+			({
+				name    : null,
+				payload : null
+			})
+		},
+
+		eventFromAppTrigger :
+		{
+			type    : Boolean,
+			default : false
+		},
+
+		loader :
+		{
+			type    : Boolean,
+			default : false
+		}
+	},
+
+	created : function ()
+	{
+		this.polyfillClosest();
+
+		this.checkBrowser();
+
+		this.initializeTable();
+	},
+
+	mounted : function ()
+	{
+		// Add an event listener to watch for a window resize. If detected, re-render the list.
+		window.addEventListener( 'resize', this.resizeListener );
+
+		if ( this.setting.contextMenuLeft || this.setting.contextMenuRight )
+		{
+			this.initializeContextMenu();
+		}
+
+		if ( this.setting.quickView )
+		{
+			this.initializeQuickMenu();
+		}
+	},
+
+	// Clean up custom listeners.
+	beforeDestroy : function ()
+	{
+		// Context Listener - LEFT CLICK
+		if ( this.setting.contextMenuLeft || this.setting.contextMenuRight )
+		{
+			window.removeEventListener( "click", this.contextListenerLeftClick );
+		}
+
+		// Context Listener - RIGHT CLICK
+		if ( this.setting.contextMenuRight )
+		{
+			// Register context menu (right click) event.
+			window.removeEventListener( "contextmenu", this.contextListenerRightClick );
+		}
+
+		// Quick Menu Listener
+		window.removeEventListener( "click", this.quickMenuListenerLeftClick );
+
+		// Filter Dropdown
+		window.removeEventListener( 'mouseup', this.clearFilterDropdown, false );
+
+		// Resize Listeners
+		window.removeEventListener( 'resize', this.resizeListener );
+		window.removeEventListener( 'mouseup', this.resizeStop , false );
+	},
+
+	methods :
+	{
+		// Polyfills the element function "closest" (IE11).
+		polyfillClosest : function ()
+		{
+			if ( window.Element && !Element.prototype.closest )
+			{
+				Element.prototype.closest = function ( s )
+				{
+					let matches = ( this.document || this.ownerDocument ).querySelectorAll( s ), i, el = this;
+
+					do
+					{
+						i = matches.length;
+						while ( --i >= 0 && matches.item( i ) !== el ) {};
+					} while ( (i < 0) && ( el = el.parentElement ) );
+
+					return el;
+				};
+			}
+		},
+
+		// Configures the table according to the init props.
+		initializeTable : function ()
+		{
+			// Sets the rendering engine.
+			const INIT_ENGINE = () =>
+			{
+				this.rendering.engine = this.setting.renderEngine ? this.setting.renderEngine : 0;
+			};
+
+			// Create reactive column settings.
+			const INIT_COLUMNS = () =>
+			{
+				// Ensure columns are defined.
+				if ( typeof( this.setting.columns ) === 'object' )
+				{
+					this.setting.columns.forEach( ( userColumn, index ) =>
+					{
+						if ( typeof( userColumn.name ) !== 'string' )
+						{
+							this.status.tableError = 'Error: Invalid settings. One of the defined columns does not have a name assigned.';
+						}
+
+						if ( typeof( userColumn.title ) !== 'string' )
+						{
+							this.status.tableError = 'Error: Invalid settings. One of the defined columns does not have a title assigned.';
+						}
+
+						if ( typeof( userColumn.order ) !== 'number' )
+						{
+							this.status.tableError = 'Error: Invalid settings. One of the defined columns does not have a order assigned.';
+						}
+
+						if ( typeof( userColumn.type ) !== 'string' )
+						{
+							this.status.tableError = 'Error: Invalid settings. One of the defined columns does not have a type assigned.';
+						}
+
+						// Set column width value.
+						let columnWidth = null;
+
+						if ( typeof( userColumn.width ) === 'number' )
+						{
+							columnWidth = userColumn.width;
+						}
+
+						// Set initial visibility value.
+						let enabled = true;
+
+						if ( typeof( userColumn.enabled ) === 'boolean' && !userColumn.enabled )
+						{
+							enabled = false;
+						}
+
+						// Set filterable value.
+						let filterable = false;
+
+						if ( typeof( userColumn.filterable ) === 'boolean' && userColumn.filterable )
+						{
+							filterable = true;
+						}
+
+						this.$set( this.columns.list, index,
+						{
+							name          : userColumn.name,
+							title         : userColumn.title,
+							width         : columnWidth,
+							originalWidth : columnWidth,
+							order         : userColumn.order,
+							type          : userColumn.type,
+							filterable    : filterable,
+							enabled       : enabled,
+							headerStyles  : {},
+							dataStyles    : {},
+							sort          : userColumn.sort ? userColumn.sort : false,
+							sortDirection : userColumn.sortDirection ? userColumn.sortDirection : null,
+							sortSpecial   : userColumn.sortSpecial ? userColumn.sortSpecial : null
+						});
+					});
+
+					// Sort the array based on the passed order.
+					this.columns.list.sort( ( a, b ) =>
+					{
+						return a.order - b.order;
+					});
+
+					let viewLength = this.rendering.views.list.push
+					({
+						viewName : 'Default',
+						schema   : []
+					});
+
+					// Create default view.
+					this.columns.list.forEach ( ( column ) =>
+					{
+						if ( column.enabled )
+						{
+							this.rendering.views.list[viewLength - 1].schema.push( column );
+						}
+					});
+
+					// Sort the default view.
+					this.rendering.views.list[viewLength - 1].schema.sort( ( a, b ) =>
+					{
+						return a.order - b.order;
+					});
+
+					// Set the default view and active.
+					this.rendering.views.currentView = this.rendering.views.list[viewLength - 1];
+
+					let hasBeenSorted = false;
+
+					this.rendering.views.currentView.schema.forEach( ( viewColumn, viewIndex ) =>
+					{
+						// Sets the column as default sorted.
+						if ( viewColumn.sort )
+						{
+							this.columns.activeSortIndex    = viewIndex;
+							this.columns.activeSortName     = viewColumn.name;
+							this.columns.activeSortSpecial  = viewColumn.sortSpecial;
+
+							if ( typeof( viewColumn.sortDirection ) === 'string' )
+							{
+								this.columns.activeSortAsc = false;
+
+								if ( viewColumn.sortDirection === 'asc' )
+								{
+									this.columns.activeSortAsc = true;
+								}
+							}
+						}
+					});
+
+					this.rendering.views.currentSelectedView = 'Default';
+
+					// No sorting set, use first column.
+					if ( !hasBeenSorted )
+					{
+						this.columns.activeSortIndex    = 0;
+						this.columns.activeSortAsc      = true;
+						this.columns.activeSortName     = this.rendering.views.currentView.schema[0].name;
+						this.columns.activeSortSpecial  = this.rendering.views.currentView.schema[0].sortSpecial;
+					}
+				}
+				else
+				{
+					this.status.tableError = 'Error: Invalid settings. Columns are not defined.'
+				}
+			};
+
+			// Determine maximized state.
+			const SETUP_MAXIMIZE = () =>
+			{
+				if ( this.setting.forceMaximized || this.setting.startMaximized )
+				{
+					this.feature.maximized = true;
+				}
+			};
+
+			// Check for table & column widths and calculate fixed table full width.
+			const SETUP_SIZES = () =>
+			{
+				let noWidthColumns = 0;
+
+				// Check how many columns have no width assigned.
+				this.columns.list.forEach( ( column ) =>
+				{
+					if ( column.width === null )
+					{
+						noWidthColumns++;
+					}
+				});
+
+				// If the table should be responsive, but the sum of the widths is Greater/Equal To 100%. Throw an error.
+				if ( this.setting.responsiveTable && this.tableWidth !== null && this.tableWidth > 100 )
+				{
+					this.status.tableError =  'Error: Invalid settings. The sum of the individual column widths is greater then 100%. Ensure your columns are balanced.'
+				}
+
+				if ( !this.setting.responsiveFrame && this.setting.frameWidth === null )
+				{
+					this.status.tableError =  'Error: Invalid settings. The setting frameWidth is not configured. In order to use responsiveTable = FALSE you must set a frameWidth. The frame will now operate @ 100% and not function correctly.'
+				}
+
+				// Set the column width for each column.
+				this.columns.list.forEach( ( column, index ) =>
+				{
+					// If the column has an assigned width ..
+					if ( column.width !== null )
+					{
+						// If the table is NOT responsive, the width is PX.
+						if ( !this.setting.responsiveTable )
+						{
+							this.$set( this.columns.list[index].headerStyles, 'width', column.width + 'px' );
+							this.$set( this.columns.list[index].headerStyles, 'min-width', column.width + 'px' );
+							this.$set( this.columns.list[index].headerStyles, 'height', this.setting.headerHeight + 'px' );
+
+							this.$set( this.columns.list[index].dataStyles, 'width', column.width + 'px' );
+							this.$set( this.columns.list[index].dataStyles, 'min-width', column.width + 'px' );
+
+							if ( this.setting.rowFlex )
+							{
+								this.$set( this.columns.list[index].dataStyles, 'min-height', this.setting.rowHeight + 'px' );
+							}
+						}
+						// If the table IS responsive, the width is %.
+						else
+						{
+							this.$set( this.columns.list[index].headerStyles, 'width', column.width + '%' );
+							this.$set( this.columns.list[index].dataStyles, 'width', column.width + '%' );
+						}
+					}
+					// If no width is assigned to the column ..
+					else
+					{
+						// If the table is NOT responsive throw an error. This is because column widths are in PX.
+						if ( !this.setting.responsiveTable )
+						{
+							this.status.tableError = 'Error: Invalid settings. One or more of the columns does not have an assigned width. When the setting responsiveTable is set to false, all columns must have a specified width. Rendering table as responsive instead.';
+						}
+
+						// Calculate the width out of the remaining percentage.
+						let autoColumnWidth = ( 100 - this.tableWidth ) / noWidthColumns;
+
+						this.$set( this.columns.list[index].headerStyles, 'width', autoColumnWidth + '%' );
+						this.$set( this.columns.list[index].dataStyles, 'width', autoColumnWidth + '%' );
+					}
+				});
+			};
+
+			// Initialize pagination settings.
+			const SETUP_PAGINATION = () =>
+			{
+				if ( this.setting.renderEngine === 2 )
+				{
+					// Sets the current page if none is set.
+					const INIT_CURRENT_PAGE = () =>
+					{
+						if ( !this.rendering.pagination.currentPage )
+						{
+							this.rendering.pagination.currentPage = 1;
+						}
+					};
+
+					// Sets the current max number of rows per page if none is set.
+					const INIT_CURRENT_PAGE_ROWS = () =>
+					{
+						if ( !this.rendering.pagination.currentPageRows )
+						{
+							this.rendering.pagination.currentPageRows              = this.setting.paginationRowStart;
+							this.rendering.pagination.currentSelectedPageRowOption = this.setting.paginationRowStart;
+						}
+					};
+
+					// Sets the options available for how many rows will appear on a page.
+					const SET_ROW_OPTIONS = () =>
+					{
+						this.rendering.pagination.pageRowOptions = this.setting.paginationRowLimits;
+
+						if ( this.setting.paginationRowAll )
+						{
+							this.rendering.pagination.pageRowOptions.push('All');
+						}
+					};
+
+					INIT_CURRENT_PAGE();
+					INIT_CURRENT_PAGE_ROWS();
+					SET_ROW_OPTIONS();
+				}
+			};
+
+			// Force pagination for external data provider.
+			const DATA_PROVIDER_CHECK = () =>
+			{
+				if ( this.setting.dataProvider === 1 )
+				{
+					if ( this.setting.renderEngine === 0 )
+					{
+						this.status.tableError = 'Error: External data provider is only supported by the Pagination render engine. Please change your settings.';
+					}
+				}
+			};
+
+			// Configure the search option.
+			const SETUP_SEARCH = () =>
+			{
+				if ( this.setting.forceSearchOpen )
+				{
+					this.feature.searching = true;
+				}
+			};
+
+			// Build views.
+			const BUILD_VIEWS = () =>
+			{
+				if ( this.setting.views.length > 0 )
+				{
+					// Validate view(s) format.
+					this.setting.views.forEach ( ( view, viewIndex ) =>
+					{
+						// +1 is added to index because "Default" is the first (0).
+						let currentViewIndex = viewIndex + 1;
+
+						if ( view.viewName.constructor.name === 'String' && view.schema.constructor.name === 'Array' && view.schema.length > 0 )
+						{
+							// Create the view in the list.
+							this.$set( this.rendering.views.list, currentViewIndex,
+							{
+								viewName : view.viewName,
+								schema   : []
+							});
+
+							// Set the column width for each column.
+							view.schema.forEach( ( column, columnIndex ) =>
+							{
+								this.$set( this.rendering.views.list[currentViewIndex].schema, columnIndex,
+								{
+									name          : column.name ? column.name : '',
+									title         : column.title ? column.title : '',
+									width         : column.width ? column.width : null,
+									originalWidth : column.width ? column.width : null,
+									order         : column.order ? column.order : null,
+									type          : column.type ? column.type : 'String',
+									filterable    : column.filterable ? column.filterable : false,
+									enabled       : column.enabled ? column.enabled : false,
+									headerStyles  : {},
+									dataStyles    : {},
+									sort          : column.sort ? column.sort : false,
+									sortDirection : column.sortDirection ? column.sortDirection : null,
+								});
+
+								// If the column has an assigned width ..
+								if ( column.width !== null )
+								{
+									this.rendering.views.list[currentViewIndex].schema[columnIndex].originalWidth = column.width;
+
+									// If the table is NOT responsive, the width is PX.
+									if ( !this.setting.responsiveTable )
+									{
+										this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].headerStyles, 'width', column.width + 'px' );
+										this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].headerStyles, 'min-width', column.width + 'px' );
+										this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].headerStyles, 'height', this.setting.headerHeight + 'px' );
+
+										this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].dataStyles, 'width', column.width + 'px' );
+										this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].dataStyles, 'min-width', column.width + 'px' );
+
+										if ( this.setting.rowFlex )
+										{
+											this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].dataStyles, 'min-height', this.setting.rowHeight + 'px' );
+										}
+									}
+									// If the table IS responsive, the width is %.
+									else
+									{
+										this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].headerStyles, 'width', column.width + '%' );
+										this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].dataStyles, 'width', column.width + '%' );
+									}
+								}
+								// If no width is assigned to the column ..
+								else
+								{
+									// If the table is NOT responsive throw an error. This is because column widths are in PX.
+									if ( !this.setting.responsiveTable )
+									{
+										this.status.tableError = `Error: Invalid settings in view name: ${ view.viewName }. One or more of the columns does not have an assigned width. When the setting responsiveTable is set to false, all columns must have a specified width. Rendering table as responsive instead.`;
+									}
+
+									// Calculate the width out of the remaining percentage.
+									let autoColumnWidth = ( 100 - this.tableWidth ) / noWidthColumns;
+
+									this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].headerStyles, 'width', autoColumnWidth + '%' );
+									this.$set( this.rendering.views.list[currentViewIndex].schema[columnIndex].dataStyles, 'width', autoColumnWidth + '%' );
+								}
+							});
+
+							// Sort the new view.
+							this.rendering.views.list[currentViewIndex].schema.sort( ( a, b ) =>
+							{
+								return a.order - b.order;
+							});
+						}
+						else
+						{
+							this.status.tableError = 'Error: There was a problem validating a view configuration. Validate the JD-Table settings.';
+						}
+					});
+				}
+			};
+
+			INIT_ENGINE();
+			INIT_COLUMNS();
+			SETUP_MAXIMIZE();
+			SETUP_SIZES();
+			SETUP_PAGINATION();
+			SETUP_SEARCH();
+			DATA_PROVIDER_CHECK();
+			BUILD_VIEWS();
+		},
+
+		// Configures the table context menu (right/left click).
+		initializeContextMenu : function ()
+		{
+			// LEFT CLICK
+			if ( this.setting.contextMenuLeft || this.setting.contextMenuRight )
+			{
+				window.addEventListener( "click", this.contextListenerLeftClick );
+			}
+
+			// RIGHT CLICK
+			if ( this.setting.contextMenuRight )
+			{
+				// Register context menu (right click) event.
+				window.addEventListener( "contextmenu", this.contextListenerRightClick );
+			}
+		},
+
+		// Emits the current state of the component.
+		emitState : function ()
+		{
+			this.$emit( 'event-from-jd-table', this.componentState );
+		},
+
+		// JavaScript listener for resizing the window.
+		resizeListener : function ( e )
+		{
+			// Clear the scrolling timer.
+			clearTimeout( this.rendering.isResizing );
+
+			this.rendering.isResizing = setTimeout( () =>
+			{
+				// If auto rendering is the engine, re-render.
+				if ( this.rendering.engine === 0 )
+				{
+					this.renderView( this.rendering.virtual.rowMiddleIndex );
+				}
+
+				this.checkMobile();
+			}, 750 );
+		},
+
+		// JavaScript listener for left clicking (context menu).
+		contextListenerLeftClick : function ( e )
+		{
+			// If the menu is visible already ..
+			if ( this.status.contextMenu )
+			{
+				this.hideContextMenu();
+			}
+
+			if ( this.setting.contextMenuLeft && e.target.closest( '.jd-body' ) )
+			{
+				// Get the location of the right click.
+				const clickLocation =
+				{
+					left : e.clientX,
+					top  : e.clientY
+				};
+
+				// Show the menu at the click location.
+				this.showContextMenu( clickLocation );
+			}
+		},
+
+		// JavaScript listener for right clicking (context menu).
+		contextListenerRightClick : function ( e )
+		{
+			// If the click takes places in the table body ..
+			if ( e.target.closest( '.jd-body' ) )
+			{
+				// Prevent the regular menu.
+				e.preventDefault();
+
+				// Clear previous context (if any).
+				if ( this.status.contextMenu )
+				{
+					this.hideContextMenu();
+				}
+
+				// Close any feature menu.
+				this.featureAction( null );
+
+				// Get the location of the right click.
+				const clickLocation =
+				{
+					left : e.clientX,
+					top  : e.clientY
+				};
+
+				// Show the menu at the click location.
+				this.showContextMenu( clickLocation );
+
+				return false;
+			}
+		},
+
+		// JavaScript listener for left clicking (quick menu).
+		quickMenuListenerLeftClick : function ( e )
+		{
+			// Don't run this when clicking in the table body.
+			if ( !e.target.closest( '.jd-body' ) )
+			{
+				// Ensure user clicks outside the popup window.
+				if ( this.row.selectedIndex !== null && e.target.classList.contains('jd-layerPopup') )
+				{
+					this.quickViewClose();
+				}
+			}
+		},
+
+		// Configures a click listener to close quick menu when clicked out of it.
+		initializeQuickMenu : function ()
+		{
+			window.addEventListener( "click", this.quickMenuListenerLeftClick );
+		},
+
+		// Enables the context menu at the coordinates passed.
+		showContextMenu : function ( { top, left } )
+		{
+			// Close any feature menu.
+			this.featureAction( null );
+
+			this.$refs.jd_contextMenu.style.left = `${ left }px`;
+			this.$refs.jd_contextMenu.style.top  = `${ top }px`;
+
+			// Update the index of the row right clicked on.
+			this.row.activeContextIndex   = this.row.activeHoverIndex;
+			this.row.activeContextElement = this.row.activeHoverElement;
+
+			// Make the row red.
+			this.row.activeContextElement.classList.add('jd-rowSelect');
+
+			// Show the context menu,
+			this.status.contextMenu = true;
+
+			// Context menu position correction.
+			setTimeout( () =>
+			{
+				let contextWidth  = this.$refs.jd_contextMenu.offsetWidth;
+				let contextHeight = this.$refs.jd_contextMenu.offsetHeight;
+				let windowWidth   = window.innerWidth;
+				let windowHeight  = window.innerHeight;
+
+				if ( ( windowWidth - left ) < contextWidth )
+				{
+					// 21 is subtracted to compensate for a scrollbar.
+					this.$refs.jd_contextMenu.style.left = ( windowWidth - contextWidth ) - 21 + "px";
+				}
+
+				if ( (windowHeight - top ) < contextHeight )
+				{
+					// 21 is subtracted to compensate for a scrollbar.
+					this.$refs.jd_contextMenu.style.top = ( windowHeight - contextHeight ) - 21 + "px";
+				}
+
+			}, 50, { top, left } );
+		},
+
+		// Disabled (hides) the context menu.
+		hideContextMenu : function ()
+		{
+			if ( this.row.selectedIndex === null )
+			{
+				// Remove the row red.
+				this.row.activeContextElement.classList.remove('jd-rowSelect');
+
+				// Update the index of the row right clicked on.
+				this.row.activeContextIndex   = null;
+				this.row.activeContextElement = null;
+			}
+
+			this.status.contextMenu = false;
+		},
+
+		// Manages all feature actions.
+		featureAction : function ( name )
+		{
+			// Switches the maximize flag.
+			const MAXIMIZE = () =>
+			{
+				this.feature.maximized = !this.feature.maximized;
+
+				// Virtual Scroll: Re-render the rows based on the new window size.
+				if ( this.rendering.engine === 0 )
+				{
+					this.renderView( this.rendering.virtual.rowMiddleIndex );
+				}
+			};
+
+			// Shows/hides the search input field.
+			const SEARCH = () =>
+			{
+				if ( !this.setting.forceSearchOpen )
+				{
+					this.feature.searching = !this.feature.searching;
+
+					if ( this.feature.searching )
+					{
+						// Waits for the search bar to be visible then focuses it.
+						setTimeout( () =>
+						{
+							this.$refs.searchField.focus();
+						}, 150)
+					}
+				}
+			};
+
+			// Emits a add new event to the parent.
+			const ADDNEW = () =>
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'AddItem';
+
+				this.emitState();
+			};
+
+			// Emits a add new event to the parent.
+			const VIEWITEM = () =>
+			{
+				this.contextView();
+			};
+
+			// Emits a add new event to the parent.
+			const EDITITEM = () =>
+			{
+				this.contextEdit();
+			};
+
+			// Emits a add new event to the parent.
+			const DELETEITEM = () =>
+			{
+				this.contextDelete();
+			};
+
+			// Emits a refresh event to the parent.
+			const REFRESH = () =>
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'Refresh';
+
+				// Update table status.
+				this.updateStatus( 'updatingPage', true );
+
+				this.emitState();
+			};
+
+			// Show/Hide the filtering view.
+			const FILTER = () =>
+			{
+				this.filters.show = !this.filters.show;
+			};
+
+			// Clean up any filter interface/variable settings when a feature button is pressed.
+			const FILTER_CLEAN_UP = () =>
+			{
+				// Reset any filter errors that may exist.
+				this.filters.error     = false;
+				this.filters.errorText = '';
+
+				// Clear filters if shown.
+				if ( this.filters.show )
+				{
+					this.filters.show = false;
+				}
+			};
+
+			// Show/Hide the column selection.
+			const COLUMNS = () =>
+			{
+				this.columns.selecting = !this.columns.selecting;
+			};
+
+			// Clean up any column selection interface/variable settings when feature button is pressed.
+			const COLUMNS_CLEAN_UP = () =>
+			{
+				this.columns.selecting = false;
+			};
+
+			// Show/hide the pagination row changing option.
+			const PAGINATION = () =>
+			{
+				this.rendering.pagination.changingRows = !this.rendering.pagination.changingRows;
+			};
+
+			// Clean up any pagination row changing options.
+			const PAGINATION_CLEAN_UP = () =>
+			{
+				this.rendering.pagination.changingRows = false;
+			};
+
+			// Clean up any view row changing options.
+			const VIEW_CLEAN_UP = () =>
+			{
+				this.rendering.views.changingViews = false;
+			};
+
+			// Show/hide the view changing option.
+			const VIEW = () =>
+			{
+				this.rendering.views.changingViews = !this.rendering.views.changingViews;
+			};
+
+			// Exports the current available data to excel.
+			const EXPORT = () =>
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'ExcelExport';
+
+				// Check if a limit is set.
+				if ( this.setting.exportLimit )
+				{
+					let dataSize = null;
+
+					const checkExportLimit = () =>
+					{
+						if ( this.setting.dataProvider !== 1 && this.processedData.length > this.setting.exportLimit )
+						{
+							dataSize = this.formatNumberWithCommas( this.processedData.length );
+
+							return true;
+						}
+
+						return false;
+					}
+
+					const checkExportLimitExternal = () =>
+					{
+						if ( this.setting.dataProvider === 1 && this.processedDataSize > this.setting.exportLimit )
+						{
+							dataSize = this.formatNumberWithCommas( this.processedDataSize );
+
+							return true;
+						}
+
+						return false;
+					}
+
+					if ( checkExportLimit() || checkExportLimitExternal() )
+					{
+						alert(`Sorry, you can only export a maximum of ${ this.formatNumberWithCommas( this.setting.exportLimit ) } records at a time. There are currently ${ dataSize } records in your table. Try filtering the records down further to use this feature.`)
+
+						return;
+					}
+				}
+
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'processingData', true );
+				}
+				else
+				{
+					this.exportExcel( this.processedData );
+				}
+
+				this.emitState();
+			};
+
+			if ( name === 'MaxMinimize' )
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				MAXIMIZE();
+			}
+			else if ( name === 'Search' )
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				SEARCH();
+			}
+			else if ( name === 'AddNew' )
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				ADDNEW();
+			}
+			else if ( name === 'ViewItem' )
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				VIEWITEM();
+			}
+			else if ( name === 'EditItem' )
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				EDITITEM();
+			}
+			else if ( name === 'DeleteItem' )
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				DELETEITEM();
+			}
+			else if ( name === 'Refresh' )
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				REFRESH();
+			}
+			else if ( name === 'Columns' )
+			{
+				FILTER_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				COLUMNS();
+			}
+			else if ( name === 'Filter' )
+			{
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				FILTER();
+			}
+			else if ( name === 'Pagination' )
+			{
+				COLUMNS_CLEAN_UP();
+				FILTER_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				PAGINATION();
+			}
+			else if ( name === 'Export' )
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+
+				EXPORT();
+			}
+			else if ( name === 'View' )
+			{
+				COLUMNS_CLEAN_UP();
+				FILTER_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+
+				VIEW();
+			}
+			else
+			{
+				FILTER_CLEAN_UP();
+				COLUMNS_CLEAN_UP();
+				PAGINATION_CLEAN_UP();
+				VIEW_CLEAN_UP();
+			}
+		},
+
+		// Exports data to excel. Supports IE.
+		exportExcel : function ( data )
+		{
+			// Creates a HTML table to be exported.
+			const renderTable = () =>
+			{
+				let table = '<table><thead>';
+
+				table += '<tr>';
+
+				for ( let i = 0; i < this.columns.list.length; i++ )
+				{
+					const column = this.columns.list[i];
+
+					table += '<th>';
+
+					if ( typeof( column.title ) === 'undefined' )
+					{
+						table += column.name;
+					}
+					else
+					{
+						table += column.title;
+					}
+
+					table += '</th>';
+				}
+
+				table += '</tr>';
+
+				table += '</thead><tbody>';
+
+				for ( let i = 0; i < data.length; i++ )
+				{
+					const row = data[i];
+
+					table += '<tr>';
+
+					for ( let j = 0; j < this.columns.list.length; j++ )
+					{
+						const column = this.columns.list[j];
+
+						table += '<td>';
+						table += row[column.name];
+						table += '</td>';
+					}
+
+					table += '</tr>';
+				}
+
+				table += '</tbody></table>';
+
+				return table;
+			};
+
+			let userAgent      = window.navigator.userAgent;
+			let browserDetails = userAgent.indexOf("MSIE ");
+
+			if ( browserDetails > 0 || !!navigator.userAgent.match( /Trident.*rv\:11\./ ) )
+			{
+				excelExportArea.document.open( "txt/html","replace" );
+				excelExportArea.document.write( renderTable() );
+				excelExportArea.document.close();
+				excelExportArea.focus();
+
+				excelExportArea.document.execCommand( "SaveAs",true,"Data_Export.xls" );
+			}
+			else
+			{
+				window.open( 'data:application/vnd.ms-excel,' + encodeURIComponent( renderTable() ) );
+			}
+		},
+
+		// Processes the raw data through filters/search. This returns a promise.
+		processData : function ()
+		{
+			return new Promise( ( resolve, reject ) =>
+			{
+				// External Data - Just copy to processedData.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.processedData = this.data;
+
+					resolve();
+				}
+				// Internal Data - Process through search/filter.
+				else
+				{
+					// Timeout ensures processing message.
+					setTimeout( () =>
+					{
+						let processedData = this.data;
+
+						// ---------
+						// SEARCHING
+						// ---------
+						//
+						// Search terms filter all of the data that JD-Table has. This means search happens before filtering.
+
+						// Clean the search term.
+						let searchTerm = this.search.text.trim().toLowerCase();
+
+						// If a search term exists, search it.
+						if ( searchTerm )
+						{
+							// Indicate that searching is being done.
+							this.search.searching = true;
+
+							processedData = processedData.filter ( ( row ) =>
+							{
+								// Define the search pattern for various column type date: String/Number/Array.
+								const searchAlgorithm = ( column ) =>
+								{
+									// Search a column which is made up of an array or strings.
+									if ( column.type === 'Array' )
+									{
+										let searchMatch = false;
+
+										if ( row[column.name] && row[column.name].length > 0 )
+										{
+											// For each item in the row/column.
+											row[column.name].forEach( ( item ) =>
+											{
+												let searchText = String( item ).toLowerCase();
+
+												// Casts number variables to strings to make the searchable with Strings.
+												if ( !searchMatch && searchText.includes( searchTerm ) )
+												{
+													searchMatch = true;
+												}
+											});
+										}
+
+										return searchMatch;
+									}
+									// Search a column which is made up of strings or numbers.
+									else
+									{
+										let searchText = String( row[column.name] ).toLowerCase();
+
+										// Casts number variables to strings to make the searchable with Strings.
+										if ( searchText.includes( searchTerm ) )
+										{
+											return true;
+										}
+									}
+
+									return false;
+								};
+
+								// If the search algorithm function returns true, that row is kept (not excluded from results).
+								return this.columns.list.find( searchAlgorithm );
+							});
+						}
+						else
+						{
+							// Indicate that searching is NOT being done.
+							this.search.searching = false;
+						}
+
+						// ---------
+						// FILTERING
+						// ---------
+						//
+						// Filters are applied using the following rules:
+						// - Filters with the same column are grouped together and use the OR condition (excluding < and > which are AND)
+						// 	 - Filter #1: 'Column1' --> 'Equals To' --> 'John'
+						//   - Filter #2: 'Column1' --> 'Equals To' --> 'Peter'
+						//   - Applied: Show rows where 'Column1' --> 'Equals To' --> 'John' OR 'Peter'
+						// - Filters applied to different columns use AND condition.
+						//   - Filter #1: 'Column1' --> 'Equals To' --> 'John'
+						//   - Filter #2: 'Column2' --> 'Equals To' --> '$100.00'
+						//   - Applied: Show rows where 'Column1' --> 'Equals To' --> 'John' AND 'Column2' 'Equals To' --> '$100.00'
+						if ( this.filtering )
+						{
+							let tempData = [];
+
+							// Returns a unique array of column names that are actively filtered.
+							const UNIQUE_FILTER_COLUMNS = () =>
+							{
+								let columnSet     = new Set( this.filters.active.map( ( filter ) => filter.column.name ) );
+								let uniqueColumns = [];
+
+								columnSet.forEach( ( column ) =>
+								{
+									uniqueColumns.push( column );
+								});
+
+								return uniqueColumns;
+							};
+
+							// Performs filter: Equals To (String Based).
+							const FILTER_EQUALS_TO = ( row, columnFilter ) =>
+							{
+								return ( String( row[columnFilter.column.name]).toLowerCase() === String(columnFilter.value).toLowerCase() );
+							};
+
+							// Performs filter: Not Equals To (String Based).
+							const FILTER_NOT_EQUALS_TO = ( row, columnFilter ) =>
+							{
+								return ( String( row[columnFilter.column.name]).toLowerCase() !== String(columnFilter.value).toLowerCase() );
+							};
+
+							// Performs filter: Begins With (String Based).
+							const FILTER_BEGINS_WITH = ( row, columnFilter ) =>
+							{
+								return ( String( row[columnFilter.column.name]).toLowerCase().startsWith(String(columnFilter.value).toLowerCase()) );
+							};
+
+							// Performs filter: Contains (String Based).
+							const FILTER_CONTAINS = ( row, columnFilter ) =>
+							{
+								return ( String( row[columnFilter.column.name]).toLowerCase().includes( String( columnFilter.value ).toLowerCase() ) );
+							};
+
+							// Performs filter: Greater and Less/Equal To (Number Based).
+							const FILTER_GREATER_LESS_THAN = ( row, columnName, greaterThanValue, lessThanValue ) =>
+							{
+								let columnNumber = Number( row[columnName] );
+
+								if ( greaterThanValue && lessThanValue )
+								{
+									if ( columnNumber >= greaterThanValue && columnNumber <= lessThanValue )
+									{
+										return true;
+									}
+								}
+
+								if ( greaterThanValue && !lessThanValue )
+								{
+									if ( columnNumber >= greaterThanValue )
+									{
+										return true;
+									}
+								}
+
+								if ( !greaterThanValue && lessThanValue )
+								{
+									if ( columnNumber <= lessThanValue )
+									{
+										return true;
+									}
+								}
+
+								return false;
+							};
+
+							// Cycle through the unique column filters.
+							UNIQUE_FILTER_COLUMNS().forEach( ( columnName, index ) =>
+							{
+								// Will hold the data that will be filtered.
+								let dataToBeFiltered = [];
+
+								// Will hold the new set of filtered data.
+								let newFilteredData = [];
+
+								// On first pass (for the first column), use all the data available.
+								if ( index === 0 )
+								{
+									dataToBeFiltered = processedData;
+								}
+								// On second pass (next column) use existing filtered data.
+								else
+								{
+									dataToBeFiltered = tempData;
+								}
+
+								// Get all of the filters for the given column.
+								let columnFilters = this.filters.active.filter( ( filter ) =>
+								{
+									return filter.column.name === columnName;
+								});
+
+								// Stores numeric comparison values.
+								let greaterThanValue = null;
+								let lessThanValue    = null;
+
+								// Check for Greater/Equal To / Less/Equal To filters which should be grouped.
+								columnFilters.forEach( ( columnFilter ) =>
+								{
+									// Store greater then for
+									if ( columnFilter.option === 'Greater/Equal To' )
+									{
+										greaterThanValue = columnFilter.value;
+									}
+
+									if ( columnFilter.option === 'Less/Equal To' )
+									{
+										lessThanValue = columnFilter.value;
+									}
+								});
+
+								// For each row of data, check the column filter. If any single filter passes, add the row and move to the next.
+								dataToBeFiltered.forEach( ( row, index ) =>
+								{
+									// Indicates if the row has been added to the newly filtered array.
+									let hasBeenPushed = false;
+
+									// Process string based filters.
+									columnFilters.forEach( ( columnFilter ) =>
+									{
+										// FILTER: Equals To
+										if ( columnFilter.option === 'Equals To' )
+										{
+											if ( FILTER_EQUALS_TO( row, columnFilter ) )
+											{
+												newFilteredData.push( row );
+
+												hasBeenPushed = true;
+											}
+										}
+
+										// FILTER: Contains
+										if ( !hasBeenPushed && columnFilter.option === 'Contains' )
+										{
+											if ( FILTER_CONTAINS( row, columnFilter ) )
+											{
+												newFilteredData.push( row );
+
+												hasBeenPushed = true;
+											}
+										}
+
+										// FILTER: Not Equals To
+										if ( !hasBeenPushed && columnFilter.option === 'Not Equals To' )
+										{
+											if ( FILTER_NOT_EQUALS_TO( row, columnFilter ) )
+											{
+												newFilteredData.push( row );
+
+												hasBeenPushed = true;
+											}
+										}
+
+										// FILTER: Begins With
+										if ( !hasBeenPushed && columnFilter.option === 'Begins With' )
+										{
+											if ( FILTER_BEGINS_WITH( row, columnFilter ) )
+											{
+												newFilteredData.push( row );
+
+												hasBeenPushed = true;
+											}
+										}
+									});
+
+									// Check if there are numeric specific operations.
+									if ( greaterThanValue || lessThanValue )
+									{
+										if ( FILTER_GREATER_LESS_THAN( row, columnName, greaterThanValue, lessThanValue ) )
+										{
+											newFilteredData.push( row );
+										}
+									}
+								});
+
+								// Replace the tempData with the newly filtered data.
+								tempData = newFilteredData;
+							});
+
+							processedData = tempData;
+						}
+
+						this.processedData = processedData;
+
+						// Stop processing visual.
+						this.updateStatus( 'processingData', false );
+
+						// End the promise.
+						resolve();
+					}, 75);
+				}
+			});
+		},
+
+		// Processes the passed event.
+		processEvent : function ( name )
+		{
+			// Process the data sent to JD-Table.
+			if ( !this.status.tableError && name === 'sendData' )
+			{
+				let eventError = false;
+
+				// Clear the current view.
+				this.currentTableData = [];
+
+				// Internal Data
+				if ( this.setting.dataProvider === 0 )
+				{
+					if ( this.eventFromApp.payload !== null && this.eventFromApp.payload.constructor.name === 'Array' )
+					{
+						if ( this.eventFromApp.payload.length > 0 )
+						{
+							// Assign the data to the component.
+							this.data = this.eventFromApp.payload;
+
+							// Reset scroll position.
+							this.resetScroll();
+
+							// Process the data through filters/search.
+							this.processData().then( () =>
+							{
+								// Render the data.
+								this.renderView();
+
+								if ( typeof this.eventFromApp.componentState !== 'undefined' )
+								{
+									this.changeState( this.eventFromApp.componentState );
+								}
+
+								this.tableReady = true;
+							});
+						}
+						else
+						{
+							this.currentTableData = [];
+
+							this.tableReady = true;
+						}
+					}
+					else
+					{
+						eventError = true;
+					}
+				}
+
+				// External Data
+				if ( this.setting.dataProvider === 1 )
+				{
+					if ( this.eventFromApp.payload !== null && this.eventFromApp.payload.constructor.name === 'Object' )
+					{
+						if ( this.eventFromApp.payload.data.length > 0 )
+						{
+							// Assign the results true length.
+							this.rendering.external.dataSize = this.eventFromApp.payload.count;
+
+							// Assign the data to the component.
+							this.data = this.eventFromApp.payload.data;
+
+							// Process the data through filters/search.
+							this.processData().then( () =>
+							{
+								// Render the data.
+								this.renderView();
+
+								if ( typeof this.eventFromApp.componentState !== 'undefined' )
+								{
+									this.changeState( this.eventFromApp.componentState );
+								}
+
+								this.tableReady = true;
+							});
+						}
+						else
+						{
+							this.currentTableData = [];
+
+							this.tableReady = true;
+						}
+					}
+					else
+					{
+						eventError = true;
+					}
+				}
+
+				// Clear any messaging/statuses.
+				this.updateStatus( null, null );
+
+				if ( eventError )
+				{
+					this.status.tableError = 'Error: sendData event issue. Payload is null or improperly formatted.';
+				}
+			}
+
+			// Reset table (Clear All)
+			if ( !this.status.tableError && name === 'clearAll' )
+			{
+				this.clearTable();
+			}
+
+			// Displays a table error.
+			if ( !this.status.tableError && name === 'tableError' )
+			{
+				this.status.tableError = this.eventFromApp.payload;
+
+				// Clear any messaging/statuses.
+				this.updateStatus( null, null );
+			}
+
+			// Exports passed data to excel.
+			if ( !this.status.tableError && name === 'exportExcel' )
+			{
+				this.exportExcel( this.eventFromApp.payload );
+
+				// Clear any messaging/statuses.
+				this.updateStatus( null, null );
+			}
+
+			// Sets the component state.
+			if ( !this.status.tableError && name === 'setState' )
+			{
+				if ( this.eventFromApp.componentState !== null && this.eventFromApp.componentState.constructor.name === 'Object' )
+				{
+					this.changeState( this.eventFromApp.componentState );
+				}
+			}
+		},
+
+		// Updates the state of JD-Table
+		changeState : function ( newState )
+		{
+			// Search Text
+			if ( typeof newState.searchText !== 'undefined' && newState.searchText )
+			{
+				this.search.text = String ( newState.searchText );
+			}
+
+			// Searching
+			if ( typeof newState.searchApplied !== 'undefined' && newState.searchApplied !== null && newState.searchApplied.constructor.name === 'Boolean' )
+			{
+				this.performSearch();
+			}
+
+			// Active Filters
+			if ( typeof newState.filterApplied !== 'undefined' && newState.filterApplied !== null && newState.filterApplied.constructor.name === 'Array' )
+			{
+				this.filters.active = newState.filterApplied;
+
+				// Process the data through filters/search.
+				this.processData().then( () =>
+				{
+					// Render the new view.
+					this.renderView();
+				});
+			}
+
+			// Page Limit
+			if ( typeof newState.pageLimit !== 'undefined' && newState.pageLimit !== null && newState.pageLimit.constructor.name === 'Number' )
+			{
+				this.changePageRows( newState.pageLimit )
+			}
+
+			// Current Page
+			if ( typeof newState.currentPage !== 'undefined' && newState.currentPage !== null && newState.currentPage.constructor.name === 'Number' )
+			{
+				this.rendering.pagination.currentPage = newState.currentPage;
+
+				// Re-render the view.
+				this.renderView();
+			}
+
+			// Column Sort
+			if ( typeof newState.sortColumnIndex !== 'undefined' && newState.sortColumnIndex !== null && newState.sortColumnIndex.constructor.name === 'Number' )
+			{
+				this.columns.activeSortIndex = newState.sortColumnIndex;
+
+				// Sorted Direction
+				if ( typeof newState.sortDirection !== 'undefined' && newState.sortDirection !== null && newState.sortDirection.constructor.name === 'String' )
+				{
+					if ( newState.sortDirection === 'ASC' )
+					{
+						this.columns.activeSortAsc = true;
+					}
+					else
+					{
+						this.columns.activeSortAsc = false;
+					}
+
+					// Re-render the view.
+					this.renderView();
+				}
+			}
+
+			// Current Selected View
+			if ( typeof newState.currentView !== 'undefined' && newState.currentView !== null )
+			{
+				this.changeView( newState.currentView );
+			}
+		},
+
+		// Renders the correct view based on the data and rendering engine setting.
+		renderView : function ( renderPosition = 0 )
+		{
+			// Start processing visual.
+			this.updateStatus( 'processingData', true );
+
+			// Timeout ensures processing message.
+			setTimeout( () =>
+			{
+				// Check mobile size.
+				this.checkMobile();
+
+				// Sort the data.
+				this.sortData();
+
+				if ( this.processedDataSize > 0 )
+				{
+					// Rendering Engine: Auto
+					if ( this.setting.renderEngine === 0 )
+					{
+						// Render full.
+						if ( this.processedDataSize <= this.setting.virtualEngineRowStart )
+						{
+							this.rendering.engine = 1;
+
+							this.renderViewAll();
+						}
+						// Render virtual.
+						else
+						{
+							this.rendering.engine = 0;
+
+							this.renderViewVirtual( renderPosition );
+						}
+					}
+					else
+					{
+						// Render All.
+						if ( this.setting.renderEngine === 1 )
+						{
+							this.rendering.engine = 1;
+
+							this.renderViewAll();
+						}
+
+						// Render Pagination
+						if ( this.setting.renderEngine === 2 )
+						{
+							this.rendering.engine = 2;
+
+							this.renderPagination();
+						}
+					}
+				}
+				else
+				{
+					this.currentTableData = [];
+				}
+
+				this.checkBodyScroll();
+
+				// Stop processing visual.
+				this.updateStatus( 'processingData', false );
+			}, 80 );
+		},
+
+		// Render all the data passed to JD-Table.
+		renderViewAll : function ()
+		{
+			let fullView = [];
+
+			if ( this.processedDataSize > 0 )
+			{
+				this.processedData.forEach ( ( row, index ) =>
+				{
+					fullView.push
+					({
+						index : index,
+						data  : row
+					});
+				});
+			}
+
+			this.currentTableData = fullView;
+		},
+
+		// Renders the virtual view based on the passed position.
+		renderViewVirtual : function ( renderPosition )
+		{
+			// Calculate the virtual render buffer size. This # of items will be loaded before and after the view.
+			const VIRTUAL_BUFFER_SIZE = () =>
+			{
+				// Set the buffer size to 5 times the amount of rows that fit in the view.
+				return this.getRowsInView() * this.rendering.virtual.virtualBufferSize;
+			};
+
+			// Determines if the renderPosition is near the start of the list.
+			const VIRTUAL_START_ZONE = ( position ) =>
+			{
+				return ( position <= VIRTUAL_BUFFER_SIZE() );
+			};
+
+			// Determines if the renderPosition is near the end of the list.
+			const VIRTUAL_END_ZONE = ( position ) =>
+			{
+				return ( position >= ( this.processedDataSize - 1 ) || position >= (this.processedDataSize - VIRTUAL_BUFFER_SIZE() ) );
+			};
+
+			let updatedView = [];
+
+			// Set the virtual height div.
+			this.rendering.virtual.height = 0;
+
+			if ( this.processedDataSize > 0 )
+			{
+				// Update the virtual height div.
+				this.rendering.virtual.height = this.processedDataSize * this.setting.rowHeight;
+
+				let startPosition = renderPosition - VIRTUAL_BUFFER_SIZE();
+				let endPosition   = renderPosition + VIRTUAL_BUFFER_SIZE() + this.getRowsInView();
+
+				// If the render position is in the start zone, set to 0 (beginning) of data.
+				if ( VIRTUAL_START_ZONE( startPosition ) )
+				{
+					startPosition = 0;
+				}
+
+				// If the render position is in the end zone, set to the last data item (end).
+				if ( VIRTUAL_END_ZONE( endPosition ) )
+				{
+					endPosition = this.processedDataSize - 1;
+				}
+
+				// Update the currently rendered top row (index).
+				this.rendering.virtual.rowTopIndex = startPosition;
+
+				// Update the currently rendered bottom row (index).
+				this.rendering.virtual.rowBottomIndex = endPosition;
+
+				// Update the currently rendered position.
+				this.rendering.virtual.rowMiddleIndex = renderPosition;
+
+				for ( let i = startPosition; i <= endPosition; i++ )
+				{
+					// Add item to end of view.
+					updatedView.push
+					({
+						index : i,
+						data  : this.processedData[i]
+					});
+				}
+
+				// Set the next render positions (top/bottom).
+				this.setRenderPositions();
+			}
+
+			this.currentTableData = updatedView;
+		},
+
+		// Renders a set amount of records per page.
+		renderPagination : function ()
+		{
+			// Sets the available pages based on the data size and rows per page.
+			const SET_AVAILABLE_PAGES = () =>
+			{
+				this.rendering.pagination.availablePages = Math.ceil( this.processedDataSize / this.rendering.pagination.currentPageRows );
+
+				if ( this.rendering.pagination.currentPage > this.rendering.pagination.availablePages )
+				{
+					this.rendering.pagination.currentPage = 1;
+				}
+			};
+
+			// Returns the rows that should be in the current view based ont he page.
+			const GET_ROWS_IN_PAGE = () =>
+			{
+				let pageView   = [];
+				let startIndex = ( this.rendering.pagination.currentPage * this.rendering.pagination.currentPageRows ) - this.rendering.pagination.currentPageRows;
+				let endIndex   = ( this.rendering.pagination.currentPage * this.rendering.pagination.currentPageRows );
+
+				// Correction for external data.
+				if ( this.setting.dataProvider === 1 && this.processedDataSize )
+				{
+					startIndex = 0;
+					endIndex   = this.processedData.length;
+				}
+
+				// End index correction.
+				if ( endIndex > this.processedDataSize )
+				{
+					endIndex = this.processedDataSize;
+				}
+
+				for ( let i = startIndex; i < endIndex; i++ )
+				{
+					// Add item to end of view.
+					pageView.push
+					({
+						index : i,
+						data  : this.processedData[i]
+					});
+				}
+
+				if ( pageView.length > 0 )
+				{
+					if ( this.setting.dataProvider === 1 )
+					{
+						this.rendering.pagination.currentStartIndex = ( this.rendering.pagination.currentPage * this.rendering.pagination.currentPageRows ) - this.rendering.pagination.currentPageRows;
+						this.rendering.pagination.currentEndIndex   = ( this.rendering.pagination.currentPage * this.rendering.pagination.currentPageRows );
+
+						// End index correction for last page
+						if ( this.rendering.pagination.currentEndIndex > this.processedDataSize )
+						{
+							this.rendering.pagination.currentEndIndex = this.processedDataSize;
+						}
+					}
+					else
+					{
+						this.rendering.pagination.currentStartIndex = startIndex;
+						this.rendering.pagination.currentEndIndex   = endIndex;
+					}
+				}
+				else
+				{
+					this.rendering.pagination.currentStartIndex = 0;
+					this.rendering.pagination.currentEndIndex   = 0;
+				}
+
+				return pageView;
+			};
+
+			// Sets the left and right page options for the footer.
+			const SET_PAGE_OPTIONS = () =>
+			{
+				let leftPages       = [];
+				let rightPages      = [];
+				let sideQuantity    = this.setting.pageSideQuantity;
+
+				// Correct the side quantity if there aren't enough pages to fulfill it.
+				if ( ( sideQuantity * 2 ) > this.rendering.pagination.availablePages )
+				{
+					sideQuantity = Math.ceil( this.rendering.pagination.availablePages / 2 );
+				}
+
+				// If at the beginning of the page last.
+				if ( this.rendering.pagination.currentPage <= sideQuantity )
+				{
+					for ( let i = 1; i <= sideQuantity; i++ )
+					{
+						leftPages.push( i );
+						rightPages.push( i + sideQuantity );
+					}
+
+					// If the available pages is a odd number, remove the last rightPage option (extra).
+					if ( this.rendering.pagination.availablePages % 2 !== 0 )
+					{
+						rightPages.pop();
+					}
+				}
+				else
+				{
+					// If at the end of the page last.
+					if ( this.rendering.pagination.currentPage >= ( this.rendering.pagination.availablePages - sideQuantity ) )
+					{
+						let tempTotalPages = this.rendering.pagination.availablePages;
+
+						// Correction for condition when there are not enough pages to balance on left and right.
+						// This will ensure the left side gets filled first.
+						let rightSideQuantity = tempTotalPages - sideQuantity;
+
+						if ( rightSideQuantity > sideQuantity )
+						{
+							rightSideQuantity = sideQuantity;
+						}
+
+						for ( let i = 1; i <= rightSideQuantity; i++ )
+						{
+							rightPages.push( tempTotalPages );
+
+							tempTotalPages--;
+						}
+
+						for ( let i = 1; ( i <= sideQuantity && tempTotalPages !== 0 ); i++ )
+						{
+							leftPages.push( tempTotalPages );
+
+							tempTotalPages--;
+						}
+
+						// Reverse the sort order.
+						leftPages.reverse();
+						rightPages.reverse();
+					}
+					else
+					{
+						let tempCurrentPage = this.rendering.pagination.currentPage;
+
+						// Set left side.
+						for ( let i = 1; i <= sideQuantity; i++ )
+						{
+							leftPages.push( tempCurrentPage );
+
+							tempCurrentPage--;
+						}
+
+						tempCurrentPage = this.rendering.pagination.currentPage + 1;
+
+						// Set right side.
+						for ( let i = 1; i <= sideQuantity; i++ )
+						{
+							rightPages.push( tempCurrentPage );
+
+							tempCurrentPage++;
+						}
+
+						// Reverse the sort order.
+						leftPages.reverse();
+					}
+				}
+
+				this.rendering.pagination.leftPages             = leftPages;
+				this.rendering.pagination.rightPages            = rightPages;
+				this.rendering.pagination.currentPageHightlight = this.rendering.pagination.currentPage;
+			};
+
+			SET_AVAILABLE_PAGES();
+			SET_PAGE_OPTIONS();
+
+			// Reset the scroll position.
+			this.resetScroll();
+
+			// Update the table view.
+			this.currentTableData = GET_ROWS_IN_PAGE();
+		},
+
+		// Changes the page to the passed value.
+		paginationChange : function ( page )
+		{
+			if ( this.rendering.pagination.currentPage !== page )
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'PaginationGoToSpecificPage';
+
+				// Increase the page.
+				this.rendering.pagination.currentPage = page;
+
+				// Emit pagination event.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'updatingPage', true );
+				}
+				// Update the view.
+				else
+				{
+					// Re-render the view.
+					this.renderView();
+				}
+
+				this.emitState();
+			}
+		},
+
+		// Checks and processes the next page of paginated data.
+		paginationNext : function ()
+		{
+			// Update the last action performed.
+			this.status.lastAction = 'PaginationGoToNextPage';
+
+			let nextPage = this.rendering.pagination.currentPage + 1;
+
+			// Ensure not going beyond available pages.
+			if ( nextPage <= this.rendering.pagination.availablePages )
+			{
+				// Increase the page.
+				this.rendering.pagination.currentPage++;
+
+				// Emit pagination event.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'updatingPage', true );
+				}
+				// Update the view.
+				else
+				{
+					// Re-render the view.
+					this.renderView();
+				}
+
+				this.emitState();
+			}
+		},
+
+		// Changes to the last page (end of dataset).
+		paginationLast : function ()
+		{
+			if ( this.rendering.pagination.currentPage !== this.rendering.pagination.availablePages )
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'PaginationGoToLastPage';
+
+				// Set the current page to the last.
+				this.rendering.pagination.currentPage = this.rendering.pagination.availablePages;
+
+				// Emit pagination event.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'updatingPage', true );
+				}
+				// Update the view.
+				else
+				{
+					// Re-render the view.
+					this.renderView();
+				}
+
+				this.emitState();
+			}
+		},
+
+		// Checks and processes the previous page of paginated data.
+		paginationPrevious : function ()
+		{
+			// Update the last action performed.
+			this.status.lastAction = 'PaginationGoToPreviousPage';
+
+			let previousPage = this.rendering.pagination.currentPage - 1;
+
+			// Ensure not going beyond available pages.
+			if ( previousPage >= 1 )
+			{
+				// Increase the page.
+				this.rendering.pagination.currentPage--;
+
+				// Emit pagination event.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'updatingPage', true );
+				}
+				// Update the view.
+				else
+				{
+					// Re-render the view.
+					this.renderView();
+				}
+
+				this.emitState();
+			}
+		},
+
+		// Changes to the first page (beginning of dataset).
+		paginationFirst : function ()
+		{
+			if ( this.rendering.pagination.currentPage !== 1 )
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'PaginationGoToFirstPage';
+
+				// Set the current page to the last.
+				this.rendering.pagination.currentPage = 1;
+
+				// Emit pagination event.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'updatingPage', true );
+				}
+				// Update the view.
+				else
+				{
+					// Re-render the view.
+					this.renderView();
+				}
+
+				this.emitState();
+			}
+		},
+
+		// Changes how many rows can appear per page.
+		changePageRows : function ( rows )
+		{
+			if ( this.rendering.pagination.currentSelectedPageRowOption !== rows )
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'PaginationPageLimitChange';
+
+				if ( rows === 'All' )
+				{
+					this.rendering.pagination.currentPageRows = this.processedDataSize;
+				}
+				else
+				{
+					this.rendering.pagination.currentPageRows = rows;
+				}
+
+				this.rendering.pagination.currentSelectedPageRowOption = rows;
+
+				this.rendering.pagination.currentPage           = 1;
+				this.rendering.pagination.currentPageHightlight = null;
+				this.rendering.pagination.currentStartIndex     = null;
+				this.rendering.pagination.currentEndIndex       = null;
+				this.rendering.pagination.availablePages        = null;
+				this.rendering.pagination.changingRows          = false;
+				this.rendering.pagination.leftPages             = [];
+				this.rendering.pagination.rightPages            = [];
+				this.rendering.external.dataSize                = null;
+
+				// Emit pagination event.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'updatingPage', true );
+				}
+				// Update the view.
+				else
+				{
+					this.renderView();
+				}
+
+				this.emitState();
+			}
+		},
+
+		// Changes the current view (Shows/hides a grouping of columns).
+		changeViews : function ( view )
+		{
+			// Update the last action performed.
+			this.status.lastAction = 'ChangeView';
+
+			if ( view )
+			{
+				if ( this.rendering.views.currentSelectedView !== view.viewName )
+				{
+					// Update the status.
+					this.updateStatus( 'updatingPage', true );
+
+					// Update the current view.
+					this.rendering.views.currentSelectedView = view.viewName;
+					this.rendering.views.currentView         = view;
+
+					// Update the visibility on all columns based on the view.
+					this.columns.list.forEach ( ( column ) =>
+					{
+						let matchedColumn = this.rendering.views.currentView.schema.find( ( viewColumn ) =>
+						{
+							return column.name === viewColumn.name;
+						});
+
+						if ( matchedColumn )
+						{
+							column.enabled = true;
+						}
+						else
+						{
+							column.enabled = false
+						}
+					});
+
+					let hasBeenSorted = false;
+
+					// Update the sort.
+					this.rendering.views.currentView.schema.forEach( ( viewColumn, viewIndex ) =>
+					{
+						if ( viewColumn.sort )
+						{
+							this.columns.activeSortIndex    = viewIndex;
+							this.columns.activeSortName     = viewColumn.name;
+							this.columns.activeSortSpecial  = viewColumn.sortSpecial;
+							hasBeenSorted                   = true;
+
+							if ( typeof( viewColumn.sortDirection ) === 'string' )
+							{
+								this.columns.activeSortAsc = false;
+
+								if ( viewColumn.sortDirection === 'asc' )
+								{
+									this.columns.activeSortAsc = true;
+								}
+							}
+						}
+					});
+
+					if ( !hasBeenSorted )
+					{
+						this.columns.activeSortIndex   = 0;
+						this.columns.activeSortAsc     = true
+						this.columns.activeSortName    = this.rendering.views.currentView.schema[0].name;
+						this.columns.activeSortSpecial = this.rendering.views.currentView.schema[0].sortSpecial;
+					}
+
+					if ( this.setting.dataProvider === 1 )
+					{
+						this.updateStatus( 'updatingPage', true );
+					}
+					else
+					{
+						// Re-render the view.
+						this.renderView();
+					}
+				}
+			}
+
+			this.rendering.views.changingViews = false;
+
+			this.emitState();
+		},
+
+		// Virtual Engine: Sets the next top and bottom re-rendering position points in pixels.
+		setRenderPositions : function ()
+		{
+			// For a re-render.
+			this.$forceUpdate();
+
+			// We use nextTick() so that the height calculations are performed after the render is complete.
+			this.$nextTick( () =>
+			{
+				// Returns the height of the current rendered view (all items).
+				const CURRENT_VIEW_HEIGHT = () =>
+				{
+					return this.$refs.viewData.clientHeight;
+				};
+
+				// Returns the current position (top) of the view inside the body.
+				const CURRENT_VIEW_POSITION_PX = () =>
+				{
+					return this.$refs.viewData.offsetTop;
+				};
+
+				// Returns the current height of the table body.
+				const CURRENT_BODY_HEIGHT = () =>
+				{
+					return this.$refs.bodyData.clientHeight;
+				};
+
+				// Calculate the next render (top) position.
+				if ( this.rendering.virtual.rowTopIndex === 0 )
+				{
+					this.rendering.virtual.triggerTopPositionPX = -1;
+				}
+				else
+				{
+					// Re-render when the scroll bar is at a position where only 5 rows exist above.
+					this.rendering.virtual.triggerTopPositionPX = Math.floor( CURRENT_VIEW_POSITION_PX() + ( CURRENT_VIEW_HEIGHT() / 8 ) );
+				}
+
+				// Calculate the next render (bottom) position.
+				if ( this.rendering.virtual.rowBottomIndex === ( this.processedDataSize - 1 ) )
+				{
+					this.rendering.virtual.triggerBottomPositionPX = -1;
+				}
+				else
+				{
+					// Re-render when scroll bar is at a position where only 2 pages of rows exist.
+					this.rendering.virtual.triggerBottomPositionPX = Math.floor ( ( CURRENT_VIEW_POSITION_PX() + CURRENT_VIEW_HEIGHT() ) - ( CURRENT_BODY_HEIGHT() * 2.0 ) );
+				}
+			});
+		},
+
+		// Used for virtual rendering, renders the view when scrolling at top/bottom trigger points.
+		virtualScroll : function ()
+		{
+			if ( this.rendering.engine !== 0 )
+			{
+				return;
+			}
+
+			if ( !this.rendering.resettingScroll )
+			{
+				// Clear the scrolling timer.
+				clearTimeout( this.rendering.isScrolling );
+
+				// Get the current scroll position.
+				let scrollPositionPX = this.$refs.bodyData.scrollTop;
+
+				// Calculate the % (0 - 100) the scroll position is.
+				let scrollPositionPercent = scrollPositionPX / this.rendering.virtual.height;
+
+				// Calculate the next potential render position in the data.
+				let potentialRenderPosition = Math.floor( this.processedDataSize * scrollPositionPercent );
+
+				// Scrolling Up Check
+				if ( scrollPositionPX < this.rendering.virtual.triggerTopPositionPX )
+				{
+					if ( this.rendering.virtual.triggerTopPositionPX >= 0 )
+					{
+						// Show the processing message.
+						this.updateStatus( 'processingData', true );
+
+						this.rendering.isScrolling = setTimeout( () =>
+						{
+							this.renderView( Math.floor( this.processedDataSize * scrollPositionPercent ) );
+						}, 500 );
+					}
+				}
+
+				// Scrolling Down Check.
+				if ( scrollPositionPX > this.rendering.virtual.triggerBottomPositionPX )
+				{
+					if ( this.rendering.virtual.triggerBottomPositionPX >= 0 )
+					{
+						// Show the processing message.
+						this.updateStatus( 'processingData', true );
+
+						this.rendering.isScrolling = setTimeout( () =>
+						{
+							this.renderView( Math.floor( this.processedDataSize * scrollPositionPercent ) );
+						}, 750 );
+					}
+				}
+			}
+		},
+
+		// Checks the width of the JD-Table and sets the mobile size flag.
+		checkMobile : function ()
+		{
+			setTimeout( () =>
+			{
+				this.status.mobileSize = false;
+
+				if ( this.$refs.bodyData.clientWidth <= 320)
+				{
+					this.status.mobileSize = true;
+				}
+			}, 220);
+		},
+
+		// Sets the row index that is currently being hovered over.
+		rowHover : function ( rowIndex, e )
+		{
+			this.row.activeHoverIndex   = rowIndex;
+			this.row.activeHoverElement = e.srcElement.closest('.jd-row');
+		},
+
+		// Sets the column that is currently being hovered over.
+		cellHover : function ( columnIndex )
+		{
+			this.columns.activeHoverIndex = columnIndex;
+		},
+
+		// Checks if the body of the table has a scroll bar. This is important to align the head + body.
+		checkBodyScroll : function ()
+		{
+			setTimeout( () =>
+			{
+				this.status.tableScroll = false;
+
+				// Checks the table widths to see if scroll bar is enabled for body.
+				if ( this.$refs.bodyData.scrollHeight > this.$refs.bodyData.clientHeight )
+				{
+					this.status.tableScroll = true;
+				}
+			}, 100);
+		},
+
+		// Resets clears the current hovered column/row data.
+		bodyLeave : function ()
+		{
+			if ( this.rendering.engine !== 0 )
+			{
+				return;
+			}
+
+			this.columns.activeHoverIndex = null;
+		},
+
+		// Triggers the start of a resize event. Records the column to be resized and the starting X position.
+		resizeStart : function ( columnIndex, e )
+		{
+			// Start a listener to stop the resize process.
+			window.addEventListener( 'mouseup', this.resizeStop , false );
+
+			if ( !this.setting.responsiveTable )
+			{
+				this.columns.activeResize      = columnIndex;
+				this.columns.activeResizeStart = e.clientX;
+			}
+
+			return false;
+		},
+
+		// Ends the column resize process.
+		resizeStop : function ()
+		{
+			// Small delay to help with sort issue.
+			setTimeout( () =>
+			{
+				this.columns.activeResize = null;
+			}, 75 );
+
+			// Virtual Engine
+			if ( this.setting.rendering === 0 )
+			{
+				this.renderViewVirtual( this.rendering.virtual.rowMiddleIndex );
+			}
+
+			window.removeEventListener( 'mouseup', this.resizeStop, false );
+		},
+
+		// Resets the scroll position to the top left of the table body.
+		resetScroll : function ()
+		{
+			// Reset the render positions.
+			this.rendering.virtual.triggerTopPositionPX    = null;
+			this.rendering.virtual.triggerBottomPositionPX = null;
+
+			// This prevents the triggering of the onScroll function for body.
+			this.rendering.resettingScroll = true;
+
+			// Reset the scroll position to top/left.
+			this.$refs.bodyData.scrollTop      = 0;
+			this.$refs.contentFrame.scrollLeft = 0;
+
+			this.$nextTick().then( () =>
+			{
+				// This prevents the triggering of the onScroll function for body.
+				this.rendering.resettingScroll = false;
+			});
+		},
+
+		// Resizes the flagged column according to the clientX position.
+		resizeDrag : function ( columnIndex, e )
+		{
+			if ( !this.setting.responsiveTable && this.columns.activeResize !== null )
+			{
+				// Extract the width number from the string.
+				let width = this.rendering.views.currentView.schema[columnIndex].width;
+
+				// Shrink the width.
+				if ( e.clientX < this.columns.activeResizeStart )
+				{
+					// Calculate new width based off the existing width and start drag position and current client X.
+					width = width - ( this.columns.activeResizeStart - e.clientX );
+				}
+				// Expand the width.
+				else
+				{
+					// Calculate new width based off the existing width and start drag position and current client X.
+					width = width + ( e.clientX - this.columns.activeResizeStart );
+				}
+
+				// If resizeForceMinWidth is enabled and the width is lower then start - reset width.
+				if ( this.setting.resizeForceMinWidth && ( width < this.rendering.views.currentView.schema[columnIndex].originalWidth ) )
+				{
+					width = this.setting.columns[columnIndex].width;
+				}
+
+				// Update the column width.
+				this.rendering.views.currentView.schema[columnIndex].width                   = width;
+				this.rendering.views.currentView.schema[columnIndex].headerStyles['width']   = width + 'px';
+				this.rendering.views.currentView.schema[columnIndex].dataStyles['width']     = width + 'px';
+				this.rendering.views.currentView.schema[columnIndex].dataStyles['min-width'] = width + 'px';
+
+				// Update the initial drag position.
+				this.columns.activeResizeStart = e.clientX;
+			}
+		},
+
+		// Changes the sort column and/or direction.
+		changeSort : function ( columnIndex, columnName, sortSpecial )
+		{
+			// Update the last action performed.
+			this.status.lastAction = 'ChangeSort';
+
+			// Prevent sort on resize.
+			if ( this.columns.activeResize !== null )
+			{
+				return;
+			}
+
+			if ( !this.setting.columnSort )
+			{
+				return null;
+			}
+
+			// If the clicked column is the currently sorted column, reverse the sort.
+			if ( this.columns.activeSortIndex === columnIndex )
+			{
+				this.columns.activeSortAsc = !this.columns.activeSortAsc;
+			}
+			// Sort the new column ascending.
+			else
+			{
+				this.columns.activeSortIndex   = columnIndex;
+				this.columns.activeSortName    = columnName;
+				this.columns.activeSortAsc     = true;
+				this.columns.activeSortSpecial = sortSpecial;
+			}
+
+			if ( this.setting.dataProvider === 1 )
+			{
+				this.updateStatus( 'updatingPage', true );
+			}
+			else
+			{
+				// Re-render the view.
+				this.renderView();
+			}
+
+			this.emitState();
+		},
+
+		// Sorts the original data.
+		sortData : function ()
+		{
+			if ( this.setting.dataProvider === 0 )
+			{
+				let columnName        = this.rendering.views.currentView.schema[this.columns.activeSortIndex].name;
+				let columnSortType    = this.rendering.views.currentView.schema[this.columns.activeSortIndex].type;
+				let columnSortSpecial = this.rendering.views.currentView.schema[this.columns.activeSortIndex].sortSpecial;
+
+				if ( this.processedDataSize > 0 )
+				{
+					this.processedData.sort( ( a, b ) =>
+					{
+						// Sort the data with null values.
+						const sortByNull = ( x, y ) =>
+						{
+							if ( columnSortType === 'Array' )
+							{
+								if ( !x[columnName] || !x[columnName][0] )
+								{
+									return -1 * ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+								}
+
+								if ( !y[columnName] || !y[columnName][0] )
+								{
+									return ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+								}
+							}
+							else
+							{
+								if ( !x[columnName] )
+								{
+									return -1 * ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+								}
+
+								if ( !y[columnName] )
+								{
+									return ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+								}
+							}
+						};
+
+						// Sort the data by string.
+						const sortByString = ( x, y ) =>
+						{
+							// Special Sorting
+							if ( columnSortSpecial )
+							{
+								// IP
+								if ( columnSortSpecial.toLowerCase() === 'ip' )
+								{
+									x = x[columnName].split( '.' );
+									y = y[columnName].split( '.' );
+
+									for ( let i = 0; i < x.length; i++ )
+									{
+										if ( ( x[i] = parseInt( x[i] ) ) < ( y[i] = parseInt( y[i] ) ) )
+										{
+											return -1 * ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+										}
+										else if ( x[i] > y[i] )
+										{
+											return ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+										}
+									}
+								}
+							}
+							// Normal String Sort
+							else
+							{
+								x = x[columnName].toUpperCase();
+								y = y[columnName].toUpperCase();
+
+								if ( x < y )
+								{
+									return -1 * ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+								}
+
+								if ( x > y )
+								{
+									return ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+								}
+							}
+
+							// Strings are the same.
+							return 0;
+						};
+
+						// Sort the data by number.
+						const sortByNumber = ( x, y ) =>
+						{
+							return ( x[columnName] - y[columnName] ) * ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+						};
+
+						// Sort the data by array. Sorts the first string in the array.
+						const sortByArray = ( x, y ) =>
+						{
+							// Special IP Sort
+							if ( columnSortSpecial )
+							{
+								// IP
+								if ( columnSortSpecial.toLowerCase() === 'ip' )
+								{
+									x = x[columnName][0].split( '.' );
+									y = y[columnName][0].split( '.' );
+
+									for ( let i = 0; i < x.length; i++ )
+									{
+										if ( ( x[i] = parseInt( x[i] ) ) < ( y[i] = parseInt( y[i] ) ) )
+										{
+											return -1 * ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+										}
+										else if ( x[i] > y[i] )
+										{
+											return ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+										}
+									}
+								}
+							}
+							// Normal String Sort
+							else
+							{
+								x = x[columnName][0].toUpperCase();
+								y = y[columnName][0].toUpperCase();
+
+								if ( x < y )
+								{
+									return ( ( !this.columns.activeSortAsc ) ? 1 : -1 );
+								}
+
+								if ( x > y )
+								{
+									return ( ( !this.columns.activeSortAsc ) ? -1 : 1 );
+								}
+							}
+
+							// Strings are the same.
+							return 0;
+						};
+
+						// Check for nulls.
+						if ( columnSortType === 'Array' )
+						{
+							if ( !a[columnName] || !a[columnName][0] || !b[columnName] || !b[columnName][0] )
+							{
+								return sortByNull ( a, b );
+							}
+						}
+						else
+						{
+							if ( !a[columnName] || !b[columnName] )
+							{
+								return sortByNull ( a, b );
+							}
+						}
+
+						// If the column is a string, sort using string function.
+						if ( columnSortType === 'String' )
+						{
+							return sortByString ( a, b );
+						}
+
+						// If the column is a Number, sort using Number function.
+						if ( columnSortType === 'Number' )
+						{
+							return sortByNumber ( a, b );
+						}
+
+						// If the column is a Array, sort using Array function.
+						if ( columnSortType === 'Array' )
+						{
+							return sortByArray ( a, b );
+						}
+					});
+				}
+			}
+		},
+
+		// Returns the appropriate sort title.
+		sortTitle : function ( columnIndex )
+		{
+			if ( !this.setting.columnSort )
+			{
+				return null;
+			}
+
+			if ( this.columns.activeSortIndex === columnIndex && !this.columns.activeSortAsc )
+			{
+				return 'Sort Ascending'
+			}
+
+			return 'Sort Descending';
+		},
+
+		// Changes the selected filter dropdown focus.
+		filterDropdown : function ( columnIndex )
+		{
+			if ( this.filters.activeDropdown === columnIndex )
+			{
+				// Clear the selected filter dropdown.
+				this.filters.activeDropdown = null;
+			}
+			else
+			{
+				// Create a mouse event listener to close the dropdown.
+				window.addEventListener( 'mouseup', this.clearFilterDropdown, false );
+
+				// Show the dropdown menu.
+				if ( this.filters.beingBuilt.column === null )
+				{
+					this.filters.activeDropdown = 0;
+				}
+				else
+				{
+					this.filters.activeDropdown = columnIndex;
+				}
+			}
+		},
+
+		// Clears the dropdown as well as the window listener.
+		clearFilterDropdown : function ()
+		{
+			// Clear the selected filter dropdown.
+			this.filters.activeDropdown = null;
+
+			// Remove the listener.
+			window.removeEventListener( 'mouseup', this.clearFilterDropdown, false );
+		},
+
+		// Helps build a filter to be applied to the table. Executed when filter dropdown item is clicked.
+		buildFilter : function ( itemIndex, item )
+		{
+			// Reset any error that may exist.
+			this.filters.error     = false;
+			this.filters.errorText = '';
+
+			// Column selection.
+			if ( itemIndex === 0 )
+			{
+				this.filters.beingBuilt.column = this.filterableColumns[item];
+
+				if ( this.filters.beingBuilt.option === null )
+				{
+					setTimeout( () =>
+					{
+						// Activate the next tab.
+						this.filters.activeDropdown = 1;
+
+						// Create a mouse event listener to close the dropdown.
+						window.addEventListener( 'mouseup', this.clearFilterDropdown, false );
+					}, 50);
+				}
+			}
+
+			// Option selection.
+			if ( itemIndex === 1 )
+			{
+				this.filters.beingBuilt.option = item;
+
+				if ( this.filters.beingBuilt.value === null )
+				{
+					this.$refs.filterInput.focus();
+				}
+			}
+		},
+
+		// Adds the built filter to be applied to the table.
+		addFilter : function ()
+		{
+			// Manage Data Availability.
+			if ( this.setting.dataProvider === 0 && this.data.length === 0 )
+			{
+				this.filters.errorText = 'There is no data available to filter.';
+				this.filters.error = true;
+			}
+
+			// Manage column error.
+			if ( this.filters.beingBuilt.column === null || typeof( this.filters.beingBuilt.column ) !== 'object' )
+			{
+				this.filters.errorText = 'A column must be selected to add a filter.';
+				this.filters.error = true;
+			}
+
+			// Manage option error.
+			if ( this.filters.beingBuilt.option === null || typeof( this.filters.beingBuilt.option ) !== 'string' )
+			{
+				this.filters.errorText = 'A filter type must be selected to add a filter.';
+				this.filters.error = true;
+			}
+			else
+			{
+				if ( this.filters.beingBuilt.option === 'Greater/Equal To' && isNaN( this.filters.beingBuilt.value ) )
+				{
+					this.filters.errorText = 'Value must be a number.';
+					this.filters.error = true;
+				}
+
+				if ( this.filters.beingBuilt.option === 'Less/Equal To' && isNaN( this.filters.beingBuilt.value ) )
+				{
+					this.filters.errorText = 'Value must be a number.';
+					this.filters.error = true;
+				}
+			}
+
+			// Manage value error.
+			if ( this.filters.beingBuilt.value === null || typeof( this.filters.beingBuilt.value ) !== 'string' )
+			{
+				this.filters.errorText = 'A filter value must be entered to add a filter.';
+				this.filters.error = true;
+			}
+
+			// If there are no errors, continue.
+			if ( !this.filters.error )
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'AddFilter';
+
+				// Create a copy of the filter.
+				let filter =
+					{
+						column : this.filters.beingBuilt.column,
+						option : this.filters.beingBuilt.option,
+						value  : this.filters.beingBuilt.value
+					}
+
+				// Add the filter.
+				this.filters.active.push( filter );
+
+				// Clear being built.
+				this.filters.beingBuilt.column = null;
+				this.filters.beingBuilt.option = null;
+				this.filters.beingBuilt.value  = null;
+
+				// Reset the scroll position to top/left.
+				this.resetScroll();
+
+				// dataProvider = 1 | Filtering is performed externally (emitted).
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'updatingPage', true );
+				}
+				// dataProvider = 0 | Filtering is performed on the data that exists in the JD-Table component.
+				else
+				{
+					this.resetScroll();
+
+					// Process the data through filters/search.
+					this.processData().then( () =>
+					{
+						// Render the new view.
+						this.renderView();
+					});
+				}
+
+				this.emitState();
+			}
+		},
+
+		// Removes a filter from the active list.
+		removeFilter : function ( index )
+		{
+			// Update the last action performed.
+			this.status.lastAction = 'RemoveFilter';
+
+			// Reset any error that may exist.
+			this.filters.error     = false;
+			this.filters.errorText = '';
+
+			this.filters.active.splice( index, 1 );
+
+			// dataProvider = 1 | Filtering is performed externally (emitted).
+			if ( this.setting.dataProvider === 1 )
+			{
+				this.updateStatus( 'updatingPage', true );
+			}
+			// dataProvider = 0 | Filtering is performed on the data that exists in the JD-Table component.
+			else
+			{
+				this.resetScroll();
+
+				// Process the data through filters/search.
+				this.processData().then( () =>
+				{
+					// Render the new view.
+					this.renderView();
+				});
+			}
+
+			this.emitState();
+		},
+
+		// Clears all active filters and being built.
+		clearAllFilters : function ()
+		{
+			// Update the last action performed.
+			this.status.lastAction = 'ClearFilter';
+
+			// Clear being built.
+			this.filters.beingBuilt.column = null;
+			this.filters.beingBuilt.option = null;
+			this.filters.beingBuilt.value  = null;
+
+			// Reset any error that may exist.
+			this.filters.error     = false;
+			this.filters.errorText = '';
+
+			// Clear active.
+			this.filters.active = [];
+
+			// dataProvider = 1 | Filtering is performed externally (emitted).
+			if ( this.setting.dataProvider === 1 )
+			{
+				this.updateStatus( 'updatingPage', true );
+			}
+			// dataProvider = 0 | Filtering is performed on the data that exists in the JD-Table component.
+			else
+			{
+				// Process the data through filters/search.
+				this.processData().then( () =>
+				{
+					// Render the new view.
+					this.renderView();
+				});
+			}
+
+			this.emitState();
+		},
+
+		// Changes the column visibility. Adds/removes column from view.
+		columnSelection : function ( selectedColumn )
+		{
+			// If disabling, enforce at least 1 enabled.
+			if ( selectedColumn.enabled )
+			{
+				let enabledCount = 0;
+
+				// Check how many are enabled.
+				this.rendering.views.currentView.schema.forEach( ( column ) =>
+				{
+					if ( column.enabled )
+					{
+						enabledCount++;
+					}
+				});
+
+				// Must have at least 1 enabled to disable.
+				if ( enabledCount > 1 )
+				{
+					// Spice column out of currentView.
+					let columnToSplice = this.rendering.views.currentView.schema.findIndex( ( viewColumn ) =>
+					{
+						return selectedColumn.name === viewColumn.name;
+					});
+
+					// Update column.
+					selectedColumn.enabled      = false;
+					this.columns.selectionError = false;
+
+					// Remove from array.
+					this.rendering.views.currentView.schema.splice( columnToSplice, 1 );
+
+					// Check mobile size.
+					this.checkMobile();
+				}
+				else
+				{
+					this.columns.selectionError = true;
+				}
+			}
+			else
+			{
+				this.columns.selectionError = false;
+				selectedColumn.enabled      = true;
+
+				// Add to array. The view isn't sorted, its just added to the end.
+				this.rendering.views.currentView.schema.push( selectedColumn );
+
+				// Check mobile size.
+				this.checkMobile();
+			}
+		},
+
+		// Performs the search action.
+		performSearch : function ()
+		{
+			// Update the last action performed.
+			this.status.lastAction = 'ApplySearch';
+
+			if ( !this.search.text )
+			{
+				if ( this.search.searching )
+				{
+					this.clearSearch();
+				}
+			}
+			else
+			{
+				// Emit search event.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'searching', true );
+
+					this.search.searching = true;
+				}
+				// Perform search using JD-Table.
+				else
+				{
+					if ( this.data.length > 0 )
+					{
+						this.updateStatus( 'searching', true );
+
+						this.resetScroll();
+
+						this.processData().then( () =>
+						{
+							this.updateStatus( 'searching', false );
+
+							this.renderView();
+						});
+					}
+				}
+			}
+
+			this.emitState();
+		},
+
+		// Clears the search.
+		clearSearch : function ()
+		{
+			// Update the last action performed.
+			this.status.lastAction = 'ClearSearch';
+
+			// Clear search data.
+			this.search.text       = '';
+			this.search.searching  = false;
+
+			this.resetScroll();
+
+			this.processData().then( () =>
+			{
+				// Emit search event.
+				if ( this.setting.dataProvider === 1 )
+				{
+					this.updateStatus( 'updatingPage', true );
+				}
+				else
+				{
+					this.renderView();
+				}
+
+				this.emitState();
+			});
+		},
+
+		// Called when user selects the "Quick View" option from the left/right click context menu of a row.
+		contextQuickView : function ()
+		{
+			// Reset any visible feature options.
+			this.featureAction( null );
+
+			// Show the quick view.
+			this.row.selectedIndex = this.row.activeContextIndex;
+		},
+
+		// Called when user selects the "View" option from the left/right click context menu of a row.
+		contextView : function ( newWindow )
+		{
+			// Reset any visible feature options.
+			this.featureAction( null );
+
+			// Update the last action performed.
+			this.status.lastAction = 'ViewItem';
+
+			if ( newWindow )
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'ViewItemNewWindow';
+			}
+
+			this.emitState();
+		},
+
+		// Called when user selects the "Edit" option from the left/right click context menu of a row.
+		contextEdit : function ( newWindow )
+		{
+			// Reset any visible feature options.
+			this.featureAction( null );
+
+			// Update the last action performed.
+			this.status.lastAction = 'EditItem';
+
+			if ( newWindow )
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'EditItemNewWindow';
+			}
+
+			this.emitState();
+		},
+
+		// Called when user selects the "Delete" option from the left/right click context menu of a row.
+		contextDelete : function ()
+		{
+			// Reset any visible feature options.
+			this.featureAction( null );
+
+			// Update the last action performed.
+			this.status.lastAction = 'DeleteItem';
+
+			this.emitState();
+		},
+
+		// Called when user selects the "Add" option from the left/right click context menu of a row.
+		contextAdd : function ( newWindow )
+		{
+			// Reset any visible feature options.
+			this.featureAction( null );
+
+			// Update the last action performed.
+			this.status.lastAction = 'AddItem';
+
+			if ( newWindow )
+			{
+				// Update the last action performed.
+				this.status.lastAction = 'AddItemNewWindow';
+			}
+
+			this.emitState();
+		},
+
+		// Called when user single (left) clicks on a data row. Accepts the index of the data on the this.data.
+		rowActionSingle : function ( rowIndex )
+		{
+			if ( this.setting.quickView === 1 && !this.setting.contextMenuLeft )
+			{
+				// If the menu is visible already ..
+				if ( this.status.contextMenu )
+				{
+					this.hideContextMenu();
+				}
+
+				this.featureAction( null );
+
+				// Add a highlight to the quick view row.
+				this.row.activeContextIndex   = this.row.activeHoverIndex;
+				this.row.activeContextElement = this.row.activeHoverElement;
+
+				// Make the row red.
+				this.row.activeContextElement.classList.add('jd-rowSelect');
+
+				// Show the quick view.
+				this.row.selectedIndex = rowIndex;
+			}
+		},
+
+		// Called when user double clicks on a data row. Accepts the index of the data on the this.data.
+		rowActionDouble : function ( rowIndex )
+		{
+			if ( this.setting.quickView === 2 && !this.setting.contextMenuLeft )
+			{
+				// If the menu is visible already ..
+				if ( this.status.contextMenu )
+				{
+					this.hideContextMenu();
+				}
+
+				this.featureAction( null );
+
+				// Add a highlight to the quick view row.
+				this.row.activeContextIndex   = this.row.activeHoverIndex;
+				this.row.activeContextElement = this.row.activeHoverElement;
+
+				// Make the row red.
+				this.row.activeContextElement.classList.add('jd-rowSelect');
+
+				// Show the quick view.
+				this.row.selectedIndex = rowIndex;
+			}
+		},
+
+		// Called when the quick view window is closed.
+		quickViewClose : function ()
+		{
+			// Remove the row red.
+			this.row.activeContextElement.classList.remove('jd-rowSelect');
+
+			// Update the index of the row right clicked on.
+			this.row.activeContextIndex   = null;
+			this.row.activeContextElement = null;
+
+			// Hide the quick view.
+			this.row.selectedIndex = null;
+		},
+
+		// Called when the NEXT button is pressed on the quick view.
+		quickViewNext : function ()
+		{
+			// External
+			if ( this.setting.dataProvider === 1 )
+			{
+				if ( this.row.selectedIndex < ( this.processedDataSize ) )
+				{
+					if ( this.data[ this.row.selectedIndex + 1 ] != null )
+					{
+						this.row.selectedIndex++;
+					}
+					else
+					{
+						// Check for last page
+						if ( this.rendering.pagination.currentEndIndex !== this.processedDataSize )
+						{
+							// Need more data (move to next page).
+							this.paginationNext();
+
+							this.row.selectedIndex = 0;
+						}
+					}
+				}
+			}
+			// Internal
+			else
+			{
+				if ( this.row.selectedIndex < ( this.processedData.length - 1 ) )
+				{
+					this.row.selectedIndex++;
+				}
+			}
+		},
+
+		// Called when the PREVIOUS button is pressed on the quick view.
+		quickViewPrevious : function ()
+		{
+			// External
+			if ( this.setting.dataProvider === 1 )
+			{
+				if ( this.row.selectedIndex === 0 && this.rendering.pagination.currentPage !== 1 )
+				{
+					// Need more data (move to previous page).
+					this.paginationPrevious();
+
+					this.row.selectedIndex = this.data.length - 1;
+				}
+				else
+				{
+					if ( this.row.selectedIndex >= 1 )
+					{
+						this.row.selectedIndex--;
+					}
+				}
+			}
+			// Internal
+			else
+			{
+				if ( this.row.selectedIndex >= 1 )
+				{
+					this.row.selectedIndex--;
+				}
+			}
+		},
+
+		// Prints the element.
+		print : function ( elementRef )
+		{
+			let contentToPrinter = this.$refs[elementRef].innerHTML;
+			let styles           = "<style>.contentRow { display : flex; flex-direction : column; width : 100%; } .rowTitle { display : flex; align-items : center; font-size : 1rem; font-weight : 600; word-break : break-all; padding : 0.5rem 1rem; } .rowData { display : flex; align-items : center;padding : 0.2rem 1rem; word-break : break-all; }</style>";
+			let printWindow      = window.open( '', 'Print', 'height=600, width=800');
+
+			printWindow.document.write('<html><head><title>Print</title>');
+			printWindow.document.write(styles);
+			printWindow.document.write('</head><body >');
+			printWindow.document.write(contentToPrinter);
+			printWindow.document.write('</body></html>');
+
+			printWindow.document.close();
+			printWindow.focus();
+			printWindow.print();
+			printWindow.close();
+		},
+
+		// Clears all data from table.
+		clearTable : function ()
+		{
+			// Clear data.
+			this.processedData = [];
+			this.data          = [];
+
+			// Clear Search
+			this.search.searching = false;
+			this.search.text      = "";
+
+			// Clear Filters
+			this.filters.active            = [];
+			this.filters.activeDropdown    = null;
+			this.filters.beingBuilt.column = null;
+			this.filters.beingBuilt.option = null;
+			this.filters.beingBuilt.value  = null;
+			this.filters.error             = false;
+			this.filters.errorText         = "";
+			this.filters.show              = false;
+
+			// Reset pagination.
+			this.rendering.pagination.currentPage           = 1;
+			this.rendering.pagination.currentPageHightlight = null;
+			this.rendering.pagination.currentStartIndex     = null;
+			this.rendering.pagination.currentEndIndex       = null;
+			this.rendering.pagination.availablePages        = null;
+			this.rendering.pagination.currentPageRows       = this.rendering.pagination.currentSelectedPageRowOption;
+			this.rendering.pagination.changingRows          = false;
+			this.rendering.pagination.leftPages             = [];
+			this.rendering.pagination.rightPages            = [];
+
+			// Reset virtual.
+			this.rendering.virtual.rowBottomIndex           = 0;
+			this.rendering.virtual.rowTopIndex              = 0;
+			this.rendering.virtual.rowMiddleIndex           = 0;
+			this.rendering.virtual.triggerBottomPositionPX  = 0;
+			this.rendering.virtual.triggerTopPositionPX     = 0;
+			this.rendering.virtual.height                   = 0;
+
+			// Reset external.
+			this.rendering.external.dataSize = null;
+
+			// Selection
+			this.row.selectedIndex = null;
+
+			// Stop any processing messaging.
+			this.updateStatus( 'processingData', false );
+
+			// Reset scroll positions.
+			this.resetScroll();
+
+			// Clean the view.
+			this.currentTableData = [];
+		},
+
+		// Displays the appropriate table message based on component status.
+		updateStatus : function ( statusName, state )
+		{
+			this.status.searching      = false;
+			this.status.updatingPage   = false;
+			this.status.processingData = false;
+
+			if ( statusName === 'processingData' )
+			{
+				this.status.processingData = state;
+			}
+
+			if ( statusName === 'searching' )
+			{
+				this.status.searching = state;
+			}
+
+			if ( statusName === 'updatingPage' )
+			{
+				this.status.updatingPage = state;
+			}
+		},
+
+		// Convert raw number to formatted.
+		formatNumberWithCommas : function ( x )
+		{
+			if ( x )
+			{
+				return x.toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );
+			}
+
+			return 0;
+		},
+
+		// Returns the number of rows that can fit in the current view.
+		getRowsInView : function ()
+		{
+			// Get the current height of the table body container.
+			let viewHeight = this.$refs.bodyData.clientHeight;
+
+			return Math.ceil( viewHeight / this.setting.rowHeight );
+		},
+
+		// Checks if the browser is a version of Internet Explorer.
+		checkBrowser : function ()
+		{
+			// Checks if browser is IE11.
+			if ( navigator.userAgent.indexOf('MSIE')!==-1  || navigator.appVersion.indexOf('Trident/') > -1 )
+			{
+				this.status.isIE11 = true;
+			}
+			else
+			{
+				this.status.isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+			}
+		}
+	},
+
+	computed :
+	{
+		// View flag. Enabled if the view has data. False if not.
+		isViewAvailable : function ()
+		{
+			return this.currentTableData.length > 0;
+		},
+
+		// Normalizes the initialize settings in case one or more properties are not configured.
+		setting : function ()
+		{
+			return Object.assign (
+				{
+					// Data Provider
+					dataProvider : 0,
+
+					// Column Data
+					columns             : [],
+
+					// Features
+					startBySearch                : false,
+					startBySearchMessage         : null,
+					startBySearchArrowSearch     : false,
+					startBySearchArrowFilter     : false,
+					startBySearchArrowSearchText : 'Search Here',
+					startBySearchArrowFilterText : 'Filter by Column',
+					maxMinimize                  : true,
+					refresh                      : true,
+					search                       : true,
+					columnSelect                 : true,
+					addNew                       : false,
+					editItem                     : false,
+					viewItem                     : false,
+					deleteItem                   : false,
+					resize                       : true,
+					filter                       : true,
+					export                       : true,
+					exportLimit                  : null,
+					columnSort                   : true,
+					quickView			         : 1,
+					contextMenuRight             : false,
+					contextMenuLeft              : false,
+					contextMenuQuickView         : true,
+					contextMenuView              : true,
+					contextMenuEdit              : true,
+					contextMenuDelete            : true,
+					contextMenuAdd               : true,
+
+					// Rendering
+					renderEngine                   : 2,
+					responsiveFrame                : true,
+					responsiveFrameForceFullWidth  : false,
+					responsiveTable                : true,
+					virtualEngineRowStart          : 250,
+					frameWidth                     : null,
+					headerHeight                   : 40,
+					dataHeight                     : 400,
+					rowHeight                      : 42,
+					paginationRowLimits            : [50, 100, 200],
+					paginationRowStart             : 50,
+					paginationRowAll               : true,
+					pageSideQuantity               : 5,
+
+					// Search
+					forceSearchOpen     : false,
+					searchPlaceHolder   : null,
+
+					// Settings
+					startMaximized      : false,
+					forceMaximized      : false,
+					rowZebra            : true,
+					rowFlex             : true,
+					resizeForceMinWidth : true,
+
+					//Layers
+					highlight           : true,
+					controls            : true,
+					footer              : true,
+
+					title               : null,
+					views               : []
+				}, this.option
+			);
+		},
+
+		// Returns the total number of rows in the data.
+		processedDataSize : function ()
+		{
+			// Check if data is being fed from externally.
+			if ( this.setting.dataProvider === 1 )
+			{
+				return this.rendering.external.dataSize;
+			}
+
+			return this.processedData.length;
+		},
+
+		// Returns true if there are active filters.
+		filtering : function ()
+		{
+			return this.filters.active.length > 0;
+		},
+
+		// Returns TRUE or FALSE based on if resize should be enabled.
+		resizable : function ()
+		{
+			if ( !this.setting.responsiveTable && this.setting.resize )
+			{
+				return true;
+			}
+
+			return false;
+		},
+
+		// Apply class to JD-Table frame based on settings.
+		frameClasses : function ()
+		{
+			if ( this.feature.maximized )
+			{
+				return 'jd-maximized';
+			}
+
+			if ( !this.setting.dataHeight )
+			{
+				return 'jd-fullBody';
+			}
+
+			return null;
+		},
+
+		// Apply class to JD-Table frame based on settings.
+		frameStyles : function ()
+		{
+			let styles = {};
+
+			if ( !this.feature.maximized )
+			{
+				if ( !this.setting.responsiveFrame )
+				{
+					if ( this.setting.frameWidth !== null )
+					{
+						styles['width']     = this.setting.frameWidth + 'px';
+						styles['min-width'] = this.setting.frameWidth + 'px';
+					}
+					else
+					{
+						styles['width'] ='100%';
+					}
+				}
+
+				// Ensures the frame does get larger then the sum of all the column width's in PX.
+				if ( this.setting.responsiveFrame && !this.setting.responsiveTable )
+				{
+					if ( !this.setting.responsiveFrameForceFullWidth )
+					{
+						styles['max-width'] = this.tableWidth + 'px';
+					}
+				}
+			}
+
+			return styles;
+		},
+
+		// Apply class to controlSearch based on settings.
+		controlSearchClasses : function ()
+		{
+			if ( this.feature.searching )
+			{
+				return 'jd-searching';
+			}
+
+			return null;
+		},
+
+		// Apply class to controlFilter based on settings.
+		controlFilterClasses : function ()
+		{
+			let classes = '';
+
+			if ( this.filters.show )
+			{
+				classes = 'jd-selected';
+			}
+
+			if ( this.filtering )
+			{
+				classes += ' jd-active';
+			}
+
+			return classes;
+		},
+
+		// Apply class to search icon based on searching status.
+		searchIconClasses : function ()
+		{
+			let classes = '';
+
+			if ( this.setting.forceSearchOpen )
+			{
+				classes += ' jd-noSelect';
+			}
+
+			if ( this.feature.searching )
+			{
+				classes += ' jd-search jd-selected';
+			}
+
+			if ( this.search.searching )
+			{
+				classes += ' jd-active';
+			}
+
+			if ( !this.feature.searching && !this.setting.forceSearchOpen )
+			{
+				classes += ' jd-notActive'
+			}
+
+			return classes;
+		},
+
+		// Change search icon title based on searching status.
+		searchIconTitle : function ()
+		{
+			if ( this.feature.searching )
+			{
+				return 'Hide Search';
+			}
+
+			return 'Show Search';
+		},
+
+		// Apply class to controlFeature based on settings.
+		controlFeatureClasses : function ()
+		{
+			if ( this.feature.searching )
+			{
+				return 'jd-searching';
+			}
+
+			return null;
+		},
+
+		// Apply class to min/maximize icon based on min/maximize status.
+		minMaxIconClasses : function ()
+		{
+			if ( this.feature.maximized )
+			{
+				return 'fas fa-window-minimize';
+			}
+
+			return 'far fa-window-maximize';
+		},
+
+		// Change min/maximize icon title based on min/maximize status.
+		minMaxIconTitle : function ()
+		{
+			if ( this.feature.maximized )
+			{
+				return 'Minimize';
+			}
+
+			return 'Maximize';
+		},
+
+		// Apply styles to layerContent based on settings.
+		layerContentStyles : function ()
+		{
+			let styles = {};
+
+			if ( !this.feature.maximized )
+			{
+				// responsiveFrame = TRUE
+				if ( this.setting.responsiveFrame )
+				{
+					// responsiveTable = FALSE
+					if ( !this.setting.responsiveTable )
+					{
+						// Create scroll back in layerContent.
+						styles['overflow-y'] = 'auto';
+					}
+				}
+			}
+			else
+			{
+				if ( this.setting.responsiveTable )
+				{
+					styles['max-width'] ='100%';
+				}
+				else
+				{
+					styles['max-width'] = this.tableWidth + 'px';
+				}
+			}
+
+			return styles;
+		},
+
+		// Apply styles to the content table based on settings.
+		tableStyles : function ()
+		{
+			let styles = {};
+
+			// responsiveTable = FALSE
+			if ( !this.setting.responsiveTable )
+			{
+				styles['min-width'] = this.tableWidth + 'px';
+			}
+
+			return styles;
+		},
+
+		// Apply styles to the table head based on settings.
+		tableHeadStyles : function ()
+		{
+			let styles = {};
+
+			styles['height'] = this.setting.headerHeight + 'px';
+			styles['min-height'] = this.setting.headerHeight + 'px';
+
+			return styles;
+		},
+
+		// Apply class to table head cells based on settings.
+		headCellClasses : function ()
+		{
+			let classes = '';
+
+			if ( this.setting.columnSort )
+			{
+				classes += ' jd-sort';
+			}
+
+			if ( this.status.tableScroll )
+			{
+				classes += ' jd-scrollBuffer';
+			}
+
+			return classes;
+		},
+
+		// Apply styles to the content table body based on settings.
+		tableBodyStyles : function ()
+		{
+			let styles = {};
+
+			if ( !this.feature.maximized )
+			{
+				styles['height'] = this.setting.dataHeight + 'px';
+			}
+
+			return styles;
+		},
+
+		// Apply styles to the content table virtual body based on settings.
+		bodyVirtualStyles : function ()
+		{
+			return {
+				height : this.rendering.virtual.height + 'px'
+			};
+		},
+
+		// Apply styles to feature option zone based on settings.
+		optionDropdownStyles : function ()
+		{
+			return {
+				'max-height' : ( this.setting.dataHeight + this.setting.headerHeight ) + 'px'
+			};
+		},
+
+		// Apply styles to the content table body data container based on settings.
+		bodyViewStyles : function ()
+		{
+			let styles =
+			{
+				'width': '100%'
+			};
+
+			if ( this.rendering.engine === 0 )
+			{
+				styles['position'] = 'absolute';
+				styles['top']      =( this.rendering.virtual.rowTopIndex * this.setting.rowHeight ) + 'px';
+			}
+
+			return styles;
+		},
+
+		// Apply class to table body row based on settings.
+		viewRowClasses : function ()
+		{
+			let classes = '';
+
+			if ( this.setting.rowZebra )
+			{
+				classes += ' jd-zebra';
+			}
+
+			return classes;
+		},
+
+		// Apply styles to the content table body data row based on settings.
+		viewRowStyles : function ()
+		{
+			let styles = {};
+
+			if ( this.setting.rowFlex )
+			{
+				styles['min-height'] = this.setting.rowHeight + 'px';
+			}
+			else
+			{
+				styles['height'] = this.setting.rowHeight + 'px';
+			}
+
+			return styles;
+		},
+
+		rowDataClasses : function ()
+		{
+			let classes = '';
+
+			if ( this.setting.rowFlex )
+			{
+				classes = 'jd-rowFlex';
+			}
+
+			return classes;
+		},
+
+		// Calculate the total width of the table based on the column size.
+		tableWidth : function ()
+		{
+			let totalWidth   = 0;
+			let missingWidth = false;
+
+			this.rendering.views.currentView.schema.forEach( ( column ) =>
+			{
+				if ( column.enabled )
+				{
+					if ( column.width !== null )
+					{
+						totalWidth += column.width;
+					}
+					else
+					{
+						missingWidth = true;
+					}
+				}
+			});
+
+			// If a column width is not set, the total width cannot be determined.
+			if ( !this.setting.responsiveTable && missingWidth )
+			{
+				return null;
+			}
+
+			return totalWidth;
+		},
+
+		// Returns a list of filterable columns.
+		filterableColumns : function ()
+		{
+			let filterableColumns = [];
+
+			this.columns.list.forEach( ( column ) =>
+			{
+				if ( column.filterable )
+				{
+					filterableColumns.push( column );
+				}
+			});
+
+			return filterableColumns;
+		},
+
+		// Returns a list of filter options based on the selected column.
+		filterableOptions : function ()
+		{
+			if ( this.filters.beingBuilt.column === null )
+			{
+				return [];
+			}
+
+			if ( this.filters.beingBuilt.column.type === 'String' )
+			{
+				if ( this.setting.dataProvider === 1 )
+				{
+					return ['Equals To', 'Contains', 'Not Equals To'];
+				}
+
+				return ['Equals To', 'Contains', 'Not Equals To', 'Begins With'];
+			}
+
+			if ( this.filters.beingBuilt.column.type === 'Array' )
+			{
+				if ( this.setting.dataProvider === 1 )
+				{
+					return ['Contains'];
+				}
+
+				return ['Contains'];
+			}
+
+			if ( this.filters.beingBuilt.column.type === 'Number' )
+			{
+				if ( this.setting.dataProvider === 1 )
+				{
+					return ['Equals To', 'Greater/Equal To', 'Less/Equal To', 'Contains', 'Not Equals To'];
+				}
+
+				return ['Equals To', 'Greater/Equal To', 'Less/Equal To', 'Contains', 'Not Equals To', 'Begins With'];
+			}
+		},
+
+		// Returns the text shown on the selected filter column.
+		filterColumnText : function ()
+		{
+			if ( this.filters.beingBuilt.column === null )
+			{
+				return 'Select Column ..'
+			}
+
+			return this.filters.beingBuilt.column.title;
+		},
+
+		// Returns the text shown on the selected filter option.
+		filterOptionText : function ()
+		{
+			if ( this.filters.beingBuilt.column === null )
+			{
+				return 'Select Filter ..';
+			}
+
+			if ( this.filters.beingBuilt.option === null )
+			{
+				return 'Filter ..'
+			}
+			else
+			{
+				return this.filters.beingBuilt.option;
+			}
+		},
+
+		// Returns the styles for the layerHighlight div.
+		layerHighlightStyles : function ()
+		{
+			let styles = {};
+
+			if ( this.feature.maximized )
+			{
+				if ( this.setting.responsiveTable )
+				{
+					styles['max-width'] ='100%';
+				}
+				else
+				{
+					styles['max-width'] = this.tableWidth + 'px';
+				}
+			}
+
+			return styles;
+		},
+
+		// Returns the styles for the layerControl div.
+		layerControlStyles : function ()
+		{
+			let styles = {};
+
+			if ( this.feature.maximized )
+			{
+				if ( this.setting.responsiveTable )
+				{
+					styles['max-width'] ='100%';
+				}
+				else
+				{
+					styles['max-width'] = this.tableWidth + 'px';
+				}
+			}
+
+			return styles;
+		},
+
+		// Returns the styles for the layerOption div.
+		layerOptionStyles : function ()
+		{
+			let styles = {};
+
+			if ( this.feature.maximized )
+			{
+				if ( this.setting.responsiveTable )
+				{
+					styles['max-width'] ='100%';
+				}
+				else
+				{
+					styles['max-width'] = this.tableWidth + 'px';
+				}
+			}
+
+			return styles;
+		},
+
+		// Returns the styles for the layerFooter div.
+		layerFooterStyles : function ()
+		{
+			let styles = {};
+
+			if ( this.feature.maximized )
+			{
+				if ( this.setting.responsiveTable )
+				{
+					styles['max-width'] ='100%';
+				}
+				else
+				{
+					styles['max-width'] = this.tableWidth + 'px';
+				}
+			}
+
+			return styles;
+		},
+
+		// Returns the status of the Getting Started message.
+		gettingStarted : function ()
+		{
+			if ( !this.status.processingData && !this.loader && this.setting.startBySearch )
+			{
+				if ( !this.search.searching && !this.filtering )
+				{
+					return true;
+				}
+			}
+
+			return false;
+		},
+
+		// Returns the status for displaying the no data message.
+		noDataMessage : function ()
+		{
+			if ( !this.status.processingData && !this.processedDataSize && !this.loader && !this.isViewAvailable && !this.status.updatingPage && !this.status.searching && this.tableReady )
+			{
+				if ( !this.gettingStarted )
+				{
+					return true;
+				}
+			}
+
+			return false;
+		},
+
+		// Returns true if any of the option menus are shown and false if none.
+		menuVisible : function ()
+		{
+			if ( this.filters.show || this.rendering.pagination.changingRows || this.columns.selecting || this.rendering.views.changingViews )
+			{
+				return true;
+			}
+
+			return false;
+		},
+
+		// Represents the current state of data of the component. This is emitted to parent events.
+		componentState : function ()
+		{
+			return {
+				searchApplied   : this.search.searching,
+				searchText      : this.search.text,
+				filterApplied   : this.filters.active,
+				pageLimit       : this.rendering.pagination.currentSelectedPageRowOption,
+				currentPage     : this.rendering.pagination.currentPage,
+				lastAction      : this.status.lastAction,
+				sortColumn      : this.columns.activeSortName ? this.columns.activeSortName : this.rendering.views.currentView.schema[0].name,
+				sortColumnIndex : this.columns.activeSortIndex ? this.columns.activeSortIndex : 0,
+				sortDirection   : this.columns.activeSortAsc ? 'ASC' : 'DESC',
+				sortSpecial     : this.columns.activeSortSpecial ? this.columns.activeSortSpecial : null,
+				selectedItem    : this.row.selectedIndex !== null ? this.data[ this.row.selectedIndex ] : this.row.activeContextIndex !== null ? this.data[ this.row.activeContextIndex ] : null,
+				selectedIndex   : this.row.selectedIndex !== null ? this.row.selectedIndex : this.row.activeContextIndex !== null  ? this.row.activeContextIndex : null,
+				currentView     : this.rendering.views.currentView
+			}
+		}
+	},
+
+	watch :
+	{
+		// Watches for event triggers. This will run the event when the trigger is true.
+		eventFromAppTrigger : function ( to , from )
+		{
+			if ( from === false && to === true && this.eventFromApp.name )
+			{
+				this.processEvent( this.eventFromApp.name );
+			}
+		}
+	}
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue-jd-table/src/jd-table.vue?vue&type=template&id=ed0ee648&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue-jd-table/src/jd-table.vue?vue&type=template&id=ed0ee648&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "jd-reset jd-table",
+      class: _vm.frameClasses,
+      style: _vm.frameStyles
+    },
+    [
+      _vm.setting.title !== null
+        ? _c("div", { staticClass: "jd-layerTitle" }, [
+            _vm._v(_vm._s(_vm.setting.title))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.setting.highlight
+        ? _c("div", {
+            staticClass: "jd-layerHighlight jd-noneSelectable",
+            style: _vm.layerHighlightStyles
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.setting.controls
+        ? _c(
+            "div",
+            {
+              staticClass: "jd-layerControl jd-noneSelectable",
+              style: _vm.layerControlStyles
+            },
+            [
+              _vm.setting.search
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "jd-controlSearch",
+                      class: _vm.controlSearchClasses
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          class: _vm.searchIconClasses,
+                          attrs: { title: _vm.searchIconTitle },
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("Search")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fas fa-search" }),
+                          _vm._v(" "),
+                          _vm.gettingStarted &&
+                          _vm.setting.startBySearchArrowSearch &&
+                          !_vm.status.processingData &&
+                          !_vm.loader
+                            ? _c("div", { staticClass: "jd-searchArrow" }, [
+                                _vm._v(
+                                  "\n\t\t\t\t" +
+                                    _vm._s(
+                                      _vm.setting.startBySearchArrowSearchText
+                                    ) +
+                                    "\n\t\t\t"
+                                )
+                              ])
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.feature.searching,
+                            expression: "feature.searching"
+                          },
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search.text,
+                            expression: "search.text"
+                          }
+                        ],
+                        ref: "searchField",
+                        attrs: {
+                          type: "search",
+                          placeholder: _vm.setting.searchPlaceHolder
+                            ? _vm.setting.searchPlaceHolder
+                            : "Search Here ..",
+                          disabled: _vm.status.processingData
+                        },
+                        domProps: { value: _vm.search.text },
+                        on: {
+                          keyup: function($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            return _vm.performSearch($event)
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.search, "text", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value:
+                                _vm.feature.searching && !_vm.search.searching,
+                              expression:
+                                "feature.searching && !search.searching"
+                            }
+                          ],
+                          staticClass: "jd-controlItem jd-search",
+                          attrs: { title: "Perform Search" },
+                          on: { click: _vm.performSearch }
+                        },
+                        [_c("i", { staticClass: "fas fa-angle-right" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value:
+                                _vm.feature.searching && _vm.search.searching,
+                              expression:
+                                "feature.searching && search.searching"
+                            }
+                          ],
+                          staticClass: "jd-controlItem jd-clearSearch",
+                          attrs: { title: "Clear Search" },
+                          on: { click: _vm.clearSearch }
+                        },
+                        [_c("i", { staticClass: "fas fa-times-circle" })]
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "jd-controlFeature",
+                  class: _vm.controlFeatureClasses
+                },
+                [
+                  _vm.setting.addNew
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("AddNew")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fas fa-plus-square",
+                            attrs: { title: "Add New" }
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.setting.refresh
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("Refresh")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fas fa-sync-alt",
+                            attrs: { title: "Refresh" }
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.rendering.engine === 2
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          class: _vm.rendering.pagination.changingRows
+                            ? "jd-selected"
+                            : "",
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("Pagination")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fas fa-scroll",
+                            attrs: { title: "Rows Per Page" }
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.setting.columnSelect
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          class: _vm.columns.selecting ? "jd-selected" : "",
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("Columns")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fas fa-columns",
+                            attrs: { title: "Columns" }
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.setting.filter
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          class: _vm.controlFilterClasses,
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("Filter")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fas fa-filter",
+                            attrs: { title: "Filter" }
+                          }),
+                          _vm._v(" "),
+                          _vm.gettingStarted &&
+                          _vm.setting.startBySearchArrowFilter &&
+                          !_vm.menuVisible &&
+                          !_vm.status.processingData &&
+                          !_vm.loader
+                            ? _c("div", { staticClass: "jd-filterArrow" }, [
+                                _vm._v(
+                                  "\n\t\t\t\t\t" +
+                                    _vm._s(
+                                      _vm.setting.startBySearchArrowFilterText
+                                    ) +
+                                    "\n\t\t\t\t"
+                                )
+                              ])
+                            : _vm._e()
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.setting.views.length > 0
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("View")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "far fa-eye",
+                            attrs: { title: "View" }
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.setting.export
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("Export")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fas fa-file-export",
+                            attrs: { title: "Export to Excel" }
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.setting.maxMinimize && !_vm.setting.forceMaximized
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "jd-controlItem",
+                          on: {
+                            click: function($event) {
+                              return _vm.featureAction("MaxMinimize")
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            class: _vm.minMaxIconClasses,
+                            attrs: { title: _vm.minMaxIconTitle }
+                          })
+                        ]
+                      )
+                    : _vm._e()
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "jd-layerOption", style: _vm.layerOptionStyles },
+        [
+          _c("transition", { attrs: { name: "jdTableSlideDown" } }, [
+            _vm.rendering.pagination.changingRows
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "jd-optionDropdown",
+                    style: _vm.optionDropdownStyles
+                  },
+                  [
+                    _c("div", { staticClass: "jd-dropdownHeader" }, [
+                      _vm._v("Page Rows")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.rendering.pagination.pageRowOptions, function(
+                      rows
+                    ) {
+                      return _c(
+                        "div",
+                        {
+                          staticClass:
+                            "jd-dropdownItem jd-paginationItem jd-clickable",
+                          class:
+                            _vm.rendering.pagination
+                              .currentSelectedPageRowOption === rows
+                              ? "jd-selected"
+                              : "",
+                          on: {
+                            click: function($event) {
+                              return _vm.changePageRows(rows)
+                            }
+                          }
+                        },
+                        [_vm._v("\n\t\t\t\t\t" + _vm._s(rows) + "\n\t\t\t\t")]
+                      )
+                    })
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("transition", { attrs: { name: "jdTableSlideDown" } }, [
+            _vm.columns.selecting
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "jd-optionDropdown",
+                    style: _vm.optionDropdownStyles
+                  },
+                  [
+                    _c("div", { staticClass: "jd-dropdownHeader" }, [
+                      _vm._v("Columns")
+                    ]),
+                    _vm._v(" "),
+                    _vm.columns.selectionError
+                      ? _c("div", { staticClass: "jd-errorMessage" }, [
+                          _vm._v("You must have at least one column enabled.")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.columns.list, function(column) {
+                      return _c(
+                        "div",
+                        {
+                          staticClass: "jd-dropdownItem jd-clickable",
+                          on: {
+                            click: function($event) {
+                              return _vm.columnSelection(column)
+                            }
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "jd-columnVisibility" }, [
+                            column.enabled
+                              ? _c("i", { staticClass: "fas fa-eye" })
+                              : _c("i", {
+                                  staticClass: "fas fa-eye-slash jd-notVisible"
+                                })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "jd-columnTitle" }, [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t" +
+                                _vm._s(
+                                  column.title.replace(/(<([^>]+)>)/gi, "")
+                                ) +
+                                "\n\t\t\t\t\t"
+                            )
+                          ])
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("transition", { attrs: { name: "jdTableSlideDown" } }, [
+            _vm.filters.show
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "jd-optionDropdown",
+                    style: _vm.optionDropdownStyles
+                  },
+                  [
+                    _c("div", { staticClass: "jd-dropdownHeader" }, [
+                      _vm._v("Filtering")
+                    ]),
+                    _vm._v(" "),
+                    _vm.filters.error
+                      ? _c("div", { staticClass: "jd-errorMessage" }, [
+                          _vm._v(_vm._s(_vm.filters.errorText))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "jd-dropdownInput jd-carrot jd-clickable"
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "jd-label",
+                            on: {
+                              click: function($event) {
+                                return _vm.filterDropdown(0)
+                              }
+                            }
+                          },
+                          [
+                            _c("span", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.filterColumnText.replace(
+                                    /(<([^>]+)>)/gi,
+                                    ""
+                                  )
+                                )
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("transition", { attrs: { name: "jdTableFade" } }, [
+                          _vm.filters.activeDropdown === 0
+                            ? _c(
+                                "ul",
+                                _vm._l(_vm.filterableColumns, function(
+                                  column,
+                                  index
+                                ) {
+                                  return _c(
+                                    "li",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.buildFilter(0, index)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t" +
+                                          _vm._s(
+                                            column.title.replace(
+                                              /(<([^>]+)>)/gi,
+                                              ""
+                                            )
+                                          ) +
+                                          "\n\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            : _vm._e()
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "jd-dropdownInput jd-carrot jd-clickable"
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "jd-label",
+                            on: {
+                              click: function($event) {
+                                return _vm.filterDropdown(1)
+                              }
+                            }
+                          },
+                          [
+                            _c("span", [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t" +
+                                  _vm._s(_vm.filterOptionText) +
+                                  "\n\t\t\t\t\t\t"
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("transition", { attrs: { name: "jdTableFade" } }, [
+                          _vm.filters.activeDropdown === 1
+                            ? _c(
+                                "ul",
+                                _vm._l(_vm.filterableOptions, function(
+                                  option,
+                                  index
+                                ) {
+                                  return _c(
+                                    "li",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.buildFilter(1, option)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t" +
+                                          _vm._s(option) +
+                                          "\n\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            : _vm._e()
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "jd-dropdownInput jd-addPadding" },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.filters.beingBuilt.value,
+                              expression: "filters.beingBuilt.value"
+                            }
+                          ],
+                          ref: "filterInput",
+                          attrs: { type: "text", placeholder: "Value" },
+                          domProps: { value: _vm.filters.beingBuilt.value },
+                          on: {
+                            keyup: function($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.addFilter($event)
+                            },
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.filters.beingBuilt,
+                                  "value",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                _vm.filters.error = false
+                              }
+                            ]
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "jd-dropdownRow jd-separate" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "jd-button jd-danger",
+                          attrs: { type: "button", title: "Clear All Filters" },
+                          on: { click: _vm.clearAllFilters }
+                        },
+                        [_vm._v("Clear All")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "jd-button jd-success",
+                          attrs: { type: "button", title: "Apply Filter" },
+                          on: { click: _vm.addFilter }
+                        },
+                        [_vm._v("Apply")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "jd-dropdownHeader jd-subHeader" },
+                      [_vm._v("Active Filters")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "jd-dropdownHeader jd-smallHeader" },
+                      [
+                        _vm._v(
+                          "Filtered Results: " +
+                            _vm._s(
+                              _vm.formatNumberWithCommas(_vm.processedDataSize)
+                            )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._l(_vm.filters.active, function(filter, index) {
+                      return _c(
+                        "div",
+                        { staticClass: "jd-dropdownInput jd-disabled" },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "jd-label",
+                              attrs: {
+                                title:
+                                  filter.column.title.replace(
+                                    /(<([^>]+)>)/gi,
+                                    ""
+                                  ) +
+                                  " .. " +
+                                  filter.option +
+                                  " .. " +
+                                  filter.value
+                              }
+                            },
+                            [
+                              _c("span", [
+                                _vm._v(
+                                  "\n\t\t\t\t\t\t\t" +
+                                    _vm._s(
+                                      filter.column.title.replace(
+                                        /(<([^>]+)>)/gi,
+                                        ""
+                                      )
+                                    ) +
+                                    "\n\n\t\t\t\t\t\t\t"
+                                ),
+                                filter.option === "Equals To"
+                                  ? _c("i", { staticClass: "fas fa-equals" })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                filter.option === "Not Equals To"
+                                  ? _c("i", { staticClass: "fas fa-not-equal" })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                filter.option === "Greater/Equal To"
+                                  ? _c("i", {
+                                      staticClass: "fas fa-greater-than-equal"
+                                    })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                filter.option === "Less/Equal To"
+                                  ? _c("i", {
+                                      staticClass: "fas fa-less-than-equal"
+                                    })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                filter.option === "Contains"
+                                  ? _c("i", {
+                                      staticClass: "fas fa-level-down-alt"
+                                    })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                filter.option === "Begins With"
+                                  ? _c("i", {
+                                      staticClass: "fas fa-long-arrow-alt-right"
+                                    })
+                                  : _vm._e(),
+                                _vm._v(
+                                  '\n\n\t\t\t\t\t\t\t"' +
+                                    _vm._s(filter.value) +
+                                    '"\n\t\t\t\t\t\t'
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("i", {
+                            staticClass:
+                              "fas fa-minus-circle jd-removeIcon jd-clickable",
+                            attrs: { title: "Remove Filter" },
+                            on: {
+                              click: function($event) {
+                                return _vm.removeFilter(index)
+                              }
+                            }
+                          })
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("transition", { attrs: { name: "jdTableSlideDown" } }, [
+            _vm.rendering.views.changingViews
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "jd-optionDropdown",
+                    style: _vm.optionDropdownStyles
+                  },
+                  [
+                    _c("div", { staticClass: "jd-dropdownHeader" }, [
+                      _vm._v("Views")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.rendering.views.list, function(row) {
+                      return _c(
+                        "div",
+                        {
+                          staticClass:
+                            "jd-dropdownItem jd-paginationItem jd-clickable",
+                          class:
+                            _vm.rendering.views.currentSelectedView ===
+                            row.viewName
+                              ? "jd-selected"
+                              : "",
+                          on: {
+                            click: function($event) {
+                              return _vm.changeViews(row)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t" + _vm._s(row.viewName) + "\n\t\t\t\t"
+                          )
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              : _vm._e()
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          ref: "contentFrame",
+          staticClass: "jd-layerContent",
+          style: _vm.layerContentStyles
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "jd-contentTable", style: _vm.tableStyles },
+            [
+              _c(
+                "div",
+                { staticClass: "jd-head", style: _vm.tableHeadStyles },
+                _vm._l(_vm.rendering.views.currentView.schema, function(
+                  column,
+                  index
+                ) {
+                  return column.enabled
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "jd-cell",
+                          class:
+                            _vm.columns.activeHoverIndex === index
+                              ? "jd-hoverAssist" + _vm.headCellClasses
+                              : _vm.headCellClasses,
+                          style: column.headerStyles,
+                          attrs: { title: _vm.sortTitle(index) },
+                          on: {
+                            click: function($event) {
+                              return _vm.changeSort(
+                                index,
+                                column.name,
+                                column.sortSpecial
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "jd-cellText" }, [
+                            _c("div", {
+                              staticClass: "jd-title",
+                              domProps: { innerHTML: _vm._s(column.title) }
+                            }),
+                            _vm._v(" "),
+                            _vm.setting.columnSort &&
+                            _vm.columns.activeSortIndex === index &&
+                            !_vm.columns.activeSortAsc
+                              ? _c("i", { staticClass: "fas fa-sort-alpha-up" })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.setting.columnSort &&
+                            _vm.columns.activeSortIndex === index &&
+                            _vm.columns.activeSortAsc
+                              ? _c("i", {
+                                  staticClass: "fas fa-sort-alpha-down"
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.setting.columnSort &&
+                            _vm.columns.activeSortIndex !== index
+                              ? _c("i", {
+                                  staticClass:
+                                    "fas fa-sort-alpha-down jd-hoverSort"
+                                })
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _vm.resizable
+                            ? _c("div", {
+                                staticClass: "jd-resize",
+                                class:
+                                  index === _vm.columns.activeResize
+                                    ? "jd-selected"
+                                    : "",
+                                on: {
+                                  mousedown: function($event) {
+                                    return _vm.resizeStart(index, $event)
+                                  },
+                                  mousemove: function($event) {
+                                    return _vm.resizeDrag(index, $event)
+                                  }
+                                }
+                              })
+                            : _vm._e()
+                        ]
+                      )
+                    : _vm._e()
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  ref: "bodyData",
+                  staticClass: "jd-body",
+                  style: _vm.tableBodyStyles,
+                  on: {
+                    scroll: function($event) {
+                      return _vm.virtualScroll($event)
+                    },
+                    mouseleave: _vm.bodyLeave
+                  }
+                },
+                [
+                  _vm.rendering.engine === 0
+                    ? _c("div", {
+                        staticClass: "jd-virtualBody",
+                        style: _vm.bodyVirtualStyles
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { ref: "viewData", style: _vm.bodyViewStyles },
+                    _vm._l(_vm.currentTableData, function(row) {
+                      return _vm.isViewAvailable
+                        ? _c(
+                            "div",
+                            {
+                              staticClass: "jd-row",
+                              class: _vm.viewRowClasses,
+                              style: _vm.viewRowStyles,
+                              on: {
+                                click: function($event) {
+                                  return _vm.rowActionSingle(row.index)
+                                },
+                                dblclick: function($event) {
+                                  return _vm.rowActionDouble(row.index)
+                                },
+                                mouseover: function($event) {
+                                  return _vm.rowHover(row.index, $event)
+                                }
+                              }
+                            },
+                            _vm._l(
+                              _vm.rendering.views.currentView.schema,
+                              function(column, columnIndex) {
+                                return column.enabled
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticClass: "jd-cell",
+                                        class: _vm.rowDataClasses,
+                                        style: column.dataStyles,
+                                        on: {
+                                          mouseover: function($event) {
+                                            return _vm.cellHover(columnIndex)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        column.type === "Array"
+                                          ? _c("span", [
+                                              _c(
+                                                "ul",
+                                                { staticClass: "jd-list" },
+                                                _vm._l(
+                                                  row.data[column.name],
+                                                  function(item) {
+                                                    return _c("li", [
+                                                      _vm._v(
+                                                        "\n\t\t\t\t\t\t\t\t\t\t" +
+                                                          _vm._s(item) +
+                                                          "\n\t\t\t\t\t\t\t\t\t"
+                                                      )
+                                                    ])
+                                                  }
+                                                ),
+                                                0
+                                              )
+                                            ])
+                                          : _c("span", [
+                                              _vm._v(
+                                                _vm._s(row.data[column.name])
+                                              )
+                                            ])
+                                      ]
+                                    )
+                                  : _vm._e()
+                              }
+                            ),
+                            0
+                          )
+                        : _vm._e()
+                    }),
+                    0
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _vm.setting.footer
+        ? _c(
+            "div",
+            {
+              staticClass: "jd-layerFooter jd-noneSelectable",
+              style: _vm.layerFooterStyles
+            },
+            [
+              _vm.rendering.engine === 2 && _vm.processedDataSize
+                ? _c("div", { staticClass: "jd-pagination" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "jd-paginationDirection jd-left",
+                        class:
+                          _vm.rendering.pagination.currentPage === 1
+                            ? "jd-disabled"
+                            : ""
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fas fa-fast-backward jd-start",
+                          attrs: { title: "First Page" },
+                          on: { click: _vm.paginationFirst }
+                        }),
+                        _vm._v(" "),
+                        _c("i", {
+                          staticClass: "fas fa-backward",
+                          attrs: { title: "Previous Page" },
+                          on: { click: _vm.paginationPrevious }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm.status.mobileSize
+                      ? _c("div", { staticClass: "jd-paginationRows" }, [
+                          _vm._v("\n\t\t\t\tRows "),
+                          _vm.processedDataSize
+                            ? _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.rendering.pagination.currentStartIndex +
+                                      1
+                                  ) +
+                                    " - " +
+                                    _vm._s(
+                                      _vm.rendering.pagination.currentEndIndex
+                                    ) +
+                                    " of "
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(
+                            _vm._s(
+                              _vm.formatNumberWithCommas(_vm.processedDataSize)
+                            ) + "\n\t\t\t"
+                          )
+                        ])
+                      : _c("div", { staticClass: "jd-paginationRows" }, [
+                          _vm.processedDataSize
+                            ? _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.rendering.pagination.currentStartIndex +
+                                      1
+                                  ) +
+                                    " - " +
+                                    _vm._s(
+                                      _vm.rendering.pagination.currentEndIndex
+                                    )
+                                )
+                              ])
+                            : _vm._e()
+                        ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "jd-paginationArea" }, [
+                      !_vm.status.mobileSize
+                        ? _c(
+                            "div",
+                            { staticClass: "jd-paginationList" },
+                            [
+                              _vm.rendering.pagination.leftPages[0] > 1
+                                ? _c(
+                                    "div",
+                                    { staticClass: "jd-paginationPage" },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fas fa-ellipsis-h"
+                                      })
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(
+                                _vm.rendering.pagination.leftPages,
+                                function(page) {
+                                  return _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "jd-paginationPage jd-addHover",
+                                      class:
+                                        page ===
+                                        _vm.rendering.pagination
+                                          .currentPageHightlight
+                                          ? "jd-selected"
+                                          : "",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.paginationChange(page)
+                                        }
+                                      }
+                                    },
+                                    [_c("span", [_vm._v(_vm._s(page))])]
+                                  )
+                                }
+                              )
+                            ],
+                            2
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.status.mobileSize
+                        ? _c(
+                            "div",
+                            { staticClass: "jd-paginationList" },
+                            [
+                              _vm._l(
+                                _vm.rendering.pagination.rightPages,
+                                function(page) {
+                                  return _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "jd-paginationPage jd-addHover",
+                                      class:
+                                        page ===
+                                        _vm.rendering.pagination
+                                          .currentPageHightlight
+                                          ? "jd-selected"
+                                          : "",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.paginationChange(page)
+                                        }
+                                      }
+                                    },
+                                    [_c("span", [_vm._v(_vm._s(page))])]
+                                  )
+                                }
+                              ),
+                              _vm._v(" "),
+                              _vm.rendering.pagination.rightPages[
+                                _vm.rendering.pagination.rightPages.length - 1
+                              ] < _vm.rendering.pagination.availablePages
+                                ? _c(
+                                    "div",
+                                    { staticClass: "jd-paginationPage" },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fas fa-ellipsis-h"
+                                      })
+                                    ]
+                                  )
+                                : _vm._e()
+                            ],
+                            2
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "jd-paginationDirection jd-right",
+                        class:
+                          _vm.rendering.pagination.currentPage ===
+                          _vm.rendering.pagination.availablePages
+                            ? "jd-disabled"
+                            : ""
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fas fa-forward",
+                          attrs: { title: "Next Page" },
+                          on: { click: _vm.paginationNext }
+                        }),
+                        _vm._v(" "),
+                        _c("i", {
+                          staticClass: "fas fa-fast-forward jd-end",
+                          attrs: { title: "Last Page" },
+                          on: { click: _vm.paginationLast }
+                        })
+                      ]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              (_vm.rendering.engine === 0 || _vm.rendering.engine === 1) &&
+              _vm.processedDataSize
+                ? _c("div", [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.filters.show,
+                            expression: "!filters.show"
+                          }
+                        ],
+                        staticClass: "jd-resultRows"
+                      },
+                      [
+                        _vm._v(
+                          "Rows: " +
+                            _vm._s(
+                              _vm.formatNumberWithCommas(_vm.processedDataSize)
+                            )
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "jdTableFade" } }, [
+        _vm.status.tableError
+          ? _c("div", { staticClass: "jd-layerPopup jd-fullFrame" }, [
+              _c("div", { staticClass: "jd-errorMessage" }, [
+                _vm._v(
+                  "\n\t\t\t\t" + _vm._s(_vm.status.tableError) + "\n\t\t\t"
+                )
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.noDataMessage
+          ? _c("div", { staticClass: "jd-layerPopup jd-contentFrame" }, [
+              _c("div", { staticClass: "jd-noDataFrame" }, [
+                _c("div", { staticClass: "jd-title" }, [
+                  _vm._v("\n\t\t\t\t\tNo Data Available\n\t\t\t\t")
+                ]),
+                _vm._v(" "),
+                _vm.filtering
+                  ? _c("div", { staticClass: "jd-filters" }, [
+                      _vm._v(
+                        "\n\t\t\t\t\tTry changing your applied filters.\n\t\t\t\t"
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.loader
+          ? _c("div", { staticClass: "jd-layerPopup jd-fullFrame jd-loader" }, [
+              _c("div", { staticClass: "fulfilling-square-spinner" }, [
+                _c("div", { staticClass: "spinner-inner" })
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "jd-loadingText" }, [
+                _vm._v("Loading ...")
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.status.processingData
+          ? _c(
+              "div",
+              { staticClass: "jd-layerPopup jd-contentFrame jd-loader" },
+              [
+                _c("div", { staticClass: "fulfilling-square-spinner" }, [
+                  _c("div", { staticClass: "spinner-inner" })
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "jd-loadingText" }, [
+                  _vm._v("Processing")
+                ])
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.status.searching
+          ? _c(
+              "div",
+              { staticClass: "jd-layerPopup jd-contentFrame jd-loader" },
+              [
+                _c("div", { staticClass: "self-building-square-spinner" }, [
+                  _c("div", { staticClass: "square" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "square" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "square" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "square clear" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "square" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "square" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "square clear" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "square" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "square" })
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "jd-loadingText" }, [
+                  _vm._v("Searching")
+                ])
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.status.updatingPage
+          ? _c(
+              "div",
+              { staticClass: "jd-layerPopup jd-contentFrame jd-loader" },
+              [
+                _c("div", { staticClass: "looping-rhombuses-spinner" }, [
+                  _c("div", { staticClass: "rhombus" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "rhombus" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "rhombus" })
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "jd-loadingText" }, [
+                  _vm._v("Updating")
+                ])
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.gettingStarted
+          ? _c("div", { staticClass: "jd-layerPopup jd-contentFrame" }, [
+              _c("div", {
+                staticClass: "jd-tableMessage",
+                domProps: {
+                  innerHTML: _vm._s(_vm.setting.startBySearchMessage)
+                }
+              })
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "jdTableFade" } }, [
+        _vm.row.selectedIndex !== null &&
+        !_vm.status.processingData &&
+        !_vm.status.searching &&
+        !_vm.status.updatingPage
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "jd-layerPopup jd-fullBrowser jd-fullFrame jd-fullFrameZone"
+              },
+              [
+                _c("div", { staticClass: "jd-quickView" }, [
+                  _c("div", { staticClass: "jd-quickViewHighlight_1" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "jd-quickViewHighlight_2" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "jd-quickViewControl" }, [
+                    _c("div", { staticClass: "jd-controlAction" }, [
+                      _c(
+                        "span",
+                        {
+                          on: {
+                            click: function($event) {
+                              return _vm.print("quickViewContent")
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-print" })]
+                      ),
+                      _vm._v(" "),
+                      _vm.setting.viewItem
+                        ? _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.featureAction("ViewItem")
+                                }
+                              }
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "far fa-arrow-alt-circle-up"
+                              })
+                            ]
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "jd-controlTitle" }, [
+                      _vm._v("Quick View")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "jd-controlAction" }, [
+                      _vm.setting.deleteItem
+                        ? _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.featureAction("DeleteItem")
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fas fa-trash-alt" })]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.setting.editItem
+                        ? _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.featureAction("EditItem")
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fas fa-pencil-alt" })]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("span", { on: { click: _vm.quickViewClose } }, [
+                        _c("i", { staticClass: "fas fa-times" })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      ref: "quickViewContent",
+                      staticClass: "jd-quickViewContent"
+                    },
+                    _vm._l(_vm.columns.list, function(column) {
+                      return _c("div", { staticClass: "jd-contentRow" }, [
+                        _c("div", { staticClass: "jd-rowTitle" }, [
+                          _vm._v(
+                            _vm._s(column.title.replace(/(<([^>]+)>)/gi, ""))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        column.type === "Array"
+                          ? _c("div", { staticClass: "jd-rowData" }, [
+                              _c(
+                                "ul",
+                                _vm._l(
+                                  _vm.currentTableData[_vm.row.selectedIndex]
+                                    .data[column.name],
+                                  function(item) {
+                                    return _c("li", [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t" +
+                                          _vm._s(item) +
+                                          "\n\t\t\t\t\t\t\t\t"
+                                      )
+                                    ])
+                                  }
+                                ),
+                                0
+                              )
+                            ])
+                          : _c("div", { staticClass: "jd-rowData" }, [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.currentTableData[_vm.row.selectedIndex]
+                                    .data[column.name]
+                                )
+                              )
+                            ])
+                      ])
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "jd-quickViewFooter" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "jd-footerDirection jd-previous",
+                        on: { click: _vm.quickViewPrevious }
+                      },
+                      [_c("i", { staticClass: "fas fa-backward" })]
+                    ),
+                    _vm._v(" "),
+                    _vm.setting.dataProvider === 1
+                      ? _c("div", { staticClass: "jd-footerItem" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t" +
+                              _vm._s(
+                                _vm.row.selectedIndex +
+                                  _vm.rendering.pagination.currentStartIndex +
+                                  1
+                              ) +
+                              " of " +
+                              _vm._s(_vm.processedDataSize) +
+                              "\n\t\t\t\t\t"
+                          )
+                        ])
+                      : _c("div", { staticClass: "jd-footerItem" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t" +
+                              _vm._s(_vm.row.selectedIndex + 1) +
+                              " of " +
+                              _vm._s(_vm.processedDataSize) +
+                              "\n\t\t\t\t\t"
+                          )
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "jd-footerDirection jd-next",
+                        on: { click: _vm.quickViewNext }
+                      },
+                      [_c("i", { staticClass: "fas fa-forward" })]
+                    )
+                  ])
+                ])
+              ]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "jdTableFade" } }, [
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value:
+                  (_vm.setting.contextMenuLeft ||
+                    _vm.setting.contextMenuRight) &&
+                  _vm.status.contextMenu,
+                expression:
+                  "( setting.contextMenuLeft || setting.contextMenuRight ) && status.contextMenu"
+              }
+            ],
+            ref: "jd_contextMenu",
+            staticClass: "jd-contextMenu"
+          },
+          [
+            _c("ul", { staticClass: "jd-contextMenuOptions" }, [
+              _vm.setting.contextMenuQuickView ||
+              _vm.setting.contextMenuView ||
+              _vm.setting.contextMenuEdit ||
+              _vm.setting.contextMenuDelete
+                ? _c(
+                    "li",
+                    { staticClass: "jd-contextMenuHeader jd-noneSelectable" },
+                    [_c("span", [_vm._v("Row Options")])]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.setting.contextMenuQuickView
+                ? _c(
+                    "li",
+                    {
+                      staticClass: "jd-contextMenuOption jd-noneSelectable",
+                      attrs: { title: "Open Quick View" },
+                      on: { click: _vm.contextQuickView }
+                    },
+                    [_c("span", [_vm._v("Quick View")])]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.setting.contextMenuView
+                ? _c(
+                    "li",
+                    { staticClass: "jd-contextMenuOption jd-noneSelectable" },
+                    [
+                      _c(
+                        "span",
+                        {
+                          attrs: { title: "View Record" },
+                          on: {
+                            click: function($event) {
+                              return _vm.contextView(false)
+                            }
+                          }
+                        },
+                        [_vm._v("View")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          attrs: { title: "View (In New Window)" },
+                          on: {
+                            click: function($event) {
+                              return _vm.contextView(true)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-external-link-alt" })]
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.setting.contextMenuEdit
+                ? _c(
+                    "li",
+                    { staticClass: "jd-contextMenuOption jd-noneSelectable" },
+                    [
+                      _c(
+                        "span",
+                        {
+                          attrs: { title: "Edit Record" },
+                          on: {
+                            click: function($event) {
+                              return _vm.contextEdit(false)
+                            }
+                          }
+                        },
+                        [_vm._v("Edit")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          attrs: { title: "Edit (In New Window)" },
+                          on: {
+                            click: function($event) {
+                              return _vm.contextEdit(true)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-external-link-alt" })]
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.setting.contextMenuDelete
+                ? _c(
+                    "li",
+                    { staticClass: "jd-contextMenuOption jd-noneSelectable" },
+                    [
+                      _c(
+                        "span",
+                        {
+                          attrs: { title: "Delete Record" },
+                          on: { click: _vm.contextDelete }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.setting.contextMenuAdd
+                ? _c(
+                    "li",
+                    { staticClass: "jd-contextMenuHeader jd-noneSelectable" },
+                    [_c("span", [_vm._v("Table Options")])]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.setting.contextMenuAdd
+                ? _c(
+                    "li",
+                    { staticClass: "jd-contextMenuOption jd-noneSelectable" },
+                    [
+                      _c(
+                        "span",
+                        {
+                          attrs: { title: "Add Record" },
+                          on: {
+                            click: function($event) {
+                              return _vm.contextAdd(false)
+                            }
+                          }
+                        },
+                        [_vm._v("Add")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          attrs: { title: "Add (In New Window)" },
+                          on: {
+                            click: function($event) {
+                              return _vm.contextAdd(true)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-external-link-alt" })]
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ])
+          ]
+        )
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Biblioteca-list.vue?vue&type=template&id=ff989dac&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Biblioteca-list.vue?vue&type=template&id=ff989dac& ***!
@@ -54465,10 +61852,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EjemplarComponent.vue?vue&type=template&id=454d9108&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EjemplarComponent.vue?vue&type=template&id=454d9108& ***!
+  \********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -54480,437 +61867,27 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.5\n                "
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455&":
-/*!************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455& ***!
-  \************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c(
-        "div",
-        {
-          staticClass: "col-md-12",
-          staticStyle: { overflow: "auto", height: "500px" }
+  return _c(
+    "div",
+    [
+      _c("JDTable", {
+        attrs: {
+          option: _vm.tableOptions,
+          loader: _vm.tableLoader,
+          "event-from-app": _vm.eventFromApp,
+          "event-from-app-trigger": _vm.eventFromAppTrigger
         },
-        [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v(
-                "\n                    Lista de ejemplares\n                    \n                    "
-              ),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-sm",
-                  attrs: {
-                    type: "button",
-                    "data-toggle": "modal",
-                    "data-target": "#modalAgregar"
-                  }
-                },
-                [_vm._v("Agregar")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.search,
-                    expression: "search"
-                  }
-                ],
-                staticClass: "form-control col-md-3 float-right",
-                attrs: { placeholder: "Buscar por titulo..." },
-                domProps: { value: _vm.search },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.search = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c(
-                "ul",
-                { staticClass: "list-group" },
-                _vm._l(_vm.searchEjemplar, function(item, index) {
-                  return _c(
-                    "li",
-                    { key: index, staticClass: "list-group-item" },
-                    [
-                      _c("h5", [
-                        _c("span", { staticClass: "badge  float-right" }, [
-                          _vm._v(
-                            "\n                                Actualizado el: " +
-                              _vm._s(item.updated_at) +
-                              "\n                                "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
-                      _vm._v(" "),
-                      _c("p", [_vm._v("AUTOR: " + _vm._s(item.AUTOR))]),
-                      _vm._v(" "),
-                      _c("p", [_vm._v("ISBN: " + _vm._s(item.ISBN))]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v(
-                          "NÚMERO DE PÁGINAS: " + _vm._s(item.NUMERO_PAGINAS)
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v("COPIAS: " + _vm._s(item.NUMERO_COPIAS))
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: {
-                              type: "button",
-                              "data-toggle": "modal",
-                              "data-target": "#modalEditar"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.editarFormulario(item)
-                              }
-                            }
-                          },
-                          [_vm._v("Editar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger btn-sm ",
-                            on: {
-                              click: function($event) {
-                                return _vm.eliminarEjemplar(item, index)
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "fe fe-eye" }),
-                            _vm._v("Eliminar")
-                          ]
-                        )
-                      ])
-                    ]
-                  )
-                }),
-                0
-              )
-            ])
-          ])
-        ]
-      ),
+        on: {
+          "event-from-jd-table": function($event) {
+            return _vm.processEventFromApp($event)
+          }
+        }
+      }),
       _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal fade",
-          attrs: { id: "modalEditar", role: "dialog" }
-        },
-        [
-          _c("div", { staticClass: "modal-dialog" }, [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.editarEjemplar(_vm.EJEMPLAR)
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "NOMBRE" } }, [
-                        _vm._v("Nombre")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.EJEMPLAR.EJEMPLAR,
-                            expression: "EJEMPLAR.EJEMPLAR"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.EJEMPLAR,
-                              "EJEMPLAR",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "DESCRIPCION" } }, [
-                        _vm._v("Descripción")
-                      ]),
-                      _vm._v(" "),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.EJEMPLAR.DESCRIPCION,
-                            expression: "EJEMPLAR.DESCRIPCION"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { id: "DESCRIPCION", rows: "3" },
-                        domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.EJEMPLAR,
-                              "DESCRIPCION",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "ISBN" } }, [_vm._v("ISBN")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.EJEMPLAR.ISBN,
-                            expression: "EJEMPLAR.ISBN"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "ISBN",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.EJEMPLAR.ISBN },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.EJEMPLAR, "ISBN", $event.target.value)
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "AUTOR" } }, [
-                        _vm._v("AUTOR/es")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.EJEMPLAR.AUTOR,
-                            expression: "EJEMPLAR.AUTOR"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "AUTOR",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.EJEMPLAR.AUTOR },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.EJEMPLAR, "AUTOR", $event.target.value)
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "form-group col-md-6" }, [
-                        _c("label", { attrs: { for: "PAGINAS" } }, [
-                          _vm._v("Numero de paginas")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.EJEMPLAR.NUMERO_PAGINAS,
-                              expression: "EJEMPLAR.NUMERO_PAGINAS"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            id: "PAGINAS",
-                            "aria-describedby": "emailHelp"
-                          },
-                          domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.EJEMPLAR,
-                                "NUMERO_PAGINAS",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group col-md-6" }, [
-                        _c("label", { attrs: { for: "copias" } }, [
-                          _vm._v("Numero de copias")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.EJEMPLAR.COPIAS,
-                              expression: "EJEMPLAR.COPIAS"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            id: "copias",
-                            "aria-describedby": "emailHelp"
-                          },
-                          domProps: { value: _vm.EJEMPLAR.COPIAS },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.EJEMPLAR,
-                                "COPIAS",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-footer" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-warning float-left",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Editar")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "submit", "data-dismiss": "modal" },
-                        on: { click: _vm.cancelarEdicion }
-                      },
-                      [_vm._v("Cancelar edición")]
-                    )
-                  ])
-                ])
-              ]
-            )
-          ])
-        ]
-      ),
+      _c("iframe", {
+        staticStyle: { display: "none" },
+        attrs: { id: "excelExportArea" }
+      }),
       _vm._v(" "),
       _c(
         "div",
@@ -54926,13 +61903,26 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.agregar($event)
+                    return _vm.guardar($event)
                   }
                 }
               },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(1),
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v(_vm._s(_vm.titleToShow))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [_vm._v("×")]
+                    )
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
                     _c("div", { staticClass: "form-group" }, [
@@ -55152,7 +62142,7 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit" }
                       },
-                      [_vm._v("Agregar Ejemplar")]
+                      [_vm._v("Guardar Ejemplar")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -55171,7 +62161,751 @@ var render = function() {
           ])
         ]
       )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("Example Component")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _vm._v(
+                "\n                    I'm an example component.5\n                "
+              )
+            ])
+          ])
+        ])
+      ])
     ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListaEjem.vue?vue&type=template&id=5056f455& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c(
+      "div",
+      { staticClass: "row justify-content-center" },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "col-md-12",
+            staticStyle: { overflow: "auto", height: "500px" }
+          },
+          [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(
+                  "\n                    Lista de ejemplares\n\n                    "
+                ),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-sm",
+                    attrs: {
+                      type: "button",
+                      "data-toggle": "modal",
+                      "data-target": "#modalAgregar"
+                    }
+                  },
+                  [_vm._v("Agregar")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search,
+                      expression: "search"
+                    }
+                  ],
+                  staticClass: "form-control col-md-3 float-right",
+                  attrs: { placeholder: "Buscar por titulo..." },
+                  domProps: { value: _vm.search },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "ul",
+                  { staticClass: "list-group" },
+                  _vm._l(_vm.searchEjemplar, function(item, index) {
+                    return _c(
+                      "li",
+                      { key: index, staticClass: "list-group-item" },
+                      [
+                        _c("h5", [
+                          _c("span", { staticClass: "badge  float-right" }, [
+                            _vm._v(
+                              "\n                                Actualizado el: " +
+                                _vm._s(item.updated_at) +
+                                "\n                                "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v("TITULO: " + _vm._s(item.EJEMPLAR))]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v("AUTOR: " + _vm._s(item.AUTOR))]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v("ISBN: " + _vm._s(item.ISBN))]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "NÚMERO DE PÁGINAS: " + _vm._s(item.NUMERO_PAGINAS)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v("COPIAS: " + _vm._s(item.NUMERO_COPIAS))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-warning btn-sm",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#modalEditar"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.editarFormulario(item)
+                                }
+                              }
+                            },
+                            [_vm._v("Editar")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger btn-sm ",
+                              on: {
+                                click: function($event) {
+                                  return _vm.eliminarEjemplar(item, index)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fe fe-eye" }),
+                              _vm._v("Eliminar")
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("lista-ejem-table"),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal fade",
+            attrs: { id: "modalEditar", role: "dialog" }
+          },
+          [
+            _c("div", { staticClass: "modal-dialog" }, [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.editarEjemplar(_vm.EJEMPLAR)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "NOMBRE" } }, [
+                          _vm._v("Nombre")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.EJEMPLAR,
+                              expression: "EJEMPLAR.EJEMPLAR"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "NOMBRE",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "EJEMPLAR",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "DESCRIPCION" } }, [
+                          _vm._v("Descripción")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.DESCRIPCION,
+                              expression: "EJEMPLAR.DESCRIPCION"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "DESCRIPCION", rows: "3" },
+                          domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "DESCRIPCION",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "ISBN" } }, [
+                          _vm._v("ISBN")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.ISBN,
+                              expression: "EJEMPLAR.ISBN"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "ISBN",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.EJEMPLAR.ISBN },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "ISBN",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "AUTOR" } }, [
+                          _vm._v("AUTOR/es")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.AUTOR,
+                              expression: "EJEMPLAR.AUTOR"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "AUTOR",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.EJEMPLAR.AUTOR },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "AUTOR",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "form-group col-md-6" }, [
+                          _c("label", { attrs: { for: "PAGINAS" } }, [
+                            _vm._v("Numero de paginas")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.EJEMPLAR.NUMERO_PAGINAS,
+                                expression: "EJEMPLAR.NUMERO_PAGINAS"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              id: "PAGINAS",
+                              "aria-describedby": "emailHelp"
+                            },
+                            domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.EJEMPLAR,
+                                  "NUMERO_PAGINAS",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-6" }, [
+                          _c("label", { attrs: { for: "copias" } }, [
+                            _vm._v("Numero de copias")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.EJEMPLAR.COPIAS,
+                                expression: "EJEMPLAR.COPIAS"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              id: "copias",
+                              "aria-describedby": "emailHelp"
+                            },
+                            domProps: { value: _vm.EJEMPLAR.COPIAS },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.EJEMPLAR,
+                                  "COPIAS",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning float-left",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Editar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "submit", "data-dismiss": "modal" },
+                          on: { click: _vm.cancelarEdicion }
+                        },
+                        [_vm._v("Cancelar edición")]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal fade",
+            attrs: { id: "modalAgregar", role: "dialog" }
+          },
+          [
+            _c("div", { staticClass: "modal-dialog" }, [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.agregar($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "NOMBRE" } }, [
+                          _vm._v("Nombre")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.EJEMPLAR,
+                              expression: "EJEMPLAR.EJEMPLAR"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "NOMBRE",
+                            "aria-describedby": "emailHelp",
+                            required: ""
+                          },
+                          domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "EJEMPLAR",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "DESCRIPCION" } }, [
+                          _vm._v("Descripción")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.DESCRIPCION,
+                              expression: "EJEMPLAR.DESCRIPCION"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "DESCRIPCION", rows: "3", required: "" },
+                          domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "DESCRIPCION",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "ISBN" } }, [
+                          _vm._v("ISBN")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.ISBN,
+                              expression: "EJEMPLAR.ISBN"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "ISBN",
+                            "aria-describedby": "emailHelp",
+                            required: ""
+                          },
+                          domProps: { value: _vm.EJEMPLAR.ISBN },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "ISBN",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "AUTOR" } }, [
+                          _vm._v("AUTOR/es")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.EJEMPLAR.AUTOR,
+                              expression: "EJEMPLAR.AUTOR"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "AUTOR",
+                            "aria-describedby": "emailHelp",
+                            required: ""
+                          },
+                          domProps: { value: _vm.EJEMPLAR.AUTOR },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.EJEMPLAR,
+                                "AUTOR",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "form-group col-md-6" }, [
+                          _c("label", { attrs: { for: "PAGINAS" } }, [
+                            _vm._v("Numero de paginas")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.EJEMPLAR.NUMERO_PAGINAS,
+                                expression: "EJEMPLAR.NUMERO_PAGINAS"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              id: "PAGINAS",
+                              "aria-describedby": "emailHelp",
+                              required: ""
+                            },
+                            domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.EJEMPLAR,
+                                  "NUMERO_PAGINAS",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-6" }, [
+                          _c("label", { attrs: { for: "copias" } }, [
+                            _vm._v("Numero de copias")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.EJEMPLAR.COPIAS,
+                                expression: "EJEMPLAR.COPIAS"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              id: "copias",
+                              "aria-describedby": "emailHelp",
+                              required: ""
+                            },
+                            domProps: { value: _vm.EJEMPLAR.COPIAS },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.EJEMPLAR,
+                                  "COPIAS",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Agregar Ejemplar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "submit", "data-dismiss": "modal" },
+                          on: { click: _vm.cancelarEdicion }
+                        },
+                        [_vm._v("Cancelar")]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -55210,6 +62944,53 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjemTable.vue?vue&type=template&id=061ec3a9&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListaEjemTable.vue?vue&type=template&id=061ec3a9& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("JDTable", {
+        attrs: {
+          option: _vm.tableOptions,
+          loader: _vm.tableLoader,
+          "event-from-app": _vm.eventFromApp,
+          "event-from-app-trigger": _vm.eventFromAppTrigger
+        },
+        on: {
+          "event-from-jd-table": function($event) {
+            return _vm.processEventFromApp($event)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("iframe", {
+        staticStyle: { display: "none" },
+        attrs: { id: "excelExportArea" }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -67677,14 +75458,22 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_jd_table_src_jd_table_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-jd-table/src/jd-table.vue */ "./node_modules/vue-jd-table/src/jd-table.vue");
+/* harmony import */ var vue_jd_table_dist_jd_table_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-jd-table/dist/jd-table.min.css */ "./node_modules/vue-jd-table/dist/jd-table.min.css");
+/* harmony import */ var vue_jd_table_dist_jd_table_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_jd_table_dist_jd_table_min_css__WEBPACK_IMPORTED_MODULE_1__);
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -67700,11 +75489,17 @@ window.toastr = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
+Vue.component('JDTable', vue_jd_table_src_jd_table_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
 Vue.component('busqueda-api', __webpack_require__(/*! ./components/BusquedaApi.vue */ "./resources/js/components/BusquedaApi.vue")["default"]);
 Vue.component('select2', __webpack_require__(/*! ./components/select.vue */ "./resources/js/components/select.vue")["default"]);
 Vue.component('lista-ejem', __webpack_require__(/*! ./components/ListaEjem.vue */ "./resources/js/components/ListaEjem.vue")["default"]);
 Vue.component('biblioteca-list', __webpack_require__(/*! ./components/Biblioteca-list.vue */ "./resources/js/components/Biblioteca-list.vue")["default"]);
+<<<<<<< HEAD
 Vue.component('buscar-libro', __webpack_require__(/*! ./components/Buscar-libro.vue */ "./resources/js/components/Buscar-libro.vue")["default"]);
+=======
+Vue.component('lista-ejem-table', __webpack_require__(/*! ./components/ListaEjemTable.vue */ "./resources/js/components/ListaEjemTable.vue")["default"]);
+Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]);
+>>>>>>> luis
 Vue.component('nuevo-aporte', __webpack_require__(/*! ./components/nuevoAporte.vue */ "./resources/js/components/nuevoAporte.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -67992,6 +75787,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/EjemplarComponent.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/EjemplarComponent.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EjemplarComponent_vue_vue_type_template_id_454d9108___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EjemplarComponent.vue?vue&type=template&id=454d9108& */ "./resources/js/components/EjemplarComponent.vue?vue&type=template&id=454d9108&");
+/* harmony import */ var _EjemplarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EjemplarComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/EjemplarComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EjemplarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EjemplarComponent_vue_vue_type_template_id_454d9108___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EjemplarComponent_vue_vue_type_template_id_454d9108___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/EjemplarComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/EjemplarComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/EjemplarComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EjemplarComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EjemplarComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/EjemplarComponent.vue?vue&type=template&id=454d9108&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/EjemplarComponent.vue?vue&type=template&id=454d9108& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_template_id_454d9108___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EjemplarComponent.vue?vue&type=template&id=454d9108& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EjemplarComponent.vue?vue&type=template&id=454d9108&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_template_id_454d9108___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_template_id_454d9108___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -68125,6 +75989,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_template_id_5056f455___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_template_id_5056f455___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaEjemTable.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/ListaEjemTable.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListaEjemTable.vue?vue&type=template&id=061ec3a9& */ "./resources/js/components/ListaEjemTable.vue?vue&type=template&id=061ec3a9&");
+/* harmony import */ var _ListaEjemTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaEjemTable.vue?vue&type=script&lang=js& */ "./resources/js/components/ListaEjemTable.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ListaEjemTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ListaEjemTable.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaEjemTable.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/ListaEjemTable.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ListaEjemTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjemTable.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaEjemTable.vue?vue&type=template&id=061ec3a9&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/ListaEjemTable.vue?vue&type=template&id=061ec3a9& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ListaEjemTable.vue?vue&type=template&id=061ec3a9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjemTable.vue?vue&type=template&id=061ec3a9&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -68304,8 +76237,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\Biblioteca\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

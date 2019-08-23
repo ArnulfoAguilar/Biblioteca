@@ -21,9 +21,15 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+<<<<<<< HEAD
           <li class="nav-item has-treeview {{ ( request()->is('biblioteca/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('biblioteca/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
+=======
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-atlas"></i>
+>>>>>>> luis
               <p>
                 Biblioteca
                 <i class="right fas fa-angle-left"></i>
@@ -57,9 +63,15 @@
             </ul>
           </li>
           <!--inventario-->
+<<<<<<< HEAD
           <li class="nav-item has-treeview {{ ( request()->is('inventario/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('inventario/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
+=======
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+>>>>>>> luis
               <p>
                 Inventario
                 <i class="right fas fa-angle-left"></i>
@@ -93,9 +105,9 @@
             </ul>
           </li>
           <!--aportes-->
-          <li class="nav-item has-treeview {{ ( request()->is('aportes/*') ) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ ( request()->is('aportes/*') ) ? 'active' : '' }}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
                 Aportes
                 <i class="right fas fa-angle-left"></i>
@@ -119,7 +131,7 @@
           <!--adquisiciones-->
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-archive"></i>
               <p>
                 Adquisiciones
                 <i class="right fas fa-angle-left"></i>

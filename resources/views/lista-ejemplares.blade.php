@@ -1,5 +1,5 @@
 @extends('layouts.adminLTE')
 
 @section('content')
-    <lista-ejem ></lista-ejem>
+    <ejemplar-component ></ejemplar-component>
 @endsection
