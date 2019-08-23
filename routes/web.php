@@ -36,6 +36,8 @@ Route::resource('/Ejemplar','EjemplarController');
 
 Route::resource('/aportes','AporteController');
 Route::resource('/revisiones','RevisionController');
+Route::resource('/comentarios','ComentarioController');
+
 
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//

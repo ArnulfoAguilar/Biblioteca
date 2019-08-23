@@ -60,14 +60,8 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <input class="col-md-12 form-control form-control-lg" placeholder="Escribe un comentario..." v-model="search">
-                    </div>
-                    <div class="card-body">
-                    <comentarios></comentarios>
-                    </div>
-                </div>
+                <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
+                  
             </div>
         </div>
     </div>

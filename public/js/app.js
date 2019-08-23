@@ -2548,39 +2548,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  },
+  props: ['aporte', 'usuario'],
+  data: function data() {
+    return {
+      ocultar: false,
+      nuevo: '',
+      comentarios: [],
+      Comentario: {
+        COMENTARIO: '',
+        ID_USUARIO: this.usuario,
+        ID_APORTE: this.aporte
+      }
+    };
+  },
+  created: function created() {
+    this.cargar_comentarios();
+  },
+  methods: {
+    cargar_comentarios: function cargar_comentarios() {
+      var _this = this;
+
+      axios.get('/comentarios?id=' + this.aporte).then(function (res) {
+        _this.comentarios = res.data;
+        console.log();
+      });
+    },
+    Agregar_comentario: function Agregar_comentario() {
+      var _this2 = this;
+
+      var comentarioNuevo = this.Comentario;
+      axios.post('/comentarios', comentarioNuevo).then(function (response) {
+        alert("Guardado Correctamente");
+
+        _this2.cargar_comentarios();
+
+        _this2.Comentario.COMENTARIO = "";
+      })["catch"](function (e) {
+        alert("Error al Guardar" + e);
+      });
+    }
   }
 });
 
@@ -54726,118 +54736,100 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.Agregar_comentario($event)
+            }
+          }
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.Comentario.COMENTARIO,
+                expression: "Comentario.COMENTARIO"
+              }
+            ],
+            staticClass: "col-md-12 form-control form-control-lg",
+            attrs: { placeholder: "Escribe un comentario..." },
+            domProps: { value: _vm.Comentario.COMENTARIO },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.Comentario, "COMENTARIO", $event.target.value)
+              }
+            }
+          })
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "container" }, [
+        _c(
+          "div",
+          { staticClass: "col-12" },
+          _vm._l(_vm.comentarios, function(item, index) {
+            return _c("div", { key: index, staticClass: "post" }, [
+              _c("div", { staticClass: "user-block" }, [
+                _c("img", {
+                  staticClass: "img-circle img-bordered-sm",
+                  attrs: { src: "", alt: "" }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "username" }, [
+                  _c("a", { attrs: { href: "#" } }, [
+                    _vm._v(_vm._s(item.name) + ".")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "description" }, [
+                  _vm._v(_vm._s(item.created_at))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  "\r\n                              " +
+                    _vm._s(item.COMENTARIO) +
+                    "\r\n                            "
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(0, true)
+            ])
+          }),
+          0
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "col-12" }, [
-        _c("h4", [_vm._v("Actividad reciente")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "post" }, [
-          _c("div", { staticClass: "user-block" }, [
-            _c("img", {
-              staticClass: "img-circle img-bordered-sm",
-              attrs: { src: "", alt: "" }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "username" }, [
-              _c("a", { attrs: { href: "#" } }, [_vm._v("Jonathan Burke Jr.")])
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "description" }, [
-              _vm._v("Shared publicly - 7:45 PM today")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                    Lorem ipsum represents a long-held tradition for designers,\n                    typographers and the like. Some people hate it and argue for\n                    its demise, but others ignore.\n                  "
-            )
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _c(
-              "a",
-              { staticClass: "link-black text-sm", attrs: { href: "#" } },
-              [
-                _c("i", { staticClass: "fas fa-link mr-1" }),
-                _vm._v(" Demo File 1 v2")
-              ]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "post clearfix" }, [
-          _c("div", { staticClass: "user-block" }, [
-            _c("img", {
-              staticClass: "img-circle img-bordered-sm",
-              attrs: { src: "", alt: "" }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "username" }, [
-              _c("a", { attrs: { href: "#" } }, [_vm._v("Sarah Ross")])
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "description" }, [
-              _vm._v("Sent you a message - 3 days ago")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                    Lorem ipsum represents a long-held tradition for designers,\n                    typographers and the like. Some people hate it and argue for\n                    its demise, but others ignore.\n                  "
-            )
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _c(
-              "a",
-              { staticClass: "link-black text-sm", attrs: { href: "#" } },
-              [
-                _c("i", { staticClass: "fas fa-link mr-1" }),
-                _vm._v(" Demo File 2")
-              ]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "post" }, [
-          _c("div", { staticClass: "user-block" }, [
-            _c("img", {
-              staticClass: "img-circle img-bordered-sm",
-              attrs: { src: "", alt: "" }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "username" }, [
-              _c("a", { attrs: { href: "#" } }, [_vm._v("Jonathan Burke Jr.")])
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "description" }, [
-              _vm._v("Shared publicly - 5 days ago")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                    Lorem ipsum represents a long-held tradition for designers,\n                    typographers and the like. Some people hate it and argue for\n                    its demise, but others ignore.\n                  "
-            )
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _c(
-              "a",
-              { staticClass: "link-black text-sm", attrs: { href: "#" } },
-              [
-                _c("i", { staticClass: "fas fa-link mr-1" }),
-                _vm._v(" Demo File 1 v1")
-              ]
-            )
-          ])
-        ])
+    return _c("p", [
+      _c(
+        "a",
+        { staticClass: "link-black text-sm float-right", attrs: { href: "#" } },
+        [_c("i", { staticClass: "fas fa-link mr-1" }), _vm._v(" Reportar")]
+      ),
+      _vm._v(" "),
+      _c("a", { staticClass: "link-black text-sm", attrs: { href: "#" } }, [
+        _c("i", {}),
+        _vm._v(" Editar")
       ])
     ])
   }
