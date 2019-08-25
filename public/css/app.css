@@ -34388,3 +34388,7 @@ button.toast-close-button {
   opacity: 0;
 }
 
+.error {
+  color: red;
+}
+
