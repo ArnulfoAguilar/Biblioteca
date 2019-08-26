@@ -10,8 +10,10 @@ class Aporte extends Model
     protected $fillable =[
         'TITULO',
         'DESCRIPCION',
-        'PALABRAS_CLAVE',
+        'CONTENIDO',
         'COMENTARIOS',
+        'HABILITADO',
+        'ID_PALABRAS_CLAVE',
         'ID_AREA',
         'ID_TIPO_APORTE',
         'ID_USUARIO'        

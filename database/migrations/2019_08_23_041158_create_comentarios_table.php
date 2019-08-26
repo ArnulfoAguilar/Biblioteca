@@ -16,6 +16,7 @@ class CreateComentariosTable extends Migration
         Schema::create('Comentario', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('COMENTARIO',255);
+            $table->boolean('HABILITADO')->default(false);
             $table->unsignedInteger('ID_USUARIO');
             $table->foreign('ID_USUARIO')
                 ->references('id')
