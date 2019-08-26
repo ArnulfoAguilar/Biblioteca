@@ -2576,6 +2576,20 @@ __webpack_require__.r(__webpack_exports__);
       toastr.clear();
       toastr.options.closeButton = true;
       toastr.success(msg, 'Exito');
+    },
+
+    /*Este es el metodo que se ejecuta al hacer submit del formulario
+     *el parametro error es una propiedad que nos ofrece vuelidate
+     *la cual es un booleano que si existe un error en el modelo
+     *a validar es verdadero. */
+    submitHandler: function submitHandler(error) {
+      if (error) {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
+      } else {
+        guardar();
+      }
     }
   }
 });
@@ -61078,7 +61092,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.guardar($event)
+                    return _vm.submitHandler(_vm.$v.$invalid)
                   }
                 }
               },

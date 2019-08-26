@@ -13,7 +13,7 @@
         <div id="modalAgregar" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
-                <form @submit.prevent="guardar" >
+                <form @submit.prevent="submitHandler($v.$invalid)" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">{{titleToShow}}</h4>
@@ -280,6 +280,19 @@ export default {
             toastr.clear();
             toastr.options.closeButton = true;
             toastr.success(msg, 'Exito');
+        },
+        /*Este es el metodo que se ejecuta al hacer submit del formulario
+         *el parametro error es una propiedad que nos ofrece vuelidate
+         *la cual es un booleano que si existe un error en el modelo
+         *a validar es verdadero. */
+        submitHandler(error){
+            if(error){
+                toastr.clear();
+                toastr.options.closeButton = true;
+                toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
+            }else{
+                guardar();
+            }
         }
     }
 }
