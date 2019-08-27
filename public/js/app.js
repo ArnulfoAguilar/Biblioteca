@@ -2744,6 +2744,7 @@ __webpack_require__.r(__webpack_exports__);
         this.submit = this.agregar;
         this.titleToShow = this.createTitle;
         $('#modalAgregar').modal('show');
+        console.log(this.$v);
       }
 
       if (componentState.lastAction === 'EditItem') {
@@ -2842,7 +2843,7 @@ __webpack_require__.r(__webpack_exports__);
         toastr.options.closeButton = true;
         toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
       } else {
-        guardar();
+        this.guardar();
       }
     }
   }
@@ -3156,6 +3157,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+      console.log(EJEMPLAR.id);
       var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
 
       if (confirmacion) {
@@ -3348,6 +3350,292 @@ __webpack_require__.r(__webpack_exports__);
         }];
         resolve(data);
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Revisiones.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log('Revisiones mounted.');
+  },
+  props: ['aporte', 'area'],
+  data: function data() {
+    return {
+      // search:'',
+      check: '',
+      revisiones: [],
+      modoEditar: false,
+      Revision: {
+        id: '',
+        DETALLE_REVISION: '',
+        ID_ESTADO_REVISION: '',
+        ID_COMITE: this.area,
+        ID_APORTE: this.aporte,
+        ID_USUARIO: ''
+      }
+    };
+  },
+  created: function created() {
+    this.cargar();
+  },
+  methods: {
+    cargar: function cargar() {
+      var _this = this;
+
+      axios.get('/revisiones?id=' + this.aporte).then(function (res) {
+        _this.revisiones = res.data;
+        console.log(res.data);
+      });
+      console.log('Datos leidos');
+    },
+    agregar: function agregar() {
+      var _this2 = this;
+
+      var revisionNueva = this.Revision;
+      axios.post('/revisiones', revisionNueva).then(function (response) {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('Revisión guardada correctamente', 'Exito');
+        console.log("Guardado");
+        _this2.Revision = {
+          id: '',
+          DETALLE_REVISION: '',
+          ID_ESTADO_REVISION: '',
+          ID_COMITE: _this2.area,
+          ID_APORTE: _this2.aporte,
+          ID_USUARIO: ''
+        };
+        _this2.check = '';
+
+        _this2.cargar();
+      })["catch"](function (e) {
+        alert("Error al Guardar" + e);
+      });
+    },
+    editarFormulario: function editarFormulario(item) {
+      this.Revision.id = item.id;
+      this.Revision.DETALLE_REVISION = item.DETALLE_REVISION;
+
+      if (item.ID_ESTADO_REVISION == 1) {
+        this.check = true;
+      } else {
+        this.check = false;
+      }
+
+      this.Revision.ID_ESTADO_REVISION = this.check;
+      this.Revision.ID_COMITE = this.area;
+      this.Revision.ID_APORTE = this.aporte;
+      this.Revision.ID_USUARIO = '';
+      this.modoEditar = true;
+    },
+    editarRevision: function editarRevision(Revision) {
+      var _this3 = this;
+
+      var parametros = {
+        DETALLE_REVISION: Revision.DETALLE_REVISION,
+        ID_ESTADO_REVISION: this.check,
+        ID_COMITE: Revision.ID_COMITE,
+        ID_APORTE: Revision.ID_APORTE,
+        ID_USUARIO: Revision.ID_USUARIO
+      };
+      axios.put("/revisiones/".concat(Revision.id), parametros).then(function (response) {
+        _this3.modoEditar = false;
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('Revisión Editada correctamente', 'Exito');
+        console.log("Editado correctamente");
+        _this3.Revision = {
+          id: '',
+          DETALLE_REVISION: '',
+          ID_ESTADO_REVISION: '',
+          ID_COMITE: _this3.area,
+          ID_APORTE: _this3.aporte,
+          ID_USUARIO: ''
+        };
+        _this3.check = '';
+
+        _this3.cargar();
+      });
+    },
+    eliminarRevision: function eliminarRevision(Revision, index) {
+      var _this4 = this;
+
+      var confirmacion = confirm("\xBFEliminar Revision ".concat(Revision.DETALLE_REVISION, "?"));
+
+      if (confirmacion) {
+        axios["delete"]("/revisiones/".concat(Revision.id)).then(function () {
+          //this.ejemplars.splice(index, 1);
+          toastr.clear();
+          toastr.options.closeButton = true;
+          toastr.success('Revisión ELIMINADA', 'Exito');
+          console.log("Revision ELIMINADO");
+
+          _this4.cargar();
+        });
+      }
+    },
+    cancelarEdicion: function cancelarEdicion() {
+      this.modoEditar = false;
+      this.Revision = {
+        id: '',
+        DETALLE_REVISION: '',
+        ID_ESTADO_REVISION: '',
+        ID_COMITE: this.area,
+        ID_APORTE: this.aporte,
+        ID_USUARIO: ''
+      };
+      this.check = '';
+    }
+  },
+  computed: {
+    checked: {
+      get: function get() {
+        if (this.Revision.ID_ESTADO_REVISION == 1) {
+          this.check = false;
+        } else {
+          this.check = true;
+        }
+
+        return this.check;
+      },
+      set: function set(newValue) {
+        this.check = newValue; // console.log(newValue, 'check'+this.check);
+        // return this.check;
+      }
     }
   }
 });
@@ -61938,9 +62226,10 @@ var render = function() {
                         directives: [
                           {
                             name: "model",
-                            rawName: "v-model",
+                            rawName: "v-model.lazy",
                             value: _vm.EJEMPLAR.EJEMPLAR,
-                            expression: "EJEMPLAR.EJEMPLAR"
+                            expression: "EJEMPLAR.EJEMPLAR",
+                            modifiers: { lazy: true }
                           }
                         ],
                         staticClass: "form-control",
@@ -61951,25 +62240,22 @@ var render = function() {
                         },
                         domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
+                          change: function($event) {
+                            return _vm.$set(
                               _vm.EJEMPLAR,
                               "EJEMPLAR",
                               $event.target.value
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.EJEMPLAR.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo es obligatorio")
+                          ])
+                        : _vm._e()
                     ]),
-                    _vm._v(" "),
-                    !_vm.$v.EJEMPLAR.EJEMPLAR.required
-                      ? _c("div", { staticClass: "error" }, [
-                          _vm._v("este campo es obligatorio")
-                        ])
-                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "DESCRIPCION" } }, [
@@ -62000,14 +62286,14 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.DESCRIPCION.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo es obligatorio")
+                          ])
+                        : _vm._e()
                     ]),
-                    _vm._v(" "),
-                    !_vm.$v.EJEMPLAR.DESCRIPCION.required
-                      ? _c("div", { staticClass: "error" }, [
-                          _vm._v("este campo es obligatorio")
-                        ])
-                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "ISBN" } }, [_vm._v("ISBN")]),
@@ -62036,20 +62322,20 @@ var render = function() {
                             _vm.$set(_vm.EJEMPLAR, "ISBN", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.ISBN.numeric
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo solo acepta numeros")
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.ISBN.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo es obligatorio")
+                          ])
+                        : _vm._e()
                     ]),
-                    _vm._v(" "),
-                    !_vm.$v.EJEMPLAR.ISBN.numeric
-                      ? _c("div", { staticClass: "error" }, [
-                          _vm._v("este campo solo acepta numeros")
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    !_vm.$v.EJEMPLAR.ISBN.required
-                      ? _c("div", { staticClass: "error" }, [
-                          _vm._v("este campo es obligatorio")
-                        ])
-                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "AUTOR" } }, [
@@ -62080,14 +62366,14 @@ var render = function() {
                             _vm.$set(_vm.EJEMPLAR, "AUTOR", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.AUTOR.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo es obligatorio")
+                          ])
+                        : _vm._e()
                     ]),
-                    _vm._v(" "),
-                    !_vm.$v.EJEMPLAR.AUTOR.required
-                      ? _c("div", { staticClass: "error" }, [
-                          _vm._v("este campo es obligatorio")
-                        ])
-                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "form-group col-md-6" }, [
@@ -62123,20 +62409,20 @@ var render = function() {
                               )
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        !_vm.$v.EJEMPLAR.NUMERO_PAGINAS.numeric
+                          ? _c("div", { staticClass: "error" }, [
+                              _vm._v("este campo solo acepta numeros")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.$v.EJEMPLAR.NUMERO_PAGINAS.required
+                          ? _c("div", { staticClass: "error" }, [
+                              _vm._v("este campo es obligatorio")
+                            ])
+                          : _vm._e()
                       ]),
-                      _vm._v(" "),
-                      !_vm.$v.EJEMPLAR.NUMERO_PAGINAS.numeric
-                        ? _c("div", { staticClass: "error" }, [
-                            _vm._v("este campo solo acepta numeros")
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !_vm.$v.EJEMPLAR.NUMERO_PAGINAS.required
-                        ? _c("div", { staticClass: "error" }, [
-                            _vm._v("este campo es obligatorio")
-                          ])
-                        : _vm._e(),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group col-md-6" }, [
                         _c("label", { attrs: { for: "copias" } }, [
@@ -62171,20 +62457,20 @@ var render = function() {
                               )
                             }
                           }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      !_vm.$v.EJEMPLAR.COPIAS.numeric
-                        ? _c("div", { staticClass: "error" }, [
-                            _vm._v("este campo solo acepta numeros")
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !_vm.$v.EJEMPLAR.COPIAS.required
-                        ? _c("div", { staticClass: "error" }, [
-                            _vm._v("este campo es obligatorio")
-                          ])
-                        : _vm._e()
+                        }),
+                        _vm._v(" "),
+                        !_vm.$v.EJEMPLAR.COPIAS.numeric
+                          ? _c("div", { staticClass: "error" }, [
+                              _vm._v("este campo solo acepta numeros")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.$v.EJEMPLAR.COPIAS.required
+                          ? _c("div", { staticClass: "error" }, [
+                              _vm._v("este campo es obligatorio")
+                            ])
+                          : _vm._e()
+                      ])
                     ])
                   ]),
                   _vm._v(" "),
@@ -63042,6 +63328,293 @@ var render = function() {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row " }, [
+      _c("div", { staticClass: "col-sm-12 mb-3" }, [
+        _vm.modoEditar
+          ? _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.editarRevision(_vm.Revision)
+                  }
+                }
+              },
+              [
+                _c("label", { attrs: { for: "NOMBRE" } }, [
+                  _vm._v("Nueva Observación:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.Revision.DETALLE_REVISION,
+                        expression: "Revision.DETALLE_REVISION"
+                      }
+                    ],
+                    staticClass: "form-control col-md-7",
+                    attrs: {
+                      type: "text",
+                      id: "NOMBRE",
+                      placeholder: "Escriba aca la nueva Observación...",
+                      required: ""
+                    },
+                    domProps: { value: _vm.Revision.DETALLE_REVISION },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.Revision,
+                          "DETALLE_REVISION",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.check,
+                          expression: "check"
+                        }
+                      ],
+                      staticClass: "col-md-2",
+                      attrs: { type: "checkbox", id: "check_titulo" },
+                      domProps: {
+                        checked: Array.isArray(_vm.check)
+                          ? _vm._i(_vm.check, null) > -1
+                          : _vm.check
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.check,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.check = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.check = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.check = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form-check-label",
+                        attrs: { for: "exampleCheck1" }
+                      },
+                      [_vm._v("Solventado")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row col-md-3" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success col-md-6",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Guardar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger col-md-6",
+                        attrs: { type: "submit" },
+                        on: { click: _vm.cancelarEdicion }
+                      },
+                      [_vm._v("Cancelar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          : _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.agregar($event)
+                  }
+                }
+              },
+              [
+                _c("label", { attrs: { for: "NOMBRE" } }, [
+                  _vm._v("Nueva Observación:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.Revision.DETALLE_REVISION,
+                        expression: "Revision.DETALLE_REVISION"
+                      }
+                    ],
+                    staticClass: "form-control col-md-10",
+                    attrs: {
+                      type: "text",
+                      id: "NOMBRE",
+                      placeholder: "Escriba aca la nueva Observación...",
+                      required: ""
+                    },
+                    domProps: { value: _vm.Revision.DETALLE_REVISION },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.Revision,
+                          "DETALLE_REVISION",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Agregar Observación")]
+                  )
+                ])
+              ]
+            )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: " col sm-12" },
+        [
+          _c("label", { attrs: { for: "" } }, [
+            _vm._v("Lista de Observaciones:")
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.revisiones, function(item, index) {
+            return _c("ul", { key: index, staticClass: "list-group" }, [
+              _c("li", { staticClass: "list-group-item " }, [
+                _c("div", { staticClass: "d-flex justify-content-between" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _c("p", { staticClass: "mb-0" }, [
+                      _vm._v(_vm._s(item.DETALLE_REVISION))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2 form-check " }, [
+                    item.ID_ESTADO_REVISION === 1
+                      ? _c("div", [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "exampleCheck1" }
+                            },
+                            [_vm._v("Solventado")]
+                          )
+                        ])
+                      : _c("div", [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "exampleCheck1" }
+                            },
+                            [_vm._v("Pendiente")]
+                          )
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("p", { staticClass: "mb-0" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.editarFormulario(item)
+                            }
+                          }
+                        },
+                        [_vm._v("Editar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.eliminarRevision(item, index)
+                            }
+                          }
+                        },
+                        [_vm._v("Eliminar")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          })
+        ],
+        2
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -77474,13 +78047,11 @@ Vue.component('busqueda-api', __webpack_require__(/*! ./components/BusquedaApi.v
 Vue.component('select2', __webpack_require__(/*! ./components/select.vue */ "./resources/js/components/select.vue")["default"]);
 Vue.component('lista-ejem', __webpack_require__(/*! ./components/ListaEjem.vue */ "./resources/js/components/ListaEjem.vue")["default"]);
 Vue.component('biblioteca-list', __webpack_require__(/*! ./components/Biblioteca-list.vue */ "./resources/js/components/Biblioteca-list.vue")["default"]);
-<<<<<<< HEAD
 Vue.component('buscar-libro', __webpack_require__(/*! ./components/Buscar-libro.vue */ "./resources/js/components/Buscar-libro.vue")["default"]);
-=======
 Vue.component('lista-ejem-table', __webpack_require__(/*! ./components/ListaEjemTable.vue */ "./resources/js/components/ListaEjemTable.vue")["default"]);
 Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]);
->>>>>>> luis
 Vue.component('nuevo-aporte', __webpack_require__(/*! ./components/nuevoAporte.vue */ "./resources/js/components/nuevoAporte.vue")["default"]);
+Vue.component('revisiones', __webpack_require__(/*! ./components/Revisiones.vue */ "./resources/js/components/Revisiones.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -78038,6 +78609,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Revisiones.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Revisiones.vue?vue&type=template&id=45884c18& */ "./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&");
+/* harmony import */ var _Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Revisiones.vue?vue&type=script&lang=js& */ "./resources/js/components/Revisiones.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Revisiones.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Revisiones.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Revisiones.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Revisiones.vue?vue&type=template&id=45884c18& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

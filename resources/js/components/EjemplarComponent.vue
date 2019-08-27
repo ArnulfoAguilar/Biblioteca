@@ -22,44 +22,44 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
+                                <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
                                     aria-describedby="emailHelp">
+                                <div v-if="!$v.EJEMPLAR.EJEMPLAR.required" class="error">este campo es obligatorio</div>
                             </div>
-                            <div v-if="!$v.EJEMPLAR.EJEMPLAR.required" class="error">este campo es obligatorio</div>
                             <div class="form-group">
                                 <label for="DESCRIPCION">Descripción</label>
                                 <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
                                     rows="3"></textarea>
+                                <div v-if="!$v.EJEMPLAR.DESCRIPCION.required" class="error">este campo es obligatorio</div>
                             </div>
-                            <div v-if="!$v.EJEMPLAR.DESCRIPCION.required" class="error">este campo es obligatorio</div>
                             <div class="form-group" >
                                 <label for="ISBN">ISBN</label>
                                 <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
                                     aria-describedby="emailHelp">
+                                <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
+                                <div v-if="!$v.EJEMPLAR.ISBN.required" class="error">este campo es obligatorio</div>
                             </div>
-                            <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
-                            <div v-if="!$v.EJEMPLAR.ISBN.required" class="error">este campo es obligatorio</div>
                             <div class="form-group">
                                 <label for="AUTOR">AUTOR/es</label>
                                 <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
                                     aria-describedby="emailHelp">
+                                <div v-if="!$v.EJEMPLAR.AUTOR.required" class="error">este campo es obligatorio</div>
                             </div>
-                            <div v-if="!$v.EJEMPLAR.AUTOR.required" class="error">este campo es obligatorio</div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="PAGINAS">Numero de paginas</label>
                                     <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
                                         aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.required" class="error">este campo es obligatorio</div>
                                 </div>
-                                <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.numeric" class="error">este campo solo acepta numeros</div>
-                                <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.required" class="error">este campo es obligatorio</div>
                                 <div class="form-group col-md-6">
                                     <label for="copias">Numero de copias</label>
                                     <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
                                         aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.COPIAS.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.COPIAS.required" class="error">este campo es obligatorio</div>
                                 </div>
-                                <div v-if="!$v.EJEMPLAR.COPIAS.numeric" class="error">este campo solo acepta numeros</div>
-                                <div v-if="!$v.EJEMPLAR.COPIAS.required" class="error">este campo es obligatorio</div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -216,6 +216,7 @@ export default {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
                 $('#modalAgregar').modal('show');
+                console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
                 this.submit = this.editarEjemplar;
@@ -291,7 +292,7 @@ export default {
                 toastr.options.closeButton = true;
                 toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
             }else{
-                guardar();
+                this.guardar();
             }
         }
     }
