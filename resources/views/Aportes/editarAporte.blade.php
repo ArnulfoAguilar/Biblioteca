@@ -1,8 +1,6 @@
 @extends('layouts.adminLTE')
 @section('cssextra')
-<!--ESTE ES PARA SUMMERNOTE
-
--->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
 @endsection
 @section('Encabezado')
 Editar 
@@ -58,14 +56,23 @@ Editar
                                 <div class="form-group">
                                     <label for="DESCRIPCION">Descripción</label>
                                 <textarea type="text" class="form-control" id="Summernote" name ="DESCRIPCION"rows="20" 
-                                value="" required>{{ $aporte->DESCRIPCION }}
+                                value="" required>{{ $aporte->CONTENIDO }}
                                     </textarea>
                                 </div>
+                                 
                                 <div class="form-group">
-                                    <label for="PALABRAS_CLAVE">Palabras Clave</label>
-                                    <input type="text" class="form-control" name="PALABRAS_CLAVE"
-                                        aria-describedby="emailHelp" value="{{ $aporte->PALABRAS_CLAVE }}" required>
-                                </div>
+                                        <label for="PALABRAS_CLAVE">
+                                           Palabras Clave
+                                        </label>
+                                        <div >
+                                            <select class="select2" name="PALABRAS_CLAVE[]" id="selectmult" multiple="multiple">
+                                                @foreach($PalabrasClave as $PalabraClave)
+                                               <option value="{{ $PalabraClave->id }}">{{ $PalabraClave->PALABRA }}</option>
+                                               @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 <div class="form-group">
                                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                                     @if ( $aporte->COMENTARIOS )
@@ -88,4 +95,13 @@ Editar
         </div>
     </div>
 
+@endsection
+@section('jsExtra')
+    <script type="text/javascript">
+    $(document).ready(function() {
+    $('.select2').select2();
+    $('#selectmult').val(['1','2']);
+    $('#selectmult').trigger('change');
+});
+    </script>
 @endsection

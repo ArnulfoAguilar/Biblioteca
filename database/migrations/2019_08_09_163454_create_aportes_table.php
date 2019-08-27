@@ -20,12 +20,6 @@ class CreateAportesTable extends Migration
             $table->string('CONTENIDO',50000);
             $table->boolean('COMENTARIOS');
             $table->boolean('HABILITADO')->default(false);
-            $table->unsignedInteger('ID_PALABRAS_CLAVE');
-            $table->foreign('ID_PALABRAS_CLAVE')
-            ->references('id')
-            ->on('palabrasClave')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
             $table->unsignedInteger('ID_AREA');
             $table->foreign('ID_AREA')
             ->references('id')

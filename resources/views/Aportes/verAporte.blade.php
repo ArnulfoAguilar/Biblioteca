@@ -14,7 +14,7 @@
 @endsection
 @section('breadcrumbs')
 <div class="float-right">
-        Creado el: {{ $aporte->created_at }}
+ Creado el: {{ $aporte->created_at }}
 </div>
 @endsection    
 
@@ -40,11 +40,18 @@
                     </div> -->
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;"><h1>{{ $aporte->TITULO }}</h1></div>
                     <div class="card-body">
-                        {!! $aporte->DESCRIPCION !!}
+                        {!! $aporte->CONTENIDO !!}
+                        
                     </div>
-                    
+                    <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
                 </div>
-                <div class="card">
+                @foreach ($PalabrasClave as $palabraClave)
+                <p href="#" class="btn btn-sm btn-primary">
+                    {{ $palabraClave->PALABRA}}
+                </p>    
+                @endforeach
+                
+                <!--div class="card">
                     <div class="card-header">
                         <h3>Revisiones</h3>
                     </div>
@@ -58,9 +65,7 @@
                     {{-- <revisiones></revisiones> --}}
                     <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}"></revisiones>
                     </div>
-                </div>
-
-                <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
+                </div-->  
                   
             </div>
         </div>
