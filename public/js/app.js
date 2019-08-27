@@ -2512,6 +2512,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2580,6 +2582,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2639,8 +2651,34 @@ __webpack_require__.r(__webpack_exports__);
       isEditing: false,
       createTitle: 'Agregar Ejemplar',
       editTitle: 'Editar Ejemplar',
-      titleToShow: ''
+      titleToShow: '',
+      hasError: false
     };
+  },
+  validations: {
+    EJEMPLAR: {
+      EJEMPLAR: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+      },
+      ISBN: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+      },
+      AUTOR: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+      },
+      DESCRIPCION: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+      },
+      NUMERO_PAGINAS: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+      },
+      COPIAS: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+      }
+    }
   },
   created: function created() {
     /*en la creacion del componente, se establecen las opciones
@@ -2648,21 +2686,21 @@ __webpack_require__.r(__webpack_exports__);
     this.tableOptions = {
       columns: this.columns,
       responsiveTable: true,
+      contextMenuRight: true,
+      contextMenuAdd: false,
+      contextMenuView: false,
+      quickView: 0,
       addNew: true,
-      editItem: true,
       deleteItem: true
     };
-    this.sendData();
-    console.log('componente creado');
+    this.sendData(); // console.log('componente creado')
   },
-  mounted: function mounted() {
-    console.log('tabla montada');
+  mounted: function mounted() {// console.log('tabla montada')
   },
   methods: {
     sendData: function sendData() {
       var _this = this;
 
-      debugger;
       this.tableLoader = true;
       axios.get('/ejemplars').then(function (res) {
         _this.ejemplars = res.data;
@@ -2706,6 +2744,7 @@ __webpack_require__.r(__webpack_exports__);
         this.submit = this.agregar;
         this.titleToShow = this.createTitle;
         $('#modalAgregar').modal('show');
+        console.log(this.$v);
       }
 
       if (componentState.lastAction === 'EditItem') {
@@ -2792,6 +2831,20 @@ __webpack_require__.r(__webpack_exports__);
       toastr.clear();
       toastr.options.closeButton = true;
       toastr.success(msg, 'Exito');
+    },
+
+    /*Este es el metodo que se ejecuta al hacer submit del formulario
+     *el parametro error es una propiedad que nos ofrece vuelidate
+     *la cual es un booleano que si existe un error en el modelo
+     *a validar es verdadero. */
+    submitHandler: function submitHandler(error) {
+      if (error) {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
+      } else {
+        this.guardar();
+      }
     }
   }
 });
@@ -3104,6 +3157,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+      console.log(EJEMPLAR.id);
       var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
 
       if (confirmacion) {
@@ -3296,6 +3350,292 @@ __webpack_require__.r(__webpack_exports__);
         }];
         resolve(data);
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Revisiones.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log('Revisiones mounted.');
+  },
+  props: ['aporte', 'area'],
+  data: function data() {
+    return {
+      // search:'',
+      check: '',
+      revisiones: [],
+      modoEditar: false,
+      Revision: {
+        id: '',
+        DETALLE_REVISION: '',
+        ID_ESTADO_REVISION: '',
+        ID_COMITE: this.area,
+        ID_APORTE: this.aporte,
+        ID_USUARIO: ''
+      }
+    };
+  },
+  created: function created() {
+    this.cargar();
+  },
+  methods: {
+    cargar: function cargar() {
+      var _this = this;
+
+      axios.get('/revisiones?id=' + this.aporte).then(function (res) {
+        _this.revisiones = res.data;
+        console.log(res.data);
+      });
+      console.log('Datos leidos');
+    },
+    agregar: function agregar() {
+      var _this2 = this;
+
+      var revisionNueva = this.Revision;
+      axios.post('/revisiones', revisionNueva).then(function (response) {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('Revisión guardada correctamente', 'Exito');
+        console.log("Guardado");
+        _this2.Revision = {
+          id: '',
+          DETALLE_REVISION: '',
+          ID_ESTADO_REVISION: '',
+          ID_COMITE: _this2.area,
+          ID_APORTE: _this2.aporte,
+          ID_USUARIO: ''
+        };
+        _this2.check = '';
+
+        _this2.cargar();
+      })["catch"](function (e) {
+        alert("Error al Guardar" + e);
+      });
+    },
+    editarFormulario: function editarFormulario(item) {
+      this.Revision.id = item.id;
+      this.Revision.DETALLE_REVISION = item.DETALLE_REVISION;
+
+      if (item.ID_ESTADO_REVISION == 1) {
+        this.check = true;
+      } else {
+        this.check = false;
+      }
+
+      this.Revision.ID_ESTADO_REVISION = this.check;
+      this.Revision.ID_COMITE = this.area;
+      this.Revision.ID_APORTE = this.aporte;
+      this.Revision.ID_USUARIO = '';
+      this.modoEditar = true;
+    },
+    editarRevision: function editarRevision(Revision) {
+      var _this3 = this;
+
+      var parametros = {
+        DETALLE_REVISION: Revision.DETALLE_REVISION,
+        ID_ESTADO_REVISION: this.check,
+        ID_COMITE: Revision.ID_COMITE,
+        ID_APORTE: Revision.ID_APORTE,
+        ID_USUARIO: Revision.ID_USUARIO
+      };
+      axios.put("/revisiones/".concat(Revision.id), parametros).then(function (response) {
+        _this3.modoEditar = false;
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('Revisión Editada correctamente', 'Exito');
+        console.log("Editado correctamente");
+        _this3.Revision = {
+          id: '',
+          DETALLE_REVISION: '',
+          ID_ESTADO_REVISION: '',
+          ID_COMITE: _this3.area,
+          ID_APORTE: _this3.aporte,
+          ID_USUARIO: ''
+        };
+        _this3.check = '';
+
+        _this3.cargar();
+      });
+    },
+    eliminarRevision: function eliminarRevision(Revision, index) {
+      var _this4 = this;
+
+      var confirmacion = confirm("\xBFEliminar Revision ".concat(Revision.DETALLE_REVISION, "?"));
+
+      if (confirmacion) {
+        axios["delete"]("/revisiones/".concat(Revision.id)).then(function () {
+          //this.ejemplars.splice(index, 1);
+          toastr.clear();
+          toastr.options.closeButton = true;
+          toastr.success('Revisión ELIMINADA', 'Exito');
+          console.log("Revision ELIMINADO");
+
+          _this4.cargar();
+        });
+      }
+    },
+    cancelarEdicion: function cancelarEdicion() {
+      this.modoEditar = false;
+      this.Revision = {
+        id: '',
+        DETALLE_REVISION: '',
+        ID_ESTADO_REVISION: '',
+        ID_COMITE: this.area,
+        ID_APORTE: this.aporte,
+        ID_USUARIO: ''
+      };
+      this.check = '';
+    }
+  },
+  computed: {
+    checked: {
+      get: function get() {
+        if (this.Revision.ID_ESTADO_REVISION == 1) {
+          this.check = false;
+        } else {
+          this.check = true;
+        }
+
+        return this.check;
+      },
+      set: function set(newValue) {
+        this.check = newValue; // console.log(newValue, 'check'+this.check);
+        // return this.check;
+      }
     }
   }
 });
@@ -7905,25 +8245,6 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=bootstrap.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-jd-table/dist/jd-table.min.css":
-/*!*****************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-jd-table/dist/jd-table.min.css ***!
-  \*****************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".jd-table {\r\n  position: relative;\r\n  min-width: 320px;\r\n  width: 100%;\r\n  background-color: #FFFFFF;\r\n  color: #252627;\r\n  font-size: 0.9rem;\r\n  font-weight: 400;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-direction: column;\r\n  -webkit-box-pack: center;\r\n          justify-content: center;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  align-content: center;\r\n  align-self: center;\r\n  z-index: 1;\r\n  overflow: hidden;\r\n  -webkit-transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  box-sizing: content-box;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale; }\r\n  .jd-table.jd-maximized {\r\n    height: 100%;\r\n    min-height: 100%;\r\n    max-height: 100%;\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    padding: 1.2rem;\r\n    z-index: 9998;\r\n    box-sizing: border-box;\r\n    background-color: rgba(255, 255, 255, 0.6); }\r\n    .jd-table.jd-maximized .jd-layerHighlight {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerControl {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerOption {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerContent {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      overflow-x: auto;\r\n      min-width: 320px;\r\n      -webkit-box-flex: 0;\r\n              flex-grow: 0;\r\n      flex-shrink: 1; }\r\n      .jd-table.jd-maximized .jd-layerContent .table .body {\r\n        height: 100%;\r\n        -webkit-box-flex: 0;\r\n                flex-grow: 0;\r\n        flex-shrink: 1; }\r\n      .jd-table.jd-maximized .jd-layerContent .jd-contentTable .jd-body {\r\n        height: 100%; }\r\n    .jd-table.jd-maximized .jd-layerFooter {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerPopup {\r\n      border-radius: 0; }\r\n      .jd-table.jd-maximized .jd-layerPopup.jd-fullFrameZone {\r\n        padding: 3rem; }\r\n      .jd-table.jd-maximized .jd-layerPopup .jd-searchArrow {\r\n        top: 5.15rem; }\r\n      .jd-table.jd-maximized .jd-layerPopup .jd-filterArrow {\r\n        top: 5.15rem;\r\n        right: 1.2rem; }\r\n    .jd-table.jd-maximized .jd-layerTitle {\r\n      padding-top: 0;\r\n      min-width: 320px; }\r\n  .jd-table.jd-fullBody {\r\n    height: 100%;\r\n    min-height: 100%;\r\n    max-height: 100%; }\r\n    .jd-table.jd-fullBody .jd-layerContent {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      overflow-x: auto; }\r\n      .jd-table.jd-fullBody .jd-layerContent .jd-contentTable .jd-body {\r\n        height: 100%; }\r\n  .jd-table .jd-layerTitle {\r\n    font-size: 1.8rem;\r\n    padding-top: 1.2rem;\r\n    padding-bottom: 1.2rem;\r\n    font-weight: 500;\r\n    width: 100%;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-pack: center;\r\n            justify-content: center; }\r\n  .jd-table .jd-layerHighlight {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 0.45rem;\r\n    min-height: 0.45rem;\r\n    background-color: #494949;\r\n    border-top-left-radius: 0.5rem;\r\n    border-top-right-radius: 0.5rem;\r\n    z-index: 99; }\r\n  .jd-table .jd-layerControl {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 2.5rem;\r\n    min-height: 2.5rem;\r\n    min-height: 2.5rem;\r\n    max-height: 2.5rem;\r\n    background-color: #757575;\r\n    color: #FFFFFF;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    flex-wrap: nowrap;\r\n    -webkit-box-orient: horizontal;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: row;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: justify;\r\n            justify-content: space-between;\r\n    z-index: 99; }\r\n    .jd-table .jd-layerControl .jd-controlSearch {\r\n      position: relative;\r\n      height: 100%;\r\n      width: 2rem;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row;\r\n      -webkit-box-flex: 0;\r\n              flex-grow: 0;\r\n      flex-shrink: 1;\r\n      transition: all 0.5s ease;\r\n      -webkit-transition: all 0.5s ease;\r\n      -moz-transition: all 0.5s ease;\r\n      -o-transition: all 0.5s ease; }\r\n      .jd-table .jd-layerControl .jd-controlSearch input {\r\n        width: 100%;\r\n        max-width: 10rem;\r\n        height: 100%;\r\n        box-shadow: none;\r\n        border: none;\r\n        background: transparent;\r\n        -webkit-box-flex: 0;\r\n                flex-grow: 0;\r\n        flex-shrink: 1; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input:focus {\r\n          outline: none; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input::-ms-clear {\r\n          display: none; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-decoration, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-cancel-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-decoration {\r\n          display: none; }\r\n      .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\r\n        width: 14rem;\r\n        color: #494949;\r\n        background-color: #E0E0E0; }\r\n        @media only screen and (max-width: 375px) {\r\n          .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\r\n            width: 100%; } }\r\n    .jd-table .jd-layerControl .jd-controlFeature {\r\n      position: relative;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      margin-left: auto;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row; }\r\n      @media only screen and (max-width: 375px) {\r\n        .jd-table .jd-layerControl .jd-controlFeature.jd-searching {\r\n          display: none; } }\r\n    .jd-table .jd-layerControl .jd-controlItem {\r\n      height: 100%;\r\n      position: relative;\r\n      cursor: pointer;\r\n      color: #FFFFFF;\r\n      display: inline-block;\r\n      width: 2rem;\r\n      min-width: 2rem;\r\n      user-select: none;\r\n      -webkit-touch-callout: none;\r\n      -webkit-user-select: none;\r\n      -moz-user-select: none;\r\n      -ms-user-select: none; }\r\n      .jd-table .jd-layerControl .jd-controlItem i {\r\n        width: 2rem;\r\n        min-width: 2rem;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        -webkit-box-align: center;\r\n                align-items: center; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-active i {\r\n        -webkit-animation: activeFeature 1.5s infinite;\r\n                animation: activeFeature 1.5s infinite; }\r\n\r\n@-webkit-keyframes activeFeature {\r\n  0% {\r\n    color: #FFFFFF; }\r\n  100% {\r\n    color: #ff1a1a; } }\r\n\r\n@keyframes activeFeature {\r\n  0% {\r\n    color: #FFFFFF; }\r\n  100% {\r\n    color: #ff1a1a; } }\r\n      .jd-table .jd-layerControl .jd-controlItem:hover {\r\n        color: #494949;\r\n        background-color: #E0E0E0; }\r\n        .jd-table .jd-layerControl .jd-controlItem:hover:active {\r\n          color: #C00; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-selected {\r\n        color: #C00;\r\n        background-color: #E0E0E0; }\r\n        .jd-table .jd-layerControl .jd-controlItem.jd-selected:active {\r\n          color: #FFFFFF; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-clearSearch {\r\n        color: #E53935; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-search {\r\n        color: #757575; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-noSelect {\r\n        cursor: default; }\r\n        .jd-table .jd-layerControl .jd-controlItem.jd-noSelect:hover:active {\r\n          color: #757575; }\r\n      .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow {\r\n        position: absolute;\r\n        top: 2.95rem;\r\n        right: -0.5rem;\r\n        background: #c9c9c9;\r\n        border: 1px solid #494949;\r\n        padding: 0.5rem;\r\n        color: #252627;\r\n        -webkit-animation: bounce 2s infinite;\r\n                animation: bounce 2s infinite;\r\n        border-radius: 6px;\r\n        white-space: nowrap; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\r\n          bottom: 100%;\r\n          right: 1.5rem;\r\n          border: solid transparent;\r\n          content: \" \";\r\n          height: 0;\r\n          width: 0;\r\n          position: absolute;\r\n          pointer-events: none; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after {\r\n          border-color: rgba(224, 224, 224, 0);\r\n          border-bottom-color: #c9c9c9;\r\n          border-width: 12px;\r\n          margin-right: -12px; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\r\n          border-color: rgba(73, 73, 73, 0);\r\n          border-bottom-color: #494949;\r\n          border-width: 18px;\r\n          margin-right: -18px; }\r\n      .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow {\r\n        position: absolute;\r\n        top: 2.95rem;\r\n        left: 3.5rem;\r\n        background: #c9c9c9;\r\n        border: 1px solid #494949;\r\n        padding: 0.5rem;\r\n        color: #252627;\r\n        -webkit-animation: bounce 2s infinite;\r\n                animation: bounce 2s infinite;\r\n        border-radius: 6px;\r\n        white-space: nowrap; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\r\n          bottom: 100%;\r\n          left: 50%;\r\n          border: solid transparent;\r\n          content: \" \";\r\n          height: 0;\r\n          width: 0;\r\n          position: absolute;\r\n          pointer-events: none; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after {\r\n          border-color: rgba(224, 224, 224, 0);\r\n          border-bottom-color: #c9c9c9;\r\n          border-width: 12px;\r\n          margin-left: -12px; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\r\n          border-color: rgba(73, 73, 73, 0);\r\n          border-bottom-color: #494949;\r\n          border-width: 18px;\r\n          margin-left: -18px; }\r\n  .jd-table .jd-layerOption {\r\n    width: 100%;\r\n    position: relative; }\r\n    .jd-table .jd-layerOption .jd-optionDropdown {\r\n      background-color: #E0E0E0;\r\n      width: 310px;\r\n      right: 5px;\r\n      top: -1px;\r\n      position: absolute;\r\n      z-index: 80;\r\n      padding: 0.5rem 0rem;\r\n      box-sizing: border-box;\r\n      -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n      transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      overflow-y: auto;\r\n      overflow-x: hidden;\r\n      box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.54);\r\n      border-bottom-right-radius: 0.5rem;\r\n      border-bottom-left-radius: 0.5rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader {\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        padding-top: 0.5rem;\r\n        padding-bottom: 1rem;\r\n        font-size: 1.35rem;\r\n        text-transform: uppercase;\r\n        color: #252627;\r\n        font-weight: 600;\r\n        align-self: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-subHeader {\r\n          padding-top: 1rem;\r\n          font-size: 1.17rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-smallHeader {\r\n          font-size: 0.81rem;\r\n          font-weight: 400;\r\n          font-style: italic;\r\n          text-transform: none;\r\n          padding-top: 0rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        width: 100%; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility {\r\n          padding-left: 1rem;\r\n          padding-right: 1rem;\r\n          color: #357e37; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility .jd-notVisible {\r\n            color: #E53935; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnTitle {\r\n          padding-right: 1rem;\r\n          width: 100%;\r\n          overflow: hidden;\r\n          text-overflow: ellipsis;\r\n          white-space: nowrap; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem:hover {\r\n          background-color: #FFFFFF; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected {\r\n          background-color: #757575;\r\n          color: #FFFFFF; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected:hover {\r\n            background-color: #757575; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput {\r\n        position: relative;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        margin: 0rem 1rem 0.5rem 1rem;\r\n        border: 1px solid #C00;\r\n        border-left: 5px solid #C00;\r\n        outline: none;\r\n        box-sizing: border-box;\r\n        font-size: 0.765rem;\r\n        font-weight: 500;\r\n        background-color: #FFFFFF;\r\n        align-items: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label {\r\n          width: 100%;\r\n          height: 100%;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-touch-callout: none;\r\n          -webkit-user-select: none;\r\n          -moz-user-select: none;\r\n          -ms-user-select: none;\r\n          user-select: none; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label span {\r\n            white-space: nowrap;\r\n            overflow: hidden;\r\n            text-overflow: ellipsis;\r\n            margin-left: 0.5rem;\r\n            margin-right: 2rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul {\r\n          position: absolute;\r\n          max-height: 12rem;\r\n          overflow-x: hidden;\r\n          overflow-y: auto;\r\n          top: 100%;\r\n          left: -1px;\r\n          right: -1px;\r\n          list-style: none;\r\n          padding: 0rem;\r\n          margin: 0rem;\r\n          border: 1px solid #ff6666;\r\n          background-color: #FFFFFF;\r\n          box-sizing: border-box;\r\n          z-index: 9998; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li {\r\n            overflow: hidden;\r\n            white-space: nowrap;\r\n            text-overflow: ellipsis;\r\n            padding: 0.2rem;\r\n            -webkit-touch-callout: none;\r\n            -webkit-user-select: none;\r\n            -moz-user-select: none;\r\n            -ms-user-select: none;\r\n            user-select: none; }\r\n            .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li:hover {\r\n              background-color: #ff4d4d;\r\n              color: #FFFFFF; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput input {\r\n          width: 100%;\r\n          font-family: inherit;\r\n          border: none;\r\n          font-size: 0.765rem;\r\n          font-weight: 500;\r\n          background-color: #FFFFFF;\r\n          outline: none;\r\n          box-sizing: border-box; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-addPadding {\r\n          padding: 0rem 0.5rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-removeIcon {\r\n          position: absolute;\r\n          right: 0.5rem;\r\n          top: 0.35rem;\r\n          color: #E53935;\r\n          font-size: 1.35rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-disabled {\r\n          border: 1px solid #949494;\r\n          border-left: 5px solid #949494; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-carrot:after {\r\n          content: \"\";\r\n          width: 0;\r\n          height: 0;\r\n          position: absolute;\r\n          right: 0.5rem;\r\n          top: 50%;\r\n          margin-top: -3px;\r\n          border-width: 6px 6px 0 6px;\r\n          border-style: solid;\r\n          border-color: #C00 transparent; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        padding: 0rem 1rem;\r\n        align-items: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow.jd-separate {\r\n          -webkit-box-pack: justify;\r\n                  justify-content: space-between; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow button {\r\n          width: 5rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-errorMessage {\r\n        color: #E53935;\r\n        font-size: 0.765rem;\r\n        margin-bottom: 0.5rem;\r\n        text-align: center;\r\n        font-weight: 500; }\r\n  .jd-table .jd-layerContent {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: #FFFFFF;\r\n    color: #252627;\r\n    display: block;\r\n    box-sizing: border-box;\r\n    overflow-y: hidden;\r\n    z-index: 50; }\r\n    .jd-table .jd-layerContent .jd-rowView {\r\n      position: absolute;\r\n      top: 0px;\r\n      left: 0px;\r\n      width: 100%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      -webkit-box-pack: center;\r\n              justify-content: center;\r\n      background-color: rgba(0, 0, 0, 0.2);\r\n      z-index: 99;\r\n      padding: 1rem;\r\n      box-sizing: border-box; }\r\n    .jd-table .jd-layerContent .jd-contentTable {\r\n      position: relative;\r\n      width: 100%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      flex-wrap: nowrap; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-head {\r\n        position: relative;\r\n        width: 100%;\r\n        overflow: hidden;\r\n        box-sizing: border-box;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        background-color: #757575; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell {\r\n          position: relative;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          box-sizing: border-box;\r\n          font-size: 0.9rem;\r\n          padding: 0.2rem 0.5rem;\r\n          -webkit-box-flex: 1;\r\n                  flex-grow: 1;\r\n          -webkit-touch-callout: none;\r\n          -webkit-user-select: none;\r\n          -moz-user-select: none;\r\n          -ms-user-select: none;\r\n          user-select: none;\r\n          border-top: 4px solid #990000;\r\n          border-top-left-radius: 5px;\r\n          border-top-right-radius: 5px;\r\n          background-color: #C00;\r\n          color: #FFFFFF;\r\n          border-right: 1px solid #990000; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-cellText {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-orient: horizontal;\r\n            -webkit-box-direction: normal;\r\n                    flex-direction: row;\r\n            width: 100%;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            -webkit-box-pack: justify;\r\n                    justify-content: space-between; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-hoverSort {\r\n            display: none; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-hoverAssist {\r\n            background-color: #ff4d4d; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell:first-child {\r\n            border-top-left-radius: 0px; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-scrollBuffer:last-child {\r\n            margin-right: 17px; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort {\r\n            cursor: pointer; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover {\r\n              border-top: 4px solid #999999;\r\n              background-color: #FFFFFF;\r\n              color: #252627;\r\n              font-weight: 500; }\r\n              .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover .jd-hoverSort {\r\n                display: block;\r\n                color: #252627; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-scrollFix {\r\n          width: 19px;\r\n          min-width: 19px;\r\n          max-width: 19px;\r\n          border-top-right-radius: 0px;\r\n          border-right: none;\r\n          border-top: 4px solid #990000;\r\n          box-sizing: border-box;\r\n          position: relative;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          background-color: #C00;\r\n          border-left: none; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize {\r\n          position: absolute;\r\n          height: 100%;\r\n          width: 8px;\r\n          display: block;\r\n          cursor: w-resize;\r\n          right: -5px;\r\n          top: 0;\r\n          z-index: 10;\r\n          overflow: hidden; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize.jd-selected {\r\n            width: 500px;\r\n            right: -250px; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-body {\r\n        position: relative;\r\n        width: 100%;\r\n        display: block;\r\n        overflow-x: hidden;\r\n        background-color: #F7F7F7;\r\n        z-index: 50;\r\n        background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 5px, rgba(0, 0, 0, 0.1) 5px, rgba(0, 0, 0, 0.1) 10px); }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row {\r\n          position: relative;\r\n          z-index: 50;\r\n          background-color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row:hover {\r\n            background-color: #ff4d4d !important;\r\n            color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-zebra:nth-child(even) {\r\n            background-color: #f2f2f2; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-rowSelect {\r\n            background-color: #e60000 !important;\r\n            color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell {\r\n            position: relative;\r\n            font-size: 0.81rem;\r\n            display: block;\r\n            white-space: nowrap;\r\n            text-overflow: ellipsis;\r\n            overflow: hidden; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell.jd-rowFlex {\r\n              display: -webkit-box;\r\n              display: flex;\r\n              height: 100%;\r\n              -webkit-box-align: center;\r\n                      align-items: center;\r\n              white-space: inherit;\r\n              min-height: inherit; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell:after {\r\n              display: block;\r\n              content: '';\r\n              min-height: inherit;\r\n              font-size: 0; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell .jd-list {\r\n              list-style-type: circle;\r\n              padding-left: 1rem; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-virtualBody {\r\n          position: absolute;\r\n          opacity: 0;\r\n          top: 0;\r\n          left: 0;\r\n          width: 1px;\r\n          background: transparent; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-row {\r\n        width: 100%;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        cursor: pointer; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-row .jd-cell {\r\n          width: 100%;\r\n          box-sizing: border-box;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-box-flex: 1;\r\n                  flex-grow: 1;\r\n          padding-left: 0.5rem;\r\n          overflow-wrap: break-word;\r\n          word-wrap: break-word;\r\n          word-break: break-all;\r\n          word-break: break-word;\r\n          -ms-word-break: break-all;\r\n          hyphens: auto;\r\n          -ms-hyphens: auto;\r\n          -moz-hyphens: auto;\r\n          -webkit-hyphens: auto; }\r\n  .jd-table .jd-layerFooter {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 2rem;\r\n    min-height: 2rem;\r\n    background-color: #494949;\r\n    color: #FFFFFF;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    flex-wrap: nowrap;\r\n    -webkit-box-orient: horizontal;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: row;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    border-bottom-left-radius: 0.5rem;\r\n    border-bottom-right-radius: 0.5rem;\r\n    z-index: 99;\r\n    font-size: 0.81rem;\r\n    user-select: none;\r\n    -webkit-touch-callout: none;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none; }\r\n    .jd-table .jd-layerFooter .jd-resultRows {\r\n      font-size: 0.765rem; }\r\n    .jd-table .jd-layerFooter .jd-pagination {\r\n      width: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      -webkit-box-pack: justify;\r\n              justify-content: space-between;\r\n      height: 100%; }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        cursor: pointer;\r\n        height: 100%;\r\n        -webkit-box-align: center;\r\n                align-items: center; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-left {\r\n          position: absolute;\r\n          top: 0;\r\n          left: 0;\r\n          background-color: #494949;\r\n          border-bottom-left-radius: 0.5rem; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-right {\r\n          position: absolute;\r\n          top: 0;\r\n          right: 0;\r\n          background-color: #494949;\r\n          border-bottom-right-radius: 0.5rem; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled {\r\n          cursor: no-drop; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:hover {\r\n            background-color: #494949; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:active {\r\n            background-color: #494949; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          width: 3rem;\r\n          height: 100%;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:hover {\r\n            background-color: #6f6f6f; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:active {\r\n            background-color: #898989; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-start {\r\n            border-bottom-left-radius: 0.5rem; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-end {\r\n            border-bottom-right-radius: 0.5rem; }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationRows {\r\n        position: absolute;\r\n        background-color: #494949;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        overflow: hidden;\r\n        text-overflow: ellipsis;\r\n        white-space: nowrap;\r\n        font-size: 0.72rem;\r\n        padding: 0rem 1rem;\r\n        top: 0;\r\n        left: 50%;\r\n        -webkit-transform: translateX(-50%);\r\n                transform: translateX(-50%); }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea {\r\n        width: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        justify-content: space-around; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center;\r\n          height: 100%; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            -webkit-box-pack: center;\r\n                    justify-content: center;\r\n            padding: 0rem 0.3rem;\r\n            height: 100%;\r\n            box-sizing: border-box;\r\n            font-size: 0.72rem; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage span {\r\n              border: 1px solid #6f6f6f;\r\n              padding: 0.2rem 0.4rem;\r\n              min-width: 1.5rem;\r\n              text-align: center;\r\n              box-sizing: border-box; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover {\r\n              cursor: pointer; }\r\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover span {\r\n                background-color: #6f6f6f;\r\n                color: #FFFFFF; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected span {\r\n              background-color: #6f6f6f; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover {\r\n              cursor: default !important; }\r\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover span {\r\n                background-color: #6f6f6f !important;\r\n                color: #FFFFFF !important; }\r\n  .jd-table .jd-layerPopup {\r\n    position: absolute;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    background-color: rgba(255, 255, 255, 0.6);\r\n    border-radius: 0.5rem; }\r\n    .jd-table .jd-layerPopup.jd-fullBrowser {\r\n      position: fixed; }\r\n    .jd-table .jd-layerPopup.jd-fullFrame {\r\n      z-index: 9998; }\r\n    .jd-table .jd-layerPopup.jd-contentFrame {\r\n      z-index: 50;\r\n      padding-top: 2.95rem;\r\n      padding-bottom: 2rem; }\r\n    .jd-table .jd-layerPopup.jd-fullFrameZone {\r\n      width: 100%;\r\n      box-sizing: border-box;\r\n      padding: 1rem; }\r\n    .jd-table .jd-layerPopup .jd-errorMessage {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      padding: 1rem;\r\n      border-radius: 0.5rem;\r\n      background-color: #FFFFFF;\r\n      color: #E53935;\r\n      font-size: 1.17rem; }\r\n    .jd-table .jd-layerPopup.jd-filterOverride {\r\n      z-index: 85; }\r\n    .jd-table .jd-layerPopup.jd-fullOverride {\r\n      z-index: 999; }\r\n    .jd-table .jd-layerPopup .jd-noDataFrame {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      padding: 1rem; }\r\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-title {\r\n        font-size: 1.17rem;\r\n        font-weight: 500;\r\n        text-transform: uppercase; }\r\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-filters {\r\n        margin-top: 1rem; }\r\n    .jd-table .jd-layerPopup .jd-quickView {\r\n      position: relative;\r\n      min-width: 314px;\r\n      max-width: 95%;\r\n      max-height: 95%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      border-radius: 0.5rem;\r\n      background-color: #494949;\r\n      box-sizing: border-box;\r\n      overflow: hidden;\r\n      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_1 {\r\n        width: 100%;\r\n        height: 0.3375rem;\r\n        min-height: 0.3375rem;\r\n        background-color: #494949;\r\n        border-top-right-radius: 0.5rem;\r\n        border-top-left-radius: 0.5rem; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_2 {\r\n        width: 100%;\r\n        height: 0.225rem;\r\n        min-height: 0.225rem;\r\n        background-color: #C00; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl {\r\n        width: 100%;\r\n        height: 2.5rem;\r\n        min-height: 2.5rem;\r\n        background-color: #757575;\r\n        position: relative;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-pack: justify;\r\n                justify-content: space-between;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        color: #FFFFFF;\r\n        user-select: none;\r\n        -webkit-touch-callout: none;\r\n        -webkit-user-select: none;\r\n        -moz-user-select: none;\r\n        -ms-user-select: none; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction {\r\n          height: 100%;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span {\r\n            width: 2rem;\r\n            font-size: 0.9rem;\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-pack: center;\r\n                    justify-content: center;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            height: 100%;\r\n            cursor: pointer; }\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span:hover {\r\n              background-color: #9b9b9b; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\r\n          font-size: 0.9rem;\r\n          position: absolute;\r\n          left: 50%;\r\n          top: 50%;\r\n          -webkit-transform: translate(-50%, -50%);\r\n                  transform: translate(-50%, -50%); }\r\n          @media only screen and (max-width: 350px) {\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\r\n              display: none; } }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent {\r\n        width: 100%;\r\n        height: 100%;\r\n        overflow: auto;\r\n        background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09) 5px, rgba(255, 255, 255, 0.09) 5px, rgba(0, 0, 0, 0.1) 10px); }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: vertical;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: column;\r\n          width: 100%;\r\n          background-color: #FFFFFF; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowTitle {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            font-size: 0.99rem;\r\n            font-weight: 600;\r\n            word-break: break-all;\r\n            padding: 0.5rem 1rem;\r\n            background-color: #e6e6e6; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            min-height: 2rem;\r\n            padding: 0.5rem 1rem;\r\n            word-break: break-all; }\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData ul {\r\n              list-style-type: circle;\r\n              padding-left: 1rem; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter {\r\n        width: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-pack: justify;\r\n                justify-content: space-between;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        background-color: #494949;\r\n        color: #FFFFFF;\r\n        border-bottom-right-radius: 0.5rem;\r\n        border-bottom-left-radius: 0.5rem;\r\n        font-size: 0.81rem;\r\n        user-select: none;\r\n        -webkit-touch-callout: none;\r\n        -webkit-user-select: none;\r\n        -moz-user-select: none;\r\n        -ms-user-select: none; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center;\r\n          width: 5rem;\r\n          cursor: pointer;\r\n          height: 100%;\r\n          -webkit-box-align: center;\r\n                  align-items: center; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:hover {\r\n            background-color: #6f6f6f; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:active {\r\n            background-color: #898989; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-previous {\r\n            border-bottom-left-radius: 0.5rem; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-next {\r\n            border-bottom-right-radius: 0.5rem; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerItem {\r\n          font-size: 0.765rem; }\r\n    .jd-table .jd-layerPopup .jd-tableMessage {\r\n      font-size: 1.5rem;\r\n      text-align: center; }\r\n\r\n@-webkit-keyframes bounce {\r\n  0%, 20%, 50%, 80%, 100% {\r\n    -webkit-transform: translateY(0);\r\n            transform: translateY(0); }\r\n  40% {\r\n    -webkit-transform: translateY(30px);\r\n            transform: translateY(30px); }\r\n  60% {\r\n    -webkit-transform: translateY(15px);\r\n            transform: translateY(15px); } }\r\n\r\n@keyframes bounce {\r\n  0%, 20%, 50%, 80%, 100% {\r\n    -webkit-transform: translateY(0);\r\n            transform: translateY(0); }\r\n  40% {\r\n    -webkit-transform: translateY(30px);\r\n            transform: translateY(30px); }\r\n  60% {\r\n    -webkit-transform: translateY(15px);\r\n            transform: translateY(15px); } }\r\n  .jd-table .jd-contextMenu {\r\n    width: auto;\r\n    min-width: 10rem;\r\n    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);\r\n    position: fixed;\r\n    z-index: 9998;\r\n    background: #FFF;\r\n    border-radius: 0.5rem; }\r\n    .jd-table .jd-contextMenu .jd-contextMenuOptions {\r\n      list-style: none;\r\n      z-index: 1; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption {\r\n        width: 100%;\r\n        height: 100%;\r\n        font-weight: 500;\r\n        z-index: 1;\r\n        font-size: 14px;\r\n        cursor: pointer;\r\n        display: -webkit-box;\r\n        display: flex; }\r\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span {\r\n          display: block;\r\n          height: 100%;\r\n          padding: 8px 12px 8px 12px;\r\n          white-space: nowrap; }\r\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:hover {\r\n            background: rgba(0, 0, 0, 0.2); }\r\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:first-child {\r\n            width: 100%; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader {\r\n        width: 100%;\r\n        height: 100%;\r\n        font-weight: 500;\r\n        z-index: 1;\r\n        font-size: 14px;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        background: #494949;\r\n        color: #FFFFFF; }\r\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader span {\r\n          display: block;\r\n          height: 100%;\r\n          width: 100%;\r\n          padding: 10px;\r\n          white-space: nowrap;\r\n          text-align: center; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:first-child {\r\n        border-bottom-left-radius: 0.5rem; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:last-child {\r\n        border-bottom-right-radius: 0.5rem; }\r\n\r\n.jd-reset * {\r\n  box-sizing: border-box; }\r\n\r\n.jd-reset ::before, .jd-reset ::after {\r\n  box-sizing: inherit; }\r\n\r\n.jd-reset html {\r\n  line-height: 1.15;\r\n  /* 1 */\r\n  -webkit-text-size-adjust: 100%;\r\n  /* 2 */\r\n  -webkit-tap-highlight-color: transparent;\r\n  /* 3*/ }\r\n\r\n.jd-reset body {\r\n  margin: 0; }\r\n\r\n.jd-reset main {\r\n  display: block; }\r\n\r\n.jd-reset p,\r\n.jd-reset table,\r\n.jd-reset blockquote,\r\n.jd-reset address,\r\n.jd-reset pre,\r\n.jd-reset iframe,\r\n.jd-reset form,\r\n.jd-reset figure,\r\n.jd-reset dl {\r\n  margin: 0; }\r\n\r\n.jd-reset h1,\r\n.jd-reset h2,\r\n.jd-reset h3,\r\n.jd-reset h4,\r\n.jd-reset h5,\r\n.jd-reset h6 {\r\n  font-size: inherit;\r\n  line-height: inherit;\r\n  font-weight: inherit;\r\n  margin: 0; }\r\n\r\n.jd-reset ul,\r\n.jd-reset ol {\r\n  margin: 0;\r\n  padding: 0;\r\n  list-style: none; }\r\n\r\n.jd-reset dt {\r\n  font-weight: bold; }\r\n\r\n.jd-reset dd {\r\n  margin-left: 0; }\r\n\r\n.jd-reset hr {\r\n  box-sizing: content-box;\r\n  /* 1 */\r\n  height: 0;\r\n  /* 1 */\r\n  overflow: visible;\r\n  /* 2 */\r\n  border: 0;\r\n  border-top: 1px solid;\r\n  margin: 0;\r\n  clear: both; }\r\n\r\n.jd-reset pre {\r\n  font-family: monospace, monospace;\r\n  /* 1 */\r\n  font-size: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset address {\r\n  font-style: inherit; }\r\n\r\n.jd-reset a {\r\n  background-color: transparent;\r\n  text-decoration: none;\r\n  color: inherit; }\r\n\r\n.jd-reset abb\r\n[title] {\r\n  border-bottom: none;\r\n  /* 1 */\r\n  text-decoration: underline;\r\n  /* 2 */\r\n  -webkit-text-decoration: underline dotted;\r\n          text-decoration: underline dotted;\r\n  /* 2 */ }\r\n\r\n.jd-reset b, .jd-resetstrong {\r\n  font-weight: bolder; }\r\n\r\n.jd-reset code,\r\n.jd-reset kbd,\r\n.jd-reset samp {\r\n  font-family: monospace, monospace;\r\n  /* 1 */\r\n  font-size: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset small {\r\n  font-size: 80%; }\r\n\r\n.jd-reset sub,\r\n.jd-reset sup {\r\n  ont-size: 75%;\r\n  line-height: 0;\r\n  position: relative;\r\n  vertical-align: baseline; }\r\n\r\n.jd-reset sub {\r\n  bottom: -0.25em; }\r\n\r\n.jd-reset sup {\r\n  top: -0.5em; }\r\n\r\n.jd-reset img {\r\n  border-style: none;\r\n  vertical-align: bottom; }\r\n\r\n.jd-reset embed,\r\n.jd-reset object,\r\n.jd-reset iframe {\r\n  border: 0;\r\n  vertical-align: bottom; }\r\n\r\n.jd-reset button,\r\n.jd-reset input,\r\n.jd-reset optgroup,\r\n.jd-reset select,\r\n.jd-reset textarea {\r\n  vertical-align: middle;\r\n  color: inherit;\r\n  font: inherit;\r\n  border: 0;\r\n  background: transparent;\r\n  padding: 0;\r\n  margin: 0;\r\n  outline: 0; }\r\n\r\n.jd-reset select {\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n       appearance: none;\r\n  border-radius: 0; }\r\n\r\n.jd-reset button,\r\n.jd-reset input {\r\n  overflow: visible; }\r\n\r\n.jd-reset button,\r\n.jd-reset select {\r\n  text-transform: none; }\r\n\r\n.jd-reset button,\r\n.jd-reset [type='button'],\r\n.jd-reset [type='reset'],\r\n.jd-reset [type='submit'] {\r\n  cursor: pointer;\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n       appearance: none; }\r\n\r\n.jd-reset button[disabled],\r\n.jd-reset [type='button'][disabled],\r\n.jd-reset [type='reset'][disabled],\r\n.jd-reset [type='submit'][disabled] {\r\n  cursor: default; }\r\n\r\n.jd-reset button::-moz-focus-inner,\r\n.jd-reset [type='button']::-moz-focus-inner,\r\n.jd-reset [type='reset']::-moz-focus-inner,\r\n.jd-reset [type='submit']::-moz-focus-inner {\r\n  border-style: none;\r\n  padding: 0; }\r\n\r\n.jd-reset button:-moz-focusring,\r\n.jd-reset [type='button']:-moz-focusring,\r\n.jd-reset [type='reset']:-moz-focusring,\r\n.jd-reset [type='submit']:-moz-focusring {\r\n  outline: 1px dotted ButtonText; }\r\n\r\n.jd-reset fieldset {\r\n  margin: 0;\r\n  padding: 0;\r\n  border: 0;\r\n  min-width: 0; }\r\n\r\n.jd-reset legend {\r\n  color: inherit;\r\n  /* 2 */\r\n  display: table;\r\n  /* 1 */\r\n  max-width: 100%;\r\n  /* 1 */\r\n  padding: 0;\r\n  /* 3 */\r\n  white-space: normal;\r\n  /* 1 */ }\r\n\r\n.jd-reset progress {\r\n  vertical-align: baseline; }\r\n\r\n.jd-reset textarea {\r\n  overflow: auto; }\r\n\r\n.jd-reset [type='checkbox'],\r\n.jd-reset [type='radio'] {\r\n  box-sizing: border-box;\r\n  /* 1 */\r\n  padding: 0;\r\n  /* 2 */ }\r\n\r\n.jd-reset [type='number']::-webkit-inner-spin-button,\r\n.jd-reset [type='number']::-webkit-outer-spin-button {\r\n  height: auto; }\r\n\r\n.jd-reset [type='search'] {\r\n  -webkit-appearance: textfield;\r\n  /* 1 */\r\n  outline-offset: -2px;\r\n  /* 2 */ }\r\n\r\n.jd-reset [type='search']::-webkit-search-decoration {\r\n  -webkit-appearance: none; }\r\n\r\n.jd-reset ::-webkit-file-upload-button {\r\n  -webkit-appearance: button;\r\n  /* 1 */\r\n  font: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset ::-webkit-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset :-ms-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::-ms-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::-moz-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset label[for] {\r\n  cursor: pointer; }\r\n\r\n.jd-reset details {\r\n  display: block; }\r\n\r\n.jd-reset summary {\r\n  display: list-item; }\r\n\r\n.jd-reset table {\r\n  border-collapse: collapse;\r\n  border-spacing: 0; }\r\n\r\n.jd-reset caption {\r\n  text-align: left; }\r\n\r\n.jd-reset td,\r\n.jd-reset th {\r\n  vertical-align: top; }\r\n\r\n.jd-reset th {\r\n  text-align: left;\r\n  font-weight: bold; }\r\n\r\n.jd-reset template {\r\n  display: none; }\r\n\r\n.jd-reset [hidden] {\r\n  display: none; }\r\n\r\n.jd-clickable {\r\n  cursor: pointer; }\r\n\r\n.jd-noneSelectable {\r\n  user-select: none;\r\n  -webkit-touch-callout: none;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  -ms-user-select: none; }\r\n\r\n.jd-loader {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  padding: 1rem;\r\n  padding-top: 1.5rem;\r\n  border-radius: 0.5rem; }\r\n  .jd-loader .jd-loadingText {\r\n    margin-top: 0.6rem;\r\n    font-weight: 500; }\r\n  .jd-loader .fulfilling-square-spinner, .jd-loader .fulfilling-square-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .fulfilling-square-spinner {\r\n    height: 50px;\r\n    width: 50px;\r\n    position: relative;\r\n    border: 4px solid #C00;\r\n    -webkit-animation: fulfilling-square-spinner-animation 4s infinite ease;\r\n            animation: fulfilling-square-spinner-animation 4s infinite ease; }\r\n  .jd-loader .fulfilling-square-spinner .spinner-inner {\r\n    vertical-align: top;\r\n    display: inline-block;\r\n    background-color: #C00;\r\n    width: 100%;\r\n    opacity: 1;\r\n    -webkit-animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in;\r\n            animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in; }\r\n\r\n@-webkit-keyframes fulfilling-square-spinner-animation {\r\n  0% {\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg); }\r\n  25% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  50% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  75% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); }\r\n  100% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); } }\r\n\r\n@keyframes fulfilling-square-spinner-animation {\r\n  0% {\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg); }\r\n  25% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  50% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  75% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); }\r\n  100% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); } }\r\n\r\n@-webkit-keyframes fulfilling-square-spinner-inner-animation {\r\n  0% {\r\n    height: 0%; }\r\n  25% {\r\n    height: 0%; }\r\n  50% {\r\n    height: 100%; }\r\n  75% {\r\n    height: 100%; }\r\n  100% {\r\n    height: 0%; } }\r\n\r\n@keyframes fulfilling-square-spinner-inner-animation {\r\n  0% {\r\n    height: 0%; }\r\n  25% {\r\n    height: 0%; }\r\n  50% {\r\n    height: 100%; }\r\n  75% {\r\n    height: 100%; }\r\n  100% {\r\n    height: 0%; } }\r\n  .jd-loader .self-building-square-spinner, .jd-loader .self-building-square-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .self-building-square-spinner {\r\n    height: 40px;\r\n    width: 40px;\r\n    top: calc( -10px * 2 / 3); }\r\n  .jd-loader .self-building-square-spinner .square {\r\n    height: 10px;\r\n    width: 10px;\r\n    top: calc( -10px * 2 / 3);\r\n    margin-right: calc(10px / 3);\r\n    margin-top: calc(10px / 3);\r\n    background: #C00;\r\n    float: left;\r\n    position: relative;\r\n    opacity: 0;\r\n    -webkit-animation: self-building-square-spinner 6s infinite;\r\n            animation: self-building-square-spinner 6s infinite; }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(1) {\r\n    -webkit-animation-delay: calc( 300ms * 6);\r\n            animation-delay: calc( 300ms * 6); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(2) {\r\n    -webkit-animation-delay: calc( 300ms * 7);\r\n            animation-delay: calc( 300ms * 7); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(3) {\r\n    -webkit-animation-delay: calc( 300ms * 8);\r\n            animation-delay: calc( 300ms * 8); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(4) {\r\n    -webkit-animation-delay: calc( 300ms * 3);\r\n            animation-delay: calc( 300ms * 3); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(5) {\r\n    -webkit-animation-delay: calc( 300ms * 4);\r\n            animation-delay: calc( 300ms * 4); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(6) {\r\n    -webkit-animation-delay: calc( 300ms * 5);\r\n            animation-delay: calc( 300ms * 5); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(7) {\r\n    -webkit-animation-delay: calc( 300ms * 0);\r\n            animation-delay: calc( 300ms * 0); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(8) {\r\n    -webkit-animation-delay: calc( 300ms * 1);\r\n            animation-delay: calc( 300ms * 1); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(9) {\r\n    -webkit-animation-delay: calc( 300ms * 2);\r\n            animation-delay: calc( 300ms * 2); }\r\n  .jd-loader .self-building-square-spinner .clear {\r\n    clear: both; }\r\n\r\n@-webkit-keyframes self-building-square-spinner {\r\n  0% {\r\n    opacity: 0; }\r\n  5% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  50.9% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  55.9% {\r\n    opacity: 0;\r\n    top: inherit; } }\r\n\r\n@keyframes self-building-square-spinner {\r\n  0% {\r\n    opacity: 0; }\r\n  5% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  50.9% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  55.9% {\r\n    opacity: 0;\r\n    top: inherit; } }\r\n  .jd-loader .looping-rhombuses-spinner, .jd-loader .looping-rhombuses-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .looping-rhombuses-spinner {\r\n    width: calc(15px * 4);\r\n    height: 15px;\r\n    position: relative; }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus {\r\n    height: 15px;\r\n    width: 15px;\r\n    background-color: #C00;\r\n    left: calc(15px * 4);\r\n    position: absolute;\r\n    margin: 0 auto;\r\n    border-radius: 2px;\r\n    -webkit-transform: translateY(0) rotate(45deg) scale(0);\r\n            transform: translateY(0) rotate(45deg) scale(0);\r\n    -webkit-animation: looping-rhombuses-spinner-animation 2500ms linear infinite;\r\n            animation: looping-rhombuses-spinner-animation 2500ms linear infinite; }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(1) {\r\n    -webkit-animation-delay: calc(2500ms * 1 / -1.5);\r\n            animation-delay: calc(2500ms * 1 / -1.5); }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(2) {\r\n    -webkit-animation-delay: calc(2500ms * 2 / -1.5);\r\n            animation-delay: calc(2500ms * 2 / -1.5); }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(3) {\r\n    -webkit-animation-delay: calc(2500ms * 3 / -1.5);\r\n            animation-delay: calc(2500ms * 3 / -1.5); }\r\n\r\n@-webkit-keyframes looping-rhombuses-spinner-animation {\r\n  0% {\r\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\r\n            transform: translateX(0) rotate(45deg) scale(0); }\r\n  50% {\r\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\r\n            transform: translateX(-233%) rotate(45deg) scale(1); }\r\n  100% {\r\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\r\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\r\n\r\n@keyframes looping-rhombuses-spinner-animation {\r\n  0% {\r\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\r\n            transform: translateX(0) rotate(45deg) scale(0); }\r\n  50% {\r\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\r\n            transform: translateX(-233%) rotate(45deg) scale(1); }\r\n  100% {\r\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\r\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\r\n\r\n.jd-button {\r\n  position: relative;\r\n  margin: 0.5rem 0rem !important;\r\n  width: auto;\r\n  height: 1.8rem;\r\n  overflow: hidden !important;\r\n  border-width: 0;\r\n  outline: none !important;\r\n  border-radius: 2px !important;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);\r\n  background-color: #C00;\r\n  color: #FFFFFF;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-pack: center;\r\n          justify-content: center;\r\n  cursor: pointer;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  white-space: nowrap;\r\n  overflow-wrap: normal;\r\n  transition: background-color .3s;\r\n  -webkit-transition: background-color .3s;\r\n  -moz-transition: background-color .3s;\r\n  -o-transition: background-color .3s; }\r\n  .jd-button:hover {\r\n    background-color: red; }\r\n  .jd-button:focus {\r\n    background-color: #990000; }\r\n  .jd-button:focus:hover {\r\n    background-color: red; }\r\n  .jd-button:before {\r\n    content: \"\";\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    display: block;\r\n    width: 0;\r\n    padding-top: 0;\r\n    border-radius: 100%;\r\n    background-color: #E0E0E0;\r\n    opacity: 0;\r\n    transform: translate(-50%, -50%);\r\n    -webkit-transform: translate(-50%, -50%);\r\n    -moz-transform: translate(-50%, -50%);\r\n    -ms-transform: translate(-50%, -50%);\r\n    -o-transform: translate(-50%, -50%); }\r\n  .jd-button:active:before {\r\n    width: 120%;\r\n    padding-top: 120%;\r\n    opacity: 0.32;\r\n    transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -webkit-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -moz-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -ms-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -o-transition: width .2s ease-out, padding-top .2s ease-out; }\r\n  .jd-button:disabled {\r\n    background-color: #660000;\r\n    cursor: not-allowed;\r\n    color: #cccccc; }\r\n  .jd-button.jd-small {\r\n    min-width: 3rem !important; }\r\n  .jd-button.jd-medium {\r\n    min-width: 5rem !important; }\r\n  .jd-button.jd-large {\r\n    min-width: 7rem !important; }\r\n  .jd-button.jd-danger {\r\n    background-color: #E53935;\r\n    color: #FFFFFF; }\r\n    .jd-button.jd-danger:hover {\r\n      background-color: #cd1e1a; }\r\n    .jd-button.jd-danger:focus {\r\n      background-color: #eb6562; }\r\n    .jd-button.jd-danger:focus:hover {\r\n      background-color: #cd1e1a; }\r\n    .jd-button.jd-danger:disabled {\r\n      background-color: #9f1815;\r\n      color: #cccccc;\r\n      cursor: not-allowed; }\r\n  .jd-button.jd-success {\r\n    background-color: #3C903F;\r\n    color: #FFFFFF; }\r\n    .jd-button.jd-success:hover {\r\n      background-color: #2d6c2f; }\r\n    .jd-button.jd-success:focus {\r\n      background-color: #4bb44f; }\r\n    .jd-button.jd-success:focus:hover {\r\n      background-color: #2d6c2f; }\r\n    .jd-button.jd-success:disabled {\r\n      background-color: #1e4820;\r\n      color: #cccccc;\r\n      cursor: not-allowed; }\r\n\r\n.jdTableFade-enter-active, .jdTableFade-leave-active {\r\n  transition: opacity 0.3s;\r\n  -webkit-transition: opacity 0.3s;\r\n  -moz-transition: opacity 0.3s;\r\n  -o-transition: opacity 0.3s; }\r\n\r\n.jdTableFade-enter, .jdTableFade-leave-to {\r\n  opacity: 0; }\r\n\r\n.jdTableSlideDown-enter-active, .jdTableSlideDown-leave-active {\r\n  transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -moz-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -o-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1); }\r\n\r\n.jdTableSlideDown-enter, .jdTableSlideDown-leave-to {\r\n  -webkit-transform: translateY(-2.95rem);\r\n          transform: translateY(-2.95rem);\r\n  opacity: 0; }\r\n", ""]);
-
-// exports
 
 
 /***/ }),
@@ -53545,36 +53866,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
 
 /***/ }),
 
-/***/ "./node_modules/vue-jd-table/dist/jd-table.min.css":
-/*!*********************************************************!*\
-  !*** ./node_modules/vue-jd-table/dist/jd-table.min.css ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../postcss-loader/src??ref--6-2!./jd-table.min.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-jd-table/dist/jd-table.min.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./node_modules/vue-jd-table/src/jd-table.vue":
 /*!****************************************************!*\
   !*** ./node_modules/vue-jd-table/src/jd-table.vue ***!
@@ -54187,6 +54478,7 @@ __webpack_require__.r(__webpack_exports__);
 				contextMenu    : false,
 				tableReady     : false
 			},
+
 			currentTableData : [],
 			data             : [],
 
@@ -54681,7 +54973,7 @@ __webpack_require__.r(__webpack_exports__);
 		loader :
 		{
 			type    : Boolean,
-			default : false
+			default : true
 		}
 	},
 
@@ -61903,7 +62195,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.guardar($event)
+                    return _vm.submitHandler(_vm.$v.$invalid)
                   }
                 }
               },
@@ -61934,32 +62226,35 @@ var render = function() {
                         directives: [
                           {
                             name: "model",
-                            rawName: "v-model",
+                            rawName: "v-model.lazy",
                             value: _vm.EJEMPLAR.EJEMPLAR,
-                            expression: "EJEMPLAR.EJEMPLAR"
+                            expression: "EJEMPLAR.EJEMPLAR",
+                            modifiers: { lazy: true }
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
                           id: "NOMBRE",
-                          "aria-describedby": "emailHelp",
-                          required: ""
+                          "aria-describedby": "emailHelp"
                         },
                         domProps: { value: _vm.EJEMPLAR.EJEMPLAR },
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
+                          change: function($event) {
+                            return _vm.$set(
                               _vm.EJEMPLAR,
                               "EJEMPLAR",
                               $event.target.value
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.EJEMPLAR.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo es obligatorio")
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
@@ -61977,7 +62272,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "DESCRIPCION", rows: "3", required: "" },
+                        attrs: { id: "DESCRIPCION", rows: "3" },
                         domProps: { value: _vm.EJEMPLAR.DESCRIPCION },
                         on: {
                           input: function($event) {
@@ -61991,7 +62286,13 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.DESCRIPCION.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo es obligatorio")
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
@@ -62010,8 +62311,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           id: "ISBN",
-                          "aria-describedby": "emailHelp",
-                          required: ""
+                          "aria-describedby": "emailHelp"
                         },
                         domProps: { value: _vm.EJEMPLAR.ISBN },
                         on: {
@@ -62022,7 +62322,19 @@ var render = function() {
                             _vm.$set(_vm.EJEMPLAR, "ISBN", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.ISBN.numeric
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo solo acepta numeros")
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.ISBN.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo es obligatorio")
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
@@ -62043,8 +62355,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           id: "AUTOR",
-                          "aria-describedby": "emailHelp",
-                          required: ""
+                          "aria-describedby": "emailHelp"
                         },
                         domProps: { value: _vm.EJEMPLAR.AUTOR },
                         on: {
@@ -62055,7 +62366,13 @@ var render = function() {
                             _vm.$set(_vm.EJEMPLAR, "AUTOR", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.EJEMPLAR.AUTOR.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("este campo es obligatorio")
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "row" }, [
@@ -62077,8 +62394,7 @@ var render = function() {
                           attrs: {
                             type: "number",
                             id: "PAGINAS",
-                            "aria-describedby": "emailHelp",
-                            required: ""
+                            "aria-describedby": "emailHelp"
                           },
                           domProps: { value: _vm.EJEMPLAR.NUMERO_PAGINAS },
                           on: {
@@ -62093,7 +62409,19 @@ var render = function() {
                               )
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        !_vm.$v.EJEMPLAR.NUMERO_PAGINAS.numeric
+                          ? _c("div", { staticClass: "error" }, [
+                              _vm._v("este campo solo acepta numeros")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.$v.EJEMPLAR.NUMERO_PAGINAS.required
+                          ? _c("div", { staticClass: "error" }, [
+                              _vm._v("este campo es obligatorio")
+                            ])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group col-md-6" }, [
@@ -62114,8 +62442,7 @@ var render = function() {
                           attrs: {
                             type: "number",
                             id: "copias",
-                            "aria-describedby": "emailHelp",
-                            required: ""
+                            "aria-describedby": "emailHelp"
                           },
                           domProps: { value: _vm.EJEMPLAR.COPIAS },
                           on: {
@@ -62130,7 +62457,19 @@ var render = function() {
                               )
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        !_vm.$v.EJEMPLAR.COPIAS.numeric
+                          ? _c("div", { staticClass: "error" }, [
+                              _vm._v("este campo solo acepta numeros")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.$v.EJEMPLAR.COPIAS.required
+                          ? _c("div", { staticClass: "error" }, [
+                              _vm._v("este campo es obligatorio")
+                            ])
+                          : _vm._e()
                       ])
                     ])
                   ]),
@@ -62989,6 +63328,293 @@ var render = function() {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row " }, [
+      _c("div", { staticClass: "col-sm-12 mb-3" }, [
+        _vm.modoEditar
+          ? _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.editarRevision(_vm.Revision)
+                  }
+                }
+              },
+              [
+                _c("label", { attrs: { for: "NOMBRE" } }, [
+                  _vm._v("Nueva Observación:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.Revision.DETALLE_REVISION,
+                        expression: "Revision.DETALLE_REVISION"
+                      }
+                    ],
+                    staticClass: "form-control col-md-7",
+                    attrs: {
+                      type: "text",
+                      id: "NOMBRE",
+                      placeholder: "Escriba aca la nueva Observación...",
+                      required: ""
+                    },
+                    domProps: { value: _vm.Revision.DETALLE_REVISION },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.Revision,
+                          "DETALLE_REVISION",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.check,
+                          expression: "check"
+                        }
+                      ],
+                      staticClass: "col-md-2",
+                      attrs: { type: "checkbox", id: "check_titulo" },
+                      domProps: {
+                        checked: Array.isArray(_vm.check)
+                          ? _vm._i(_vm.check, null) > -1
+                          : _vm.check
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.check,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.check = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.check = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.check = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form-check-label",
+                        attrs: { for: "exampleCheck1" }
+                      },
+                      [_vm._v("Solventado")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row col-md-3" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success col-md-6",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Guardar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger col-md-6",
+                        attrs: { type: "submit" },
+                        on: { click: _vm.cancelarEdicion }
+                      },
+                      [_vm._v("Cancelar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          : _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.agregar($event)
+                  }
+                }
+              },
+              [
+                _c("label", { attrs: { for: "NOMBRE" } }, [
+                  _vm._v("Nueva Observación:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.Revision.DETALLE_REVISION,
+                        expression: "Revision.DETALLE_REVISION"
+                      }
+                    ],
+                    staticClass: "form-control col-md-10",
+                    attrs: {
+                      type: "text",
+                      id: "NOMBRE",
+                      placeholder: "Escriba aca la nueva Observación...",
+                      required: ""
+                    },
+                    domProps: { value: _vm.Revision.DETALLE_REVISION },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.Revision,
+                          "DETALLE_REVISION",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Agregar Observación")]
+                  )
+                ])
+              ]
+            )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: " col sm-12" },
+        [
+          _c("label", { attrs: { for: "" } }, [
+            _vm._v("Lista de Observaciones:")
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.revisiones, function(item, index) {
+            return _c("ul", { key: index, staticClass: "list-group" }, [
+              _c("li", { staticClass: "list-group-item " }, [
+                _c("div", { staticClass: "d-flex justify-content-between" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _c("p", { staticClass: "mb-0" }, [
+                      _vm._v(_vm._s(item.DETALLE_REVISION))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2 form-check " }, [
+                    item.ID_ESTADO_REVISION === 1
+                      ? _c("div", [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "exampleCheck1" }
+                            },
+                            [_vm._v("Solventado")]
+                          )
+                        ])
+                      : _c("div", [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "exampleCheck1" }
+                            },
+                            [_vm._v("Pendiente")]
+                          )
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("p", { staticClass: "mb-0" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.editarFormulario(item)
+                            }
+                          }
+                        },
+                        [_vm._v("Editar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.eliminarRevision(item, index)
+                            }
+                          }
+                        },
+                        [_vm._v("Eliminar")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          })
+        ],
+        2
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -75362,6 +75988,1932 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vuelidate/lib/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/vuelidate/lib/index.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Vuelidate = Vuelidate;
+Object.defineProperty(exports, "withParams", {
+  enumerable: true,
+  get: function get() {
+    return _params.withParams;
+  }
+});
+exports.default = exports.validationMixin = void 0;
+
+var _vval = __webpack_require__(/*! ./vval */ "./node_modules/vuelidate/lib/vval.js");
+
+var _params = __webpack_require__(/*! ./params */ "./node_modules/vuelidate/lib/params.js");
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var NIL = function NIL() {
+  return null;
+};
+
+var buildFromKeys = function buildFromKeys(keys, fn, keyFn) {
+  return keys.reduce(function (build, key) {
+    build[keyFn ? keyFn(key) : key] = fn(key);
+    return build;
+  }, {});
+};
+
+function isFunction(val) {
+  return typeof val === 'function';
+}
+
+function isObject(val) {
+  return val !== null && (_typeof(val) === 'object' || isFunction(val));
+}
+
+function isPromise(object) {
+  return isObject(object) && isFunction(object.then);
+}
+
+var getPath = function getPath(ctx, obj, path, fallback) {
+  if (typeof path === 'function') {
+    return path.call(ctx, obj, fallback);
+  }
+
+  path = Array.isArray(path) ? path : path.split('.');
+
+  for (var i = 0; i < path.length; i++) {
+    if (obj && _typeof(obj) === 'object') {
+      obj = obj[path[i]];
+    } else {
+      return fallback;
+    }
+  }
+
+  return typeof obj === 'undefined' ? fallback : obj;
+};
+
+var __isVuelidateAsyncVm = '__isVuelidateAsyncVm';
+
+function makePendingAsyncVm(Vue, promise) {
+  var asyncVm = new Vue({
+    data: {
+      p: true,
+      v: false
+    }
+  });
+  promise.then(function (value) {
+    asyncVm.p = false;
+    asyncVm.v = value;
+  }, function (error) {
+    asyncVm.p = false;
+    asyncVm.v = false;
+    throw error;
+  });
+  asyncVm[__isVuelidateAsyncVm] = true;
+  return asyncVm;
+}
+
+var validationGetters = {
+  $invalid: function $invalid() {
+    var _this = this;
+
+    var proxy = this.proxy;
+    return this.nestedKeys.some(function (nested) {
+      return _this.refProxy(nested).$invalid;
+    }) || this.ruleKeys.some(function (rule) {
+      return !proxy[rule];
+    });
+  },
+  $dirty: function $dirty() {
+    var _this2 = this;
+
+    if (this.dirty) {
+      return true;
+    }
+
+    if (this.nestedKeys.length === 0) {
+      return false;
+    }
+
+    return this.nestedKeys.every(function (key) {
+      return _this2.refProxy(key).$dirty;
+    });
+  },
+  $anyDirty: function $anyDirty() {
+    var _this3 = this;
+
+    if (this.dirty) {
+      return true;
+    }
+
+    if (this.nestedKeys.length === 0) {
+      return false;
+    }
+
+    return this.nestedKeys.some(function (key) {
+      return _this3.refProxy(key).$anyDirty;
+    });
+  },
+  $error: function $error() {
+    return this.$dirty && !this.$pending && this.$invalid;
+  },
+  $anyError: function $anyError() {
+    return this.$anyDirty && !this.$pending && this.$invalid;
+  },
+  $pending: function $pending() {
+    var _this4 = this;
+
+    return this.ruleKeys.some(function (key) {
+      return _this4.getRef(key).$pending;
+    }) || this.nestedKeys.some(function (key) {
+      return _this4.refProxy(key).$pending;
+    });
+  },
+  $params: function $params() {
+    var _this5 = this;
+
+    var vals = this.validations;
+    return _objectSpread({}, buildFromKeys(this.nestedKeys, function (key) {
+      return vals[key] && vals[key].$params || null;
+    }), buildFromKeys(this.ruleKeys, function (key) {
+      return _this5.getRef(key).$params;
+    }));
+  }
+};
+
+function setDirtyRecursive(newState) {
+  this.dirty = newState;
+  var proxy = this.proxy;
+  var method = newState ? '$touch' : '$reset';
+  this.nestedKeys.forEach(function (key) {
+    proxy[key][method]();
+  });
+}
+
+var validationMethods = {
+  $touch: function $touch() {
+    setDirtyRecursive.call(this, true);
+  },
+  $reset: function $reset() {
+    setDirtyRecursive.call(this, false);
+  },
+  $flattenParams: function $flattenParams() {
+    var proxy = this.proxy;
+    var params = [];
+
+    for (var key in this.$params) {
+      if (this.isNested(key)) {
+        var childParams = proxy[key].$flattenParams();
+
+        for (var j = 0; j < childParams.length; j++) {
+          childParams[j].path.unshift(key);
+        }
+
+        params = params.concat(childParams);
+      } else {
+        params.push({
+          path: [],
+          name: key,
+          params: this.$params[key]
+        });
+      }
+    }
+
+    return params;
+  }
+};
+var getterNames = Object.keys(validationGetters);
+var methodNames = Object.keys(validationMethods);
+var _cachedComponent = null;
+
+var getComponent = function getComponent(Vue) {
+  if (_cachedComponent) {
+    return _cachedComponent;
+  }
+
+  var VBase = Vue.extend({
+    computed: {
+      refs: function refs() {
+        var oldVval = this._vval;
+        this._vval = this.children;
+        (0, _vval.patchChildren)(oldVval, this._vval);
+        var refs = {};
+
+        this._vval.forEach(function (c) {
+          refs[c.key] = c.vm;
+        });
+
+        return refs;
+      }
+    },
+    beforeCreate: function beforeCreate() {
+      this._vval = null;
+    },
+    beforeDestroy: function beforeDestroy() {
+      if (this._vval) {
+        (0, _vval.patchChildren)(this._vval);
+        this._vval = null;
+      }
+    },
+    methods: {
+      getModel: function getModel() {
+        return this.lazyModel ? this.lazyModel(this.prop) : this.model;
+      },
+      getModelKey: function getModelKey(key) {
+        var model = this.getModel();
+
+        if (model) {
+          return model[key];
+        }
+      },
+      hasIter: function hasIter() {
+        return false;
+      }
+    }
+  });
+  var ValidationRule = VBase.extend({
+    data: function data() {
+      return {
+        rule: null,
+        lazyModel: null,
+        model: null,
+        lazyParentModel: null,
+        rootModel: null
+      };
+    },
+    methods: {
+      runRule: function runRule(parent) {
+        var model = this.getModel();
+        (0, _params.pushParams)();
+        var rawOutput = this.rule.call(this.rootModel, model, parent);
+        var output = isPromise(rawOutput) ? makePendingAsyncVm(Vue, rawOutput) : rawOutput;
+        var rawParams = (0, _params.popParams)();
+        var params = rawParams && rawParams.$sub ? rawParams.$sub.length > 1 ? rawParams : rawParams.$sub[0] : null;
+        return {
+          output: output,
+          params: params
+        };
+      }
+    },
+    computed: {
+      run: function run() {
+        var _this6 = this;
+
+        var parent = this.lazyParentModel();
+
+        var isArrayDependant = Array.isArray(parent) && parent.__ob__;
+
+        if (isArrayDependant) {
+          var arrayDep = parent.__ob__.dep;
+          arrayDep.depend();
+          var target = arrayDep.constructor.target;
+
+          if (!this._indirectWatcher) {
+            var Watcher = target.constructor;
+            this._indirectWatcher = new Watcher(this, function () {
+              return _this6.runRule(parent);
+            }, null, {
+              lazy: true
+            });
+          }
+
+          var model = this.getModel();
+
+          if (!this._indirectWatcher.dirty && this._lastModel === model) {
+            this._indirectWatcher.depend();
+
+            return target.value;
+          }
+
+          this._lastModel = model;
+
+          this._indirectWatcher.evaluate();
+
+          this._indirectWatcher.depend();
+        } else if (this._indirectWatcher) {
+          this._indirectWatcher.teardown();
+
+          this._indirectWatcher = null;
+        }
+
+        return this._indirectWatcher ? this._indirectWatcher.value : this.runRule(parent);
+      },
+      $params: function $params() {
+        return this.run.params;
+      },
+      proxy: function proxy() {
+        var output = this.run.output;
+
+        if (output[__isVuelidateAsyncVm]) {
+          return !!output.v;
+        }
+
+        return !!output;
+      },
+      $pending: function $pending() {
+        var output = this.run.output;
+
+        if (output[__isVuelidateAsyncVm]) {
+          return output.p;
+        }
+
+        return false;
+      }
+    },
+    destroyed: function destroyed() {
+      if (this._indirectWatcher) {
+        this._indirectWatcher.teardown();
+
+        this._indirectWatcher = null;
+      }
+    }
+  });
+  var Validation = VBase.extend({
+    data: function data() {
+      return {
+        dirty: false,
+        validations: null,
+        lazyModel: null,
+        model: null,
+        prop: null,
+        lazyParentModel: null,
+        rootModel: null
+      };
+    },
+    methods: _objectSpread({}, validationMethods, {
+      refProxy: function refProxy(key) {
+        return this.getRef(key).proxy;
+      },
+      getRef: function getRef(key) {
+        return this.refs[key];
+      },
+      isNested: function isNested(key) {
+        return typeof this.validations[key] !== 'function';
+      }
+    }),
+    computed: _objectSpread({}, validationGetters, {
+      nestedKeys: function nestedKeys() {
+        return this.keys.filter(this.isNested);
+      },
+      ruleKeys: function ruleKeys() {
+        var _this7 = this;
+
+        return this.keys.filter(function (k) {
+          return !_this7.isNested(k);
+        });
+      },
+      keys: function keys() {
+        return Object.keys(this.validations).filter(function (k) {
+          return k !== '$params';
+        });
+      },
+      proxy: function proxy() {
+        var _this8 = this;
+
+        var keyDefs = buildFromKeys(this.keys, function (key) {
+          return {
+            enumerable: true,
+            configurable: true,
+            get: function get() {
+              return _this8.refProxy(key);
+            }
+          };
+        });
+        var getterDefs = buildFromKeys(getterNames, function (key) {
+          return {
+            enumerable: true,
+            configurable: true,
+            get: function get() {
+              return _this8[key];
+            }
+          };
+        });
+        var methodDefs = buildFromKeys(methodNames, function (key) {
+          return {
+            enumerable: false,
+            configurable: true,
+            get: function get() {
+              return _this8[key];
+            }
+          };
+        });
+        var iterDefs = this.hasIter() ? {
+          $iter: {
+            enumerable: true,
+            value: Object.defineProperties({}, _objectSpread({}, keyDefs))
+          }
+        } : {};
+        return Object.defineProperties({}, _objectSpread({}, keyDefs, iterDefs, {
+          $model: {
+            enumerable: true,
+            get: function get() {
+              var parent = _this8.lazyParentModel();
+
+              if (parent != null) {
+                return parent[_this8.prop];
+              } else {
+                return null;
+              }
+            },
+            set: function set(value) {
+              var parent = _this8.lazyParentModel();
+
+              if (parent != null) {
+                parent[_this8.prop] = value;
+
+                _this8.$touch();
+              }
+            }
+          }
+        }, getterDefs, methodDefs));
+      },
+      children: function children() {
+        var _this9 = this;
+
+        return _toConsumableArray(this.nestedKeys.map(function (key) {
+          return renderNested(_this9, key);
+        })).concat(_toConsumableArray(this.ruleKeys.map(function (key) {
+          return renderRule(_this9, key);
+        }))).filter(Boolean);
+      }
+    })
+  });
+  var GroupValidation = Validation.extend({
+    methods: {
+      isNested: function isNested(key) {
+        return typeof this.validations[key]() !== 'undefined';
+      },
+      getRef: function getRef(key) {
+        var vm = this;
+        return {
+          get proxy() {
+            return vm.validations[key]() || false;
+          }
+
+        };
+      }
+    }
+  });
+  var EachValidation = Validation.extend({
+    computed: {
+      keys: function keys() {
+        var model = this.getModel();
+
+        if (isObject(model)) {
+          return Object.keys(model);
+        } else {
+          return [];
+        }
+      },
+      tracker: function tracker() {
+        var _this10 = this;
+
+        var trackBy = this.validations.$trackBy;
+        return trackBy ? function (key) {
+          return "".concat(getPath(_this10.rootModel, _this10.getModelKey(key), trackBy));
+        } : function (x) {
+          return "".concat(x);
+        };
+      },
+      getModelLazy: function getModelLazy() {
+        var _this11 = this;
+
+        return function () {
+          return _this11.getModel();
+        };
+      },
+      children: function children() {
+        var _this12 = this;
+
+        var def = this.validations;
+        var model = this.getModel();
+
+        var validations = _objectSpread({}, def);
+
+        delete validations['$trackBy'];
+        var usedTracks = {};
+        return this.keys.map(function (key) {
+          var track = _this12.tracker(key);
+
+          if (usedTracks.hasOwnProperty(track)) {
+            return null;
+          }
+
+          usedTracks[track] = true;
+          return (0, _vval.h)(Validation, track, {
+            validations: validations,
+            prop: key,
+            lazyParentModel: _this12.getModelLazy,
+            model: model[key],
+            rootModel: _this12.rootModel
+          });
+        }).filter(Boolean);
+      }
+    },
+    methods: {
+      isNested: function isNested() {
+        return true;
+      },
+      getRef: function getRef(key) {
+        return this.refs[this.tracker(key)];
+      },
+      hasIter: function hasIter() {
+        return true;
+      }
+    }
+  });
+
+  var renderNested = function renderNested(vm, key) {
+    if (key === '$each') {
+      return (0, _vval.h)(EachValidation, key, {
+        validations: vm.validations[key],
+        lazyParentModel: vm.lazyParentModel,
+        prop: key,
+        lazyModel: vm.getModel,
+        rootModel: vm.rootModel
+      });
+    }
+
+    var validations = vm.validations[key];
+
+    if (Array.isArray(validations)) {
+      var root = vm.rootModel;
+      var refVals = buildFromKeys(validations, function (path) {
+        return function () {
+          return getPath(root, root.$v, path);
+        };
+      }, function (v) {
+        return Array.isArray(v) ? v.join('.') : v;
+      });
+      return (0, _vval.h)(GroupValidation, key, {
+        validations: refVals,
+        lazyParentModel: NIL,
+        prop: key,
+        lazyModel: NIL,
+        rootModel: root
+      });
+    }
+
+    return (0, _vval.h)(Validation, key, {
+      validations: validations,
+      lazyParentModel: vm.getModel,
+      prop: key,
+      lazyModel: vm.getModelKey,
+      rootModel: vm.rootModel
+    });
+  };
+
+  var renderRule = function renderRule(vm, key) {
+    return (0, _vval.h)(ValidationRule, key, {
+      rule: vm.validations[key],
+      lazyParentModel: vm.lazyParentModel,
+      lazyModel: vm.getModel,
+      rootModel: vm.rootModel
+    });
+  };
+
+  _cachedComponent = {
+    VBase: VBase,
+    Validation: Validation
+  };
+  return _cachedComponent;
+};
+
+var _cachedVue = null;
+
+function getVue(rootVm) {
+  if (_cachedVue) return _cachedVue;
+  var Vue = rootVm.constructor;
+
+  while (Vue.super) {
+    Vue = Vue.super;
+  }
+
+  _cachedVue = Vue;
+  return Vue;
+}
+
+var validateModel = function validateModel(model, validations) {
+  var Vue = getVue(model);
+
+  var _getComponent = getComponent(Vue),
+      Validation = _getComponent.Validation,
+      VBase = _getComponent.VBase;
+
+  var root = new VBase({
+    computed: {
+      children: function children() {
+        var vals = typeof validations === 'function' ? validations.call(model) : validations;
+        return [(0, _vval.h)(Validation, '$v', {
+          validations: vals,
+          lazyParentModel: NIL,
+          prop: '$v',
+          model: model,
+          rootModel: model
+        })];
+      }
+    }
+  });
+  return root;
+};
+
+var validationMixin = {
+  data: function data() {
+    var vals = this.$options.validations;
+
+    if (vals) {
+      this._vuelidate = validateModel(this, vals);
+    }
+
+    return {};
+  },
+  beforeCreate: function beforeCreate() {
+    var options = this.$options;
+    var vals = options.validations;
+    if (!vals) return;
+    if (!options.computed) options.computed = {};
+    if (options.computed.$v) return;
+
+    options.computed.$v = function () {
+      return this._vuelidate ? this._vuelidate.refs.$v.proxy : null;
+    };
+  },
+  beforeDestroy: function beforeDestroy() {
+    if (this._vuelidate) {
+      this._vuelidate.$destroy();
+
+      this._vuelidate = null;
+    }
+  }
+};
+exports.validationMixin = validationMixin;
+
+function Vuelidate(Vue) {
+  Vue.mixin(validationMixin);
+}
+
+var _default = Vuelidate;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/params.js":
+/*!**********************************************!*\
+  !*** ./node_modules/vuelidate/lib/params.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.pushParams = pushParams;
+exports.popParams = popParams;
+exports.withParams = withParams;
+exports._setTarget = exports.target = void 0;
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var stack = [];
+var target = null;
+exports.target = target;
+
+var _setTarget = function _setTarget(x) {
+  exports.target = target = x;
+};
+
+exports._setTarget = _setTarget;
+
+function pushParams() {
+  if (target !== null) {
+    stack.push(target);
+  }
+
+  exports.target = target = {};
+}
+
+function popParams() {
+  var lastTarget = target;
+  var newTarget = exports.target = target = stack.pop() || null;
+
+  if (newTarget) {
+    if (!Array.isArray(newTarget.$sub)) {
+      newTarget.$sub = [];
+    }
+
+    newTarget.$sub.push(lastTarget);
+  }
+
+  return lastTarget;
+}
+
+function addParams(params) {
+  if (_typeof(params) === 'object' && !Array.isArray(params)) {
+    exports.target = target = _objectSpread({}, target, params);
+  } else {
+    throw new Error('params must be an object');
+  }
+}
+
+function withParamsDirect(params, validator) {
+  return withParamsClosure(function (add) {
+    return function () {
+      add(params);
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return validator.apply(this, args);
+    };
+  });
+}
+
+function withParamsClosure(closure) {
+  var validator = closure(addParams);
+  return function () {
+    pushParams();
+
+    try {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return validator.apply(this, args);
+    } finally {
+      popParams();
+    }
+  };
+}
+
+function withParams(paramsOrClosure, maybeValidator) {
+  if (_typeof(paramsOrClosure) === 'object' && maybeValidator !== undefined) {
+    return withParamsDirect(paramsOrClosure, maybeValidator);
+  }
+
+  return withParamsClosure(paramsOrClosure);
+}
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/alpha.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/alpha.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('alpha', /^[a-zA-Z]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/alphaNum.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/alphaNum.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('alphaNum', /^[a-zA-Z0-9]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/and.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/and.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
+    validators[_key] = arguments[_key];
+  }
+
+  return (0, _common.withParams)({
+    type: 'and'
+  }, function () {
+    var _this = this;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return validators.length > 0 && validators.reduce(function (valid, fn) {
+      return valid && fn.apply(_this, args);
+    }, true);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/between.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/between.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(min, max) {
+  return (0, _common.withParams)({
+    type: 'between',
+    min: min,
+    max: max
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +min <= +value && +max >= +value;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/common.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/common.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "withParams", {
+  enumerable: true,
+  get: function get() {
+    return _withParams.default;
+  }
+});
+exports.regex = exports.ref = exports.len = exports.req = void 0;
+
+var _withParams = _interopRequireDefault(__webpack_require__(/*! ../withParams */ "./node_modules/vuelidate/lib/withParams.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var req = function req(value) {
+  if (Array.isArray(value)) return !!value.length;
+
+  if (value === undefined || value === null) {
+    return false;
+  }
+
+  if (value === false) {
+    return true;
+  }
+
+  if (value instanceof Date) {
+    return !isNaN(value.getTime());
+  }
+
+  if (_typeof(value) === 'object') {
+    for (var _ in value) {
+      return true;
+    }
+
+    return false;
+  }
+
+  return !!String(value).length;
+};
+
+exports.req = req;
+
+var len = function len(value) {
+  if (Array.isArray(value)) return value.length;
+
+  if (_typeof(value) === 'object') {
+    return Object.keys(value).length;
+  }
+
+  return String(value).length;
+};
+
+exports.len = len;
+
+var ref = function ref(reference, vm, parentVm) {
+  return typeof reference === 'function' ? reference.call(vm, parentVm) : parentVm[reference];
+};
+
+exports.ref = ref;
+
+var regex = function regex(type, expr) {
+  return (0, _withParams.default)({
+    type: type
+  }, function (value) {
+    return !req(value) || expr.test(value);
+  });
+};
+
+exports.regex = regex;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/decimal.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/decimal.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('decimal', /^[-]?\d*(\.\d+)?$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/email.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/email.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var emailRegex = /(^$|^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
+
+var _default = (0, _common.regex)('email', emailRegex);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/index.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "alpha", {
+  enumerable: true,
+  get: function get() {
+    return _alpha.default;
+  }
+});
+Object.defineProperty(exports, "alphaNum", {
+  enumerable: true,
+  get: function get() {
+    return _alphaNum.default;
+  }
+});
+Object.defineProperty(exports, "numeric", {
+  enumerable: true,
+  get: function get() {
+    return _numeric.default;
+  }
+});
+Object.defineProperty(exports, "between", {
+  enumerable: true,
+  get: function get() {
+    return _between.default;
+  }
+});
+Object.defineProperty(exports, "email", {
+  enumerable: true,
+  get: function get() {
+    return _email.default;
+  }
+});
+Object.defineProperty(exports, "ipAddress", {
+  enumerable: true,
+  get: function get() {
+    return _ipAddress.default;
+  }
+});
+Object.defineProperty(exports, "macAddress", {
+  enumerable: true,
+  get: function get() {
+    return _macAddress.default;
+  }
+});
+Object.defineProperty(exports, "maxLength", {
+  enumerable: true,
+  get: function get() {
+    return _maxLength.default;
+  }
+});
+Object.defineProperty(exports, "minLength", {
+  enumerable: true,
+  get: function get() {
+    return _minLength.default;
+  }
+});
+Object.defineProperty(exports, "required", {
+  enumerable: true,
+  get: function get() {
+    return _required.default;
+  }
+});
+Object.defineProperty(exports, "requiredIf", {
+  enumerable: true,
+  get: function get() {
+    return _requiredIf.default;
+  }
+});
+Object.defineProperty(exports, "requiredUnless", {
+  enumerable: true,
+  get: function get() {
+    return _requiredUnless.default;
+  }
+});
+Object.defineProperty(exports, "sameAs", {
+  enumerable: true,
+  get: function get() {
+    return _sameAs.default;
+  }
+});
+Object.defineProperty(exports, "url", {
+  enumerable: true,
+  get: function get() {
+    return _url.default;
+  }
+});
+Object.defineProperty(exports, "or", {
+  enumerable: true,
+  get: function get() {
+    return _or.default;
+  }
+});
+Object.defineProperty(exports, "and", {
+  enumerable: true,
+  get: function get() {
+    return _and.default;
+  }
+});
+Object.defineProperty(exports, "not", {
+  enumerable: true,
+  get: function get() {
+    return _not.default;
+  }
+});
+Object.defineProperty(exports, "minValue", {
+  enumerable: true,
+  get: function get() {
+    return _minValue.default;
+  }
+});
+Object.defineProperty(exports, "maxValue", {
+  enumerable: true,
+  get: function get() {
+    return _maxValue.default;
+  }
+});
+Object.defineProperty(exports, "integer", {
+  enumerable: true,
+  get: function get() {
+    return _integer.default;
+  }
+});
+Object.defineProperty(exports, "decimal", {
+  enumerable: true,
+  get: function get() {
+    return _decimal.default;
+  }
+});
+exports.helpers = void 0;
+
+var _alpha = _interopRequireDefault(__webpack_require__(/*! ./alpha */ "./node_modules/vuelidate/lib/validators/alpha.js"));
+
+var _alphaNum = _interopRequireDefault(__webpack_require__(/*! ./alphaNum */ "./node_modules/vuelidate/lib/validators/alphaNum.js"));
+
+var _numeric = _interopRequireDefault(__webpack_require__(/*! ./numeric */ "./node_modules/vuelidate/lib/validators/numeric.js"));
+
+var _between = _interopRequireDefault(__webpack_require__(/*! ./between */ "./node_modules/vuelidate/lib/validators/between.js"));
+
+var _email = _interopRequireDefault(__webpack_require__(/*! ./email */ "./node_modules/vuelidate/lib/validators/email.js"));
+
+var _ipAddress = _interopRequireDefault(__webpack_require__(/*! ./ipAddress */ "./node_modules/vuelidate/lib/validators/ipAddress.js"));
+
+var _macAddress = _interopRequireDefault(__webpack_require__(/*! ./macAddress */ "./node_modules/vuelidate/lib/validators/macAddress.js"));
+
+var _maxLength = _interopRequireDefault(__webpack_require__(/*! ./maxLength */ "./node_modules/vuelidate/lib/validators/maxLength.js"));
+
+var _minLength = _interopRequireDefault(__webpack_require__(/*! ./minLength */ "./node_modules/vuelidate/lib/validators/minLength.js"));
+
+var _required = _interopRequireDefault(__webpack_require__(/*! ./required */ "./node_modules/vuelidate/lib/validators/required.js"));
+
+var _requiredIf = _interopRequireDefault(__webpack_require__(/*! ./requiredIf */ "./node_modules/vuelidate/lib/validators/requiredIf.js"));
+
+var _requiredUnless = _interopRequireDefault(__webpack_require__(/*! ./requiredUnless */ "./node_modules/vuelidate/lib/validators/requiredUnless.js"));
+
+var _sameAs = _interopRequireDefault(__webpack_require__(/*! ./sameAs */ "./node_modules/vuelidate/lib/validators/sameAs.js"));
+
+var _url = _interopRequireDefault(__webpack_require__(/*! ./url */ "./node_modules/vuelidate/lib/validators/url.js"));
+
+var _or = _interopRequireDefault(__webpack_require__(/*! ./or */ "./node_modules/vuelidate/lib/validators/or.js"));
+
+var _and = _interopRequireDefault(__webpack_require__(/*! ./and */ "./node_modules/vuelidate/lib/validators/and.js"));
+
+var _not = _interopRequireDefault(__webpack_require__(/*! ./not */ "./node_modules/vuelidate/lib/validators/not.js"));
+
+var _minValue = _interopRequireDefault(__webpack_require__(/*! ./minValue */ "./node_modules/vuelidate/lib/validators/minValue.js"));
+
+var _maxValue = _interopRequireDefault(__webpack_require__(/*! ./maxValue */ "./node_modules/vuelidate/lib/validators/maxValue.js"));
+
+var _integer = _interopRequireDefault(__webpack_require__(/*! ./integer */ "./node_modules/vuelidate/lib/validators/integer.js"));
+
+var _decimal = _interopRequireDefault(__webpack_require__(/*! ./decimal */ "./node_modules/vuelidate/lib/validators/decimal.js"));
+
+var helpers = _interopRequireWildcard(__webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js"));
+
+exports.helpers = helpers;
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/integer.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/integer.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('integer', /^-?[0-9]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/ipAddress.js":
+/*!************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/ipAddress.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.withParams)({
+  type: 'ipAddress'
+}, function (value) {
+  if (!(0, _common.req)(value)) {
+    return true;
+  }
+
+  if (typeof value !== 'string') {
+    return false;
+  }
+
+  var nibbles = value.split('.');
+  return nibbles.length === 4 && nibbles.every(nibbleValid);
+});
+
+exports.default = _default;
+
+var nibbleValid = function nibbleValid(nibble) {
+  if (nibble.length > 3 || nibble.length === 0) {
+    return false;
+  }
+
+  if (nibble[0] === '0' && nibble !== '0') {
+    return false;
+  }
+
+  if (!nibble.match(/^\d+$/)) {
+    return false;
+  }
+
+  var numeric = +nibble | 0;
+  return numeric >= 0 && numeric <= 255;
+};
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/macAddress.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/macAddress.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  var separator = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ':';
+  return (0, _common.withParams)({
+    type: 'macAddress'
+  }, function (value) {
+    if (!(0, _common.req)(value)) {
+      return true;
+    }
+
+    if (typeof value !== 'string') {
+      return false;
+    }
+
+    var parts = typeof separator === 'string' && separator !== '' ? value.split(separator) : value.length === 12 || value.length === 16 ? value.match(/.{2}/g) : null;
+    return parts !== null && (parts.length === 6 || parts.length === 8) && parts.every(hexValid);
+  });
+};
+
+exports.default = _default;
+
+var hexValid = function hexValid(hex) {
+  return hex.toLowerCase().match(/^[0-9a-f]{2}$/);
+};
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/maxLength.js":
+/*!************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/maxLength.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(length) {
+  return (0, _common.withParams)({
+    type: 'maxLength',
+    max: length
+  }, function (value) {
+    return !(0, _common.req)(value) || (0, _common.len)(value) <= length;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/maxValue.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/maxValue.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(max) {
+  return (0, _common.withParams)({
+    type: 'maxValue',
+    max: max
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +value <= +max;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/minLength.js":
+/*!************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/minLength.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(length) {
+  return (0, _common.withParams)({
+    type: 'minLength',
+    min: length
+  }, function (value) {
+    return !(0, _common.req)(value) || (0, _common.len)(value) >= length;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/minValue.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/minValue.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(min) {
+  return (0, _common.withParams)({
+    type: 'minValue',
+    min: min
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +value >= +min;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/not.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/not.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(validator) {
+  return (0, _common.withParams)({
+    type: 'not'
+  }, function (value, vm) {
+    return !(0, _common.req)(value) || !validator.call(this, value, vm);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/numeric.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/numeric.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('numeric', /^[0-9]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/or.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/or.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
+    validators[_key] = arguments[_key];
+  }
+
+  return (0, _common.withParams)({
+    type: 'or'
+  }, function () {
+    var _this = this;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return validators.length > 0 && validators.reduce(function (valid, fn) {
+      return valid || fn.apply(_this, args);
+    }, false);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/required.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/required.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.withParams)({
+  type: 'required'
+}, _common.req);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/requiredIf.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/requiredIf.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(prop) {
+  return (0, _common.withParams)({
+    type: 'requiredIf',
+    prop: prop
+  }, function (value, parentVm) {
+    return (0, _common.ref)(prop, this, parentVm) ? (0, _common.req)(value) : true;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/requiredUnless.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/requiredUnless.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(prop) {
+  return (0, _common.withParams)({
+    type: 'requiredUnless',
+    prop: prop
+  }, function (value, parentVm) {
+    return !(0, _common.ref)(prop, this, parentVm) ? (0, _common.req)(value) : true;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/sameAs.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/sameAs.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(equalTo) {
+  return (0, _common.withParams)({
+    type: 'sameAs',
+    eq: equalTo
+  }, function (value, parentVm) {
+    return value === (0, _common.ref)(equalTo, this, parentVm);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/url.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/url.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var urlRegex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+
+var _default = (0, _common.regex)('url', urlRegex);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/vval.js":
+/*!********************************************!*\
+  !*** ./node_modules/vuelidate/lib/vval.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.patchChildren = patchChildren;
+exports.h = h;
+
+function isUndef(v) {
+  return v === null || v === undefined;
+}
+
+function isDef(v) {
+  return v !== null && v !== undefined;
+}
+
+function sameVval(oldVval, vval) {
+  return vval.tag === oldVval.tag && vval.key === oldVval.key;
+}
+
+function createVm(vval) {
+  var Vm = vval.tag;
+  vval.vm = new Vm({
+    data: vval.args
+  });
+}
+
+function updateVval(vval) {
+  var keys = Object.keys(vval.args);
+
+  for (var i = 0; i < keys.length; i++) {
+    keys.forEach(function (k) {
+      vval.vm[k] = vval.args[k];
+    });
+  }
+}
+
+function createKeyToOldIdx(children, beginIdx, endIdx) {
+  var i, key;
+  var map = {};
+
+  for (i = beginIdx; i <= endIdx; ++i) {
+    key = children[i].key;
+    if (isDef(key)) map[key] = i;
+  }
+
+  return map;
+}
+
+function updateChildren(oldCh, newCh) {
+  var oldStartIdx = 0;
+  var newStartIdx = 0;
+  var oldEndIdx = oldCh.length - 1;
+  var oldStartVval = oldCh[0];
+  var oldEndVval = oldCh[oldEndIdx];
+  var newEndIdx = newCh.length - 1;
+  var newStartVval = newCh[0];
+  var newEndVval = newCh[newEndIdx];
+  var oldKeyToIdx, idxInOld, elmToMove;
+
+  while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+    if (isUndef(oldStartVval)) {
+      oldStartVval = oldCh[++oldStartIdx];
+    } else if (isUndef(oldEndVval)) {
+      oldEndVval = oldCh[--oldEndIdx];
+    } else if (sameVval(oldStartVval, newStartVval)) {
+      patchVval(oldStartVval, newStartVval);
+      oldStartVval = oldCh[++oldStartIdx];
+      newStartVval = newCh[++newStartIdx];
+    } else if (sameVval(oldEndVval, newEndVval)) {
+      patchVval(oldEndVval, newEndVval);
+      oldEndVval = oldCh[--oldEndIdx];
+      newEndVval = newCh[--newEndIdx];
+    } else if (sameVval(oldStartVval, newEndVval)) {
+      patchVval(oldStartVval, newEndVval);
+      oldStartVval = oldCh[++oldStartIdx];
+      newEndVval = newCh[--newEndIdx];
+    } else if (sameVval(oldEndVval, newStartVval)) {
+      patchVval(oldEndVval, newStartVval);
+      oldEndVval = oldCh[--oldEndIdx];
+      newStartVval = newCh[++newStartIdx];
+    } else {
+      if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
+      idxInOld = isDef(newStartVval.key) ? oldKeyToIdx[newStartVval.key] : null;
+
+      if (isUndef(idxInOld)) {
+        createVm(newStartVval);
+        newStartVval = newCh[++newStartIdx];
+      } else {
+        elmToMove = oldCh[idxInOld];
+
+        if (sameVval(elmToMove, newStartVval)) {
+          patchVval(elmToMove, newStartVval);
+          oldCh[idxInOld] = undefined;
+          newStartVval = newCh[++newStartIdx];
+        } else {
+          createVm(newStartVval);
+          newStartVval = newCh[++newStartIdx];
+        }
+      }
+    }
+  }
+
+  if (oldStartIdx > oldEndIdx) {
+    addVvals(newCh, newStartIdx, newEndIdx);
+  } else if (newStartIdx > newEndIdx) {
+    removeVvals(oldCh, oldStartIdx, oldEndIdx);
+  }
+}
+
+function addVvals(vvals, startIdx, endIdx) {
+  for (; startIdx <= endIdx; ++startIdx) {
+    createVm(vvals[startIdx]);
+  }
+}
+
+function removeVvals(vvals, startIdx, endIdx) {
+  for (; startIdx <= endIdx; ++startIdx) {
+    var ch = vvals[startIdx];
+
+    if (isDef(ch)) {
+      ch.vm.$destroy();
+      ch.vm = null;
+    }
+  }
+}
+
+function patchVval(oldVval, vval) {
+  if (oldVval === vval) {
+    return;
+  }
+
+  vval.vm = oldVval.vm;
+  updateVval(vval);
+}
+
+function patchChildren(oldCh, ch) {
+  if (isDef(oldCh) && isDef(ch)) {
+    if (oldCh !== ch) updateChildren(oldCh, ch);
+  } else if (isDef(ch)) {
+    addVvals(ch, 0, ch.length - 1);
+  } else if (isDef(oldCh)) {
+    removeVvals(oldCh, 0, oldCh.length - 1);
+  }
+}
+
+function h(tag, key, args) {
+  return {
+    tag: tag,
+    key: key,
+    args: args
+  };
+}
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/withParams.js":
+/*!**************************************************!*\
+  !*** ./node_modules/vuelidate/lib/withParams.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var withParams = process.env.BUILD === 'web' ? __webpack_require__(/*! ./withParamsBrowser */ "./node_modules/vuelidate/lib/withParamsBrowser.js").withParams : __webpack_require__(/*! ./params */ "./node_modules/vuelidate/lib/params.js").withParams;
+var _default = withParams;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../process/browser.js */ "./node_modules/process/browser.js")))
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/withParamsBrowser.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/withParamsBrowser.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.withParams = void 0;
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var root = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+var fakeWithParams = function fakeWithParams(paramsOrClosure, maybeValidator) {
+  if (_typeof(paramsOrClosure) === 'object' && maybeValidator !== undefined) {
+    return maybeValidator;
+  }
+
+  return paramsOrClosure(function () {});
+};
+
+var withParams = root.vuelidate ? root.vuelidate.withParams : fakeWithParams;
+exports.withParams = withParams;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/amd-define.js":
 /*!***************************************!*\
   !*** (webpack)/buildin/amd-define.js ***!
@@ -75464,8 +78016,8 @@ module.exports = function(module) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_jd_table_src_jd_table_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-jd-table/src/jd-table.vue */ "./node_modules/vue-jd-table/src/jd-table.vue");
-/* harmony import */ var vue_jd_table_dist_jd_table_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-jd-table/dist/jd-table.min.css */ "./node_modules/vue-jd-table/dist/jd-table.min.css");
-/* harmony import */ var vue_jd_table_dist_jd_table_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_jd_table_dist_jd_table_min_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_1__);
 
 
 /**
@@ -75478,6 +78030,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.toastr = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -75494,13 +78047,11 @@ Vue.component('busqueda-api', __webpack_require__(/*! ./components/BusquedaApi.v
 Vue.component('select2', __webpack_require__(/*! ./components/select.vue */ "./resources/js/components/select.vue")["default"]);
 Vue.component('lista-ejem', __webpack_require__(/*! ./components/ListaEjem.vue */ "./resources/js/components/ListaEjem.vue")["default"]);
 Vue.component('biblioteca-list', __webpack_require__(/*! ./components/Biblioteca-list.vue */ "./resources/js/components/Biblioteca-list.vue")["default"]);
-<<<<<<< HEAD
 Vue.component('buscar-libro', __webpack_require__(/*! ./components/Buscar-libro.vue */ "./resources/js/components/Buscar-libro.vue")["default"]);
-=======
 Vue.component('lista-ejem-table', __webpack_require__(/*! ./components/ListaEjemTable.vue */ "./resources/js/components/ListaEjemTable.vue")["default"]);
 Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]);
->>>>>>> luis
 Vue.component('nuevo-aporte', __webpack_require__(/*! ./components/nuevoAporte.vue */ "./resources/js/components/nuevoAporte.vue")["default"]);
+Vue.component('revisiones', __webpack_require__(/*! ./components/Revisiones.vue */ "./resources/js/components/Revisiones.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -76058,6 +78609,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Revisiones.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Revisiones.vue?vue&type=template&id=45884c18& */ "./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&");
+/* harmony import */ var _Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Revisiones.vue?vue&type=script&lang=js& */ "./resources/js/components/Revisiones.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Revisiones.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Revisiones.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Revisiones.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Revisiones.vue?vue&type=template&id=45884c18& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

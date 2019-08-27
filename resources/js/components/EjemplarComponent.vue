@@ -13,7 +13,7 @@
         <div id="modalAgregar" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
-                <form @submit.prevent="guardar" >
+                <form @submit.prevent="submitHandler($v.$invalid)" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">{{titleToShow}}</h4>
@@ -22,34 +22,43 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
-                                    aria-describedby="emailHelp" required>
+                                <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
+                                    aria-describedby="emailHelp">
+                                <div v-if="!$v.EJEMPLAR.EJEMPLAR.required" class="error">este campo es obligatorio</div>
                             </div>
                             <div class="form-group">
                                 <label for="DESCRIPCION">Descripción</label>
                                 <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
-                                    rows="3" required></textarea>
+                                    rows="3"></textarea>
+                                <div v-if="!$v.EJEMPLAR.DESCRIPCION.required" class="error">este campo es obligatorio</div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <label for="ISBN">ISBN</label>
                                 <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
-                                    aria-describedby="emailHelp" required>
+                                    aria-describedby="emailHelp">
+                                <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
+                                <div v-if="!$v.EJEMPLAR.ISBN.required" class="error">este campo es obligatorio</div>
                             </div>
                             <div class="form-group">
                                 <label for="AUTOR">AUTOR/es</label>
                                 <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
-                                    aria-describedby="emailHelp" required>
+                                    aria-describedby="emailHelp">
+                                <div v-if="!$v.EJEMPLAR.AUTOR.required" class="error">este campo es obligatorio</div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="PAGINAS">Numero de paginas</label>
                                     <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
-                                        aria-describedby="emailHelp" required>
+                                        aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.required" class="error">este campo es obligatorio</div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="copias">Numero de copias</label>
                                     <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
-                                        aria-describedby="emailHelp" required>
+                                        aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.COPIAS.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.COPIAS.required" class="error">este campo es obligatorio</div>
                                 </div>
                             </div>
                         </div>
@@ -67,6 +76,7 @@
 </template>
 
 <script>
+import { required,numeric } from "vuelidate/lib/validators";
 export default {
     data(){
         return {
@@ -122,7 +132,33 @@ export default {
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
             editTitle: 'Editar Ejemplar',
-            titleToShow: ''
+            titleToShow: '',
+            hasError: false
+        }
+    },
+    validations:{
+        EJEMPLAR:{
+            EJEMPLAR:{
+                required
+            },
+            ISBN:{
+                required,
+                numeric
+            },
+            AUTOR:{
+                required
+            },
+            DESCRIPCION:{
+                required
+            },
+            NUMERO_PAGINAS:{
+                required,
+                numeric
+            },
+            COPIAS:{
+                required,
+                numeric
+            }
         }
     },
     created(){
@@ -131,19 +167,21 @@ export default {
         this.tableOptions = {
             columns: this.columns,
             responsiveTable: true,
+            contextMenuRight: true,
+            contextMenuAdd: false,
+            contextMenuView: false,
+            quickView: 0,
             addNew: true,
-            editItem:true,
             deleteItem: true
         };
         this.sendData();
-        console.log('componente creado')
+       // console.log('componente creado')
     },
     mounted(){
-        console.log('tabla montada')
+       // console.log('tabla montada')
     },
     methods:{
         sendData(){
-            debugger;
             this.tableLoader = true;
             axios.get('/ejemplars').then(res=>{
                 this.ejemplars=res.data;
@@ -178,6 +216,7 @@ export default {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
                 $('#modalAgregar').modal('show');
+                console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
                 this.submit = this.editarEjemplar;
@@ -242,6 +281,19 @@ export default {
             toastr.clear();
             toastr.options.closeButton = true;
             toastr.success(msg, 'Exito');
+        },
+        /*Este es el metodo que se ejecuta al hacer submit del formulario
+         *el parametro error es una propiedad que nos ofrece vuelidate
+         *la cual es un booleano que si existe un error en el modelo
+         *a validar es verdadero. */
+        submitHandler(error){
+            if(error){
+                toastr.clear();
+                toastr.options.closeButton = true;
+                toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
+            }else{
+                this.guardar();
+            }
         }
     }
 }

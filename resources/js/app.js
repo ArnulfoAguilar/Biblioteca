@@ -1,5 +1,5 @@
 import JDTable from 'vue-jd-table/src/jd-table.vue';
-import 'vue-jd-table/dist/jd-table.min.css';
+import Vuelidate from 'vuelidate';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -10,6 +10,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.toastr = require('toastr');
+
+Vue.use(Vuelidate);
 
 
 /**
