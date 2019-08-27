@@ -132,6 +132,7 @@ class AporteController extends Controller
     {
         $aporte = Aporte::find($id);
         $Areas = Area::all();
+        $TipoAportes=tipoAporte::all();
         $PalabrasClave = palabrasClave::all();
         $PalabrasClaveselect = DB::table('aportePalabraClavePivote')
         ->join('palabrasClave', function($join) use ($aporte) {
@@ -140,11 +141,14 @@ class AporteController extends Controller
         })
         ->select('palabrasClave.id')
         ->get();
-        $AreaSelec=Area::find($aporte->ID_AREA);
+        $AreaSelec = Area::find($aporte->ID_AREA);
+        $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE); 
         return view('Aportes.editarAporte')
         ->with(['PalabrasClave' => $PalabrasClave])
         ->with(['aporte' => $aporte])
         ->with(['Areas' => $Areas])
+        ->with(['TipoAportes' => $TipoAportes])
+        ->with(['TipoAporteSelect' => $TipoAporteSelect])
         ->with(['PalabrasClaveselect' => $PalabrasClaveselect])
         ->with(['AreaSelec' => $AreaSelec]);
 
@@ -160,7 +164,7 @@ class AporteController extends Controller
     public function update(Request $request, $aporteid)
     {
         
-        $detalle=$request->DESCRIPCION;
+        $detalle=$request->CONTENIDO;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
         $images = $dom->getelementsbytagname('img');
@@ -186,11 +190,14 @@ class AporteController extends Controller
         
         $Aporte = Aporte::find($aporteid);
         $Aporte->TITULO = $request->TITULO;
-        $Aporte->DESCRIPCION = $detalle;
+        $Aporte->DESCRIPCION = $request->DESCRIPCION;
+        $Aporte->CONTENIDO = $detalle;
         if ($request->ID_AREA != null) {
             $Aporte->ID_AREA = $request->ID_AREA;
         }
-        $Aporte->ID_TIPO_APORTE = 1;
+        if ($request->ID_TIPO_APORTE != null) {
+        $Aporte->ID_TIPO_APORTE = $request->ID_TIPO_APORTE;
+        }
         if($request->customSwitch3 == '' || $request->customSwitch3 == null){
             $Aporte->COMENTARIOS = false;
         }else{
@@ -198,7 +205,29 @@ class AporteController extends Controller
         }
         $Aporte->Save();
 
-        return redirect()->route('aportes.show',['aporte' => $Aporte]);
+        $registros = AportePalabraClavePivote::where('ID_APORTE','=',$Aporte->id)
+        ->select('id')
+        ->get()->toArray();
+        AportePalabraClavePivote::destroy($registros);
+
+        foreach ($request->PALABRAS_CLAVE as $key => $value) {
+            $pivote = new AportePalabraClavePivote();
+            $pivote->ID_APORTE = $Aporte->id;
+            $pivote->ID_PALABRA_CLAVE = $value;
+            $pivote->Save();
+        }
+        
+        $TipoAporte = tipoAporte::find($request->ID_TIPO_APORTE);
+        $PalabrasClave = DB::table('aportePalabraClavePivote')
+                        ->join('palabrasClave', function($join) use ($Aporte) {
+                            $join->on('aportePalabraClavePivote.ID_PALABRA_CLAVE','=','palabrasClave.id')
+                            ->where('aportePalabraClavePivote.ID_APORTE','=',$Aporte->id);
+                        })
+                        ->select('palabrasClave.id','palabrasClave.PALABRA')
+                        ->get();
+            return redirect()->route('aportes.show',['aporte' => $Aporte])
+            ->with(['PalabrasClave' => $PalabrasClave])
+            ->with(['TipoAporte' => $TipoAporte]);
 
     }
 
