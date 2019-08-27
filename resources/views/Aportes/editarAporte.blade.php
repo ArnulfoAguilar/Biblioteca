@@ -1,6 +1,6 @@
 @extends('layouts.adminLTE')
 @section('cssextra')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
 @endsection
 @section('Encabezado')
 Editar 
@@ -97,11 +97,18 @@ Editar
 
 @endsection
 @section('jsExtra')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
     <script type="text/javascript">
     $(document).ready(function() {
-    $('.select2').select2();
-    $('#selectmult').val(['1','2']);
-    $('#selectmult').trigger('change');
+    $('.select2').select2(); 
+    var obj =@json($PalabrasClaveselect);
+    myArray = [];
+    $.each(obj, 
+        function(i, item) {
+            myArray.push(item.id);
+        });
+        $('#selectmult').val(myArray ).trigger('change');
 });
     </script>
 @endsection

@@ -132,18 +132,20 @@ class AporteController extends Controller
     {
         $aporte = Aporte::find($id);
         $Areas = Area::all();
-        $PalabrasClave = DB::table('aportePalabraClavePivote')
+        $PalabrasClave = palabrasClave::all();
+        $PalabrasClaveselect = DB::table('aportePalabraClavePivote')
         ->join('palabrasClave', function($join) use ($aporte) {
             $join->on('aportePalabraClavePivote.ID_PALABRA_CLAVE','=','palabrasClave.id')
             ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
         })
-        ->select('palabrasClave.id','palabrasClave.PALABRA')
+        ->select('palabrasClave.id')
         ->get();
         $AreaSelec=Area::find($aporte->ID_AREA);
         return view('Aportes.editarAporte')
         ->with(['PalabrasClave' => $PalabrasClave])
         ->with(['aporte' => $aporte])
         ->with(['Areas' => $Areas])
+        ->with(['PalabrasClaveselect' => $PalabrasClaveselect])
         ->with(['AreaSelec' => $AreaSelec]);
 
     }
