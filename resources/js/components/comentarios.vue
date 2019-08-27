@@ -13,9 +13,9 @@
               {{ item.COMENTARIO}}
             </div>
                           <!-- /.comment-text -->
-            <div class="row">
+            <div class="row float-right">
               <button type="button" class="btn btn-default btn-sm "><i class="far fa-thumbs-up"></i> Like</button>
-              <button type="button" class="btn btn-default btn-sm"><i class="fas fa-ban"></i> Report</button>
+              <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
             </div>
         </div>
                         <!-- /.card-comment -->
