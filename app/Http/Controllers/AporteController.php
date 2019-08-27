@@ -131,6 +131,7 @@ class AporteController extends Controller
     public function edit($id)
     {
         $aporte = Aporte::find($id);
+        
         $Areas = Area::all();
         $TipoAportes=tipoAporte::all();
         $PalabrasClave = palabrasClave::all();

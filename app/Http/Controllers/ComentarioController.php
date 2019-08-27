@@ -15,27 +15,20 @@ class ComentarioController extends Controller
      */
     public function index(Request $request)
     {
-
-        return DB::table('Comentario')
-                    ->join('users', function($join) use ($request) {
-                        $join->on('users.id','=','Comentario.ID_USUARIO')
-                        ->where('Comentario.ID_APORTE','=',$request->id);
-                    })
-                    ->select('Comentario.*','users.name')
-                    ->get();
-
-
-     /*if($request->ajax()){
+        if($request->ajax()){
             return DB::table('Comentario')
                     ->join('users', function($join) use ($request) {
                         $join->on('users.id','=','Comentario.ID_USUARIO')
-                        ->where('Comentario.ID_APORTE','=',$request->id);
+                        ->where([
+                            ['Comentario.ID_APORTE','=',$request->id],
+                            ['Comentario.HABILITADO','=','1']
+                        ]);
                     })
                     ->select('Comentario.*','users.name')
                     ->get();
         }else{
-           return redirect()->route('home');
-        }  */         
+             return redirect()->route('home');
+        }
     }
 
     /**

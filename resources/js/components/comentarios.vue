@@ -1,36 +1,36 @@
 <template>
-<div class="card">
-                    <div class="card-header">
-                       <form @submit.prevent="Agregar_comentario">
-                        <input class="col-md-12 form-control form-control-lg" placeholder="Escribe un comentario..." v-model="Comentario.COMENTARIO">
-                       </form>
-                    </div>
-                    <div class="card-body">
-                      <div class="container">
-                        <div class="col-12" >
-                          <div class="post" v-for="(item, index) in comentarios" :key="index">
-                            <div class="user-block">
-                              <img class="img-circle img-bordered-sm" src="" alt="">
-                              <span class="username">
-                                <a href="#">{{item.name}}.</a>
-                              </span>
-                              <span class="description">{{ item.created_at}}</span>
-                            </div>
-                      <!-- /.user-block -->
-                            <p>
-                              {{ item.COMENTARIO}}
-                            </p>
-
-                            <p>
-                              <a href="#" class="link-black text-sm float-right"><i class="fas fa-link mr-1"></i> Reportar</a>
-                               
-                               <a href="#" class="link-black text-sm" ><i class=""></i> Editar</a>
-                            </p>
-                          </div>    
-                        </div>
-                      </div>
-                    </div>
-                </div>
+<div>
+    <div class="card-footer card-comments">
+        <div class="card-comment"  v-for="(item, index) in comentarios" :key="index">
+          <!-- User image -->
+            <img class="img-circle img-sm" src="" alt="">
+        
+            <div class="comment-text">
+              <span class="username">
+                {{item.name}}.
+              <span class="text-muted float-right">{{ item.created_at}}</span>
+              </span><!-- /.username -->
+              {{ item.COMENTARIO}}
+            </div>
+                          <!-- /.comment-text -->
+            <div class="row">
+              <button type="button" class="btn btn-default btn-sm "><i class="far fa-thumbs-up"></i> Like</button>
+              <button type="button" class="btn btn-default btn-sm"><i class="fas fa-ban"></i> Report</button>
+            </div>
+        </div>
+                        <!-- /.card-comment -->
+    </div>
+    <div class="card-footer">
+                       
+      <img class="img-fluid img-circle img-sm" src="" alt="">
+      <!-- .img-push is used to add margin to elements next to floating images -->
+      <div class="img-push">
+        <form @submit.prevent="Agregar_comentario">
+          <input class="form-control form-control-lg" placeholder="Escribe un comentario..." v-model="Comentario.COMENTARIO">
+        </form>  
+      </div>
+    </div>
+</div>
    
 </template>
 
@@ -62,7 +62,6 @@
             const comentarioNuevo =this.Comentario;
             axios.post('/comentarios',comentarioNuevo)
             .then((response) => {
-              alert("Guardado Correctamente");
               this.cargar_comentarios();
               this.Comentario.COMENTARIO = "";
 

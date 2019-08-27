@@ -2,19 +2,18 @@
 @section('title')
     Mi Aporte
 @endsection
-@section('cssextra')
-<!--ESTE ES PARA SUMMERNOTE
 
--->
-@endsection
 @section('Encabezado')
-    <a class="btn btn-app" href="{{ route('aportes.edit', $aporte->id)}}">
-        <i class="fas fa-edit"></i> Edit
-    </a>
+
+   
 @endsection
 @section('breadcrumbs')
 <div class="float-right">
- Creado el: {{ $aporte->created_at }}
+    @if ($aporte->ID_USUARIO == Auth::user()->id)
+    <a class="btn btn-app" href="{{ route('aportes.edit', $aporte->id)}}">
+        <i class="fas fa-edit"></i> Edit
+    </a>
+    @endif
 </div>
 @endsection    
 
@@ -25,7 +24,13 @@
             {{ session('status') }}
         </div>
     @endif
-    
+    <div class="container">
+        @foreach ($PalabrasClave as $palabraClave)
+                <p href="#" class="btn btn-sm btn-primary col-xs-1">
+                    {{ $palabraClave->PALABRA}}
+                </p>    
+        @endforeach
+    </div>
     <div class="container">    
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -38,18 +43,21 @@
                             <h3><span class="tag tag-green">Titulo del aporte: {{ $aporte->TITULO }}</span></h3>
                         </div>
                     </div> -->
-                    <div class="card-header" style="background-color:#343A40!important; color:white!important;"><h1>{{ $aporte->TITULO }}</h1></div>
+                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">
+                        <div class="row">
+                        <h1 class="col-md-10">{{ $aporte->TITULO }}</h1>
+                        <span class="col-md-2">{{ $aporte->created_at }}</span>
+                        </div>
+                    </div>
                     <div class="card-body">
                         {!! $aporte->CONTENIDO !!}
                         
                     </div>
+                    @if ($aporte->COMENTARIOS==1)
                     <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
+                    @endif  
                 </div>
-                @foreach ($PalabrasClave as $palabraClave)
-                <p href="#" class="btn btn-sm btn-primary">
-                    {{ $palabraClave->PALABRA}}
-                </p>    
-                @endforeach
+                
                 
                 <!--div class="card">
                     <div class="card-header">
@@ -65,6 +73,7 @@
                     {{-- <revisiones></revisiones> --}}
                     <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}"></revisiones>
                     </div>
+                    <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
                 </div-->  
                   
             </div>

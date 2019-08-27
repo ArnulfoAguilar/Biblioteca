@@ -2582,8 +2582,6 @@ __webpack_require__.r(__webpack_exports__);
 
       var comentarioNuevo = this.Comentario;
       axios.post('/comentarios', comentarioNuevo).then(function (response) {
-        alert("Guardado Correctamente");
-
         _this2.cargar_comentarios();
 
         _this2.Comentario.COMENTARIO = "";
@@ -54736,80 +54734,81 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header" }, [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.Agregar_comentario($event)
-            }
-          }
-        },
-        [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.Comentario.COMENTARIO,
-                expression: "Comentario.COMENTARIO"
-              }
-            ],
-            staticClass: "col-md-12 form-control form-control-lg",
-            attrs: { placeholder: "Escribe un comentario..." },
-            domProps: { value: _vm.Comentario.COMENTARIO },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.Comentario, "COMENTARIO", $event.target.value)
-              }
-            }
-          })
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "container" }, [
-        _c(
-          "div",
-          { staticClass: "col-12" },
-          _vm._l(_vm.comentarios, function(item, index) {
-            return _c("div", { key: index, staticClass: "post" }, [
-              _c("div", { staticClass: "user-block" }, [
-                _c("img", {
-                  staticClass: "img-circle img-bordered-sm",
-                  attrs: { src: "", alt: "" }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "username" }, [
-                  _c("a", { attrs: { href: "#" } }, [
-                    _vm._v(_vm._s(item.name) + ".")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "description" }, [
-                  _vm._v(_vm._s(item.created_at))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "\r\n                              " +
-                    _vm._s(item.COMENTARIO) +
-                    "\r\n                            "
-                )
-              ]),
-              _vm._v(" "),
-              _vm._m(0, true)
-            ])
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "card-footer card-comments" },
+      _vm._l(_vm.comentarios, function(item, index) {
+        return _c("div", { key: index, staticClass: "card-comment" }, [
+          _c("img", {
+            staticClass: "img-circle img-sm",
+            attrs: { src: "", alt: "" }
           }),
-          0
+          _vm._v(" "),
+          _c("div", { staticClass: "comment-text" }, [
+            _c("span", { staticClass: "username" }, [
+              _vm._v(
+                "\r\n                " +
+                  _vm._s(item.name) +
+                  ".\r\n              "
+              ),
+              _c("span", { staticClass: "text-muted float-right" }, [
+                _vm._v(_vm._s(item.created_at))
+              ])
+            ]),
+            _vm._v(
+              "\r\n              " +
+                _vm._s(item.COMENTARIO) +
+                "\r\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(0, true)
+        ])
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-footer" }, [
+      _c("img", {
+        staticClass: "img-fluid img-circle img-sm",
+        attrs: { src: "", alt: "" }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "img-push" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.Agregar_comentario($event)
+              }
+            }
+          },
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.Comentario.COMENTARIO,
+                  expression: "Comentario.COMENTARIO"
+                }
+              ],
+              staticClass: "form-control form-control-lg",
+              attrs: { placeholder: "Escribe un comentario..." },
+              domProps: { value: _vm.Comentario.COMENTARIO },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.Comentario, "COMENTARIO", $event.target.value)
+                }
+              }
+            })
+          ]
         )
       ])
     ])
@@ -54820,17 +54819,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", [
+    return _c("div", { staticClass: "row" }, [
       _c(
-        "a",
-        { staticClass: "link-black text-sm float-right", attrs: { href: "#" } },
-        [_c("i", { staticClass: "fas fa-link mr-1" }), _vm._v(" Reportar")]
+        "button",
+        { staticClass: "btn btn-default btn-sm ", attrs: { type: "button" } },
+        [_c("i", { staticClass: "far fa-thumbs-up" }), _vm._v(" Like")]
       ),
       _vm._v(" "),
-      _c("a", { staticClass: "link-black text-sm", attrs: { href: "#" } }, [
-        _c("i", {}),
-        _vm._v(" Editar")
-      ])
+      _c(
+        "button",
+        { staticClass: "btn btn-default btn-sm", attrs: { type: "button" } },
+        [_c("i", { staticClass: "fas fa-ban" }), _vm._v(" Report")]
+      )
     ])
   }
 ]
