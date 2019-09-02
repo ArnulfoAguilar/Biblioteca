@@ -35,7 +35,10 @@ Vue.component('lista-ejem-table', require('./components/ListaEjemTable.vue').def
 Vue.component('ejemplar-component',require('./components/EjemplarComponent.vue').default);
 Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
+
+// ------------------------MODULO DE ADMINISTRACION---------------------------------------------
 Vue.component('roles', require('./components/Roles.vue').default);
+Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').default);
 
 
 /**

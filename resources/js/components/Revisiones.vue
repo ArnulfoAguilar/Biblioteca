@@ -12,7 +12,7 @@
                                 <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-7" id="NOMBRE"
                                     placeholder="Escriba aca la nueva Observación..." required>
                                 <div class="col-md-2">
-                                    <!-- <div v-if="Revision.ID_ESTADO_REVISION === 1"> -->
+                                    <!-- <div v-if="Revision.ID_ESTADO_REVISION == 1"> -->
                                         <input type="checkbox" class="col-md-2" id="check_titulo" v-model="check">
                                         <label class="form-check-label" for="exampleCheck1">Solventado</label>
                                     <!-- </div> -->
@@ -79,7 +79,7 @@
                                         <p class="mb-0">{{item.DETALLE_REVISION}}</p>
                                     </div>
                                     <div class="col-md-2 form-check ">
-                                        <div v-if="item.ID_ESTADO_REVISION === 1">
+                                        <div v-if="item.ID_ESTADO_REVISION == 1">
                                             <label class="form-check-label" for="exampleCheck1">Solventado</label>
                                         </div>
                                         <div v-else>
@@ -104,27 +104,27 @@
                                     <!-- timeline time label -->
                                     <li class="time-label">
                                     <span class="bg-danger">
-                                        11 Feb. 2014
+                                        11 Feb. 2014 
                                     </span>
                                     </li>
                                     <!-- /.timeline-label -->
                                     <!-- timeline item -->
-                                    <li v-for="(item, index) in orderedRevisiones" :key="index">
-                                        <i class="fas fa-check-circle bg-success" v-if="item.ID_ESTADO_REVISION === 1"></i>
+                                    <li v-for="(item, index) in revisiones" :key="index">
+                                        <i class="fas fa-check-circle bg-success" v-if="item.ID_ESTADO_REVISION == 1"></i>
                                         <i class="fas fa-eye bg-warning" v-else></i>
                 
                                         <div class="timeline-item">
                                             <span class="time"><i class="far fa-clock"></i> {{item.created_at}}</span>
                 
-                                            <h3 class="timeline-header" v-if="item.ID_ESTADO_REVISION === 1">Corrección de <a href="">Ejemplo</a> solventada</h3>
-                                            <h3 class="timeline-header" v-else><a href="">Ejemplo</a> Te hizo una corrección</h3>
+                                            <h3 class="timeline-header" v-if="item.ID_ESTADO_REVISION == 1">Corrección de <a href="">Ejemplo</a> solventada</h3>
+                                            <h3 class="timeline-header" v-else><a href="">Ejemplo</a> hizo una corrección</h3>
                 
                                             <div class="timeline-body">
                                             {{item.DETALLE_REVISION}}
                                             </div>
                                             <div class="timeline-footer">
                                             <a href="#" class="btn btn-primary btn-sm" @click="editarFormulario(item)">Editar</a>
-                                            <a href="#" class="btn btn-danger btn-sm" @click="eliminarRevision(item, index)">Eliminar</a>
+                                            <a href="#" class="btn btn-danger btn-sm" @click="eliminarRevision(item, index)" v-if="usuario == item.ID_USUARIO">Eliminar</a>
                                             </div>
                                         </div>
                                     </li>
@@ -157,7 +157,7 @@
         mounted() {
             console.log('Revisiones mounted.')
         },
-        props: ['aporte','area'],
+        props: ['aporte','area', 'rol', 'usuario'],
         data() {
             return {
                 // search:'',
@@ -183,6 +183,7 @@
                 const revisionNueva = this.Revision;
                 axios.post('/revisiones', revisionNueva)
                     .then((response) =>{
+                        // console.log(response.data);
                         toastr.clear();
                         toastr.options.closeButton = true;
                         toastr.success('Revisión guardada correctamente', 'Exito');
@@ -191,8 +192,9 @@
                         this.check='';
                         this.cargar();
 
-                    
+                
                     }).catch(e=>{
+                        console.log(e);
                             alert("Error al Guardar" + e);
                             })
             },

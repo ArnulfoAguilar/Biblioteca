@@ -46,7 +46,7 @@ class RevisionController extends Controller
         $revision->ID_COMITE = $request->ID_COMITE;
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
-        $revision->Save();
+        $revision->save();
     }
 
     /**

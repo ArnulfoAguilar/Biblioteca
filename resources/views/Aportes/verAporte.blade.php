@@ -194,8 +194,7 @@
                                 </ul>
                             </div> --}}
 
-                    <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}"></revisiones>
-
+                        <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}" rol="{{Auth::user()->ID_ROL}}" usuario="{{Auth::user()->id}}"></revisiones>
                     </div>
                 </div>
             </div>

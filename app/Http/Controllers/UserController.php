@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Rol;
-use App\User;
 use Illuminate\Http\Request;
+use App\User;
 
-class RolController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +14,11 @@ class RolController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        // dd($request);
         if($request->ajax()){
-            return Rol::all();
+            return User::all();
         }else{
-            return view('home');
+            return redirect()->route('home');
         }
     }
 
@@ -42,18 +41,15 @@ class RolController extends Controller
     public function store(Request $request)
     {
         //
-        $newRol = new Rol();
-        $newRol->ROL = $request->ROL;
-        $newRol->Save();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Rol  $rol
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Rol $rol)
+    public function show($id)
     {
         //
     }
@@ -61,10 +57,10 @@ class RolController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Rol  $rol
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Rol $rol)
+    public function edit($id)
     {
         //
     }
@@ -73,42 +69,30 @@ class RolController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rol  $rol
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rol $rol)
+    public function update(Request $request, $id)
     {
         //
-        $newRol = Rol::find($request->id);
-        $newRol->ROL = $request->ROL;
-        $newRol->save();
-        return $newRol;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Rol  $rol
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rol $role)
+    public function destroy($id)
     {
-        $newRol = Rol::find($role->id);
-        $newRol->delete();
+        //
     }
 
-    public function asignarRolIndex($user = null)
+    public function asignarRol(Request $request)
     {
-        if($user){
-            $user= User::find($user);
-        }
-        $roles = Rol::all();
-        $usuarios = User::orderBy('id', 'ASC')->get();
-        return view('administracion.asignacion-roles')->with([
-            'roles' => $roles,
-            'usuarios' => $usuarios,
-            'user' => $user
-        ]);
+        $usuario = User::find($request->id);
+        $usuario->ID_ROL = $request->ID_ROL;
+        $usuario->save();
+        return redirect()->route('asignar.roles');
     }
-    
 }

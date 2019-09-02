@@ -9,11 +9,11 @@
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
 
-        <!-- Modal con el formulario para agregar un nuevo libro o editar uno existente-->
+        <!-- Modal con el formulario para agregar un nuevo rol o editar uno existente-->
         <div id="modalAgregar" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
-                <form @submit.prevent="submitHandler($v.$invalid)" >
+                <form @submit.prevent="guardar" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">{{titleToShow}}</h4>
@@ -22,12 +22,9 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="ROL.ROL" class="form-control" id="NOMBRE"
-                                    aria-describedby="emailHelp">
-                                <div v-if="!$v.ROL.ROL.required" class="error">Este campo es obligatorio</div>
+                                <input type="text" v-model="ROL.ROL" class="form-control" id="NOMBRE"
+                                    aria-describedby="emailHelp" required>
                             </div>
-                            
-                            
                             
                         </div>
                         <div class="modal-footer">
@@ -44,7 +41,6 @@
 </template>
 
 <script>
-import { required,numeric } from "vuelidate/lib/validators";
 export default {
     data(){
         return {
@@ -78,19 +74,11 @@ export default {
             search:'',
             roles: [],
             modoEditar: false,
-            ROL: { ROL: '', },
+            ROL: { ROL: ''},
             isEditing: false,
             createTitle: 'Agregar Rol',
             editTitle: 'Editar Rol',
-            titleToShow: '',
-            hasError: false
-        }
-    },
-    validations:{
-        ROL:{
-            ROL:{
-                required
-            },
+            titleToShow: ''
         }
     },
     created(){
@@ -99,21 +87,19 @@ export default {
         this.tableOptions = {
             columns: this.columns,
             responsiveTable: true,
-            contextMenuRight: true,
-            contextMenuAdd: false,
-            contextMenuView: false,
-            quickView: 0,
             addNew: true,
+            editItem:true,
             deleteItem: true
         };
         this.sendData();
-       // console.log('componente creado')
+        console.log('componente roles creado')
     },
     mounted(){
-       // console.log('tabla montada')
+        console.log('tabla roles montada')
     },
     methods:{
         sendData(){
+            debugger;
             this.tableLoader = true;
             axios.get('/roles').then(res=>{
                 this.roles=res.data;
@@ -148,7 +134,6 @@ export default {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
                 $('#modalAgregar').modal('show');
-                console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
                 this.submit = this.editarRol;
@@ -179,7 +164,6 @@ export default {
         },
         editarFormulario(item){
         this.ROL.ROL = item.ROL;
-        
         this.ROL.id = item.id;
         this.isEditing = true;
         },
@@ -209,19 +193,6 @@ export default {
             toastr.clear();
             toastr.options.closeButton = true;
             toastr.success(msg, 'Exito');
-        },
-        /*Este es el metodo que se ejecuta al hacer submit del formulario
-         *el parametro error es una propiedad que nos ofrece vuelidate
-         *la cual es un booleano que si existe un error en el modelo
-         *a validar es verdadero. */
-        submitHandler(error){
-            if(error){
-                toastr.clear();
-                toastr.options.closeButton = true;
-                toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
-            }else{
-                this.guardar();
-            }
         }
     }
 }

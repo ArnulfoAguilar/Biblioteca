@@ -32,7 +32,6 @@ Route::resource('/ejemplars','EjemplarController');
 Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
 Route::resource('/Ejemplar','EjemplarController');
 Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
-Route::resource('/roles','RolController');
 
 // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
 
@@ -41,6 +40,16 @@ Route::resource('/revisiones','RevisionController');
 
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
+
+
+// ---------------------------------RUTAS DEL MODULO DE ADMINISTRACION -------------------------------------//
+Route::resource('/users','UserController');
+
+Route::resource('/roles','RolController');
+Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
+
+Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
+
 
 // -----------------------------------------OTRAS RUTAS -------------------------------------//
 
