@@ -59,7 +59,6 @@ Asignacion de roles a usuarios
                     </form>
                 </div>
             </div>
-            {{-- <asignacion-roles></asignacion-roles> --}}
         </div>
 
         <div class="col-md-12">
@@ -102,5 +101,6 @@ Asignacion de roles a usuarios
         </div>
     </div>
 </div>
+{{-- <asignacion-roles></asignacion-roles> --}}
 
 @endsection

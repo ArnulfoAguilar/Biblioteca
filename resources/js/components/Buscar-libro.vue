@@ -2,21 +2,52 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12" style="overflow: auto; height:500px; ">
-                <div class="card">
-                    <div class="card-header">
+                <div class="card ">
+                    <div class="card-header bg-dark">
+                        
+                    Buscar libro
+                        
+                    </div>
+                    <div class="card-body">
+
                         <div>
                             <!-- OPCION 1 PARA LAS BUSQUEDAS DE LIBROS -->
                             <div class="row">
-                                <div class="form-check ">
+                                <!-- <div class="form-check col-6">
                                     <input type="checkbox" class="form-check-input" id="check_titulo" v-model="check_titulo" checked>
                                     <label class="form-check-label" for="exampleCheck1">Titulo</label>
                                     <input type="text" class="form-control" name="" id="" :disabled="!check_titulo" v-model="search_titulo" autofocus>
-                                </div>
-                                <div class="form-check">
+                                </div> -->
+                                <!-- <div class="form-check col-6">
                                     <input type="checkbox" class="form-check-input" id="check_autor" v-model="check_autor" >
                                     <label class="form-check-label" for="exampleCheck1">Autor</label>
                                     <input type="text" class="form-control" name="" id="" :disabled="!check_autor" v-model="search_autor">
+                                </div> -->
+
+                                <div class="input-group mb-1 col-6">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text" :class="{'bg-secondary': !check_titulo, 'bg-success': check_titulo, }">
+                                            <input class="mr-2" type="checkbox" value="" id="check_titulo" v-model="check_titulo" checked>
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Titulo
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control" name="" id="" :disabled="!check_titulo" v-model="search_titulo" autofocus>
                                 </div>
+
+                                <div class="input-group mb-1 col-6">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text" :class="{'bg-secondary': !check_autor, 'bg-success': check_autor, }">
+                                            <input class="mr-2" type="checkbox" value="" id="check_autor" v-model="check_autor">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Autor
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control" :disabled="!check_autor" v-model="search_autor">
+                                </div>
+
                             </div>
                             <!-- OPCION 2 PARA LAS BUSQUEDAS DE LIBROS -->
                             <!-- <form class="was-validated">
@@ -34,9 +65,8 @@
 
                         </div>
 
-                        
-                    </div>
-                    <div class="card-body">
+                        <br><br>
+
                         <ul class="list-group">
                             <li class="list-group-item" 
                                 v-for="(item, index) in searchEjemplar" :key="index" >

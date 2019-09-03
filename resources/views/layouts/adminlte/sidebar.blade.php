@@ -30,15 +30,17 @@
               <li class="nav-item">
                 <a href="{{ route('buscar.disponible') }}" class="nav-link {{ ( request()->is('biblioteca/busqueda/*') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Busqueda Para Prestamo</p>
+                  <p>Realizar Préstamo</p>
                 </a>
               </li>
+
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Prestar libro</p>
+                  <p>Ver Préstamos</p>
                 </a>
               </li>
+              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -164,6 +166,34 @@
               
             </ul>
           </li>
+
+          {{-- Catalogos --}}
+          <li class="nav-item has-treeview {{ ( request()->is('catalogos/*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('catalogos/*') ) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-list-alt"></i>
+              <p>
+                Catálogos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href="" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Item 1 </p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Item 2</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
