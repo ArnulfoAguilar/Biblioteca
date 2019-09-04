@@ -16,7 +16,7 @@ class RevisionController extends Controller
     {
         // dd($request);
         if($request->ajax()){
-            return Revision::where('ID_APORTE', $request->id)->orderBy('id', 'asc')->get();
+            return Revision::where('ID_APORTE', $request->id)->orderBy('created_at', 'desc')->get();
         }else{
             return view('home');
         }

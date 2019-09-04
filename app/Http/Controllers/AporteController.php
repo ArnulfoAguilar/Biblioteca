@@ -173,4 +173,9 @@ class AporteController extends Controller
     {
         //
     }
+
+    public function obtener(Request $request)
+    {
+        return Aporte::where('id', $request->id)->get();
+    }
 }

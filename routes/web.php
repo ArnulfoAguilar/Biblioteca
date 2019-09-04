@@ -36,6 +36,7 @@ Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
 
 Route::resource('/aportes','AporteController');
+Route::get('/aporte/obtener', 'AporteController@obtener')->name('obtener.aporte');
 Route::resource('/revisiones','RevisionController');
 
 
