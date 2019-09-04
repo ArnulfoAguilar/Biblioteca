@@ -21,7 +21,19 @@ class AporteController extends Controller
      */
     public function index()
     {
-        //
+        return view('Aportes.ListaAporte');
+    }
+    public function lista()
+    {   
+        return DB::table('Aporte')
+        ->join('users', function($join){
+            $join->on('users.id','=','Aporte.ID_USUARIO')
+            ->where([
+                ['Aporte.HABILITADO','=','1']
+            ]);
+        })
+        ->select('Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
+        ->get();
     }
 
     /**
@@ -79,7 +91,6 @@ class AporteController extends Controller
         }
         $Aporte->ID_USUARIO = auth()->id();
         $Aporte->Save();
-
         foreach ($request->PALABRAS_CLAVE as $key => $value) {
             $pivote = new AportePalabraClavePivote();
             $pivote->ID_APORTE = $Aporte->id;

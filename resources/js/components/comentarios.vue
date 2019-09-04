@@ -59,6 +59,22 @@
                 })
           },
           Agregar_comentario(){
+                /*const regex = /(puto|basura|gay )/gm;
+                const str = this.Comentario.COMENTARIO;
+                
+                let m;
+                while ((m = regex.exec(str)) !== null) {
+                  // This is necessary to avoid infinite loops with zero-width matches
+                  if (m.index === regex.lastIndex) {
+                    regex.lastIndex++;
+                  }
+    
+                  // The result can be accessed through the `m`-variable.
+                  console.log(m);
+                  m.forEach((match, groupIndex) => {
+                  console.log(`Found match, group ${groupIndex}: ${match}`);
+                  }); 
+                }*/
             const comentarioNuevo =this.Comentario;
             axios.post('/comentarios',comentarioNuevo)
             .then((response) => {
@@ -69,6 +85,28 @@
                   alert("Error al Guardar" + e);
               })
           }
+        },
+        computed:{
+          
+            malasPalabras: function(){
+              console.log("entro");
+                const regex = /(Malas|palabras| vida)/gm;
+                const str = `Malas palabras por la vida`;
+                let m;
+
+                while ((m = regex.exec(str)) !== null) {
+                  // This is necessary to avoid infinite loops with zero-width matches
+                  if (m.index === regex.lastIndex) {
+                    regex.lastIndex++;
+                  }
+    
+                  // The result can be accessed through the `m`-variable.
+                  m.forEach((match, groupIndex) => {
+                  console.log(`Found match, group ${groupIndex}: ${match}`);
+                  }); 
+                }
+                return m;
+            }
         }
     }
 </script>

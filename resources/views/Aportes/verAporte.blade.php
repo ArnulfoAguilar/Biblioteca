@@ -8,13 +8,7 @@
    
 @endsection
 @section('breadcrumbs')
-<div class="float-right">
-    @if ($aporte->ID_USUARIO == Auth::user()->id)
-    <a class="btn btn-app" href="{{ route('aportes.edit', $aporte->id)}}">
-        <i class="fas fa-edit"></i> Edit
-    </a>
-    @endif
-</div>
+
 @endsection    
 
 @section('content')
@@ -35,14 +29,6 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <!-- <div class="card-header d-flex justify-content-between">
-                        <div>
-                            <h3>Aporte realizado por: {{Auth::user()->name}}</h3>
-                        </div>
-                        <div>
-                            <h3><span class="tag tag-green">Titulo del aporte: {{ $aporte->TITULO }}</span></h3>
-                        </div>
-                    </div> -->
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;">
                         <div class="row">
                         <h1 class="col-md-10">{{ $aporte->TITULO }}</h1>
@@ -50,6 +36,13 @@
                         </div>
                     </div>
                     <div class="card-body">
+                            <div class="float-right">
+                                    @if ($aporte->ID_USUARIO == Auth::user()->id)
+                                    <a class="btn btn-app" href="{{ route('aportes.edit', $aporte->id)}}">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    @endif
+                            </div>
                         {!! $aporte->CONTENIDO !!}
                         
                     </div>

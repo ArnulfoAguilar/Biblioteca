@@ -35,6 +35,7 @@ Route::resource('/Ejemplar','EjemplarController');
 // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
 
 Route::resource('/aportes','AporteController');
+Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
 Route::resource('/revisiones','RevisionController');
 Route::resource('/comentarios','ComentarioController');
 
