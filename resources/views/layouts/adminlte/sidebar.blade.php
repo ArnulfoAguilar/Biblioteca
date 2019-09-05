@@ -103,9 +103,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <a href="{{route('aportes.create')}}" class="nav-link">
+              <a href="{{route('aportes.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Nuevo Aporte</p>
+                  <p>Aportes</p>
                 </a>
               </li>
               <li class="nav-item">
