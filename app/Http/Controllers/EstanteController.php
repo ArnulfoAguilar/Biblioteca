@@ -12,9 +12,10 @@ class EstanteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $estante = Estante::where('ID_BIBLIOTECA', $request->id)->get();
+        return $estante;
     }
 
     /**
@@ -35,7 +36,12 @@ class EstanteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $estante = new Estante();
+        $estante->ESTANTE = $request->identificador;
+        $estante->CLASIFICACION = $request->clasificacion;
+        $estante->ID_BIBLIOTECA = $request->biblioteca;
+        $estante->save();
+        return $estante;
     }
 
     /**
@@ -67,9 +73,14 @@ class EstanteController extends Controller
      * @param  \App\Estante  $estante
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estante $estante)
+    public function update(Request $request, $id)
     {
-        //
+        $estante = Estante::find($id);
+        $estante->ESTANTE = $request->identificador;
+        $estante->CLASIFICACION = $request->clasificacion;
+        $estante->save();
+
+        return $estante;
     }
 
     /**
@@ -78,8 +89,9 @@ class EstanteController extends Controller
      * @param  \App\Estante  $estante
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estante $estante)
+    public function destroy($id)
     {
-        //
+        $estante = Estante::find($id);
+        $estante->delete();
     }
 }

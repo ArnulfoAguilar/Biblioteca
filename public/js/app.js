@@ -1917,18 +1917,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log('Lista bibliotecas mounted.');
+    console.log("Lista bibliotecas mounted.");
   },
   data: function data() {
     return {
-      search: '',
+      search: "",
       bibliotecas: [],
       modoEditar: false,
+      mostrarEstante: false,
+      //nombreBiblioteca: "",
       Biblioteca: {
-        id: '',
-        BIBLIOTECA: ''
+        id: "",
+        BIBLIOTECA: ""
+      },
+      BibliotecaSeleccionada: {
+        id: "",
+        nombre: ""
       }
     };
   },
@@ -1939,7 +1961,7 @@ __webpack_require__.r(__webpack_exports__);
     cargar: function cargar() {
       var _this = this;
 
-      axios.get('/Biblioteca').then(function (res) {
+      axios.get("/Biblioteca").then(function (res) {
         _this.bibliotecas = res.data;
       });
     },
@@ -1947,13 +1969,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var bibliotecaNueva = this.Biblioteca;
-      axios.post('/Biblioteca', bibliotecaNueva).then(function (response) {
+      axios.post("/Biblioteca", bibliotecaNueva).then(function (response) {
         alert("Guardado correctamente");
         console.log("Guardado");
 
         _this2.cargar();
 
-        _this2.Biblioteca.BIBLIOTECA = '';
+        _this2.Biblioteca.BIBLIOTECA = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });
@@ -1995,9 +2017,14 @@ __webpack_require__.r(__webpack_exports__);
     cancelarEdicion: function cancelarEdicion() {
       this.modoEditar = false;
       this.Biblioteca = {
-        id: '',
-        BIBLIOTECA: ''
+        id: "",
+        BIBLIOTECA: ""
       };
+    },
+    mostrarFormEstante: function mostrarFormEstante(item) {
+      this.mostrarEstante = true;
+      this.BibliotecaSeleccionada.nombre = item.BIBLIOTECA;
+      this.BibliotecaSeleccionada.id = item.id;
     }
   },
   computed: {
@@ -2798,6 +2825,181 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      estantes: [],
+      estante: {
+        identificador: "",
+        clasificacion: ""
+      },
+      editarActivo: false
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get("/Estante", {
+      params: {
+        id: this.BiblioSeleccionada.id
+      }
+    }).then(function (res) {
+      _this.estantes = res.data;
+    });
+    console.log(this.BiblioSeleccionada.id);
+  },
+  props: {
+    BiblioSeleccionada: {
+      type: Object
+    }
+  },
+  methods: {
+    agregar: function agregar() {
+      var _this2 = this;
+
+      //console.log(this.estante.identificador, this.estante.clasificacion);
+      if (this.estante.identificador.trim() === "" || this.estante.clasificacion.trim() === "") {
+        alert("Completa los campos");
+        return;
+      }
+
+      var params = {
+        identificador: this.estante.identificador,
+        clasificacion: this.estante.clasificacion,
+        biblioteca: this.BiblioSeleccionada.id
+      };
+      axios.post("/Estante", params).then(function (res) {
+        //Para guardarla en el array y poder visualizarla
+        _this2.estantes.push(res.data);
+      });
+    },
+    editarForm: function editarForm(item) {
+      this.editarActivo = true;
+      this.estante.identificador = item.ESTANTE;
+      this.estante.clasificacion = item.CLASIFICACION;
+      this.estante.id = item.id;
+    },
+    editarEstante: function editarEstante(estante) {
+      var _this3 = this;
+
+      var params = {
+        identificador: this.estante.identificador,
+        clasificacion: this.estante.clasificacion
+      };
+      console.log(params);
+      axios.put("/Estante/".concat(this.estante.id), params).then(function (res) {
+        _this3.editarActivo = false;
+        console.log("editado correctamente");
+      });
+    },
+    eliminarEstante: function eliminarEstante(item, index) {
+      var _this4 = this;
+
+      axios["delete"]("/Estante/".concat(item.id)).then(function () {
+        _this4.estantes.splice(index, 1);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -3104,6 +3306,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+      console.log(EJEMPLAR.id);
       var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
 
       if (confirmacion) {
@@ -3296,6 +3499,292 @@ __webpack_require__.r(__webpack_exports__);
         }];
         resolve(data);
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Revisiones.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log('Revisiones mounted.');
+  },
+  props: ['aporte', 'area'],
+  data: function data() {
+    return {
+      // search:'',
+      check: '',
+      revisiones: [],
+      modoEditar: false,
+      Revision: {
+        id: '',
+        DETALLE_REVISION: '',
+        ID_ESTADO_REVISION: '',
+        ID_COMITE: this.area,
+        ID_APORTE: this.aporte,
+        ID_USUARIO: ''
+      }
+    };
+  },
+  created: function created() {
+    this.cargar();
+  },
+  methods: {
+    cargar: function cargar() {
+      var _this = this;
+
+      axios.get('/revisiones?id=' + this.aporte).then(function (res) {
+        _this.revisiones = res.data;
+        console.log(res.data);
+      });
+      console.log('Datos leidos');
+    },
+    agregar: function agregar() {
+      var _this2 = this;
+
+      var revisionNueva = this.Revision;
+      axios.post('/revisiones', revisionNueva).then(function (response) {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('Revisión guardada correctamente', 'Exito');
+        console.log("Guardado");
+        _this2.Revision = {
+          id: '',
+          DETALLE_REVISION: '',
+          ID_ESTADO_REVISION: '',
+          ID_COMITE: _this2.area,
+          ID_APORTE: _this2.aporte,
+          ID_USUARIO: ''
+        };
+        _this2.check = '';
+
+        _this2.cargar();
+      })["catch"](function (e) {
+        alert("Error al Guardar" + e);
+      });
+    },
+    editarFormulario: function editarFormulario(item) {
+      this.Revision.id = item.id;
+      this.Revision.DETALLE_REVISION = item.DETALLE_REVISION;
+
+      if (item.ID_ESTADO_REVISION == 1) {
+        this.check = true;
+      } else {
+        this.check = false;
+      }
+
+      this.Revision.ID_ESTADO_REVISION = this.check;
+      this.Revision.ID_COMITE = this.area;
+      this.Revision.ID_APORTE = this.aporte;
+      this.Revision.ID_USUARIO = '';
+      this.modoEditar = true;
+    },
+    editarRevision: function editarRevision(Revision) {
+      var _this3 = this;
+
+      var parametros = {
+        DETALLE_REVISION: Revision.DETALLE_REVISION,
+        ID_ESTADO_REVISION: this.check,
+        ID_COMITE: Revision.ID_COMITE,
+        ID_APORTE: Revision.ID_APORTE,
+        ID_USUARIO: Revision.ID_USUARIO
+      };
+      axios.put("/revisiones/".concat(Revision.id), parametros).then(function (response) {
+        _this3.modoEditar = false;
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('Revisión Editada correctamente', 'Exito');
+        console.log("Editado correctamente");
+        _this3.Revision = {
+          id: '',
+          DETALLE_REVISION: '',
+          ID_ESTADO_REVISION: '',
+          ID_COMITE: _this3.area,
+          ID_APORTE: _this3.aporte,
+          ID_USUARIO: ''
+        };
+        _this3.check = '';
+
+        _this3.cargar();
+      });
+    },
+    eliminarRevision: function eliminarRevision(Revision, index) {
+      var _this4 = this;
+
+      var confirmacion = confirm("\xBFEliminar Revision ".concat(Revision.DETALLE_REVISION, "?"));
+
+      if (confirmacion) {
+        axios["delete"]("/revisiones/".concat(Revision.id)).then(function () {
+          //this.ejemplars.splice(index, 1);
+          toastr.clear();
+          toastr.options.closeButton = true;
+          toastr.success('Revisión ELIMINADA', 'Exito');
+          console.log("Revision ELIMINADO");
+
+          _this4.cargar();
+        });
+      }
+    },
+    cancelarEdicion: function cancelarEdicion() {
+      this.modoEditar = false;
+      this.Revision = {
+        id: '',
+        DETALLE_REVISION: '',
+        ID_ESTADO_REVISION: '',
+        ID_COMITE: this.area,
+        ID_APORTE: this.aporte,
+        ID_USUARIO: ''
+      };
+      this.check = '';
+    }
+  },
+  computed: {
+    checked: {
+      get: function get() {
+        if (this.Revision.ID_ESTADO_REVISION == 1) {
+          this.check = false;
+        } else {
+          this.check = true;
+        }
+
+        return this.check;
+      },
+      set: function set(newValue) {
+        this.check = newValue; // console.log(newValue, 'check'+this.check);
+        // return this.check;
+      }
     }
   }
 });
@@ -7921,7 +8410,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, ".jd-table {\r\n  position: relative;\r\n  min-width: 320px;\r\n  width: 100%;\r\n  background-color: #FFFFFF;\r\n  color: #252627;\r\n  font-size: 0.9rem;\r\n  font-weight: 400;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-direction: column;\r\n  -webkit-box-pack: center;\r\n          justify-content: center;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  align-content: center;\r\n  align-self: center;\r\n  z-index: 1;\r\n  overflow: hidden;\r\n  -webkit-transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  box-sizing: content-box;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale; }\r\n  .jd-table.jd-maximized {\r\n    height: 100%;\r\n    min-height: 100%;\r\n    max-height: 100%;\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    padding: 1.2rem;\r\n    z-index: 9998;\r\n    box-sizing: border-box;\r\n    background-color: rgba(255, 255, 255, 0.6); }\r\n    .jd-table.jd-maximized .jd-layerHighlight {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerControl {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerOption {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerContent {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      overflow-x: auto;\r\n      min-width: 320px;\r\n      -webkit-box-flex: 0;\r\n              flex-grow: 0;\r\n      flex-shrink: 1; }\r\n      .jd-table.jd-maximized .jd-layerContent .table .body {\r\n        height: 100%;\r\n        -webkit-box-flex: 0;\r\n                flex-grow: 0;\r\n        flex-shrink: 1; }\r\n      .jd-table.jd-maximized .jd-layerContent .jd-contentTable .jd-body {\r\n        height: 100%; }\r\n    .jd-table.jd-maximized .jd-layerFooter {\r\n      min-width: 320px; }\r\n    .jd-table.jd-maximized .jd-layerPopup {\r\n      border-radius: 0; }\r\n      .jd-table.jd-maximized .jd-layerPopup.jd-fullFrameZone {\r\n        padding: 3rem; }\r\n      .jd-table.jd-maximized .jd-layerPopup .jd-searchArrow {\r\n        top: 5.15rem; }\r\n      .jd-table.jd-maximized .jd-layerPopup .jd-filterArrow {\r\n        top: 5.15rem;\r\n        right: 1.2rem; }\r\n    .jd-table.jd-maximized .jd-layerTitle {\r\n      padding-top: 0;\r\n      min-width: 320px; }\r\n  .jd-table.jd-fullBody {\r\n    height: 100%;\r\n    min-height: 100%;\r\n    max-height: 100%; }\r\n    .jd-table.jd-fullBody .jd-layerContent {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      overflow-x: auto; }\r\n      .jd-table.jd-fullBody .jd-layerContent .jd-contentTable .jd-body {\r\n        height: 100%; }\r\n  .jd-table .jd-layerTitle {\r\n    font-size: 1.8rem;\r\n    padding-top: 1.2rem;\r\n    padding-bottom: 1.2rem;\r\n    font-weight: 500;\r\n    width: 100%;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-pack: center;\r\n            justify-content: center; }\r\n  .jd-table .jd-layerHighlight {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 0.45rem;\r\n    min-height: 0.45rem;\r\n    background-color: #494949;\r\n    border-top-left-radius: 0.5rem;\r\n    border-top-right-radius: 0.5rem;\r\n    z-index: 99; }\r\n  .jd-table .jd-layerControl {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 2.5rem;\r\n    min-height: 2.5rem;\r\n    min-height: 2.5rem;\r\n    max-height: 2.5rem;\r\n    background-color: #757575;\r\n    color: #FFFFFF;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    flex-wrap: nowrap;\r\n    -webkit-box-orient: horizontal;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: row;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: justify;\r\n            justify-content: space-between;\r\n    z-index: 99; }\r\n    .jd-table .jd-layerControl .jd-controlSearch {\r\n      position: relative;\r\n      height: 100%;\r\n      width: 2rem;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row;\r\n      -webkit-box-flex: 0;\r\n              flex-grow: 0;\r\n      flex-shrink: 1;\r\n      transition: all 0.5s ease;\r\n      -webkit-transition: all 0.5s ease;\r\n      -moz-transition: all 0.5s ease;\r\n      -o-transition: all 0.5s ease; }\r\n      .jd-table .jd-layerControl .jd-controlSearch input {\r\n        width: 100%;\r\n        max-width: 10rem;\r\n        height: 100%;\r\n        box-shadow: none;\r\n        border: none;\r\n        background: transparent;\r\n        -webkit-box-flex: 0;\r\n                flex-grow: 0;\r\n        flex-shrink: 1; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input:focus {\r\n          outline: none; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input::-ms-clear {\r\n          display: none; }\r\n        .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-decoration, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-cancel-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-decoration {\r\n          display: none; }\r\n      .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\r\n        width: 14rem;\r\n        color: #494949;\r\n        background-color: #E0E0E0; }\r\n        @media only screen and (max-width: 375px) {\r\n          .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\r\n            width: 100%; } }\r\n    .jd-table .jd-layerControl .jd-controlFeature {\r\n      position: relative;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      margin-left: auto;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row; }\r\n      @media only screen and (max-width: 375px) {\r\n        .jd-table .jd-layerControl .jd-controlFeature.jd-searching {\r\n          display: none; } }\r\n    .jd-table .jd-layerControl .jd-controlItem {\r\n      height: 100%;\r\n      position: relative;\r\n      cursor: pointer;\r\n      color: #FFFFFF;\r\n      display: inline-block;\r\n      width: 2rem;\r\n      min-width: 2rem;\r\n      user-select: none;\r\n      -webkit-touch-callout: none;\r\n      -webkit-user-select: none;\r\n      -moz-user-select: none;\r\n      -ms-user-select: none; }\r\n      .jd-table .jd-layerControl .jd-controlItem i {\r\n        width: 2rem;\r\n        min-width: 2rem;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        -webkit-box-align: center;\r\n                align-items: center; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-active i {\r\n        -webkit-animation: activeFeature 1.5s infinite;\r\n                animation: activeFeature 1.5s infinite; }\r\n\r\n@-webkit-keyframes activeFeature {\r\n  0% {\r\n    color: #FFFFFF; }\r\n  100% {\r\n    color: #ff1a1a; } }\r\n\r\n@keyframes activeFeature {\r\n  0% {\r\n    color: #FFFFFF; }\r\n  100% {\r\n    color: #ff1a1a; } }\r\n      .jd-table .jd-layerControl .jd-controlItem:hover {\r\n        color: #494949;\r\n        background-color: #E0E0E0; }\r\n        .jd-table .jd-layerControl .jd-controlItem:hover:active {\r\n          color: #C00; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-selected {\r\n        color: #C00;\r\n        background-color: #E0E0E0; }\r\n        .jd-table .jd-layerControl .jd-controlItem.jd-selected:active {\r\n          color: #FFFFFF; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-clearSearch {\r\n        color: #E53935; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-search {\r\n        color: #757575; }\r\n      .jd-table .jd-layerControl .jd-controlItem.jd-noSelect {\r\n        cursor: default; }\r\n        .jd-table .jd-layerControl .jd-controlItem.jd-noSelect:hover:active {\r\n          color: #757575; }\r\n      .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow {\r\n        position: absolute;\r\n        top: 2.95rem;\r\n        right: -0.5rem;\r\n        background: #c9c9c9;\r\n        border: 1px solid #494949;\r\n        padding: 0.5rem;\r\n        color: #252627;\r\n        -webkit-animation: bounce 2s infinite;\r\n                animation: bounce 2s infinite;\r\n        border-radius: 6px;\r\n        white-space: nowrap; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\r\n          bottom: 100%;\r\n          right: 1.5rem;\r\n          border: solid transparent;\r\n          content: \" \";\r\n          height: 0;\r\n          width: 0;\r\n          position: absolute;\r\n          pointer-events: none; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after {\r\n          border-color: rgba(224, 224, 224, 0);\r\n          border-bottom-color: #c9c9c9;\r\n          border-width: 12px;\r\n          margin-right: -12px; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\r\n          border-color: rgba(73, 73, 73, 0);\r\n          border-bottom-color: #494949;\r\n          border-width: 18px;\r\n          margin-right: -18px; }\r\n      .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow {\r\n        position: absolute;\r\n        top: 2.95rem;\r\n        left: 3.5rem;\r\n        background: #c9c9c9;\r\n        border: 1px solid #494949;\r\n        padding: 0.5rem;\r\n        color: #252627;\r\n        -webkit-animation: bounce 2s infinite;\r\n                animation: bounce 2s infinite;\r\n        border-radius: 6px;\r\n        white-space: nowrap; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\r\n          bottom: 100%;\r\n          left: 50%;\r\n          border: solid transparent;\r\n          content: \" \";\r\n          height: 0;\r\n          width: 0;\r\n          position: absolute;\r\n          pointer-events: none; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after {\r\n          border-color: rgba(224, 224, 224, 0);\r\n          border-bottom-color: #c9c9c9;\r\n          border-width: 12px;\r\n          margin-left: -12px; }\r\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\r\n          border-color: rgba(73, 73, 73, 0);\r\n          border-bottom-color: #494949;\r\n          border-width: 18px;\r\n          margin-left: -18px; }\r\n  .jd-table .jd-layerOption {\r\n    width: 100%;\r\n    position: relative; }\r\n    .jd-table .jd-layerOption .jd-optionDropdown {\r\n      background-color: #E0E0E0;\r\n      width: 310px;\r\n      right: 5px;\r\n      top: -1px;\r\n      position: absolute;\r\n      z-index: 80;\r\n      padding: 0.5rem 0rem;\r\n      box-sizing: border-box;\r\n      -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n      transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      overflow-y: auto;\r\n      overflow-x: hidden;\r\n      box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.54);\r\n      border-bottom-right-radius: 0.5rem;\r\n      border-bottom-left-radius: 0.5rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader {\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        padding-top: 0.5rem;\r\n        padding-bottom: 1rem;\r\n        font-size: 1.35rem;\r\n        text-transform: uppercase;\r\n        color: #252627;\r\n        font-weight: 600;\r\n        align-self: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-subHeader {\r\n          padding-top: 1rem;\r\n          font-size: 1.17rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-smallHeader {\r\n          font-size: 0.81rem;\r\n          font-weight: 400;\r\n          font-style: italic;\r\n          text-transform: none;\r\n          padding-top: 0rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        width: 100%; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility {\r\n          padding-left: 1rem;\r\n          padding-right: 1rem;\r\n          color: #357e37; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility .jd-notVisible {\r\n            color: #E53935; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnTitle {\r\n          padding-right: 1rem;\r\n          width: 100%;\r\n          overflow: hidden;\r\n          text-overflow: ellipsis;\r\n          white-space: nowrap; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem:hover {\r\n          background-color: #FFFFFF; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected {\r\n          background-color: #757575;\r\n          color: #FFFFFF; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected:hover {\r\n            background-color: #757575; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput {\r\n        position: relative;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        margin: 0rem 1rem 0.5rem 1rem;\r\n        border: 1px solid #C00;\r\n        border-left: 5px solid #C00;\r\n        outline: none;\r\n        box-sizing: border-box;\r\n        font-size: 0.765rem;\r\n        font-weight: 500;\r\n        background-color: #FFFFFF;\r\n        align-items: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label {\r\n          width: 100%;\r\n          height: 100%;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-touch-callout: none;\r\n          -webkit-user-select: none;\r\n          -moz-user-select: none;\r\n          -ms-user-select: none;\r\n          user-select: none; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label span {\r\n            white-space: nowrap;\r\n            overflow: hidden;\r\n            text-overflow: ellipsis;\r\n            margin-left: 0.5rem;\r\n            margin-right: 2rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul {\r\n          position: absolute;\r\n          max-height: 12rem;\r\n          overflow-x: hidden;\r\n          overflow-y: auto;\r\n          top: 100%;\r\n          left: -1px;\r\n          right: -1px;\r\n          list-style: none;\r\n          padding: 0rem;\r\n          margin: 0rem;\r\n          border: 1px solid #ff6666;\r\n          background-color: #FFFFFF;\r\n          box-sizing: border-box;\r\n          z-index: 9998; }\r\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li {\r\n            overflow: hidden;\r\n            white-space: nowrap;\r\n            text-overflow: ellipsis;\r\n            padding: 0.2rem;\r\n            -webkit-touch-callout: none;\r\n            -webkit-user-select: none;\r\n            -moz-user-select: none;\r\n            -ms-user-select: none;\r\n            user-select: none; }\r\n            .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li:hover {\r\n              background-color: #ff4d4d;\r\n              color: #FFFFFF; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput input {\r\n          width: 100%;\r\n          font-family: inherit;\r\n          border: none;\r\n          font-size: 0.765rem;\r\n          font-weight: 500;\r\n          background-color: #FFFFFF;\r\n          outline: none;\r\n          box-sizing: border-box; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-addPadding {\r\n          padding: 0rem 0.5rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-removeIcon {\r\n          position: absolute;\r\n          right: 0.5rem;\r\n          top: 0.35rem;\r\n          color: #E53935;\r\n          font-size: 1.35rem; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-disabled {\r\n          border: 1px solid #949494;\r\n          border-left: 5px solid #949494; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-carrot:after {\r\n          content: \"\";\r\n          width: 0;\r\n          height: 0;\r\n          position: absolute;\r\n          right: 0.5rem;\r\n          top: 50%;\r\n          margin-top: -3px;\r\n          border-width: 6px 6px 0 6px;\r\n          border-style: solid;\r\n          border-color: #C00 transparent; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        padding: 0rem 1rem;\r\n        align-items: center; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow.jd-separate {\r\n          -webkit-box-pack: justify;\r\n                  justify-content: space-between; }\r\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow button {\r\n          width: 5rem; }\r\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-errorMessage {\r\n        color: #E53935;\r\n        font-size: 0.765rem;\r\n        margin-bottom: 0.5rem;\r\n        text-align: center;\r\n        font-weight: 500; }\r\n  .jd-table .jd-layerContent {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: #FFFFFF;\r\n    color: #252627;\r\n    display: block;\r\n    box-sizing: border-box;\r\n    overflow-y: hidden;\r\n    z-index: 50; }\r\n    .jd-table .jd-layerContent .jd-rowView {\r\n      position: absolute;\r\n      top: 0px;\r\n      left: 0px;\r\n      width: 100%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      -webkit-box-pack: center;\r\n              justify-content: center;\r\n      background-color: rgba(0, 0, 0, 0.2);\r\n      z-index: 99;\r\n      padding: 1rem;\r\n      box-sizing: border-box; }\r\n    .jd-table .jd-layerContent .jd-contentTable {\r\n      position: relative;\r\n      width: 100%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      flex-wrap: nowrap; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-head {\r\n        position: relative;\r\n        width: 100%;\r\n        overflow: hidden;\r\n        box-sizing: border-box;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        background-color: #757575; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell {\r\n          position: relative;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          box-sizing: border-box;\r\n          font-size: 0.9rem;\r\n          padding: 0.2rem 0.5rem;\r\n          -webkit-box-flex: 1;\r\n                  flex-grow: 1;\r\n          -webkit-touch-callout: none;\r\n          -webkit-user-select: none;\r\n          -moz-user-select: none;\r\n          -ms-user-select: none;\r\n          user-select: none;\r\n          border-top: 4px solid #990000;\r\n          border-top-left-radius: 5px;\r\n          border-top-right-radius: 5px;\r\n          background-color: #C00;\r\n          color: #FFFFFF;\r\n          border-right: 1px solid #990000; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-cellText {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-orient: horizontal;\r\n            -webkit-box-direction: normal;\r\n                    flex-direction: row;\r\n            width: 100%;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            -webkit-box-pack: justify;\r\n                    justify-content: space-between; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-hoverSort {\r\n            display: none; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-hoverAssist {\r\n            background-color: #ff4d4d; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell:first-child {\r\n            border-top-left-radius: 0px; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-scrollBuffer:last-child {\r\n            margin-right: 17px; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort {\r\n            cursor: pointer; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover {\r\n              border-top: 4px solid #999999;\r\n              background-color: #FFFFFF;\r\n              color: #252627;\r\n              font-weight: 500; }\r\n              .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover .jd-hoverSort {\r\n                display: block;\r\n                color: #252627; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-scrollFix {\r\n          width: 19px;\r\n          min-width: 19px;\r\n          max-width: 19px;\r\n          border-top-right-radius: 0px;\r\n          border-right: none;\r\n          border-top: 4px solid #990000;\r\n          box-sizing: border-box;\r\n          position: relative;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          background-color: #C00;\r\n          border-left: none; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize {\r\n          position: absolute;\r\n          height: 100%;\r\n          width: 8px;\r\n          display: block;\r\n          cursor: w-resize;\r\n          right: -5px;\r\n          top: 0;\r\n          z-index: 10;\r\n          overflow: hidden; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize.jd-selected {\r\n            width: 500px;\r\n            right: -250px; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-body {\r\n        position: relative;\r\n        width: 100%;\r\n        display: block;\r\n        overflow-x: hidden;\r\n        background-color: #F7F7F7;\r\n        z-index: 50;\r\n        background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 5px, rgba(0, 0, 0, 0.1) 5px, rgba(0, 0, 0, 0.1) 10px); }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row {\r\n          position: relative;\r\n          z-index: 50;\r\n          background-color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row:hover {\r\n            background-color: #ff4d4d !important;\r\n            color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-zebra:nth-child(even) {\r\n            background-color: #f2f2f2; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-rowSelect {\r\n            background-color: #e60000 !important;\r\n            color: #FFFFFF; }\r\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell {\r\n            position: relative;\r\n            font-size: 0.81rem;\r\n            display: block;\r\n            white-space: nowrap;\r\n            text-overflow: ellipsis;\r\n            overflow: hidden; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell.jd-rowFlex {\r\n              display: -webkit-box;\r\n              display: flex;\r\n              height: 100%;\r\n              -webkit-box-align: center;\r\n                      align-items: center;\r\n              white-space: inherit;\r\n              min-height: inherit; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell:after {\r\n              display: block;\r\n              content: '';\r\n              min-height: inherit;\r\n              font-size: 0; }\r\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell .jd-list {\r\n              list-style-type: circle;\r\n              padding-left: 1rem; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-virtualBody {\r\n          position: absolute;\r\n          opacity: 0;\r\n          top: 0;\r\n          left: 0;\r\n          width: 1px;\r\n          background: transparent; }\r\n      .jd-table .jd-layerContent .jd-contentTable .jd-row {\r\n        width: 100%;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        cursor: pointer; }\r\n        .jd-table .jd-layerContent .jd-contentTable .jd-row .jd-cell {\r\n          width: 100%;\r\n          box-sizing: border-box;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-box-flex: 1;\r\n                  flex-grow: 1;\r\n          padding-left: 0.5rem;\r\n          overflow-wrap: break-word;\r\n          word-wrap: break-word;\r\n          word-break: break-all;\r\n          word-break: break-word;\r\n          -ms-word-break: break-all;\r\n          hyphens: auto;\r\n          -ms-hyphens: auto;\r\n          -moz-hyphens: auto;\r\n          -webkit-hyphens: auto; }\r\n  .jd-table .jd-layerFooter {\r\n    position: relative;\r\n    width: 100%;\r\n    height: 2rem;\r\n    min-height: 2rem;\r\n    background-color: #494949;\r\n    color: #FFFFFF;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    flex-wrap: nowrap;\r\n    -webkit-box-orient: horizontal;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: row;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    border-bottom-left-radius: 0.5rem;\r\n    border-bottom-right-radius: 0.5rem;\r\n    z-index: 99;\r\n    font-size: 0.81rem;\r\n    user-select: none;\r\n    -webkit-touch-callout: none;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none; }\r\n    .jd-table .jd-layerFooter .jd-resultRows {\r\n      font-size: 0.765rem; }\r\n    .jd-table .jd-layerFooter .jd-pagination {\r\n      width: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      flex-wrap: nowrap;\r\n      -webkit-box-orient: horizontal;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: row;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      -webkit-box-pack: justify;\r\n              justify-content: space-between;\r\n      height: 100%; }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection {\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-pack: center;\r\n                justify-content: center;\r\n        cursor: pointer;\r\n        height: 100%;\r\n        -webkit-box-align: center;\r\n                align-items: center; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-left {\r\n          position: absolute;\r\n          top: 0;\r\n          left: 0;\r\n          background-color: #494949;\r\n          border-bottom-left-radius: 0.5rem; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-right {\r\n          position: absolute;\r\n          top: 0;\r\n          right: 0;\r\n          background-color: #494949;\r\n          border-bottom-right-radius: 0.5rem; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled {\r\n          cursor: no-drop; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:hover {\r\n            background-color: #494949; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:active {\r\n            background-color: #494949; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          width: 3rem;\r\n          height: 100%;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:hover {\r\n            background-color: #6f6f6f; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:active {\r\n            background-color: #898989; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-start {\r\n            border-bottom-left-radius: 0.5rem; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-end {\r\n            border-bottom-right-radius: 0.5rem; }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationRows {\r\n        position: absolute;\r\n        background-color: #494949;\r\n        height: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        overflow: hidden;\r\n        text-overflow: ellipsis;\r\n        white-space: nowrap;\r\n        font-size: 0.72rem;\r\n        padding: 0rem 1rem;\r\n        top: 0;\r\n        left: 50%;\r\n        -webkit-transform: translateX(-50%);\r\n                transform: translateX(-50%); }\r\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea {\r\n        width: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        justify-content: space-around; }\r\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row;\r\n          -webkit-box-align: center;\r\n                  align-items: center;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center;\r\n          height: 100%; }\r\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            -webkit-box-pack: center;\r\n                    justify-content: center;\r\n            padding: 0rem 0.3rem;\r\n            height: 100%;\r\n            box-sizing: border-box;\r\n            font-size: 0.72rem; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage span {\r\n              border: 1px solid #6f6f6f;\r\n              padding: 0.2rem 0.4rem;\r\n              min-width: 1.5rem;\r\n              text-align: center;\r\n              box-sizing: border-box; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover {\r\n              cursor: pointer; }\r\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover span {\r\n                background-color: #6f6f6f;\r\n                color: #FFFFFF; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected span {\r\n              background-color: #6f6f6f; }\r\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover {\r\n              cursor: default !important; }\r\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover span {\r\n                background-color: #6f6f6f !important;\r\n                color: #FFFFFF !important; }\r\n  .jd-table .jd-layerPopup {\r\n    position: absolute;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    background-color: rgba(255, 255, 255, 0.6);\r\n    border-radius: 0.5rem; }\r\n    .jd-table .jd-layerPopup.jd-fullBrowser {\r\n      position: fixed; }\r\n    .jd-table .jd-layerPopup.jd-fullFrame {\r\n      z-index: 9998; }\r\n    .jd-table .jd-layerPopup.jd-contentFrame {\r\n      z-index: 50;\r\n      padding-top: 2.95rem;\r\n      padding-bottom: 2rem; }\r\n    .jd-table .jd-layerPopup.jd-fullFrameZone {\r\n      width: 100%;\r\n      box-sizing: border-box;\r\n      padding: 1rem; }\r\n    .jd-table .jd-layerPopup .jd-errorMessage {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      padding: 1rem;\r\n      border-radius: 0.5rem;\r\n      background-color: #FFFFFF;\r\n      color: #E53935;\r\n      font-size: 1.17rem; }\r\n    .jd-table .jd-layerPopup.jd-filterOverride {\r\n      z-index: 85; }\r\n    .jd-table .jd-layerPopup.jd-fullOverride {\r\n      z-index: 999; }\r\n    .jd-table .jd-layerPopup .jd-noDataFrame {\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      padding: 1rem; }\r\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-title {\r\n        font-size: 1.17rem;\r\n        font-weight: 500;\r\n        text-transform: uppercase; }\r\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-filters {\r\n        margin-top: 1rem; }\r\n    .jd-table .jd-layerPopup .jd-quickView {\r\n      position: relative;\r\n      min-width: 314px;\r\n      max-width: 95%;\r\n      max-height: 95%;\r\n      height: 100%;\r\n      display: -webkit-box;\r\n      display: flex;\r\n      -webkit-box-orient: vertical;\r\n      -webkit-box-direction: normal;\r\n              flex-direction: column;\r\n      -webkit-box-align: center;\r\n              align-items: center;\r\n      border-radius: 0.5rem;\r\n      background-color: #494949;\r\n      box-sizing: border-box;\r\n      overflow: hidden;\r\n      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_1 {\r\n        width: 100%;\r\n        height: 0.3375rem;\r\n        min-height: 0.3375rem;\r\n        background-color: #494949;\r\n        border-top-right-radius: 0.5rem;\r\n        border-top-left-radius: 0.5rem; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_2 {\r\n        width: 100%;\r\n        height: 0.225rem;\r\n        min-height: 0.225rem;\r\n        background-color: #C00; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl {\r\n        width: 100%;\r\n        height: 2.5rem;\r\n        min-height: 2.5rem;\r\n        background-color: #757575;\r\n        position: relative;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-pack: justify;\r\n                justify-content: space-between;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        color: #FFFFFF;\r\n        user-select: none;\r\n        -webkit-touch-callout: none;\r\n        -webkit-user-select: none;\r\n        -moz-user-select: none;\r\n        -ms-user-select: none; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction {\r\n          height: 100%;\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: horizontal;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: row; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span {\r\n            width: 2rem;\r\n            font-size: 0.9rem;\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-pack: center;\r\n                    justify-content: center;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            height: 100%;\r\n            cursor: pointer; }\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span:hover {\r\n              background-color: #9b9b9b; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\r\n          font-size: 0.9rem;\r\n          position: absolute;\r\n          left: 50%;\r\n          top: 50%;\r\n          -webkit-transform: translate(-50%, -50%);\r\n                  transform: translate(-50%, -50%); }\r\n          @media only screen and (max-width: 350px) {\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\r\n              display: none; } }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent {\r\n        width: 100%;\r\n        height: 100%;\r\n        overflow: auto;\r\n        background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09) 5px, rgba(255, 255, 255, 0.09) 5px, rgba(0, 0, 0, 0.1) 10px); }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-orient: vertical;\r\n          -webkit-box-direction: normal;\r\n                  flex-direction: column;\r\n          width: 100%;\r\n          background-color: #FFFFFF; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowTitle {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            font-size: 0.99rem;\r\n            font-weight: 600;\r\n            word-break: break-all;\r\n            padding: 0.5rem 1rem;\r\n            background-color: #e6e6e6; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData {\r\n            display: -webkit-box;\r\n            display: flex;\r\n            -webkit-box-align: center;\r\n                    align-items: center;\r\n            min-height: 2rem;\r\n            padding: 0.5rem 1rem;\r\n            word-break: break-all; }\r\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData ul {\r\n              list-style-type: circle;\r\n              padding-left: 1rem; }\r\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter {\r\n        width: 100%;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        -webkit-box-orient: horizontal;\r\n        -webkit-box-direction: normal;\r\n                flex-direction: row;\r\n        -webkit-box-pack: justify;\r\n                justify-content: space-between;\r\n        -webkit-box-align: center;\r\n                align-items: center;\r\n        height: 2rem;\r\n        min-height: 2rem;\r\n        background-color: #494949;\r\n        color: #FFFFFF;\r\n        border-bottom-right-radius: 0.5rem;\r\n        border-bottom-left-radius: 0.5rem;\r\n        font-size: 0.81rem;\r\n        user-select: none;\r\n        -webkit-touch-callout: none;\r\n        -webkit-user-select: none;\r\n        -moz-user-select: none;\r\n        -ms-user-select: none; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection {\r\n          display: -webkit-box;\r\n          display: flex;\r\n          -webkit-box-pack: center;\r\n                  justify-content: center;\r\n          width: 5rem;\r\n          cursor: pointer;\r\n          height: 100%;\r\n          -webkit-box-align: center;\r\n                  align-items: center; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:hover {\r\n            background-color: #6f6f6f; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:active {\r\n            background-color: #898989; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-previous {\r\n            border-bottom-left-radius: 0.5rem; }\r\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-next {\r\n            border-bottom-right-radius: 0.5rem; }\r\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerItem {\r\n          font-size: 0.765rem; }\r\n    .jd-table .jd-layerPopup .jd-tableMessage {\r\n      font-size: 1.5rem;\r\n      text-align: center; }\r\n\r\n@-webkit-keyframes bounce {\r\n  0%, 20%, 50%, 80%, 100% {\r\n    -webkit-transform: translateY(0);\r\n            transform: translateY(0); }\r\n  40% {\r\n    -webkit-transform: translateY(30px);\r\n            transform: translateY(30px); }\r\n  60% {\r\n    -webkit-transform: translateY(15px);\r\n            transform: translateY(15px); } }\r\n\r\n@keyframes bounce {\r\n  0%, 20%, 50%, 80%, 100% {\r\n    -webkit-transform: translateY(0);\r\n            transform: translateY(0); }\r\n  40% {\r\n    -webkit-transform: translateY(30px);\r\n            transform: translateY(30px); }\r\n  60% {\r\n    -webkit-transform: translateY(15px);\r\n            transform: translateY(15px); } }\r\n  .jd-table .jd-contextMenu {\r\n    width: auto;\r\n    min-width: 10rem;\r\n    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);\r\n    position: fixed;\r\n    z-index: 9998;\r\n    background: #FFF;\r\n    border-radius: 0.5rem; }\r\n    .jd-table .jd-contextMenu .jd-contextMenuOptions {\r\n      list-style: none;\r\n      z-index: 1; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption {\r\n        width: 100%;\r\n        height: 100%;\r\n        font-weight: 500;\r\n        z-index: 1;\r\n        font-size: 14px;\r\n        cursor: pointer;\r\n        display: -webkit-box;\r\n        display: flex; }\r\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span {\r\n          display: block;\r\n          height: 100%;\r\n          padding: 8px 12px 8px 12px;\r\n          white-space: nowrap; }\r\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:hover {\r\n            background: rgba(0, 0, 0, 0.2); }\r\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:first-child {\r\n            width: 100%; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader {\r\n        width: 100%;\r\n        height: 100%;\r\n        font-weight: 500;\r\n        z-index: 1;\r\n        font-size: 14px;\r\n        display: -webkit-box;\r\n        display: flex;\r\n        background: #494949;\r\n        color: #FFFFFF; }\r\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader span {\r\n          display: block;\r\n          height: 100%;\r\n          width: 100%;\r\n          padding: 10px;\r\n          white-space: nowrap;\r\n          text-align: center; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:first-child {\r\n        border-bottom-left-radius: 0.5rem; }\r\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:last-child {\r\n        border-bottom-right-radius: 0.5rem; }\r\n\r\n.jd-reset * {\r\n  box-sizing: border-box; }\r\n\r\n.jd-reset ::before, .jd-reset ::after {\r\n  box-sizing: inherit; }\r\n\r\n.jd-reset html {\r\n  line-height: 1.15;\r\n  /* 1 */\r\n  -webkit-text-size-adjust: 100%;\r\n  /* 2 */\r\n  -webkit-tap-highlight-color: transparent;\r\n  /* 3*/ }\r\n\r\n.jd-reset body {\r\n  margin: 0; }\r\n\r\n.jd-reset main {\r\n  display: block; }\r\n\r\n.jd-reset p,\r\n.jd-reset table,\r\n.jd-reset blockquote,\r\n.jd-reset address,\r\n.jd-reset pre,\r\n.jd-reset iframe,\r\n.jd-reset form,\r\n.jd-reset figure,\r\n.jd-reset dl {\r\n  margin: 0; }\r\n\r\n.jd-reset h1,\r\n.jd-reset h2,\r\n.jd-reset h3,\r\n.jd-reset h4,\r\n.jd-reset h5,\r\n.jd-reset h6 {\r\n  font-size: inherit;\r\n  line-height: inherit;\r\n  font-weight: inherit;\r\n  margin: 0; }\r\n\r\n.jd-reset ul,\r\n.jd-reset ol {\r\n  margin: 0;\r\n  padding: 0;\r\n  list-style: none; }\r\n\r\n.jd-reset dt {\r\n  font-weight: bold; }\r\n\r\n.jd-reset dd {\r\n  margin-left: 0; }\r\n\r\n.jd-reset hr {\r\n  box-sizing: content-box;\r\n  /* 1 */\r\n  height: 0;\r\n  /* 1 */\r\n  overflow: visible;\r\n  /* 2 */\r\n  border: 0;\r\n  border-top: 1px solid;\r\n  margin: 0;\r\n  clear: both; }\r\n\r\n.jd-reset pre {\r\n  font-family: monospace, monospace;\r\n  /* 1 */\r\n  font-size: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset address {\r\n  font-style: inherit; }\r\n\r\n.jd-reset a {\r\n  background-color: transparent;\r\n  text-decoration: none;\r\n  color: inherit; }\r\n\r\n.jd-reset abb\r\n[title] {\r\n  border-bottom: none;\r\n  /* 1 */\r\n  text-decoration: underline;\r\n  /* 2 */\r\n  -webkit-text-decoration: underline dotted;\r\n          text-decoration: underline dotted;\r\n  /* 2 */ }\r\n\r\n.jd-reset b, .jd-resetstrong {\r\n  font-weight: bolder; }\r\n\r\n.jd-reset code,\r\n.jd-reset kbd,\r\n.jd-reset samp {\r\n  font-family: monospace, monospace;\r\n  /* 1 */\r\n  font-size: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset small {\r\n  font-size: 80%; }\r\n\r\n.jd-reset sub,\r\n.jd-reset sup {\r\n  ont-size: 75%;\r\n  line-height: 0;\r\n  position: relative;\r\n  vertical-align: baseline; }\r\n\r\n.jd-reset sub {\r\n  bottom: -0.25em; }\r\n\r\n.jd-reset sup {\r\n  top: -0.5em; }\r\n\r\n.jd-reset img {\r\n  border-style: none;\r\n  vertical-align: bottom; }\r\n\r\n.jd-reset embed,\r\n.jd-reset object,\r\n.jd-reset iframe {\r\n  border: 0;\r\n  vertical-align: bottom; }\r\n\r\n.jd-reset button,\r\n.jd-reset input,\r\n.jd-reset optgroup,\r\n.jd-reset select,\r\n.jd-reset textarea {\r\n  vertical-align: middle;\r\n  color: inherit;\r\n  font: inherit;\r\n  border: 0;\r\n  background: transparent;\r\n  padding: 0;\r\n  margin: 0;\r\n  outline: 0; }\r\n\r\n.jd-reset select {\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n       appearance: none;\r\n  border-radius: 0; }\r\n\r\n.jd-reset button,\r\n.jd-reset input {\r\n  overflow: visible; }\r\n\r\n.jd-reset button,\r\n.jd-reset select {\r\n  text-transform: none; }\r\n\r\n.jd-reset button,\r\n.jd-reset [type='button'],\r\n.jd-reset [type='reset'],\r\n.jd-reset [type='submit'] {\r\n  cursor: pointer;\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n       appearance: none; }\r\n\r\n.jd-reset button[disabled],\r\n.jd-reset [type='button'][disabled],\r\n.jd-reset [type='reset'][disabled],\r\n.jd-reset [type='submit'][disabled] {\r\n  cursor: default; }\r\n\r\n.jd-reset button::-moz-focus-inner,\r\n.jd-reset [type='button']::-moz-focus-inner,\r\n.jd-reset [type='reset']::-moz-focus-inner,\r\n.jd-reset [type='submit']::-moz-focus-inner {\r\n  border-style: none;\r\n  padding: 0; }\r\n\r\n.jd-reset button:-moz-focusring,\r\n.jd-reset [type='button']:-moz-focusring,\r\n.jd-reset [type='reset']:-moz-focusring,\r\n.jd-reset [type='submit']:-moz-focusring {\r\n  outline: 1px dotted ButtonText; }\r\n\r\n.jd-reset fieldset {\r\n  margin: 0;\r\n  padding: 0;\r\n  border: 0;\r\n  min-width: 0; }\r\n\r\n.jd-reset legend {\r\n  color: inherit;\r\n  /* 2 */\r\n  display: table;\r\n  /* 1 */\r\n  max-width: 100%;\r\n  /* 1 */\r\n  padding: 0;\r\n  /* 3 */\r\n  white-space: normal;\r\n  /* 1 */ }\r\n\r\n.jd-reset progress {\r\n  vertical-align: baseline; }\r\n\r\n.jd-reset textarea {\r\n  overflow: auto; }\r\n\r\n.jd-reset [type='checkbox'],\r\n.jd-reset [type='radio'] {\r\n  box-sizing: border-box;\r\n  /* 1 */\r\n  padding: 0;\r\n  /* 2 */ }\r\n\r\n.jd-reset [type='number']::-webkit-inner-spin-button,\r\n.jd-reset [type='number']::-webkit-outer-spin-button {\r\n  height: auto; }\r\n\r\n.jd-reset [type='search'] {\r\n  -webkit-appearance: textfield;\r\n  /* 1 */\r\n  outline-offset: -2px;\r\n  /* 2 */ }\r\n\r\n.jd-reset [type='search']::-webkit-search-decoration {\r\n  -webkit-appearance: none; }\r\n\r\n.jd-reset ::-webkit-file-upload-button {\r\n  -webkit-appearance: button;\r\n  /* 1 */\r\n  font: inherit;\r\n  /* 2 */ }\r\n\r\n.jd-reset ::-webkit-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset :-ms-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::-ms-input-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::-moz-placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset ::placeholder {\r\n  font: inherit; }\r\n\r\n.jd-reset label[for] {\r\n  cursor: pointer; }\r\n\r\n.jd-reset details {\r\n  display: block; }\r\n\r\n.jd-reset summary {\r\n  display: list-item; }\r\n\r\n.jd-reset table {\r\n  border-collapse: collapse;\r\n  border-spacing: 0; }\r\n\r\n.jd-reset caption {\r\n  text-align: left; }\r\n\r\n.jd-reset td,\r\n.jd-reset th {\r\n  vertical-align: top; }\r\n\r\n.jd-reset th {\r\n  text-align: left;\r\n  font-weight: bold; }\r\n\r\n.jd-reset template {\r\n  display: none; }\r\n\r\n.jd-reset [hidden] {\r\n  display: none; }\r\n\r\n.jd-clickable {\r\n  cursor: pointer; }\r\n\r\n.jd-noneSelectable {\r\n  user-select: none;\r\n  -webkit-touch-callout: none;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  -ms-user-select: none; }\r\n\r\n.jd-loader {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  padding: 1rem;\r\n  padding-top: 1.5rem;\r\n  border-radius: 0.5rem; }\r\n  .jd-loader .jd-loadingText {\r\n    margin-top: 0.6rem;\r\n    font-weight: 500; }\r\n  .jd-loader .fulfilling-square-spinner, .jd-loader .fulfilling-square-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .fulfilling-square-spinner {\r\n    height: 50px;\r\n    width: 50px;\r\n    position: relative;\r\n    border: 4px solid #C00;\r\n    -webkit-animation: fulfilling-square-spinner-animation 4s infinite ease;\r\n            animation: fulfilling-square-spinner-animation 4s infinite ease; }\r\n  .jd-loader .fulfilling-square-spinner .spinner-inner {\r\n    vertical-align: top;\r\n    display: inline-block;\r\n    background-color: #C00;\r\n    width: 100%;\r\n    opacity: 1;\r\n    -webkit-animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in;\r\n            animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in; }\r\n\r\n@-webkit-keyframes fulfilling-square-spinner-animation {\r\n  0% {\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg); }\r\n  25% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  50% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  75% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); }\r\n  100% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); } }\r\n\r\n@keyframes fulfilling-square-spinner-animation {\r\n  0% {\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg); }\r\n  25% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  50% {\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg); }\r\n  75% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); }\r\n  100% {\r\n    -webkit-transform: rotate(360deg);\r\n            transform: rotate(360deg); } }\r\n\r\n@-webkit-keyframes fulfilling-square-spinner-inner-animation {\r\n  0% {\r\n    height: 0%; }\r\n  25% {\r\n    height: 0%; }\r\n  50% {\r\n    height: 100%; }\r\n  75% {\r\n    height: 100%; }\r\n  100% {\r\n    height: 0%; } }\r\n\r\n@keyframes fulfilling-square-spinner-inner-animation {\r\n  0% {\r\n    height: 0%; }\r\n  25% {\r\n    height: 0%; }\r\n  50% {\r\n    height: 100%; }\r\n  75% {\r\n    height: 100%; }\r\n  100% {\r\n    height: 0%; } }\r\n  .jd-loader .self-building-square-spinner, .jd-loader .self-building-square-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .self-building-square-spinner {\r\n    height: 40px;\r\n    width: 40px;\r\n    top: calc( -10px * 2 / 3); }\r\n  .jd-loader .self-building-square-spinner .square {\r\n    height: 10px;\r\n    width: 10px;\r\n    top: calc( -10px * 2 / 3);\r\n    margin-right: calc(10px / 3);\r\n    margin-top: calc(10px / 3);\r\n    background: #C00;\r\n    float: left;\r\n    position: relative;\r\n    opacity: 0;\r\n    -webkit-animation: self-building-square-spinner 6s infinite;\r\n            animation: self-building-square-spinner 6s infinite; }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(1) {\r\n    -webkit-animation-delay: calc( 300ms * 6);\r\n            animation-delay: calc( 300ms * 6); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(2) {\r\n    -webkit-animation-delay: calc( 300ms * 7);\r\n            animation-delay: calc( 300ms * 7); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(3) {\r\n    -webkit-animation-delay: calc( 300ms * 8);\r\n            animation-delay: calc( 300ms * 8); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(4) {\r\n    -webkit-animation-delay: calc( 300ms * 3);\r\n            animation-delay: calc( 300ms * 3); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(5) {\r\n    -webkit-animation-delay: calc( 300ms * 4);\r\n            animation-delay: calc( 300ms * 4); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(6) {\r\n    -webkit-animation-delay: calc( 300ms * 5);\r\n            animation-delay: calc( 300ms * 5); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(7) {\r\n    -webkit-animation-delay: calc( 300ms * 0);\r\n            animation-delay: calc( 300ms * 0); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(8) {\r\n    -webkit-animation-delay: calc( 300ms * 1);\r\n            animation-delay: calc( 300ms * 1); }\r\n  .jd-loader .self-building-square-spinner .square:nth-child(9) {\r\n    -webkit-animation-delay: calc( 300ms * 2);\r\n            animation-delay: calc( 300ms * 2); }\r\n  .jd-loader .self-building-square-spinner .clear {\r\n    clear: both; }\r\n\r\n@-webkit-keyframes self-building-square-spinner {\r\n  0% {\r\n    opacity: 0; }\r\n  5% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  50.9% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  55.9% {\r\n    opacity: 0;\r\n    top: inherit; } }\r\n\r\n@keyframes self-building-square-spinner {\r\n  0% {\r\n    opacity: 0; }\r\n  5% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  50.9% {\r\n    opacity: 1;\r\n    top: 0; }\r\n  55.9% {\r\n    opacity: 0;\r\n    top: inherit; } }\r\n  .jd-loader .looping-rhombuses-spinner, .jd-loader .looping-rhombuses-spinner * {\r\n    box-sizing: border-box; }\r\n  .jd-loader .looping-rhombuses-spinner {\r\n    width: calc(15px * 4);\r\n    height: 15px;\r\n    position: relative; }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus {\r\n    height: 15px;\r\n    width: 15px;\r\n    background-color: #C00;\r\n    left: calc(15px * 4);\r\n    position: absolute;\r\n    margin: 0 auto;\r\n    border-radius: 2px;\r\n    -webkit-transform: translateY(0) rotate(45deg) scale(0);\r\n            transform: translateY(0) rotate(45deg) scale(0);\r\n    -webkit-animation: looping-rhombuses-spinner-animation 2500ms linear infinite;\r\n            animation: looping-rhombuses-spinner-animation 2500ms linear infinite; }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(1) {\r\n    -webkit-animation-delay: calc(2500ms * 1 / -1.5);\r\n            animation-delay: calc(2500ms * 1 / -1.5); }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(2) {\r\n    -webkit-animation-delay: calc(2500ms * 2 / -1.5);\r\n            animation-delay: calc(2500ms * 2 / -1.5); }\r\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(3) {\r\n    -webkit-animation-delay: calc(2500ms * 3 / -1.5);\r\n            animation-delay: calc(2500ms * 3 / -1.5); }\r\n\r\n@-webkit-keyframes looping-rhombuses-spinner-animation {\r\n  0% {\r\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\r\n            transform: translateX(0) rotate(45deg) scale(0); }\r\n  50% {\r\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\r\n            transform: translateX(-233%) rotate(45deg) scale(1); }\r\n  100% {\r\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\r\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\r\n\r\n@keyframes looping-rhombuses-spinner-animation {\r\n  0% {\r\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\r\n            transform: translateX(0) rotate(45deg) scale(0); }\r\n  50% {\r\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\r\n            transform: translateX(-233%) rotate(45deg) scale(1); }\r\n  100% {\r\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\r\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\r\n\r\n.jd-button {\r\n  position: relative;\r\n  margin: 0.5rem 0rem !important;\r\n  width: auto;\r\n  height: 1.8rem;\r\n  overflow: hidden !important;\r\n  border-width: 0;\r\n  outline: none !important;\r\n  border-radius: 2px !important;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);\r\n  background-color: #C00;\r\n  color: #FFFFFF;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-pack: center;\r\n          justify-content: center;\r\n  cursor: pointer;\r\n  -webkit-box-align: center;\r\n          align-items: center;\r\n  white-space: nowrap;\r\n  overflow-wrap: normal;\r\n  transition: background-color .3s;\r\n  -webkit-transition: background-color .3s;\r\n  -moz-transition: background-color .3s;\r\n  -o-transition: background-color .3s; }\r\n  .jd-button:hover {\r\n    background-color: red; }\r\n  .jd-button:focus {\r\n    background-color: #990000; }\r\n  .jd-button:focus:hover {\r\n    background-color: red; }\r\n  .jd-button:before {\r\n    content: \"\";\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    display: block;\r\n    width: 0;\r\n    padding-top: 0;\r\n    border-radius: 100%;\r\n    background-color: #E0E0E0;\r\n    opacity: 0;\r\n    transform: translate(-50%, -50%);\r\n    -webkit-transform: translate(-50%, -50%);\r\n    -moz-transform: translate(-50%, -50%);\r\n    -ms-transform: translate(-50%, -50%);\r\n    -o-transform: translate(-50%, -50%); }\r\n  .jd-button:active:before {\r\n    width: 120%;\r\n    padding-top: 120%;\r\n    opacity: 0.32;\r\n    transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -webkit-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -moz-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -ms-transition: width .2s ease-out, padding-top .2s ease-out;\r\n    -o-transition: width .2s ease-out, padding-top .2s ease-out; }\r\n  .jd-button:disabled {\r\n    background-color: #660000;\r\n    cursor: not-allowed;\r\n    color: #cccccc; }\r\n  .jd-button.jd-small {\r\n    min-width: 3rem !important; }\r\n  .jd-button.jd-medium {\r\n    min-width: 5rem !important; }\r\n  .jd-button.jd-large {\r\n    min-width: 7rem !important; }\r\n  .jd-button.jd-danger {\r\n    background-color: #E53935;\r\n    color: #FFFFFF; }\r\n    .jd-button.jd-danger:hover {\r\n      background-color: #cd1e1a; }\r\n    .jd-button.jd-danger:focus {\r\n      background-color: #eb6562; }\r\n    .jd-button.jd-danger:focus:hover {\r\n      background-color: #cd1e1a; }\r\n    .jd-button.jd-danger:disabled {\r\n      background-color: #9f1815;\r\n      color: #cccccc;\r\n      cursor: not-allowed; }\r\n  .jd-button.jd-success {\r\n    background-color: #3C903F;\r\n    color: #FFFFFF; }\r\n    .jd-button.jd-success:hover {\r\n      background-color: #2d6c2f; }\r\n    .jd-button.jd-success:focus {\r\n      background-color: #4bb44f; }\r\n    .jd-button.jd-success:focus:hover {\r\n      background-color: #2d6c2f; }\r\n    .jd-button.jd-success:disabled {\r\n      background-color: #1e4820;\r\n      color: #cccccc;\r\n      cursor: not-allowed; }\r\n\r\n.jdTableFade-enter-active, .jdTableFade-leave-active {\r\n  transition: opacity 0.3s;\r\n  -webkit-transition: opacity 0.3s;\r\n  -moz-transition: opacity 0.3s;\r\n  -o-transition: opacity 0.3s; }\r\n\r\n.jdTableFade-enter, .jdTableFade-leave-to {\r\n  opacity: 0; }\r\n\r\n.jdTableSlideDown-enter-active, .jdTableSlideDown-leave-active {\r\n  transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -moz-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\r\n  -o-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1); }\r\n\r\n.jdTableSlideDown-enter, .jdTableSlideDown-leave-to {\r\n  -webkit-transform: translateY(-2.95rem);\r\n          transform: translateY(-2.95rem);\r\n  opacity: 0; }\r\n", ""]);
+exports.push([module.i, ".jd-table {\n  position: relative;\n  min-width: 320px;\n  width: 100%;\n  background-color: #FFFFFF;\n  color: #252627;\n  font-size: 0.9rem;\n  font-weight: 400;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-direction: column;\n  -webkit-box-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n          align-items: center;\n  align-content: center;\n  align-self: center;\n  z-index: 1;\n  overflow: hidden;\n  -webkit-transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\n  transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\n  box-sizing: content-box;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n  .jd-table.jd-maximized {\n    height: 100%;\n    min-height: 100%;\n    max-height: 100%;\n    position: fixed;\n    top: 0;\n    left: 0;\n    padding: 1.2rem;\n    z-index: 9998;\n    box-sizing: border-box;\n    background-color: rgba(255, 255, 255, 0.6); }\n    .jd-table.jd-maximized .jd-layerHighlight {\n      min-width: 320px; }\n    .jd-table.jd-maximized .jd-layerControl {\n      min-width: 320px; }\n    .jd-table.jd-maximized .jd-layerOption {\n      min-width: 320px; }\n    .jd-table.jd-maximized .jd-layerContent {\n      display: -webkit-box;\n      display: flex;\n      overflow-x: auto;\n      min-width: 320px;\n      -webkit-box-flex: 0;\n              flex-grow: 0;\n      flex-shrink: 1; }\n      .jd-table.jd-maximized .jd-layerContent .table .body {\n        height: 100%;\n        -webkit-box-flex: 0;\n                flex-grow: 0;\n        flex-shrink: 1; }\n      .jd-table.jd-maximized .jd-layerContent .jd-contentTable .jd-body {\n        height: 100%; }\n    .jd-table.jd-maximized .jd-layerFooter {\n      min-width: 320px; }\n    .jd-table.jd-maximized .jd-layerPopup {\n      border-radius: 0; }\n      .jd-table.jd-maximized .jd-layerPopup.jd-fullFrameZone {\n        padding: 3rem; }\n      .jd-table.jd-maximized .jd-layerPopup .jd-searchArrow {\n        top: 5.15rem; }\n      .jd-table.jd-maximized .jd-layerPopup .jd-filterArrow {\n        top: 5.15rem;\n        right: 1.2rem; }\n    .jd-table.jd-maximized .jd-layerTitle {\n      padding-top: 0;\n      min-width: 320px; }\n  .jd-table.jd-fullBody {\n    height: 100%;\n    min-height: 100%;\n    max-height: 100%; }\n    .jd-table.jd-fullBody .jd-layerContent {\n      display: -webkit-box;\n      display: flex;\n      overflow-x: auto; }\n      .jd-table.jd-fullBody .jd-layerContent .jd-contentTable .jd-body {\n        height: 100%; }\n  .jd-table .jd-layerTitle {\n    font-size: 1.8rem;\n    padding-top: 1.2rem;\n    padding-bottom: 1.2rem;\n    font-weight: 500;\n    width: 100%;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: center;\n            justify-content: center; }\n  .jd-table .jd-layerHighlight {\n    position: relative;\n    width: 100%;\n    height: 0.45rem;\n    min-height: 0.45rem;\n    background-color: #494949;\n    border-top-left-radius: 0.5rem;\n    border-top-right-radius: 0.5rem;\n    z-index: 99; }\n  .jd-table .jd-layerControl {\n    position: relative;\n    width: 100%;\n    height: 2.5rem;\n    min-height: 2.5rem;\n    min-height: 2.5rem;\n    max-height: 2.5rem;\n    background-color: #757575;\n    color: #FFFFFF;\n    display: -webkit-box;\n    display: flex;\n    flex-wrap: nowrap;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    z-index: 99; }\n    .jd-table .jd-layerControl .jd-controlSearch {\n      position: relative;\n      height: 100%;\n      width: 2rem;\n      display: -webkit-box;\n      display: flex;\n      flex-wrap: nowrap;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n              flex-direction: row;\n      -webkit-box-flex: 0;\n              flex-grow: 0;\n      flex-shrink: 1;\n      transition: all 0.5s ease;\n      -webkit-transition: all 0.5s ease;\n      -moz-transition: all 0.5s ease;\n      -o-transition: all 0.5s ease; }\n      .jd-table .jd-layerControl .jd-controlSearch input {\n        width: 100%;\n        max-width: 10rem;\n        height: 100%;\n        box-shadow: none;\n        border: none;\n        background: transparent;\n        -webkit-box-flex: 0;\n                flex-grow: 0;\n        flex-shrink: 1; }\n        .jd-table .jd-layerControl .jd-controlSearch input:focus {\n          outline: none; }\n        .jd-table .jd-layerControl .jd-controlSearch input::-ms-clear {\n          display: none; }\n        .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-decoration, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-cancel-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-decoration {\n          display: none; }\n      .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\n        width: 14rem;\n        color: #494949;\n        background-color: #E0E0E0; }\n        @media only screen and (max-width: 375px) {\n          .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\n            width: 100%; } }\n    .jd-table .jd-layerControl .jd-controlFeature {\n      position: relative;\n      height: 100%;\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-align: center;\n              align-items: center;\n      margin-left: auto;\n      flex-wrap: nowrap;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n              flex-direction: row; }\n      @media only screen and (max-width: 375px) {\n        .jd-table .jd-layerControl .jd-controlFeature.jd-searching {\n          display: none; } }\n    .jd-table .jd-layerControl .jd-controlItem {\n      height: 100%;\n      position: relative;\n      cursor: pointer;\n      color: #FFFFFF;\n      display: inline-block;\n      width: 2rem;\n      min-width: 2rem;\n      user-select: none;\n      -webkit-touch-callout: none;\n      -webkit-user-select: none;\n      -moz-user-select: none;\n      -ms-user-select: none; }\n      .jd-table .jd-layerControl .jd-controlItem i {\n        width: 2rem;\n        min-width: 2rem;\n        height: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-pack: center;\n                justify-content: center;\n        -webkit-box-align: center;\n                align-items: center; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-active i {\n        -webkit-animation: activeFeature 1.5s infinite;\n                animation: activeFeature 1.5s infinite; }\n\n@-webkit-keyframes activeFeature {\n  0% {\n    color: #FFFFFF; }\n  100% {\n    color: #ff1a1a; } }\n\n@keyframes activeFeature {\n  0% {\n    color: #FFFFFF; }\n  100% {\n    color: #ff1a1a; } }\n      .jd-table .jd-layerControl .jd-controlItem:hover {\n        color: #494949;\n        background-color: #E0E0E0; }\n        .jd-table .jd-layerControl .jd-controlItem:hover:active {\n          color: #C00; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-selected {\n        color: #C00;\n        background-color: #E0E0E0; }\n        .jd-table .jd-layerControl .jd-controlItem.jd-selected:active {\n          color: #FFFFFF; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-clearSearch {\n        color: #E53935; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-search {\n        color: #757575; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-noSelect {\n        cursor: default; }\n        .jd-table .jd-layerControl .jd-controlItem.jd-noSelect:hover:active {\n          color: #757575; }\n      .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow {\n        position: absolute;\n        top: 2.95rem;\n        right: -0.5rem;\n        background: #c9c9c9;\n        border: 1px solid #494949;\n        padding: 0.5rem;\n        color: #252627;\n        -webkit-animation: bounce 2s infinite;\n                animation: bounce 2s infinite;\n        border-radius: 6px;\n        white-space: nowrap; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\n          bottom: 100%;\n          right: 1.5rem;\n          border: solid transparent;\n          content: \" \";\n          height: 0;\n          width: 0;\n          position: absolute;\n          pointer-events: none; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after {\n          border-color: rgba(224, 224, 224, 0);\n          border-bottom-color: #c9c9c9;\n          border-width: 12px;\n          margin-right: -12px; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\n          border-color: rgba(73, 73, 73, 0);\n          border-bottom-color: #494949;\n          border-width: 18px;\n          margin-right: -18px; }\n      .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow {\n        position: absolute;\n        top: 2.95rem;\n        left: 3.5rem;\n        background: #c9c9c9;\n        border: 1px solid #494949;\n        padding: 0.5rem;\n        color: #252627;\n        -webkit-animation: bounce 2s infinite;\n                animation: bounce 2s infinite;\n        border-radius: 6px;\n        white-space: nowrap; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\n          bottom: 100%;\n          left: 50%;\n          border: solid transparent;\n          content: \" \";\n          height: 0;\n          width: 0;\n          position: absolute;\n          pointer-events: none; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after {\n          border-color: rgba(224, 224, 224, 0);\n          border-bottom-color: #c9c9c9;\n          border-width: 12px;\n          margin-left: -12px; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\n          border-color: rgba(73, 73, 73, 0);\n          border-bottom-color: #494949;\n          border-width: 18px;\n          margin-left: -18px; }\n  .jd-table .jd-layerOption {\n    width: 100%;\n    position: relative; }\n    .jd-table .jd-layerOption .jd-optionDropdown {\n      background-color: #E0E0E0;\n      width: 310px;\n      right: 5px;\n      top: -1px;\n      position: absolute;\n      z-index: 80;\n      padding: 0.5rem 0rem;\n      box-sizing: border-box;\n      -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n      transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      overflow-y: auto;\n      overflow-x: hidden;\n      box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.54);\n      border-bottom-right-radius: 0.5rem;\n      border-bottom-left-radius: 0.5rem; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader {\n        -webkit-box-align: center;\n                align-items: center;\n        padding-top: 0.5rem;\n        padding-bottom: 1rem;\n        font-size: 1.35rem;\n        text-transform: uppercase;\n        color: #252627;\n        font-weight: 600;\n        align-self: center; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-subHeader {\n          padding-top: 1rem;\n          font-size: 1.17rem; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-smallHeader {\n          font-size: 0.81rem;\n          font-weight: 400;\n          font-style: italic;\n          text-transform: none;\n          padding-top: 0rem; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem {\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-align: center;\n                align-items: center;\n        -webkit-box-pack: center;\n                justify-content: center;\n        height: 2rem;\n        min-height: 2rem;\n        width: 100%; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility {\n          padding-left: 1rem;\n          padding-right: 1rem;\n          color: #357e37; }\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility .jd-notVisible {\n            color: #E53935; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnTitle {\n          padding-right: 1rem;\n          width: 100%;\n          overflow: hidden;\n          text-overflow: ellipsis;\n          white-space: nowrap; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem:hover {\n          background-color: #FFFFFF; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected {\n          background-color: #757575;\n          color: #FFFFFF; }\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected:hover {\n            background-color: #757575; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput {\n        position: relative;\n        height: 2rem;\n        min-height: 2rem;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-align: center;\n                align-items: center;\n        margin: 0rem 1rem 0.5rem 1rem;\n        border: 1px solid #C00;\n        border-left: 5px solid #C00;\n        outline: none;\n        box-sizing: border-box;\n        font-size: 0.765rem;\n        font-weight: 500;\n        background-color: #FFFFFF;\n        align-items: center; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label {\n          width: 100%;\n          height: 100%;\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-align: center;\n                  align-items: center;\n          -webkit-touch-callout: none;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none; }\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label span {\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            margin-left: 0.5rem;\n            margin-right: 2rem; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul {\n          position: absolute;\n          max-height: 12rem;\n          overflow-x: hidden;\n          overflow-y: auto;\n          top: 100%;\n          left: -1px;\n          right: -1px;\n          list-style: none;\n          padding: 0rem;\n          margin: 0rem;\n          border: 1px solid #ff6666;\n          background-color: #FFFFFF;\n          box-sizing: border-box;\n          z-index: 9998; }\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li {\n            overflow: hidden;\n            white-space: nowrap;\n            text-overflow: ellipsis;\n            padding: 0.2rem;\n            -webkit-touch-callout: none;\n            -webkit-user-select: none;\n            -moz-user-select: none;\n            -ms-user-select: none;\n            user-select: none; }\n            .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li:hover {\n              background-color: #ff4d4d;\n              color: #FFFFFF; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput input {\n          width: 100%;\n          font-family: inherit;\n          border: none;\n          font-size: 0.765rem;\n          font-weight: 500;\n          background-color: #FFFFFF;\n          outline: none;\n          box-sizing: border-box; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-addPadding {\n          padding: 0rem 0.5rem; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-removeIcon {\n          position: absolute;\n          right: 0.5rem;\n          top: 0.35rem;\n          color: #E53935;\n          font-size: 1.35rem; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-disabled {\n          border: 1px solid #949494;\n          border-left: 5px solid #949494; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-carrot:after {\n          content: \"\";\n          width: 0;\n          height: 0;\n          position: absolute;\n          right: 0.5rem;\n          top: 50%;\n          margin-top: -3px;\n          border-width: 6px 6px 0 6px;\n          border-style: solid;\n          border-color: #C00 transparent; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow {\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-align: center;\n                align-items: center;\n        -webkit-box-pack: center;\n                justify-content: center;\n        height: 2rem;\n        min-height: 2rem;\n        padding: 0rem 1rem;\n        align-items: center; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow.jd-separate {\n          -webkit-box-pack: justify;\n                  justify-content: space-between; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow button {\n          width: 5rem; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-errorMessage {\n        color: #E53935;\n        font-size: 0.765rem;\n        margin-bottom: 0.5rem;\n        text-align: center;\n        font-weight: 500; }\n  .jd-table .jd-layerContent {\n    position: relative;\n    width: 100%;\n    height: 100%;\n    background-color: #FFFFFF;\n    color: #252627;\n    display: block;\n    box-sizing: border-box;\n    overflow-y: hidden;\n    z-index: 50; }\n    .jd-table .jd-layerContent .jd-rowView {\n      position: absolute;\n      top: 0px;\n      left: 0px;\n      width: 100%;\n      height: 100%;\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n              justify-content: center;\n      background-color: rgba(0, 0, 0, 0.2);\n      z-index: 99;\n      padding: 1rem;\n      box-sizing: border-box; }\n    .jd-table .jd-layerContent .jd-contentTable {\n      position: relative;\n      width: 100%;\n      height: 100%;\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      flex-wrap: nowrap; }\n      .jd-table .jd-layerContent .jd-contentTable .jd-head {\n        position: relative;\n        width: 100%;\n        overflow: hidden;\n        box-sizing: border-box;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        background-color: #757575; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell {\n          position: relative;\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-orient: horizontal;\n          -webkit-box-direction: normal;\n                  flex-direction: row;\n          -webkit-box-align: center;\n                  align-items: center;\n          box-sizing: border-box;\n          font-size: 0.9rem;\n          padding: 0.2rem 0.5rem;\n          -webkit-box-flex: 1;\n                  flex-grow: 1;\n          -webkit-touch-callout: none;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n          border-top: 4px solid #990000;\n          border-top-left-radius: 5px;\n          border-top-right-radius: 5px;\n          background-color: #C00;\n          color: #FFFFFF;\n          border-right: 1px solid #990000; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-cellText {\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-orient: horizontal;\n            -webkit-box-direction: normal;\n                    flex-direction: row;\n            width: 100%;\n            -webkit-box-align: center;\n                    align-items: center;\n            -webkit-box-pack: justify;\n                    justify-content: space-between; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-hoverSort {\n            display: none; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-hoverAssist {\n            background-color: #ff4d4d; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell:first-child {\n            border-top-left-radius: 0px; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-scrollBuffer:last-child {\n            margin-right: 17px; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort {\n            cursor: pointer; }\n            .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover {\n              border-top: 4px solid #999999;\n              background-color: #FFFFFF;\n              color: #252627;\n              font-weight: 500; }\n              .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover .jd-hoverSort {\n                display: block;\n                color: #252627; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-scrollFix {\n          width: 19px;\n          min-width: 19px;\n          max-width: 19px;\n          border-top-right-radius: 0px;\n          border-right: none;\n          border-top: 4px solid #990000;\n          box-sizing: border-box;\n          position: relative;\n          display: -webkit-box;\n          display: flex;\n          background-color: #C00;\n          border-left: none; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize {\n          position: absolute;\n          height: 100%;\n          width: 8px;\n          display: block;\n          cursor: w-resize;\n          right: -5px;\n          top: 0;\n          z-index: 10;\n          overflow: hidden; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize.jd-selected {\n            width: 500px;\n            right: -250px; }\n      .jd-table .jd-layerContent .jd-contentTable .jd-body {\n        position: relative;\n        width: 100%;\n        display: block;\n        overflow-x: hidden;\n        background-color: #F7F7F7;\n        z-index: 50;\n        background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 5px, rgba(0, 0, 0, 0.1) 5px, rgba(0, 0, 0, 0.1) 10px); }\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row {\n          position: relative;\n          z-index: 50;\n          background-color: #FFFFFF; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row:hover {\n            background-color: #ff4d4d !important;\n            color: #FFFFFF; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-zebra:nth-child(even) {\n            background-color: #f2f2f2; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-rowSelect {\n            background-color: #e60000 !important;\n            color: #FFFFFF; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell {\n            position: relative;\n            font-size: 0.81rem;\n            display: block;\n            white-space: nowrap;\n            text-overflow: ellipsis;\n            overflow: hidden; }\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell.jd-rowFlex {\n              display: -webkit-box;\n              display: flex;\n              height: 100%;\n              -webkit-box-align: center;\n                      align-items: center;\n              white-space: inherit;\n              min-height: inherit; }\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell:after {\n              display: block;\n              content: '';\n              min-height: inherit;\n              font-size: 0; }\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell .jd-list {\n              list-style-type: circle;\n              padding-left: 1rem; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-virtualBody {\n          position: absolute;\n          opacity: 0;\n          top: 0;\n          left: 0;\n          width: 1px;\n          background: transparent; }\n      .jd-table .jd-layerContent .jd-contentTable .jd-row {\n        width: 100%;\n        height: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-align: center;\n                align-items: center;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        cursor: pointer; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-row .jd-cell {\n          width: 100%;\n          box-sizing: border-box;\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-align: center;\n                  align-items: center;\n          -webkit-box-flex: 1;\n                  flex-grow: 1;\n          padding-left: 0.5rem;\n          overflow-wrap: break-word;\n          word-wrap: break-word;\n          word-break: break-all;\n          word-break: break-word;\n          -ms-word-break: break-all;\n          hyphens: auto;\n          -ms-hyphens: auto;\n          -moz-hyphens: auto;\n          -webkit-hyphens: auto; }\n  .jd-table .jd-layerFooter {\n    position: relative;\n    width: 100%;\n    height: 2rem;\n    min-height: 2rem;\n    background-color: #494949;\n    color: #FFFFFF;\n    display: -webkit-box;\n    display: flex;\n    flex-wrap: nowrap;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n    border-bottom-left-radius: 0.5rem;\n    border-bottom-right-radius: 0.5rem;\n    z-index: 99;\n    font-size: 0.81rem;\n    user-select: none;\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none; }\n    .jd-table .jd-layerFooter .jd-resultRows {\n      font-size: 0.765rem; }\n    .jd-table .jd-layerFooter .jd-pagination {\n      width: 100%;\n      display: -webkit-box;\n      display: flex;\n      flex-wrap: nowrap;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n              flex-direction: row;\n      -webkit-box-align: center;\n              align-items: center;\n      -webkit-box-pack: justify;\n              justify-content: space-between;\n      height: 100%; }\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection {\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-pack: center;\n                justify-content: center;\n        cursor: pointer;\n        height: 100%;\n        -webkit-box-align: center;\n                align-items: center; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-left {\n          position: absolute;\n          top: 0;\n          left: 0;\n          background-color: #494949;\n          border-bottom-left-radius: 0.5rem; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-right {\n          position: absolute;\n          top: 0;\n          right: 0;\n          background-color: #494949;\n          border-bottom-right-radius: 0.5rem; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled {\n          cursor: no-drop; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:hover {\n            background-color: #494949; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:active {\n            background-color: #494949; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i {\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-align: center;\n                  align-items: center;\n          width: 3rem;\n          height: 100%;\n          -webkit-box-pack: center;\n                  justify-content: center; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:hover {\n            background-color: #6f6f6f; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:active {\n            background-color: #898989; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-start {\n            border-bottom-left-radius: 0.5rem; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-end {\n            border-bottom-right-radius: 0.5rem; }\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationRows {\n        position: absolute;\n        background-color: #494949;\n        height: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-align: center;\n                align-items: center;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        font-size: 0.72rem;\n        padding: 0rem 1rem;\n        top: 0;\n        left: 50%;\n        -webkit-transform: translateX(-50%);\n                transform: translateX(-50%); }\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea {\n        width: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-align: center;\n                align-items: center;\n        justify-content: space-around; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList {\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-orient: horizontal;\n          -webkit-box-direction: normal;\n                  flex-direction: row;\n          -webkit-box-align: center;\n                  align-items: center;\n          -webkit-box-pack: center;\n                  justify-content: center;\n          height: 100%; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage {\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-align: center;\n                    align-items: center;\n            -webkit-box-pack: center;\n                    justify-content: center;\n            padding: 0rem 0.3rem;\n            height: 100%;\n            box-sizing: border-box;\n            font-size: 0.72rem; }\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage span {\n              border: 1px solid #6f6f6f;\n              padding: 0.2rem 0.4rem;\n              min-width: 1.5rem;\n              text-align: center;\n              box-sizing: border-box; }\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover {\n              cursor: pointer; }\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover span {\n                background-color: #6f6f6f;\n                color: #FFFFFF; }\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected span {\n              background-color: #6f6f6f; }\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover {\n              cursor: default !important; }\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover span {\n                background-color: #6f6f6f !important;\n                color: #FFFFFF !important; }\n  .jd-table .jd-layerPopup {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n    background-color: rgba(255, 255, 255, 0.6);\n    border-radius: 0.5rem; }\n    .jd-table .jd-layerPopup.jd-fullBrowser {\n      position: fixed; }\n    .jd-table .jd-layerPopup.jd-fullFrame {\n      z-index: 9998; }\n    .jd-table .jd-layerPopup.jd-contentFrame {\n      z-index: 50;\n      padding-top: 2.95rem;\n      padding-bottom: 2rem; }\n    .jd-table .jd-layerPopup.jd-fullFrameZone {\n      width: 100%;\n      box-sizing: border-box;\n      padding: 1rem; }\n    .jd-table .jd-layerPopup .jd-errorMessage {\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      -webkit-box-align: center;\n              align-items: center;\n      padding: 1rem;\n      border-radius: 0.5rem;\n      background-color: #FFFFFF;\n      color: #E53935;\n      font-size: 1.17rem; }\n    .jd-table .jd-layerPopup.jd-filterOverride {\n      z-index: 85; }\n    .jd-table .jd-layerPopup.jd-fullOverride {\n      z-index: 999; }\n    .jd-table .jd-layerPopup .jd-noDataFrame {\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      -webkit-box-align: center;\n              align-items: center;\n      padding: 1rem; }\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-title {\n        font-size: 1.17rem;\n        font-weight: 500;\n        text-transform: uppercase; }\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-filters {\n        margin-top: 1rem; }\n    .jd-table .jd-layerPopup .jd-quickView {\n      position: relative;\n      min-width: 314px;\n      max-width: 95%;\n      max-height: 95%;\n      height: 100%;\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      -webkit-box-align: center;\n              align-items: center;\n      border-radius: 0.5rem;\n      background-color: #494949;\n      box-sizing: border-box;\n      overflow: hidden;\n      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_1 {\n        width: 100%;\n        height: 0.3375rem;\n        min-height: 0.3375rem;\n        background-color: #494949;\n        border-top-right-radius: 0.5rem;\n        border-top-left-radius: 0.5rem; }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_2 {\n        width: 100%;\n        height: 0.225rem;\n        min-height: 0.225rem;\n        background-color: #C00; }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl {\n        width: 100%;\n        height: 2.5rem;\n        min-height: 2.5rem;\n        background-color: #757575;\n        position: relative;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-pack: justify;\n                justify-content: space-between;\n        -webkit-box-align: center;\n                align-items: center;\n        color: #FFFFFF;\n        user-select: none;\n        -webkit-touch-callout: none;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none; }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction {\n          height: 100%;\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-orient: horizontal;\n          -webkit-box-direction: normal;\n                  flex-direction: row; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span {\n            width: 2rem;\n            font-size: 0.9rem;\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-pack: center;\n                    justify-content: center;\n            -webkit-box-align: center;\n                    align-items: center;\n            height: 100%;\n            cursor: pointer; }\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span:hover {\n              background-color: #9b9b9b; }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\n          font-size: 0.9rem;\n          position: absolute;\n          left: 50%;\n          top: 50%;\n          -webkit-transform: translate(-50%, -50%);\n                  transform: translate(-50%, -50%); }\n          @media only screen and (max-width: 350px) {\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\n              display: none; } }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent {\n        width: 100%;\n        height: 100%;\n        overflow: auto;\n        background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09) 5px, rgba(255, 255, 255, 0.09) 5px, rgba(0, 0, 0, 0.1) 10px); }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow {\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-orient: vertical;\n          -webkit-box-direction: normal;\n                  flex-direction: column;\n          width: 100%;\n          background-color: #FFFFFF; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowTitle {\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-align: center;\n                    align-items: center;\n            font-size: 0.99rem;\n            font-weight: 600;\n            word-break: break-all;\n            padding: 0.5rem 1rem;\n            background-color: #e6e6e6; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData {\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-align: center;\n                    align-items: center;\n            min-height: 2rem;\n            padding: 0.5rem 1rem;\n            word-break: break-all; }\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData ul {\n              list-style-type: circle;\n              padding-left: 1rem; }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter {\n        width: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-pack: justify;\n                justify-content: space-between;\n        -webkit-box-align: center;\n                align-items: center;\n        height: 2rem;\n        min-height: 2rem;\n        background-color: #494949;\n        color: #FFFFFF;\n        border-bottom-right-radius: 0.5rem;\n        border-bottom-left-radius: 0.5rem;\n        font-size: 0.81rem;\n        user-select: none;\n        -webkit-touch-callout: none;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none; }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection {\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-pack: center;\n                  justify-content: center;\n          width: 5rem;\n          cursor: pointer;\n          height: 100%;\n          -webkit-box-align: center;\n                  align-items: center; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:hover {\n            background-color: #6f6f6f; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:active {\n            background-color: #898989; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-previous {\n            border-bottom-left-radius: 0.5rem; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-next {\n            border-bottom-right-radius: 0.5rem; }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerItem {\n          font-size: 0.765rem; }\n    .jd-table .jd-layerPopup .jd-tableMessage {\n      font-size: 1.5rem;\n      text-align: center; }\n\n@-webkit-keyframes bounce {\n  0%, 20%, 50%, 80%, 100% {\n    -webkit-transform: translateY(0);\n            transform: translateY(0); }\n  40% {\n    -webkit-transform: translateY(30px);\n            transform: translateY(30px); }\n  60% {\n    -webkit-transform: translateY(15px);\n            transform: translateY(15px); } }\n\n@keyframes bounce {\n  0%, 20%, 50%, 80%, 100% {\n    -webkit-transform: translateY(0);\n            transform: translateY(0); }\n  40% {\n    -webkit-transform: translateY(30px);\n            transform: translateY(30px); }\n  60% {\n    -webkit-transform: translateY(15px);\n            transform: translateY(15px); } }\n  .jd-table .jd-contextMenu {\n    width: auto;\n    min-width: 10rem;\n    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);\n    position: fixed;\n    z-index: 9998;\n    background: #FFF;\n    border-radius: 0.5rem; }\n    .jd-table .jd-contextMenu .jd-contextMenuOptions {\n      list-style: none;\n      z-index: 1; }\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption {\n        width: 100%;\n        height: 100%;\n        font-weight: 500;\n        z-index: 1;\n        font-size: 14px;\n        cursor: pointer;\n        display: -webkit-box;\n        display: flex; }\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span {\n          display: block;\n          height: 100%;\n          padding: 8px 12px 8px 12px;\n          white-space: nowrap; }\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:hover {\n            background: rgba(0, 0, 0, 0.2); }\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:first-child {\n            width: 100%; }\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader {\n        width: 100%;\n        height: 100%;\n        font-weight: 500;\n        z-index: 1;\n        font-size: 14px;\n        display: -webkit-box;\n        display: flex;\n        background: #494949;\n        color: #FFFFFF; }\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader span {\n          display: block;\n          height: 100%;\n          width: 100%;\n          padding: 10px;\n          white-space: nowrap;\n          text-align: center; }\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:first-child {\n        border-bottom-left-radius: 0.5rem; }\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:last-child {\n        border-bottom-right-radius: 0.5rem; }\n\n.jd-reset * {\n  box-sizing: border-box; }\n\n.jd-reset ::before, .jd-reset ::after {\n  box-sizing: inherit; }\n\n.jd-reset html {\n  line-height: 1.15;\n  /* 1 */\n  -webkit-text-size-adjust: 100%;\n  /* 2 */\n  -webkit-tap-highlight-color: transparent;\n  /* 3*/ }\n\n.jd-reset body {\n  margin: 0; }\n\n.jd-reset main {\n  display: block; }\n\n.jd-reset p,\n.jd-reset table,\n.jd-reset blockquote,\n.jd-reset address,\n.jd-reset pre,\n.jd-reset iframe,\n.jd-reset form,\n.jd-reset figure,\n.jd-reset dl {\n  margin: 0; }\n\n.jd-reset h1,\n.jd-reset h2,\n.jd-reset h3,\n.jd-reset h4,\n.jd-reset h5,\n.jd-reset h6 {\n  font-size: inherit;\n  line-height: inherit;\n  font-weight: inherit;\n  margin: 0; }\n\n.jd-reset ul,\n.jd-reset ol {\n  margin: 0;\n  padding: 0;\n  list-style: none; }\n\n.jd-reset dt {\n  font-weight: bold; }\n\n.jd-reset dd {\n  margin-left: 0; }\n\n.jd-reset hr {\n  box-sizing: content-box;\n  /* 1 */\n  height: 0;\n  /* 1 */\n  overflow: visible;\n  /* 2 */\n  border: 0;\n  border-top: 1px solid;\n  margin: 0;\n  clear: both; }\n\n.jd-reset pre {\n  font-family: monospace, monospace;\n  /* 1 */\n  font-size: inherit;\n  /* 2 */ }\n\n.jd-reset address {\n  font-style: inherit; }\n\n.jd-reset a {\n  background-color: transparent;\n  text-decoration: none;\n  color: inherit; }\n\n.jd-reset abb\n[title] {\n  border-bottom: none;\n  /* 1 */\n  text-decoration: underline;\n  /* 2 */\n  -webkit-text-decoration: underline dotted;\n          text-decoration: underline dotted;\n  /* 2 */ }\n\n.jd-reset b, .jd-resetstrong {\n  font-weight: bolder; }\n\n.jd-reset code,\n.jd-reset kbd,\n.jd-reset samp {\n  font-family: monospace, monospace;\n  /* 1 */\n  font-size: inherit;\n  /* 2 */ }\n\n.jd-reset small {\n  font-size: 80%; }\n\n.jd-reset sub,\n.jd-reset sup {\n  ont-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline; }\n\n.jd-reset sub {\n  bottom: -0.25em; }\n\n.jd-reset sup {\n  top: -0.5em; }\n\n.jd-reset img {\n  border-style: none;\n  vertical-align: bottom; }\n\n.jd-reset embed,\n.jd-reset object,\n.jd-reset iframe {\n  border: 0;\n  vertical-align: bottom; }\n\n.jd-reset button,\n.jd-reset input,\n.jd-reset optgroup,\n.jd-reset select,\n.jd-reset textarea {\n  vertical-align: middle;\n  color: inherit;\n  font: inherit;\n  border: 0;\n  background: transparent;\n  padding: 0;\n  margin: 0;\n  outline: 0; }\n\n.jd-reset select {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  border-radius: 0; }\n\n.jd-reset button,\n.jd-reset input {\n  overflow: visible; }\n\n.jd-reset button,\n.jd-reset select {\n  text-transform: none; }\n\n.jd-reset button,\n.jd-reset [type='button'],\n.jd-reset [type='reset'],\n.jd-reset [type='submit'] {\n  cursor: pointer;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none; }\n\n.jd-reset button[disabled],\n.jd-reset [type='button'][disabled],\n.jd-reset [type='reset'][disabled],\n.jd-reset [type='submit'][disabled] {\n  cursor: default; }\n\n.jd-reset button::-moz-focus-inner,\n.jd-reset [type='button']::-moz-focus-inner,\n.jd-reset [type='reset']::-moz-focus-inner,\n.jd-reset [type='submit']::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n.jd-reset button:-moz-focusring,\n.jd-reset [type='button']:-moz-focusring,\n.jd-reset [type='reset']:-moz-focusring,\n.jd-reset [type='submit']:-moz-focusring {\n  outline: 1px dotted ButtonText; }\n\n.jd-reset fieldset {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  min-width: 0; }\n\n.jd-reset legend {\n  color: inherit;\n  /* 2 */\n  display: table;\n  /* 1 */\n  max-width: 100%;\n  /* 1 */\n  padding: 0;\n  /* 3 */\n  white-space: normal;\n  /* 1 */ }\n\n.jd-reset progress {\n  vertical-align: baseline; }\n\n.jd-reset textarea {\n  overflow: auto; }\n\n.jd-reset [type='checkbox'],\n.jd-reset [type='radio'] {\n  box-sizing: border-box;\n  /* 1 */\n  padding: 0;\n  /* 2 */ }\n\n.jd-reset [type='number']::-webkit-inner-spin-button,\n.jd-reset [type='number']::-webkit-outer-spin-button {\n  height: auto; }\n\n.jd-reset [type='search'] {\n  -webkit-appearance: textfield;\n  /* 1 */\n  outline-offset: -2px;\n  /* 2 */ }\n\n.jd-reset [type='search']::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n.jd-reset ::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  /* 1 */\n  font: inherit;\n  /* 2 */ }\n\n.jd-reset ::-webkit-input-placeholder {\n  font: inherit; }\n\n.jd-reset :-ms-input-placeholder {\n  font: inherit; }\n\n.jd-reset ::-ms-input-placeholder {\n  font: inherit; }\n\n.jd-reset ::-moz-placeholder {\n  font: inherit; }\n\n.jd-reset ::placeholder {\n  font: inherit; }\n\n.jd-reset label[for] {\n  cursor: pointer; }\n\n.jd-reset details {\n  display: block; }\n\n.jd-reset summary {\n  display: list-item; }\n\n.jd-reset table {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.jd-reset caption {\n  text-align: left; }\n\n.jd-reset td,\n.jd-reset th {\n  vertical-align: top; }\n\n.jd-reset th {\n  text-align: left;\n  font-weight: bold; }\n\n.jd-reset template {\n  display: none; }\n\n.jd-reset [hidden] {\n  display: none; }\n\n.jd-clickable {\n  cursor: pointer; }\n\n.jd-noneSelectable {\n  user-select: none;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none; }\n\n.jd-loader {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-direction: column;\n  -webkit-box-align: center;\n          align-items: center;\n  padding: 1rem;\n  padding-top: 1.5rem;\n  border-radius: 0.5rem; }\n  .jd-loader .jd-loadingText {\n    margin-top: 0.6rem;\n    font-weight: 500; }\n  .jd-loader .fulfilling-square-spinner, .jd-loader .fulfilling-square-spinner * {\n    box-sizing: border-box; }\n  .jd-loader .fulfilling-square-spinner {\n    height: 50px;\n    width: 50px;\n    position: relative;\n    border: 4px solid #C00;\n    -webkit-animation: fulfilling-square-spinner-animation 4s infinite ease;\n            animation: fulfilling-square-spinner-animation 4s infinite ease; }\n  .jd-loader .fulfilling-square-spinner .spinner-inner {\n    vertical-align: top;\n    display: inline-block;\n    background-color: #C00;\n    width: 100%;\n    opacity: 1;\n    -webkit-animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in;\n            animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in; }\n\n@-webkit-keyframes fulfilling-square-spinner-animation {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  25% {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  50% {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  75% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes fulfilling-square-spinner-animation {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  25% {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  50% {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  75% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@-webkit-keyframes fulfilling-square-spinner-inner-animation {\n  0% {\n    height: 0%; }\n  25% {\n    height: 0%; }\n  50% {\n    height: 100%; }\n  75% {\n    height: 100%; }\n  100% {\n    height: 0%; } }\n\n@keyframes fulfilling-square-spinner-inner-animation {\n  0% {\n    height: 0%; }\n  25% {\n    height: 0%; }\n  50% {\n    height: 100%; }\n  75% {\n    height: 100%; }\n  100% {\n    height: 0%; } }\n  .jd-loader .self-building-square-spinner, .jd-loader .self-building-square-spinner * {\n    box-sizing: border-box; }\n  .jd-loader .self-building-square-spinner {\n    height: 40px;\n    width: 40px;\n    top: calc( -10px * 2 / 3); }\n  .jd-loader .self-building-square-spinner .square {\n    height: 10px;\n    width: 10px;\n    top: calc( -10px * 2 / 3);\n    margin-right: calc(10px / 3);\n    margin-top: calc(10px / 3);\n    background: #C00;\n    float: left;\n    position: relative;\n    opacity: 0;\n    -webkit-animation: self-building-square-spinner 6s infinite;\n            animation: self-building-square-spinner 6s infinite; }\n  .jd-loader .self-building-square-spinner .square:nth-child(1) {\n    -webkit-animation-delay: calc( 300ms * 6);\n            animation-delay: calc( 300ms * 6); }\n  .jd-loader .self-building-square-spinner .square:nth-child(2) {\n    -webkit-animation-delay: calc( 300ms * 7);\n            animation-delay: calc( 300ms * 7); }\n  .jd-loader .self-building-square-spinner .square:nth-child(3) {\n    -webkit-animation-delay: calc( 300ms * 8);\n            animation-delay: calc( 300ms * 8); }\n  .jd-loader .self-building-square-spinner .square:nth-child(4) {\n    -webkit-animation-delay: calc( 300ms * 3);\n            animation-delay: calc( 300ms * 3); }\n  .jd-loader .self-building-square-spinner .square:nth-child(5) {\n    -webkit-animation-delay: calc( 300ms * 4);\n            animation-delay: calc( 300ms * 4); }\n  .jd-loader .self-building-square-spinner .square:nth-child(6) {\n    -webkit-animation-delay: calc( 300ms * 5);\n            animation-delay: calc( 300ms * 5); }\n  .jd-loader .self-building-square-spinner .square:nth-child(7) {\n    -webkit-animation-delay: calc( 300ms * 0);\n            animation-delay: calc( 300ms * 0); }\n  .jd-loader .self-building-square-spinner .square:nth-child(8) {\n    -webkit-animation-delay: calc( 300ms * 1);\n            animation-delay: calc( 300ms * 1); }\n  .jd-loader .self-building-square-spinner .square:nth-child(9) {\n    -webkit-animation-delay: calc( 300ms * 2);\n            animation-delay: calc( 300ms * 2); }\n  .jd-loader .self-building-square-spinner .clear {\n    clear: both; }\n\n@-webkit-keyframes self-building-square-spinner {\n  0% {\n    opacity: 0; }\n  5% {\n    opacity: 1;\n    top: 0; }\n  50.9% {\n    opacity: 1;\n    top: 0; }\n  55.9% {\n    opacity: 0;\n    top: inherit; } }\n\n@keyframes self-building-square-spinner {\n  0% {\n    opacity: 0; }\n  5% {\n    opacity: 1;\n    top: 0; }\n  50.9% {\n    opacity: 1;\n    top: 0; }\n  55.9% {\n    opacity: 0;\n    top: inherit; } }\n  .jd-loader .looping-rhombuses-spinner, .jd-loader .looping-rhombuses-spinner * {\n    box-sizing: border-box; }\n  .jd-loader .looping-rhombuses-spinner {\n    width: calc(15px * 4);\n    height: 15px;\n    position: relative; }\n  .jd-loader .looping-rhombuses-spinner .rhombus {\n    height: 15px;\n    width: 15px;\n    background-color: #C00;\n    left: calc(15px * 4);\n    position: absolute;\n    margin: 0 auto;\n    border-radius: 2px;\n    -webkit-transform: translateY(0) rotate(45deg) scale(0);\n            transform: translateY(0) rotate(45deg) scale(0);\n    -webkit-animation: looping-rhombuses-spinner-animation 2500ms linear infinite;\n            animation: looping-rhombuses-spinner-animation 2500ms linear infinite; }\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(1) {\n    -webkit-animation-delay: calc(2500ms * 1 / -1.5);\n            animation-delay: calc(2500ms * 1 / -1.5); }\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(2) {\n    -webkit-animation-delay: calc(2500ms * 2 / -1.5);\n            animation-delay: calc(2500ms * 2 / -1.5); }\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(3) {\n    -webkit-animation-delay: calc(2500ms * 3 / -1.5);\n            animation-delay: calc(2500ms * 3 / -1.5); }\n\n@-webkit-keyframes looping-rhombuses-spinner-animation {\n  0% {\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\n            transform: translateX(0) rotate(45deg) scale(0); }\n  50% {\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\n            transform: translateX(-233%) rotate(45deg) scale(1); }\n  100% {\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\n\n@keyframes looping-rhombuses-spinner-animation {\n  0% {\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\n            transform: translateX(0) rotate(45deg) scale(0); }\n  50% {\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\n            transform: translateX(-233%) rotate(45deg) scale(1); }\n  100% {\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\n\n.jd-button {\n  position: relative;\n  margin: 0.5rem 0rem !important;\n  width: auto;\n  height: 1.8rem;\n  overflow: hidden !important;\n  border-width: 0;\n  outline: none !important;\n  border-radius: 2px !important;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);\n  background-color: #C00;\n  color: #FFFFFF;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n  cursor: pointer;\n  -webkit-box-align: center;\n          align-items: center;\n  white-space: nowrap;\n  overflow-wrap: normal;\n  transition: background-color .3s;\n  -webkit-transition: background-color .3s;\n  -moz-transition: background-color .3s;\n  -o-transition: background-color .3s; }\n  .jd-button:hover {\n    background-color: red; }\n  .jd-button:focus {\n    background-color: #990000; }\n  .jd-button:focus:hover {\n    background-color: red; }\n  .jd-button:before {\n    content: \"\";\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 0;\n    padding-top: 0;\n    border-radius: 100%;\n    background-color: #E0E0E0;\n    opacity: 0;\n    transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -moz-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n    -o-transform: translate(-50%, -50%); }\n  .jd-button:active:before {\n    width: 120%;\n    padding-top: 120%;\n    opacity: 0.32;\n    transition: width .2s ease-out, padding-top .2s ease-out;\n    -webkit-transition: width .2s ease-out, padding-top .2s ease-out;\n    -moz-transition: width .2s ease-out, padding-top .2s ease-out;\n    -ms-transition: width .2s ease-out, padding-top .2s ease-out;\n    -o-transition: width .2s ease-out, padding-top .2s ease-out; }\n  .jd-button:disabled {\n    background-color: #660000;\n    cursor: not-allowed;\n    color: #cccccc; }\n  .jd-button.jd-small {\n    min-width: 3rem !important; }\n  .jd-button.jd-medium {\n    min-width: 5rem !important; }\n  .jd-button.jd-large {\n    min-width: 7rem !important; }\n  .jd-button.jd-danger {\n    background-color: #E53935;\n    color: #FFFFFF; }\n    .jd-button.jd-danger:hover {\n      background-color: #cd1e1a; }\n    .jd-button.jd-danger:focus {\n      background-color: #eb6562; }\n    .jd-button.jd-danger:focus:hover {\n      background-color: #cd1e1a; }\n    .jd-button.jd-danger:disabled {\n      background-color: #9f1815;\n      color: #cccccc;\n      cursor: not-allowed; }\n  .jd-button.jd-success {\n    background-color: #3C903F;\n    color: #FFFFFF; }\n    .jd-button.jd-success:hover {\n      background-color: #2d6c2f; }\n    .jd-button.jd-success:focus {\n      background-color: #4bb44f; }\n    .jd-button.jd-success:focus:hover {\n      background-color: #2d6c2f; }\n    .jd-button.jd-success:disabled {\n      background-color: #1e4820;\n      color: #cccccc;\n      cursor: not-allowed; }\n\n.jdTableFade-enter-active, .jdTableFade-leave-active {\n  transition: opacity 0.3s;\n  -webkit-transition: opacity 0.3s;\n  -moz-transition: opacity 0.3s;\n  -o-transition: opacity 0.3s; }\n\n.jdTableFade-enter, .jdTableFade-leave-to {\n  opacity: 0; }\n\n.jdTableSlideDown-enter-active, .jdTableSlideDown-leave-active {\n  transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n  -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n  -moz-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n  -o-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1); }\n\n.jdTableSlideDown-enter, .jdTableSlideDown-leave-to {\n  -webkit-transform: translateY(-2.95rem);\n          transform: translateY(-2.95rem);\n  opacity: 0; }\n", ""]);
 
 // exports
 
@@ -54187,6 +54676,7 @@ __webpack_require__.r(__webpack_exports__);
 				contextMenu    : false,
 				tableReady     : false
 			},
+
 			currentTableData : [],
 			data             : [],
 
@@ -54681,7 +55171,7 @@ __webpack_require__.r(__webpack_exports__);
 		loader :
 		{
 			type    : Boolean,
-			default : false
+			default : true
 		}
 	},
 
@@ -60483,155 +60973,164 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-4 col-sm-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Información de la Biblioteca")
+      _c(
+        "div",
+        { staticClass: "col-md-6 col-sm-12" },
+        [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("Información de la Biblioteca")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _vm.modoEditar
+                ? _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.editarBiblioteca(_vm.Biblioteca)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "NOMBRE" } }, [
+                          _vm._v("Nombre")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.Biblioteca.BIBLIOTECA,
+                              expression: "Biblioteca.BIBLIOTECA"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "NOMBRE",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.Biblioteca.BIBLIOTECA },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.Biblioteca,
+                                "BIBLIOTECA",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Editar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "submit" },
+                          on: { click: _vm.cancelarEdicion }
+                        },
+                        [_vm._v("Cancelar edición")]
+                      )
+                    ]
+                  )
+                : _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.agregar($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "NOMBRE" } }, [
+                          _vm._v("Nombre")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.Biblioteca.BIBLIOTECA,
+                              expression: "Biblioteca.BIBLIOTECA"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "NOMBRE",
+                            "aria-describedby": "emailHelp",
+                            required: ""
+                          },
+                          domProps: { value: _vm.Biblioteca.BIBLIOTECA },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.Biblioteca,
+                                "BIBLIOTECA",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Agregar Biblioteca")]
+                      )
+                    ]
+                  )
+            ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm.modoEditar
-              ? _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.editarBiblioteca(_vm.Biblioteca)
-                      }
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "NOMBRE" } }, [
-                        _vm._v("Nombre")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.Biblioteca.BIBLIOTECA,
-                            expression: "Biblioteca.BIBLIOTECA"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.Biblioteca.BIBLIOTECA },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.Biblioteca,
-                              "BIBLIOTECA",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-warning",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Editar")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "submit" },
-                        on: { click: _vm.cancelarEdicion }
-                      },
-                      [_vm._v("Cancelar edición")]
-                    )
-                  ]
-                )
-              : _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.agregar($event)
-                      }
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "NOMBRE" } }, [
-                        _vm._v("Nombre")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.Biblioteca.BIBLIOTECA,
-                            expression: "Biblioteca.BIBLIOTECA"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE",
-                          "aria-describedby": "emailHelp",
-                          required: ""
-                        },
-                        domProps: { value: _vm.Biblioteca.BIBLIOTECA },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.Biblioteca,
-                              "BIBLIOTECA",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Agregar Biblioteca")]
-                    )
-                  ]
-                )
-          ])
-        ])
-      ]),
+          _vm.mostrarEstante
+            ? _c("estante", {
+                attrs: { BiblioSeleccionada: _vm.BibliotecaSeleccionada }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "div",
         {
-          staticClass: "col-md-8 col sm-12",
+          staticClass: "col-md-6 col sm-12",
           staticStyle: { overflow: "auto", height: "600px" }
         },
         [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
-              _vm._v(
-                "\n                    Lista de Bibliotecas\n                    "
-              ),
+              _vm._v("\n          Lista de Bibliotecas\n          "),
               _c("input", {
                 directives: [
                   {
@@ -60664,12 +61163,8 @@ var render = function() {
                     "li",
                     { key: index, staticClass: "list-group-item" },
                     [
-                      _c("span", { staticClass: "  badge badge-primary" }, [
-                        _vm._v(
-                          "\n                            Actualizado el: " +
-                            _vm._s(item.updated_at) +
-                            "\n                        "
-                        )
+                      _c("span", { staticClass: "badge badge-primary" }, [
+                        _vm._v("Actualizado el: " + _vm._s(item.updated_at))
                       ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Nombre: " + _vm._s(item.BIBLIOTECA))]),
@@ -60699,6 +61194,19 @@ var render = function() {
                             }
                           },
                           [_vm._v("Eliminar")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info float-right btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.mostrarFormEstante(item)
+                              }
+                            }
+                          },
+                          [_vm._v("Gestionar estantes")]
                         )
                       ])
                     ]
@@ -62172,6 +62680,306 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "card" }, [
+      _vm.editarActivo
+        ? _c("div", { staticClass: "card-header" }, [_vm._v("Editar Estantes")])
+        : _c("div", { staticClass: "card-header" }, [
+            _vm._v("Agregar Estantes")
+          ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _vm.editarActivo
+          ? _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.editarEstante(_vm.estante)
+                  }
+                }
+              },
+              [
+                _c("h5", { staticClass: "mb-3" }, [
+                  _vm._v(_vm._s(_vm.BiblioSeleccionada.nombre))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "idEstante" } }, [
+                    _vm._v("Identificador del Estante")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.estante.identificador,
+                        expression: "estante.identificador"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Ej. BIB-K01",
+                      id: "nombreEstante"
+                    },
+                    domProps: { value: _vm.estante.identificador },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.estante,
+                          "identificador",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "idEstante" } }, [
+                    _vm._v("Clasificación General")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.estante.clasificacion,
+                        expression: "estante.clasificacion"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "200 - Religion" },
+                    domProps: { value: _vm.estante.clasificacion },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.estante,
+                          "clasificacion",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            )
+          : _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.agregar($event)
+                  }
+                }
+              },
+              [
+                _c("h5", { staticClass: "mb-3" }, [
+                  _vm._v(_vm._s(_vm.BiblioSeleccionada.nombre))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "idEstante" } }, [
+                    _vm._v("Identificador del Estante")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.estante.identificador,
+                        expression: "estante.identificador"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Ej. BIB-K01",
+                      id: "nombreEstante"
+                    },
+                    domProps: { value: _vm.estante.identificador },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.estante,
+                          "identificador",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "idEstante" } }, [
+                    _vm._v("Clasificación General")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.estante.clasificacion,
+                        expression: "estante.clasificacion"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "200 - Religion" },
+                    domProps: { value: _vm.estante.clasificacion },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.estante,
+                          "clasificacion",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(1)
+              ]
+            ),
+        _vm._v(" "),
+        _c("h3", [_vm._v("Listado de estantes")]),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-bordered" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.estantes, function(item, index) {
+              return _c("tr", { key: index }, [
+                _c("th", { attrs: { scope: "row" } }, [
+                  _vm._v(_vm._s(item.id))
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.ESTANTE))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.CLASIFICACION))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("button", {
+                    staticClass: "btn btn-warning btn-xsm fa fa-edit",
+                    on: {
+                      click: function($event) {
+                        return _vm.editarForm(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass:
+                      "btn btn-danger btn-xsm fa fa-trash-alt text-dark",
+                    on: {
+                      click: function($event) {
+                        return _vm.eliminarEstante(item, index)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("Guardar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-danger", attrs: { type: "button" } },
+        [_vm._v("Cancelar Edición")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Agregar")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Identificador")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [
+          _vm._v("Clasificación General")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -62989,6 +63797,293 @@ var render = function() {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row " }, [
+      _c("div", { staticClass: "col-sm-12 mb-3" }, [
+        _vm.modoEditar
+          ? _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.editarRevision(_vm.Revision)
+                  }
+                }
+              },
+              [
+                _c("label", { attrs: { for: "NOMBRE" } }, [
+                  _vm._v("Nueva Observación:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.Revision.DETALLE_REVISION,
+                        expression: "Revision.DETALLE_REVISION"
+                      }
+                    ],
+                    staticClass: "form-control col-md-7",
+                    attrs: {
+                      type: "text",
+                      id: "NOMBRE",
+                      placeholder: "Escriba aca la nueva Observación...",
+                      required: ""
+                    },
+                    domProps: { value: _vm.Revision.DETALLE_REVISION },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.Revision,
+                          "DETALLE_REVISION",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.check,
+                          expression: "check"
+                        }
+                      ],
+                      staticClass: "col-md-2",
+                      attrs: { type: "checkbox", id: "check_titulo" },
+                      domProps: {
+                        checked: Array.isArray(_vm.check)
+                          ? _vm._i(_vm.check, null) > -1
+                          : _vm.check
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.check,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.check = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.check = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.check = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form-check-label",
+                        attrs: { for: "exampleCheck1" }
+                      },
+                      [_vm._v("Solventado")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row col-md-3" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success col-md-6",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Guardar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger col-md-6",
+                        attrs: { type: "submit" },
+                        on: { click: _vm.cancelarEdicion }
+                      },
+                      [_vm._v("Cancelar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          : _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.agregar($event)
+                  }
+                }
+              },
+              [
+                _c("label", { attrs: { for: "NOMBRE" } }, [
+                  _vm._v("Nueva Observación:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.Revision.DETALLE_REVISION,
+                        expression: "Revision.DETALLE_REVISION"
+                      }
+                    ],
+                    staticClass: "form-control col-md-10",
+                    attrs: {
+                      type: "text",
+                      id: "NOMBRE",
+                      placeholder: "Escriba aca la nueva Observación...",
+                      required: ""
+                    },
+                    domProps: { value: _vm.Revision.DETALLE_REVISION },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.Revision,
+                          "DETALLE_REVISION",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Agregar Observación")]
+                  )
+                ])
+              ]
+            )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: " col sm-12" },
+        [
+          _c("label", { attrs: { for: "" } }, [
+            _vm._v("Lista de Observaciones:")
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.revisiones, function(item, index) {
+            return _c("ul", { key: index, staticClass: "list-group" }, [
+              _c("li", { staticClass: "list-group-item " }, [
+                _c("div", { staticClass: "d-flex justify-content-between" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _c("p", { staticClass: "mb-0" }, [
+                      _vm._v(_vm._s(item.DETALLE_REVISION))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2 form-check " }, [
+                    item.ID_ESTADO_REVISION === 1
+                      ? _c("div", [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "exampleCheck1" }
+                            },
+                            [_vm._v("Solventado")]
+                          )
+                        ])
+                      : _c("div", [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "exampleCheck1" }
+                            },
+                            [_vm._v("Pendiente")]
+                          )
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("p", { staticClass: "mb-0" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.editarFormulario(item)
+                            }
+                          }
+                        },
+                        [_vm._v("Editar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.eliminarRevision(item, index)
+                            }
+                          }
+                        },
+                        [_vm._v("Eliminar")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          })
+        ],
+        2
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -75494,13 +76589,12 @@ Vue.component('busqueda-api', __webpack_require__(/*! ./components/BusquedaApi.v
 Vue.component('select2', __webpack_require__(/*! ./components/select.vue */ "./resources/js/components/select.vue")["default"]);
 Vue.component('lista-ejem', __webpack_require__(/*! ./components/ListaEjem.vue */ "./resources/js/components/ListaEjem.vue")["default"]);
 Vue.component('biblioteca-list', __webpack_require__(/*! ./components/Biblioteca-list.vue */ "./resources/js/components/Biblioteca-list.vue")["default"]);
-<<<<<<< HEAD
 Vue.component('buscar-libro', __webpack_require__(/*! ./components/Buscar-libro.vue */ "./resources/js/components/Buscar-libro.vue")["default"]);
-=======
 Vue.component('lista-ejem-table', __webpack_require__(/*! ./components/ListaEjemTable.vue */ "./resources/js/components/ListaEjemTable.vue")["default"]);
 Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]);
->>>>>>> luis
 Vue.component('nuevo-aporte', __webpack_require__(/*! ./components/nuevoAporte.vue */ "./resources/js/components/nuevoAporte.vue")["default"]);
+Vue.component('revisiones', __webpack_require__(/*! ./components/Revisiones.vue */ "./resources/js/components/Revisiones.vue")["default"]);
+Vue.component('estante', __webpack_require__(/*! ./components/EstanteComponent.vue */ "./resources/js/components/EstanteComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -75856,6 +76950,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/EstanteComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/EstanteComponent.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EstanteComponent.vue?vue&type=template&id=00419d38& */ "./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38&");
+/* harmony import */ var _EstanteComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EstanteComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EstanteComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/EstanteComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EstanteComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EstanteComponent.vue?vue&type=template&id=00419d38& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -76063,6 +77226,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Revisiones.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Revisiones.vue?vue&type=template&id=45884c18& */ "./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&");
+/* harmony import */ var _Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Revisiones.vue?vue&type=script&lang=js& */ "./resources/js/components/Revisiones.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Revisiones.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Revisiones.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Revisiones.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Revisiones.vue?vue&type=template&id=45884c18& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=template&id=45884c18&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_template_id_45884c18___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/nuevoAporte.vue":
 /*!*************************************************!*\
   !*** ./resources/js/components/nuevoAporte.vue ***!
@@ -76237,8 +77469,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp7\htdocs\Biblioteca\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp7\htdocs\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
