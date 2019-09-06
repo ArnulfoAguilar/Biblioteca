@@ -15,8 +15,9 @@ class CreateBitacoraComentariosTable extends Migration
     {
         Schema::create('bitacoraComentario', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('LIKE');
-            $table->string('DESCRIPCION');
+            $table->boolean('LIKE')->nullable();
+            $table->boolean('REPORT')->nullable();
+            $table->string('DESCRIPCION')->nullable();
             $table->unsignedInteger('ID_COMENTARIO');
             $table->foreign('ID_COMENTARIO')
             ->references('id')

@@ -1,4 +1,5 @@
- SELECT c.id AS "ID_COMENTARIO",
+CREATE OR REPLACE VIEW opcionescomentario AS
+SELECT c.id AS "ID_COMENTARIO",
     c."COMENTARIO",
     c."HABILITADO",
     c."ID_USUARIO" AS "AUTOR_COMENTARIO",
@@ -6,6 +7,7 @@
     c.created_at AS "DATE_CREA_COMENT",
     c.updated_at AS "DATE_UPD_COMENT",
     bc."LIKE",
+		bc."REPORT",
     bc."ID_COMENTARIO" AS "ID_COMENT_FK",
     bc."ID_USUARIO" AS "ID_USUARIO_LIKE",
     bc.created_at AS "DATE_CREATE_LIKE",

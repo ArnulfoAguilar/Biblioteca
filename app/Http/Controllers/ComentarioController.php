@@ -15,7 +15,13 @@ class ComentarioController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()){
+
+
+        return DB::table('opcionescomentario')->where([
+            ['ID_APORTE', '=', '1'],
+            ['AUTOR_COMENTARIO', '=', '1'],
+        ])->get();
+        /*if($request->ajax()){
             return DB::table('Comentario')
                     ->join('users', function($join) use ($request) {
                         $join->on('users.id','=','Comentario.ID_USUARIO')
@@ -28,7 +34,7 @@ class ComentarioController extends Controller
                     ->get();
         }else{
              return redirect()->route('home');
-        }
+        }*/
     }
 
     /**
