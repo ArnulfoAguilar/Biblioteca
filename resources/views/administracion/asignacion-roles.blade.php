@@ -21,7 +21,7 @@ Asignacion de roles a usuarios
     {{ session('status') }}
 </div>
 @endif
-<div class="container">
+{{-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -100,7 +100,7 @@ Asignacion de roles a usuarios
             </div>
         </div>
     </div>
-</div>
-{{-- <asignacion-roles></asignacion-roles> --}}
+</div> --}}
+<asignacion-roles></asignacion-roles>
 
 @endsection

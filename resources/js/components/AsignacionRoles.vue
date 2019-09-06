@@ -49,7 +49,7 @@
 
             <div class="col col-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header bg-dark">
                         Usuarios
                     </div>
                     <div class="card-body">
@@ -59,6 +59,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Rol</th>
                                 <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
@@ -67,6 +68,11 @@
                                 <th scope="row">{{item.id}}</th>
                                 <td>{{item.name}}</td>
                                 <td>{{item.email}}</td>
+                                <div v-for="(rol, index) in roles" :key="index">
+                                    <td v-if="rol.id == item.ID_ROL">
+                                        {{rol.ROL}}
+                                    </td>
+                                </div>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-sm" @click="editarFormulario(item)">Asignar Rol</a>
                                 </td>
