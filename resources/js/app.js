@@ -34,7 +34,7 @@ Vue.component('buscar-libro', require('./components/Buscar-libro.vue').default);
 
 Vue.component('lista-ejem-table', require('./components/ListaEjemTable.vue').default);
 Vue.component('ejemplar-component',require('./components/EjemplarComponent.vue').default);
-Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
+// Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
 Vue.component('comentarios', require('./components/Comentarios.vue').default);

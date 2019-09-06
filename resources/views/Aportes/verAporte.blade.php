@@ -55,17 +55,8 @@
                     @endif  
                 </div>
 
-                {{-- <div class="card">
-                    <div class="card-header bg-dark">
 
-                        <h3>Revisiones</h3>
-                    </div>
-                    <div class="card-body">
-                        <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}" rol="{{Auth::user()->ID_ROL}}" usuario="{{Auth::user()->id}}"></revisiones>
-                    </div>
-                </div> --}}
                 <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}" rol="{{Auth::user()->ID_ROL}}" usuario="{{Auth::user()->id}}"></revisiones>
-                <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
 
 
             </div>

@@ -105,7 +105,19 @@
               <li class="nav-item">
               <a href="{{route('aportes.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Aportes</p>
+                  <p>Mis Aprobados</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('aportes.index',['id'=>0])}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Lista Pendientes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('aportes.index',['id'=>1])}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Lista Aprobados</p>
                 </a>
               </li>
               <li class="nav-item">

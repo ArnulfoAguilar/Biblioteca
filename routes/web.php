@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
 Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
-Route::get('/bublioteca/imprimir', 'LibroController@Tags')->name('imprimir');
+Route::get('/biblioteca/imprimir', 'LibroController@Tags')->name('imprimir');
 
 // ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
 
@@ -36,11 +36,9 @@ Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
 
 Route::resource('/aportes','AporteController');
-
 Route::get('/aporte/obtener', 'AporteController@obtener')->name('obtener.aporte');
-
 Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
-
+Route::get('/listaTodosAportes', 'AporteController@listatodos')->name('aportes.lista.todos');
 Route::resource('/revisiones','RevisionController');
 Route::resource('/comentarios','ComentarioController');
 

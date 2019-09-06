@@ -4,7 +4,19 @@
 @endsection
 
 @section('Encabezado')
-Aportes de la Comunidad Padre Arrupe
+@switch($id)
+    @case(null)
+        Mis aportes aprobados
+        @break
+    @case(0)
+        Aportes Pendientes de aprobación
+        @break
+    @case(1)
+        Aportes de la Comunidad Padre Arrupe
+        @break
+    @default
+        
+@endswitch
 @endsection
 @section('breadcrumbs')
 <div class="float-right">
@@ -21,6 +33,6 @@ Aportes de la Comunidad Padre Arrupe
             {{ session('status') }}
         </div>
     @endif
-   <aportes></aportes>
+   <aportes habilitado="{{$id}}"></aportes>
     
 @endsection
