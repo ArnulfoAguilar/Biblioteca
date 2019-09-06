@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLibrosTable extends Migration
+class CreateMaterialBibliotecariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,20 @@ class CreateLibrosTable extends Migration
      */
     public function up()
     {
-        Schema::create('Libro', function (Blueprint $table) {
-            $table->bigIncrements('ID_LIBRO');
-            $table->string('CODIGO_BARRA','25');
+        Schema::create('materialBibliotecario', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('CODIGO_BARRA', '25');
             $table->integer('COPIA_NUMERO');
-            $table->bigInteger('ID_MATERIAL')->nullable()->unsigned();
-            // $table->unsignedInteger('ID_MATERIAL')->nullable();
-            $table->foreign('ID_MATERIAL')
+            $table->bigInteger('ID_FILA')->unsigned();
+            $table->foreign('ID_FILA')
                 ->references('id')
-                ->on('materialBibliotecario')
-                ->onUpdate('restrict')
-                ->onDelete('restrict');
+                ->on('filaEstante');
+            $table->bigInteger('ID_CATALOGO_MATERIAL')->unsigned();
+            $table->foreign('ID_CATALOGO_MATERIAL')
+                ->references('id')
+                ->on('catalogoMaterial')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->bigInteger('ID_EJEMPLAR')->nullable()->unsigned();
             $table->foreign('ID_EJEMPLAR')
                 ->references('id')
@@ -41,6 +44,6 @@ class CreateLibrosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Libro');
+        Schema::dropIfExists('materialBibliotecario');
     }
 }
