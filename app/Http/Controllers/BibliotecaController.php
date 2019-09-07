@@ -76,7 +76,7 @@ class BibliotecaController extends Controller
     public function update(Request $request, $id)
     {
         $biblioteca = Biblioteca::find($id);
-        $biblioteca->BIBLIOTECA = $request -> BIBLIOTECA;
+        $biblioteca->BIBLIOTECA = $request ->BIBLIOTECA;
         $biblioteca->save();
     }
 

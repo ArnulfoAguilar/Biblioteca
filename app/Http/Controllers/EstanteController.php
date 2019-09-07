@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Estante;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
 class EstanteController extends Controller
 {
     /**
@@ -12,9 +14,17 @@ class EstanteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function estante(){
+        return view('Estante.Lista');
+    }
+
     public function index()
     {
-        //
+        $estantes = DB::table('Biblioteca')
+        ->join('Estante', 'Biblioteca.id', '=', 'Estante.ID_BIBLIOTECA')
+        ->get();
+        return $estantes;
     }
 
     /**
@@ -35,7 +45,10 @@ class EstanteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $estante = new Estante();
+        $estante->ESTANTE = $request->ESTANTE;
+        $estante->ID_BIBLIOTECA = $request->ID_BIBLIOTECA;
+        $estante->save();
     }
 
     /**
@@ -67,9 +80,12 @@ class EstanteController extends Controller
      * @param  \App\Estante  $estante
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estante $estante)
+    public function update(Request $request, $id)
     {
-        //
+        $estante = Estante::find($id);
+        $estante->ESTANTE = $request->ESTANTE;
+        $estante->ID_BIBLIOTECA = $request->ID_BIBLIOTECA;
+        $estante->save();
     }
 
     /**
@@ -78,8 +94,9 @@ class EstanteController extends Controller
      * @param  \App\Estante  $estante
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estante $estante)
+    public function destroy($id)
     {
-        //
+        $estante = Estante::find($id);
+        $estante->delete();
     }
 }

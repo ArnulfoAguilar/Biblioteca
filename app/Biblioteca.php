@@ -10,4 +10,9 @@ class Biblioteca extends Model
     protected $fillable = [
         'BIBLIOTECA'
     ];
+
+    public function estantes()
+    {
+        return $this->hasMany('App\Estante', 'ID_BIBLIOTECA', 'id');
+    }
 }

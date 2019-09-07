@@ -27,6 +27,10 @@ Route::get('/biblioteca/imprimir', 'LibroController@Tags')->name('imprimir');
 
 Route::get('/inventario/bibliotecas', 'BibliotecaController@biblioteca')->name('biblioteca');
 Route::resource('/Biblioteca','BibliotecaController');
+
+Route::get('/inventario/estantes', 'EstanteController@estante')->name('inventario.estantes');
+Route::resource('/Estante','EstanteController');
+
 Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
 Route::resource('/ejemplars','EjemplarController');
 Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');

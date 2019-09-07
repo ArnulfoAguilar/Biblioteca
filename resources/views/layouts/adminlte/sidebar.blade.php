@@ -73,6 +73,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{ route('inventario.estantes') }}" class="nav-link {{ ( request()->is('inventario/estantes') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Estantes</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('busqueda') }}" class="nav-link {{ ( request()->is('inventario/ingreso/libro') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ingreso de libro</p>
