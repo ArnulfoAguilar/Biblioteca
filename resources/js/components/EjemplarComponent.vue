@@ -22,13 +22,48 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="Biblioteca.BIBLIOTECA" class="form-control" id="BIBLIOTECA"
+                                <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.Biblioteca.BIBLIOTECA.required" class="error">Este campo es obligatorio</div>
+                                <div v-if="!$v.EJEMPLAR.EJEMPLAR.required" class="error">este campo es obligatorio</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="DESCRIPCION">Descripción</label>
+                                <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
+                                    rows="3"></textarea>
+                                <div v-if="!$v.EJEMPLAR.DESCRIPCION.required" class="error">este campo es obligatorio</div>
+                            </div>
+                            <div class="form-group" >
+                                <label for="ISBN">ISBN</label>
+                                <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
+                                    aria-describedby="emailHelp">
+                                <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
+                                <div v-if="!$v.EJEMPLAR.ISBN.required" class="error">este campo es obligatorio</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AUTOR">AUTOR/es</label>
+                                <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
+                                    aria-describedby="emailHelp">
+                                <div v-if="!$v.EJEMPLAR.AUTOR.required" class="error">este campo es obligatorio</div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="PAGINAS">Numero de paginas</label>
+                                    <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
+                                        aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.required" class="error">este campo es obligatorio</div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="copias">Numero de copias</label>
+                                    <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
+                                        aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.COPIAS.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.COPIAS.required" class="error">este campo es obligatorio</div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Biblioteca</button>
+                            <button class="btn btn-primary" type="submit">Guardar Ejemplar</button>
                             <button class="btn btn-danger" type="submit"
                                 @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -60,37 +95,70 @@ export default {
             },
             columns: [
                 {
-                    name:'BIBLIOTECA',
-                    title:'Biblioteca',
+                    name:'EJEMPLAR',
+                    title:'Ejemplar',
                     order: 1,
                     sort: true,
                     type: 'string',
                     filterable: true,
                     enabled: true
                 },
-                
+                {
+                    name:'AUTOR',
+                    title:'Autor',
+                    order: 2,
+                    sort: true,
+                    type: 'string',
+                    filterable: true,
+                    enabled: true
+                },
+                {
+                    name:'ISBN',
+                    title:'ISBN',
+                    order: 3,
+                    sort: true,
+                    type: 'string',
+                    filterable: true,
+                    enabled: true
+                }
             ],
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
              *del modal segun la situacion*/
             search:'',
-            bibliotecas: [],
+            ejemplars: [],
             modoEditar: false,
-            Biblioteca: { id:'', BIBLIOTECA: ''},
-
+            EJEMPLAR: { EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:'', },
             isEditing: false,
-            createTitle: 'Agregar Biblioteca',
-            editTitle: 'Editar Biblioteca',
+            createTitle: 'Agregar Ejemplar',
+            editTitle: 'Editar Ejemplar',
             titleToShow: '',
             hasError: false
         }
     },
     validations:{
-        Biblioteca:{
-            BIBLIOTECA:{
+        EJEMPLAR:{
+            EJEMPLAR:{
                 required
             },
-            
+            ISBN:{
+                required,
+                numeric
+            },
+            AUTOR:{
+                required
+            },
+            DESCRIPCION:{
+                required
+            },
+            NUMERO_PAGINAS:{
+                required,
+                numeric
+            },
+            COPIAS:{
+                required,
+                numeric
+            }
         }
     },
     created(){
@@ -115,15 +183,14 @@ export default {
     methods:{
         sendData(){
             this.tableLoader = true;
-            axios.get('/Biblioteca').then(res=>{
-                this.bibliotecas = res.data;
+            axios.get('/ejemplars').then(res=>{
+                this.ejemplars=res.data;
                 this.eventFromApp = {
                     name: 'sendData',
-                    payload: this.bibliotecas
+                    payload: this.ejemplars
                 };
             this.triggerEvent();
             this.tableLoader = false;
-            console.log(this.bibliotecas);
             });
         },
         triggerEvent(){
@@ -136,11 +203,11 @@ export default {
          *evento realizado es lo que hara la funcion*/
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
-                axios.get('/Biblioteca').then((result)=>{
-                    this.bibliotecas=result.data;
+                axios.get('/ejemplars').then((result)=>{
+                    this.ejemplars=result.data;
                     this.eventFromApp = {
                         name: 'sendData',
-                        payload: this.bibliotecas
+                        payload: this.ejemplars
                     };
                     this.triggerEvent();
                 })
@@ -152,54 +219,59 @@ export default {
                 console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarBiblioteca;
+                this.submit = this.editarEjemplar;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
                 $('#modalAgregar').modal('show');
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarBiblioteca(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
             }
         },
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
          *escena la variable del data isEditing*/
         guardar() {
-            const bibliotecaToSave = this.Biblioteca;
+            const ejemplarToSave = this.EJEMPLAR;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
-                axios.put(`/Biblioteca/${this.Biblioteca.id}`, bibliotecaToSave).then(res=>{
+                axios.put(`/ejemplars/${this.EJEMPLAR.id}`, ejemplarToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
             else
-                axios.post('/Biblioteca', bibliotecaToSave).then((res) =>{
+                axios.post('/ejemplars', ejemplarToSave).then((res) =>{
                     this.success(msg);
                 });
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.Biblioteca.BIBLIOTECA = item.BIBLIOTECA;
-        this.Biblioteca.id = item.id;
+        this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
+        this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
+        this.EJEMPLAR.ISBN = item.ISBN;
+        this.EJEMPLAR.AUTOR = item.AUTOR;
+        this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
+        this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
+        this.EJEMPLAR.id = item.id;
         this.isEditing = true;
         },
-        eliminarBiblioteca(Biblioteca, index){
+        eliminarEjemplar(EJEMPLAR, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Biblioteca ${Biblioteca.BIBLIOTECA}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
             if(confirmacion){
-                axios.delete(`/Biblioteca/${Biblioteca.id}`)
+                axios.delete(`/ejemplars/${EJEMPLAR.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("BIBLIOTECA ELIMINADO");
+                    console.log("EJEMPLAR ELIMINADO");
                 })
             }
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion

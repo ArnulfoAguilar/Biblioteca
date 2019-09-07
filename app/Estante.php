@@ -11,4 +11,9 @@ class Estante extends Model
         'ID_BIBLIOTECA',
         'ESTANTE'
     ];
+
+    public function biblioteca()
+    {
+        return $this->belongsTo('App\Biblioteca', 'ID_BIBLIOTECA', 'id');
+    }
 }

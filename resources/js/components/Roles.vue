@@ -22,13 +22,16 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="Biblioteca.BIBLIOTECA" class="form-control" id="BIBLIOTECA"
+                                <input type="text" v-model.lazy="ROL.ROL" class="form-control" id="NOMBRE"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.Biblioteca.BIBLIOTECA.required" class="error">Este campo es obligatorio</div>
+                                <div v-if="!$v.ROL.ROL.required" class="error">Este campo es obligatorio</div>
                             </div>
+                            
+                            
+                            
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Biblioteca</button>
+                            <button class="btn btn-primary" type="submit">Guardar Rol</button>
                             <button class="btn btn-danger" type="submit"
                                 @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -60,37 +63,34 @@ export default {
             },
             columns: [
                 {
-                    name:'BIBLIOTECA',
-                    title:'Biblioteca',
+                    name:'ROL',
+                    title:'Rol',
                     order: 1,
                     sort: true,
                     type: 'string',
                     filterable: true,
                     enabled: true
                 },
-                
             ],
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
              *del modal segun la situacion*/
             search:'',
-            bibliotecas: [],
+            roles: [],
             modoEditar: false,
-            Biblioteca: { id:'', BIBLIOTECA: ''},
-
+            ROL: { ROL: '', },
             isEditing: false,
-            createTitle: 'Agregar Biblioteca',
-            editTitle: 'Editar Biblioteca',
+            createTitle: 'Agregar Rol',
+            editTitle: 'Editar Rol',
             titleToShow: '',
             hasError: false
         }
     },
     validations:{
-        Biblioteca:{
-            BIBLIOTECA:{
+        ROL:{
+            ROL:{
                 required
             },
-            
         }
     },
     created(){
@@ -115,15 +115,14 @@ export default {
     methods:{
         sendData(){
             this.tableLoader = true;
-            axios.get('/Biblioteca').then(res=>{
-                this.bibliotecas = res.data;
+            axios.get('/roles').then(res=>{
+                this.roles=res.data;
                 this.eventFromApp = {
                     name: 'sendData',
-                    payload: this.bibliotecas
+                    payload: this.roles
                 };
             this.triggerEvent();
             this.tableLoader = false;
-            console.log(this.bibliotecas);
             });
         },
         triggerEvent(){
@@ -136,11 +135,11 @@ export default {
          *evento realizado es lo que hara la funcion*/
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
-                axios.get('/Biblioteca').then((result)=>{
-                    this.bibliotecas=result.data;
+                axios.get('/roles').then((result)=>{
+                    this.roles=result.data;
                     this.eventFromApp = {
                         name: 'sendData',
-                        payload: this.bibliotecas
+                        payload: this.roles
                     };
                     this.triggerEvent();
                 })
@@ -152,54 +151,55 @@ export default {
                 console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarBiblioteca;
+                this.submit = this.editarRol;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
                 $('#modalAgregar').modal('show');
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarBiblioteca(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarRol(componentState.selectedItem, componentState.selectedIndex);
             }
         },
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
          *escena la variable del data isEditing*/
         guardar() {
-            const bibliotecaToSave = this.Biblioteca;
+            const rolToSave = this.ROL;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
-                axios.put(`/Biblioteca/${this.Biblioteca.id}`, bibliotecaToSave).then(res=>{
+                axios.put(`/roles/${this.ROL.id}`, rolToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
             else
-                axios.post('/Biblioteca', bibliotecaToSave).then((res) =>{
+                axios.post('/roles', rolToSave).then((res) =>{
                     this.success(msg);
                 });
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.ROL = {ROL: ''};
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.Biblioteca.BIBLIOTECA = item.BIBLIOTECA;
-        this.Biblioteca.id = item.id;
+        this.ROL.ROL = item.ROL;
+        
+        this.ROL.id = item.id;
         this.isEditing = true;
         },
-        eliminarBiblioteca(Biblioteca, index){
+        eliminarRol(ROL, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Biblioteca ${Biblioteca.BIBLIOTECA}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "ROL ${ROL.ROL}"?`);
             if(confirmacion){
-                axios.delete(`/Biblioteca/${Biblioteca.id}`)
+                axios.delete(`/roles/${ROL.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("BIBLIOTECA ELIMINADO");
+                    console.log("ROL ELIMINADO");
                 })
             }
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.ROL = {ROL: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion

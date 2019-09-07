@@ -5,14 +5,14 @@
                 <div class="card">
                     <div class="card-header">
                         Lista de ejemplares
-                        
+
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalAgregar">Agregar</button>
 
                         <input class="form-control col-md-3 float-right" placeholder="Buscar por titulo..." v-model="search">
                     </div>
                     <div class="card-body">
                         <ul class="list-group">
-                            <li class="list-group-item" 
+                            <li class="list-group-item"
                                 v-for="(item, index) in searchEjemplar" :key="index" >
                                 <h5>
                                     <span class="badge  float-right">
@@ -27,7 +27,7 @@
                                 <p>COPIAS: {{item.NUMERO_COPIAS}}</p>
                                 <p>
                                     <button @click="editarFormulario(item)" type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditar">Editar</button>
-                                    <button class="btn btn-danger btn-sm " 
+                                    <button class="btn btn-danger btn-sm "
                                         @click="eliminarEjemplar(item, index)"><i class="fe fe-eye"></i>Eliminar</button>
                                 </p>
                             </li>
@@ -35,7 +35,9 @@
                     </div>
                 </div>
             </div>
-            
+
+            <lista-ejem-table></lista-ejem-table>
+
             <!-- Modal para editar-->
             <div id="modalEditar" class="modal fade" role="dialog">
                 <div class="modal-dialog">
@@ -82,7 +84,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-warning float-left" type="submit">Editar</button>
-                                <button class="btn btn-danger" type="submit" 
+                                <button class="btn btn-danger" type="submit"
                                     @click="cancelarEdicion" data-dismiss="modal">Cancelar edición</button>
                             </div>
                         </div>
@@ -138,7 +140,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-primary" type="submit">Agregar Ejemplar</button>
-                                <button class="btn btn-danger" type="submit" 
+                                <button class="btn btn-danger" type="submit"
                                     @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
@@ -175,7 +177,7 @@
         methods: {
             agregar() {
                 const ejemplarNuevo = this.EJEMPLAR;
-                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};    
+                this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
                 axios.post('/ejemplars', ejemplarNuevo)
                     .then((res) =>{
                     const ejemplarServidor = res.data;
@@ -202,7 +204,7 @@
             },
             editarEjemplar(EJEMPLAR){
             const params = {
-                EJEMPLAR: EJEMPLAR.EJEMPLAR, 
+                EJEMPLAR: EJEMPLAR.EJEMPLAR,
                 DESCRIPCION: EJEMPLAR.DESCRIPCION,
                 ISBN: EJEMPLAR.ISBN,
                 AUTOR: EJEMPLAR.AUTOR,
@@ -223,7 +225,7 @@
                 $("#modalEditar").modal('hide');
                 this.actualizar();
                 })
-            
+
             },
             eliminarEjemplar(EJEMPLAR, index){
                 // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
@@ -254,7 +256,7 @@
         },
         computed:{
             searchEjemplar: function(){
-                return this.ejemplars.filter((item) => 
+                return this.ejemplars.filter((item) =>
                     item.EJEMPLAR.includes(this.search) ||
                     item.AUTOR.includes(this.search) ||
                     item.ISBN.includes(this.search)

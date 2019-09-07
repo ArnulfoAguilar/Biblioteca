@@ -19,9 +19,11 @@ class AporteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('Aportes.ListaAporte');
+        return view('Aportes.ListaAporte')->with([
+            'id' => $request->id
+            ]);
     }
     public function lista()
     {   
@@ -32,8 +34,13 @@ class AporteController extends Controller
                 ['Aporte.HABILITADO','=','1']
             ]);
         })
-        ->select('Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
+        ->select('Aporte.id','Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
         ->get();
+    }
+
+    public function listatodos(Request $request)
+    {   
+        return Aporte::where('HABILITADO', $request->id)->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -252,5 +259,10 @@ class AporteController extends Controller
     public function destroy(Aporte $aporte)
     {
         //
+    }
+
+    public function obtener(Request $request)
+    {
+        return Aporte::where('id', $request->id)->get();
     }
 }

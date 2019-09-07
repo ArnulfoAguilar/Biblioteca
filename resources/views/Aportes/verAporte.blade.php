@@ -30,10 +30,14 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;">
+
+                        <!-- <h1>{{ $aporte->TITULO }}</h1> -->
+
                         <div class="row">
                         <h1 class="col-md-10">{{ $aporte->TITULO }}</h1>
                         <span class="col-md-2">{{ $aporte->created_at }}</span>
                         </div>
+
                     </div>
                     <div class="card-body">
                             <div class="float-right">
@@ -50,25 +54,11 @@
                     <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
                     @endif  
                 </div>
-                
-                
-                <!--div class="card">
-                    <div class="card-header">
-                        <h3>Revisiones</h3>
-                    </div>
-                    <div class="card-body">
-                        
-                        {{-- Si esto en algun momento da problemas, yo lo solvente asi:  --}}
-                        {{-- copien la linea de revisiones con los parametros, se los quitan, y luego guardan --}}
-                        {{-- luego se los vuelven a poner tal y como estaba  --}}
 
-                    {{-- <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}"></revisiones> --}}
-                    {{-- <revisiones></revisiones> --}}
-                    <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}"></revisiones>
-                    </div>
-                    <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
-                </div-->  
-                  
+
+                <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}" rol="{{Auth::user()->ID_ROL}}" usuario="{{Auth::user()->id}}"></revisiones>
+
+
             </div>
         </div>
     </div>

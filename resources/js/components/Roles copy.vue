@@ -9,11 +9,11 @@
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
 
-        <!-- Modal con el formulario para agregar un nuevo libro o editar uno existente-->
+        <!-- Modal con el formulario para agregar un nuevo rol o editar uno existente-->
         <div id="modalAgregar" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
-                <form @submit.prevent="submitHandler($v.$invalid)" >
+                <form @submit.prevent="guardar" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">{{titleToShow}}</h4>
@@ -22,13 +22,13 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="Biblioteca.BIBLIOTECA" class="form-control" id="BIBLIOTECA"
-                                    aria-describedby="emailHelp">
-                                <div v-if="!$v.Biblioteca.BIBLIOTECA.required" class="error">Este campo es obligatorio</div>
+                                <input type="text" v-model="ROL.ROL" class="form-control" id="NOMBRE"
+                                    aria-describedby="emailHelp" required>
                             </div>
+                            
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Biblioteca</button>
+                            <button class="btn btn-primary" type="submit">Guardar Rol</button>
                             <button class="btn btn-danger" type="submit"
                                 @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import { required,numeric } from "vuelidate/lib/validators";
 export default {
     data(){
         return {
@@ -60,37 +59,26 @@ export default {
             },
             columns: [
                 {
-                    name:'BIBLIOTECA',
-                    title:'Biblioteca',
+                    name:'ROL',
+                    title:'Rol',
                     order: 1,
                     sort: true,
                     type: 'string',
                     filterable: true,
                     enabled: true
                 },
-                
             ],
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
              *del modal segun la situacion*/
             search:'',
-            bibliotecas: [],
+            roles: [],
             modoEditar: false,
-            Biblioteca: { id:'', BIBLIOTECA: ''},
-
+            ROL: { ROL: ''},
             isEditing: false,
-            createTitle: 'Agregar Biblioteca',
-            editTitle: 'Editar Biblioteca',
-            titleToShow: '',
-            hasError: false
-        }
-    },
-    validations:{
-        Biblioteca:{
-            BIBLIOTECA:{
-                required
-            },
-            
+            createTitle: 'Agregar Rol',
+            editTitle: 'Editar Rol',
+            titleToShow: ''
         }
     },
     created(){
@@ -99,31 +87,28 @@ export default {
         this.tableOptions = {
             columns: this.columns,
             responsiveTable: true,
-            contextMenuRight: true,
-            contextMenuAdd: false,
-            contextMenuView: false,
-            quickView: 0,
             addNew: true,
+            editItem:true,
             deleteItem: true
         };
         this.sendData();
-       // console.log('componente creado')
+        console.log('componente roles creado')
     },
     mounted(){
-       // console.log('tabla montada')
+        console.log('tabla roles montada')
     },
     methods:{
         sendData(){
+            debugger;
             this.tableLoader = true;
-            axios.get('/Biblioteca').then(res=>{
-                this.bibliotecas = res.data;
+            axios.get('/roles').then(res=>{
+                this.roles=res.data;
                 this.eventFromApp = {
                     name: 'sendData',
-                    payload: this.bibliotecas
+                    payload: this.roles
                 };
             this.triggerEvent();
             this.tableLoader = false;
-            console.log(this.bibliotecas);
             });
         },
         triggerEvent(){
@@ -136,11 +121,11 @@ export default {
          *evento realizado es lo que hara la funcion*/
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
-                axios.get('/Biblioteca').then((result)=>{
-                    this.bibliotecas=result.data;
+                axios.get('/roles').then((result)=>{
+                    this.roles=result.data;
                     this.eventFromApp = {
                         name: 'sendData',
-                        payload: this.bibliotecas
+                        payload: this.roles
                     };
                     this.triggerEvent();
                 })
@@ -149,57 +134,56 @@ export default {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
                 $('#modalAgregar').modal('show');
-                console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarBiblioteca;
+                this.submit = this.editarRol;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
                 $('#modalAgregar').modal('show');
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarBiblioteca(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarRol(componentState.selectedItem, componentState.selectedIndex);
             }
         },
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
          *escena la variable del data isEditing*/
         guardar() {
-            const bibliotecaToSave = this.Biblioteca;
+            const rolToSave = this.ROL;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
-                axios.put(`/Biblioteca/${this.Biblioteca.id}`, bibliotecaToSave).then(res=>{
+                axios.put(`/roles/${this.ROL.id}`, rolToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
             else
-                axios.post('/Biblioteca', bibliotecaToSave).then((res) =>{
+                axios.post('/roles', rolToSave).then((res) =>{
                     this.success(msg);
                 });
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.ROL = {ROL: ''};
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.Biblioteca.BIBLIOTECA = item.BIBLIOTECA;
-        this.Biblioteca.id = item.id;
+        this.ROL.ROL = item.ROL;
+        this.ROL.id = item.id;
         this.isEditing = true;
         },
-        eliminarBiblioteca(Biblioteca, index){
+        eliminarRol(ROL, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Biblioteca ${Biblioteca.BIBLIOTECA}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "ROL ${ROL.ROL}"?`);
             if(confirmacion){
-                axios.delete(`/Biblioteca/${Biblioteca.id}`)
+                axios.delete(`/roles/${ROL.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("BIBLIOTECA ELIMINADO");
+                    console.log("ROL ELIMINADO");
                 })
             }
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.ROL = {ROL: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion
@@ -209,19 +193,6 @@ export default {
             toastr.clear();
             toastr.options.closeButton = true;
             toastr.success(msg, 'Exito');
-        },
-        /*Este es el metodo que se ejecuta al hacer submit del formulario
-         *el parametro error es una propiedad que nos ofrece vuelidate
-         *la cual es un booleano que si existe un error en el modelo
-         *a validar es verdadero. */
-        submitHandler(error){
-            if(error){
-                toastr.clear();
-                toastr.options.closeButton = true;
-                toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
-            }else{
-                this.guardar();
-            }
         }
     }
 }

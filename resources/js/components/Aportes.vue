@@ -1,5 +1,5 @@
 <template>
-    <div class="container">    
+    <div class="container">   
         <div class="col-md-12" v-for="(item, index) in Aportes" :key="index">
             <!-- Box Comment -->
             <div class="card card-widget">
@@ -11,7 +11,7 @@
                 </div>
                 <!-- /.user-block -->
                 <div class="card-tools">
-                 
+                 <a class="btn btn-primary" href="#" role="button" @click="verAporte(item.id)">Ir al aporte en si</a>
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
                   
@@ -39,6 +39,7 @@
         mounted() {
             console.log('Component mounted.')
         },
+        props: ['habilitado'],
         data(){
             return{
                 Aportes: [],
@@ -50,12 +51,30 @@
         },
         methods :{
             cargarAportes(){
-                axios.get('/listaAportes').then(response=>{
-                    this.Aportes = response.data;
-                    console.log(this.Aportes);
-                }
+              if(this.habilitado != ''){
+                axios.get('/listaTodosAportes?id='+this.habilitado).then(response=>{
+                  this.Aportes = response.data;
+                  console.log(this.Aportes);
+                  }
                 )
-            }
-        }
+              }else{
+                axios.get('/listaAportes').then(response=>{
+                  this.Aportes = response.data;
+                  console.log(this.Aportes);
+                  }
+                )
+              }
+                
+            },
+            
+            verAporte(id){
+              console.log('id: '+id);
+              // router.push({ name: "aportes.index"})
+              axios.get('/aportes/'+id);
+            }, 
+
+        },
+      
+
     }
 </script>

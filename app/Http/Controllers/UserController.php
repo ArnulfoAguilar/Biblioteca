@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Biblioteca;
 use Illuminate\Http\Request;
+use App\User;
 
-class BibliotecaController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function biblioteca(){
-        return view('Biblioteca.listaBiblioteca');
-    }
-    public function index()
+    public function index(Request $request)
     {
-        $biblioteca= Biblioteca::all();
-        return $biblioteca;
+        // dd($request);
+        if($request->ajax()){
+            return User::all();
+        }else{
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -39,18 +40,16 @@ class BibliotecaController extends Controller
      */
     public function store(Request $request)
     {
-        $biblioteca = new Biblioteca();
-        $biblioteca->BIBLIOTECA = $request->BIBLIOTECA;
-        $biblioteca->save();
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Biblioteca  $biblioteca
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Biblioteca $biblioteca)
+    public function show($id)
     {
         //
     }
@@ -58,10 +57,10 @@ class BibliotecaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Biblioteca  $biblioteca
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Biblioteca $biblioteca)
+    public function edit($id)
     {
         //
     }
@@ -70,25 +69,30 @@ class BibliotecaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Biblioteca  $biblioteca
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $biblioteca = Biblioteca::find($id);
-        $biblioteca->BIBLIOTECA = $request ->BIBLIOTECA;
-        $biblioteca->save();
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Biblioteca  $biblioteca
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $biblioteca = Biblioteca::find($id);
-        $biblioteca->delete();
+        //
+    }
+
+    public function asignarRol(Request $request)
+    {
+        $usuario = User::find($request->id);
+        $usuario->ID_ROL = $request->ID_ROL;
+        $usuario->save();
+        return redirect()->route('asignar.roles');
     }
 }

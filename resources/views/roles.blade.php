@@ -1,5 +1,6 @@
 @extends('layouts.adminLTE')
 
 @section('content')
-    <ejemplar-component></ejemplar-component>
+    {{-- <roles></roles> --}}
+    <roles></roles>
 @endsection

@@ -13,7 +13,7 @@
         <div id="modalAgregar" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
-                <form @submit.prevent="submitHandler($v.$invalid)" >
+                <form @submit.prevent="submitHandler($v.$invalid)" > 
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">{{titleToShow}}</h4>
@@ -22,13 +22,25 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="Biblioteca.BIBLIOTECA" class="form-control" id="BIBLIOTECA"
+                                <input type="text" v-model.lazy="Estante.ESTANTE" class="form-control" id="ESTANTE"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.Biblioteca.BIBLIOTECA.required" class="error">Este campo es obligatorio</div>
+                                <div v-if="!$v.Estante.ESTANTE.required" class="error">Este campo es obligatorio</div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="NOMBRE">Biblioteca a la que pertenece</label>
+                                <select class="form-control" v-model="Estante.ID_BIBLIOTECA">
+                                    <option disabled value="">Por favor seleccione una</option>
+                                    <option v-for="(item, index) in bibliotecas" :key="index" v-bind:value="item.id">
+                                    {{ item.BIBLIOTECA }}
+                                    </option>
+                                </select>
+                                <div v-if="!$v.Estante.ID_BIBLIOTECA.required" class="error">Este campo es obligatorio</div>
+                            </div>
+
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Biblioteca</button>
+                            <button class="btn btn-primary" type="submit">Guardar Estante</button>
                             <button class="btn btn-danger" type="submit"
                                 @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -60,9 +72,18 @@ export default {
             },
             columns: [
                 {
+                    name:'ESTANTE',
+                    title:'Estante',
+                    order: 1,
+                    sort: true,
+                    type: 'string',
+                    filterable: true,
+                    enabled: true
+                },
+                {
                     name:'BIBLIOTECA',
                     title:'Biblioteca',
-                    order: 1,
+                    order: 2,
                     sort: true,
                     type: 'string',
                     filterable: true,
@@ -74,20 +95,24 @@ export default {
              *ingresando un nuevo registro, y los titulos son los
              *del modal segun la situacion*/
             search:'',
+            estantes: [],
             bibliotecas: [],
             modoEditar: false,
-            Biblioteca: { id:'', BIBLIOTECA: ''},
+            Estante: { id:'', ESTANTE: '', ID_BIBLIOTECA:''},
 
             isEditing: false,
-            createTitle: 'Agregar Biblioteca',
-            editTitle: 'Editar Biblioteca',
+            createTitle: 'Agregar Estante',
+            editTitle: 'Editar Estante',
             titleToShow: '',
             hasError: false
         }
     },
     validations:{
-        Biblioteca:{
-            BIBLIOTECA:{
+        Estante:{
+            ESTANTE:{
+                required
+            },
+            ID_BIBLIOTECA:{
                 required
             },
             
@@ -115,14 +140,21 @@ export default {
     methods:{
         sendData(){
             this.tableLoader = true;
-            axios.get('/Biblioteca').then(res=>{
-                this.bibliotecas = res.data;
+            axios.get('/Estante').then(res=>{
+                this.estantes = res.data;
                 this.eventFromApp = {
                     name: 'sendData',
-                    payload: this.bibliotecas
+                    payload: this.estantes
                 };
             this.triggerEvent();
             this.tableLoader = false;
+            console.log(this.estantes);
+            });
+
+            axios.get('/Biblioteca').then(res=>{
+                this.bibliotecas = res.data;
+                
+           
             console.log(this.bibliotecas);
             });
         },
@@ -136,13 +168,17 @@ export default {
          *evento realizado es lo que hara la funcion*/
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
-                axios.get('/Biblioteca').then((result)=>{
-                    this.bibliotecas=result.data;
+                axios.get('/Estante').then((result)=>{
+                    this.estantes=result.data;
                     this.eventFromApp = {
                         name: 'sendData',
-                        payload: this.bibliotecas
+                        payload: this.estantes
                     };
                     this.triggerEvent();
+                })
+                axios.get('/Biblioteca').then((result)=>{
+                    this.bibliotecas=result.data;
+                    
                 })
             }
             if (componentState.lastAction ==='AddItem') {
@@ -152,54 +188,55 @@ export default {
                 console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarBiblioteca;
+                this.submit = this.editarEstante;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
                 $('#modalAgregar').modal('show');
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarBiblioteca(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarEstante(componentState.selectedItem, componentState.selectedIndex);
             }
         },
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
          *escena la variable del data isEditing*/
         guardar() {
-            const bibliotecaToSave = this.Biblioteca;
+            const estanteToSave = this.Estante;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
-                axios.put(`/Biblioteca/${this.Biblioteca.id}`, bibliotecaToSave).then(res=>{
+                axios.put(`/Estante/${this.Estante.id}`, estanteToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
             else
-                axios.post('/Biblioteca', bibliotecaToSave).then((res) =>{
+                axios.post('/Estante', estanteToSave).then((res) =>{
                     this.success(msg);
                 });
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.Estante = {id: '', ESTANTE: '', ID_BIBLIOTECA:''};
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.Biblioteca.BIBLIOTECA = item.BIBLIOTECA;
-        this.Biblioteca.id = item.id;
+        this.Estante.ESTANTE = item.ESTANTE;
+        this.Estante.ID_BIBLIOTECA = item.ID_BIBLIOTECA;
+        this.Estante.id = item.id;
         this.isEditing = true;
         },
-        eliminarBiblioteca(Biblioteca, index){
+        eliminarEstante(Estante, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Biblioteca ${Biblioteca.BIBLIOTECA}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "Estante ${Estante.ESTANTE}"?`);
             if(confirmacion){
-                axios.delete(`/Biblioteca/${Biblioteca.id}`)
+                axios.delete(`/Estante/${Estante.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("BIBLIOTECA ELIMINADO");
+                    console.log("ESTANTE ELIMINADO");
                 })
             }
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.Estante = {id: '', ESTANTE: '', ID_BIBLIOTECA:''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion
