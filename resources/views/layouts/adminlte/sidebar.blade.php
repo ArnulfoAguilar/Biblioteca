@@ -1,20 +1,16 @@
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{ route('home') }}" class="brand-link">
       <!--<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">-->
-      <span class="brand-text font-weight-light ">Biblioteca</span>
+      <span class="brand-text font-weight-light ">Página Principal</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="info">
-          <a href="{{ route('home') }}" class="d-block">Inicio</a>
-        </div>
-      </div>
+
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -34,15 +30,17 @@
               <li class="nav-item">
                 <a href="{{ route('buscar.disponible') }}" class="nav-link {{ ( request()->is('biblioteca/busqueda/*') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Busqueda Para Prestamo</p>
+                  <p>Realizar Préstamo</p>
                 </a>
               </li>
+
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Prestar libro</p>
+                  <p>Ver Préstamos</p>
                 </a>
               </li>
+              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -72,6 +70,12 @@
                 <a href="{{ route('biblioteca') }}" class="nav-link {{ ( request()->is('inventario/bibliotecas') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Bibliotecas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('inventario.estantes') }}" class="nav-link {{ ( request()->is('inventario/estantes') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Estantes</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -105,9 +109,21 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <a href="{{route('aportes.create')}}" class="nav-link">
+              <a href="{{route('aportes.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Nuevo Aporte</p>
+                  <p>Mis Aprobados</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('aportes.index',['id'=>0])}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Lista Pendientes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('aportes.index',['id'=>1])}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Lista Aprobados</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -142,6 +158,60 @@
               </li>
             </ul>
           </li>
+          {{-- admisnistracion --}}
+          <li class="nav-item has-treeview {{ ( request()->is('administracion/*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('administracion/*') ) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Administración
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href="{{route('roles')}}" class="nav-link {{ ( request()->is('administracion/roles') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Lista de roles</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('asignar.roles')}}" class="nav-link {{ ( request()->is('administracion/asignar/roles') ) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Asignar rol</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+
+          {{-- Catalogos --}}
+          <li class="nav-item has-treeview {{ ( request()->is('catalogos/*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('catalogos/*') ) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-list-alt"></i>
+              <p>
+                Catálogos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href="" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Item 1 </p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Item 2</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>

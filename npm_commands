@@ -1,0 +1,4 @@
+//Comandos para la instalacion de plugins npm utilizados
+npm install vue-jd-table --save-dev
+npm install vuelidate --save
+npm install admin-lte@3.0.0-beta.2 --save

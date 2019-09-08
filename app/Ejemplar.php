@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ejemplar extends Model
 {
     protected $table = 'Ejemplar';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'ISBN',
         'EJEMPLAR',
@@ -19,4 +20,9 @@ class Ejemplar extends Model
         'ID_CATEGORIA',
         'ID_TERCER_SUMARIO',
         ];
+    
+    public function libros()
+    {
+        return $this->hasMany('App\Libro', 'ID_EJEMPLAR', 'id');
+    }
 }

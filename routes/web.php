@@ -21,25 +21,44 @@ Auth::routes();
 
 Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
 Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
-Route::get('/bublioteca/imprimir', 'LibroController@Tags')->name('imprimir');
+Route::get('/biblioteca/imprimir', 'LibroController@Tags')->name('imprimir');
 
 // ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
 
 Route::get('/inventario/bibliotecas', 'BibliotecaController@biblioteca')->name('biblioteca');
-Route::resource('/Estante', 'EstanteController');
 Route::resource('/Biblioteca', 'BibliotecaController');
+
+Route::get('/inventario/estantes', 'EstanteController@estante')->name('inventario.estantes');
+Route::resource('/Estante', 'EstanteController');
+
 Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
 Route::resource('/ejemplars', 'EjemplarController');
 Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
 Route::resource('/Ejemplar', 'EjemplarController');
+Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 
 // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
 
 Route::resource('/aportes', 'AporteController');
+Route::get('/aporte/obtener', 'AporteController@obtener')->name('obtener.aporte');
+Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
+Route::get('/listaTodosAportes', 'AporteController@listatodos')->name('aportes.lista.todos');
 Route::resource('/revisiones', 'RevisionController');
+Route::resource('/comentarios', 'ComentarioController');
+
 
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
+
+
+// ---------------------------------RUTAS DEL MODULO DE ADMINISTRACION -------------------------------------//
+Route::resource('/users', 'UserController');
+
+Route::resource('/roles', 'RolController');
+Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
+
+Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
+
 
 // -----------------------------------------OTRAS RUTAS -------------------------------------//
 

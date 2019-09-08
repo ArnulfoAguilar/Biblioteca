@@ -16,9 +16,10 @@ class CreateAportesTable extends Migration
         Schema::create('Aporte', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('TITULO',250);
-            $table->string('DESCRIPCION',150000);
-            $table->string('PALABRAS_CLAVE',250);
+            $table->string('DESCRIPCION',250);
+            $table->string('CONTENIDO',50000);
             $table->boolean('COMENTARIOS');
+            $table->boolean('HABILITADO')->default(false);
             $table->unsignedInteger('ID_AREA');
             $table->foreign('ID_AREA')
             ->references('id')
