@@ -22,7 +22,8 @@ class CreateEstantesTable extends Migration
                 ->on('Biblioteca')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-            $table->string('ESTANTE','255');
+            $table->string('ESTANTE', '255');
+            $table->string('CLASIFICACION');
             $table->timestamps();
         });
     }

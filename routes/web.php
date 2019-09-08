@@ -26,16 +26,17 @@ Route::get('/bublioteca/imprimir', 'LibroController@Tags')->name('imprimir');
 // ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
 
 Route::get('/inventario/bibliotecas', 'BibliotecaController@biblioteca')->name('biblioteca');
-Route::resource('/Biblioteca','BibliotecaController');
+Route::resource('/Estante', 'EstanteController');
+Route::resource('/Biblioteca', 'BibliotecaController');
 Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
-Route::resource('/ejemplars','EjemplarController');
+Route::resource('/ejemplars', 'EjemplarController');
 Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
-Route::resource('/Ejemplar','EjemplarController');
+Route::resource('/Ejemplar', 'EjemplarController');
 
 // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
 
-Route::resource('/aportes','AporteController');
-Route::resource('/revisiones','RevisionController');
+Route::resource('/aportes', 'AporteController');
+Route::resource('/revisiones', 'RevisionController');
 
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
@@ -44,10 +45,10 @@ Route::resource('/revisiones','RevisionController');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/PrimerSumarioSelect','PrimerSumarioController@primerSumarioSelect');
-Route::get('/SegundoSumarioSelect/{id}','segundoSumarioController@segundoSumarioSelect');
-Route::get('/TercerSumarioSelect/{id}','tercerSumarioController@tercerSumarioSelect');
+Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
+Route::get('/SegundoSumarioSelect/{id}', 'segundoSumarioController@segundoSumarioSelect');
+Route::get('/TercerSumarioSelect/{id}', 'tercerSumarioController@tercerSumarioSelect');
 
 /*RUTA para select de Area*/
-Route::get('/area','AreaController@areaSelect')->name('areas');
+Route::get('/area', 'AreaController@areaSelect')->name('areas');
 /*RUTA para select de Area*/

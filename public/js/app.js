@@ -1917,18 +1917,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log('Lista bibliotecas mounted.');
+    console.log("Lista bibliotecas mounted.");
   },
   data: function data() {
     return {
-      search: '',
+      search: "",
       bibliotecas: [],
       modoEditar: false,
+      mostrarEstante: false,
+      //nombreBiblioteca: "",
       Biblioteca: {
-        id: '',
-        BIBLIOTECA: ''
+        id: "",
+        BIBLIOTECA: ""
+      },
+      BibliotecaSeleccionada: {
+        id: "",
+        nombre: ""
       }
     };
   },
@@ -1939,7 +1961,7 @@ __webpack_require__.r(__webpack_exports__);
     cargar: function cargar() {
       var _this = this;
 
-      axios.get('/Biblioteca').then(function (res) {
+      axios.get("/Biblioteca").then(function (res) {
         _this.bibliotecas = res.data;
       });
     },
@@ -1947,13 +1969,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var bibliotecaNueva = this.Biblioteca;
-      axios.post('/Biblioteca', bibliotecaNueva).then(function (response) {
+      axios.post("/Biblioteca", bibliotecaNueva).then(function (response) {
         alert("Guardado correctamente");
         console.log("Guardado");
 
         _this2.cargar();
 
-        _this2.Biblioteca.BIBLIOTECA = '';
+        _this2.Biblioteca.BIBLIOTECA = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });
@@ -1995,9 +2017,14 @@ __webpack_require__.r(__webpack_exports__);
     cancelarEdicion: function cancelarEdicion() {
       this.modoEditar = false;
       this.Biblioteca = {
-        id: '',
-        BIBLIOTECA: ''
+        id: "",
+        BIBLIOTECA: ""
       };
+    },
+    mostrarFormEstante: function mostrarFormEstante(item) {
+      this.mostrarEstante = true;
+      this.BibliotecaSeleccionada.nombre = item.BIBLIOTECA;
+      this.BibliotecaSeleccionada.id = item.id;
     }
   },
   computed: {
@@ -2845,6 +2872,181 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.guardar();
       }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      estantes: [],
+      estante: {
+        identificador: "",
+        clasificacion: ""
+      },
+      editarActivo: false
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get("/Estante", {
+      params: {
+        id: this.BiblioSeleccionada.id
+      }
+    }).then(function (res) {
+      _this.estantes = res.data;
+    });
+    console.log(this.BiblioSeleccionada.id);
+  },
+  props: {
+    BiblioSeleccionada: {
+      type: Object
+    }
+  },
+  methods: {
+    agregar: function agregar() {
+      var _this2 = this;
+
+      //console.log(this.estante.identificador, this.estante.clasificacion);
+      if (this.estante.identificador.trim() === "" || this.estante.clasificacion.trim() === "") {
+        alert("Completa los campos");
+        return;
+      }
+
+      var params = {
+        identificador: this.estante.identificador,
+        clasificacion: this.estante.clasificacion,
+        biblioteca: this.BiblioSeleccionada.id
+      };
+      axios.post("/Estante", params).then(function (res) {
+        //Para guardarla en el array y poder visualizarla
+        _this2.estantes.push(res.data);
+      });
+    },
+    editarForm: function editarForm(item) {
+      this.editarActivo = true;
+      this.estante.identificador = item.ESTANTE;
+      this.estante.clasificacion = item.CLASIFICACION;
+      this.estante.id = item.id;
+    },
+    editarEstante: function editarEstante(estante) {
+      var _this3 = this;
+
+      var params = {
+        identificador: this.estante.identificador,
+        clasificacion: this.estante.clasificacion
+      };
+      console.log(params);
+      axios.put("/Estante/".concat(this.estante.id), params).then(function (res) {
+        _this3.editarActivo = false;
+        console.log("editado correctamente");
+      });
+    },
+    eliminarEstante: function eliminarEstante(item, index) {
+      var _this4 = this;
+
+      axios["delete"]("/Estante/".concat(item.id)).then(function () {
+        _this4.estantes.splice(index, 1);
+      });
     }
   }
 });
@@ -8245,6 +8447,25 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-jd-table/dist/jd-table.min.css":
+/*!*****************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-jd-table/dist/jd-table.min.css ***!
+  \*****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".jd-table {\n  position: relative;\n  min-width: 320px;\n  width: 100%;\n  background-color: #FFFFFF;\n  color: #252627;\n  font-size: 0.9rem;\n  font-weight: 400;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-direction: column;\n  -webkit-box-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n          align-items: center;\n  align-content: center;\n  align-self: center;\n  z-index: 1;\n  overflow: hidden;\n  -webkit-transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\n  transition: max-width 0.2s cubic-bezier(0.05, 0.52, 0.48, 1);\n  box-sizing: content-box;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n  .jd-table.jd-maximized {\n    height: 100%;\n    min-height: 100%;\n    max-height: 100%;\n    position: fixed;\n    top: 0;\n    left: 0;\n    padding: 1.2rem;\n    z-index: 9998;\n    box-sizing: border-box;\n    background-color: rgba(255, 255, 255, 0.6); }\n    .jd-table.jd-maximized .jd-layerHighlight {\n      min-width: 320px; }\n    .jd-table.jd-maximized .jd-layerControl {\n      min-width: 320px; }\n    .jd-table.jd-maximized .jd-layerOption {\n      min-width: 320px; }\n    .jd-table.jd-maximized .jd-layerContent {\n      display: -webkit-box;\n      display: flex;\n      overflow-x: auto;\n      min-width: 320px;\n      -webkit-box-flex: 0;\n              flex-grow: 0;\n      flex-shrink: 1; }\n      .jd-table.jd-maximized .jd-layerContent .table .body {\n        height: 100%;\n        -webkit-box-flex: 0;\n                flex-grow: 0;\n        flex-shrink: 1; }\n      .jd-table.jd-maximized .jd-layerContent .jd-contentTable .jd-body {\n        height: 100%; }\n    .jd-table.jd-maximized .jd-layerFooter {\n      min-width: 320px; }\n    .jd-table.jd-maximized .jd-layerPopup {\n      border-radius: 0; }\n      .jd-table.jd-maximized .jd-layerPopup.jd-fullFrameZone {\n        padding: 3rem; }\n      .jd-table.jd-maximized .jd-layerPopup .jd-searchArrow {\n        top: 5.15rem; }\n      .jd-table.jd-maximized .jd-layerPopup .jd-filterArrow {\n        top: 5.15rem;\n        right: 1.2rem; }\n    .jd-table.jd-maximized .jd-layerTitle {\n      padding-top: 0;\n      min-width: 320px; }\n  .jd-table.jd-fullBody {\n    height: 100%;\n    min-height: 100%;\n    max-height: 100%; }\n    .jd-table.jd-fullBody .jd-layerContent {\n      display: -webkit-box;\n      display: flex;\n      overflow-x: auto; }\n      .jd-table.jd-fullBody .jd-layerContent .jd-contentTable .jd-body {\n        height: 100%; }\n  .jd-table .jd-layerTitle {\n    font-size: 1.8rem;\n    padding-top: 1.2rem;\n    padding-bottom: 1.2rem;\n    font-weight: 500;\n    width: 100%;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: center;\n            justify-content: center; }\n  .jd-table .jd-layerHighlight {\n    position: relative;\n    width: 100%;\n    height: 0.45rem;\n    min-height: 0.45rem;\n    background-color: #494949;\n    border-top-left-radius: 0.5rem;\n    border-top-right-radius: 0.5rem;\n    z-index: 99; }\n  .jd-table .jd-layerControl {\n    position: relative;\n    width: 100%;\n    height: 2.5rem;\n    min-height: 2.5rem;\n    min-height: 2.5rem;\n    max-height: 2.5rem;\n    background-color: #757575;\n    color: #FFFFFF;\n    display: -webkit-box;\n    display: flex;\n    flex-wrap: nowrap;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    z-index: 99; }\n    .jd-table .jd-layerControl .jd-controlSearch {\n      position: relative;\n      height: 100%;\n      width: 2rem;\n      display: -webkit-box;\n      display: flex;\n      flex-wrap: nowrap;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n              flex-direction: row;\n      -webkit-box-flex: 0;\n              flex-grow: 0;\n      flex-shrink: 1;\n      transition: all 0.5s ease;\n      -webkit-transition: all 0.5s ease;\n      -moz-transition: all 0.5s ease;\n      -o-transition: all 0.5s ease; }\n      .jd-table .jd-layerControl .jd-controlSearch input {\n        width: 100%;\n        max-width: 10rem;\n        height: 100%;\n        box-shadow: none;\n        border: none;\n        background: transparent;\n        -webkit-box-flex: 0;\n                flex-grow: 0;\n        flex-shrink: 1; }\n        .jd-table .jd-layerControl .jd-controlSearch input:focus {\n          outline: none; }\n        .jd-table .jd-layerControl .jd-controlSearch input::-ms-clear {\n          display: none; }\n        .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-decoration, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-cancel-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-button, .jd-table .jd-layerControl .jd-controlSearch input::-webkit-search-results-decoration {\n          display: none; }\n      .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\n        width: 14rem;\n        color: #494949;\n        background-color: #E0E0E0; }\n        @media only screen and (max-width: 375px) {\n          .jd-table .jd-layerControl .jd-controlSearch.jd-searching {\n            width: 100%; } }\n    .jd-table .jd-layerControl .jd-controlFeature {\n      position: relative;\n      height: 100%;\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-align: center;\n              align-items: center;\n      margin-left: auto;\n      flex-wrap: nowrap;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n              flex-direction: row; }\n      @media only screen and (max-width: 375px) {\n        .jd-table .jd-layerControl .jd-controlFeature.jd-searching {\n          display: none; } }\n    .jd-table .jd-layerControl .jd-controlItem {\n      height: 100%;\n      position: relative;\n      cursor: pointer;\n      color: #FFFFFF;\n      display: inline-block;\n      width: 2rem;\n      min-width: 2rem;\n      user-select: none;\n      -webkit-touch-callout: none;\n      -webkit-user-select: none;\n      -moz-user-select: none;\n      -ms-user-select: none; }\n      .jd-table .jd-layerControl .jd-controlItem i {\n        width: 2rem;\n        min-width: 2rem;\n        height: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-pack: center;\n                justify-content: center;\n        -webkit-box-align: center;\n                align-items: center; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-active i {\n        -webkit-animation: activeFeature 1.5s infinite;\n                animation: activeFeature 1.5s infinite; }\n\n@-webkit-keyframes activeFeature {\n  0% {\n    color: #FFFFFF; }\n  100% {\n    color: #ff1a1a; } }\n\n@keyframes activeFeature {\n  0% {\n    color: #FFFFFF; }\n  100% {\n    color: #ff1a1a; } }\n      .jd-table .jd-layerControl .jd-controlItem:hover {\n        color: #494949;\n        background-color: #E0E0E0; }\n        .jd-table .jd-layerControl .jd-controlItem:hover:active {\n          color: #C00; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-selected {\n        color: #C00;\n        background-color: #E0E0E0; }\n        .jd-table .jd-layerControl .jd-controlItem.jd-selected:active {\n          color: #FFFFFF; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-clearSearch {\n        color: #E53935; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-search {\n        color: #757575; }\n      .jd-table .jd-layerControl .jd-controlItem.jd-noSelect {\n        cursor: default; }\n        .jd-table .jd-layerControl .jd-controlItem.jd-noSelect:hover:active {\n          color: #757575; }\n      .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow {\n        position: absolute;\n        top: 2.95rem;\n        right: -0.5rem;\n        background: #c9c9c9;\n        border: 1px solid #494949;\n        padding: 0.5rem;\n        color: #252627;\n        -webkit-animation: bounce 2s infinite;\n                animation: bounce 2s infinite;\n        border-radius: 6px;\n        white-space: nowrap; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\n          bottom: 100%;\n          right: 1.5rem;\n          border: solid transparent;\n          content: \" \";\n          height: 0;\n          width: 0;\n          position: absolute;\n          pointer-events: none; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:after {\n          border-color: rgba(224, 224, 224, 0);\n          border-bottom-color: #c9c9c9;\n          border-width: 12px;\n          margin-right: -12px; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-filterArrow:before {\n          border-color: rgba(73, 73, 73, 0);\n          border-bottom-color: #494949;\n          border-width: 18px;\n          margin-right: -18px; }\n      .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow {\n        position: absolute;\n        top: 2.95rem;\n        left: 3.5rem;\n        background: #c9c9c9;\n        border: 1px solid #494949;\n        padding: 0.5rem;\n        color: #252627;\n        -webkit-animation: bounce 2s infinite;\n                animation: bounce 2s infinite;\n        border-radius: 6px;\n        white-space: nowrap; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after, .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\n          bottom: 100%;\n          left: 50%;\n          border: solid transparent;\n          content: \" \";\n          height: 0;\n          width: 0;\n          position: absolute;\n          pointer-events: none; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:after {\n          border-color: rgba(224, 224, 224, 0);\n          border-bottom-color: #c9c9c9;\n          border-width: 12px;\n          margin-left: -12px; }\n        .jd-table .jd-layerControl .jd-controlItem .jd-searchArrow:before {\n          border-color: rgba(73, 73, 73, 0);\n          border-bottom-color: #494949;\n          border-width: 18px;\n          margin-left: -18px; }\n  .jd-table .jd-layerOption {\n    width: 100%;\n    position: relative; }\n    .jd-table .jd-layerOption .jd-optionDropdown {\n      background-color: #E0E0E0;\n      width: 310px;\n      right: 5px;\n      top: -1px;\n      position: absolute;\n      z-index: 80;\n      padding: 0.5rem 0rem;\n      box-sizing: border-box;\n      -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n      transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      overflow-y: auto;\n      overflow-x: hidden;\n      box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.54);\n      border-bottom-right-radius: 0.5rem;\n      border-bottom-left-radius: 0.5rem; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader {\n        -webkit-box-align: center;\n                align-items: center;\n        padding-top: 0.5rem;\n        padding-bottom: 1rem;\n        font-size: 1.35rem;\n        text-transform: uppercase;\n        color: #252627;\n        font-weight: 600;\n        align-self: center; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-subHeader {\n          padding-top: 1rem;\n          font-size: 1.17rem; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownHeader.jd-smallHeader {\n          font-size: 0.81rem;\n          font-weight: 400;\n          font-style: italic;\n          text-transform: none;\n          padding-top: 0rem; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem {\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-align: center;\n                align-items: center;\n        -webkit-box-pack: center;\n                justify-content: center;\n        height: 2rem;\n        min-height: 2rem;\n        width: 100%; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility {\n          padding-left: 1rem;\n          padding-right: 1rem;\n          color: #357e37; }\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnVisibility .jd-notVisible {\n            color: #E53935; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem .jd-columnTitle {\n          padding-right: 1rem;\n          width: 100%;\n          overflow: hidden;\n          text-overflow: ellipsis;\n          white-space: nowrap; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem:hover {\n          background-color: #FFFFFF; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected {\n          background-color: #757575;\n          color: #FFFFFF; }\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownItem.jd-selected:hover {\n            background-color: #757575; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput {\n        position: relative;\n        height: 2rem;\n        min-height: 2rem;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-align: center;\n                align-items: center;\n        margin: 0rem 1rem 0.5rem 1rem;\n        border: 1px solid #C00;\n        border-left: 5px solid #C00;\n        outline: none;\n        box-sizing: border-box;\n        font-size: 0.765rem;\n        font-weight: 500;\n        background-color: #FFFFFF;\n        align-items: center; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label {\n          width: 100%;\n          height: 100%;\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-align: center;\n                  align-items: center;\n          -webkit-touch-callout: none;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none; }\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-label span {\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            margin-left: 0.5rem;\n            margin-right: 2rem; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul {\n          position: absolute;\n          max-height: 12rem;\n          overflow-x: hidden;\n          overflow-y: auto;\n          top: 100%;\n          left: -1px;\n          right: -1px;\n          list-style: none;\n          padding: 0rem;\n          margin: 0rem;\n          border: 1px solid #ff6666;\n          background-color: #FFFFFF;\n          box-sizing: border-box;\n          z-index: 9998; }\n          .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li {\n            overflow: hidden;\n            white-space: nowrap;\n            text-overflow: ellipsis;\n            padding: 0.2rem;\n            -webkit-touch-callout: none;\n            -webkit-user-select: none;\n            -moz-user-select: none;\n            -ms-user-select: none;\n            user-select: none; }\n            .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput ul li:hover {\n              background-color: #ff4d4d;\n              color: #FFFFFF; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput input {\n          width: 100%;\n          font-family: inherit;\n          border: none;\n          font-size: 0.765rem;\n          font-weight: 500;\n          background-color: #FFFFFF;\n          outline: none;\n          box-sizing: border-box; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-addPadding {\n          padding: 0rem 0.5rem; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput .jd-removeIcon {\n          position: absolute;\n          right: 0.5rem;\n          top: 0.35rem;\n          color: #E53935;\n          font-size: 1.35rem; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-disabled {\n          border: 1px solid #949494;\n          border-left: 5px solid #949494; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownInput.jd-carrot:after {\n          content: \"\";\n          width: 0;\n          height: 0;\n          position: absolute;\n          right: 0.5rem;\n          top: 50%;\n          margin-top: -3px;\n          border-width: 6px 6px 0 6px;\n          border-style: solid;\n          border-color: #C00 transparent; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow {\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-align: center;\n                align-items: center;\n        -webkit-box-pack: center;\n                justify-content: center;\n        height: 2rem;\n        min-height: 2rem;\n        padding: 0rem 1rem;\n        align-items: center; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow.jd-separate {\n          -webkit-box-pack: justify;\n                  justify-content: space-between; }\n        .jd-table .jd-layerOption .jd-optionDropdown .jd-dropdownRow button {\n          width: 5rem; }\n      .jd-table .jd-layerOption .jd-optionDropdown .jd-errorMessage {\n        color: #E53935;\n        font-size: 0.765rem;\n        margin-bottom: 0.5rem;\n        text-align: center;\n        font-weight: 500; }\n  .jd-table .jd-layerContent {\n    position: relative;\n    width: 100%;\n    height: 100%;\n    background-color: #FFFFFF;\n    color: #252627;\n    display: block;\n    box-sizing: border-box;\n    overflow-y: hidden;\n    z-index: 50; }\n    .jd-table .jd-layerContent .jd-rowView {\n      position: absolute;\n      top: 0px;\n      left: 0px;\n      width: 100%;\n      height: 100%;\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n              justify-content: center;\n      background-color: rgba(0, 0, 0, 0.2);\n      z-index: 99;\n      padding: 1rem;\n      box-sizing: border-box; }\n    .jd-table .jd-layerContent .jd-contentTable {\n      position: relative;\n      width: 100%;\n      height: 100%;\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      flex-wrap: nowrap; }\n      .jd-table .jd-layerContent .jd-contentTable .jd-head {\n        position: relative;\n        width: 100%;\n        overflow: hidden;\n        box-sizing: border-box;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        background-color: #757575; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell {\n          position: relative;\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-orient: horizontal;\n          -webkit-box-direction: normal;\n                  flex-direction: row;\n          -webkit-box-align: center;\n                  align-items: center;\n          box-sizing: border-box;\n          font-size: 0.9rem;\n          padding: 0.2rem 0.5rem;\n          -webkit-box-flex: 1;\n                  flex-grow: 1;\n          -webkit-touch-callout: none;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n          border-top: 4px solid #990000;\n          border-top-left-radius: 5px;\n          border-top-right-radius: 5px;\n          background-color: #C00;\n          color: #FFFFFF;\n          border-right: 1px solid #990000; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-cellText {\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-orient: horizontal;\n            -webkit-box-direction: normal;\n                    flex-direction: row;\n            width: 100%;\n            -webkit-box-align: center;\n                    align-items: center;\n            -webkit-box-pack: justify;\n                    justify-content: space-between; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell .jd-hoverSort {\n            display: none; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-hoverAssist {\n            background-color: #ff4d4d; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell:first-child {\n            border-top-left-radius: 0px; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-scrollBuffer:last-child {\n            margin-right: 17px; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort {\n            cursor: pointer; }\n            .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover {\n              border-top: 4px solid #999999;\n              background-color: #FFFFFF;\n              color: #252627;\n              font-weight: 500; }\n              .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-cell.jd-sort:hover .jd-hoverSort {\n                display: block;\n                color: #252627; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-scrollFix {\n          width: 19px;\n          min-width: 19px;\n          max-width: 19px;\n          border-top-right-radius: 0px;\n          border-right: none;\n          border-top: 4px solid #990000;\n          box-sizing: border-box;\n          position: relative;\n          display: -webkit-box;\n          display: flex;\n          background-color: #C00;\n          border-left: none; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize {\n          position: absolute;\n          height: 100%;\n          width: 8px;\n          display: block;\n          cursor: w-resize;\n          right: -5px;\n          top: 0;\n          z-index: 10;\n          overflow: hidden; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-head .jd-resize.jd-selected {\n            width: 500px;\n            right: -250px; }\n      .jd-table .jd-layerContent .jd-contentTable .jd-body {\n        position: relative;\n        width: 100%;\n        display: block;\n        overflow-x: hidden;\n        background-color: #F7F7F7;\n        z-index: 50;\n        background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 5px, rgba(0, 0, 0, 0.1) 5px, rgba(0, 0, 0, 0.1) 10px); }\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row {\n          position: relative;\n          z-index: 50;\n          background-color: #FFFFFF; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row:hover {\n            background-color: #ff4d4d !important;\n            color: #FFFFFF; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-zebra:nth-child(even) {\n            background-color: #f2f2f2; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row.jd-rowSelect {\n            background-color: #e60000 !important;\n            color: #FFFFFF; }\n          .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell {\n            position: relative;\n            font-size: 0.81rem;\n            display: block;\n            white-space: nowrap;\n            text-overflow: ellipsis;\n            overflow: hidden; }\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell.jd-rowFlex {\n              display: -webkit-box;\n              display: flex;\n              height: 100%;\n              -webkit-box-align: center;\n                      align-items: center;\n              white-space: inherit;\n              min-height: inherit; }\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell:after {\n              display: block;\n              content: '';\n              min-height: inherit;\n              font-size: 0; }\n            .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-row .jd-cell .jd-list {\n              list-style-type: circle;\n              padding-left: 1rem; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-body .jd-virtualBody {\n          position: absolute;\n          opacity: 0;\n          top: 0;\n          left: 0;\n          width: 1px;\n          background: transparent; }\n      .jd-table .jd-layerContent .jd-contentTable .jd-row {\n        width: 100%;\n        height: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-align: center;\n                align-items: center;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        cursor: pointer; }\n        .jd-table .jd-layerContent .jd-contentTable .jd-row .jd-cell {\n          width: 100%;\n          box-sizing: border-box;\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-align: center;\n                  align-items: center;\n          -webkit-box-flex: 1;\n                  flex-grow: 1;\n          padding-left: 0.5rem;\n          overflow-wrap: break-word;\n          word-wrap: break-word;\n          word-break: break-all;\n          word-break: break-word;\n          -ms-word-break: break-all;\n          hyphens: auto;\n          -ms-hyphens: auto;\n          -moz-hyphens: auto;\n          -webkit-hyphens: auto; }\n  .jd-table .jd-layerFooter {\n    position: relative;\n    width: 100%;\n    height: 2rem;\n    min-height: 2rem;\n    background-color: #494949;\n    color: #FFFFFF;\n    display: -webkit-box;\n    display: flex;\n    flex-wrap: nowrap;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n    border-bottom-left-radius: 0.5rem;\n    border-bottom-right-radius: 0.5rem;\n    z-index: 99;\n    font-size: 0.81rem;\n    user-select: none;\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none; }\n    .jd-table .jd-layerFooter .jd-resultRows {\n      font-size: 0.765rem; }\n    .jd-table .jd-layerFooter .jd-pagination {\n      width: 100%;\n      display: -webkit-box;\n      display: flex;\n      flex-wrap: nowrap;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n              flex-direction: row;\n      -webkit-box-align: center;\n              align-items: center;\n      -webkit-box-pack: justify;\n              justify-content: space-between;\n      height: 100%; }\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection {\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-pack: center;\n                justify-content: center;\n        cursor: pointer;\n        height: 100%;\n        -webkit-box-align: center;\n                align-items: center; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-left {\n          position: absolute;\n          top: 0;\n          left: 0;\n          background-color: #494949;\n          border-bottom-left-radius: 0.5rem; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-right {\n          position: absolute;\n          top: 0;\n          right: 0;\n          background-color: #494949;\n          border-bottom-right-radius: 0.5rem; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled {\n          cursor: no-drop; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:hover {\n            background-color: #494949; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection.jd-disabled i:active {\n            background-color: #494949; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i {\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-align: center;\n                  align-items: center;\n          width: 3rem;\n          height: 100%;\n          -webkit-box-pack: center;\n                  justify-content: center; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:hover {\n            background-color: #6f6f6f; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i:active {\n            background-color: #898989; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-start {\n            border-bottom-left-radius: 0.5rem; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationDirection i.jd-end {\n            border-bottom-right-radius: 0.5rem; }\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationRows {\n        position: absolute;\n        background-color: #494949;\n        height: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-align: center;\n                align-items: center;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        font-size: 0.72rem;\n        padding: 0rem 1rem;\n        top: 0;\n        left: 50%;\n        -webkit-transform: translateX(-50%);\n                transform: translateX(-50%); }\n      .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea {\n        width: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-align: center;\n                align-items: center;\n        justify-content: space-around; }\n        .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList {\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-orient: horizontal;\n          -webkit-box-direction: normal;\n                  flex-direction: row;\n          -webkit-box-align: center;\n                  align-items: center;\n          -webkit-box-pack: center;\n                  justify-content: center;\n          height: 100%; }\n          .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage {\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-align: center;\n                    align-items: center;\n            -webkit-box-pack: center;\n                    justify-content: center;\n            padding: 0rem 0.3rem;\n            height: 100%;\n            box-sizing: border-box;\n            font-size: 0.72rem; }\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage span {\n              border: 1px solid #6f6f6f;\n              padding: 0.2rem 0.4rem;\n              min-width: 1.5rem;\n              text-align: center;\n              box-sizing: border-box; }\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover {\n              cursor: pointer; }\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-addHover:hover span {\n                background-color: #6f6f6f;\n                color: #FFFFFF; }\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected span {\n              background-color: #6f6f6f; }\n            .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover {\n              cursor: default !important; }\n              .jd-table .jd-layerFooter .jd-pagination .jd-paginationArea .jd-paginationList .jd-paginationPage.jd-selected:hover span {\n                background-color: #6f6f6f !important;\n                color: #FFFFFF !important; }\n  .jd-table .jd-layerPopup {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n    background-color: rgba(255, 255, 255, 0.6);\n    border-radius: 0.5rem; }\n    .jd-table .jd-layerPopup.jd-fullBrowser {\n      position: fixed; }\n    .jd-table .jd-layerPopup.jd-fullFrame {\n      z-index: 9998; }\n    .jd-table .jd-layerPopup.jd-contentFrame {\n      z-index: 50;\n      padding-top: 2.95rem;\n      padding-bottom: 2rem; }\n    .jd-table .jd-layerPopup.jd-fullFrameZone {\n      width: 100%;\n      box-sizing: border-box;\n      padding: 1rem; }\n    .jd-table .jd-layerPopup .jd-errorMessage {\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      -webkit-box-align: center;\n              align-items: center;\n      padding: 1rem;\n      border-radius: 0.5rem;\n      background-color: #FFFFFF;\n      color: #E53935;\n      font-size: 1.17rem; }\n    .jd-table .jd-layerPopup.jd-filterOverride {\n      z-index: 85; }\n    .jd-table .jd-layerPopup.jd-fullOverride {\n      z-index: 999; }\n    .jd-table .jd-layerPopup .jd-noDataFrame {\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      -webkit-box-align: center;\n              align-items: center;\n      padding: 1rem; }\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-title {\n        font-size: 1.17rem;\n        font-weight: 500;\n        text-transform: uppercase; }\n      .jd-table .jd-layerPopup .jd-noDataFrame .jd-filters {\n        margin-top: 1rem; }\n    .jd-table .jd-layerPopup .jd-quickView {\n      position: relative;\n      min-width: 314px;\n      max-width: 95%;\n      max-height: 95%;\n      height: 100%;\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      -webkit-box-align: center;\n              align-items: center;\n      border-radius: 0.5rem;\n      background-color: #494949;\n      box-sizing: border-box;\n      overflow: hidden;\n      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_1 {\n        width: 100%;\n        height: 0.3375rem;\n        min-height: 0.3375rem;\n        background-color: #494949;\n        border-top-right-radius: 0.5rem;\n        border-top-left-radius: 0.5rem; }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewHighlight_2 {\n        width: 100%;\n        height: 0.225rem;\n        min-height: 0.225rem;\n        background-color: #C00; }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl {\n        width: 100%;\n        height: 2.5rem;\n        min-height: 2.5rem;\n        background-color: #757575;\n        position: relative;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-pack: justify;\n                justify-content: space-between;\n        -webkit-box-align: center;\n                align-items: center;\n        color: #FFFFFF;\n        user-select: none;\n        -webkit-touch-callout: none;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none; }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction {\n          height: 100%;\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-orient: horizontal;\n          -webkit-box-direction: normal;\n                  flex-direction: row; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span {\n            width: 2rem;\n            font-size: 0.9rem;\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-pack: center;\n                    justify-content: center;\n            -webkit-box-align: center;\n                    align-items: center;\n            height: 100%;\n            cursor: pointer; }\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlAction span:hover {\n              background-color: #9b9b9b; }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\n          font-size: 0.9rem;\n          position: absolute;\n          left: 50%;\n          top: 50%;\n          -webkit-transform: translate(-50%, -50%);\n                  transform: translate(-50%, -50%); }\n          @media only screen and (max-width: 350px) {\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewControl .jd-controlTitle {\n              display: none; } }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent {\n        width: 100%;\n        height: 100%;\n        overflow: auto;\n        background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09) 5px, rgba(255, 255, 255, 0.09) 5px, rgba(0, 0, 0, 0.1) 10px); }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow {\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-orient: vertical;\n          -webkit-box-direction: normal;\n                  flex-direction: column;\n          width: 100%;\n          background-color: #FFFFFF; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowTitle {\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-align: center;\n                    align-items: center;\n            font-size: 0.99rem;\n            font-weight: 600;\n            word-break: break-all;\n            padding: 0.5rem 1rem;\n            background-color: #e6e6e6; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData {\n            display: -webkit-box;\n            display: flex;\n            -webkit-box-align: center;\n                    align-items: center;\n            min-height: 2rem;\n            padding: 0.5rem 1rem;\n            word-break: break-all; }\n            .jd-table .jd-layerPopup .jd-quickView .jd-quickViewContent .jd-contentRow .jd-rowData ul {\n              list-style-type: circle;\n              padding-left: 1rem; }\n      .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter {\n        width: 100%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: horizontal;\n        -webkit-box-direction: normal;\n                flex-direction: row;\n        -webkit-box-pack: justify;\n                justify-content: space-between;\n        -webkit-box-align: center;\n                align-items: center;\n        height: 2rem;\n        min-height: 2rem;\n        background-color: #494949;\n        color: #FFFFFF;\n        border-bottom-right-radius: 0.5rem;\n        border-bottom-left-radius: 0.5rem;\n        font-size: 0.81rem;\n        user-select: none;\n        -webkit-touch-callout: none;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none; }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection {\n          display: -webkit-box;\n          display: flex;\n          -webkit-box-pack: center;\n                  justify-content: center;\n          width: 5rem;\n          cursor: pointer;\n          height: 100%;\n          -webkit-box-align: center;\n                  align-items: center; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:hover {\n            background-color: #6f6f6f; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection:active {\n            background-color: #898989; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-previous {\n            border-bottom-left-radius: 0.5rem; }\n          .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerDirection.jd-next {\n            border-bottom-right-radius: 0.5rem; }\n        .jd-table .jd-layerPopup .jd-quickView .jd-quickViewFooter .jd-footerItem {\n          font-size: 0.765rem; }\n    .jd-table .jd-layerPopup .jd-tableMessage {\n      font-size: 1.5rem;\n      text-align: center; }\n\n@-webkit-keyframes bounce {\n  0%, 20%, 50%, 80%, 100% {\n    -webkit-transform: translateY(0);\n            transform: translateY(0); }\n  40% {\n    -webkit-transform: translateY(30px);\n            transform: translateY(30px); }\n  60% {\n    -webkit-transform: translateY(15px);\n            transform: translateY(15px); } }\n\n@keyframes bounce {\n  0%, 20%, 50%, 80%, 100% {\n    -webkit-transform: translateY(0);\n            transform: translateY(0); }\n  40% {\n    -webkit-transform: translateY(30px);\n            transform: translateY(30px); }\n  60% {\n    -webkit-transform: translateY(15px);\n            transform: translateY(15px); } }\n  .jd-table .jd-contextMenu {\n    width: auto;\n    min-width: 10rem;\n    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);\n    position: fixed;\n    z-index: 9998;\n    background: #FFF;\n    border-radius: 0.5rem; }\n    .jd-table .jd-contextMenu .jd-contextMenuOptions {\n      list-style: none;\n      z-index: 1; }\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption {\n        width: 100%;\n        height: 100%;\n        font-weight: 500;\n        z-index: 1;\n        font-size: 14px;\n        cursor: pointer;\n        display: -webkit-box;\n        display: flex; }\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span {\n          display: block;\n          height: 100%;\n          padding: 8px 12px 8px 12px;\n          white-space: nowrap; }\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:hover {\n            background: rgba(0, 0, 0, 0.2); }\n          .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuOption span:first-child {\n            width: 100%; }\n      .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader {\n        width: 100%;\n        height: 100%;\n        font-weight: 500;\n        z-index: 1;\n        font-size: 14px;\n        display: -webkit-box;\n        display: flex;\n        background: #494949;\n        color: #FFFFFF; }\n        .jd-table .jd-contextMenu .jd-contextMenuOptions .jd-contextMenuHeader span {\n          display: block;\n          height: 100%;\n          width: 100%;\n          padding: 10px;\n          white-space: nowrap;\n          text-align: center; }\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:first-child {\n        border-bottom-left-radius: 0.5rem; }\n      .jd-table .jd-contextMenu .jd-contextMenuOptions li:last-child span:last-child {\n        border-bottom-right-radius: 0.5rem; }\n\n.jd-reset * {\n  box-sizing: border-box; }\n\n.jd-reset ::before, .jd-reset ::after {\n  box-sizing: inherit; }\n\n.jd-reset html {\n  line-height: 1.15;\n  /* 1 */\n  -webkit-text-size-adjust: 100%;\n  /* 2 */\n  -webkit-tap-highlight-color: transparent;\n  /* 3*/ }\n\n.jd-reset body {\n  margin: 0; }\n\n.jd-reset main {\n  display: block; }\n\n.jd-reset p,\n.jd-reset table,\n.jd-reset blockquote,\n.jd-reset address,\n.jd-reset pre,\n.jd-reset iframe,\n.jd-reset form,\n.jd-reset figure,\n.jd-reset dl {\n  margin: 0; }\n\n.jd-reset h1,\n.jd-reset h2,\n.jd-reset h3,\n.jd-reset h4,\n.jd-reset h5,\n.jd-reset h6 {\n  font-size: inherit;\n  line-height: inherit;\n  font-weight: inherit;\n  margin: 0; }\n\n.jd-reset ul,\n.jd-reset ol {\n  margin: 0;\n  padding: 0;\n  list-style: none; }\n\n.jd-reset dt {\n  font-weight: bold; }\n\n.jd-reset dd {\n  margin-left: 0; }\n\n.jd-reset hr {\n  box-sizing: content-box;\n  /* 1 */\n  height: 0;\n  /* 1 */\n  overflow: visible;\n  /* 2 */\n  border: 0;\n  border-top: 1px solid;\n  margin: 0;\n  clear: both; }\n\n.jd-reset pre {\n  font-family: monospace, monospace;\n  /* 1 */\n  font-size: inherit;\n  /* 2 */ }\n\n.jd-reset address {\n  font-style: inherit; }\n\n.jd-reset a {\n  background-color: transparent;\n  text-decoration: none;\n  color: inherit; }\n\n.jd-reset abb\n[title] {\n  border-bottom: none;\n  /* 1 */\n  text-decoration: underline;\n  /* 2 */\n  -webkit-text-decoration: underline dotted;\n          text-decoration: underline dotted;\n  /* 2 */ }\n\n.jd-reset b, .jd-resetstrong {\n  font-weight: bolder; }\n\n.jd-reset code,\n.jd-reset kbd,\n.jd-reset samp {\n  font-family: monospace, monospace;\n  /* 1 */\n  font-size: inherit;\n  /* 2 */ }\n\n.jd-reset small {\n  font-size: 80%; }\n\n.jd-reset sub,\n.jd-reset sup {\n  ont-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline; }\n\n.jd-reset sub {\n  bottom: -0.25em; }\n\n.jd-reset sup {\n  top: -0.5em; }\n\n.jd-reset img {\n  border-style: none;\n  vertical-align: bottom; }\n\n.jd-reset embed,\n.jd-reset object,\n.jd-reset iframe {\n  border: 0;\n  vertical-align: bottom; }\n\n.jd-reset button,\n.jd-reset input,\n.jd-reset optgroup,\n.jd-reset select,\n.jd-reset textarea {\n  vertical-align: middle;\n  color: inherit;\n  font: inherit;\n  border: 0;\n  background: transparent;\n  padding: 0;\n  margin: 0;\n  outline: 0; }\n\n.jd-reset select {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  border-radius: 0; }\n\n.jd-reset button,\n.jd-reset input {\n  overflow: visible; }\n\n.jd-reset button,\n.jd-reset select {\n  text-transform: none; }\n\n.jd-reset button,\n.jd-reset [type='button'],\n.jd-reset [type='reset'],\n.jd-reset [type='submit'] {\n  cursor: pointer;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none; }\n\n.jd-reset button[disabled],\n.jd-reset [type='button'][disabled],\n.jd-reset [type='reset'][disabled],\n.jd-reset [type='submit'][disabled] {\n  cursor: default; }\n\n.jd-reset button::-moz-focus-inner,\n.jd-reset [type='button']::-moz-focus-inner,\n.jd-reset [type='reset']::-moz-focus-inner,\n.jd-reset [type='submit']::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n.jd-reset button:-moz-focusring,\n.jd-reset [type='button']:-moz-focusring,\n.jd-reset [type='reset']:-moz-focusring,\n.jd-reset [type='submit']:-moz-focusring {\n  outline: 1px dotted ButtonText; }\n\n.jd-reset fieldset {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  min-width: 0; }\n\n.jd-reset legend {\n  color: inherit;\n  /* 2 */\n  display: table;\n  /* 1 */\n  max-width: 100%;\n  /* 1 */\n  padding: 0;\n  /* 3 */\n  white-space: normal;\n  /* 1 */ }\n\n.jd-reset progress {\n  vertical-align: baseline; }\n\n.jd-reset textarea {\n  overflow: auto; }\n\n.jd-reset [type='checkbox'],\n.jd-reset [type='radio'] {\n  box-sizing: border-box;\n  /* 1 */\n  padding: 0;\n  /* 2 */ }\n\n.jd-reset [type='number']::-webkit-inner-spin-button,\n.jd-reset [type='number']::-webkit-outer-spin-button {\n  height: auto; }\n\n.jd-reset [type='search'] {\n  -webkit-appearance: textfield;\n  /* 1 */\n  outline-offset: -2px;\n  /* 2 */ }\n\n.jd-reset [type='search']::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n.jd-reset ::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  /* 1 */\n  font: inherit;\n  /* 2 */ }\n\n.jd-reset ::-webkit-input-placeholder {\n  font: inherit; }\n\n.jd-reset :-ms-input-placeholder {\n  font: inherit; }\n\n.jd-reset ::-ms-input-placeholder {\n  font: inherit; }\n\n.jd-reset ::-moz-placeholder {\n  font: inherit; }\n\n.jd-reset ::placeholder {\n  font: inherit; }\n\n.jd-reset label[for] {\n  cursor: pointer; }\n\n.jd-reset details {\n  display: block; }\n\n.jd-reset summary {\n  display: list-item; }\n\n.jd-reset table {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.jd-reset caption {\n  text-align: left; }\n\n.jd-reset td,\n.jd-reset th {\n  vertical-align: top; }\n\n.jd-reset th {\n  text-align: left;\n  font-weight: bold; }\n\n.jd-reset template {\n  display: none; }\n\n.jd-reset [hidden] {\n  display: none; }\n\n.jd-clickable {\n  cursor: pointer; }\n\n.jd-noneSelectable {\n  user-select: none;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none; }\n\n.jd-loader {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-direction: column;\n  -webkit-box-align: center;\n          align-items: center;\n  padding: 1rem;\n  padding-top: 1.5rem;\n  border-radius: 0.5rem; }\n  .jd-loader .jd-loadingText {\n    margin-top: 0.6rem;\n    font-weight: 500; }\n  .jd-loader .fulfilling-square-spinner, .jd-loader .fulfilling-square-spinner * {\n    box-sizing: border-box; }\n  .jd-loader .fulfilling-square-spinner {\n    height: 50px;\n    width: 50px;\n    position: relative;\n    border: 4px solid #C00;\n    -webkit-animation: fulfilling-square-spinner-animation 4s infinite ease;\n            animation: fulfilling-square-spinner-animation 4s infinite ease; }\n  .jd-loader .fulfilling-square-spinner .spinner-inner {\n    vertical-align: top;\n    display: inline-block;\n    background-color: #C00;\n    width: 100%;\n    opacity: 1;\n    -webkit-animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in;\n            animation: fulfilling-square-spinner-inner-animation 4s infinite ease-in; }\n\n@-webkit-keyframes fulfilling-square-spinner-animation {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  25% {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  50% {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  75% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes fulfilling-square-spinner-animation {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  25% {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  50% {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  75% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@-webkit-keyframes fulfilling-square-spinner-inner-animation {\n  0% {\n    height: 0%; }\n  25% {\n    height: 0%; }\n  50% {\n    height: 100%; }\n  75% {\n    height: 100%; }\n  100% {\n    height: 0%; } }\n\n@keyframes fulfilling-square-spinner-inner-animation {\n  0% {\n    height: 0%; }\n  25% {\n    height: 0%; }\n  50% {\n    height: 100%; }\n  75% {\n    height: 100%; }\n  100% {\n    height: 0%; } }\n  .jd-loader .self-building-square-spinner, .jd-loader .self-building-square-spinner * {\n    box-sizing: border-box; }\n  .jd-loader .self-building-square-spinner {\n    height: 40px;\n    width: 40px;\n    top: calc( -10px * 2 / 3); }\n  .jd-loader .self-building-square-spinner .square {\n    height: 10px;\n    width: 10px;\n    top: calc( -10px * 2 / 3);\n    margin-right: calc(10px / 3);\n    margin-top: calc(10px / 3);\n    background: #C00;\n    float: left;\n    position: relative;\n    opacity: 0;\n    -webkit-animation: self-building-square-spinner 6s infinite;\n            animation: self-building-square-spinner 6s infinite; }\n  .jd-loader .self-building-square-spinner .square:nth-child(1) {\n    -webkit-animation-delay: calc( 300ms * 6);\n            animation-delay: calc( 300ms * 6); }\n  .jd-loader .self-building-square-spinner .square:nth-child(2) {\n    -webkit-animation-delay: calc( 300ms * 7);\n            animation-delay: calc( 300ms * 7); }\n  .jd-loader .self-building-square-spinner .square:nth-child(3) {\n    -webkit-animation-delay: calc( 300ms * 8);\n            animation-delay: calc( 300ms * 8); }\n  .jd-loader .self-building-square-spinner .square:nth-child(4) {\n    -webkit-animation-delay: calc( 300ms * 3);\n            animation-delay: calc( 300ms * 3); }\n  .jd-loader .self-building-square-spinner .square:nth-child(5) {\n    -webkit-animation-delay: calc( 300ms * 4);\n            animation-delay: calc( 300ms * 4); }\n  .jd-loader .self-building-square-spinner .square:nth-child(6) {\n    -webkit-animation-delay: calc( 300ms * 5);\n            animation-delay: calc( 300ms * 5); }\n  .jd-loader .self-building-square-spinner .square:nth-child(7) {\n    -webkit-animation-delay: calc( 300ms * 0);\n            animation-delay: calc( 300ms * 0); }\n  .jd-loader .self-building-square-spinner .square:nth-child(8) {\n    -webkit-animation-delay: calc( 300ms * 1);\n            animation-delay: calc( 300ms * 1); }\n  .jd-loader .self-building-square-spinner .square:nth-child(9) {\n    -webkit-animation-delay: calc( 300ms * 2);\n            animation-delay: calc( 300ms * 2); }\n  .jd-loader .self-building-square-spinner .clear {\n    clear: both; }\n\n@-webkit-keyframes self-building-square-spinner {\n  0% {\n    opacity: 0; }\n  5% {\n    opacity: 1;\n    top: 0; }\n  50.9% {\n    opacity: 1;\n    top: 0; }\n  55.9% {\n    opacity: 0;\n    top: inherit; } }\n\n@keyframes self-building-square-spinner {\n  0% {\n    opacity: 0; }\n  5% {\n    opacity: 1;\n    top: 0; }\n  50.9% {\n    opacity: 1;\n    top: 0; }\n  55.9% {\n    opacity: 0;\n    top: inherit; } }\n  .jd-loader .looping-rhombuses-spinner, .jd-loader .looping-rhombuses-spinner * {\n    box-sizing: border-box; }\n  .jd-loader .looping-rhombuses-spinner {\n    width: calc(15px * 4);\n    height: 15px;\n    position: relative; }\n  .jd-loader .looping-rhombuses-spinner .rhombus {\n    height: 15px;\n    width: 15px;\n    background-color: #C00;\n    left: calc(15px * 4);\n    position: absolute;\n    margin: 0 auto;\n    border-radius: 2px;\n    -webkit-transform: translateY(0) rotate(45deg) scale(0);\n            transform: translateY(0) rotate(45deg) scale(0);\n    -webkit-animation: looping-rhombuses-spinner-animation 2500ms linear infinite;\n            animation: looping-rhombuses-spinner-animation 2500ms linear infinite; }\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(1) {\n    -webkit-animation-delay: calc(2500ms * 1 / -1.5);\n            animation-delay: calc(2500ms * 1 / -1.5); }\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(2) {\n    -webkit-animation-delay: calc(2500ms * 2 / -1.5);\n            animation-delay: calc(2500ms * 2 / -1.5); }\n  .jd-loader .looping-rhombuses-spinner .rhombus:nth-child(3) {\n    -webkit-animation-delay: calc(2500ms * 3 / -1.5);\n            animation-delay: calc(2500ms * 3 / -1.5); }\n\n@-webkit-keyframes looping-rhombuses-spinner-animation {\n  0% {\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\n            transform: translateX(0) rotate(45deg) scale(0); }\n  50% {\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\n            transform: translateX(-233%) rotate(45deg) scale(1); }\n  100% {\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\n\n@keyframes looping-rhombuses-spinner-animation {\n  0% {\n    -webkit-transform: translateX(0) rotate(45deg) scale(0);\n            transform: translateX(0) rotate(45deg) scale(0); }\n  50% {\n    -webkit-transform: translateX(-233%) rotate(45deg) scale(1);\n            transform: translateX(-233%) rotate(45deg) scale(1); }\n  100% {\n    -webkit-transform: translateX(-466%) rotate(45deg) scale(0);\n            transform: translateX(-466%) rotate(45deg) scale(0); } }\n\n.jd-button {\n  position: relative;\n  margin: 0.5rem 0rem !important;\n  width: auto;\n  height: 1.8rem;\n  overflow: hidden !important;\n  border-width: 0;\n  outline: none !important;\n  border-radius: 2px !important;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);\n  background-color: #C00;\n  color: #FFFFFF;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n  cursor: pointer;\n  -webkit-box-align: center;\n          align-items: center;\n  white-space: nowrap;\n  overflow-wrap: normal;\n  transition: background-color .3s;\n  -webkit-transition: background-color .3s;\n  -moz-transition: background-color .3s;\n  -o-transition: background-color .3s; }\n  .jd-button:hover {\n    background-color: red; }\n  .jd-button:focus {\n    background-color: #990000; }\n  .jd-button:focus:hover {\n    background-color: red; }\n  .jd-button:before {\n    content: \"\";\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 0;\n    padding-top: 0;\n    border-radius: 100%;\n    background-color: #E0E0E0;\n    opacity: 0;\n    transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -moz-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n    -o-transform: translate(-50%, -50%); }\n  .jd-button:active:before {\n    width: 120%;\n    padding-top: 120%;\n    opacity: 0.32;\n    transition: width .2s ease-out, padding-top .2s ease-out;\n    -webkit-transition: width .2s ease-out, padding-top .2s ease-out;\n    -moz-transition: width .2s ease-out, padding-top .2s ease-out;\n    -ms-transition: width .2s ease-out, padding-top .2s ease-out;\n    -o-transition: width .2s ease-out, padding-top .2s ease-out; }\n  .jd-button:disabled {\n    background-color: #660000;\n    cursor: not-allowed;\n    color: #cccccc; }\n  .jd-button.jd-small {\n    min-width: 3rem !important; }\n  .jd-button.jd-medium {\n    min-width: 5rem !important; }\n  .jd-button.jd-large {\n    min-width: 7rem !important; }\n  .jd-button.jd-danger {\n    background-color: #E53935;\n    color: #FFFFFF; }\n    .jd-button.jd-danger:hover {\n      background-color: #cd1e1a; }\n    .jd-button.jd-danger:focus {\n      background-color: #eb6562; }\n    .jd-button.jd-danger:focus:hover {\n      background-color: #cd1e1a; }\n    .jd-button.jd-danger:disabled {\n      background-color: #9f1815;\n      color: #cccccc;\n      cursor: not-allowed; }\n  .jd-button.jd-success {\n    background-color: #3C903F;\n    color: #FFFFFF; }\n    .jd-button.jd-success:hover {\n      background-color: #2d6c2f; }\n    .jd-button.jd-success:focus {\n      background-color: #4bb44f; }\n    .jd-button.jd-success:focus:hover {\n      background-color: #2d6c2f; }\n    .jd-button.jd-success:disabled {\n      background-color: #1e4820;\n      color: #cccccc;\n      cursor: not-allowed; }\n\n.jdTableFade-enter-active, .jdTableFade-leave-active {\n  transition: opacity 0.3s;\n  -webkit-transition: opacity 0.3s;\n  -moz-transition: opacity 0.3s;\n  -o-transition: opacity 0.3s; }\n\n.jdTableFade-enter, .jdTableFade-leave-to {\n  opacity: 0; }\n\n.jdTableSlideDown-enter-active, .jdTableSlideDown-leave-active {\n  transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n  -webkit-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n  -moz-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1);\n  -o-transition: all 0.3s cubic-bezier(0.05, 0.52, 0.48, 1); }\n\n.jdTableSlideDown-enter, .jdTableSlideDown-leave-to {\n  -webkit-transform: translateY(-2.95rem);\n          transform: translateY(-2.95rem);\n  opacity: 0; }\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -40387,7 +40608,7 @@ S2.define('select2/selection/base',[
       window.setTimeout(function () {
         self.$selection.focus();
       }, 0);
-    
+
       self._detachCloseHandler(container);
     });
 
@@ -40824,7 +41045,7 @@ S2.define('select2/selection/allowClear',[
       return;
     }
 
-    var removeAll = this.options.get('translations').get('removeAllItems');   
+    var removeAll = this.options.get('translations').get('removeAllItems');
 
     var $remove = $(
       '<span class="select2-selection__clear" title="' + removeAll() +'">' +
@@ -45284,7 +45505,7 @@ function addStyle (obj, options) {
 	// If a transform function was defined, run it on the css
 	if (options.transform && obj.css) {
 	    result = typeof options.transform === 'function'
-		 ? options.transform(obj.css) 
+		 ? options.transform(obj.css)
 		 : options.transform.default(obj.css);
 
 	    if (result) {
@@ -53893,7 +54114,7 @@ var component = Object(_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_I
   null,
   "ed0ee648",
   null
-  
+
 )
 
 /* hot reload */
@@ -53913,7 +54134,7 @@ component.options.__file = "node_modules/vue-jd-table/src/jd-table.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vue_loader_lib_index_js_vue_loader_options_jd_table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../vue-loader/lib??vue-loader-options!./jd-table.vue?vue&type=script&lang=js& */ "./node_modules/vue-loader/lib/index.js?!./node_modules/vue-jd-table/src/jd-table.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_vue_loader_lib_index_js_vue_loader_options_jd_table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_vue_loader_lib_index_js_vue_loader_options_jd_table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -60775,155 +60996,164 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-4 col-sm-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Información de la Biblioteca")
+      _c(
+        "div",
+        { staticClass: "col-md-6 col-sm-12" },
+        [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("Información de la Biblioteca")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _vm.modoEditar
+                ? _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.editarBiblioteca(_vm.Biblioteca)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "NOMBRE" } }, [
+                          _vm._v("Nombre")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.Biblioteca.BIBLIOTECA,
+                              expression: "Biblioteca.BIBLIOTECA"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "NOMBRE",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.Biblioteca.BIBLIOTECA },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.Biblioteca,
+                                "BIBLIOTECA",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Editar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "submit" },
+                          on: { click: _vm.cancelarEdicion }
+                        },
+                        [_vm._v("Cancelar edición")]
+                      )
+                    ]
+                  )
+                : _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.agregar($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "NOMBRE" } }, [
+                          _vm._v("Nombre")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.Biblioteca.BIBLIOTECA,
+                              expression: "Biblioteca.BIBLIOTECA"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "NOMBRE",
+                            "aria-describedby": "emailHelp",
+                            required: ""
+                          },
+                          domProps: { value: _vm.Biblioteca.BIBLIOTECA },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.Biblioteca,
+                                "BIBLIOTECA",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Agregar Biblioteca")]
+                      )
+                    ]
+                  )
+            ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm.modoEditar
-              ? _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.editarBiblioteca(_vm.Biblioteca)
-                      }
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "NOMBRE" } }, [
-                        _vm._v("Nombre")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.Biblioteca.BIBLIOTECA,
-                            expression: "Biblioteca.BIBLIOTECA"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.Biblioteca.BIBLIOTECA },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.Biblioteca,
-                              "BIBLIOTECA",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-warning",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Editar")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "submit" },
-                        on: { click: _vm.cancelarEdicion }
-                      },
-                      [_vm._v("Cancelar edición")]
-                    )
-                  ]
-                )
-              : _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.agregar($event)
-                      }
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "NOMBRE" } }, [
-                        _vm._v("Nombre")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.Biblioteca.BIBLIOTECA,
-                            expression: "Biblioteca.BIBLIOTECA"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE",
-                          "aria-describedby": "emailHelp",
-                          required: ""
-                        },
-                        domProps: { value: _vm.Biblioteca.BIBLIOTECA },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.Biblioteca,
-                              "BIBLIOTECA",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Agregar Biblioteca")]
-                    )
-                  ]
-                )
-          ])
-        ])
-      ]),
+          _vm.mostrarEstante
+            ? _c("estante", {
+                attrs: { BiblioSeleccionada: _vm.BibliotecaSeleccionada }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "div",
         {
-          staticClass: "col-md-8 col sm-12",
+          staticClass: "col-md-6 col sm-12",
           staticStyle: { overflow: "auto", height: "600px" }
         },
         [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
-              _vm._v(
-                "\n                    Lista de Bibliotecas\n                    "
-              ),
+              _vm._v("\n          Lista de Bibliotecas\n          "),
               _c("input", {
                 directives: [
                   {
@@ -60956,12 +61186,8 @@ var render = function() {
                     "li",
                     { key: index, staticClass: "list-group-item" },
                     [
-                      _c("span", { staticClass: "  badge badge-primary" }, [
-                        _vm._v(
-                          "\n                            Actualizado el: " +
-                            _vm._s(item.updated_at) +
-                            "\n                        "
-                        )
+                      _c("span", { staticClass: "badge badge-primary" }, [
+                        _vm._v("Actualizado el: " + _vm._s(item.updated_at))
                       ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Nombre: " + _vm._s(item.BIBLIOTECA))]),
@@ -60991,6 +61217,19 @@ var render = function() {
                             }
                           },
                           [_vm._v("Eliminar")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info float-right btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.mostrarFormEstante(item)
+                              }
+                            }
+                          },
+                          [_vm._v("Gestionar estantes")]
                         )
                       ])
                     ]
@@ -62505,6 +62744,306 @@ var render = function() {
   )
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "card" }, [
+      _vm.editarActivo
+        ? _c("div", { staticClass: "card-header" }, [_vm._v("Editar Estantes")])
+        : _c("div", { staticClass: "card-header" }, [
+            _vm._v("Agregar Estantes")
+          ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _vm.editarActivo
+          ? _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.editarEstante(_vm.estante)
+                  }
+                }
+              },
+              [
+                _c("h5", { staticClass: "mb-3" }, [
+                  _vm._v(_vm._s(_vm.BiblioSeleccionada.nombre))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "idEstante" } }, [
+                    _vm._v("Identificador del Estante")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.estante.identificador,
+                        expression: "estante.identificador"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Ej. BIB-K01",
+                      id: "nombreEstante"
+                    },
+                    domProps: { value: _vm.estante.identificador },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.estante,
+                          "identificador",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "idEstante" } }, [
+                    _vm._v("Clasificación General")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.estante.clasificacion,
+                        expression: "estante.clasificacion"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "200 - Religion" },
+                    domProps: { value: _vm.estante.clasificacion },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.estante,
+                          "clasificacion",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            )
+          : _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.agregar($event)
+                  }
+                }
+              },
+              [
+                _c("h5", { staticClass: "mb-3" }, [
+                  _vm._v(_vm._s(_vm.BiblioSeleccionada.nombre))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "idEstante" } }, [
+                    _vm._v("Identificador del Estante")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.estante.identificador,
+                        expression: "estante.identificador"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Ej. BIB-K01",
+                      id: "nombreEstante"
+                    },
+                    domProps: { value: _vm.estante.identificador },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.estante,
+                          "identificador",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "idEstante" } }, [
+                    _vm._v("Clasificación General")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.estante.clasificacion,
+                        expression: "estante.clasificacion"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "200 - Religion" },
+                    domProps: { value: _vm.estante.clasificacion },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.estante,
+                          "clasificacion",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(1)
+              ]
+            ),
+        _vm._v(" "),
+        _c("h3", [_vm._v("Listado de estantes")]),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-bordered" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.estantes, function(item, index) {
+              return _c("tr", { key: index }, [
+                _c("th", { attrs: { scope: "row" } }, [
+                  _vm._v(_vm._s(item.id))
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.ESTANTE))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.CLASIFICACION))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("button", {
+                    staticClass: "btn btn-warning btn-xsm fa fa-edit",
+                    on: {
+                      click: function($event) {
+                        return _vm.editarForm(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass:
+                      "btn btn-danger btn-xsm fa fa-trash-alt text-dark",
+                    on: {
+                      click: function($event) {
+                        return _vm.eliminarEstante(item, index)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("Guardar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-danger", attrs: { type: "button" } },
+        [_vm._v("Cancelar Edición")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Agregar")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Identificador")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [
+          _vm._v("Clasificación General")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -78052,6 +78591,7 @@ Vue.component('lista-ejem-table', __webpack_require__(/*! ./components/ListaEjem
 Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]);
 Vue.component('nuevo-aporte', __webpack_require__(/*! ./components/nuevoAporte.vue */ "./resources/js/components/nuevoAporte.vue")["default"]);
 Vue.component('revisiones', __webpack_require__(/*! ./components/Revisiones.vue */ "./resources/js/components/Revisiones.vue")["default"]);
+Vue.component('estante', __webpack_require__(/*! ./components/EstanteComponent.vue */ "./resources/js/components/EstanteComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -78158,7 +78698,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78178,7 +78718,7 @@ component.options.__file = "resources/js/components/Biblioteca-list.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Biblioteca_list_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Biblioteca-list.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Biblioteca-list.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Biblioteca_list_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Biblioteca_list_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78227,7 +78767,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78247,7 +78787,7 @@ component.options.__file = "resources/js/components/Buscar-libro.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Buscar_libro_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Buscar-libro.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Buscar_libro_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Buscar_libro_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78296,7 +78836,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78316,7 +78856,7 @@ component.options.__file = "resources/js/components/BusquedaApi.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BusquedaApi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./BusquedaApi.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BusquedaApi.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BusquedaApi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BusquedaApi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78365,7 +78905,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78385,7 +78925,7 @@ component.options.__file = "resources/js/components/EjemplarComponent.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EjemplarComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EjemplarComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78402,6 +78942,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_template_id_454d9108___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EjemplarComponent_vue_vue_type_template_id_454d9108___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/EstanteComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/EstanteComponent.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EstanteComponent.vue?vue&type=template&id=00419d38& */ "./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38&");
+/* harmony import */ var _EstanteComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EstanteComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EstanteComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/EstanteComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EstanteComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EstanteComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+/***/ }),
+
+/***/ "./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EstanteComponent.vue?vue&type=template&id=00419d38& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EstanteComponent.vue?vue&type=template&id=00419d38&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EstanteComponent_vue_vue_type_template_id_00419d38___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -78434,7 +79043,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78454,7 +79063,7 @@ component.options.__file = "resources/js/components/ExampleComponent.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ExampleComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78503,7 +79112,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78523,7 +79132,7 @@ component.options.__file = "resources/js/components/ListaEjem.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ListaEjem.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjem.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78572,7 +79181,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78592,7 +79201,7 @@ component.options.__file = "resources/js/components/ListaEjemTable.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ListaEjemTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaEjemTable.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78641,7 +79250,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78661,7 +79270,7 @@ component.options.__file = "resources/js/components/Revisiones.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Revisiones.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Revisiones.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Revisiones_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78710,7 +79319,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78730,7 +79339,7 @@ component.options.__file = "resources/js/components/nuevoAporte.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoAporte_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./nuevoAporte.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/nuevoAporte.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoAporte_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_nuevoAporte_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78781,7 +79390,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -78801,7 +79410,7 @@ component.options.__file = "resources/js/components/select.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./select.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/select.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -78817,7 +79426,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./select.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/select.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_select_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a);
 
 /***/ }),
 
@@ -78857,8 +79466,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp7\htdocs\Biblioteca\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp7\htdocs\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
