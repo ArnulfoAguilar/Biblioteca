@@ -1,0 +1,15 @@
+CREATE 
+	OR REPLACE VIEW comentariosLikes AS SELECT
+	c1."id",
+	c1."COMENTARIO",
+	c1."HABILITADO",
+	c1."ID_APORTE",
+	c1."ID_USUARIO",
+	c1.created_at,
+	( 
+	SELECT COUNT ( bc."id" ) FROM "bitacoraComentario" bc WHERE bc."ID_COMENTARIO" = c1."id" AND bc."LIKE" = TRUE ) Total_likes,
+(
+SELECT u."name" from users u where u."id"=c1."ID_USUARIO"
+)	
+FROM
+	"Comentario" c1

@@ -2,19 +2,18 @@
     <div class="container">   
         <div class="col-md-12" v-for="(item, index) in Aportes" :key="index">
             <!-- Box Comment -->
-            <div class="card card-widget">
+           <a href="#" @click="verAporte(item.id)" style="text-decoration:none!important; color:black!important;">
+            <div class="card card-widget" >
               <div class="card-header">
                 <div class="user-block">
                   <img class="img-circle" src="" alt="">
                   <span class="username"><a href="#">{{ item.name }}</a></span>
-                  <span class="description">{{ item.created_at}}</span>
+                  
                 </div>
                 <!-- /.user-block -->
                 <div class="card-tools">
-                 <a class="btn btn-primary" href="#" role="button" @click="verAporte(item.id)">Ir al aporte en si</a>
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
                   
+                  <span class="description">{{ item.created_at}}</span>
                 </div>
                 <!-- /.card-tools -->
               </div>
@@ -30,6 +29,7 @@
               </div>
             </div>
             <!-- /.card -->
+            </a>
           </div>
     </div>
 </template>
@@ -68,9 +68,7 @@
             },
             
             verAporte(id){
-              console.log('id: '+id);
-              // router.push({ name: "aportes.index"})
-              axios.get('/aportes/'+id);
+              window.location.href='/aportes/'+id;
             }, 
 
         },

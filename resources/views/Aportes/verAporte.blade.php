@@ -3,13 +3,14 @@
     Mi Aporte
 @endsection
 
-@section('Encabezado')
-
+@section('cssextra')
+<style type="text/css">
+    img {
+      max-width: 100%; 
+      }
+</style>
    
-@endsection
-@section('breadcrumbs')
-
-@endsection    
+@endsection 
 
 @section('content')
 

@@ -7,14 +7,14 @@
         
             <div class="comment-text">
               <span class="username">
-                {{item.name}}.
+                {{item.name}}
               <span class="text-muted float-right">{{ item.created_at}}</span>
               </span><!-- /.username -->
               {{ item.COMENTARIO}}
             </div>
                           <!-- /.comment-text -->
             <div class="row float-right">
-              <button type="button" class="btn btn-default btn-sm "><i class="far fa-thumbs-up"></i> Like</button>
+              <button type="button" class="btn btn-default btn-sm "><i class="far fa-thumbs-up">{{ item.total_likes }}</i> Like</button>
               <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
             </div>
         </div>
@@ -78,6 +78,9 @@
             const comentarioNuevo =this.Comentario;
             axios.post('/comentarios',comentarioNuevo)
             .then((response) => {
+              toastr.clear();
+              toastr.options.closeButton = true;
+              toastr.success('Comentario guardado. Espera por la aprobación', 'Guardado!!');
               this.cargar_comentarios();
               this.Comentario.COMENTARIO = "";
 

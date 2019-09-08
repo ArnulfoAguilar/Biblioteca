@@ -16,11 +16,14 @@ class ComentarioController extends Controller
     public function index(Request $request)
     {
 
-
-        return DB::table('opcionescomentario')->where([
-            ['ID_APORTE', '=', '1'],
-            ['AUTOR_COMENTARIO', '=', '1'],
-        ])->get();
+        if($request->ajax()){
+            return DB::table('comentarioslikes')->where([
+                ['ID_APORTE', '=', $request->id],
+                ['HABILITADO','=','1']
+            ])->get();
+        }else{
+            return redirect()->route('home');
+        }
         /*if($request->ajax()){
             return DB::table('Comentario')
                     ->join('users', function($join) use ($request) {
