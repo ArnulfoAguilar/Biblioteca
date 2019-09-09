@@ -55,7 +55,8 @@
           cargar_comentarios(){
             axios.get('/comentarios?id='+this.aporte).then(res=>{
                 this.comentarios = res.data;
-                console.log();
+                console.log('Comentarios:');
+                console.log(this.comentarios);
                 })
           },
           Agregar_comentario(){

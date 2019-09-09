@@ -182,6 +182,8 @@ class AporteController extends Controller
      */
     public function update(Request $request, $aporteid)
     {
+        $Aporte_1 = Aporte::find($aporteid);
+dd($Aporte_1);
         
         $detalle=$request->CONTENIDO;
         $dom = new \domdocument();

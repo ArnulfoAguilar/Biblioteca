@@ -50,7 +50,7 @@
                         {!! $aporte->CONTENIDO !!}
                         
                     </div>
-                    @if ($aporte->COMENTARIOS==1)
+                    @if ($aporte->COMENTARIOS==1 && $aporte->HABILITADO==1)
                     <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
                     @endif  
                 </div>
