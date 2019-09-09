@@ -18,20 +18,20 @@ class CreatePrestamosTable extends Migration
             $table->date('FECHA_PRESTAMO');
             $table->bigInteger('ID_USUARIO')->unsigned();
             $table->foreign('ID_USUARIO')->references('id')->on('users')
-                ->onDelete('cascade')
+                ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->bigInteger('ID_DESPACHO')->unsigned();
             $table->foreign('ID_DESPACHO')->references('ID_DESPACHO')
                 ->on('estadoDespacho')
-                ->onDelete('cascade')
+                ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->bigInteger('ID_ESTADO_PRESTAMO')->unsigned();
             $table->foreign('ID_ESTADO_PRESTAMO')->references('ID_ESTADO_PRESTAMO')->on('estadoPrestamo')
-                ->onDelete('cascade')
+                ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->bigInteger('ID_MATERIAL')->unsigned();
             $table->foreign('ID_MATERIAL')->references('id')->on('materialBibliotecario')
-                ->onDelete('cascade')
+                ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->timestamps();
         });
@@ -44,6 +44,6 @@ class CreatePrestamosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prestamos');
+        Schema::dropIfExists('Prestamo');
     }
 }

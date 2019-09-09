@@ -27,6 +27,6 @@ class CreateTipoEmpastadosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_empastados');
+        Schema::dropIfExists('tipoEmpastado');
     }
 }

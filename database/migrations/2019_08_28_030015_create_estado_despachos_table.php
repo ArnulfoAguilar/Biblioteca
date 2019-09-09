@@ -27,6 +27,6 @@ class CreateEstadoDespachosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_despachos');
+        Schema::dropIfExists('estadoDespacho');
     }
 }

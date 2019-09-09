@@ -20,19 +20,21 @@ class CreateMaterialBibliotecariosTable extends Migration
             $table->bigInteger('ID_FILA')->unsigned();
             $table->foreign('ID_FILA')
                 ->references('id')
-                ->on('filaEstante');
+                ->on('filaEstante')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
             $table->bigInteger('ID_CATALOGO_MATERIAL')->unsigned();
             $table->foreign('ID_CATALOGO_MATERIAL')
                 ->references('id')
                 ->on('catalogoMaterial')
                 ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onUpdate('cascade');
             $table->bigInteger('ID_EJEMPLAR')->nullable()->unsigned();
             $table->foreign('ID_EJEMPLAR')
                 ->references('id')
                 ->on('Ejemplar')
-                ->onUpdate('restrict')
-                ->onDelete('restrict');
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

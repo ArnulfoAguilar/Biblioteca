@@ -27,6 +27,6 @@ class CreateEstadoEjemplarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_ejemplars');
+        Schema::dropIfExists('estadoEjemplar');
     }
 }

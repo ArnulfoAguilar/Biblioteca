@@ -27,6 +27,6 @@ class CreateTipoAdquisicionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_adquisicions');
+        Schema::dropIfExists('tipoAdquisicion');
     }
 }

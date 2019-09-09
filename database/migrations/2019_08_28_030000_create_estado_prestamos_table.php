@@ -27,6 +27,6 @@ class CreateEstadoPrestamosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_prestamos');
+        Schema::dropIfExists('estadoPrestamo');
     }
 }

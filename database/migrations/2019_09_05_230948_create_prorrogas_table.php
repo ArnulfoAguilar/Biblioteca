@@ -19,11 +19,7 @@ class CreateProrrogasTable extends Migration
             $table->date('FECHA_FIN');
             $table->bigInteger('ID_PRESTAMO')->unsigned();
             $table->foreign('ID_PRESTAMO')->references('ID_PRESTAMO')->on('Prestamo')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->bigInteger('ID_MATERIAL')->unsigned();
-            $table->foreign('ID_MATERIAL')->references('id')->on('materialBibliotecario')
-                ->onDelete('cascade')
+                ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->timestamps();
         });
@@ -36,6 +32,6 @@ class CreateProrrogasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prorrogas');
+        Schema::dropIfExists('Prorroga');
     }
 }
