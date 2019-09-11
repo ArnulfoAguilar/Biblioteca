@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\bitacoraComentario;
+use App\interaccionComentario;
 use Illuminate\Http\Request;
 
-class BitacoraComentarioController extends Controller
+class InteraccionComentarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class BitacoraComentarioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\bitacoraComentario  $bitacoraComentario
+     * @param  \App\interaccionComentario  $interaccionComentario
      * @return \Illuminate\Http\Response
      */
-    public function show(bitacoraComentario $bitacoraComentario)
+    public function show(interaccionComentario $interaccionComentario)
     {
         //
     }
@@ -52,10 +52,10 @@ class BitacoraComentarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\bitacoraComentario  $bitacoraComentario
+     * @param  \App\interaccionComentario  $interaccionComentario
      * @return \Illuminate\Http\Response
      */
-    public function edit(bitacoraComentario $bitacoraComentario)
+    public function edit(interaccionComentario $interaccionComentario)
     {
         //
     }
@@ -64,10 +64,10 @@ class BitacoraComentarioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\bitacoraComentario  $bitacoraComentario
+     * @param  \App\interaccionComentario  $interaccionComentario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, bitacoraComentario $bitacoraComentario)
+    public function update(Request $request, interaccionComentario $interaccionComentario)
     {
         //
     }
@@ -75,10 +75,10 @@ class BitacoraComentarioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\bitacoraComentario  $bitacoraComentario
+     * @param  \App\interaccionComentario  $interaccionComentario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(bitacoraComentario $bitacoraComentario)
+    public function destroy(interaccionComentario $interaccionComentario)
     {
         //
     }

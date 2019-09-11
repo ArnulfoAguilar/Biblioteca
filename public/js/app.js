@@ -3009,6 +3009,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -3019,15 +3020,23 @@ __webpack_require__.r(__webpack_exports__);
       ocultar: false,
       nuevo: '',
       comentarios: [],
+      InteraccionComentarios: [],
       Comentario: {
         COMENTARIO: '',
         ID_USUARIO: this.usuario,
         ID_APORTE: this.aporte
+      },
+      InteraccionComentario: {
+        DESCRIPCION: '',
+        ID_TIPO_INTERACCION: '',
+        ID_COMENTARIO: '',
+        ID_USUARIO: this.usuario
       }
     };
   },
   created: function created() {
     this.cargar_comentarios();
+    this.cargar_interacciones();
   },
   methods: {
     cargar_comentarios: function cargar_comentarios() {
@@ -3035,11 +3044,55 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/comentarios?id=' + this.aporte).then(function (res) {
         _this.comentarios = res.data;
-        console.log();
+      });
+    },
+    cargar_interacciones: function cargar_interacciones() {
+      var _this2 = this;
+
+      axios.get('/interaccionesComentario/' + this.aporte).then(function (res) {
+        _this2.InteraccionComentarios = res.data;
+      });
+    },
+    like: function like(IdComentario) {
+      var _this3 = this;
+
+      this.InteraccionComentario.ID_TIPO_INTERACCION = 1;
+      this.InteraccionComentario.ID_COMENTARIO = IdComentario;
+      var nuevaInteraccion = this.InteraccionComentario;
+      axios.post('/likeComentario', nuevaInteraccion).then(function (response) {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('Te ha gustado el Comentario', 'Like!!');
+
+        _this3.cargar_comentarios();
+
+        _this3.InteraccionComentario.ID_TIPO_INTERACCION = "";
+        _this3.InteraccionComentario.ID_COMENTARIO = "";
+      })["catch"](function (e) {
+        alert("Error al Guardar" + e);
+      });
+    },
+    Report: function Report(IdComentario) {
+      var _this4 = this;
+
+      this.InteraccionComentario.ID_TIPO_INTERACCION = 2;
+      this.InteraccionComentario.ID_COMENTARIO = IdComentario;
+      var nuevaInteraccion = this.InteraccionComentario;
+      axios.post('/reportComentario', nuevaInteraccion).then(function (response) {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('El administrador revisara este comentario. ¡Gracias!', 'Reportado');
+
+        _this4.cargar_comentarios();
+
+        _this4.InteraccionComentario.ID_TIPO_INTERACCION = "";
+        _this4.InteraccionComentario.ID_COMENTARIO = "";
+      })["catch"](function (e) {
+        alert("Error al Guardar" + e);
       });
     },
     Agregar_comentario: function Agregar_comentario() {
-      var _this2 = this;
+      var _this5 = this;
 
       /*const regex = /(puto|basura|gay )/gm;
       const str = this.Comentario.COMENTARIO;
@@ -3060,36 +3113,14 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/comentarios', comentarioNuevo).then(function (response) {
         toastr.clear();
         toastr.options.closeButton = true;
-        toastr.success('Comentario guardado. Espera por la aprobación', 'Guardado!!');
+        toastr.success('Espera por la aprobación', 'Guardado!!');
 
-        _this2.cargar_comentarios();
+        _this5.cargar_comentarios();
 
-        _this2.Comentario.COMENTARIO = "";
+        _this5.Comentario.COMENTARIO = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });
-    }
-  },
-  computed: {
-    malasPalabras: function malasPalabras() {
-      console.log("entro");
-      var regex = /(Malas|palabras| vida)/gm;
-      var str = "Malas palabras por la vida";
-      var m;
-
-      while ((m = regex.exec(str)) !== null) {
-        // This is necessary to avoid infinite loops with zero-width matches
-        if (m.index === regex.lastIndex) {
-          regex.lastIndex++;
-        } // The result can be accessed through the `m`-variable.
-
-
-        m.forEach(function (match, groupIndex) {
-          console.log("Found match, group ".concat(groupIndex, ": ").concat(match));
-        });
-      }
-
-      return m;
     }
   }
 });
@@ -63543,49 +63574,61 @@ var render = function() {
     _c(
       "div",
       { staticClass: "card-footer card-comments" },
-      _vm._l(_vm.comentarios, function(item, index) {
-        return _c("div", { key: index, staticClass: "card-comment" }, [
-          _c("img", {
-            staticClass: "img-circle img-sm",
-            attrs: { src: "", alt: "" }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "comment-text" }, [
-            _c("span", { staticClass: "username" }, [
-              _vm._v(
-                "\r\n                " +
-                  _vm._s(item.name) +
-                  "\r\n              "
-              ),
-              _c("span", { staticClass: "text-muted float-right" }, [
-                _vm._v(_vm._s(item.created_at))
-              ])
-            ]),
-            _vm._v(
-              "\r\n              " +
-                _vm._s(item.COMENTARIO) +
-                "\r\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row float-right" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-default btn-sm ",
-                attrs: { type: "button" }
-              },
-              [
-                _c("i", { staticClass: "far fa-thumbs-up" }, [
-                  _vm._v(_vm._s(item.total_likes))
-                ]),
-                _vm._v(" Like")
-              ]
-            ),
+      _vm._l(_vm.comentarios, function(datos, indice) {
+        return _c(
+          "div",
+          { key: indice, staticClass: "card-comment" },
+          [
+            _c("img", {
+              staticClass: "img-circle img-sm",
+              attrs: { src: "", alt: "" }
+            }),
             _vm._v(" "),
-            _vm._m(0, true)
-          ])
-        ])
+            _c("div", { staticClass: "comment-text" }, [
+              _c("span", { staticClass: "username" }, [
+                _vm._v(
+                  "\r\n                " +
+                    _vm._s(datos.name) +
+                    "\r\n              "
+                ),
+                _c("span", { staticClass: "text-muted float-right" }, [
+                  _vm._v(_vm._s(datos.created_at))
+                ])
+              ]),
+              _vm._v(
+                "\r\n              " +
+                  _vm._s(datos.COMENTARIO) +
+                  "\r\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.InteraccionComentarios, function(item, index) {
+              return _c("div", { key: index, staticClass: "row float-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default btn-sm ",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.like(datos.id)
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "far fa-thumbs-up" }, [
+                      _vm._v(_vm._s(datos.total_likes))
+                    ]),
+                    _vm._v(" Like")
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(0, true)
+              ])
+            })
+          ],
+          2
+        )
       }),
       0
     ),

@@ -45,7 +45,9 @@ Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
 Route::get('/listaTodosAportes', 'AporteController@listatodos')->name('aportes.lista.todos');
 Route::resource('/revisiones','RevisionController');
 Route::resource('/comentarios','ComentarioController');
-
+Route::post('/likeComentario', 'ComentarioController@interaccionLike')->name('interaccion.like');
+Route::post('/reportComentario', 'ComentarioController@interaccionReport')->name('interaccion.report');
+Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesComentario')->name('interaccion.report');
 
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//

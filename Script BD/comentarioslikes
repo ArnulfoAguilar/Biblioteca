@@ -7,7 +7,7 @@ CREATE
 	c1."ID_USUARIO",
 	c1.created_at,
 	( 
-	SELECT COUNT ( bc."id" ) FROM "bitacoraComentario" bc WHERE bc."ID_COMENTARIO" = c1."id" AND bc."LIKE" = TRUE ) Total_likes,
+	SELECT COUNT ( ic."id" ) FROM "interaccionComentario" ic WHERE ic."ID_COMENTARIO" = c1."id" AND ic."ID_TIPO_INTERACCION" = 1 ) Total_likes,
 (
 SELECT u."name" from users u where u."id"=c1."ID_USUARIO"
 )	

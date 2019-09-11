@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoAporteTableSeeder::class);
         $this->call(PalabrasClaveTableSeeder::class);
         $this->call(RolesTableSeeder::class);
+        $this->call(tipoInteraccion::class);
 
     }
 }
