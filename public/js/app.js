@@ -3044,6 +3044,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/comentarios?id=' + this.aporte).then(function (res) {
         _this.comentarios = res.data;
+        console.log('Comentarios:');
+        console.log(_this.comentarios);
       });
     },
     cargar_interacciones: function cargar_interacciones() {
@@ -55530,10 +55532,6 @@ __webpack_require__.r(__webpack_exports__);
 				contextMenu    : false,
 				tableReady     : false
 			},
-			grupoT:{
-				one: 'Uno',
-				two: 'Dos'
-			},
 
 			currentTableData : [],
 			data             : [],
@@ -56029,7 +56027,7 @@ __webpack_require__.r(__webpack_exports__);
 		loader :
 		{
 			type    : Boolean,
-			default : false
+			default : true
 		}
 	},
 
@@ -60022,7 +60020,7 @@ __webpack_require__.r(__webpack_exports__);
 				sortColumnIndex : this.columns.activeSortIndex ? this.columns.activeSortIndex : 0,
 				sortDirection   : this.columns.activeSortAsc ? 'ASC' : 'DESC',
 				sortSpecial     : this.columns.activeSortSpecial ? this.columns.activeSortSpecial : null,
-				selectedItem    : this.row.selectedIndex !== null ? this.data[ this.row.selectedIndex ] : this.row.activeContextIndex !== null ? this.data[ this.row.activeContextIndex ] : null,
+				selectedItem    : this.row.selectedIndex !== null ? this.currentTableData[ this.row.selectedIndex ] : this.row.activeContextIndex !== null ? this.currentTableData[ this.row.activeContextIndex ] : null,
 				selectedIndex   : this.row.selectedIndex !== null ? this.row.selectedIndex : this.row.activeContextIndex !== null  ? this.row.activeContextIndex : null,
 				currentView     : this.rendering.views.currentView
 			}
@@ -60118,11 +60116,11 @@ var render = function() {
                           !_vm.loader
                             ? _c("div", { staticClass: "jd-searchArrow" }, [
                                 _vm._v(
-                                  "\n\t\t\t\t\t" +
+                                  "\n\t\t\t\t" +
                                     _vm._s(
                                       _vm.setting.startBySearchArrowSearchText
                                     ) +
-                                    "\n\t\t\t\t"
+                                    "\n\t\t\t"
                                 )
                               ])
                             : _vm._e()
@@ -60337,11 +60335,11 @@ var render = function() {
                           !_vm.loader
                             ? _c("div", { staticClass: "jd-filterArrow" }, [
                                 _vm._v(
-                                  "\n\t\t\t\t\t\t" +
+                                  "\n\t\t\t\t\t" +
                                     _vm._s(
                                       _vm.setting.startBySearchArrowFilterText
                                     ) +
-                                    "\n\t\t\t\t\t"
+                                    "\n\t\t\t\t"
                                 )
                               ])
                             : _vm._e()
@@ -60450,11 +60448,7 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t" + _vm._s(rows) + "\n\t\t\t\t\t"
-                          )
-                        ]
+                        [_vm._v("\n\t\t\t\t\t" + _vm._s(rows) + "\n\t\t\t\t")]
                       )
                     })
                   ],
@@ -60504,11 +60498,11 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "jd-columnTitle" }, [
                             _vm._v(
-                              "\n\t\t\t\t\t\t\t" +
+                              "\n\t\t\t\t\t\t" +
                                 _vm._s(
                                   column.title.replace(/(<([^>]+)>)/gi, "")
                                 ) +
-                                "\n\t\t\t\t\t\t"
+                                "\n\t\t\t\t\t"
                             )
                           ])
                         ]
@@ -60588,14 +60582,14 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t" +
+                                        "\n\t\t\t\t\t\t\t\t" +
                                           _vm._s(
                                             column.title.replace(
                                               /(<([^>]+)>)/gi,
                                               ""
                                             )
                                           ) +
-                                          "\n\t\t\t\t\t\t\t\t"
+                                          "\n\t\t\t\t\t\t\t"
                                       )
                                     ]
                                   )
@@ -60627,9 +60621,9 @@ var render = function() {
                           [
                             _c("span", [
                               _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
+                                "\n\t\t\t\t\t\t\t" +
                                   _vm._s(_vm.filterOptionText) +
-                                  "\n\t\t\t\t\t\t\t"
+                                  "\n\t\t\t\t\t\t"
                               )
                             ])
                           ]
@@ -60654,9 +60648,9 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t" +
+                                        "\n\t\t\t\t\t\t\t\t" +
                                           _vm._s(option) +
-                                          "\n\t\t\t\t\t\t\t\t"
+                                          "\n\t\t\t\t\t\t\t"
                                       )
                                     ]
                                   )
@@ -60786,14 +60780,14 @@ var render = function() {
                             [
                               _c("span", [
                                 _vm._v(
-                                  "\n\t\t\t\t\t\t\t\t" +
+                                  "\n\t\t\t\t\t\t\t" +
                                     _vm._s(
                                       filter.column.title.replace(
                                         /(<([^>]+)>)/gi,
                                         ""
                                       )
                                     ) +
-                                    "\n\n\t\t\t\t\t\t\t\t"
+                                    "\n\n\t\t\t\t\t\t\t"
                                 ),
                                 filter.option === "Equals To"
                                   ? _c("i", { staticClass: "fas fa-equals" })
@@ -60827,9 +60821,9 @@ var render = function() {
                                     })
                                   : _vm._e(),
                                 _vm._v(
-                                  '\n\n\t\t\t\t\t\t\t\t"' +
+                                  '\n\n\t\t\t\t\t\t\t"' +
                                     _vm._s(filter.value) +
-                                    '"\n\t\t\t\t\t\t\t'
+                                    '"\n\t\t\t\t\t\t'
                                 )
                               ])
                             ]
@@ -60886,9 +60880,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n\t\t\t\t\t\t" +
-                              _vm._s(row.viewName) +
-                              "\n\t\t\t\t\t"
+                            "\n\t\t\t\t\t" + _vm._s(row.viewName) + "\n\t\t\t\t"
                           )
                         ]
                       )
@@ -61067,9 +61059,9 @@ var render = function() {
                                                   function(item) {
                                                     return _c("li", [
                                                       _vm._v(
-                                                        "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                        "\n\t\t\t\t\t\t\t\t\t\t" +
                                                           _vm._s(item) +
-                                                          "\n\t\t\t\t\t\t\t\t\t\t"
+                                                          "\n\t\t\t\t\t\t\t\t\t"
                                                       )
                                                     ])
                                                   }
@@ -61136,7 +61128,7 @@ var render = function() {
                     _vm._v(" "),
                     !_vm.status.mobileSize
                       ? _c("div", { staticClass: "jd-paginationRows" }, [
-                          _vm._v("\n\t\t\t\t\tRows "),
+                          _vm._v("\n\t\t\t\tRows "),
                           _vm.processedDataSize
                             ? _c("span", [
                                 _vm._v(
@@ -61155,7 +61147,7 @@ var render = function() {
                           _vm._v(
                             _vm._s(
                               _vm.formatNumberWithCommas(_vm.processedDataSize)
-                            ) + "\n\t\t\t\t"
+                            ) + "\n\t\t\t"
                           )
                         ])
                       : _c("div", { staticClass: "jd-paginationRows" }, [
@@ -61329,12 +61321,12 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("transition-group", { attrs: { name: "jdTableFade" } }, [
+      _c("transition", { attrs: { name: "jdTableFade" } }, [
         _vm.status.tableError
           ? _c("div", { staticClass: "jd-layerPopup jd-fullFrame" }, [
               _c("div", { staticClass: "jd-errorMessage" }, [
                 _vm._v(
-                  "\n\t\t\t\t\t" + _vm._s(_vm.status.tableError) + "\n\t\t\t\t"
+                  "\n\t\t\t\t" + _vm._s(_vm.status.tableError) + "\n\t\t\t"
                 )
               ])
             ])
@@ -61344,13 +61336,13 @@ var render = function() {
           ? _c("div", { staticClass: "jd-layerPopup jd-contentFrame" }, [
               _c("div", { staticClass: "jd-noDataFrame" }, [
                 _c("div", { staticClass: "jd-title" }, [
-                  _vm._v("\n\t\t\t\t\t\tNo Data Available\n\t\t\t\t\t")
+                  _vm._v("\n\t\t\t\t\tNo Data Available\n\t\t\t\t")
                 ]),
                 _vm._v(" "),
                 _vm.filtering
                   ? _c("div", { staticClass: "jd-filters" }, [
                       _vm._v(
-                        "\n\t\t\t\t\t\tTry changing your applied filters.\n\t\t\t\t\t"
+                        "\n\t\t\t\t\tTry changing your applied filters.\n\t\t\t\t"
                       )
                     ])
                   : _vm._e()
@@ -61358,13 +61350,22 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
+        _vm.loader
+          ? _c("div", { staticClass: "jd-layerPopup jd-fullFrame jd-loader" }, [
+              _c("div", { staticClass: "fulfilling-square-spinner" }, [
+                _c("div", { staticClass: "spinner-inner" })
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "jd-loadingText" }, [
+                _vm._v("Loading ...")
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _vm.status.processingData
           ? _c(
               "div",
-              {
-                key: _vm.grupoT.one,
-                staticClass: "jd-layerPopup jd-contentFrame jd-loader"
-              },
+              { staticClass: "jd-layerPopup jd-contentFrame jd-loader" },
               [
                 _c("div", { staticClass: "fulfilling-square-spinner" }, [
                   _c("div", { staticClass: "spinner-inner" })
@@ -61380,10 +61381,7 @@ var render = function() {
         _vm.status.searching
           ? _c(
               "div",
-              {
-                key: _vm.grupoT.two,
-                staticClass: "jd-layerPopup jd-contentFrame jd-loader"
-              },
+              { staticClass: "jd-layerPopup jd-contentFrame jd-loader" },
               [
                 _c("div", { staticClass: "self-building-square-spinner" }, [
                   _c("div", { staticClass: "square" }),
@@ -61557,9 +61555,9 @@ var render = function() {
                                   function(item) {
                                     return _c("li", [
                                       _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
+                                        "\n\t\t\t\t\t\t\t\t\t" +
                                           _vm._s(item) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
+                                          "\n\t\t\t\t\t\t\t\t"
                                       )
                                     ])
                                   }
@@ -61593,7 +61591,7 @@ var render = function() {
                     _vm.setting.dataProvider === 1
                       ? _c("div", { staticClass: "jd-footerItem" }, [
                           _vm._v(
-                            "\n\t\t\t\t\t\t\t" +
+                            "\n\t\t\t\t\t\t" +
                               _vm._s(
                                 _vm.row.selectedIndex +
                                   _vm.rendering.pagination.currentStartIndex +
@@ -61601,16 +61599,16 @@ var render = function() {
                               ) +
                               " of " +
                               _vm._s(_vm.processedDataSize) +
-                              "\n\t\t\t\t\t\t"
+                              "\n\t\t\t\t\t"
                           )
                         ])
                       : _c("div", { staticClass: "jd-footerItem" }, [
                           _vm._v(
-                            "\n\t\t\t\t\t\t\t" +
+                            "\n\t\t\t\t\t\t" +
                               _vm._s(_vm.row.selectedIndex + 1) +
                               " of " +
                               _vm._s(_vm.processedDataSize) +
-                              "\n\t\t\t\t\t\t"
+                              "\n\t\t\t\t\t"
                           )
                         ]),
                     _vm._v(" "),

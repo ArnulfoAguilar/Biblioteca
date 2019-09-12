@@ -20,7 +20,7 @@ class ComentarioController extends Controller
         if($request->ajax()){
             return DB::table('comentarioslikes')->where([
                 ['ID_APORTE', '=', $request->id],
-                ['HABILITADO','=','1']
+                // ['HABILITADO','=','1']
             ])->get();
         }else{
             return redirect()->route('home');
