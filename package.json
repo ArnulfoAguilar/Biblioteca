@@ -23,7 +23,7 @@
         "sass-loader": "^7.1.0",
         "summernote": "^0.8.12",
         "vue": "^2.5.17",
-        "vue-jd-table": "^1.1.1",
+        "vue-jd-table": "^1.1.2",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
