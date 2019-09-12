@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBitacoraComentariosTable extends Migration
+class CreateInteraccionComentariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,15 @@ class CreateBitacoraComentariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('bitacoraComentario', function (Blueprint $table) {
+        Schema::create('interaccionComentario', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('LIKE');
-            $table->string('DESCRIPCION');
+            $table->string('DESCRIPCION')->nullable();
+            $table->unsignedInteger('ID_TIPO_INTERACCION');
+            $table->foreign('ID_TIPO_INTERACCION')
+            ->references('id')
+            ->on('tipoInteraccion')
+            ->onDelete('restrict')
+            ->onUpdate('cascade');
             $table->unsignedInteger('ID_COMENTARIO');
             $table->foreign('ID_COMENTARIO')
             ->references('id')
@@ -40,6 +45,6 @@ class CreateBitacoraComentariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bitacoraComentario');
+        Schema::dropIfExists('interaccionComentario');
     }
 }

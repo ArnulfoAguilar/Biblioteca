@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comentario;
+use App\interaccionComentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,19 +16,14 @@ class ComentarioController extends Controller
      */
     public function index(Request $request)
     {
+
         if($request->ajax()){
-            return DB::table('Comentario')
-                    ->join('users', function($join) use ($request) {
-                        $join->on('users.id','=','Comentario.ID_USUARIO')
-                        ->where([
-                            ['Comentario.ID_APORTE','=',$request->id],
-                            ['Comentario.HABILITADO','=','1']
-                        ]);
-                    })
-                    ->select('Comentario.*','users.name')
-                    ->get();
+            return DB::table('comentarioslikes')->where([
+                ['ID_APORTE', '=', $request->id],
+                ['HABILITADO','=','1']
+            ])->get();
         }else{
-             return redirect()->route('home');
+            return redirect()->route('home');
         }
     }
 
@@ -36,9 +32,33 @@ class ComentarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function interaccionLike(Request $request)
     {
-        //
+        $InteraccionComentario = new interaccionComentario();
+        $InteraccionComentario->ID_TIPO_INTERACCION=1;
+        $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
+        $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
+        $InteraccionComentario->save();
+    }
+    
+    public function interaccionReport(Request $request)
+    {
+        $InteraccionComentario = new interaccionComentario();
+        $InteraccionComentario->DESCRIPCION = $request->DESCRIPCION;
+        $InteraccionComentario->ID_TIPO_INTERACCION=1;
+        $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
+        $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
+        $InteraccionComentario->save();
+    }
+    public function interaccionesComentario(Request $request)
+    {
+        return DB::table('opcionescomentario')->where([
+            ['ID_APORTE', '=', $request->id],
+            ['HABILITADO','=','1'],
+            ['ID_USUARIO_INTERACCION','=',auth()->id()]
+        ])
+        ->select('ID_COMENTARIO', 'HABILITADO','ID_APORTE','ID_TIPO_INTERACCION','ID_USUARIO_INTERACCION')
+        ->get();
     }
 
     /**
