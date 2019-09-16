@@ -17,4 +17,9 @@ class Aporte extends Model
         'ID_TIPO_APORTE',
         'ID_USUARIO'        
     ];
+
+    public function revisiones()
+    {
+        return $this->hasMany('App\Revision', 'ID_APORTE', 'id');
+    }
 }

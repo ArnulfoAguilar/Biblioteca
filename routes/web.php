@@ -42,6 +42,10 @@ Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 Route::resource('/aportes','AporteController');
 Route::get('/aporte/obtener', 'AporteController@obtener')->name('obtener.aporte');
 Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
+
+Route::get('/aporte/habilitar', 'AporteController@habilitar')->name('aportes.habilitar');
+
+Route::get('/listaAportesDirector', 'AporteController@listaDirector')->name('aportes.lista.director');
 Route::get('/listaTodosAportes', 'AporteController@listatodos')->name('aportes.lista.todos');
 Route::resource('/revisiones','RevisionController');
 Route::resource('/comentarios','ComentarioController');

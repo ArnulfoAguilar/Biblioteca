@@ -10,4 +10,9 @@ class estadoRevision extends Model
     protected $fillable =[
         'ESTADO_REVISION',
     ];
+
+    public function revision()
+    {
+        return $this->hasMany('App\Revision', 'ID_ESTADO_REVISION', 'id');
+    }
 }

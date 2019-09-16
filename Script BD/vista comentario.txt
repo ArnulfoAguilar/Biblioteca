@@ -8,7 +8,7 @@ SELECT c.id AS "ID_COMENTARIO",
     c.updated_at AS "DATE_UPD_COMENT",
     ic."ID_TIPO_INTERACCION",
     ic."ID_COMENTARIO" AS "ID_COMENT_FK",
-    ic."ID_USUARIO" AS "ID_USUARIO_LIKE",
+    ic."ID_USUARIO" AS "ID_USUARIO_INTERACCION",
     ic.created_at AS "DATE_CREATE_LIKE",
     ic.updated_at AS "DATE_UPD_LIKE",
 		( SELECT users_1.name AS autor_co

@@ -161,6 +161,10 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        
+        // Yoeunes\Toastr\ToastrServiceProvider::class,
+        TJGazel\Toastr\ToastrServiceProvider::class,
+        
 
         /*
          * Package Service Providers...
@@ -232,6 +236,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+        'Toastr' => TJGazel\Toastr\Facades\Toastr::class,
 
     ],
 
