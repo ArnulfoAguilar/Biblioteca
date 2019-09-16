@@ -2,23 +2,54 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12" style="overflow: auto; height:500px; ">
-                <div class="card">
-                    <div class="card-header">
-                        <div>
+                <div class="card ">
+                    <div class="card-header bg-dark">
+                        
+                    Buscar libro
+                        
+                    </div>
+                    <div class="card-body">
 
+                        <div>
+                            <!-- OPCION 1 PARA LAS BUSQUEDAS DE LIBROS -->
                             <div class="row">
-                                <div class="form-check ">
-                                    <input type="checkbox" class="form-check-input" id="check_titulo" v-model="check_titulo" >
+                                <!-- <div class="form-check col-6">
+                                    <input type="checkbox" class="form-check-input" id="check_titulo" v-model="check_titulo" checked>
                                     <label class="form-check-label" for="exampleCheck1">Titulo</label>
-                                    <input type="text" class="form-control" name="" id="" :disabled="!check_titulo" v-model="search_titulo">
-                                </div>
-                                <div class="form-check">
+                                    <input type="text" class="form-control" name="" id="" :disabled="!check_titulo" v-model="search_titulo" autofocus>
+                                </div> -->
+                                <!-- <div class="form-check col-6">
                                     <input type="checkbox" class="form-check-input" id="check_autor" v-model="check_autor" >
                                     <label class="form-check-label" for="exampleCheck1">Autor</label>
                                     <input type="text" class="form-control" name="" id="" :disabled="!check_autor" v-model="search_autor">
-                                </div>
-                            </div>
+                                </div> -->
 
+                                <div class="input-group mb-1 col-6">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text" :class="{'bg-secondary': !check_titulo, 'bg-success': check_titulo, }">
+                                            <input class="mr-2" type="checkbox" value="" id="check_titulo" v-model="check_titulo" checked>
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Titulo
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control" name="" id="" :disabled="!check_titulo" v-model="search_titulo" autofocus>
+                                </div>
+
+                                <div class="input-group mb-1 col-6">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text" :class="{'bg-secondary': !check_autor, 'bg-success': check_autor, }">
+                                            <input class="mr-2" type="checkbox" value="" id="check_autor" v-model="check_autor">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Autor
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control" :disabled="!check_autor" v-model="search_autor">
+                                </div>
+
+                            </div>
+                            <!-- OPCION 2 PARA LAS BUSQUEDAS DE LIBROS -->
                             <!-- <form class="was-validated">
                                 <h4>Seleccione el filtro para la busqueda</h4>
                                 <div class="custom-control custom-radio custom-control-inline">
@@ -34,9 +65,8 @@
 
                         </div>
 
-                        
-                    </div>
-                    <div class="card-body">
+                        <br><br>
+
                         <ul class="list-group">
                             <li class="list-group-item" 
                                 v-for="(item, index) in searchEjemplar" :key="index" >
@@ -79,11 +109,11 @@
                                     <input type="text" v-model="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
                                         aria-describedby="emailHelp" disabled>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="DESCRIPCION">Descripción</label>
                                     <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
                                         rows="3" disabled></textarea>
-                                </div>
+                                </div> -->
                                 <!-- <div class="form-group">
                                     <label for="ISBN">ISBN</label>
                                     <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
@@ -116,11 +146,11 @@
                                             aria-describedby="emailHelp">
                                     </div> -->
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="AUTOR">Persona que realiza prestamo</label>
                                     <input type="text" class="form-control" id="" value=""
                                         aria-describedby="emailHelp" disabled>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-success float-left" type="submit">Realizar Préstamo</button>
@@ -151,7 +181,7 @@
         },
         data() {
             return {
-                check_titulo:false,
+                check_titulo:true,
                 check_autor:false,
                 search_titulo:'',
                 campo_titulo:'',
@@ -179,6 +209,17 @@
             cancelarEdicion(){
                 this.modoEditar = false;
                 this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
+            },
+            editarFormulario(item){
+            this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
+            this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
+            this.EJEMPLAR.ISBN = item.ISBN;
+            this.EJEMPLAR.AUTOR = item.AUTOR;
+            this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
+            this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
+
+            this.EJEMPLAR.id = item.id;
+            this.modoEditar = true;
             },
         },
         computed:{

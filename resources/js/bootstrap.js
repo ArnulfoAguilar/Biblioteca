@@ -11,8 +11,14 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+    
+    // Añadido personalmente 
+    window.toastr = require('toastr');
+    // Fin añadido
+
     require('admin-lte');
     require('summernote/dist/summernote-bs4.js');
+
 } catch (e) {}
 
 /**

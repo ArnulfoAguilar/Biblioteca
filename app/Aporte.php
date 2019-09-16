@@ -10,10 +10,16 @@ class Aporte extends Model
     protected $fillable =[
         'TITULO',
         'DESCRIPCION',
-        'PALABRAS_CLAVE',
+        'CONTENIDO',
         'COMENTARIOS',
+        'HABILITADO',
         'ID_AREA',
         'ID_TIPO_APORTE',
         'ID_USUARIO'        
     ];
+
+    public function revisiones()
+    {
+        return $this->hasMany('App\Revision', 'ID_APORTE', 'id');
+    }
 }

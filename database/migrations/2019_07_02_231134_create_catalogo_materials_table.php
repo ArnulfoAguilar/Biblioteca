@@ -15,7 +15,8 @@ class CreateCatalogoMaterialsTable extends Migration
     {
         Schema::create('catalogoMaterial', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('DESCRIPCION','255');
+            $table->string('NOMBRE', 50);
+            $table->string('DESCRIPCION', 255);
             $table->timestamps();
         });
     }

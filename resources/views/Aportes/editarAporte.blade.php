@@ -1,8 +1,6 @@
 @extends('layouts.adminLTE')
 @section('cssextra')
-<!--ESTE ES PARA SUMMERNOTE
 
--->
 @endsection
 @section('Encabezado')
 Editar 
@@ -32,11 +30,19 @@ Editar
                             {{ csrf_field() }}  
                             {{ method_field('PUT') }}                         
                                 <div class="row">
-                                <div class="form-group col-md-6 col-xs-12">
-                                    <label for="Titulo">Titulo</label>
-                                    <input type="text"  class="form-control" name="TITULO"
-                                        aria-describedby="emailHelp" value="{{ $aporte->TITULO}}" required>
-                                </div>
+                                        <div class="form-group col-md-6 col-xs-12">
+                                            <label for="TIPO_APORTE">
+                                               Tipo de Aporte
+                                            </label>
+                                            <div >
+                                                <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE">
+                                                    <option selected value="{{ $TipoAporteSelect->id }}" disabled>{{ $TipoAporteSelect->TIPO_APORTE }}</option>
+                                                   @foreach($TipoAportes as $TipoAporte)
+                                                   <option value="{{ $TipoAporte->id }}">{{ $TipoAporte->TIPO_APORTE }}</option>
+                                                   @endforeach
+                                                 </select>
+                                            </div>
+                                        </div>
 
                                 <div class="form-group col-md-6 col-xs-12">
                                     <label for="AREA">
@@ -53,19 +59,40 @@ Editar
                                     </div>
                                 </div>
                                 </div>
+                                
+                                <div class="form-group">
+                                    <label for="Titulo">Titulo</label>
+                                <input type="text"  class="form-control"  value="{{$aporte->TITULO}}" name="TITULO"
+                                        aria-describedby="Titulo" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Descripcion">Descripcion</label>
+                                    <input type="text"  class="form-control" value="{{$aporte->DESCRIPCION}}" name="DESCRIPCION"
+                                        aria-describedby="Descripcion" required>
+                                </div>
                  
 
                                 <div class="form-group">
-                                    <label for="DESCRIPCION">Descripción</label>
-                                <textarea type="text" class="form-control" id="Summernote" name ="DESCRIPCION"rows="20" 
-                                value="" required>{{ $aporte->DESCRIPCION }}
+                                    <label for="Contenido">Contenido</label>
+                                    <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
+                                        {!! $aporte->CONTENIDO !!}
                                     </textarea>
                                 </div>
+  
                                 <div class="form-group">
-                                    <label for="PALABRAS_CLAVE">Palabras Clave</label>
-                                    <input type="text" class="form-control" name="PALABRAS_CLAVE"
-                                        aria-describedby="emailHelp" value="{{ $aporte->PALABRAS_CLAVE }}" required>
-                                </div>
+                                        <label for="PALABRAS_CLAVE">
+                                           Palabras Clave
+                                        </label>
+                                        <div >
+                                            <select class="select2" name="PALABRAS_CLAVE[]" id="selectmult" multiple="multiple">
+                                                @foreach($PalabrasClave as $PalabraClave)
+                                               <option value="{{ $PalabraClave->id }}">{{ $PalabraClave->PALABRA }}</option>
+                                               @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 <div class="form-group">
                                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                                     @if ( $aporte->COMENTARIOS )
@@ -88,4 +115,20 @@ Editar
         </div>
     </div>
 
+@endsection
+@section('jsExtra')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+    $('.select2').select2(); 
+    var obj =@json($PalabrasClaveselect);
+    myArray = [];
+    $.each(obj, 
+        function(i, item) {
+            myArray.push(item.id);
+        });
+        $('#selectmult').val(myArray ).trigger('change');
+});
+    </script>
 @endsection

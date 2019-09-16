@@ -29,12 +29,29 @@ Vue.component('JDTable', JDTable);
 Vue.component('busqueda-api', require('./components/BusquedaApi.vue').default);
 Vue.component('select2', require('./components/select.vue').default);
 Vue.component('lista-ejem', require('./components/ListaEjem.vue').default);
-Vue.component('biblioteca-list', require('./components/Biblioteca-list.vue').default);
 Vue.component('buscar-libro', require('./components/Buscar-libro.vue').default);
+
 Vue.component('lista-ejem-table', require('./components/ListaEjemTable.vue').default);
-Vue.component('ejemplar-component',require('./components/EjemplarComponent.vue').default);
-Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
+Vue.component('ejemplar-component', require('./components/EjemplarComponent.vue').default);
+// Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
+
+
+// ------------------------MODULO DE INVENTARIO---------------------------------------------
+Vue.component('biblioteca-list', require('./components/Biblioteca-list.vue').default);
+Vue.component('estante-list', require('./components/Estante-list.vue').default);
+
+// ------------------------MODULO DE APORTES---------------------------------------------
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
+Vue.component('comentarios', require('./components/Comentarios.vue').default);
+Vue.component('aportes', require('./components/Aportes.vue').default);
+Vue.component('aportes-director', require('./components/Aportes-Director.vue').default);
+Vue.component('habilitar-aporte', require('./components/Habilitar-aporte.vue').default);
+
+
+// ------------------------MODULO DE ADMINISTRACION---------------------------------------------
+Vue.component('roles', require('./components/Roles.vue').default);
+Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').default);
+
 
 
 /**
@@ -47,7 +64,7 @@ const app = new Vue({
     el: '#app',
 });
 
-$(document).ready(function(){
+$(document).ready(function () {
     $('#Summernote').summernote({
         focus: true
     });

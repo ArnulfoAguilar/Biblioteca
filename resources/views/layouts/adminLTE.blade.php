@@ -69,7 +69,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-@yield('jsExtra')
+
 <script src="{{url('js/app.js')}}"></script>
+{{-- @include('layouts.scripts') --}}
+@yield('jsExtra')
+{{-- {!! Toastr::render() !!} --}}
 </body>
 </html>

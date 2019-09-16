@@ -14,4 +14,14 @@ class Revision extends Model
         'ID_APORTE',
         'ID_USUARIO'        
     ];
+
+    public function aporte()
+    {
+        return $this->belongsTo('App\Aporte', 'ID_APORTE', 'id');
+    }
+
+    public function estadoRevision()
+    {
+        return $this->belongsTo('App\estadoRevision', 'ID_ESTADO_REVISION', 'id');
+    }
 }
