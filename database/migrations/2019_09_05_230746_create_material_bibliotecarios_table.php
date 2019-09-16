@@ -15,28 +15,26 @@ class CreateMaterialBibliotecariosTable extends Migration
     {
         Schema::create('materialBibliotecario', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('CODIGO_BARRA', '25');
+            $table->integer('COPIA_NUMERO');
             $table->bigInteger('ID_FILA')->unsigned();
-            // $table->unsignedInteger('ID_FILA');
             $table->foreign('ID_FILA')
                 ->references('id')
-                ->on('filaEstante');
-            $table->bigInteger('ID_ESTANTE')->unsigned();
-            // $table->unsignedInteger('ID_ESTANTE');
-            $table->foreign('ID_ESTANTE')
-                ->references('id')
-                ->on('Estante');
-            $table->bigInteger('ID_BIBLIOTECA')->unsigned();
-            // $table->unsignedInteger('ID_BIBLIOTECA');
-            $table->foreign('ID_BIBLIOTECA')
-                ->references('id')
-                ->on('Biblioteca');
+                ->on('filaEstante')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
             $table->bigInteger('ID_CATALOGO_MATERIAL')->unsigned();
-            // $table->unsignedInteger('ID_CATALOGO_MATERIAL');
             $table->foreign('ID_CATALOGO_MATERIAL')
                 ->references('id')
                 ->on('catalogoMaterial')
                 ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onUpdate('cascade');
+            $table->bigInteger('ID_EJEMPLAR')->nullable()->unsigned();
+            $table->foreign('ID_EJEMPLAR')
+                ->references('id')
+                ->on('Ejemplar')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }
