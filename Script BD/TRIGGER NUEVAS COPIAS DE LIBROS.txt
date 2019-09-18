@@ -4,8 +4,8 @@ DECLARE
 --CODIGO_BARRA  TEXT := NEW."ISBN" || lpad(NEW."PAGINAS"::char ,6,'0');
 BEGIN
 	FOR i IN 1 .. NEW."NUMERO_COPIAS" LOOP
-		INSERT INTO public."Libro"("CODIGO_BARRA", "COPIA_NUMERO", "ID_EJEMPLAR") 
-		VALUES(NEW."ISBN" || lpad(i::char ,3,'0'), i, NEW.ID); 
+		INSERT INTO public."materialBibliotecario"("CODIGO_BARRA", "COPIA_NUMERO", "ID_EJEMPLAR","DISPONIBLE","created_at") 
+		VALUES(NEW."ISBN" || lpad(i::char ,3,'0'), i, NEW.ID, TRUE, localtimestamp); 
 	END LOOP;
 RETURN NEW;
 END $BODY$
