@@ -63575,60 +63575,53 @@ var render = function() {
       "div",
       { staticClass: "card-footer card-comments" },
       _vm._l(_vm.comentarios, function(datos, indice) {
-        return _c(
-          "div",
-          { key: indice, staticClass: "card-comment" },
-          [
-            _c("img", {
-              staticClass: "img-circle img-sm",
-              attrs: { src: "", alt: "" }
-            }),
-            _vm._v(" "),
-            _c("div", { staticClass: "comment-text" }, [
-              _c("span", { staticClass: "username" }, [
-                _vm._v(
-                  "\r\n                " +
-                    _vm._s(datos.name) +
-                    "\r\n              "
-                ),
-                _c("span", { staticClass: "text-muted float-right" }, [
-                  _vm._v(_vm._s(datos.created_at))
-                ])
-              ]),
+        return _c("div", { key: indice, staticClass: "card-comment" }, [
+          _c("img", {
+            staticClass: "img-circle img-sm",
+            attrs: { src: "", alt: "" }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "comment-text" }, [
+            _c("span", { staticClass: "username" }, [
               _vm._v(
-                "\r\n              " +
-                  _vm._s(datos.COMENTARIO) +
-                  "\r\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.InteraccionComentarios, function(item, index) {
-              return _c("div", { key: index, staticClass: "row float-right" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-default btn-sm ",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.like(datos.id)
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "far fa-thumbs-up" }, [
-                      _vm._v(_vm._s(datos.total_likes))
-                    ]),
-                    _vm._v(" Like")
-                  ]
-                ),
-                _vm._v(" "),
-                _vm._m(0, true)
+                "\r\n                " +
+                  _vm._s(datos.name) +
+                  "\r\n              "
+              ),
+              _c("span", { staticClass: "text-muted float-right" }, [
+                _vm._v(_vm._s(datos.created_at))
               ])
-            })
-          ],
-          2
-        )
+            ]),
+            _vm._v(
+              "\r\n              " +
+                _vm._s(datos.COMENTARIO) +
+                "\r\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row float-right" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-default btn-sm ",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.like(datos.id)
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "far fa-thumbs-up" }, [
+                  _vm._v(_vm._s(datos.total_likes))
+                ]),
+                _vm._v(" Like")
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(0, true)
+          ])
+        ])
       }),
       0
     ),
