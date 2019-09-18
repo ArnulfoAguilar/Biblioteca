@@ -17,6 +17,7 @@ class CreateEstadoDespachosTable extends Migration
             $table->bigIncrements('ID_DESPACHO');
             $table->string('ESTADO_DESPACHO', 250);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

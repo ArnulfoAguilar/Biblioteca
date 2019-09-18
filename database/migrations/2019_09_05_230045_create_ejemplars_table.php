@@ -29,10 +29,10 @@ class CreateEjemplarsTable extends Migration
             $table->integer('NUMERO_PAGINAS')->nullable();
             $table->integer('NUMERO_COPIAS');
             $table->string('AUTOR', 255)->nullable();
-            $table->bigInteger('ID_CATEGORIA')->nullable()->unsigned();
-            $table->foreign('ID_CATEGORIA')
+            $table->bigInteger('ID_AREA')->nullable()->unsigned();
+            $table->foreign('ID_AREA')
                 ->references('id')
-                ->on('categoriaLibro')
+                ->on('Area')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->bigInteger('ID_TERCER_SUMARIO')->nullable()->unsigned();
@@ -54,6 +54,12 @@ class CreateEjemplarsTable extends Migration
             $table->bigInteger('ID_ESTADO_EJEMPLAR')->nullable()->unsigned();
             $table->foreign('ID_ESTADO_EJEMPLAR')->references('ID_ESTADO_EJEMPLAR')
                 ->on('estadoEjemplar')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table->bigInteger('ID_CATALOGO_MATERIAL')->nullable()->unsigned();
+            $table->foreign('ID_CATALOGO_MATERIAL')
+                ->references('id')
+                ->on('catalogoMaterial')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->timestamps();

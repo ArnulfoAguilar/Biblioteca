@@ -17,6 +17,7 @@ class CreateEstadoPrestamosTable extends Migration
             $table->bigIncrements('ID_ESTADO_PRESTAMO');
             $table->string('ESTADO_PRESTAMO', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

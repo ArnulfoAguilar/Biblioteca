@@ -30,13 +30,8 @@ class CreateMaterialBibliotecariosTable extends Migration
                 ->on('filaEstante')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->bigInteger('ID_CATALOGO_MATERIAL')->nullable()->unsigned();
-            $table->foreign('ID_CATALOGO_MATERIAL')
-                ->references('id')
-                ->on('catalogoMaterial')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

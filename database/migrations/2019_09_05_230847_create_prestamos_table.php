@@ -34,6 +34,7 @@ class CreatePrestamosTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

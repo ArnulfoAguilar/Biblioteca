@@ -22,7 +22,7 @@ class CatalogoMaterialTableSeeder extends Seeder
             'DESCRIPCION' => 'Revista que ingresa al inventario de la biblioteca',
         ]);
         DB::table('catalogoMaterial')->insert([
-            'id' => 1,
+            'id' => 3,
             'NOMBRE' => 'Archivo Multimedia',
             'DESCRIPCION' => 'Archivo multimedia que ingresa al inventario de la biblioteca',
         ]);
