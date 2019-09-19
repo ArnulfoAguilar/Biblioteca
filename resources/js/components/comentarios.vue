@@ -25,7 +25,7 @@
       <img class="img-fluid img-circle img-sm" src="" alt="">
       <!-- .img-push is used to add margin to elements next to floating images -->
       <div class="img-push">
-        <form @submit.prevent="Agregar_comentario">
+        <form @submit.prevent="comprobar_comentario">
           <input class="form-control form-control-lg" placeholder="Escribe un comentario..." v-model="Comentario.COMENTARIO">
         </form>  
       </div>
@@ -37,7 +37,6 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
         },
         props: ['aporte','usuario'],
         data(){
@@ -57,9 +56,7 @@
         methods:{
           cargar_comentarios(){
             axios.get('/comentarios?id='+this.aporte).then(res=>{
-                this.comentarios = res.data;
-                console.log('Comentarios:');
-                console.log(this.comentarios);                
+                this.comentarios = res.data;            
                 })
           },
           cargar_interacciones(){
@@ -100,29 +97,42 @@
                   alert("Error al Guardar" + e);
               })
           },
-         hola(){
-            console.log("PASO ")
-          },
-          Agregar_comentario(){
-             //var opcion = confirm("Clicka en Aceptar o Cancelar");
-             //console.log(opcion)
+          comprobar_comentario(){
                 const regex = /( puto| basura| gay)/igm;
                 const str = this.Comentario.COMENTARIO;
                 
-                let m;
-                while ((m = regex.exec(str)) !== null) {
-                  // This is necessary to avoid infinite loops with zero-width matches
-                  if (m.index === regex.lastIndex) {
+                let palabra_en_comentario;
+                if ((palabra_en_comentario = regex.exec(str)) !== null) {
+
+                  if (palabra_en_comentario.index === regex.lastIndex) {
                     regex.lastIndex++;
                   }
-                  // The result can be accessed through the `m`-variable.
-                 toastr.error('Tu comentario puede contener expresiones inadecuadas. <div class="row"><button  type="button" class="col-md-5 btn  btn-primary btn-sm" @click="hola()">Cancelar</button><button type="button" class="btn-sm col-md-5 btn btn-danger ">Aceptar</button></div>', 'Alto');
-                  m.forEach((match, groupIndex) => {
-                  //console.log(`Found match, group ${groupIndex}: ${match}`);
-                  }); 
+                  this.mostrar_alerta();        
+                }else{
+                  this.agregar_comentario();
                 }
-             
-           /* const comentarioNuevo =this.Comentario;
+                
+          },
+          mostrar_alerta()
+          {
+              this.$swal(
+                  {
+                    title: 'Alto',
+                    text: "Tu comentario puede contener palabras inadecuadas, si continuas, sera enviado al ADMINISTRADOR para revision.",
+                    icon: 'warning',
+                    buttons: {
+                      cancel: true,
+                      confirm: true,
+                    },
+                  }).then((value) => {
+                    if (value) {
+                      this.agregar_comentario();
+                    }
+                  }
+                  );        
+          },
+          agregar_comentario(){
+            const comentarioNuevo =this.Comentario;
             axios.post('/comentarios',comentarioNuevo)
             .then((response) => {
               toastr.clear();
@@ -133,7 +143,7 @@
 
             }).catch(e=>{
                   alert("Error al Guardar" + e);
-              })*/
+              })
           }
         },
     }

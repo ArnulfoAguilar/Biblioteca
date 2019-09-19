@@ -14,7 +14,8 @@ class PalabraProhibidaController extends Controller
      */
     public function index()
     {
-        //
+        $palabraProhibida= palabraProhibida::all();
+        return $palabraProhibida;
     }
 
     /**
