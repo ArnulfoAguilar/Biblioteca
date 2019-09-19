@@ -1925,7 +1925,9 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     verAporte: function verAporte(id) {
-      window.location.href = '/aportes/' + id;
+      console.log('id: ' + id); // router.push({ name: "aportes.index"})
+
+      axios.get('/aportes/' + id);
     }
   }
 });
@@ -3042,6 +3044,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/comentarios?id=' + this.aporte).then(function (res) {
         _this.comentarios = res.data;
+        console.log('Comentarios:');
+        console.log(_this.comentarios);
       });
     },
     cargar_interacciones: function cargar_interacciones() {
@@ -3806,9 +3810,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -55531,10 +55532,6 @@ __webpack_require__.r(__webpack_exports__);
 				contextMenu    : false,
 				tableReady     : false
 			},
-			grupoT:{
-				one: 'Uno',
-				two: 'Dos'
-			},
 
 			currentTableData : [],
 			data             : [],
@@ -56030,7 +56027,7 @@ __webpack_require__.r(__webpack_exports__);
 		loader :
 		{
 			type    : Boolean,
-			default : false
+			default : true
 		}
 	},
 
@@ -60023,7 +60020,7 @@ __webpack_require__.r(__webpack_exports__);
 				sortColumnIndex : this.columns.activeSortIndex ? this.columns.activeSortIndex : 0,
 				sortDirection   : this.columns.activeSortAsc ? 'ASC' : 'DESC',
 				sortSpecial     : this.columns.activeSortSpecial ? this.columns.activeSortSpecial : null,
-				selectedItem    : this.row.selectedIndex !== null ? this.data[ this.row.selectedIndex ] : this.row.activeContextIndex !== null ? this.data[ this.row.activeContextIndex ] : null,
+				selectedItem    : this.row.selectedIndex !== null ? this.currentTableData[ this.row.selectedIndex ] : this.row.activeContextIndex !== null ? this.currentTableData[ this.row.activeContextIndex ] : null,
 				selectedIndex   : this.row.selectedIndex !== null ? this.row.selectedIndex : this.row.activeContextIndex !== null  ? this.row.activeContextIndex : null,
 				currentView     : this.rendering.views.currentView
 			}
@@ -60119,11 +60116,11 @@ var render = function() {
                           !_vm.loader
                             ? _c("div", { staticClass: "jd-searchArrow" }, [
                                 _vm._v(
-                                  "\n\t\t\t\t\t" +
+                                  "\n\t\t\t\t" +
                                     _vm._s(
                                       _vm.setting.startBySearchArrowSearchText
                                     ) +
-                                    "\n\t\t\t\t"
+                                    "\n\t\t\t"
                                 )
                               ])
                             : _vm._e()
@@ -60338,11 +60335,11 @@ var render = function() {
                           !_vm.loader
                             ? _c("div", { staticClass: "jd-filterArrow" }, [
                                 _vm._v(
-                                  "\n\t\t\t\t\t\t" +
+                                  "\n\t\t\t\t\t" +
                                     _vm._s(
                                       _vm.setting.startBySearchArrowFilterText
                                     ) +
-                                    "\n\t\t\t\t\t"
+                                    "\n\t\t\t\t"
                                 )
                               ])
                             : _vm._e()
@@ -60451,11 +60448,7 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t" + _vm._s(rows) + "\n\t\t\t\t\t"
-                          )
-                        ]
+                        [_vm._v("\n\t\t\t\t\t" + _vm._s(rows) + "\n\t\t\t\t")]
                       )
                     })
                   ],
@@ -60505,11 +60498,11 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "jd-columnTitle" }, [
                             _vm._v(
-                              "\n\t\t\t\t\t\t\t" +
+                              "\n\t\t\t\t\t\t" +
                                 _vm._s(
                                   column.title.replace(/(<([^>]+)>)/gi, "")
                                 ) +
-                                "\n\t\t\t\t\t\t"
+                                "\n\t\t\t\t\t"
                             )
                           ])
                         ]
@@ -60589,14 +60582,14 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t" +
+                                        "\n\t\t\t\t\t\t\t\t" +
                                           _vm._s(
                                             column.title.replace(
                                               /(<([^>]+)>)/gi,
                                               ""
                                             )
                                           ) +
-                                          "\n\t\t\t\t\t\t\t\t"
+                                          "\n\t\t\t\t\t\t\t"
                                       )
                                     ]
                                   )
@@ -60628,9 +60621,9 @@ var render = function() {
                           [
                             _c("span", [
                               _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
+                                "\n\t\t\t\t\t\t\t" +
                                   _vm._s(_vm.filterOptionText) +
-                                  "\n\t\t\t\t\t\t\t"
+                                  "\n\t\t\t\t\t\t"
                               )
                             ])
                           ]
@@ -60655,9 +60648,9 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t" +
+                                        "\n\t\t\t\t\t\t\t\t" +
                                           _vm._s(option) +
-                                          "\n\t\t\t\t\t\t\t\t"
+                                          "\n\t\t\t\t\t\t\t"
                                       )
                                     ]
                                   )
@@ -60787,14 +60780,14 @@ var render = function() {
                             [
                               _c("span", [
                                 _vm._v(
-                                  "\n\t\t\t\t\t\t\t\t" +
+                                  "\n\t\t\t\t\t\t\t" +
                                     _vm._s(
                                       filter.column.title.replace(
                                         /(<([^>]+)>)/gi,
                                         ""
                                       )
                                     ) +
-                                    "\n\n\t\t\t\t\t\t\t\t"
+                                    "\n\n\t\t\t\t\t\t\t"
                                 ),
                                 filter.option === "Equals To"
                                   ? _c("i", { staticClass: "fas fa-equals" })
@@ -60828,9 +60821,9 @@ var render = function() {
                                     })
                                   : _vm._e(),
                                 _vm._v(
-                                  '\n\n\t\t\t\t\t\t\t\t"' +
+                                  '\n\n\t\t\t\t\t\t\t"' +
                                     _vm._s(filter.value) +
-                                    '"\n\t\t\t\t\t\t\t'
+                                    '"\n\t\t\t\t\t\t'
                                 )
                               ])
                             ]
@@ -60887,9 +60880,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n\t\t\t\t\t\t" +
-                              _vm._s(row.viewName) +
-                              "\n\t\t\t\t\t"
+                            "\n\t\t\t\t\t" + _vm._s(row.viewName) + "\n\t\t\t\t"
                           )
                         ]
                       )
@@ -61068,9 +61059,9 @@ var render = function() {
                                                   function(item) {
                                                     return _c("li", [
                                                       _vm._v(
-                                                        "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                        "\n\t\t\t\t\t\t\t\t\t\t" +
                                                           _vm._s(item) +
-                                                          "\n\t\t\t\t\t\t\t\t\t\t"
+                                                          "\n\t\t\t\t\t\t\t\t\t"
                                                       )
                                                     ])
                                                   }
@@ -61137,7 +61128,7 @@ var render = function() {
                     _vm._v(" "),
                     !_vm.status.mobileSize
                       ? _c("div", { staticClass: "jd-paginationRows" }, [
-                          _vm._v("\n\t\t\t\t\tRows "),
+                          _vm._v("\n\t\t\t\tRows "),
                           _vm.processedDataSize
                             ? _c("span", [
                                 _vm._v(
@@ -61156,7 +61147,7 @@ var render = function() {
                           _vm._v(
                             _vm._s(
                               _vm.formatNumberWithCommas(_vm.processedDataSize)
-                            ) + "\n\t\t\t\t"
+                            ) + "\n\t\t\t"
                           )
                         ])
                       : _c("div", { staticClass: "jd-paginationRows" }, [
@@ -61330,12 +61321,12 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("transition-group", { attrs: { name: "jdTableFade" } }, [
+      _c("transition", { attrs: { name: "jdTableFade" } }, [
         _vm.status.tableError
           ? _c("div", { staticClass: "jd-layerPopup jd-fullFrame" }, [
               _c("div", { staticClass: "jd-errorMessage" }, [
                 _vm._v(
-                  "\n\t\t\t\t\t" + _vm._s(_vm.status.tableError) + "\n\t\t\t\t"
+                  "\n\t\t\t\t" + _vm._s(_vm.status.tableError) + "\n\t\t\t"
                 )
               ])
             ])
@@ -61345,13 +61336,13 @@ var render = function() {
           ? _c("div", { staticClass: "jd-layerPopup jd-contentFrame" }, [
               _c("div", { staticClass: "jd-noDataFrame" }, [
                 _c("div", { staticClass: "jd-title" }, [
-                  _vm._v("\n\t\t\t\t\t\tNo Data Available\n\t\t\t\t\t")
+                  _vm._v("\n\t\t\t\t\tNo Data Available\n\t\t\t\t")
                 ]),
                 _vm._v(" "),
                 _vm.filtering
                   ? _c("div", { staticClass: "jd-filters" }, [
                       _vm._v(
-                        "\n\t\t\t\t\t\tTry changing your applied filters.\n\t\t\t\t\t"
+                        "\n\t\t\t\t\tTry changing your applied filters.\n\t\t\t\t"
                       )
                     ])
                   : _vm._e()
@@ -61359,13 +61350,22 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
+        _vm.loader
+          ? _c("div", { staticClass: "jd-layerPopup jd-fullFrame jd-loader" }, [
+              _c("div", { staticClass: "fulfilling-square-spinner" }, [
+                _c("div", { staticClass: "spinner-inner" })
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "jd-loadingText" }, [
+                _vm._v("Loading ...")
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _vm.status.processingData
           ? _c(
               "div",
-              {
-                key: _vm.grupoT.one,
-                staticClass: "jd-layerPopup jd-contentFrame jd-loader"
-              },
+              { staticClass: "jd-layerPopup jd-contentFrame jd-loader" },
               [
                 _c("div", { staticClass: "fulfilling-square-spinner" }, [
                   _c("div", { staticClass: "spinner-inner" })
@@ -61381,10 +61381,7 @@ var render = function() {
         _vm.status.searching
           ? _c(
               "div",
-              {
-                key: _vm.grupoT.two,
-                staticClass: "jd-layerPopup jd-contentFrame jd-loader"
-              },
+              { staticClass: "jd-layerPopup jd-contentFrame jd-loader" },
               [
                 _c("div", { staticClass: "self-building-square-spinner" }, [
                   _c("div", { staticClass: "square" }),
@@ -61558,9 +61555,9 @@ var render = function() {
                                   function(item) {
                                     return _c("li", [
                                       _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
+                                        "\n\t\t\t\t\t\t\t\t\t" +
                                           _vm._s(item) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
+                                          "\n\t\t\t\t\t\t\t\t"
                                       )
                                     ])
                                   }
@@ -61594,7 +61591,7 @@ var render = function() {
                     _vm.setting.dataProvider === 1
                       ? _c("div", { staticClass: "jd-footerItem" }, [
                           _vm._v(
-                            "\n\t\t\t\t\t\t\t" +
+                            "\n\t\t\t\t\t\t" +
                               _vm._s(
                                 _vm.row.selectedIndex +
                                   _vm.rendering.pagination.currentStartIndex +
@@ -61602,16 +61599,16 @@ var render = function() {
                               ) +
                               " of " +
                               _vm._s(_vm.processedDataSize) +
-                              "\n\t\t\t\t\t\t"
+                              "\n\t\t\t\t\t"
                           )
                         ])
                       : _c("div", { staticClass: "jd-footerItem" }, [
                           _vm._v(
-                            "\n\t\t\t\t\t\t\t" +
+                            "\n\t\t\t\t\t\t" +
                               _vm._s(_vm.row.selectedIndex + 1) +
                               " of " +
                               _vm._s(_vm.processedDataSize) +
-                              "\n\t\t\t\t\t\t"
+                              "\n\t\t\t\t\t"
                           )
                         ]),
                     _vm._v(" "),
@@ -61885,6 +61882,38 @@ var render = function() {
                   _vm._v("2 comentarios")
                 ])
               ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-tools" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { href: "#", role: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.verAporte(item.id)
+                    }
+                  }
+                },
+                [_vm._v("Ir al aporte en si")]
+              ),
+              _vm._v(" "),
+              _vm._m(0, true)
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("h1", [_vm._v(_vm._s(item.TITULO))]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(item.DESCRIPCION))]),
+            _vm._v(" "),
+            _vm._m(1, true),
+            _vm._v(" "),
+            _vm._m(2, true),
+            _vm._v(" "),
+            _c("span", { staticClass: "float-right text-muted" }, [
+              _vm._v("2 comentarios")
             ])
           ]
         )
@@ -61894,6 +61923,19 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-tool",
+        attrs: { type: "button", "data-card-widget": "collapse" }
+      },
+      [_c("i", { staticClass: "fas fa-minus" })]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -64028,6 +64070,223 @@ var render = function() {
                         attrs: { type: "submit" }
                       },
                       [_vm._v("Guardar Ejemplar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "submit", "data-dismiss": "modal" },
+                        on: { click: _vm.cancelarEdicion }
+                      },
+                      [_vm._v("Cancelar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Estante-list.vue?vue&type=template&id=0639ef52&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Estante-list.vue?vue&type=template&id=0639ef52& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("JDTable", {
+        attrs: {
+          option: _vm.tableOptions,
+          loader: _vm.tableLoader,
+          "event-from-app": _vm.eventFromApp,
+          "event-from-app-trigger": _vm.eventFromAppTrigger
+        },
+        on: {
+          "event-from-jd-table": function($event) {
+            return _vm.processEventFromApp($event)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("iframe", {
+        staticStyle: { display: "none" },
+        attrs: { id: "excelExportArea" }
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: { id: "modalAgregar", role: "dialog" }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.submitHandler(_vm.$v.$invalid)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v(_vm._s(_vm.titleToShow))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [_vm._v("×")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "NOMBRE" } }, [
+                        _vm._v("Nombre")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.lazy",
+                            value: _vm.Estante.ESTANTE,
+                            expression: "Estante.ESTANTE",
+                            modifiers: { lazy: true }
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "ESTANTE",
+                          "aria-describedby": "emailHelp"
+                        },
+                        domProps: { value: _vm.Estante.ESTANTE },
+                        on: {
+                          change: function($event) {
+                            return _vm.$set(
+                              _vm.Estante,
+                              "ESTANTE",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      !_vm.$v.Estante.ESTANTE.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("Este campo es obligatorio")
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "NOMBRE" } }, [
+                        _vm._v("Biblioteca a la que pertenece")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.Estante.ID_BIBLIOTECA,
+                              expression: "Estante.ID_BIBLIOTECA"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.Estante,
+                                "ID_BIBLIOTECA",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v("Por favor seleccione una")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.bibliotecas, function(item, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: item.id } },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(item.BIBLIOTECA) +
+                                    "\n                                "
+                                )
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      !_vm.$v.Estante.ID_BIBLIOTECA.required
+                        ? _c("div", { staticClass: "error" }, [
+                            _vm._v("Este campo es obligatorio")
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Guardar Estante")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -80810,8 +81069,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\Biblioteca\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp7\htdocs\Biblioteca\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp7\htdocs\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

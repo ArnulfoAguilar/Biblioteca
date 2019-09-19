@@ -15,15 +15,16 @@ class EstanteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function estante(){
+    public function estante()
+    {
         return view('Estante.Lista');
     }
 
     public function index()
     {
         $estantes = DB::table('Biblioteca')
-        ->join('Estante', 'Biblioteca.id', '=', 'Estante.ID_BIBLIOTECA')
-        ->get();
+            ->join('Estante', 'Biblioteca.id', '=', 'Estante.ID_BIBLIOTECA')
+            ->get();
         return $estantes;
     }
 

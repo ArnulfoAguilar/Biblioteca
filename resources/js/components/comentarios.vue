@@ -14,7 +14,6 @@
             </div>
                           <!-- /.comment-text -->
             <div class="row float-right" >
-
               <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button>
               <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
             </div>
@@ -59,7 +58,8 @@
           cargar_comentarios(){
             axios.get('/comentarios?id='+this.aporte).then(res=>{
                 this.comentarios = res.data;
-                
+                console.log('Comentarios:');
+                console.log(this.comentarios);                
                 })
           },
           cargar_interacciones(){

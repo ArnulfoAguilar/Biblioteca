@@ -127,6 +127,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('aportes.index',['vista'=>2])}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Aportes pa Director</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('areas')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Item 2</p>

@@ -9,15 +9,10 @@
       max-width: 100%; 
       }
 </style>
-
-{{-- <link href="toastr.css" rel="stylesheet"/> --}}
-
    
 @endsection 
 
 @section('content')
-{{-- {!! Toastr::render() !!} --}}
-{!! toastr()->render() !!}
 
     @if (session('status'))
         <div class="alert alert-success" role="alert">
@@ -30,15 +25,12 @@
                     {{ $palabraClave->PALABRA}}
                 </p>    
         @endforeach
-        @if ($aporte->HABILITADO == false)
-                    <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
-        @endif 
     </div>
     <div class="container">    
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-dark" >
+                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">
 
                         <!-- <h1>{{ $aporte->TITULO }}</h1> -->
 
@@ -67,11 +59,6 @@
 
                 <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}" rol="{{Auth::user()->ID_ROL}}" usuario="{{Auth::user()->id}}"></revisiones>
 
-                {{-- <form>
-                    <button class="btn btn-primary" type="submit"> Habilitar </button>
-                </form> --}}
-
-                
 
             </div>
         </div>
@@ -80,10 +67,3 @@
     
 
 @endsection
-
-@section('jsExtra')
-
-{{-- <script src="jquery.min.js"></script>
-<script src="toastr.js"></script> --}}
-   
-@endsection 

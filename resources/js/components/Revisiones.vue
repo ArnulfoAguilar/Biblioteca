@@ -62,8 +62,8 @@
                                         <div class="timeline-header">
                                             <div v-for="(user, index) in usuarios" :key="index">
                                                 <div v-if="user.id == item.ID_USUARIO">
-                                                        <h7  v-if="item.ID_ESTADO_REVISION == 1">Observación de <b >{{user.name}}</b> solventada</h7>
-                                                        <h7  v-else><b>{{user.name}}</b> hizo una observación</h7>
+                                                        <p  v-if="item.ID_ESTADO_REVISION == 1">Observación de <b >{{user.name}}</b> solventada</p>
+                                                        <p  v-else><b>{{user.name}}</b> hizo una observación</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,9 +78,23 @@
                                     </div>
                                 </li>
                                 <!-- END timeline item -->
+                                
+
                                 <li>
-                                <i class="far fa-clock bg-gray"></i>
-                                </li>
+              <i class="far fa-clock bg-gray"></i>
+              <div class="timeline-item">
+                <div class="timeline-header bg-gray" v-if="revisiones < 1">
+                  No hay revisiones
+                </div>
+                <div class="timeline-header bg-gray" v-else>
+                  Fin de las revisiones
+                </div>
+              </div>
+            </li>
+
+
+
+
                             </ul>
                         </div>
                     </div>

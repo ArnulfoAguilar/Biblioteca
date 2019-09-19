@@ -22,14 +22,15 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "summernote": "^0.8.12",
+        "toastr": "^2.1.4",
         "vue": "^2.5.17",
-        "vue-jd-table": "^1.1.1",
+        "vue-jd-table": "^1.1.2",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
         "admin-lte": "^3.0.0-beta.2",
         "select2": "^4.0.7",
-        "toastr": "^2.1.4",
+        "vue-swal": "^1.0.0",
         "vuelidate": "^0.7.4"
     }
 }

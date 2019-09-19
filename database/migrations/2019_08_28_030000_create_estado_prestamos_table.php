@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCatalogoMaterialsTable extends Migration
+class CreateEstadoPrestamosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateCatalogoMaterialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('catalogoMaterial', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('NOMBRE', 50);
-            $table->string('DESCRIPCION', 255);
+        Schema::create('estadoPrestamo', function (Blueprint $table) {
+            $table->bigIncrements('ID_ESTADO_PRESTAMO');
+            $table->string('ESTADO_PRESTAMO', 50);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateCatalogoMaterialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('catalogoMaterial');
+        Schema::dropIfExists('estadoPrestamo');
     }
 }

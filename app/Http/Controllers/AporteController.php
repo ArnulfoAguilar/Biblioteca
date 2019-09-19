@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+use TJGazel\Toastr\Facades\Toastr;
+
+
+
 class AporteController extends Controller
 {
     /**
@@ -21,10 +25,16 @@ class AporteController extends Controller
      */
     public function index(Request $request)
     {
-        return view('Aportes.ListaAporte')->with([
-            'id' => $request->id
-            ]);
+        if($request->vista == 2 || $request->vista == '2'){
+            return view('Aportes.ListaAporteDirector');
+        }else{
+            return view('Aportes.ListaAporte')->with([
+                'id' => $request->id
+                ]);
+        }
+        
     }
+    
     public function lista()
     {   
         return DB::table('Aporte')
@@ -37,10 +47,16 @@ class AporteController extends Controller
         ->select('Aporte.id','Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
         ->get();
     }
+    
 
     public function listatodos(Request $request)
     {   
         return Aporte::where('HABILITADO', $request->id)->orderBy('created_at', 'desc')->get();
+    }
+
+    public function listaDirector(Request $request)
+    {   
+        return Aporte::orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -140,6 +156,45 @@ class AporteController extends Controller
         
     }
 
+    public function habilitar(Request $request){
+        
+        $aporte = Aporte::find($request->id);
+        $revisiones = $aporte->revisiones;
+        $solventado_total=true;
+        foreach ($revisiones as $key => $revision) {
+            if($revision->estadoRevision->ESTADO_REVISION != 'Solventada')
+            {
+                $solventado_total = false;
+            }
+        }
+        if($solventado_total == true)
+        {
+            $aporte->HABILITADO = true;
+            $aporte->save();
+            return '1';
+        }else{
+            return '0';
+        }
+    }
+
+
+    public function showAporteToDirector(Aporte $aporte)
+    {
+
+        $PalabrasClave = DB::table('aportePalabraClavePivote')
+        ->join('palabrasClave', function($join) use ($aporte) {
+            $join->on('aportePalabraClavePivote.ID_PALABRA_CLAVE','=','palabrasClave.id')
+            ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
+        })
+        ->select('palabrasClave.id','palabrasClave.PALABRA')
+        ->get();
+        $TipoAporte = tipoAporte::find($aporte->ID_TIPO_APORTE);
+        return view('Aportes.verAporteDirector')->with(['aporte' => $aporte])
+            ->with(['PalabrasClave' => $PalabrasClave])
+            ->with(['TipoAporte' => $TipoAporte]);
+        
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -182,7 +237,7 @@ class AporteController extends Controller
      */
     public function update(Request $request, $aporteid)
     {
-        
+       
         $detalle=$request->CONTENIDO;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
