@@ -53,6 +53,7 @@ Route::post('/likeComentario', 'ComentarioController@interaccionLike')->name('in
 Route::post('/reportComentario', 'ComentarioController@interaccionReport')->name('interaccion.report');
 Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesComentario')->name('interaccion.report');
 Route::resource('/palabraProhibida', 'PalabraProhibidaController');
+Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida');
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
 
