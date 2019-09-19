@@ -1917,12 +1917,10 @@ __webpack_require__.r(__webpack_exports__);
       if (this.habilitado != '') {
         axios.get('/listaTodosAportes?id=' + this.habilitado).then(function (response) {
           _this.Aportes = response.data;
-          console.log(_this.Aportes);
         });
       } else {
         axios.get('/listaAportes').then(function (response) {
           _this.Aportes = response.data;
-          console.log(_this.Aportes);
         });
       }
     },
@@ -3091,36 +3089,39 @@ __webpack_require__.r(__webpack_exports__);
         alert("Error al Guardar" + e);
       });
     },
+    hola: function hola() {
+      console.log("PASO ");
+    },
     Agregar_comentario: function Agregar_comentario() {
-      var _this5 = this;
+      //var opcion = confirm("Clicka en Aceptar o Cancelar");
+      //console.log(opcion)
+      var regex = /( puto| basura| gay)/igm;
+      var str = this.Comentario.COMENTARIO;
+      var m;
 
-      /*const regex = /(puto|basura|gay )/gm;
-      const str = this.Comentario.COMENTARIO;
-      
-      let m;
       while ((m = regex.exec(str)) !== null) {
         // This is necessary to avoid infinite loops with zero-width matches
         if (m.index === regex.lastIndex) {
           regex.lastIndex++;
-        }
-         // The result can be accessed through the `m`-variable.
-        console.log(m);
-        m.forEach((match, groupIndex) => {
-        console.log(`Found match, group ${groupIndex}: ${match}`);
-        }); 
-      }*/
-      var comentarioNuevo = this.Comentario;
-      axios.post('/comentarios', comentarioNuevo).then(function (response) {
-        toastr.clear();
-        toastr.options.closeButton = true;
-        toastr.success('Espera por la aprobación', 'Guardado!!');
+        } // The result can be accessed through the `m`-variable.
 
-        _this5.cargar_comentarios();
 
-        _this5.Comentario.COMENTARIO = "";
-      })["catch"](function (e) {
-        alert("Error al Guardar" + e);
-      });
+        toastr.error('Tu comentario puede contener expresiones inadecuadas. <div class="row"><button  type="button" class="col-md-5 btn  btn-primary btn-sm" @click="hola()">Cancelar</button><button type="button" class="btn-sm col-md-5 btn btn-danger ">Aceptar</button></div>', 'Alto');
+        m.forEach(function (match, groupIndex) {//console.log(`Found match, group ${groupIndex}: ${match}`);
+        });
+      }
+      /* const comentarioNuevo =this.Comentario;
+       axios.post('/comentarios',comentarioNuevo)
+       .then((response) => {
+         toastr.clear();
+         toastr.options.closeButton = true;
+         toastr.success('Espera por la aprobación', 'Guardado!!');
+         this.cargar_comentarios();
+         this.Comentario.COMENTARIO = "";
+        }).catch(e=>{
+             alert("Error al Guardar" + e);
+         })*/
+
     }
   }
 });

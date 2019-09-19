@@ -100,8 +100,13 @@
                   alert("Error al Guardar" + e);
               })
           },
+         hola(){
+            console.log("PASO ")
+          },
           Agregar_comentario(){
-                /*const regex = /(puto|basura|gay )/gm;
+             //var opcion = confirm("Clicka en Aceptar o Cancelar");
+             //console.log(opcion)
+                const regex = /( puto| basura| gay)/igm;
                 const str = this.Comentario.COMENTARIO;
                 
                 let m;
@@ -110,14 +115,14 @@
                   if (m.index === regex.lastIndex) {
                     regex.lastIndex++;
                   }
-    
                   // The result can be accessed through the `m`-variable.
-                  console.log(m);
+                 toastr.error('Tu comentario puede contener expresiones inadecuadas. <div class="row"><button  type="button" class="col-md-5 btn  btn-primary btn-sm" @click="hola()">Cancelar</button><button type="button" class="btn-sm col-md-5 btn btn-danger ">Aceptar</button></div>', 'Alto');
                   m.forEach((match, groupIndex) => {
-                  console.log(`Found match, group ${groupIndex}: ${match}`);
+                  //console.log(`Found match, group ${groupIndex}: ${match}`);
                   }); 
-                }*/
-            const comentarioNuevo =this.Comentario;
+                }
+             
+           /* const comentarioNuevo =this.Comentario;
             axios.post('/comentarios',comentarioNuevo)
             .then((response) => {
               toastr.clear();
@@ -128,7 +133,7 @@
 
             }).catch(e=>{
                   alert("Error al Guardar" + e);
-              })
+              })*/
           }
         },
     }
