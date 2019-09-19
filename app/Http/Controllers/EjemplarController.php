@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Ejemplar;
+use App\Modelos\Ejemplar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -53,13 +53,24 @@ class EjemplarController extends Controller
         $Ejemplar->ISBN = $request->ISBN;
         if($url == null){
             $Ejemplar->IMAGEN = '';
-
         }else {
-
             $Ejemplar->IMAGEN = $file;
         }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
+        echo $Ejemplar->NUMERO_COPIAS;
+        $Ejemplar->SUBTITULO = $request->SUBTITULO;
+        $Ejemplar->EDITORIAL = $request->EDITORIAL;
+        $Ejemplar->EDICION = $request->EDICION;
+        $Ejemplar->AÑO_EDICION = $request->AÑO_EDICION;
+        $Ejemplar->LUGAR_EDICION = $request->LUGAR_EDICION;
+        $Ejemplar->OBSERVACIONES = $request->OBSERVACIONES;
+        $Ejemplar->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
+        /*$Ejemplar->ID_CATEGORIA = $request->CATEGORIA;
+        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
+        $Ejemplar->ID_TIPO_EMPASTADO = $request->TIPO_EMPASTADO;
+        $Ejemplar->ID_TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
+        $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;*/
         $Ejemplar->save();
     }
 
@@ -112,6 +123,18 @@ class EjemplarController extends Controller
         }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
+        $Ejemplar->SUBTITULO = $request->SUBTITULO;
+        $Ejemplar->EDITORIAL = $request->EDITORIAL;
+        $Ejemplar->EDICION = $request->EDICION;
+        $Ejemplar->AÑO_EDICION = $request->AÑO_EDICION;
+        $Ejemplar->LUGAR_EDICION = $request->LUGAR_EDICION;
+        $Ejemplar->OBSERVACIONES = $request->OBSERVACIONES;
+        $Ejemplar->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
+        /*$Ejemplar->CATEGORIA = $request->CATEGORIA;
+        $Ejemplar->TERCER_SUMARIO = $request->TERCER_SUMARIO;
+        $Ejemplar->TIPO_ESTAMPADO = $request->TIPO_EMPASTADO;
+        $Ejemplar->TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
+        $Ejemplar->ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;*/
         $Ejemplar->save();
         return $Ejemplar;
     }

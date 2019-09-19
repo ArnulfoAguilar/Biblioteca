@@ -10,8 +10,8 @@
         <iframe id="excelExportArea" style="display:none"></iframe>
 
         <!-- Modal con el formulario para agregar un nuevo libro o editar uno existente-->
-        <div id="modalAgregar" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+        <div id="modalForm" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
                 <form @submit.prevent="submitHandler($v.$invalid)" >
                     <div class="modal-content">
@@ -20,40 +20,62 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="ISBN">ISBN</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
+                                        aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.ISBN.required" class="error">este campo es obligatorio</div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="NOMBRE">Nombre</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.EJEMPLAR.EJEMPLAR.required" class="error">este campo es obligatorio</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="DESCRIPCION">Descripción</label>
-                                <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
-                                    rows="3"></textarea>
-                                <div v-if="!$v.EJEMPLAR.DESCRIPCION.required" class="error">este campo es obligatorio</div>
-                            </div>
-                            <div class="form-group" >
-                                <label for="ISBN">ISBN</label>
-                                <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
+                                    <div v-if="!$v.EJEMPLAR.EJEMPLAR.required" class="error">este campo es obligatorio</div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="SUBTITULO">Subtitulo</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
-                                <div v-if="!$v.EJEMPLAR.ISBN.required" class="error">este campo es obligatorio</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="AUTOR">AUTOR/es</label>
-                                <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
-                                    aria-describedby="emailHelp">
-                                <div v-if="!$v.EJEMPLAR.AUTOR.required" class="error">este campo es obligatorio</div>
+                                    <div v-if="!$v.EJEMPLAR.SUBTITULO.required" class="error">este campo es obligatorio</div>
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="col-md-4 form-group">
+                                    <label for="EDITORIAL">Editorial</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDITORIAL" class="form-control" id="EDITORIAL"
+                                    aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.EDITORIAL.required" class="error">este campo es obligatorio</div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="EDICION">Edición</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" class="form-control" id="EDICION"
+                                    aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.EDICION.required" class="error">este campo es obligatorio</div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="AÑO_EDICION">Año de edición</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.AÑO_EDICION" class="form-control" id="AÑO_EDICION"
+                                    aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.AÑO_EDICION.required" class="error">este campo es obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="AUTOR">AUTOR/es</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
+                                        aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.AUTOR.required" class="error">este campo es obligatorio</div>
+                                </div>
+                                <div class="col-md-4 form-group">
                                     <label for="PAGINAS">Numero de paginas</label>
                                     <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
                                         aria-describedby="emailHelp">
                                     <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.numeric" class="error">este campo solo acepta numeros</div>
                                     <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.required" class="error">este campo es obligatorio</div>
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="col-md-4 form-group">
                                     <label for="copias">Numero de copias</label>
                                     <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
                                         aria-describedby="emailHelp">
@@ -61,11 +83,63 @@
                                     <div v-if="!$v.EJEMPLAR.COPIAS.required" class="error">este campo es obligatorio</div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="PALABRAS_CLAVE">Palabras clave</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.PALABRAS_CLAVE" id="PALABRAS_CLAVE"
+                                        aria-describedby="emailHelp">
+                                    <div v-if="!$v.EJEMPLAR.PALABRAS_CLAVE.required" class="error">este campo es obligatorio</div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="CATEGORIA">Categoría</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.CATEGORIA" id="CATEGORIA"
+                                        aria-describedby="emailHelp">
+                                    <!--<div v-if="!$v.EJEMPLAR.CATEGORIA.required" class="error">este campo es obligatorio</div>-->
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="TERCER_SUMARIO">Tercer Sumario</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.TERCER_SUMARIO" id="TERCER_SUMARIO"
+                                        aria-describedby="emailHelp">
+                                    <!--<div v-if="!$v.EJEMPLAR.TERCER_SUMARIO.required" class="error">este campo es obligatorio</div>-->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="TIPO_EMPASTADO">Tipo empastado</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.TIPO_EMPASTADO" id="TIPO_EMPASTADO"
+                                        aria-describedby="emailHelp">
+                                    <!--<div v-if="!$v.EJEMPLAR.TIPO_EMPASTADO.required" class="error">este campo es obligatorio</div>-->
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="TIPO_ADQUISICION">Tipo adquisición</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.TIPO_ADQUISICION" id="TIPO_ADQUISICION"
+                                        aria-describedby="emailHelp">
+                                    <!--<div v-if="!$v.EJEMPLAR.TIPO_ADQUISICION.required" class="error">este campo es obligatorio</div>-->
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="ESTADO_EJEMPLAR">Estado de ejemplar</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.ESTADO_EJEMPLAR" id="ESTADO_EJEMPLAR"
+                                        aria-describedby="emailHelp">
+                                    <!--<div v-if="!$v.EJEMPLAR.ESTADO_EJEMPLAR.required" class="error">este campo es obligatorio</div>-->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="DESCRIPCION">Descripción</label>
+                                <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
+                                    rows="3"></textarea>
+                                <div v-if="!$v.EJEMPLAR.DESCRIPCION.required" class="error">este campo es obligatorio</div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="OBSERVACIONES">Observaciones</label>
+                                <textarea class="form-control" id="OBSERVACIONES" v-model="EJEMPLAR.OBSERVACIONES"
+                                    rows="3"></textarea>
+                                <div v-if="!$v.EJEMPLAR.OBSERVACIONES.required" class="error">este campo es obligatorio</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" type="submit">Guardar Ejemplar</button>
-                            <button class="btn btn-danger" type="submit"
-                                @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
                 </form>
@@ -128,7 +202,25 @@ export default {
             search:'',
             ejemplars: [],
             modoEditar: false,
-            EJEMPLAR: { EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:'', },
+            EJEMPLAR: {
+                EJEMPLAR: '',
+                DESCRIPCION: '',
+                ISBN: '',
+                AUTOR: '',
+                NUMERO_PAGINAS: '',
+                COPIAS:'',
+                SUBTITULO:'',
+                EDITORIAL:'',
+                EDICION:'',
+                AÑO_EDICION:'',
+                PALABRAS_CLAVE:'',
+                OBSERVACIONES:'',
+                ESTADO_EJEMPLAR:'',
+                CATEGORIA:'',
+                TERCER_SUMARIO:'',
+                TIPO_EMPASTADO:'',
+                TIPO_ADQUISICION:''
+            },
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
             editTitle: 'Editar Ejemplar',
@@ -141,6 +233,9 @@ export default {
             EJEMPLAR:{
                 required
             },
+            SUBTITULO:{
+                required
+            },
             ISBN:{
                 required,
                 numeric
@@ -151,6 +246,36 @@ export default {
             DESCRIPCION:{
                 required
             },
+            OBSERVACIONES:{
+                required
+            },
+            EDITORIAL:{
+                required
+            },
+            EDICION:{
+                required
+            },
+            AÑO_EDICION:{
+                required
+            },
+            PALABRAS_CLAVE:{
+                required
+            },
+            /*ESTADO_EJEMPLAR:{
+                required
+            },
+            TIPO_ADQUISICION:{
+                required
+            },
+            TIPO_EMPASTADO:{
+                required
+            },
+            TERCER_SUMARIO:{
+                required
+            },
+            CATEGORIA:{
+                required
+            },*/
             NUMERO_PAGINAS:{
                 required,
                 numeric
@@ -175,10 +300,9 @@ export default {
             deleteItem: true
         };
         this.sendData();
-       // console.log('componente creado')
     },
     mounted(){
-       // console.log('tabla montada')
+       $('#modalForm').on('hide.bs.modal',this.vaciarModelo);
     },
     methods:{
         sendData(){
@@ -215,14 +339,14 @@ export default {
             if (componentState.lastAction ==='AddItem') {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
-                $('#modalAgregar').modal('show');
-                console.log(this.$v);
+                $('#modalForm').modal('show');
+
             }
             if (componentState.lastAction ==='EditItem') {
                 this.submit = this.editarEjemplar;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
-                $('#modalAgregar').modal('show');
+                $('#modalForm').modal('show');
             }
             if (componentState.lastAction ==='DeleteItem') {
                 this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
@@ -232,6 +356,7 @@ export default {
          *escena la variable del data isEditing*/
         guardar() {
             const ejemplarToSave = this.EJEMPLAR;
+            console.log(ejemplarToSave.COPIAS);
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
                 axios.put(`/ejemplars/${this.EJEMPLAR.id}`, ejemplarToSave).then(res=>{
@@ -242,8 +367,8 @@ export default {
                 axios.post('/ejemplars', ejemplarToSave).then((res) =>{
                     this.success(msg);
                 });
-            this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
-            $("#modalAgregar").modal('hide');
+            this.vaciarModelo();
+            $("#modalForm").modal('hide');
         },
         editarFormulario(item){
         this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
@@ -253,6 +378,17 @@ export default {
         this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
         this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
         this.EJEMPLAR.id = item.id;
+        this.EJEMPLAR.SUBTITULO=item.SUBTITULO;
+        this.EJEMPLAR.EDITORIAL=item.EDITORIAL;
+        this.EJEMPLAR.EDICION=item.EDICION;
+        this.EJEMPLAR.AÑO_EDICION=item.AÑO_EDICION;
+        this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
+        /*this.EJEMPLAR.CATEGORIA=item.CATEGORIA;
+        this.EJEMPLAR.TERCER_SUMARIO=item.TERCER_SUMARIO;
+        this.EJEMPLAR.TIPO_EMPASTADO=item.TIPO_EMPASTADO;
+        this.EJEMPLAR.TIPO_ADQUISICION=item.TIPO_ADQUISICION;
+        this.EJEMPLAR.ESTADO_EJEMPLAR=item.ESTADO_EJEMPLAR;*/
+        this.EJEMPLAR.OBSERVACIONES=item.OBSERVACIONES;
         this.isEditing = true;
         },
         eliminarEjemplar(EJEMPLAR, index){
@@ -269,9 +405,26 @@ export default {
                 })
             }
         },
-        cancelarEdicion(){
-            this.modoEditar = false;
-            this.EJEMPLAR = {EJEMPLAR: '', DESCRIPCION: '', ISBN: '',  AUTOR: '', NUMERO_PAGINAS: '', COPIAS:''};
+        vaciarModelo(){
+            this.EJEMPLAR = {
+                EJEMPLAR: '',
+                DESCRIPCION: '',
+                ISBN: '',
+                AUTOR: '',
+                NUMERO_PAGINAS: '',
+                COPIAS:'',
+                SUBTITULO:'',
+                EDITORIAL:'',
+                EDICION:'',
+                AÑO_EDICION:'',
+                PALABRAS_CLAVE:'',
+                OBSERVACIONES:'',
+                ESTADO_EJEMPLAR:'',
+                CATEGORIA:'',
+                TERCER_SUMARIO:'',
+                TIPO_EMPASTADO:'',
+                TIPO_ADQUISICION:''
+            };
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion

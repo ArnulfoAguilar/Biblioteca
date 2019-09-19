@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Modelos;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ejemplar extends Model
 {
@@ -19,4 +20,5 @@ class Ejemplar extends Model
         'ID_CATEGORIA',
         'ID_TERCER_SUMARIO',
         ];
+    use SoftDeletes;
 }
