@@ -18,6 +18,7 @@ class CreateCatalogoMaterialsTable extends Migration
             $table->string('NOMBRE', 50);
             $table->string('DESCRIPCION', 255);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

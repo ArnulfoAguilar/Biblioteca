@@ -1,10 +1,13 @@
 <template>
-    <div class="container-fluid">
-        <div class="row ">
-            <div class="col-sm-12 mb-3">
-                <!-- <div class="card"> -->
-                    <!-- <div class="card-header">Información de la Biblioteca</div> -->
-                    <!-- <div class="card-body"> -->
+
+    <div class="card">
+        <div class="card-header bg-dark">
+            <h3>Observaciones</h3>
+        </div>
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row ">
+                    <div class="col-sm-12 mb-3">
                         <form @submit.prevent="editarRevision(Revision)" v-if="modoEditar">
                             <label for="NOMBRE">Nueva Observación:</label>
                             
@@ -12,14 +15,9 @@
                                 <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-7" id="NOMBRE"
                                     placeholder="Escriba aca la nueva Observación..." required>
                                 <div class="col-md-2">
-                                    <!-- <div v-if="Revision.ID_ESTADO_REVISION === 1"> -->
                                         <input type="checkbox" class="col-md-2" id="check_titulo" v-model="check">
                                         <label class="form-check-label" for="exampleCheck1">Solventado</label>
-                                    <!-- </div> -->
-                                    <!-- <div v-else>
-                                        <input type="checkbox" class="col-md-2" id="check_titulo" v-model="check">
-                                        <label class="form-check-label" for="exampleCheck1">Pendiente</label>
-                                    </div> -->
+                                
                                 </div>
                                 <div class="row col-md-3">
                                     <button class="btn btn-success col-md-6" type="submit">Guardar</button>
@@ -29,27 +27,8 @@
                                 
                             </div>
 
-                            <!-- <div class="input-group">
-                                <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-8" id="NOMBRE"
-                                    placeholder="Escriba aca la nueva Observación..." required>
-                                <button class="btn btn-success col-md-2" type="submit">Editar Observación</button>
-                                <button class="btn btn-danger col-md-2" type="submit" 
-                                    @click="cancelarEdicion">Cancelar edición</button>
-                            </div> -->
-
-                            <!-- <div class="input-group">
-                                <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-8" id="NOMBRE"
-                                    placeholder="Escriba aca la nueva Observación..." required>
-                                
-                                <div class="row col-md-4">
-                                    <button class="btn btn-success col-md-6" type="submit">Editar Observación</button>
-                                    <button class="btn btn-danger col-md-6" type="submit" 
-                                    @click="cancelarEdicion">Cancelar edición</button>
-                                </div>
-                            </div> -->
-
                         </form>
-                        <form @submit.prevent="agregar" v-else>
+                        <form @submit.prevent="agregar" v-else >
                             <label for="NOMBRE">Nueva Observación:</label>
                             <div class="input-group">
                                 <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-10" id="NOMBRE"
@@ -58,66 +37,66 @@
                                 <!-- <input type="text" v-model="Revision.ID_APORTE"> -->
                             </div>
                         </form>
-
-                        
-                    <!-- </div> -->
-                <!-- </div> -->
-            </div>
-
-            <div class=" col sm-12">
-                <!-- <div class="card"> -->
-                    <!-- <div class="card-header"> -->
+                                
+                    </div>
+                    <div class=" col sm-12">
                         <label for="">Lista de Observaciones:</label>
-                        <!-- <input class="float-right" placeholder="Buscar por nombre..." v-model="search"> -->
-                    <!-- </div> -->
-                    <!-- <div class="card-body"> -->
-
-                        <ul class="list-group" v-for="(item, index) in revisiones" :key="index">
-                            <li class="list-group-item ">
-                                <div class="d-flex justify-content-between">
-                                    <div class="col-md-8">
-                                        <p class="mb-0">{{item.DETALLE_REVISION}}</p>
-                                    </div>
-                                    <div class="col-md-2 form-check ">
-                                        <div v-if="item.ID_ESTADO_REVISION === 1">
-                                            <label class="form-check-label" for="exampleCheck1">Solventado</label>
+                        <div class="tab-pane active" id="timeline">
+                            <!-- The timeline -->
+                            <ul class="timeline timeline-inverse">
+                                <!-- timeline time label -->
+                                <!-- <li class="time-label">
+                                <span class="bg-danger">
+                                   Creado el {{this.aporte_local[0].created_at}} 
+                                </span>
+                                </li> -->
+                                <!-- /.timeline-label -->
+                                <!-- timeline item -->
+                                <li v-for="(item, index) in revisiones" :key="index">
+                                    <i class="fas fa-check-circle bg-success" v-if="item.ID_ESTADO_REVISION == 1"></i>
+                                    <i class="fas fa-eye bg-warning" v-else></i>
+            
+                                    <div class="timeline-item">
+                                        <span class="time"><i class="far fa-clock"></i> {{item.created_at}}</span>
+                                        
+                                        <div class="timeline-header">
+                                            <div v-for="(user, index) in usuarios" :key="index">
+                                                <div v-if="user.id == item.ID_USUARIO">
+                                                        <h7  v-if="item.ID_ESTADO_REVISION == 1">Observación de <b >{{user.name}}</b> solventada</h7>
+                                                        <h7  v-else><b>{{user.name}}</b> hizo una observación</h7>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div v-else>
-                                            <label class="form-check-label" for="exampleCheck1">Pendiente</label>
+
+                                        <div class="timeline-body">
+                                            {{item.DETALLE_REVISION}}
                                         </div>
-                                        <!-- <input type="checkbox" class="form-check-input" id="check_titulo" v-model="item.ID_ESTADO_REVISION" disabled> -->
+                                        <div class="timeline-footer" v-if="usuario == item.ID_USUARIO">
+                                            <a href="#" class="btn btn-primary btn-sm" @click="editarFormulario(item)" >Editar</a>
+                                            <a href="#" class="btn btn-danger btn-sm" @click="eliminarRevision(item, index)" >Eliminar</a>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <p class="mb-0">
-                                            <button class="btn btn-warning btn-sm" 
-                                            @click="editarFormulario(item)">Editar</button>
-                                            <button class="btn btn-danger btn-sm" 
-                                            @click="eliminarRevision(item, index)">Eliminar</button>
-                                        </p>
-                                    </div>
-                                    <!-- <div class="col-md-1">
-                                        <input type="checkbox" class="col-md-12">
-                                    </div> -->
-                                    
-                                    
-
-                                </div>
-                            </li>
-                        </ul>
-
-                    <!-- </div> -->
-                <!-- </div> -->
+                                </li>
+                                <!-- END timeline item -->
+                                <li>
+                                <i class="far fa-clock bg-gray"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Datos del componente VUE -->
+                        <!-- <div class="row">
+                            <div class="col-md-12 bg-warning">
+                                <pre>{{ $data }}</pre>
+                            </div>
+                        </div> -->
+                <!-- Datos del componente VUE -->
             </div>
-
         </div>
-<!-- Datos del componente VUE -->
-        <!-- <div class="row">
-            <div class="col-md-12 bg-warning">
-                <pre>{{ $data }}</pre>
-            </div>
-        </div> -->
-<!-- Datos del componente VUE -->
     </div>
+
+    
 </template>
 
 
@@ -127,10 +106,12 @@
         mounted() {
             console.log('Revisiones mounted.')
         },
-        props: ['aporte','area'],
+        props: ['aporte','area', 'rol', 'usuario'],
         data() {
             return {
                 // search:'',
+                usuarios:'',
+                aporte_local:'',
                 check:'',
                 revisiones: [],
                 modoEditar: false,
@@ -142,9 +123,17 @@
         },
         methods: {
             cargar(){
+                axios.get('/aporte/obtener?id='+this.aporte).then(res=>{
+                    this.aporte_local = res.data;
+                    console.log(this.aporte_local[0].created_at);
+                })
+                axios.get('/users').then(res=>{
+                    this.usuarios = res.data;
+                    console.log(this.usuarios);
+                })
                 axios.get('/revisiones?id='+this.aporte).then(res=>{
-                this.revisiones = res.data;
-                console.log(res.data);
+                    this.revisiones = res.data;
+                    console.log(res.data);
                 })
                 console.log('Datos leidos');
             },
@@ -153,6 +142,7 @@
                 const revisionNueva = this.Revision;
                 axios.post('/revisiones', revisionNueva)
                     .then((response) =>{
+                        // console.log(response.data);
                         toastr.clear();
                         toastr.options.closeButton = true;
                         toastr.success('Revisión guardada correctamente', 'Exito');
@@ -161,8 +151,9 @@
                         this.check='';
                         this.cargar();
 
-                    
+                
                     }).catch(e=>{
+                        console.log(e);
                             alert("Error al Guardar" + e);
                             })
             },
@@ -227,21 +218,22 @@
             }
         },
         computed:{
-            checked: {
-                get: function(){
-                    if(this.Revision.ID_ESTADO_REVISION == 1){
-                        this.check = false;
-                    }else{
-                        this.check = true;
-                    }
-                    return this.check;
-                },
-                set: function (newValue) {
-                    this.check = newValue
-                    // console.log(newValue, 'check'+this.check);
-                    // return this.check;
-                }
-            }
+            // checked: {
+            //     get: function(){
+            //         if(this.Revision.ID_ESTADO_REVISION == 1){
+            //             this.check = false;
+            //         }else{
+            //             this.check = true;
+            //         }
+            //         return this.check;
+            //     },
+            //     set: function (newValue) {
+            //         this.check = newValue
+            //     }
+            // },
+            orderedRevisiones: function () {
+                return _.orderBy(this.revisiones, 'created_at')
+            },
                 
         }
     }

@@ -200,7 +200,7 @@
                 }
                 else{
                     const ejemplarNuevo = this.EJEMPLAR;
-                    axios.post('Ejemplar', ejemplarNuevo)
+                    axios.post('/Ejemplar', ejemplarNuevo)
                         .then(response=>{
                             $("#exampleModal").modal('hide');
                             alert("Guardado correctamente");

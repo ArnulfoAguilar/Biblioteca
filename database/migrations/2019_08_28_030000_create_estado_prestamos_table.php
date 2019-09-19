@@ -17,6 +17,7 @@ class CreateEstadoPrestamosTable extends Migration
             $table->bigIncrements('ID_ESTADO_PRESTAMO');
             $table->string('ESTADO_PRESTAMO', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +28,6 @@ class CreateEstadoPrestamosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_prestamos');
+        Schema::dropIfExists('estadoPrestamo');
     }
 }

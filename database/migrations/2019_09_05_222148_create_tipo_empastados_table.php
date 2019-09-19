@@ -17,6 +17,7 @@ class CreateTipoEmpastadosTable extends Migration
             $table->bigIncrements('ID_TIPO_EMPASTADO');
             $table->string('NOMBRE', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +28,6 @@ class CreateTipoEmpastadosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_empastados');
+        Schema::dropIfExists('tipoEmpastado');
     }
 }

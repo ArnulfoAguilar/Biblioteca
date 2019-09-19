@@ -15,8 +15,9 @@ class CreateBibliotecasTable extends Migration
     {
         Schema::create('Biblioteca', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('BIBLIOTECA','255');
+            $table->string('BIBLIOTECA', '255');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

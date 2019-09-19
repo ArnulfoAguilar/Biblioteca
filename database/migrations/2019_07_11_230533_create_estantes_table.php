@@ -25,6 +25,7 @@ class CreateEstantesTable extends Migration
             $table->string('ESTANTE', '255');
             $table->string('CLASIFICACION');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

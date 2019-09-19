@@ -22,6 +22,15 @@ class EjemplarController extends Controller
         }
     }
 
+    public function disponibles(Request $request)
+    {
+        if($request->ajax()){
+            return Ejemplar::all();
+        }else{
+            return view('home');
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

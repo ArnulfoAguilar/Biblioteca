@@ -17,6 +17,7 @@ class CreateEstadoDespachosTable extends Migration
             $table->bigIncrements('ID_DESPACHO');
             $table->string('ESTADO_DESPACHO', 250);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +28,6 @@ class CreateEstadoDespachosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_despachos');
+        Schema::dropIfExists('estadoDespacho');
     }
 }

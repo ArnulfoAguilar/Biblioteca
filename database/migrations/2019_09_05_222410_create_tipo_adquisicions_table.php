@@ -17,6 +17,7 @@ class CreateTipoAdquisicionsTable extends Migration
             $table->bigIncrements('ID_TIPO_ADQUISICION');
             $table->string('NOMBRE', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +28,6 @@ class CreateTipoAdquisicionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_adquisicions');
+        Schema::dropIfExists('tipoAdquisicion');
     }
 }

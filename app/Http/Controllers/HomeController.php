@@ -40,4 +40,8 @@ class HomeController extends Controller
     public function busquedaLibro(){
         return view('buscar-libro');
     }
+
+    public function roles(){
+        return view('roles');
+    }
 }

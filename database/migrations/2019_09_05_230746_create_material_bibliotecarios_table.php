@@ -17,23 +17,21 @@ class CreateMaterialBibliotecariosTable extends Migration
             $table->bigIncrements('id');
             $table->string('CODIGO_BARRA', '25');
             $table->integer('COPIA_NUMERO');
-            $table->bigInteger('ID_FILA')->unsigned();
-            $table->foreign('ID_FILA')
-                ->references('id')
-                ->on('filaEstante');
-            $table->bigInteger('ID_CATALOGO_MATERIAL')->unsigned();
-            $table->foreign('ID_CATALOGO_MATERIAL')
-                ->references('id')
-                ->on('catalogoMaterial')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
             $table->bigInteger('ID_EJEMPLAR')->nullable()->unsigned();
             $table->foreign('ID_EJEMPLAR')
                 ->references('id')
                 ->on('Ejemplar')
-                ->onUpdate('restrict')
-                ->onDelete('restrict');
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table->boolean('DISPONIBLE')->nullable();
+            $table->bigInteger('ID_FILA')->nullable()->unsigned();
+            $table->foreign('ID_FILA')
+                ->references('id')
+                ->on('filaEstante')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
