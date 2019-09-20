@@ -4495,7 +4495,7 @@ __webpack_require__.r(__webpack_exports__);
         data: null
       },
       columns: [{
-        name: 'PALABRA_PROHIBIDA',
+        name: 'PALABRA',
         title: 'Palabras Prohibidas',
         order: 1,
         sort: true,
@@ -4554,7 +4554,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.palabrasProhibidas = res.data;
         _this.eventFromApp = {
           name: 'sendData',
-          payload: _this.bibliotecas
+          payload: _this.palabrasProhibidas
         };
 
         _this.triggerEvent();

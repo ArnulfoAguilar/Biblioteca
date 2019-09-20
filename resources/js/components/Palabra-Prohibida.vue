@@ -58,7 +58,7 @@ export default {
             },
             columns: [
                 {
-                    name:'PALABRA_PROHIBIDA',
+                    name:'PALABRA',
                     title:'Palabras Prohibidas',
                     order: 1,
                     sort: true,
@@ -117,7 +117,7 @@ export default {
                 this.palabrasProhibidas = res.data;
                 this.eventFromApp = {
                     name: 'sendData',
-                    payload: this.bibliotecas
+                    payload: this.palabrasProhibidas
                 };
             this.triggerEvent();
             this.tableLoader = false;
