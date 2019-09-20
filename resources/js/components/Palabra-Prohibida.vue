@@ -134,10 +134,10 @@ export default {
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
                 axios.get('/palabraProhibida').then((result)=>{
-                    this.bibliotecas=result.data;
+                    this.palabrasProhibidas=result.data;
                     this.eventFromApp = {
                         name: 'sendData',
-                        payload: this.bibliotecas
+                        payload: this.palabrasProhibidas
                     };
                     this.triggerEvent();
                 })
@@ -149,13 +149,13 @@ export default {
                 console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarBiblioteca;
+                this.submit = this.editarPalabra;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
                 $('#modalAgregar').modal('show');
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarBiblioteca(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarPalabra(componentState.selectedItem, componentState.selectedIndex);
             }
         },
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
@@ -164,7 +164,7 @@ export default {
             const palabraToSave = this.PalabraProhibida;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
-                axios.put(`/palabraProhibida/${this.Biblioteca.id}`, bibliotecaToSave).then(res=>{
+                axios.put(`/palabraProhibida/${this.PalabraProhibida.id}`, palabraToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
@@ -180,11 +180,11 @@ export default {
         this.PalabraProhibida.id = item.id;
         this.isEditing = true;
         },
-        eliminarBiblioteca(Biblioteca, index){
+        eliminarPalabra(PalabraProhibida, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
             const confirmacion = confirm(`¿Esta seguro de eliminar "Palabra ${PalabraProhibida.PALABRA}"?`);
             if(confirmacion){
-                axios.delete(`/palabraProhibida/${Biblioteca.id}`)
+                axios.delete(`/palabraProhibida/${PalabraProhibida.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
@@ -195,7 +195,7 @@ export default {
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.PalabraProhibida = {id: '', PALABRA: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion

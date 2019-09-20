@@ -3115,6 +3115,7 @@ __webpack_require__.r(__webpack_exports__);
       nuevo: '',
       comentarios: [],
       InteraccionComentarios: [],
+      palabrasProhibidas: [],
       Comentario: {
         COMENTARIO: '',
         ID_USUARIO: this.usuario,
@@ -3231,6 +3232,11 @@ __webpack_require__.r(__webpack_exports__);
         _this6.Comentario.COMENTARIO = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
+      });
+    },
+    traer_malas_palabras: function traer_malas_palabras() {
+      axios.get('/palabraProhibida').then(function (res) {
+        console.log(res.data);
       });
     }
   }
@@ -4578,10 +4584,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (componentState.lastAction === 'Refresh') {
         axios.get('/palabraProhibida').then(function (result) {
-          _this3.bibliotecas = result.data;
+          _this3.palabrasProhibidas = result.data;
           _this3.eventFromApp = {
             name: 'sendData',
-            payload: _this3.bibliotecas
+            payload: _this3.palabrasProhibidas
           };
 
           _this3.triggerEvent();
@@ -4596,14 +4602,14 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (componentState.lastAction === 'EditItem') {
-        this.submit = this.editarBiblioteca;
+        this.submit = this.editarPalabra;
         this.titleToShow = this.editTitle;
         this.editarFormulario(componentState.selectedItem);
         $('#modalAgregar').modal('show');
       }
 
       if (componentState.lastAction === 'DeleteItem') {
-        this.eliminarBiblioteca(componentState.selectedItem, componentState.selectedIndex);
+        this.eliminarPalabra(componentState.selectedItem, componentState.selectedIndex);
       }
     },
 
@@ -4614,7 +4620,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var palabraToSave = this.PalabraProhibida;
       var msg = this.isEditing ? 'Editado correctamente' : 'Agregado correctamente';
-      if (this.isEditing) axios.put("/palabraProhibida/".concat(this.Biblioteca.id), bibliotecaToSave).then(function (res) {
+      if (this.isEditing) axios.put("/palabraProhibida/".concat(this.PalabraProhibida.id), palabraToSave).then(function (res) {
         _this4.modoEditar = false;
 
         _this4.success(msg);
@@ -4632,14 +4638,14 @@ __webpack_require__.r(__webpack_exports__);
       this.PalabraProhibida.id = item.id;
       this.isEditing = true;
     },
-    eliminarBiblioteca: function eliminarBiblioteca(Biblioteca, index) {
+    eliminarPalabra: function eliminarPalabra(PalabraProhibida, index) {
       var _this5 = this;
 
       // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
       var confirmacion = confirm("\xBFEsta seguro de eliminar \"Palabra ".concat(PalabraProhibida.PALABRA, "\"?"));
 
       if (confirmacion) {
-        axios["delete"]("/palabraProhibida/".concat(Biblioteca.id)).then(function () {
+        axios["delete"]("/palabraProhibida/".concat(PalabraProhibida.id)).then(function () {
           toastr.clear();
 
           _this5.sendData();
@@ -4651,9 +4657,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     cancelarEdicion: function cancelarEdicion() {
       this.modoEditar = false;
-      this.Biblioteca = {
+      this.PalabraProhibida = {
         id: '',
-        BIBLIOTECA: ''
+        PALABRA: ''
       };
     },
 

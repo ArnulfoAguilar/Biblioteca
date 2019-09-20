@@ -45,6 +45,7 @@
             nuevo: '',
             comentarios: [],
             InteraccionComentarios: [],
+            palabrasProhibidas: [],
             Comentario : {  COMENTARIO:'', ID_USUARIO:this.usuario, ID_APORTE: this.aporte },
             InteraccionComentario: { DESCRIPCION:'', ID_TIPO_INTERACCION:'', ID_COMENTARIO:'', ID_USUARIO:this.usuario }
           }
@@ -144,6 +145,11 @@
             }).catch(e=>{
                   alert("Error al Guardar" + e);
               })
+          },
+          traer_malas_palabras(){
+             axios.get('/palabraProhibida').then(res=>{
+                console.log(res.data);
+            });
           }
         },
     }
