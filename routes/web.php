@@ -66,7 +66,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
 Route::get('/SegundoSumarioSelect/{id}', 'segundoSumarioController@segundoSumarioSelect');
-Route::get('/TercerSumarioSelect/{id}', 'tercerSumarioController@tercerSumarioSelect');
+Route::get('/TercerSumarioSelect/{id}', 'TercerSumarioController@tercerSumarioSelect');
+
+/*Rutas para select2 del formulario de ejemplar*/
+Route::get('/TipoEmpastadoSelect', 'Select2Controller@tipoEmpastadoSelect');
 
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');

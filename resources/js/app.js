@@ -37,7 +37,7 @@ Vue.component('ejemplar-component', require('./components/EjemplarComponent.vue'
 // Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
-Vue.component('comentarios', require('./components/Comentarios.vue').default);
+//Vue.component('comentarios', require('./components/Comentarios.vue').default);
 Vue.component('aportes', require('./components/Aportes.vue').default);
 
 // ------------------------MODULO DE INVENTARIO---------------------------------------------

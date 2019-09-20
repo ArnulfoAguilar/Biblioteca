@@ -91,23 +91,25 @@
                                     <div v-if="!$v.EJEMPLAR.PALABRAS_CLAVE.required" class="error">este campo es obligatorio</div>
                                 </div>
                                 <div class="col-md-4 form-group">
-                                    <label for="CATEGORIA">Categoría</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.CATEGORIA" id="CATEGORIA"
+                                    <label for="LUGAR_EDICION">Lugar Edición</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.LUGAR_EDICION" id="LUGAR_EDICION"
                                         aria-describedby="emailHelp">
                                     <!--<div v-if="!$v.EJEMPLAR.CATEGORIA.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="TERCER_SUMARIO">Tercer Sumario</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.TERCER_SUMARIO" id="TERCER_SUMARIO"
-                                        aria-describedby="emailHelp">
+                                    <div>
+                                        <select2 :options="tercerSumarios" v-model="EJEMPLAR.TERCER_SUMARIO"></select2>
+                                    </div>
                                     <!--<div v-if="!$v.EJEMPLAR.TERCER_SUMARIO.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 form-group">
                                     <label for="TIPO_EMPASTADO">Tipo empastado</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.TIPO_EMPASTADO" id="TIPO_EMPASTADO"
-                                        aria-describedby="emailHelp">
+                                    <div>
+                                        <select2 :options="tipoEmpastados" v-model="EJEMPLAR.TIPO_EMPASTADO"></select2>
+                                    </div>
                                     <!--<div v-if="!$v.EJEMPLAR.TIPO_EMPASTADO.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-4 form-group">
@@ -201,6 +203,8 @@ export default {
              *del modal segun la situacion*/
             search:'',
             ejemplars: [],
+            tercerSumarios: [],
+            tipoEmpastados: [],
             modoEditar: false,
             EJEMPLAR: {
                 EJEMPLAR: '',
@@ -216,7 +220,7 @@ export default {
                 PALABRAS_CLAVE:'',
                 OBSERVACIONES:'',
                 ESTADO_EJEMPLAR:'',
-                CATEGORIA:'',
+                LUGAR_EDICION:'',
                 TERCER_SUMARIO:'',
                 TIPO_EMPASTADO:'',
                 TIPO_ADQUISICION:''
@@ -302,6 +306,12 @@ export default {
         this.sendData();
     },
     mounted(){
+        axios.get('/TercerSumarioSelect/'+0).then((response)=>{
+            this.tercerSumarios = response.data;
+        });
+        axios.get('/TipoEmpastadoSelect').then((response)=>{
+            this.tipoEmpastados = response.data;
+        });
        $('#modalForm').on('hide.bs.modal',this.vaciarModelo);
     },
     methods:{
@@ -383,7 +393,7 @@ export default {
         this.EJEMPLAR.EDICION=item.EDICION;
         this.EJEMPLAR.AÑO_EDICION=item.AÑO_EDICION;
         this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
-        /*this.EJEMPLAR.CATEGORIA=item.CATEGORIA;
+        /*this.EJEMPLAR.CATEGORIA=item.LUGAR_EDICION;
         this.EJEMPLAR.TERCER_SUMARIO=item.TERCER_SUMARIO;
         this.EJEMPLAR.TIPO_EMPASTADO=item.TIPO_EMPASTADO;
         this.EJEMPLAR.TIPO_ADQUISICION=item.TIPO_ADQUISICION;
@@ -420,7 +430,7 @@ export default {
                 PALABRAS_CLAVE:'',
                 OBSERVACIONES:'',
                 ESTADO_EJEMPLAR:'',
-                CATEGORIA:'',
+                LUGAR_EDICION:'',
                 TERCER_SUMARIO:'',
                 TIPO_EMPASTADO:'',
                 TIPO_ADQUISICION:''

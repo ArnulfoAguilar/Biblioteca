@@ -14,7 +14,11 @@ class TercerSumarioController extends Controller
      */
     public function  tercerSumarioSelect($id)
     {
-        $segundoSumarios = tercerSumario::where('ID_SEGUNDO_SUMARIO',$id)->get();
+        if($id>0)
+            $segundoSumarios = tercerSumario::where('ID_SEGUNDO_SUMARIO',$id)->get();
+        else
+            $segundoSumarios = tercerSumario::all();
+
         $data = [];
         $data[0] = [
             'id'   => 0,

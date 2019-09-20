@@ -67,7 +67,6 @@ class EjemplarController extends Controller
         }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
-        echo $Ejemplar->NUMERO_COPIAS;
         $Ejemplar->SUBTITULO = $request->SUBTITULO;
         $Ejemplar->EDITORIAL = $request->EDITORIAL;
         $Ejemplar->EDICION = $request->EDICION;
@@ -75,8 +74,7 @@ class EjemplarController extends Controller
         $Ejemplar->LUGAR_EDICION = $request->LUGAR_EDICION;
         $Ejemplar->OBSERVACIONES = $request->OBSERVACIONES;
         $Ejemplar->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
-        /*$Ejemplar->ID_CATEGORIA = $request->CATEGORIA;
-        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
+        /*$Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
         $Ejemplar->ID_TIPO_EMPASTADO = $request->TIPO_EMPASTADO;
         $Ejemplar->ID_TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
         $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;*/
