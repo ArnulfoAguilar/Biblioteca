@@ -1,5 +1,12 @@
 import JDTable from 'vue-jd-table/src/jd-table.vue';
 import Vuelidate from 'vuelidate';
+
+//Usado para utilizar swal - copiado directamente de la fuente
+import Vue from 'vue';
+import VueSwal from 'vue-swal';
+ 
+Vue.use(VueSwal);
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -46,6 +53,7 @@ Vue.component('comentarios', require('./components/Comentarios.vue').default);
 Vue.component('aportes', require('./components/Aportes.vue').default);
 Vue.component('aportes-director', require('./components/Aportes-Director.vue').default);
 Vue.component('habilitar-aporte', require('./components/Habilitar-aporte.vue').default);
+Vue.component('palabra-prohibida', require('./components/Palabra-Prohibida.vue').default);
 
 
 // ------------------------MODULO DE ADMINISTRACION---------------------------------------------

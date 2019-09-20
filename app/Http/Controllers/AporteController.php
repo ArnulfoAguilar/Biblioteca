@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Storage;
 
 use TJGazel\Toastr\Facades\Toastr;
 
-
+use App\Notifications\NewAporte;
+use Illuminate\Support\Facades\Notification;
 
 class AporteController extends Controller
 {
@@ -128,9 +129,20 @@ class AporteController extends Controller
                         })
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
+
+            $user = User::all();
+            // $user->notify(new NewAporte($Aporte));
+            Notification::send($user, new NewAporte($Aporte));
+
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
             ->with(['TipoAporte' => $TipoAporte]);  
+
+        
+            
+                
+            
+
     }
 
     /**

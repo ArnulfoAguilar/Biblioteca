@@ -138,29 +138,26 @@
         methods: {
             cargar(){
                 axios.get('/aporte/obtener?id='+this.aporte).then(res=>{
-                    this.aporte_local = res.data;
-                    console.log(this.aporte_local[0].created_at);
+                    this.aporte_local = res.data;                  
                 })
                 axios.get('/users').then(res=>{
-                    this.usuarios = res.data;
-                    console.log(this.usuarios);
+                    this.usuarios = res.data;                   
                 })
                 axios.get('/revisiones?id='+this.aporte).then(res=>{
-                    this.revisiones = res.data;
-                    console.log(res.data);
+                    this.revisiones = res.data;                
                 })
-                console.log('Datos leidos');
+               
             },
 
             agregar() {
                 const revisionNueva = this.Revision;
                 axios.post('/revisiones', revisionNueva)
                     .then((response) =>{
-                        // console.log(response.data);
+                       
                         toastr.clear();
                         toastr.options.closeButton = true;
                         toastr.success('Revisión guardada correctamente', 'Exito');
-                        console.log("Guardado");
+                        
                         this.Revision= { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''};
                         this.check='';
                         this.cargar();
@@ -203,7 +200,6 @@
                 toastr.clear();
                 toastr.options.closeButton = true;
                 toastr.success('Revisión Editada correctamente', 'Exito');
-                console.log("Editado correctamente");
                 this.Revision= { id:'', DETALLE_REVISION: '', ID_ESTADO_REVISION:'', ID_COMITE:this.area, ID_APORTE:this.aporte , ID_USUARIO:''};
                 this.check='';
                 this.cargar();
@@ -219,7 +215,6 @@
                         toastr.clear();
                         toastr.options.closeButton = true;
                         toastr.success('Revisión ELIMINADA', 'Exito');
-                        console.log("Revision ELIMINADO");
                         this.cargar();
                     })
                 }
@@ -232,19 +227,7 @@
             }
         },
         computed:{
-            // checked: {
-            //     get: function(){
-            //         if(this.Revision.ID_ESTADO_REVISION == 1){
-            //             this.check = false;
-            //         }else{
-            //             this.check = true;
-            //         }
-            //         return this.check;
-            //     },
-            //     set: function (newValue) {
-            //         this.check = newValue
-            //     }
-            // },
+
             orderedRevisiones: function () {
                 return _.orderBy(this.revisiones, 'created_at')
             },

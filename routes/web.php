@@ -52,7 +52,8 @@ Route::resource('/comentarios','ComentarioController');
 Route::post('/likeComentario', 'ComentarioController@interaccionLike')->name('interaccion.like');
 Route::post('/reportComentario', 'ComentarioController@interaccionReport')->name('interaccion.report');
 Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesComentario')->name('interaccion.report');
-
+Route::resource('/palabraProhibida', 'PalabraProhibidaController');
+Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida');
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
 
@@ -73,6 +74,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
 Route::get('/SegundoSumarioSelect/{id}', 'segundoSumarioController@segundoSumarioSelect');
 Route::get('/TercerSumarioSelect/{id}', 'tercerSumarioController@tercerSumarioSelect');
+
+Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leidas');
 
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');

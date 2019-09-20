@@ -13,8 +13,7 @@
               {{ datos.COMENTARIO}}
             </div>
                           <!-- /.comment-text -->
-            <div class="row float-right">
-
+            <div class="row float-right" >
               <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button>
               <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
             </div>
@@ -26,7 +25,7 @@
       <img class="img-fluid img-circle img-sm" src="" alt="">
       <!-- .img-push is used to add margin to elements next to floating images -->
       <div class="img-push">
-        <form @submit.prevent="Agregar_comentario">
+        <form @submit.prevent="comprobar_comentario">
           <input class="form-control form-control-lg" placeholder="Escribe un comentario..." v-model="Comentario.COMENTARIO">
         </form>  
       </div>
@@ -38,7 +37,6 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
         },
         props: ['aporte','usuario'],
         data(){
@@ -47,6 +45,7 @@
             nuevo: '',
             comentarios: [],
             InteraccionComentarios: [],
+            palabrasProhibidas: [],
             Comentario : {  COMENTARIO:'', ID_USUARIO:this.usuario, ID_APORTE: this.aporte },
             InteraccionComentario: { DESCRIPCION:'', ID_TIPO_INTERACCION:'', ID_COMENTARIO:'', ID_USUARIO:this.usuario }
           }
@@ -58,9 +57,7 @@
         methods:{
           cargar_comentarios(){
             axios.get('/comentarios?id='+this.aporte).then(res=>{
-                this.comentarios = res.data;
-                console.log('Comentarios:');
-                console.log(this.comentarios);                
+                this.comentarios = res.data;            
                 })
           },
           cargar_interacciones(){
@@ -101,23 +98,41 @@
                   alert("Error al Guardar" + e);
               })
           },
-          Agregar_comentario(){
-                /*const regex = /(puto|basura|gay )/gm;
+          comprobar_comentario(){
+                const regex = /( puto| basura| gay)/igm;
                 const str = this.Comentario.COMENTARIO;
                 
-                let m;
-                while ((m = regex.exec(str)) !== null) {
-                  // This is necessary to avoid infinite loops with zero-width matches
-                  if (m.index === regex.lastIndex) {
+                let palabra_en_comentario;
+                if ((palabra_en_comentario = regex.exec(str)) !== null) {
+
+                  if (palabra_en_comentario.index === regex.lastIndex) {
                     regex.lastIndex++;
                   }
-    
-                  // The result can be accessed through the `m`-variable.
-                  console.log(m);
-                  m.forEach((match, groupIndex) => {
-                  console.log(`Found match, group ${groupIndex}: ${match}`);
-                  }); 
-                }*/
+                  this.mostrar_alerta();        
+                }else{
+                  this.agregar_comentario();
+                }
+                
+          },
+          mostrar_alerta()
+          {
+              this.$swal(
+                  {
+                    title: 'Alto',
+                    text: "Tu comentario puede contener palabras inadecuadas, si continuas, sera enviado al ADMINISTRADOR para revision.",
+                    icon: 'warning',
+                    buttons: {
+                      cancel: true,
+                      confirm: true,
+                    },
+                  }).then((value) => {
+                    if (value) {
+                      this.agregar_comentario();
+                    }
+                  }
+                  );        
+          },
+          agregar_comentario(){
             const comentarioNuevo =this.Comentario;
             axios.post('/comentarios',comentarioNuevo)
             .then((response) => {
@@ -130,6 +145,11 @@
             }).catch(e=>{
                   alert("Error al Guardar" + e);
               })
+          },
+          traer_malas_palabras(){
+             axios.get('/palabraProhibida').then(res=>{
+                console.log(res.data);
+            });
           }
         },
     }

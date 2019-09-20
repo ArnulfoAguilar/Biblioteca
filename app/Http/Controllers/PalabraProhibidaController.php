@@ -12,9 +12,13 @@ class PalabraProhibidaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function palabraProhibida(){
+        return view('palabraProhibida.palabraProhibida');
+    }
     public function index()
     {
-        //
+        $palabraProhibida= palabraProhibida::all();
+        return $palabraProhibida;
     }
 
     /**
@@ -35,7 +39,9 @@ class PalabraProhibidaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $palabraProhibida = new palabraProhibida();
+        $palabraProhibida->PALABRA = " "+$request->PALABRA;
+        $palabraProhibida->save();
     }
 
     /**
@@ -67,9 +73,11 @@ class PalabraProhibidaController extends Controller
      * @param  \App\palabraProhibida  $palabraProhibida
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, palabraProhibida $palabraProhibida)
+    public function update(Request $request, $id)
     {
-        //
+        $palabraProhibida = palabraProhibida::find($id);
+        $palabraProhibida->PALABRA = $request->PALABRA;
+        $palabraProhibida->save();
     }
 
     /**
@@ -78,8 +86,9 @@ class PalabraProhibidaController extends Controller
      * @param  \App\palabraProhibida  $palabraProhibida
      * @return \Illuminate\Http\Response
      */
-    public function destroy(palabraProhibida $palabraProhibida)
+    public function destroy($id)
     {
-        //
+        $palabraProhibida = palabraProhibida::find($id);
+        $palabraProhibida->delete();
     }
 }
