@@ -74,7 +74,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script type="text/javascript">
   $(document).ready(function() {
         $('#notificaciones').click(function() { 
-          console.log('se dio click');
           var _token = $('input[name="_token"]').val();     
           $.ajax({
               url: "{{ route('marcar.leidas') }}",

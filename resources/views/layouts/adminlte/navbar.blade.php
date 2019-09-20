@@ -128,16 +128,16 @@
         @else
             <li class="nav-item dropdown">
                 <a href="#" id="notificaciones" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                    Notificaciones 
+                  <i class="far fa-bell nav-icon"></i>
                     <span class="badge bg-dark">
                       {{count(Auth::user()->unreadNotifications)}}
                     </span>
                 </a>
-                <ul class="dropdown-menu" role="menu">
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300%;" role="menu">
                     @foreach (Auth::user()->unreadNotifications as $notification)
                     <li class="">
                     {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
-                      <a href="/aportes/{{$notification->data["aporte"]["id"]}}">Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
+                      <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
                       <div class="dropdown-divider"></div>
                     </li>
                     @endforeach
