@@ -71,6 +71,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <script src="{{url('js/app.js')}}"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+        $('#notificaciones').click(function() { 
+          console.log('se dio click');
+          var _token = $('input[name="_token"]').val();     
+          $.ajax({
+              url: "{{ route('marcar.leidas') }}",
+              method: "POST",
+              data: {
+                  // buscar: buscar,
+                  _token: _token,
+              },
+              success: function (result) {
+                  console.log("Notificaciones marcadas como leidas")
+                  // $('#reemplazar').html(result);
+              },
+          })
+       });
+  });
+  </script>
 {{-- @include('layouts.scripts') --}}
 @yield('jsExtra')
 {{-- {!! Toastr::render() !!} --}}
