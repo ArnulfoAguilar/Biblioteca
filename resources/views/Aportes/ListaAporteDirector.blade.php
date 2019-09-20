@@ -21,8 +21,6 @@ Todos los aportes
             {{ session('status') }}
         </div>
     @endif
-   {{-- <aportes-director></aportes-director> --}}
-   {{-- <aportes-director></aportes-director> --}}
    <aportes-director></aportes-director>
     
 @endsection

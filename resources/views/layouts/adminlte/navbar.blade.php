@@ -126,6 +126,24 @@
                 </li>
             @endif
         @else
+            <li class=" nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    Notificaciones 
+                    <span class="badge">
+                      {{count(Auth::user()->unreadNotifications)}}
+                    </span>
+                </a>
+            
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        @foreach (Auth::user()->unreadNotifications as $notification)
+                            {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
+                    <a href="/aportes/{{$notification->data["aporte"]["id"]}}"><i>{{ $notification->data["user"]["name"] }}</i> Creó el aporte <b>{{ $notification->data["aporte"]["TITULO"] }}</b></a>
+                        @endforeach
+                    </li>
+                </ul>
+            </li>
+
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                     {{ Auth::user()->name }} <span class="caret"></span>
