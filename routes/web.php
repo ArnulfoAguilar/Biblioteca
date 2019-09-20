@@ -75,6 +75,8 @@ Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect'
 Route::get('/SegundoSumarioSelect/{id}', 'segundoSumarioController@segundoSumarioSelect');
 Route::get('/TercerSumarioSelect/{id}', 'tercerSumarioController@tercerSumarioSelect');
 
+Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leidas');
+
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');
 /*RUTA para select de Area*/

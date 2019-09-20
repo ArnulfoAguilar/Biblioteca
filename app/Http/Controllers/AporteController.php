@@ -130,9 +130,9 @@ class AporteController extends Controller
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
 
-                $user = User::all();
-                // $user->notify(new NewAporte($Aporte));
-                Notification::send($user, new NewAporte($Aporte));
+            $user = User::all();
+            // $user->notify(new NewAporte($Aporte));
+            Notification::send($user, new NewAporte($Aporte));
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
