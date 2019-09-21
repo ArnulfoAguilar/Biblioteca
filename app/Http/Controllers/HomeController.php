@@ -45,6 +45,10 @@ class HomeController extends Controller
         return view('roles');
     }
 
+    public function adquisiciones(){
+        return view('Adquisicion/listaadquisiciones');
+    }
+
     public function marcarLeidas(){
         $user = Auth::user();
         $user->unreadNotifications->markAsRead();

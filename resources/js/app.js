@@ -1,11 +1,15 @@
 import JDTable from 'vue-jd-table/src/jd-table.vue';
 import Vuelidate from 'vuelidate';
 
-//Usado para utilizar swal - copiado directamente de la fuente
+//Usado para utilizar swal - copiado directamente de npmjs.com
 import Vue from 'vue';
 import VueSwal from 'vue-swal';
- 
 Vue.use(VueSwal);
+//Usado para utilizar moment - copiado directamente de npmjs.com
+// import VueMoment from 'vue-moment';
+Vue.use(require('vue-moment'));
+// Vue.use(VueMoment);
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -19,6 +23,7 @@ window.Vue = require('vue');
 window.toastr = require('toastr');
 
 Vue.use(Vuelidate);
+
 
 
 /**
@@ -54,6 +59,8 @@ Vue.component('aportes', require('./components/Aportes.vue').default);
 Vue.component('aportes-director', require('./components/Aportes-Director.vue').default);
 Vue.component('habilitar-aporte', require('./components/Habilitar-aporte.vue').default);
 
+// ------------------------MODULO DE ADQUISICIONES---------------------------------------------
+Vue.component('adquisiciones', require('./components/Adquisiciones.vue').default);
 
 // ------------------------MODULO DE ADMINISTRACION---------------------------------------------
 Vue.component('roles', require('./components/Roles.vue').default);

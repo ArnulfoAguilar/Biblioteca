@@ -55,6 +55,8 @@ Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesC
 
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
+Route::resource('/adquisiciones','AdquisicionController');
+Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
 
 
 // ---------------------------------RUTAS DEL MODULO DE ADMINISTRACION -------------------------------------//
