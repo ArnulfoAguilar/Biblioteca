@@ -35,7 +35,7 @@ Editar
                                                Tipo de Aporte
                                             </label>
                                             <div >
-                                                <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE">
+                                                <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE" required>
                                                     <option selected value="{{ $TipoAporteSelect->id }}" disabled>{{ $TipoAporteSelect->TIPO_APORTE }}</option>
                                                    @foreach($TipoAportes as $TipoAporte)
                                                    <option value="{{ $TipoAporte->id }}">{{ $TipoAporte->TIPO_APORTE }}</option>
@@ -49,7 +49,7 @@ Editar
                                        Area
                                     </label>
                                     <div >
-                                        <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_AREA">
+                                        <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_AREA" required>
                                             
                                                 <option selected value="{{ $AreaSelec->ID_AREA }}" disabled>{{ $AreaSelec->AREA }}</option>
                                             @foreach($Areas as $Area)
@@ -85,7 +85,7 @@ Editar
                                            Palabras Clave
                                         </label>
                                         <div >
-                                            <select class="select2" name="PALABRAS_CLAVE[]" id="selectmult" multiple="multiple">
+                                            <select class="select2" name="PALABRAS_CLAVE[]" id="selectmult" multiple="multiple" required>
                                                 @foreach($PalabrasClave as $PalabraClave)
                                                <option value="{{ $PalabraClave->id }}">{{ $PalabraClave->PALABRA }}</option>
                                                @endforeach
