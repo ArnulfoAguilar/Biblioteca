@@ -2016,6 +2016,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.habilitado != '') {
         axios.get('/listaTodosAportes?id=' + this.habilitado).then(function (response) {
           _this.Aportes = response.data;
+          console.log(_this.Aportes);
         });
       } else {
         axios.get('/listaAportes').then(function (response) {

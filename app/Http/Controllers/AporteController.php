@@ -28,7 +28,7 @@ class AporteController extends Controller
     {
         if($request->vista == 2 || $request->vista == '2'){
             return view('Aportes.ListaAporteDirector');
-        }else{
+        }else{ 
             return view('Aportes.ListaAporte')->with([
                 'id' => $request->id
                 ]);
@@ -52,7 +52,17 @@ class AporteController extends Controller
 
     public function listatodos(Request $request)
     {   
-        return Aporte::where('HABILITADO', $request->id)->orderBy('created_at', 'desc')->get();
+        
+        return DB::table('Aporte')
+        ->join('users', function($join){
+            $join->on('users.id','=','Aporte.ID_USUARIO')
+            ->where([
+                ['Aporte.HABILITADO','=','1']
+            ]);
+        })
+        ->select('Aporte.id','Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
+        ->get();
+        //return Aporte::where('HABILITADO', $request->id)->orderBy('created_at', 'desc')->get();
     }
 
     public function listaDirector(Request $request)

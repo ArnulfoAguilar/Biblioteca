@@ -54,7 +54,7 @@
               if(this.habilitado != ''){
                 axios.get('/listaTodosAportes?id='+this.habilitado).then(response=>{
                   this.Aportes = response.data;
-                  
+                  console.log(this.Aportes)
                   }
                 )
               }else{
