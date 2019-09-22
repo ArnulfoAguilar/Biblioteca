@@ -3130,6 +3130,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3178,8 +3201,14 @@ __webpack_require__.r(__webpack_exports__);
        *del modal segun la situacion*/
       search: '',
       ejemplars: [],
+      primerSumarios: [],
+      segundoSumarios: [],
       tercerSumarios: [],
       tipoEmpastados: [],
+      tipoAdquisicion: [],
+      estadoEjemplar: [],
+      areas: [],
+      catalogoMaterial: [],
       modoEditar: false,
       EJEMPLAR: {
         EJEMPLAR: '',
@@ -3198,13 +3227,17 @@ __webpack_require__.r(__webpack_exports__);
         LUGAR_EDICION: '',
         TERCER_SUMARIO: '',
         TIPO_EMPASTADO: '',
-        TIPO_ADQUISICION: ''
+        TIPO_ADQUISICION: '',
+        AREA: '',
+        CATALOGO_MATERIAL: ''
       },
       isEditing: false,
       createTitle: 'Agregar Ejemplar',
       editTitle: 'Editar Ejemplar',
       titleToShow: '',
-      hasError: false
+      hasError: false,
+      PRIMERSUMARIOID: 0,
+      SEGUNDOSUMARIOID: 0
     };
   },
   validations: {
@@ -3237,11 +3270,11 @@ __webpack_require__.r(__webpack_exports__);
       AÑO_EDICION: {
         required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
       },
-      PALABRAS_CLAVE: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
-      },
 
-      /*ESTADO_EJEMPLAR:{
+      /*PALABRAS_CLAVE:{
+          required
+      },
+      ESTADO_EJEMPLAR:{
           required
       },
       TIPO_ADQUISICION:{
@@ -3284,11 +3317,23 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/TercerSumarioSelect/' + 0).then(function (response) {
-      _this.tercerSumarios = response.data;
+    axios.get('/PrimerSumarioSelect/').then(function (response) {
+      _this.primerSumarios = response.data;
     });
     axios.get('/TipoEmpastadoSelect').then(function (response) {
       _this.tipoEmpastados = response.data;
+    });
+    axios.get('/TipoAdquisicionSelect').then(function (response) {
+      _this.tipoAdquisicion = response.data;
+    });
+    axios.get('/EstadoEjemplarSelect').then(function (response) {
+      _this.estadoEjemplar = response.data;
+    });
+    axios.get('/area').then(function (response) {
+      _this.areas = response.data;
+    });
+    axios.get('/CatalogoMaterialSelect').then(function (response) {
+      _this.catalogoMaterial = response.data;
     });
     $('#modalForm').on('hide.bs.modal', this.vaciarModelo);
   },
@@ -3382,14 +3427,17 @@ __webpack_require__.r(__webpack_exports__);
       this.EJEMPLAR.SUBTITULO = item.SUBTITULO;
       this.EJEMPLAR.EDITORIAL = item.EDITORIAL;
       this.EJEMPLAR.EDICION = item.EDICION;
-      this.EJEMPLAR.AÑO_EDICION = item.AÑO_EDICION;
-      this.EJEMPLAR.PALABRAS_CLAVE = item.PALABRAS_CLAVE;
-      /*this.EJEMPLAR.CATEGORIA=item.LUGAR_EDICION;
-      this.EJEMPLAR.TERCER_SUMARIO=item.TERCER_SUMARIO;
-      this.EJEMPLAR.TIPO_EMPASTADO=item.TIPO_EMPASTADO;
-      this.EJEMPLAR.TIPO_ADQUISICION=item.TIPO_ADQUISICION;
-      this.EJEMPLAR.ESTADO_EJEMPLAR=item.ESTADO_EJEMPLAR;*/
+      this.EJEMPLAR.AÑO_EDICION = item.AÑO_EDICION; //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
+      //debugger;
+      //$('#catalogoMaterialSelect').trigger('change');
 
+      this.EJEMPLAR.CATALOGO_MATERIAL = item.ID_CATALOGO_MATERIAL;
+      this.EJEMPLAR.LUGAR_EDICION = item.LUGAR_EDICION;
+      this.EJEMPLAR.TERCER_SUMARIO = item.ID_TERCER_SUMARIO;
+      this.EJEMPLAR.TIPO_EMPASTADO = item.ID_TIPO_EMPASTADO;
+      this.EJEMPLAR.TIPO_ADQUISICION = item.ID_TIPO_ADQUISICION;
+      this.EJEMPLAR.ESTADO_EJEMPLAR = item.ID_ESTADO_EJEMPLAR;
+      this.EJEMPLAR.AREA = item.ID_AREA;
       this.EJEMPLAR.OBSERVACIONES = item.OBSERVACIONES;
       this.isEditing = true;
     },
@@ -3427,6 +3475,8 @@ __webpack_require__.r(__webpack_exports__);
         OBSERVACIONES: '',
         ESTADO_EJEMPLAR: '',
         LUGAR_EDICION: '',
+        PRIMERSUMARIO: '',
+        SEGUNDOSUMARIO: '',
         TERCER_SUMARIO: '',
         TIPO_EMPASTADO: '',
         TIPO_ADQUISICION: ''
@@ -3454,6 +3504,24 @@ __webpack_require__.r(__webpack_exports__);
         toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
       } else {
         this.guardar();
+      }
+    },
+    getSegundoSumario: function getSegundoSumario() {
+      var _this7 = this;
+
+      if (this.PRIMERSUMARIOID != 0) {
+        axios.get('/SegundoSumarioSelect/' + this.PRIMERSUMARIOID).then(function (response) {
+          _this7.segundoSumarios = response.data;
+        });
+      }
+    },
+    getTercerSumario: function getTercerSumario() {
+      var _this8 = this;
+
+      if (this.PRIMERSUMARIOID != 0 && this.SEGUNDOSUMARIOID != 0) {
+        axios.get('/TercerSumarioSelect/' + this.SEGUNDOSUMARIOID).then(function (response) {
+          _this8.tercerSumarios = response.data;
+        });
       }
     }
   }
@@ -62980,6 +63048,9 @@ var render = function() {
                         _c("label", { attrs: { for: "ISBN" } }, [
                           _vm._v("ISBN")
                         ]),
+                        !_vm.$v.EJEMPLAR.ISBN.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63015,12 +63086,6 @@ var render = function() {
                           ? _c("div", { staticClass: "error" }, [
                               _vm._v("este campo solo acepta numeros")
                             ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.ISBN.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
                           : _vm._e()
                       ]),
                       _vm._v(" "),
@@ -63028,6 +63093,9 @@ var render = function() {
                         _c("label", { attrs: { for: "NOMBRE" } }, [
                           _vm._v("Nombre")
                         ]),
+                        !_vm.$v.EJEMPLAR.EJEMPLAR.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63055,19 +63123,16 @@ var render = function() {
                               )
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.EJEMPLAR.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
+                        })
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4 form-group" }, [
                         _c("label", { attrs: { for: "SUBTITULO" } }, [
                           _vm._v("Subtitulo")
                         ]),
+                        !_vm.$v.EJEMPLAR.SUBTITULO.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63095,13 +63160,7 @@ var render = function() {
                               )
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.SUBTITULO.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
+                        })
                       ])
                     ]),
                     _vm._v(" "),
@@ -63110,6 +63169,9 @@ var render = function() {
                         _c("label", { attrs: { for: "EDITORIAL" } }, [
                           _vm._v("Editorial")
                         ]),
+                        !_vm.$v.EJEMPLAR.EDITORIAL.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63137,19 +63199,16 @@ var render = function() {
                               )
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.EDITORIAL.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
+                        })
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4 form-group" }, [
                         _c("label", { attrs: { for: "EDICION" } }, [
                           _vm._v("Edición")
                         ]),
+                        !_vm.$v.EJEMPLAR.EDICION.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63177,19 +63236,16 @@ var render = function() {
                               )
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.EDICION.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
+                        })
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4 form-group" }, [
                         _c("label", { attrs: { for: "AÑO_EDICION" } }, [
                           _vm._v("Año de edición")
                         ]),
+                        !_vm.$v.EJEMPLAR.AÑO_EDICION.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63217,13 +63273,7 @@ var render = function() {
                               )
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.AÑO_EDICION.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
+                        })
                       ])
                     ]),
                     _vm._v(" "),
@@ -63232,6 +63282,9 @@ var render = function() {
                         _c("label", { attrs: { for: "AUTOR" } }, [
                           _vm._v("AUTOR/es")
                         ]),
+                        !_vm.$v.EJEMPLAR.AUTOR.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63261,19 +63314,16 @@ var render = function() {
                               )
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.AUTOR.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
+                        })
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4 form-group" }, [
                         _c("label", { attrs: { for: "PAGINAS" } }, [
                           _vm._v("Numero de paginas")
                         ]),
+                        !_vm.$v.EJEMPLAR.NUMERO_PAGINAS.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63309,12 +63359,6 @@ var render = function() {
                           ? _c("div", { staticClass: "error" }, [
                               _vm._v("este campo solo acepta numeros")
                             ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.NUMERO_PAGINAS.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
                           : _vm._e()
                       ]),
                       _vm._v(" "),
@@ -63322,6 +63366,9 @@ var render = function() {
                         _c("label", { attrs: { for: "copias" } }, [
                           _vm._v("Numero de copias")
                         ]),
+                        !_vm.$v.EJEMPLAR.COPIAS.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -63357,59 +63404,11 @@ var render = function() {
                           ? _c("div", { staticClass: "error" }, [
                               _vm._v("este campo solo acepta numeros")
                             ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.COPIAS.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
                           : _vm._e()
                       ])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-4 form-group" }, [
-                        _c("label", { attrs: { for: "PALABRAS_CLAVE" } }, [
-                          _vm._v("Palabras clave")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.EJEMPLAR.PALABRAS_CLAVE,
-                              expression: "EJEMPLAR.PALABRAS_CLAVE"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            id: "PALABRAS_CLAVE",
-                            "aria-describedby": "emailHelp"
-                          },
-                          domProps: { value: _vm.EJEMPLAR.PALABRAS_CLAVE },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.EJEMPLAR,
-                                "PALABRAS_CLAVE",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.PALABRAS_CLAVE.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-4 form-group" }, [
                         _c("label", { attrs: { for: "LUGAR_EDICION" } }, [
                           _vm._v("Lugar Edición")
@@ -63447,6 +63446,196 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4 form-group" }, [
+                        _c("label", { attrs: { for: "CATALOGO_MATERIAL" } }, [
+                          _vm._v("Tipo de material")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c("select2", {
+                              attrs: {
+                                options: _vm.catalogoMaterial,
+                                value: _vm.EJEMPLAR.CATALOGO_MATERIAL
+                              },
+                              model: {
+                                value: _vm.EJEMPLAR.CATALOGO_MATERIAL,
+                                callback: function($$v) {
+                                  _vm.$set(
+                                    _vm.EJEMPLAR,
+                                    "CATALOGO_MATERIAL",
+                                    $$v
+                                  )
+                                },
+                                expression: "EJEMPLAR.CATALOGO_MATERIAL"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4 form-group" }, [
+                        _c("label", { attrs: { for: "TIPO_EMPASTADO" } }, [
+                          _vm._v("Tipo empastado")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c("select2", {
+                              attrs: {
+                                options: _vm.tipoEmpastados,
+                                value: _vm.EJEMPLAR.TIPO_EMPASTADO
+                              },
+                              model: {
+                                value: _vm.EJEMPLAR.TIPO_EMPASTADO,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.EJEMPLAR, "TIPO_EMPASTADO", $$v)
+                                },
+                                expression: "EJEMPLAR.TIPO_EMPASTADO"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-4 form-group" }, [
+                        _c("label", { attrs: { for: "TIPO_ADQUISICION" } }, [
+                          _vm._v("Tipo adquisición")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c("select2", {
+                              attrs: {
+                                options: _vm.tipoAdquisicion,
+                                value: _vm.EJEMPLAR.TIPO_ADQUISICION
+                              },
+                              model: {
+                                value: _vm.EJEMPLAR.TIPO_ADQUISICION,
+                                callback: function($$v) {
+                                  _vm.$set(
+                                    _vm.EJEMPLAR,
+                                    "TIPO_ADQUISICION",
+                                    $$v
+                                  )
+                                },
+                                expression: "EJEMPLAR.TIPO_ADQUISICION"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4 form-group" }, [
+                        _c("label", { attrs: { for: "ESTADO_EJEMPLAR" } }, [
+                          _vm._v("Estado de ejemplar")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c("select2", {
+                              attrs: {
+                                options: _vm.estadoEjemplar,
+                                value: _vm.EJEMPLAR.ESTADO_EJEMPLAR
+                              },
+                              model: {
+                                value: _vm.EJEMPLAR.ESTADO_EJEMPLAR,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.EJEMPLAR, "ESTADO_EJEMPLAR", $$v)
+                                },
+                                expression: "EJEMPLAR.ESTADO_EJEMPLAR"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4 form-group" }, [
+                        _c("label", { attrs: { for: "AREA" } }, [
+                          _vm._v("Area")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c("select2", {
+                              attrs: {
+                                options: _vm.areas,
+                                value: _vm.EJEMPLAR.AREA
+                              },
+                              model: {
+                                value: _vm.EJEMPLAR.AREA,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.EJEMPLAR, "AREA", $$v)
+                                },
+                                expression: "EJEMPLAR.AREA"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-4 form-group" }, [
+                        _c("label", { attrs: { for: "PRIMER_SUMARIO" } }, [
+                          _vm._v("Primer sumario")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c("select2", {
+                              attrs: { options: _vm.primerSumarios },
+                              on: { input: _vm.getSegundoSumario },
+                              model: {
+                                value: _vm.PRIMERSUMARIOID,
+                                callback: function($$v) {
+                                  _vm.PRIMERSUMARIOID = $$v
+                                },
+                                expression: "PRIMERSUMARIOID"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4 form-group" }, [
+                        _c("label", { attrs: { for: "SEGUNDO_SUMARIO" } }, [
+                          _vm._v("Segundo sumario")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c("select2", {
+                              attrs: { options: _vm.segundoSumarios },
+                              on: { input: _vm.getTercerSumario },
+                              model: {
+                                value: _vm.SEGUNDOSUMARIOID,
+                                callback: function($$v) {
+                                  _vm.SEGUNDOSUMARIOID = $$v
+                                },
+                                expression: "SEGUNDOSUMARIOID"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4 form-group" }, [
                         _c("label", { attrs: { for: "TERCER_SUMARIO" } }, [
                           _vm._v("Tercer Sumario")
                         ]),
@@ -63455,7 +63644,10 @@ var render = function() {
                           "div",
                           [
                             _c("select2", {
-                              attrs: { options: _vm.tercerSumarios },
+                              attrs: {
+                                options: _vm.tercerSumarios,
+                                value: _vm.EJEMPLAR.TERCER_SUMARIO
+                              },
                               model: {
                                 value: _vm.EJEMPLAR.TERCER_SUMARIO,
                                 callback: function($$v) {
@@ -63471,107 +63663,13 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-4 form-group" }, [
-                        _c("label", { attrs: { for: "TIPO_EMPASTADO" } }, [
-                          _vm._v("Tipo empastado")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          [
-                            _c("select2", {
-                              attrs: { options: _vm.tipoEmpastados },
-                              model: {
-                                value: _vm.EJEMPLAR.TIPO_EMPASTADO,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.EJEMPLAR, "TIPO_EMPASTADO", $$v)
-                                },
-                                expression: "EJEMPLAR.TIPO_EMPASTADO"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4 form-group" }, [
-                        _c("label", { attrs: { for: "TIPO_ADQUISICION" } }, [
-                          _vm._v("Tipo adquisición")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.EJEMPLAR.TIPO_ADQUISICION,
-                              expression: "EJEMPLAR.TIPO_ADQUISICION"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            id: "TIPO_ADQUISICION",
-                            "aria-describedby": "emailHelp"
-                          },
-                          domProps: { value: _vm.EJEMPLAR.TIPO_ADQUISICION },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.EJEMPLAR,
-                                "TIPO_ADQUISICION",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4 form-group" }, [
-                        _c("label", { attrs: { for: "ESTADO_EJEMPLAR" } }, [
-                          _vm._v("Estado de ejemplar")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.EJEMPLAR.ESTADO_EJEMPLAR,
-                              expression: "EJEMPLAR.ESTADO_EJEMPLAR"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            id: "ESTADO_EJEMPLAR",
-                            "aria-describedby": "emailHelp"
-                          },
-                          domProps: { value: _vm.EJEMPLAR.ESTADO_EJEMPLAR },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.EJEMPLAR,
-                                "ESTADO_EJEMPLAR",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-md-6 form-group" }, [
                         _c("label", { attrs: { for: "DESCRIPCION" } }, [
                           _vm._v("Descripción")
                         ]),
+                        !_vm.$v.EJEMPLAR.DESCRIPCION.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("textarea", {
                           directives: [
@@ -63597,19 +63695,16 @@ var render = function() {
                               )
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.DESCRIPCION.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
+                        })
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-6 form-group" }, [
                         _c("label", { attrs: { for: "OBSERVACIONES" } }, [
                           _vm._v("Observaciones")
                         ]),
+                        !_vm.$v.EJEMPLAR.OBSERVACIONES.required
+                          ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("textarea", {
                           directives: [
@@ -63635,18 +63730,14 @@ var render = function() {
                               )
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        !_vm.$v.EJEMPLAR.OBSERVACIONES.required
-                          ? _c("div", { staticClass: "error" }, [
-                              _vm._v("este campo es obligatorio")
-                            ])
-                          : _vm._e()
+                        })
                       ])
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0)
                   ]),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _vm._m(1)
                 ])
               ]
             )
@@ -63658,6 +63749,16 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row text-center" }, [
+      _c("div", { staticClass: "col-md-12 text-center" }, [
+        _c("b", { staticClass: "error" }, [_vm._v("*Campos obligatorios")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

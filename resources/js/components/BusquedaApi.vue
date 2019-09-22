@@ -184,9 +184,9 @@
             },
             getTercerSumario(){
                 if(this.EJEMPLAR.PRIMERSUMARIO!=0 &&this.EJEMPLAR.SEGUNDOSUMARIO!=0){
-                axios.get('/TercerSumarioSelect/'+this.EJEMPLAR.SEGUNDOSUMARIO).then((response)=>{
-                    this.tercerSumarios = response.data;
-                })
+                    axios.get('/TercerSumarioSelect/'+this.EJEMPLAR.SEGUNDOSUMARIO).then((response)=>{
+                        this.tercerSumarios = response.data;
+                    })
                 }
             },
             Agregar(){
@@ -206,7 +206,7 @@
                             alert("Guardado correctamente");
                             $("#exampleModal").modal('hide');
                             console.log("Guardado");
-                            $("#exampleModal").modal('hide');   
+                            $("#exampleModal").modal('hide');
                         }).catch(e=>{
                             alert("Error al Guardar" + e);
                         })

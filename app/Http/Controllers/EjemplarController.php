@@ -74,10 +74,12 @@ class EjemplarController extends Controller
         $Ejemplar->LUGAR_EDICION = $request->LUGAR_EDICION;
         $Ejemplar->OBSERVACIONES = $request->OBSERVACIONES;
         $Ejemplar->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
-        /*$Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
+        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
         $Ejemplar->ID_TIPO_EMPASTADO = $request->TIPO_EMPASTADO;
         $Ejemplar->ID_TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
-        $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;*/
+        $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;
+        $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
+        $Ejemplar->ID_AREA = $request->AREA;
         $Ejemplar->save();
     }
 
@@ -137,11 +139,12 @@ class EjemplarController extends Controller
         $Ejemplar->LUGAR_EDICION = $request->LUGAR_EDICION;
         $Ejemplar->OBSERVACIONES = $request->OBSERVACIONES;
         $Ejemplar->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
-        /*$Ejemplar->CATEGORIA = $request->CATEGORIA;
-        $Ejemplar->TERCER_SUMARIO = $request->TERCER_SUMARIO;
-        $Ejemplar->TIPO_ESTAMPADO = $request->TIPO_EMPASTADO;
-        $Ejemplar->TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
-        $Ejemplar->ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;*/
+        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
+        $Ejemplar->ID_TIPO_EMPASTADO = $request->TIPO_EMPASTADO;
+        $Ejemplar->ID_TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
+        $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;
+        $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
+        $Ejemplar->ID_AREA = $request->AREA;
         $Ejemplar->save();
         return $Ejemplar;
     }

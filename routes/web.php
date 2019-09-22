@@ -65,11 +65,14 @@ Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
-Route::get('/SegundoSumarioSelect/{id}', 'segundoSumarioController@segundoSumarioSelect');
+Route::get('/SegundoSumarioSelect/{id}', 'SegundoSumarioController@segundoSumarioSelect');
 Route::get('/TercerSumarioSelect/{id}', 'TercerSumarioController@tercerSumarioSelect');
 
 /*Rutas para select2 del formulario de ejemplar*/
 Route::get('/TipoEmpastadoSelect', 'Select2Controller@tipoEmpastadoSelect');
+Route::get('/TipoAdquisicionSelect', 'Select2Controller@tipoAdquisicionSelect');
+Route::get('/EstadoEjemplarSelect', 'Select2Controller@estadoEjemplarSelect');
+Route::get('/CatalogoMaterialSelect', 'Select2Controller@catalogoMaterialSelect');
 
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');
