@@ -16,7 +16,7 @@ class AdquisicionController extends Controller
      */
     public function index()
     {
-        return Adquisicion::all();
+        return Adquisicion::orderBy('created_at','desc')->get();
     }
 
     /**
@@ -37,7 +37,19 @@ class AdquisicionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $sugerencia = new Adquisicion();
+            $sugerencia->TITULO = $request->TITULO;
+            $sugerencia->DESCRIPCION = $request->DESCRIPCION;
+            $sugerencia->CONTENIDO = $request->CONTENIDO;
+            $sugerencia->ID_AREA = $request->ID_AREA;
+            $sugerencia->ID_USUARIO = auth()->id();
+            $sugerencia->save();
+            // return 'Se supone que si guarda cerote'
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
     }
 
     /**
@@ -71,7 +83,18 @@ class AdquisicionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $sugerencia = Adquisicion::find($id);
+            $sugerencia->TITULO = $request->TITULO;
+            $sugerencia->DESCRIPCION = $request->DESCRIPCION;
+            $sugerencia->CONTENIDO = $request->CONTENIDO;
+            $sugerencia->ID_AREA = $request->ID_AREA;
+            $sugerencia->ID_USUARIO = auth()->id();
+            $sugerencia->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
     }
 
     /**
@@ -82,6 +105,7 @@ class AdquisicionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $sugerencia = Adquisicion::find($id);
+        $sugerencia->delete();
     }
 }

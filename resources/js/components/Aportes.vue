@@ -22,6 +22,7 @@
                 <!-- post text -->
                 <h1>{{ item.TITULO }}</h1>
                 <p>{{ item.DESCRIPCION}}</p>
+                <p>{{ item.CONTENIDO}}</p>
                 <!-- Social sharing buttons -->
                 <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
                 <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>

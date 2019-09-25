@@ -134,6 +134,11 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300%;" role="menu">
+                  @if ( sizeof(Auth::user()->unreadNotifications) == 0 )
+                    <li class="">
+                      <a href="#" class="nav-link" >No tienes notificaciones </a>
+                    </li>
+                  @else
                     @foreach (Auth::user()->unreadNotifications as $notification)
                     <li class="">
                     {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
@@ -141,6 +146,8 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     @endforeach
+                  @endif  
+                  
                 </ul>
             </li>
 

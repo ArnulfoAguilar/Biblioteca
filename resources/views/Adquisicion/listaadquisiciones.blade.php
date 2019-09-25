@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container">
-        <adquisiciones></adquisiciones>
+    <adquisiciones usuario="{{Auth::user()->id}}"></adquisiciones>
     </div>
 
 @endsection
