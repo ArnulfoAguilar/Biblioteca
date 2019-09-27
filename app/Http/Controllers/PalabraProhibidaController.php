@@ -17,7 +17,7 @@ class PalabraProhibidaController extends Controller
     }
     public function index()
     {
-         $listapalabra = "";
+        $listapalabra = "";
         $palabraProhibida = palabraProhibida::all();
         $cantidadDePalabras=sizeof($palabraProhibida);
         $contador=1;
@@ -29,7 +29,7 @@ class PalabraProhibidaController extends Controller
             }
             $contador++;
         }
-        return $$listapalabra;
+        return $listapalabra;
     }
 
     /**

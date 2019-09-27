@@ -71,6 +71,7 @@
           cargar_malas_palabras(){
             axios.get('/palabraProhibida').then(res=>{
                 this.listaMalasPalabras = res.data;
+                console.log(this.listaMalasPalabras);
                 })
           },
           like(IdComentario){
@@ -107,7 +108,9 @@
           },
           comprobar_comentario(){
                 if(this.Comentario.COMENTARIO !=""){
-                const regex = /(^Puto| Puto | Puto$|^Negro| Negro | Negro$)/igm;
+                  var regex = new RegExp("("+this.listaMalasPalabras+")",'igm')
+                  console.log(regex)
+               // const regex = /()/igm;
                 const str = this.Comentario.COMENTARIO;
                 let palabra_en_comentario;
                 if ((palabra_en_comentario = regex.exec(str)) !== null) {
@@ -115,7 +118,7 @@
                   if (palabra_en_comentario.index === regex.lastIndex) {
                     regex.lastIndex++;
                   }
-                  this.mostrar_alerta("Puede que su comentario tenga palabras inadecuadas");        
+                  this.mostrar_alerta("Puede que su comentario tenga palabras inadecuadas.\n¿Desea continuar?");        
                 }else{
                   this.agregar_comentario();
                 }
