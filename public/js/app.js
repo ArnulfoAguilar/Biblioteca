@@ -3114,6 +3114,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       ocultar: false,
       nuevo: '',
+      listaMalasPalabras: '',
       comentarios: [],
       InteraccionComentarios: [],
       palabrasProhibidas: [],
@@ -3133,6 +3134,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.cargar_comentarios();
     this.cargar_interacciones();
+    this.cargar_malas_palabras();
   },
   methods: {
     cargar_comentarios: function cargar_comentarios() {
@@ -3149,8 +3151,15 @@ __webpack_require__.r(__webpack_exports__);
         _this2.InteraccionComentarios = res.data;
       });
     },
-    like: function like(IdComentario) {
+    cargar_malas_palabras: function cargar_malas_palabras() {
       var _this3 = this;
+
+      axios.get('/palabraProhibida').then(function (res) {
+        _this3.listaMalasPalabras = res.data;
+      });
+    },
+    like: function like(IdComentario) {
+      var _this4 = this;
 
       this.InteraccionComentario.ID_TIPO_INTERACCION = 1;
       this.InteraccionComentario.ID_COMENTARIO = IdComentario;
@@ -3160,16 +3169,16 @@ __webpack_require__.r(__webpack_exports__);
         toastr.options.closeButton = true;
         toastr.success('Te ha gustado el Comentario', 'Like!!');
 
-        _this3.cargar_comentarios();
+        _this4.cargar_comentarios();
 
-        _this3.InteraccionComentario.ID_TIPO_INTERACCION = "";
-        _this3.InteraccionComentario.ID_COMENTARIO = "";
+        _this4.InteraccionComentario.ID_TIPO_INTERACCION = "";
+        _this4.InteraccionComentario.ID_COMENTARIO = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });
     },
     Report: function Report(IdComentario) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.InteraccionComentario.ID_TIPO_INTERACCION = 2;
       this.InteraccionComentario.ID_COMENTARIO = IdComentario;
@@ -3179,35 +3188,39 @@ __webpack_require__.r(__webpack_exports__);
         toastr.options.closeButton = true;
         toastr.success('El administrador revisara este comentario. ¡Gracias!', 'Reportado');
 
-        _this4.cargar_comentarios();
+        _this5.cargar_comentarios();
 
-        _this4.InteraccionComentario.ID_TIPO_INTERACCION = "";
-        _this4.InteraccionComentario.ID_COMENTARIO = "";
+        _this5.InteraccionComentario.ID_TIPO_INTERACCION = "";
+        _this5.InteraccionComentario.ID_COMENTARIO = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });
     },
     comprobar_comentario: function comprobar_comentario() {
-      var regex = /( puto$|^puto| puto )/igm;
-      var str = this.Comentario.COMENTARIO;
-      var palabra_en_comentario;
+      if (this.Comentario.COMENTARIO != "") {
+        var regex = /(^Puto| Puto | Puto$|^Negro| Negro | Negro$)/igm;
+        var str = this.Comentario.COMENTARIO;
+        var palabra_en_comentario;
 
-      if ((palabra_en_comentario = regex.exec(str)) !== null) {
-        if (palabra_en_comentario.index === regex.lastIndex) {
-          regex.lastIndex++;
+        if ((palabra_en_comentario = regex.exec(str)) !== null) {
+          if (palabra_en_comentario.index === regex.lastIndex) {
+            regex.lastIndex++;
+          }
+
+          this.mostrar_alerta("Puede que su comentario tenga palabras inadecuadas");
+        } else {
+          this.agregar_comentario();
         }
-
-        this.mostrar_alerta();
       } else {
-        this.agregar_comentario();
+        this.mostrar_alerta("Debe escribir un comentario");
       }
     },
-    mostrar_alerta: function mostrar_alerta() {
-      var _this5 = this;
+    mostrar_alerta: function mostrar_alerta(texto) {
+      var _this6 = this;
 
       this.$swal({
         title: 'Alto',
-        text: "Tu comentario puede contener palabras inadecuadas, si continuas, sera enviado al ADMINISTRADOR para revision.",
+        text: texto,
         icon: 'warning',
         buttons: {
           cancel: true,
@@ -3215,12 +3228,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (value) {
         if (value) {
-          _this5.agregar_comentario();
+          _this6.agregar_comentario();
         }
       });
     },
     agregar_comentario: function agregar_comentario() {
-      var _this6 = this;
+      var _this7 = this;
 
       var comentarioNuevo = this.Comentario;
       axios.post('/comentarios', comentarioNuevo).then(function (response) {
@@ -3228,9 +3241,9 @@ __webpack_require__.r(__webpack_exports__);
         toastr.options.closeButton = true;
         toastr.success('Espera por la aprobación', 'Guardado!!');
 
-        _this6.cargar_comentarios();
+        _this7.cargar_comentarios();
 
-        _this6.Comentario.COMENTARIO = "";
+        _this7.Comentario.COMENTARIO = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });

@@ -43,6 +43,7 @@
           return{
             ocultar:false,
             nuevo: '',
+            listaMalasPalabras: '',
             comentarios: [],
             InteraccionComentarios: [],
             palabrasProhibidas: [],
@@ -52,7 +53,8 @@
         },
         created(){
           this.cargar_comentarios();
-          this.cargar_interacciones()
+          this.cargar_interacciones();
+          this.cargar_malas_palabras();
         },
         methods:{
           cargar_comentarios(){
@@ -64,6 +66,11 @@
             axios.get('/interaccionesComentario/'+this.aporte).then(res=>{
                 this.InteraccionComentarios = res.data;
                
+                })
+          },
+          cargar_malas_palabras(){
+            axios.get('/palabraProhibida').then(res=>{
+                this.listaMalasPalabras = res.data;
                 })
           },
           like(IdComentario){
@@ -99,8 +106,8 @@
               })
           },
           comprobar_comentario(){
-
-                const regex = /( puto$|^puto| puto )/igm;
+                if(this.Comentario.COMENTARIO !=""){
+                const regex = /(^Puto| Puto | Puto$|^Negro| Negro | Negro$)/igm;
                 const str = this.Comentario.COMENTARIO;
                 let palabra_en_comentario;
                 if ((palabra_en_comentario = regex.exec(str)) !== null) {
@@ -108,18 +115,21 @@
                   if (palabra_en_comentario.index === regex.lastIndex) {
                     regex.lastIndex++;
                   }
-                  this.mostrar_alerta();        
+                  this.mostrar_alerta("Puede que su comentario tenga palabras inadecuadas");        
                 }else{
                   this.agregar_comentario();
                 }
+                }else{
+                  this.mostrar_alerta("Debe escribir un comentario");
+                }
                 
           },
-          mostrar_alerta()
+          mostrar_alerta(texto)
           {
               this.$swal(
                   {
                     title: 'Alto',
-                    text: "Tu comentario puede contener palabras inadecuadas, si continuas, sera enviado al ADMINISTRADOR para revision.",
+                    text: texto,
                     icon: 'warning',
                     buttons: {
                       cancel: true,
