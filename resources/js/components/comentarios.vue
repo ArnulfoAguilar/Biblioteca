@@ -99,9 +99,9 @@
               })
           },
           comprobar_comentario(){
-                const regex = /( puto| basura| gay)/igm;
+
+                const regex = /( puto$|^puto| puto )/igm;
                 const str = this.Comentario.COMENTARIO;
-                
                 let palabra_en_comentario;
                 if ((palabra_en_comentario = regex.exec(str)) !== null) {
 

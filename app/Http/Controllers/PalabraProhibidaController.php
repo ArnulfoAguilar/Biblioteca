@@ -40,7 +40,7 @@ class PalabraProhibidaController extends Controller
     public function store(Request $request)
     {
         $palabraProhibida = new palabraProhibida();
-        $palabraProhibida->PALABRA = " "+$request->PALABRA;
+        $palabraProhibida->PALABRA = $request->PALABRA;
         $palabraProhibida->save();
     }
 

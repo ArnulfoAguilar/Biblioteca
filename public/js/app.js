@@ -3188,7 +3188,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     comprobar_comentario: function comprobar_comentario() {
-      var regex = /( puto| basura| gay)/igm;
+      var regex = /( puto$|^puto| puto )/igm;
       var str = this.Comentario.COMENTARIO;
       var palabra_en_comentario;
 
