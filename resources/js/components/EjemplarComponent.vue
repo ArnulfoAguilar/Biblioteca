@@ -129,13 +129,13 @@
                                 <div class="col-md-4 form-group">
                                     <label for="PRIMER_SUMARIO">Primer sumario</label>
                                     <div>
-                                        <select2 :options="primerSumarios" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"></select2>
+                                        <select2 :options="primerSumarios" :value="PRIMERSUMARIOID" v-model="PRIMERSUMARIOID"></select2>
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="SEGUNDO_SUMARIO">Segundo sumario</label>
                                     <div>
-                                        <select2 :options="segundoSumarios" v-model="SEGUNDOSUMARIOID" @input="getTercerSumario"></select2>
+                                        <select2 :options="segundoSumarios" :value="SEGUNDOSUMARIOID" v-model="SEGUNDOSUMARIOID"></select2>
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">
@@ -261,8 +261,8 @@ export default {
             editTitle: 'Editar Ejemplar',
             titleToShow: '',
             hasError: false,
-            PRIMERSUMARIOID:0,
-            SEGUNDOSUMARIOID:0
+            PRIMERSUMARIOID:'',
+            SEGUNDOSUMARIOID:''
         }
     },
     validations:{
@@ -337,26 +337,9 @@ export default {
             deleteItem: true
         };
         this.sendData();
+        this.inicializandoSelect2();
     },
     mounted(){
-        axios.get('/PrimerSumarioSelect/').then((response)=>{
-            this.primerSumarios = response.data;
-        });
-        axios.get('/TipoEmpastadoSelect').then((response)=>{
-            this.tipoEmpastados = response.data;
-        });
-        axios.get('/TipoAdquisicionSelect').then((response)=>{
-            this.tipoAdquisicion = response.data;
-        });
-        axios.get('/EstadoEjemplarSelect').then((response)=>{
-            this.estadoEjemplar = response.data;
-        });
-        axios.get('/area').then((response)=>{
-            this.areas = response.data;
-        });
-        axios.get('/CatalogoMaterialSelect').then((response)=>{
-            this.catalogoMaterial = response.data;
-        });
        $('#modalForm').on('hide.bs.modal',this.vaciarModelo);
     },
     methods:{
@@ -392,16 +375,15 @@ export default {
                 })
             }
             if (componentState.lastAction ==='AddItem') {
-                this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
                 $('#modalForm').modal('show');
 
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarEjemplar;
                 this.titleToShow = this.editTitle;
-                this.editarFormulario(componentState.selectedItem);
+                this.getSumarios(componentState.selectedItem);
                 $('#modalForm').modal('show');
+
             }
             if (componentState.lastAction ==='DeleteItem') {
                 this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
@@ -411,7 +393,6 @@ export default {
          *escena la variable del data isEditing*/
         guardar() {
             const ejemplarToSave = this.EJEMPLAR;
-            console.log(ejemplarToSave.COPIAS);
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
                 axios.put(`/ejemplars/${this.EJEMPLAR.id}`, ejemplarToSave).then(res=>{
@@ -438,16 +419,17 @@ export default {
         this.EJEMPLAR.EDICION=item.EDICION;
         this.EJEMPLAR.AÑO_EDICION=item.AÑO_EDICION;
         //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
-        //debugger;
-        //$('#catalogoMaterialSelect').trigger('change');
         this.EJEMPLAR.CATALOGO_MATERIAL=item.ID_CATALOGO_MATERIAL;
         this.EJEMPLAR.LUGAR_EDICION=item.LUGAR_EDICION;
-        this.EJEMPLAR.TERCER_SUMARIO=item.ID_TERCER_SUMARIO;
         this.EJEMPLAR.TIPO_EMPASTADO=item.ID_TIPO_EMPASTADO;
         this.EJEMPLAR.TIPO_ADQUISICION=item.ID_TIPO_ADQUISICION;
         this.EJEMPLAR.ESTADO_EJEMPLAR=item.ID_ESTADO_EJEMPLAR;
         this.EJEMPLAR.AREA=item.ID_AREA;
         this.EJEMPLAR.OBSERVACIONES=item.OBSERVACIONES;
+        this.PRIMERSUMARIOID=item.ID_PRIMER_SUMARIO;
+        this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
+        this.EJEMPLAR.TERCER_SUMARIO=item.ID_TERCER_SUMARIO;
+        console.log(this.EJEMPLAR.TERCER_SUMARIO)
         this.isEditing = true;
         },
         eliminarEjemplar(EJEMPLAR, index){
@@ -476,16 +458,16 @@ export default {
                 EDITORIAL:'',
                 EDICION:'',
                 AÑO_EDICION:'',
-                PALABRAS_CLAVE:'',
+                //PALABRAS_CLAVE:'',
                 OBSERVACIONES:'',
                 ESTADO_EJEMPLAR:'',
                 LUGAR_EDICION:'',
-                PRIMERSUMARIO:'',
-                SEGUNDOSUMARIO:'',
                 TERCER_SUMARIO:'',
                 TIPO_EMPASTADO:'',
                 TIPO_ADQUISICION:''
             };
+            this.PRIMERSUMARIO='';
+            this.SEGUNDOSUMARIO='';
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion
@@ -509,16 +491,44 @@ export default {
                 this.guardar();
             }
         },
-        getSegundoSumario(){
-                if(this.PRIMERSUMARIOID!=0){
-                axios.get('/SegundoSumarioSelect/'+this.PRIMERSUMARIOID).then((response)=>{
+        inicializandoSelect2(){
+            axios.get('/PrimerSumarioSelect/').then((response)=>{
+                this.primerSumarios = response.data;
+            });
+            axios.get('/TipoEmpastadoSelect').then((response)=>{
+                this.tipoEmpastados = response.data;
+            });
+            axios.get('/TipoAdquisicionSelect').then((response)=>{
+                this.tipoAdquisicion = response.data;
+            });
+            axios.get('/EstadoEjemplarSelect').then((response)=>{
+                this.estadoEjemplar = response.data;
+            });
+            axios.get('/area').then((response)=>{
+                this.areas = response.data;
+            });
+            axios.get('/CatalogoMaterialSelect').then((response)=>{
+                this.catalogoMaterial = response.data;
+            });
+        },
+        getSumarios(item){
+            if(item!==undefined&&item.ID_PRIMER_SUMARIO>0){
+                axios.get('/SegundoSumarioSelect/'+item.ID_PRIMER_SUMARIO)
+                .then((response)=>{
                     this.segundoSumarios = response.data;
+                    return axios.get('/TercerSumarioSelect/'+item.ID_SEGUNDO_SUMARIO);
+                })
+                .then((response)=>{
+                    this.tercerSumarios=response.data;
+                })
+                .then(()=>{
+                    this.editarFormulario(item);
                 });
-                }
-            },
-        getTercerSumario(){
-            if(this.PRIMERSUMARIOID!=0 &&this.SEGUNDOSUMARIOID!=0){
-                axios.get('/TercerSumarioSelect/'+this.SEGUNDOSUMARIOID).then((response)=>{
+            }
+        },
+        getTercerSumario(primerSumario,segundoSumarioId){
+            if(primerSumario>0 &&segundoSumarioId>0){
+                axios.get('/TercerSumarioSelect/'+segundoSumarioId).then((response)=>{
                     this.tercerSumarios = response.data;
                 })
             }

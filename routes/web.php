@@ -22,6 +22,8 @@ Auth::routes();
 Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
 Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
 Route::get('/biblioteca/imprimir', 'LibroController@Tags')->name('imprimir');
+Route::get('/biblioteca/prestamo', 'HomeController@prestamos')->name('prestamos');
+Route::resource('/biblioteca/prestamos', 'PrestamoController');
 
 // ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
 

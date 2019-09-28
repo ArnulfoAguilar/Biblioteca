@@ -44,4 +44,9 @@ class HomeController extends Controller
     public function roles(){
         return view('roles');
     }
+
+    public function prestamos()
+    {
+        return view('Prestamo/prestamo');
+    }
 }

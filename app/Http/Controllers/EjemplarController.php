@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Modelos\Ejemplar;
+use App\Modelos\VwEjemplarSumarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,7 +17,7 @@ class EjemplarController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            return Ejemplar::all();
+            return VwEjemplarSumarios::all();
         }else{
             return view('home');
         }

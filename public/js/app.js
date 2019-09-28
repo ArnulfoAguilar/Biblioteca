@@ -3236,8 +3236,8 @@ __webpack_require__.r(__webpack_exports__);
       editTitle: 'Editar Ejemplar',
       titleToShow: '',
       hasError: false,
-      PRIMERSUMARIOID: 0,
-      SEGUNDOSUMARIOID: 0
+      PRIMERSUMARIOID: '',
+      SEGUNDOSUMARIOID: ''
     };
   },
   validations: {
@@ -3313,83 +3313,62 @@ __webpack_require__.r(__webpack_exports__);
       deleteItem: true
     };
     this.sendData();
+    this.inicializandoSelect2();
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/PrimerSumarioSelect/').then(function (response) {
-      _this.primerSumarios = response.data;
-    });
-    axios.get('/TipoEmpastadoSelect').then(function (response) {
-      _this.tipoEmpastados = response.data;
-    });
-    axios.get('/TipoAdquisicionSelect').then(function (response) {
-      _this.tipoAdquisicion = response.data;
-    });
-    axios.get('/EstadoEjemplarSelect').then(function (response) {
-      _this.estadoEjemplar = response.data;
-    });
-    axios.get('/area').then(function (response) {
-      _this.areas = response.data;
-    });
-    axios.get('/CatalogoMaterialSelect').then(function (response) {
-      _this.catalogoMaterial = response.data;
-    });
     $('#modalForm').on('hide.bs.modal', this.vaciarModelo);
   },
   methods: {
     sendData: function sendData() {
-      var _this2 = this;
+      var _this = this;
 
       this.tableLoader = true;
       axios.get('/ejemplars').then(function (res) {
-        _this2.ejemplars = res.data;
-        _this2.eventFromApp = {
+        _this.ejemplars = res.data;
+        _this.eventFromApp = {
           name: 'sendData',
-          payload: _this2.ejemplars
+          payload: _this.ejemplars
         };
 
-        _this2.triggerEvent();
+        _this.triggerEvent();
 
-        _this2.tableLoader = false;
+        _this.tableLoader = false;
       });
     },
     triggerEvent: function triggerEvent() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.eventFromAppTrigger = true;
       this.$nextTick(function () {
-        _this3.eventFromAppTrigger = false;
+        _this2.eventFromAppTrigger = false;
       });
     },
 
     /*este metodo contiene las acciones de la tabla, todo depende del
      *evento realizado es lo que hara la funcion*/
     processEventFromApp: function processEventFromApp(componentState) {
-      var _this4 = this;
+      var _this3 = this;
 
       if (componentState.lastAction === 'Refresh') {
         axios.get('/ejemplars').then(function (result) {
-          _this4.ejemplars = result.data;
-          _this4.eventFromApp = {
+          _this3.ejemplars = result.data;
+          _this3.eventFromApp = {
             name: 'sendData',
-            payload: _this4.ejemplars
+            payload: _this3.ejemplars
           };
 
-          _this4.triggerEvent();
+          _this3.triggerEvent();
         });
       }
 
       if (componentState.lastAction === 'AddItem') {
-        this.submit = this.agregar;
         this.titleToShow = this.createTitle;
         $('#modalForm').modal('show');
       }
 
       if (componentState.lastAction === 'EditItem') {
-        this.submit = this.editarEjemplar;
         this.titleToShow = this.editTitle;
-        this.editarFormulario(componentState.selectedItem);
+        this.getSumarios(componentState.selectedItem);
         $('#modalForm').modal('show');
       }
 
@@ -3401,17 +3380,16 @@ __webpack_require__.r(__webpack_exports__);
     /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
      *escena la variable del data isEditing*/
     guardar: function guardar() {
-      var _this5 = this;
+      var _this4 = this;
 
       var ejemplarToSave = this.EJEMPLAR;
-      console.log(ejemplarToSave.COPIAS);
       var msg = this.isEditing ? 'Editado correctamente' : 'Agregado correctamente';
       if (this.isEditing) axios.put("/ejemplars/".concat(this.EJEMPLAR.id), ejemplarToSave).then(function (res) {
-        _this5.modoEditar = false;
+        _this4.modoEditar = false;
 
-        _this5.success(msg);
+        _this4.success(msg);
       });else axios.post('/ejemplars', ejemplarToSave).then(function (res) {
-        _this5.success(msg);
+        _this4.success(msg);
       });
       this.vaciarModelo();
       $("#modalForm").modal('hide');
@@ -3428,21 +3406,22 @@ __webpack_require__.r(__webpack_exports__);
       this.EJEMPLAR.EDITORIAL = item.EDITORIAL;
       this.EJEMPLAR.EDICION = item.EDICION;
       this.EJEMPLAR.AÑO_EDICION = item.AÑO_EDICION; //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
-      //debugger;
-      //$('#catalogoMaterialSelect').trigger('change');
 
       this.EJEMPLAR.CATALOGO_MATERIAL = item.ID_CATALOGO_MATERIAL;
       this.EJEMPLAR.LUGAR_EDICION = item.LUGAR_EDICION;
-      this.EJEMPLAR.TERCER_SUMARIO = item.ID_TERCER_SUMARIO;
       this.EJEMPLAR.TIPO_EMPASTADO = item.ID_TIPO_EMPASTADO;
       this.EJEMPLAR.TIPO_ADQUISICION = item.ID_TIPO_ADQUISICION;
       this.EJEMPLAR.ESTADO_EJEMPLAR = item.ID_ESTADO_EJEMPLAR;
       this.EJEMPLAR.AREA = item.ID_AREA;
       this.EJEMPLAR.OBSERVACIONES = item.OBSERVACIONES;
+      this.PRIMERSUMARIOID = item.ID_PRIMER_SUMARIO;
+      this.SEGUNDOSUMARIOID = item.ID_SEGUNDO_SUMARIO;
+      this.EJEMPLAR.TERCER_SUMARIO = item.ID_TERCER_SUMARIO;
+      console.log(this.EJEMPLAR.TERCER_SUMARIO);
       this.isEditing = true;
     },
     eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
-      var _this6 = this;
+      var _this5 = this;
 
       // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
       var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
@@ -3451,7 +3430,7 @@ __webpack_require__.r(__webpack_exports__);
         axios["delete"]("/ejemplars/".concat(EJEMPLAR.id)).then(function () {
           toastr.clear();
 
-          _this6.sendData();
+          _this5.sendData();
 
           toastr.options.closeButton = true;
           toastr.success('Eliminado correctamente', 'Exito');
@@ -3471,16 +3450,16 @@ __webpack_require__.r(__webpack_exports__);
         EDITORIAL: '',
         EDICION: '',
         AÑO_EDICION: '',
-        PALABRAS_CLAVE: '',
+        //PALABRAS_CLAVE:'',
         OBSERVACIONES: '',
         ESTADO_EJEMPLAR: '',
         LUGAR_EDICION: '',
-        PRIMERSUMARIO: '',
-        SEGUNDOSUMARIO: '',
         TERCER_SUMARIO: '',
         TIPO_EMPASTADO: '',
         TIPO_ADQUISICION: ''
       };
+      this.PRIMERSUMARIO = '';
+      this.SEGUNDOSUMARIO = '';
     },
 
     /*este metodo se ejecuta en respuesta de la promesa del axios
@@ -3506,20 +3485,47 @@ __webpack_require__.r(__webpack_exports__);
         this.guardar();
       }
     },
-    getSegundoSumario: function getSegundoSumario() {
+    inicializandoSelect2: function inicializandoSelect2() {
+      var _this6 = this;
+
+      axios.get('/PrimerSumarioSelect/').then(function (response) {
+        _this6.primerSumarios = response.data;
+      });
+      axios.get('/TipoEmpastadoSelect').then(function (response) {
+        _this6.tipoEmpastados = response.data;
+      });
+      axios.get('/TipoAdquisicionSelect').then(function (response) {
+        _this6.tipoAdquisicion = response.data;
+      });
+      axios.get('/EstadoEjemplarSelect').then(function (response) {
+        _this6.estadoEjemplar = response.data;
+      });
+      axios.get('/area').then(function (response) {
+        _this6.areas = response.data;
+      });
+      axios.get('/CatalogoMaterialSelect').then(function (response) {
+        _this6.catalogoMaterial = response.data;
+      });
+    },
+    getSumarios: function getSumarios(item) {
       var _this7 = this;
 
-      if (this.PRIMERSUMARIOID != 0) {
-        axios.get('/SegundoSumarioSelect/' + this.PRIMERSUMARIOID).then(function (response) {
+      if (item !== undefined && item.ID_PRIMER_SUMARIO > 0) {
+        axios.get('/SegundoSumarioSelect/' + item.ID_PRIMER_SUMARIO).then(function (response) {
           _this7.segundoSumarios = response.data;
+          return axios.get('/TercerSumarioSelect/' + item.ID_SEGUNDO_SUMARIO);
+        }).then(function (response) {
+          _this7.tercerSumarios = response.data;
+        }).then(function () {
+          _this7.editarFormulario(item);
         });
       }
     },
-    getTercerSumario: function getTercerSumario() {
+    getTercerSumario: function getTercerSumario(primerSumario, segundoSumarioId) {
       var _this8 = this;
 
-      if (this.PRIMERSUMARIOID != 0 && this.SEGUNDOSUMARIOID != 0) {
-        axios.get('/TercerSumarioSelect/' + this.SEGUNDOSUMARIOID).then(function (response) {
+      if (primerSumario > 0 && segundoSumarioId > 0) {
+        axios.get('/TercerSumarioSelect/' + segundoSumarioId).then(function (response) {
           _this8.tercerSumarios = response.data;
         });
       }
@@ -4316,6 +4322,198 @@ __webpack_require__.r(__webpack_exports__);
         }];
         resolve(data);
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamosList.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PrestamosList.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      tableData: {
+        tableOptions: {},
+        tableLoader: false,
+        eventFromAppTrigger: false,
+        eventFromApp: {
+          name: null,
+          data: null
+        },
+        columns: []
+      },
+      PRESTAMO: {
+        FECHA_PRESTAMO: '',
+        ID_USUARIO: '',
+        ID_DESPACHO: '',
+        ID_ESTADO_PRESTAMO: '',
+        ID_MATERIAL: ''
+      },
+      isEditing: false,
+      createTitle: 'Agregar Ejemplar',
+      editTitle: 'Editar Ejemplar',
+      titleToShow: ''
+    };
+  },
+  //vuelidate
+  created: function created() {
+    this.tableData.tableOptions = {
+      columns: this.columns,
+      responsiveTable: true,
+      contextMenuRight: true,
+      contextMenuAdd: false,
+      contextMenuView: false,
+      quickView: 0,
+      addNew: true,
+      deleteItem: true
+    };
+    this.sendData();
+  },
+  mounted: function mounted() {
+    $('#modalForm').on('hide.bs.modal', this.vaciarModelo);
+  },
+  methods: {
+    sendData: function sendData() {
+      var _this = this;
+
+      this.tableData.tableLoader = true;
+      axios.get('/ejemplars').then(function (res) {
+        _this.ejemplars = res.data;
+        _this.tableData.eventFromApp = {
+          name: 'sendData',
+          payload: _this.ejemplars
+        };
+
+        _this.triggerEvent();
+
+        _this.tableData.tableLoader = false;
+      });
+    },
+    triggerEvent: function triggerEvent() {
+      var _this2 = this;
+
+      this.tableData.eventFromAppTrigger = true;
+      this.$nextTick(function () {
+        _this2.tableData.eventFromAppTrigger = false;
+      });
+    },
+    processEventFromApp: function processEventFromApp(componentState) {
+      var _this3 = this;
+
+      if (componentState.lastAction === 'Refresh') {
+        axios.get('/ejemplars').then(function (result) {
+          _this3.ejemplars = result.data;
+          _this3.tableData.eventFromApp = {
+            name: 'sendData',
+            payload: _this3.ejemplars
+          };
+
+          _this3.triggerEvent();
+        });
+      }
+
+      if (componentState.lastAction === 'AddItem') {
+        this.submit = this.agregar;
+        this.titleToShow = this.createTitle;
+        $('#modalForm').modal('show');
+      }
+
+      if (componentState.lastAction === 'EditItem') {
+        this.submit = this.editarEjemplar;
+        this.titleToShow = this.editTitle;
+        this.editarFormulario(componentState.selectedItem);
+        $('#modalForm').modal('show');
+      }
+
+      if (componentState.lastAction === 'DeleteItem') {
+        this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
+      }
+    },
+    guardar: function guardar() {
+      var _this4 = this;
+
+      var ejemplarToSave = this.EJEMPLAR;
+      console.log(ejemplarToSave.COPIAS);
+      var msg = this.isEditing ? 'Editado correctamente' : 'Agregado correctamente';
+      if (this.isEditing) axios.put("/ejemplars/".concat(this.EJEMPLAR.id), ejemplarToSave).then(function (res) {
+        _this4.modoEditar = false;
+
+        _this4.success(msg);
+      });else axios.post('/ejemplars', ejemplarToSave).then(function (res) {
+        _this4.success(msg);
+      });
+      this.vaciarModelo();
+      $("#modalForm").modal('hide');
+    },
+    editarFormulario: function editarFormulario(item) {
+      this.PRESTAMO.FECHA_PRESTAMO = item.FECHA_PRESTAMO;
+      this.PRESTAMO.ID_USUARIO = item.ID_USUARIO;
+      this.PRESTAMO.ID_DESPACHO = item.ID_DESPACHO;
+      this.PRESTAMO.ID_ESTADO_PRESTAMO = item.ID_ESTADO_PRESTAMO;
+      this.PRESTAMO.ID_MATERIAL = item.ID_MATERIAL;
+      this.isEditing = true;
+    },
+    eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
+      var _this5 = this;
+
+      // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+      var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
+
+      if (confirmacion) {
+        axios["delete"]("/ejemplars/".concat(EJEMPLAR.id)).then(function () {
+          toastr.clear();
+
+          _this5.sendData();
+
+          toastr.options.closeButton = true;
+          toastr.success('Eliminado correctamente', 'Exito');
+          console.log("EJEMPLAR ELIMINADO");
+        });
+      }
+    },
+    vaciarModelo: function vaciarModelo() {
+      this.PRESTAMO = {
+        FECHA_PRESTAMO: '',
+        ID_USUARIO: '',
+        ID_DESPACHO: '',
+        ID_ESTADO_PRESTAMO: '',
+        ID_MATERIAL: ''
+      };
+    },
+    success: function success(msg) {
+      this.sendData();
+      toastr.clear();
+      toastr.options.closeButton = true;
+      toastr.success(msg, 'Exito');
+    },
+    submitHandler: function submitHandler(error) {
+      if (error) {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
+      } else {
+        this.guardar();
+      }
     }
   }
 });
@@ -63596,8 +63794,10 @@ var render = function() {
                           "div",
                           [
                             _c("select2", {
-                              attrs: { options: _vm.primerSumarios },
-                              on: { input: _vm.getSegundoSumario },
+                              attrs: {
+                                options: _vm.primerSumarios,
+                                value: _vm.PRIMERSUMARIOID
+                              },
                               model: {
                                 value: _vm.PRIMERSUMARIOID,
                                 callback: function($$v) {
@@ -63620,8 +63820,10 @@ var render = function() {
                           "div",
                           [
                             _c("select2", {
-                              attrs: { options: _vm.segundoSumarios },
-                              on: { input: _vm.getTercerSumario },
+                              attrs: {
+                                options: _vm.segundoSumarios,
+                                value: _vm.SEGUNDOSUMARIOID
+                              },
                               model: {
                                 value: _vm.SEGUNDOSUMARIOID,
                                 callback: function($$v) {
@@ -64774,6 +64976,53 @@ var render = function() {
           loader: _vm.tableLoader,
           "event-from-app": _vm.eventFromApp,
           "event-from-app-trigger": _vm.eventFromAppTrigger
+        },
+        on: {
+          "event-from-jd-table": function($event) {
+            return _vm.processEventFromApp($event)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("iframe", {
+        staticStyle: { display: "none" },
+        attrs: { id: "excelExportArea" }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamosList.vue?vue&type=template&id=54528292&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PrestamosList.vue?vue&type=template&id=54528292& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("JDTable", {
+        attrs: {
+          option: _vm.tableData.tableOptions,
+          loader: _vm.tableData.tableLoader,
+          "event-from-app": _vm.tableData.eventFromApp,
+          "event-from-app-trigger": _vm.tableData.eventFromAppTrigger
         },
         on: {
           "event-from-jd-table": function($event) {
@@ -79444,8 +79693,8 @@ Vue.component('select2', __webpack_require__(/*! ./components/select.vue */ "./r
 Vue.component('lista-ejem', __webpack_require__(/*! ./components/ListaEjem.vue */ "./resources/js/components/ListaEjem.vue")["default"]);
 Vue.component('buscar-libro', __webpack_require__(/*! ./components/Buscar-libro.vue */ "./resources/js/components/Buscar-libro.vue")["default"]);
 Vue.component('lista-ejem-table', __webpack_require__(/*! ./components/ListaEjemTable.vue */ "./resources/js/components/ListaEjemTable.vue")["default"]);
-Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]); //Vue.component('ejemplar-form-component', require('./components/Ejemplares/EjemplarFormComponent.vue').default);
-// Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
+Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]);
+Vue.component('prestamos-list-component', __webpack_require__(/*! ./components/PrestamosList.vue */ "./resources/js/components/PrestamosList.vue")["default"]); // Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 
 Vue.component('revisiones', __webpack_require__(/*! ./components/Revisiones.vue */ "./resources/js/components/Revisiones.vue")["default"]); //Vue.component('comentarios', require('./components/Comentarios.vue').default);
 
@@ -80220,6 +80469,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaEjemTable_vue_vue_type_template_id_061ec3a9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PrestamosList.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/PrestamosList.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PrestamosList_vue_vue_type_template_id_54528292___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PrestamosList.vue?vue&type=template&id=54528292& */ "./resources/js/components/PrestamosList.vue?vue&type=template&id=54528292&");
+/* harmony import */ var _PrestamosList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PrestamosList.vue?vue&type=script&lang=js& */ "./resources/js/components/PrestamosList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PrestamosList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PrestamosList_vue_vue_type_template_id_54528292___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PrestamosList_vue_vue_type_template_id_54528292___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PrestamosList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PrestamosList.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/PrestamosList.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamosList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PrestamosList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamosList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamosList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PrestamosList.vue?vue&type=template&id=54528292&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/PrestamosList.vue?vue&type=template&id=54528292& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamosList_vue_vue_type_template_id_54528292___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PrestamosList.vue?vue&type=template&id=54528292& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamosList.vue?vue&type=template&id=54528292&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamosList_vue_vue_type_template_id_54528292___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamosList_vue_vue_type_template_id_54528292___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

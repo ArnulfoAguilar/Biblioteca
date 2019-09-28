@@ -35,12 +35,12 @@
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link ">
+                <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ver Préstamos</p>
                 </a>
               </li>
-              
+
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -181,7 +181,7 @@
                     <p>Asignar rol</p>
                 </a>
               </li>
-              
+
             </ul>
           </li>
 
@@ -208,10 +208,10 @@
                     <p>Item 2</p>
                 </a>
               </li>
-              
+
             </ul>
           </li>
-          
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
