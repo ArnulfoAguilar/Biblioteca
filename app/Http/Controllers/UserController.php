@@ -93,6 +93,7 @@ class UserController extends Controller
         $usuario = User::find($request->id);
         $usuario->ID_ROL = $request->ID_ROL;
         $usuario->save();
+        activity()->log('Asignó rol a usuario');
         return redirect()->route('asignar.roles');
     }
 }

@@ -26,7 +26,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        activity()->log('Show home')->subject(1);
         return view('home');
     }
 

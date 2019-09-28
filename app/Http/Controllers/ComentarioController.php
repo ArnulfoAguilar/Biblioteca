@@ -39,6 +39,7 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
         $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
         $InteraccionComentario->save();
+        activity()->log('Dió Like');
     }
     
     public function interaccionReport(Request $request)
@@ -49,6 +50,7 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
         $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
         $InteraccionComentario->save();
+        activity()->log('Reportó');
     }
     public function interaccionesComentario(Request $request)
     {
@@ -74,6 +76,7 @@ class ComentarioController extends Controller
         $Comentario->ID_USUARIO = $request->ID_USUARIO;
         $Comentario->ID_APORTE = $request->ID_APORTE;
         $Comentario->save();
+        activity()->log('Realizó comentario');
     }
 
     /**

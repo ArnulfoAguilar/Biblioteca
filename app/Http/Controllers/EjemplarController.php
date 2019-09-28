@@ -70,6 +70,7 @@ class EjemplarController extends Controller
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
         $Ejemplar->save();
+        activity()->log('Guardó ejemplar');
     }
 
     /**
@@ -122,6 +123,7 @@ class EjemplarController extends Controller
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
         $Ejemplar->save();
+        activity()->log('Editó ejemplar');
         return $Ejemplar;
     }
 
@@ -136,5 +138,7 @@ class EjemplarController extends Controller
     {
         $Ejemplar = Ejemplar::find($ejemplar->id);
         $Ejemplar->delete();
+        activity()->log('Eliminó ejemplar');
+
     }
 }
