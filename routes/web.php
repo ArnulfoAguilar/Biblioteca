@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 
@@ -55,17 +55,22 @@ Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesC
 
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
-Route::resource('/adquisiciones','AdquisicionController');
-Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
-
+Route::middleware(['web', 'rol:1'])->group(function () {
+    Route::resource('/adquisiciones','AdquisicionController');
+    Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
+});
 
 // ---------------------------------RUTAS DEL MODULO DE ADMINISTRACION -------------------------------------//
-Route::resource('/users', 'UserController');
 
-Route::resource('/roles', 'RolController');
-Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
 
-Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
+
+    Route::resource('/users', 'UserController');
+
+    Route::resource('/roles', 'RolController');
+    Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
+
+    Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
+
 
 
 // -----------------------------------------OTRAS RUTAS -------------------------------------//

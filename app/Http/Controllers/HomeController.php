@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 
+//use Spatie\Activitylog\Models\Activity;
+
 class HomeController extends Controller
 {
     /**
@@ -24,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        activity()->log('Show home')->subject(1);
         return view('home');
     }
 

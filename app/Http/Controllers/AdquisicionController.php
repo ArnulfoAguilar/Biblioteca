@@ -45,7 +45,7 @@ class AdquisicionController extends Controller
             $sugerencia->ID_AREA = $request->ID_AREA;
             $sugerencia->ID_USUARIO = auth()->id();
             $sugerencia->save();
-            // return 'Se supone que si guarda cerote'
+            activity()->log('Requisicion guardada');
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -91,6 +91,7 @@ class AdquisicionController extends Controller
             $sugerencia->ID_AREA = $request->ID_AREA;
             $sugerencia->ID_USUARIO = auth()->id();
             $sugerencia->save();
+            activity()->log('Requisicion actualizada');
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -107,5 +108,6 @@ class AdquisicionController extends Controller
     {
         $sugerencia = Adquisicion::find($id);
         $sugerencia->delete();
+        activity()->log('Requisicion eliminada');
     }
 }
