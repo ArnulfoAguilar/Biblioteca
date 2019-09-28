@@ -1990,6 +1990,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -62384,35 +62388,42 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "card card-widget" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("div", { staticClass: "user-block" }, [
-                  _c("img", {
-                    staticClass: "img-circle",
-                    attrs: { src: "", alt: "" }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "username" }, [
-                    _c("a", { attrs: { href: "#" } }, [
-                      _vm._v(_vm._s(item.name))
+              _c(
+                "div",
+                {
+                  staticClass: "card-header",
+                  staticStyle: { "background-color": "white" }
+                },
+                [
+                  _c("div", { staticClass: "user-block" }, [
+                    _c("img", {
+                      staticClass: "img-circle",
+                      attrs: { src: "", alt: "" }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "username" }, [
+                      _c("a", { attrs: { href: "#" } }, [
+                        _vm._v(_vm._s(item.name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "description" }, [
+                      _vm._v(_vm._s(item.created_at))
                     ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-tools" }, [
-                  _c("span", { staticClass: "description" }, [
-                    _vm._v(_vm._s(item.created_at))
-                  ])
-                ])
-              ]),
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(0, true)
+                ]
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
-                _c("h1", [_vm._v(_vm._s(item.TITULO))]),
+                _c("h5", [_vm._v(_vm._s(item.TITULO))]),
                 _vm._v(" "),
                 _c("p", [_vm._v(_vm._s(item.DESCRIPCION))]),
                 _vm._v(" "),
-                _vm._m(0, true),
-                _vm._v(" "),
                 _vm._m(1, true),
+                _vm._v(" "),
+                _vm._m(2, true),
                 _vm._v(" "),
                 _c("span", { staticClass: "float-right text-muted" }, [
                   _vm._v("2 comentarios")
@@ -62427,6 +62438,43 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-tools" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-tool",
+          attrs: {
+            type: "button",
+            "data-toggle": "tooltip",
+            title: "Mark as read"
+          }
+        },
+        [_c("i", { staticClass: "far fa-circle" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-tool",
+          attrs: { type: "button", "data-card-widget": "collapse" }
+        },
+        [_c("i", { staticClass: "fas fa-minus" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-tool",
+          attrs: { type: "button", "data-card-widget": "remove" }
+        },
+        [_c("i", { staticClass: "fas fa-times" })]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
