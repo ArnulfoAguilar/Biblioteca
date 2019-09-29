@@ -1,7 +1,7 @@
 @extends('layouts.adminLTE')
 
 @section('Encabezado')
-Búsqueda de libros 
+Búsqueda de libros
 @endsection
 
 @section('breadcrumbs')
@@ -12,5 +12,6 @@ Búsqueda de libros
 @endsection
 
 @section('content')
-    <buscar-libro></buscar-libro>
+    <buscar-material></buscar-material>
+
 @endsection

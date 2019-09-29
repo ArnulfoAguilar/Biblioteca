@@ -16,18 +16,18 @@ class EjemplarController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             return VwEjemplarSumarios::all();
-        }else{
+        } else {
             return view('home');
         }
     }
 
     public function disponibles(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             return Ejemplar::all();
-        }else{
+        } else {
             return view('home');
         }
     }
@@ -51,21 +51,22 @@ class EjemplarController extends Controller
     public function store(Request $request)
     {
         $url = $request->IMAGEN;
-        if($url != null){
+        if ($url != null) {
             $contents = file_get_contents($url);
-            $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
+            $file = '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
             Storage::put($file, $contents);
         }
-        $Ejemplar= new Ejemplar();
+        $Ejemplar = new Ejemplar();
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
         $Ejemplar->AUTOR = $request->AUTOR;
         $Ejemplar->EJEMPLAR = $request->EJEMPLAR;
         $Ejemplar->ISBN = $request->ISBN;
-        if($url == null){
+        if ($url == null) {
             $Ejemplar->IMAGEN = '';
-        }else {
+        } else {
             $Ejemplar->IMAGEN = $file;
         }
+        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCERSUMARIO;
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
         $Ejemplar->SUBTITULO = $request->SUBTITULO;
@@ -116,19 +117,19 @@ class EjemplarController extends Controller
     public function update(Request $request, Ejemplar $ejemplar)
     {
         $url = $request->IMAGEN;
-        if($url != null){
+        if ($url != null) {
             $contents = file_get_contents($url);
-            $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
+            $file = '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
             Storage::put($file, $contents);
         }
-        $Ejemplar= Ejemplar::find($ejemplar->id);
+        $Ejemplar = Ejemplar::find($ejemplar->id);
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
         $Ejemplar->AUTOR = $request->AUTOR;
         $Ejemplar->EJEMPLAR = $request->EJEMPLAR;
         $Ejemplar->ISBN = $request->ISBN;
-        if($url == null){
+        if ($url == null) {
             $Ejemplar->IMAGEN = '';
-        }else{
+        } else {
             $Ejemplar->IMAGEN = $file;
         }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;

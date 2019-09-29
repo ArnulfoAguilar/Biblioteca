@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\materialBibliotecario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MaterialBibliotecarioController extends Controller
 {
@@ -12,11 +13,20 @@ class MaterialBibliotecarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            /* $materialBibliotecario = DB::table('materialBibliotecario')
+                ->join('Ejemplar', 'materialBibliotecario.ID_EJEMPLAR', '=', 'Ejemplar.id')
+                ->leftJoin('filaEstante', 'materialBibliotecario.ID_FILA', '=', 'filaEstante.id')
+                ->select('Ejemplar.ID_CATALOGO_MATERIAL', 'Ejemplar.EJEMPLAR', 'materialBibliotecario.COPIA_NUMERO', 'Ejemplar.ID_TERCER_SUMARIO', 'materialBibliotecario.CODIGO_BARRA', 'filaEstante.*')
+                ->get();*/
+            $materialBibliotecario = DB::table('busquedamaterialprestamosview')->get();
+            return $materialBibliotecario;
+        } else {
+            return redirect('home');
+        }
     }
-
     /**
      * Show the form for creating a new resource.
      *

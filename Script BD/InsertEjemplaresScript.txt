@@ -1,0 +1,5 @@
+INSERT INTO public."Ejemplar"("ISBN", "EJEMPLAR", "SUBTITULO", "EDITORIAL", "EDICION", "AÑO_EDICION", "LUGAR_EDICION", "OBSERVACIONES", "DESCRIPCION", "NUMERO_PAGINAS", "NUMERO_COPIAS", "AUTOR", "ID_AREA", "ID_TERCER_SUMARIO", "ID_TIPO_EMPASTADO", "ID_TIPO_ADQUISICION", "ID_ESTADO_EJEMPLAR", "ID_CATALOGO_MATERIAL", "created_at")
+	VALUES (1234567891234, 'Libro 01', 'Subtitulo Libro 01', 'Editorial Libro 01', '7ma Edicicon', '2017', 'Sivar', 'Libro presenta daños en la contraportada', 'Descripción libro 01', 200, 2, 'Autor libro 01', 1, 1, 1, 1, 1, 1, localtimestamp);
+	
+INSERT INTO public."Ejemplar"("ISBN", "EJEMPLAR", "SUBTITULO", "EDITORIAL", "EDICION", "AÑO_EDICION", "LUGAR_EDICION", "OBSERVACIONES", "DESCRIPCION", "NUMERO_PAGINAS", "NUMERO_COPIAS", "AUTOR", "ID_AREA", "ID_TERCER_SUMARIO", "ID_TIPO_EMPASTADO", "ID_TIPO_ADQUISICION", "ID_ESTADO_EJEMPLAR", "ID_CATALOGO_MATERIAL", "created_at")
+	VALUES (1234567891111, 'Libro 02', 'Subtitulo Libro 02', 'Editorial Libro 02', '7ma Edicicon', '2017', 'Sivar', 'Libro presenta daños en la contraportada', 'Descripción libro 02', 400, 4, 'Autor libro 02', 1, 1, 1, 1, 1, 1, localtimestamp);

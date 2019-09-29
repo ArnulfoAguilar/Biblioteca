@@ -14,7 +14,7 @@ class CreateEstadoPrestamosTable extends Migration
     public function up()
     {
         Schema::create('estadoPrestamo', function (Blueprint $table) {
-            $table->bigIncrements('ID_ESTADO_PRESTAMO');
+            $table->bigIncrements('id');
             $table->string('ESTADO_PRESTAMO', 50);
             $table->timestamps();
             $table->softDeletes();

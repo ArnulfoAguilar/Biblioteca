@@ -1,0 +1,5 @@
+SELECT  mb."id", ej."ID_CATALOGO_MATERIAL", ej."EJEMPLAR",ej."AUTOR",ej."EDICION",ej."DESCRIPCION",ej."ISBN", mb."COPIA_NUMERO", ej."ID_TERCER_SUMARIO",
+mb."CODIGO_BARRA", fe."ID_BIBLIOTECA", fe."ID_ESTANTE", fe."FILAESTANTE"
+FROM public."materialBibliotecario" mb JOIN public."Ejemplar" ej
+ON mb."ID_EJEMPLAR" = ej.id LEFT JOIN public."filaEstante" fe ON fe.id = mb."ID_FILA"
+WHERE mb."DISPONIBLE" = true

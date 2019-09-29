@@ -37,6 +37,7 @@ Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->na
 Route::resource('/ejemplars', 'EjemplarController');
 Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
 Route::resource('/Ejemplar', 'EjemplarController');
+Route::resource('/material', 'MaterialBibliotecarioController');
 Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 
 // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//

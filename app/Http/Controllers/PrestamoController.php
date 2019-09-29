@@ -35,7 +35,13 @@ class PrestamoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $prestamo = new Prestamo();
+        $prestamo->FECHA_PRESTAMO = $request->FECHA_PRESTAMO;
+        $prestamo->ID_USUARIO = auth()->id();
+        //$prestamo->ID_TIPO_PRESTAMO = 1;
+        $prestamo->ID_ESTADO_PRESTAMO = $request->ID_ESTADO_PRESTAMO;
+        $prestamo->ID_MATERIAL = $request->ID_MATERIAL;
+        $prestamo->save();
     }
 
     /**

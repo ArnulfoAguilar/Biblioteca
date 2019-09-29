@@ -25,5 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoEmpastadoTableSeeder::class);
         $this->call(CatalogoMaterialTableSeeder::class);
         $this->call(EstadoEjemplarTableSeeder::class);
+        $this->call(EstadoPrestamoTableSeeder::class);
+        $this->call(TipoPrestamoTableSeeder::class);
     }
 }
