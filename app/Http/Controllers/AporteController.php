@@ -38,22 +38,28 @@ class AporteController extends Controller
     
     public function lista()
     {   
+        return DB::table('lista_aportes')
+        ->where('HABILITADO','=','TRUE')
+        ->get();
+        /*
         return DB::table('Aporte')
         ->join('users', function($join){
             $join->on('users.id','=','Aporte.ID_USUARIO')
             ->where([
-                ['Aporte.HABILITADO','=','1']
+                ['Aporte.HABILITADO','=','1'] 
             ]);
         })
         ->select('Aporte.id','Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
-        ->get();
+        ->get();*/
     }
     
 
     public function listatodos(Request $request)
     {   
-        
-        return DB::table('Aporte')
+        return DB::table('lista_aportes')
+        ->where('HABILITADO','=','TRUE')
+        ->get();
+        /*return DB::table('Aporte')
         ->join('users', function($join){
             $join->on('users.id','=','Aporte.ID_USUARIO')
             ->where([
@@ -61,8 +67,7 @@ class AporteController extends Controller
             ]);
         })
         ->select('Aporte.id','Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
-        ->get();
-        //return Aporte::where('HABILITADO', $request->id)->orderBy('created_at', 'desc')->get();
+        ->get();*/
     }
 
     public function listaDirector(Request $request)
@@ -112,6 +117,7 @@ class AporteController extends Controller
             $img->setattribute('src', "/aportesImages/". $image_name);
         }
         $detalle = $dom->savehtml();
+        
         $Aporte = new Aporte();
         $Aporte->TITULO = $request->TITULO;
         $Aporte->DESCRIPCION = $request->DESCRIPCION;

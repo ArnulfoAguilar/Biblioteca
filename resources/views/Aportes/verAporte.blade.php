@@ -39,11 +39,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-dark" >
-
-                        <!-- <h1>{{ $aporte->TITULO }}</h1> -->
-
                         <div class="row">
-                        <h1 class="col-md-10">{{ $aporte->TITULO }}</h1>
+                        <h4 class="col-md-10">{{ $aporte->TITULO }}</h4>
                         <span class="col-md-2">{{ $aporte->created_at }}</span>
                         </div>
 
@@ -57,7 +54,6 @@
                                     @endif
                             </div>
                         {!! $aporte->CONTENIDO !!}
-                        
                     </div>
                     @if ($aporte->COMENTARIOS==1 )
                     <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>

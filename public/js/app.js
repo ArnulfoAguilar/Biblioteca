@@ -1988,12 +1988,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -2006,7 +2000,8 @@ __webpack_require__.r(__webpack_exports__);
         TITULO: '',
         DESCRIPCION: '',
         CREATED_AT: '',
-        NAME: ''
+        AUTOR_APORTE: '',
+        CANTIDAD_COMENTARIOS: ''
       }
     };
   },
@@ -62367,135 +62362,98 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    _vm._l(_vm.Aportes, function(item, index) {
-      return _c("div", { key: index, staticClass: "col-md-12" }, [
-        _c(
-          "a",
+  return _c("div", { staticClass: "container " }, [
+    _c(
+      "div",
+      { staticClass: "row" },
+      _vm._l(_vm.Aportes, function(item, index) {
+        return _c(
+          "div",
           {
-            staticStyle: {
-              "text-decoration": "none!important",
-              color: "black!important"
-            },
-            attrs: { href: "#" },
-            on: {
-              click: function($event) {
-                return _vm.verAporte(item.id)
-              }
-            }
+            key: index,
+            staticClass: "card card-widget col-md-5 col-xs-12",
+            staticStyle: { "margin-left": "25px" }
           },
           [
-            _c("div", { staticClass: "card card-widget" }, [
-              _c(
-                "div",
-                {
-                  staticClass: "card-header",
-                  staticStyle: { "background-color": "white" }
-                },
-                [
-                  _c("div", { staticClass: "user-block" }, [
-                    _c("img", {
-                      staticClass: "img-circle",
-                      attrs: { src: "", alt: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "username" }, [
-                      _c("a", { attrs: { href: "#" } }, [
-                        _vm._v(_vm._s(item.name))
+            _c(
+              "div",
+              {
+                staticClass: "card-header",
+                staticStyle: { "background-color": "white" }
+              },
+              [
+                _c("div", { staticClass: "user-block" }, [
+                  _c(
+                    "a",
+                    {
+                      staticStyle: {
+                        "text-decoration": "none!important",
+                        color: "black!important"
+                      },
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.verAporte(item.id)
+                        }
+                      }
+                    },
+                    [
+                      _c("img", {
+                        staticClass: "img-circle",
+                        attrs: { src: "", alt: "" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "username" }, [
+                        _c("a", { attrs: { href: "#" } }, [
+                          _vm._v(_vm._s(item.AUTOR_APORTE))
+                        ])
                       ])
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "description" }, [
-                      _vm._v(_vm._s(item.created_at))
-                    ])
-                  ]),
+                    ]
+                  ),
                   _vm._v(" "),
-                  _vm._m(0, true)
-                ]
-              ),
+                  _c("span", { staticClass: "description" }, [
+                    _vm._v(_vm._s(item.created_at))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" })
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("h5", [_vm._v(_vm._s(item.TITULO))]),
               _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("h5", [_vm._v(_vm._s(item.TITULO))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(item.DESCRIPCION))]),
-                _vm._v(" "),
-                _vm._m(1, true),
-                _vm._v(" "),
-                _vm._m(2, true),
-                _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(item.DESCRIPCION))])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "card-footer",
+                staticStyle: { "background-color": "white" }
+              },
+              [
                 _c("span", { staticClass: "float-right text-muted" }, [
-                  _vm._v("2 comentarios")
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        item.CANTIDAD_COMENTARIOS == 0
+                          ? "Sin "
+                          : item.CANTIDAD_COMENTARIOS
+                      ) +
+                      " comentarios"
+                  )
                 ])
-              ])
-            ])
+              ]
+            )
           ]
         )
-      ])
-    }),
-    0
-  )
+      }),
+      0
+    )
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-tools" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-tool",
-          attrs: {
-            type: "button",
-            "data-toggle": "tooltip",
-            title: "Mark as read"
-          }
-        },
-        [_c("i", { staticClass: "far fa-circle" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-tool",
-          attrs: { type: "button", "data-card-widget": "collapse" }
-        },
-        [_c("i", { staticClass: "fas fa-minus" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-tool",
-          attrs: { type: "button", "data-card-widget": "remove" }
-        },
-        [_c("i", { staticClass: "fas fa-times" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-default btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fas fa-share" }), _vm._v(" Share")]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-default btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "far fa-thumbs-up" }), _vm._v(" Like")]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
