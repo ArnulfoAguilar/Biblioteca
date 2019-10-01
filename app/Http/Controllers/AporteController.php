@@ -131,8 +131,8 @@ class AporteController extends Controller
                         ->get();
 
             $user = User::all();
-            // $user->notify(new NewAporte($Aporte));
-            Notification::send($user, new NewAporte($Aporte));
+            // $user->notify(new NewAporte($Aporte)); //Esto notifica a un solo usuario
+            Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
 
             activity()->log('Aporte guardado');
 
