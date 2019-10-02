@@ -73,8 +73,10 @@ Nuevo Aporte Escrito
 
                                 <div class="form-group">
                                     <label for="Contenido">Contenido</label>
+                                   
                                     <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
                                     </textarea>
+                                    
                                 </div>
                                 
                                 <div class="form-group">
