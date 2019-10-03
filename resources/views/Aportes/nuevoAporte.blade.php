@@ -71,7 +71,7 @@ Nuevo Aporte Escrito
                                 </div>
                  
 
-                                <div class="form-group">
+                                <div class="form-group" id="contenido">
                                     <label for="Contenido">Contenido</label>
                                     <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
                                     </textarea>
@@ -112,8 +112,20 @@ Nuevo Aporte Escrito
 
 @endsection
 @section('jsExtra')
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script> --}}
+
 <script type="text/javascript">
 $(document).ready(function() {
+    $('#select2tipo').change(function () {
+        if ($(this).val() != ''){
+            console.log($(this).val());
+            if($(this).val() != 1 || $(this).val() != '1'){
+                $('#contenido').css("display", "none");
+            }else{
+                $('#contenido').css("display", "");
+            }
+        }
+    });
     $('.select2').select2();
 });
 </script>

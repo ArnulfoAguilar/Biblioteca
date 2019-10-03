@@ -55,7 +55,7 @@ Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesC
 
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
-Route::middleware(['web', 'rol:1'])->group(function () {
+Route::middleware(['web', 'rol:3'])->group(function () {
     Route::resource('/adquisiciones','AdquisicionController');
     Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
 });

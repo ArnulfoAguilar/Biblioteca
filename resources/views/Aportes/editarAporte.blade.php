@@ -73,7 +73,7 @@ Editar
                                 </div>
                  
 
-                                <div class="form-group">
+                                <div class="form-group hidden-print" id="contenido" >
                                     <label for="Contenido">Contenido</label>
                                     <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
                                         {!! $aporte->CONTENIDO !!}
@@ -118,9 +118,20 @@ Editar
 @endsection
 @section('jsExtra')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
-
     <script type="text/javascript">
     $(document).ready(function() {
+        
+        $('#select2tipo').change(function () {
+            if ($(this).val() != ''){
+                console.log($(this).val());
+                if($(this).val() != 1 || $(this).val() != '1'){
+                    $('#contenido').css("display", "none");
+                }else{
+                    $('#contenido').css("display", "");
+                }
+            }
+        });
+
     $('.select2').select2(); 
     var obj =@json($PalabrasClaveselect);
     myArray = [];
