@@ -19,6 +19,8 @@ class LibroController extends Controller
                     ->join('Libro', 'Ejemplar.id', '=', 'Libro.ID_EJEMPLAR')
                     ->select('Ejemplar.EJEMPLAR','Libro.CODIGO_BARRA')
                     ->get();
+                    activity()->log('Generó etiquetas');
+
             return view('Etiquetas.AllTags')->with('tags',$tags)->render();
         
             // No me funciona el css en el pdf y no soy muy bueno haciendolo desde cero

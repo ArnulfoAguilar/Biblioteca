@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Revision;
+use App\Adquisicion;
 
-class RevisionController extends Controller
+use Illuminate\Http\Request;
+
+
+class AdquisicionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        // dd($request);
-        if($request->ajax()){
-            return Revision::where('ID_APORTE', $request->id)->orderBy('created_at', 'desc')->get();
-        }else{
-            return view('home');
-        }
+        return Adquisicion::orderBy('created_at','desc')->get();
     }
 
     /**
@@ -40,15 +37,19 @@ class RevisionController extends Controller
      */
     public function store(Request $request)
     {
-        $revision = new Revision();
-        $revision->DETALLE_REVISION = $request->DETALLE_REVISION;
-        $revision->ID_ESTADO_REVISION = 2;
-        $revision->ID_COMITE = $request->ID_COMITE;
-        $revision->ID_APORTE = $request->ID_APORTE;
-        $revision->ID_USUARIO = auth()->id();
-        $revision->save();
-        activity()->log('Guardó revisión');
-
+        try {
+            $sugerencia = new Adquisicion();
+            $sugerencia->TITULO = $request->TITULO;
+            $sugerencia->DESCRIPCION = $request->DESCRIPCION;
+            $sugerencia->CONTENIDO = $request->CONTENIDO;
+            $sugerencia->ID_AREA = $request->ID_AREA;
+            $sugerencia->ID_USUARIO = auth()->id();
+            $sugerencia->save();
+            activity()->log('Requisicion guardada');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
     }
 
     /**
@@ -82,19 +83,19 @@ class RevisionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $revision = Revision::find($id);
-        $revision->DETALLE_REVISION = $request->DETALLE_REVISION;
-        if($request->ID_ESTADO_REVISION==true){
-            $revision->ID_ESTADO_REVISION = 1;
-        }else{
-            $revision->ID_ESTADO_REVISION = 2;
+        try {
+            $sugerencia = Adquisicion::find($id);
+            $sugerencia->TITULO = $request->TITULO;
+            $sugerencia->DESCRIPCION = $request->DESCRIPCION;
+            $sugerencia->CONTENIDO = $request->CONTENIDO;
+            $sugerencia->ID_AREA = $request->ID_AREA;
+            $sugerencia->ID_USUARIO = auth()->id();
+            $sugerencia->save();
+            activity()->log('Requisicion actualizada');
+        } catch (\Throwable $th) {
+            //throw $th;
         }
-        $revision->ID_COMITE = $request->ID_COMITE;
-        $revision->ID_APORTE = $request->ID_APORTE;
-        $revision->ID_USUARIO = auth()->id();
-        $revision->Save();
-        activity()->log('Actualizó revisión');
-        return $revision;
+        
     }
 
     /**
@@ -105,8 +106,8 @@ class RevisionController extends Controller
      */
     public function destroy($id)
     {
-        $revision = Revision::find($id);
-        $revision->delete();
-        activity()->log('Eliminó revisión');
+        $sugerencia = Adquisicion::find($id);
+        $sugerencia->delete();
+        activity()->log('Requisicion eliminada');
     }
 }

@@ -66,11 +66,13 @@ Escribe tu Aporte
                                     <input type="text"  class="form-control" name="DESCRIPCION"
                                         aria-describedby="Descripcion" required>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="contenido">
                                     <label for="Contenido">Contenido</label>
                                     <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
-                                    </textarea>
-                                    <input type="file" accept="image/*" name="archivo" id="archivo">
+                                    </textarea> 
+                                </div>
+                                <div class="form-group" id="archivo">
+                                    <input type="file" accept="image/*" name="ARCHIVO" id="archivo">
                                 </div>
                                 <div class="form-group">
                                     <label for="PALABRAS_CLAVE">
@@ -107,8 +109,22 @@ Escribe tu Aporte
 
 @endsection
 @section('jsExtra')
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script> --}}
+
 <script type="text/javascript">
 $(document).ready(function() {
+    $('#select2tipo').change(function () {
+        if ($(this).val() != ''){
+            console.log($(this).val());
+            if($(this).val() != 1 || $(this).val() != '1'){
+                $('#contenido').css("display", "none");
+                $('#archivo').css("display", "");
+            }else{
+                $('#contenido').css("display", "");
+                $('#archivo').css("display", "none");
+            }
+        }
+    });
     $('.select2').select2();
 });
 function cambiarContenido(){

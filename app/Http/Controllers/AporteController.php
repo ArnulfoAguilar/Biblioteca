@@ -148,16 +148,14 @@ class AporteController extends Controller
                         ->get();
 
             $user = User::all();
-            // $user->notify(new NewAporte($Aporte));
-            Notification::send($user, new NewAporte($Aporte));
+            // $user->notify(new NewAporte($Aporte)); //Esto notifica a un solo usuario
+            Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
+
+            activity()->log('Aporte guardado');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
             ->with(['TipoAporte' => $TipoAporte]);  
-
-        
-            
-                
             
 
     }
@@ -200,10 +198,12 @@ class AporteController extends Controller
         {
             $aporte->HABILITADO = true;
             $aporte->save();
+            activity()->log('Aporte habilitado');
             return '1';
         }else{
             return '0';
         }
+        
     }
 
 
@@ -328,6 +328,9 @@ class AporteController extends Controller
                         })
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
+        
+        activity()->log('Aporte actualizado');
+
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
             ->with(['TipoAporte' => $TipoAporte]);

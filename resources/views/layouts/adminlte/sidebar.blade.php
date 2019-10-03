@@ -141,8 +141,8 @@
             </ul>
           </li>
           <!--adquisiciones-->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview {{ ( request()->is('adquisicion/*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('adquisicion/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-archive"></i>
               <p>
                 Adquisiciones
@@ -157,7 +157,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+              <a href="{{route('adquisicion.lista')}}" class="nav-link {{ ( request()->is('adquisicion/lista') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ver sugerencias</p>
                 </a>
