@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
 @endsection
 @section('Encabezado')
-Nuevo Aporte Escrito   
+Escribe tu Aporte
 @endsection
 
 @section('breadcrumbs')
@@ -34,7 +34,7 @@ Nuevo Aporte Escrito
                                            Tipo de Aporte
                                         </label>
                                         <div >
-                                            <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE" required>
+                                            <select class="form-control select2" id="select2tipo" style="width: 100%;" onchange="cambiarContenido()" name="ID_TIPO_APORTE" required>
                                                 <option selected value="" disabled>Seleccione el tipo </option>
                                                @foreach($TipoAportes as $TipoAporte)
                                                <option value="{{ $TipoAporte->id }}">{{ $TipoAporte->TIPO_APORTE }}</option>
@@ -42,7 +42,6 @@ Nuevo Aporte Escrito
                                              </select>
                                         </div>
                                     </div>
-
                                 <div class="form-group col-md-6 col-xs-12">
                                     <label for="AREA">
                                        Area
@@ -57,28 +56,22 @@ Nuevo Aporte Escrito
                                     </div>
                                 </div>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="Titulo">Titulo</label>
                                     <input type="text"  class="form-control" name="TITULO"
                                         aria-describedby="Titulo" required>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="Descripcion">Descripcion</label>
                                     <input type="text"  class="form-control" name="DESCRIPCION"
                                         aria-describedby="Descripcion" required>
                                 </div>
-                 
-
                                 <div class="form-group">
                                     <label for="Contenido">Contenido</label>
-                                   
                                     <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
                                     </textarea>
-                                    
+                                    <input type="file" accept="image/*" name="archivo" id="archivo">
                                 </div>
-                                
                                 <div class="form-group">
                                     <label for="PALABRAS_CLAVE">
                                        Palabras Clave
@@ -118,5 +111,20 @@ Nuevo Aporte Escrito
 $(document).ready(function() {
     $('.select2').select2();
 });
+function cambiarContenido(){
+    var x = document.getElementById("select2tipo").value;
+    console.log(x)
+if(x==1){
+
+}else if(x==2){
+    document.getElementById("archivo").accept = "video/*";
+ }else if(x==3)
+ {
+    document.getElementById("archivo").accept= "image/*";   
+ } else if(x==4){
+    document.getElementById("archivo").accept = "audio/*";
+ }
+}
+
 </script>
 @endsection

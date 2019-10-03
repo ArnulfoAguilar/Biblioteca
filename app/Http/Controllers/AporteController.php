@@ -99,7 +99,8 @@ class AporteController extends Controller
      */
     public function store(Request $request)
     { 
-            
+        $filesa= $request->file('archivo');
+        return $filesa;
         $detalle=$request->CONTENIDO;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
