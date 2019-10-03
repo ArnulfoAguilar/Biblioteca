@@ -8,6 +8,13 @@
     img {
       max-width: 100%; 
       }
+      video{
+      max-width: 100%; 
+      }
+      audio{
+        max-width: 100%; 
+        min-width: 100%; 
+      }
 </style>
 
 {{-- <link href="toastr.css" rel="stylesheet"/> --}}
@@ -63,8 +70,23 @@
                                                         <i class="fas fa-edit"></i> Edit
                                                     </a>
                                                     @endif
-                                            </div>
-                                        {!! $aporte->CONTENIDO !!}
+                                            </div>                                         
+                                            @if ($aporte->ID_TIPO_APORTE==1)
+                                                {!! $aporte->CONTENIDO !!}
+                                                
+                                            @elseif($aporte->ID_TIPO_APORTE==2)
+                                                <p>{{$aporte->DESCRIPCION}}</p><br>
+                                                <video src="{{ $aporte->CONTENIDO }}" width="640" height="480" muted controls></video>
+                                            
+                                            @elseif($aporte->ID_TIPO_APORTE==3)
+                                                <p>{{$aporte->DESCRIPCION}}</p><br>
+                                                {!! $aporte->CONTENIDO !!}
+                                            
+                                            @else
+                                                <p>{{$aporte->DESCRIPCION}}</p><br>
+                                                <audio src="{{ $aporte->CONTENIDO }}" autoplay loop controls></audio>
+
+                                            @endif 
                                     </div>
                                     @if ($aporte->COMENTARIOS==1 )
                                     <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>

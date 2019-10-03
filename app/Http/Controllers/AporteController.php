@@ -162,7 +162,7 @@ class AporteController extends Controller
             $user = User::all();
             Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
 
-            activity()->log('Aporte guardado');
+            //activity()->log('Aporte guardado');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
