@@ -26,7 +26,7 @@ Escribe tu Aporte
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;">Nuevo Aporte</div>
 
                     <div class="card-body">
-                        <form  action="{{ route('aportes.store') }}" method="post">
+                        <form  action="{{ route('aportes.store') }}" method="post" enctype="multipart/form-data">
                             {{ csrf_field() }}
                                 <div class="row">
                                     <div class="form-group col-md-6 col-xs-12">
@@ -68,11 +68,11 @@ Escribe tu Aporte
                                 </div>
                                 <div class="form-group" id="contenido">
                                     <label for="Contenido">Contenido</label>
-                                    <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
+                                    <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" >
                                     </textarea> 
                                 </div>
-                                <div class="form-group" id="archivo">
-                                    <input type="file" accept="image/*" name="ARCHIVO" id="archivo">
+                                <div class="form-group" id="archivos">
+                                    <input type="file" accept="image/*" name="archivo" id="inputArchivo">
                                 </div>
                                 <div class="form-group">
                                     <label for="PALABRAS_CLAVE">
@@ -113,15 +113,16 @@ Escribe tu Aporte
 
 <script type="text/javascript">
 $(document).ready(function() {
+    $('#archivos').css("display", "none");
     $('#select2tipo').change(function () {
         if ($(this).val() != ''){
             console.log($(this).val());
             if($(this).val() != 1 || $(this).val() != '1'){
                 $('#contenido').css("display", "none");
-                $('#archivo').css("display", "");
+                $('#archivos').css("display", "");
             }else{
                 $('#contenido').css("display", "");
-                $('#archivo').css("display", "none");
+                $('#archivos').css("display", "none");
             }
         }
     });
@@ -133,12 +134,13 @@ function cambiarContenido(){
 if(x==1){
 
 }else if(x==2){
-    document.getElementById("archivo").accept = "video/*";
+    console.log("video")
+    document.getElementById("inputArchivo").accept = "video/*";
  }else if(x==3)
  {
-    document.getElementById("archivo").accept= "image/*";   
+    document.getElementById("inputArchivo").accept= "image/*";   
  } else if(x==4){
-    document.getElementById("archivo").accept = "audio/*";
+    document.getElementById("inputArchivo").accept = "audio/*";
  }
 }
 

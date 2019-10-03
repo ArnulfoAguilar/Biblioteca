@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use TJGazel\Toastr\Facades\Toastr;
 
 use App\Notifications\NewAporte;
+use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Notification;
 
 class AporteController extends Controller
@@ -97,28 +98,39 @@ class AporteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     { 
-        $filesa= $request->file('archivo');
-        return $filesa;
-        $detalle=$request->CONTENIDO;
-        $dom = new \domdocument();
-        $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
-        $images = $dom->getelementsbytagname('img');
-        foreach($images as $k => $img)
-        {
-            $data = $img->getattribute('src');
-            list($type, $data) = explode(';', $data);
-            list(, $data)= explode(',', $data);
-            $data = base64_decode($data);
-            $image_name= auth()->id().time().$k.'.png';           
-            $path = public_path().'/aportesImages/'. $image_name;
-            file_put_contents($path, $data);
-            $img->removeattribute('src');
-            $img->setattribute('src', "/aportesImages/". $image_name);
-        }
-        $detalle = $dom->savehtml();
         
+        if($request->ID_TIPO_APORTE==1){
+            $detalle=$request->CONTENIDO;
+            $dom = new \domdocument();
+            $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
+            $images = $dom->getelementsbytagname('img');
+            foreach($images as $k => $img)
+            {
+                $data = $img->getattribute('src');
+                list($type, $data) = explode(';', $data);
+                list(, $data)= explode(',', $data);
+                $data = base64_decode($data);
+                $image_name= auth()->id().time().$k.'.png';           
+                $path = public_path().'/aportesImages/'. $image_name;
+                file_put_contents($path, $data);
+                $img->removeattribute('src');
+                $img->setattribute('src', "/aportesImages/". $image_name);
+            }
+            $detalle = $dom->savehtml();
+        }else{
+            
+           if($request->hasFile('archivo')){
+               
+                $file = $request->file('archivo');
+                $name = auth()->id().time().$file->getClientOriginalName();
+                $file->move(public_path().'/aportesArchivos/', $name);
+                
+            }
+            $detalle = '/aportesArchivos/'.$name;
+        }
         $Aporte = new Aporte();
         $Aporte->TITULO = $request->TITULO;
         $Aporte->DESCRIPCION = $request->DESCRIPCION;
@@ -148,7 +160,6 @@ class AporteController extends Controller
                         ->get();
 
             $user = User::all();
-            // $user->notify(new NewAporte($Aporte)); //Esto notifica a un solo usuario
             Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
 
             activity()->log('Aporte guardado');
