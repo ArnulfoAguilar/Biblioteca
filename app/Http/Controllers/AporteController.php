@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Storage;
 use TJGazel\Toastr\Facades\Toastr;
 
 use App\Notifications\NewAporte;
+use App\Mail\Notificacion;//usado para los emails
+use Illuminate\Support\Facades\Mail;//usado para los emails
+
 use Illuminate\Support\Facades\Notification;
 
 class AporteController extends Controller
@@ -70,6 +73,12 @@ class AporteController extends Controller
         $Areas = Area::all();
         $TipoAportes = tipoAporte::all();
         $PalabrasClave = palabrasClave::all();
+
+// Esto notifica por email que hay un nuevo aporte
+//AHORITA NO FUNCIONARA YA QUE HAY DATOS EN EL .ENV QUE FALTAN; SOLO SE PONEN Y FUNCIONA
+// Mail::to("")->send(new Notificacion('Juan')); 
+
+
         return view('Aportes.NuevoAporte')
             ->with(['Areas' => $Areas])
             ->with(['PalabrasClave' => $PalabrasClave])
@@ -133,7 +142,8 @@ class AporteController extends Controller
             $user = User::all();
             // $user->notify(new NewAporte($Aporte)); //Esto notifica a un solo usuario
             Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
-
+            
+            
             activity()->log('Aporte guardado');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
