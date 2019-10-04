@@ -1,5 +1,6 @@
 import JDTable from 'vue-jd-table/src/jd-table.vue';
 import Vuelidate from 'vuelidate';
+import vSelect from 'vue-select';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -28,6 +29,7 @@ Vue.prototype.$moment = moment;
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('JDTable', JDTable);
 Vue.component('busqueda-api', require('./components/BusquedaApi.vue').default);
+Vue.component('v-select',vSelect);
 Vue.component('select2', require('./components/select.vue').default);
 Vue.component('lista-ejem', require('./components/ListaEjem.vue').default);
 Vue.component('buscar-libro', require('./components/Buscar-libro.vue').default);

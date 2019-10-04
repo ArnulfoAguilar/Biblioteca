@@ -129,19 +129,22 @@
                                 <div class="col-md-4 form-group">
                                     <label for="PRIMER_SUMARIO">Primer sumario</label>
                                     <div>
-                                        <select2 :options="primerSumarios" :value="PRIMERSUMARIOID" v-model="PRIMERSUMARIOID"></select2>
+                                        <select2 :options="primerSumarios" :value="PRIMERSUMARIOID" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"></select2>
+                                        <!--<v-select :options="primerSumarios" label="text" :reduce="text =>text.id" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"></v-select>-->
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="SEGUNDO_SUMARIO">Segundo sumario</label>
                                     <div>
-                                        <select2 :options="segundoSumarios" :value="SEGUNDOSUMARIOID" v-model="SEGUNDOSUMARIOID"></select2>
+                                        <select2 :options="segundoSumarios" :value="SEGUNDOSUMARIOID" v-model="SEGUNDOSUMARIOID" @input="getTercerSumario"></select2>
+                                        <!--<v-select :options="segundoSumarios" label="text" :reduce="text=>text.id" v-model="SEGUNDOSUMARIOID"></v-select>-->
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="TERCER_SUMARIO">Tercer Sumario</label>
                                     <div>
                                         <select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2>
+                                        <!--<v-select :options="tercerSumarios" label="text" v-model="EJEMPLAR.TERCER_SUMARIO"></v-select>-->
                                     </div>
                                 </div>
                             </div>
@@ -176,6 +179,7 @@
 
 <script>
 import { required,numeric } from "vuelidate/lib/validators";
+import { async } from 'q';
 export default {
     data(){
         return {
@@ -342,6 +346,15 @@ export default {
     mounted(){
        $('#modalForm').on('hide.bs.modal',this.vaciarModelo);
     },
+    /* beforeUpdate(){
+        if(this.SEGUNDOSUMARIOID>0 && this.segundoSumarios.length===0){
+        //console.log('tratando de llenar los combos');
+            this.getSegundoSumario();
+        }
+
+        if(this.EJEMPLAR.TERCER_SUMARIO>0&& this.tercerSumarios.length===0)
+            this.getTercerSumario();
+    }, */
     methods:{
         sendData(){
             this.tableLoader = true;
@@ -363,7 +376,7 @@ export default {
         },
         /*este metodo contiene las acciones de la tabla, todo depende del
          *evento realizado es lo que hara la funcion*/
-        processEventFromApp(componentState){
+        async processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
                 axios.get('/ejemplars').then((result)=>{
                     this.ejemplars=result.data;
@@ -381,9 +394,12 @@ export default {
             }
             if (componentState.lastAction ==='EditItem') {
                 this.titleToShow = this.editTitle;
-                this.getSumarios(componentState.selectedItem);
-                $('#modalForm').modal('show');
-
+                // var segundo = await axios.get('/SegundoSumarioSelect/'+componentState.selectedItem.ID_PRIMER_SUMARIO)
+                // this.segundoSumarios=segundo.data;
+                // var tercero = await axios.get('/TercerSumarioSelect/'+componentState.selectedItem.ID_SEGUNDO_SUMARIO)
+                // this.tercerSumarios=tercero.data;
+                // this.editarFormulario(componentState.selectedItem)
+                this.editarFormulario(componentState.selectedItem);
             }
             if (componentState.lastAction ==='DeleteItem') {
                 this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
@@ -407,30 +423,33 @@ export default {
             $("#modalForm").modal('hide');
         },
         editarFormulario(item){
-        this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
-        this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
-        this.EJEMPLAR.ISBN = item.ISBN;
-        this.EJEMPLAR.AUTOR = item.AUTOR;
-        this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
-        this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
-        this.EJEMPLAR.id = item.id;
-        this.EJEMPLAR.SUBTITULO=item.SUBTITULO;
-        this.EJEMPLAR.EDITORIAL=item.EDITORIAL;
-        this.EJEMPLAR.EDICION=item.EDICION;
-        this.EJEMPLAR.AÑO_EDICION=item.AÑO_EDICION;
+            this.isEditing = true;
         //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
-        this.EJEMPLAR.CATALOGO_MATERIAL=item.ID_CATALOGO_MATERIAL;
-        this.EJEMPLAR.LUGAR_EDICION=item.LUGAR_EDICION;
-        this.EJEMPLAR.TIPO_EMPASTADO=item.ID_TIPO_EMPASTADO;
-        this.EJEMPLAR.TIPO_ADQUISICION=item.ID_TIPO_ADQUISICION;
-        this.EJEMPLAR.ESTADO_EJEMPLAR=item.ID_ESTADO_EJEMPLAR;
-        this.EJEMPLAR.AREA=item.ID_AREA;
-        this.EJEMPLAR.OBSERVACIONES=item.OBSERVACIONES;
-        this.PRIMERSUMARIOID=item.ID_PRIMER_SUMARIO;
-        this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
-        this.EJEMPLAR.TERCER_SUMARIO=item.ID_TERCER_SUMARIO;
-        console.log(this.EJEMPLAR.TERCER_SUMARIO)
-        this.isEditing = true;
+            this.PRIMERSUMARIOID=item.ID_PRIMER_SUMARIO;
+            this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
+            this.EJEMPLAR = {
+                CATALOGO_MATERIAL:item.ID_CATALOGO_MATERIAL,
+                TERCER_SUMARIO:item.ID_TERCER_SUMARIO,
+                LUGAR_EDICION:item.LUGAR_EDICION,
+                TIPO_EMPASTADO:item.ID_TIPO_EMPASTADO,
+                TIPO_ADQUISICION:item.ID_TIPO_ADQUISICION,
+                ESTADO_EJEMPLAR:item.ID_ESTADO_EJEMPLAR,
+                AREA:item.ID_AREA,
+                OBSERVACIONES:item.OBSERVACIONES,
+                EJEMPLAR : item.EJEMPLAR,
+                DESCRIPCION : item.DESCRIPCION,
+                ISBN : item.ISBN,
+                AUTOR : item.AUTOR,
+                NUMERO_PAGINAS : item.NUMERO_PAGINAS,
+                COPIAS : item.NUMERO_COPIAS,
+                id : item.id,
+                SUBTITULO:item.SUBTITULO,
+                EDITORIAL:item.EDITORIAL,
+                EDICION:item.EDICION,
+                AÑO_EDICION:item.AÑO_EDICION
+            }
+            $('#modalForm').modal('show');
+        //this.$forceUpdate();
         },
         eliminarEjemplar(EJEMPLAR, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
@@ -442,7 +461,6 @@ export default {
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("EJEMPLAR ELIMINADO");
                 })
             }
         },
@@ -466,8 +484,10 @@ export default {
                 TIPO_EMPASTADO:'',
                 TIPO_ADQUISICION:''
             };
-            this.PRIMERSUMARIO='';
-            this.SEGUNDOSUMARIO='';
+            this.PRIMERSUMARIOID='';
+            this.SEGUNDOSUMARIOID='';
+            this.segundoSumarios=[];
+            this.tercerSumarios=[];
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion
@@ -511,29 +531,35 @@ export default {
                 this.catalogoMaterial = response.data;
             });
         },
-        getSumarios(item){
-            if(item!==undefined&&item.ID_PRIMER_SUMARIO>0){
-                axios.get('/SegundoSumarioSelect/'+item.ID_PRIMER_SUMARIO)
-                .then((response)=>{
+        getSegundoSumario(){
+            if(this.PRIMERSUMARIOID>0){
+                axios.get('/SegundoSumarioSelect/'+this.PRIMERSUMARIOID).then(()=>{
                     this.segundoSumarios = response.data;
-                    return axios.get('/TercerSumarioSelect/'+item.ID_SEGUNDO_SUMARIO);
-                })
-                .then((response)=>{
-                    this.tercerSumarios=response.data;
-                })
-                .then(()=>{
-                    this.editarFormulario(item);
                 });
             }
         },
-        getTercerSumario(primerSumario,segundoSumarioId){
-            if(primerSumario>0 &&segundoSumarioId>0){
-                axios.get('/TercerSumarioSelect/'+segundoSumarioId).then((response)=>{
+        getTercerSumario(){
+            if(this.PRIMERSUMARIOID>0 && this.SEGUNDOSUMARIOID>0){
+                var response= axios.get('/TercerSumarioSelect/'+this.SEGUNDOSUMARIOID).then(()=>{
                     this.tercerSumarios = response.data;
-                })
+                });
             }
-        },
-    }
+        }
+    },
+    // watch:{
+    //     PRIMERSUMARIOID: async function (val) {
+    //         if(val>0){
+    //             var response= await axios.get('/SegundoSumarioSelect/'+val)
+    //             this.segundoSumarios = response.data
+    //         }
+    //     },
+    //     SEGUNDOSUMARIOID:async function (val) {
+    //         if(this.PRIMERSUMARIOID>0 && val>0){
+    //             var response= await axios.get('/TercerSumarioSelect/'+val)
+    //             this.tercerSumarios = response.data;
+    //         }
+    //     }
+    // }
 }
 </script>
 
