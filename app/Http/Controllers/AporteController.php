@@ -101,7 +101,7 @@ class AporteController extends Controller
 
     public function store(Request $request)
     { 
-        
+        $valorMaximoArchivo=3000; // En Kilobytes
         if($request->ID_TIPO_APORTE==1){
             $detalle=$request->CONTENIDO;
             $dom = new \domdocument();
@@ -121,7 +121,19 @@ class AporteController extends Controller
             }
             $detalle = $dom->savehtml();
         }else{
-            
+            if($request->ID_TIPO_APORTE==2){
+            $validateData = $request->validate([
+                'archivo' => 'required|image|mimetypes:video/mp4v-es,video/mpeg,video/quicktime|max:'.$valorMaximoArchivo,
+            ]);
+            }elseif($request->ID_TIPO_APORTE==3){
+                $validateData = $request->validate([
+                    'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo,
+                ]);
+            }else{
+                $validateData = $request->validate([
+                    'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo,
+                ]);
+            }
            if($request->hasFile('archivo')){
                
                 $file = $request->file('archivo');

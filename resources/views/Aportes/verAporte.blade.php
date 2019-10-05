@@ -70,7 +70,8 @@
                                                         <i class="fas fa-edit"></i> Edit
                                                     </a>
                                                     @endif
-                                            </div>                                         
+                                            </div>
+                                                                                     
                                             @if ($aporte->ID_TIPO_APORTE==1)
                                                 {!! $aporte->CONTENIDO !!}
                                                 
@@ -80,7 +81,7 @@
                                             
                                             @elseif($aporte->ID_TIPO_APORTE==3)
                                                 <p>{{$aporte->DESCRIPCION}}</p><br>
-                                                {!! $aporte->CONTENIDO !!}
+                                                <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
                                             
                                             @else
                                                 <p>{{$aporte->DESCRIPCION}}</p><br>

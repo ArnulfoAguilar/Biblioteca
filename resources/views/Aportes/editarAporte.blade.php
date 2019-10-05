@@ -37,9 +37,7 @@ Editar
                                             <div >
                                                 <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE" required>
                                                     <option selected value="{{ $TipoAporteSelect->id }}" disabled>{{ $TipoAporteSelect->TIPO_APORTE }}</option>
-                                                   @foreach($TipoAportes as $TipoAporte)
-                                                   <option value="{{ $TipoAporte->id }}">{{ $TipoAporte->TIPO_APORTE }}</option>
-                                                   @endforeach
+                                                   
                                                  </select>
                                             </div>
                                         </div>
@@ -71,15 +69,32 @@ Editar
                                     <input type="text"  class="form-control" value="{{$aporte->DESCRIPCION}}" name="DESCRIPCION"
                                         aria-describedby="Descripcion" required>
                                 </div>
-                 
 
-                                <div class="form-group hidden-print" id="contenido" >
-                                    <label for="Contenido">Contenido</label>
-                                    <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
-                                        {!! $aporte->CONTENIDO !!}
-                                    </textarea>
-                                </div>
-  
+                            @if ($aporte->$TipoAporteSelect->id==1)
+                            <div class="form-group hidden-print" id="contenido" >
+                                <label for="Contenido">Contenido</label>
+                                <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
+                                    {!! $aporte->CONTENIDO !!}
+                                </textarea>
+                            </div>
+                            @elseif($aporte->$TipoAporteSelect->id==2)
+
+                            <div class="form-group" id="archivos">
+                                <video src="{{ $aporte->CONTENIDO }}" width="640" height="480" muted controls></video>
+                                <input type="file" accept="video/*" name="archivo" id="inputArchivo">
+                            </div>
+                            
+                            @elseif($aporte->$TipoAporteSelect->id==3)
+                            <div class="form-group" id="archivos">
+                                <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
+                                <input type="file" accept="video/*" name="archivo" id="inputArchivo">
+                            </div>
+                            @else
+                            <div class="form-group" id="archivos">
+                                <audio src="{{ $aporte->CONTENIDO }}" autoplay loop controls></audio>
+                                <input type="file" accept="video/*" name="archivo" id="inputArchivo">
+                            </div>
+                            @endif 
                                 <div class="form-group">
                                         <label for="PALABRAS_CLAVE">
                                            Palabras Clave
@@ -120,17 +135,6 @@ Editar
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        
-        $('#select2tipo').change(function () {
-            if ($(this).val() != ''){
-                console.log($(this).val());
-                if($(this).val() != 1 || $(this).val() != '1'){
-                    $('#contenido').css("display", "none");
-                }else{
-                    $('#contenido').css("display", "");
-                }
-            }
-        });
 
     $('.select2').select2(); 
     var obj =@json($PalabrasClaveselect);
