@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
 @endsection
 @section('Encabezado')
-Escribe tu Aporte
+Crea tu Aporte
 @endsection
 
 @section('breadcrumbs')
