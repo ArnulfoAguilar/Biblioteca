@@ -134,4 +134,30 @@ class ComentarioController extends Controller
     {
         //
     }
+
+    public function todos(Request $request)
+    {
+        if($request->ajax()){
+            return Comentario::where('ID_APORTE',$request->id)->get();
+        }else{
+            return redirect()->route('home');
+        }
+    }
+
+    public function habilitar(Request $request){
+
+        $comentario = Comentario::find($request->id);
+        if($comentario->HABILITADO){
+            $comentario->HABILITADO = false;
+        }else{
+            $comentario->HABILITADO = true;
+        }
+        $comentario->save();
+        if($comentario->HABILITADO){
+            activity()->log('Comentario habilitado');
+        }else{
+            activity()->log('Comentario deshabilitado');
+        }
+        return '1';
+    }
 }

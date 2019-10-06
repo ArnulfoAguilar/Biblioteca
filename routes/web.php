@@ -49,6 +49,10 @@ Route::get('/listaAportesDirector', 'AporteController@listaDirector')->name('apo
 Route::get('/listaTodosAportes', 'AporteController@listatodos')->name('aportes.lista.todos');
 Route::resource('/revisiones','RevisionController');
 Route::resource('/comentarios','ComentarioController');
+
+Route::get('comentariostodos', 'ComentarioController@todos')->name('comentarios.todos');
+Route::get('/comentario/habilitar', 'ComentarioController@habilitar')->name('comentarios.habilitar');
+
 Route::post('/likeComentario', 'ComentarioController@interaccionLike')->name('interaccion.like');
 Route::post('/reportComentario', 'ComentarioController@interaccionReport')->name('interaccion.report');
 Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesComentario')->name('interaccion.report');

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PalabrasClaveTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(tipoInteraccion::class);
+        $this->call(ComiteTableSeeder::class);
 
     }
 }
