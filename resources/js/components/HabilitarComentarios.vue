@@ -12,6 +12,8 @@
                       <div v-for="(user, index) in Users" :key="index">
                         <div v-if="user.id == item.ID_USUARIO">
                            Comentario de <a href="#">{{ user.name }}</a> 
+                           <b v-if="item.HABILITADO == true">(Visible)</b>
+                           <b v-else>(Oculto)</b>
                         </div>
                       </div>
                     </div>
