@@ -29,16 +29,16 @@ class AporteController extends Controller
     {
         if($request->vista == 2 || $request->vista == '2'){
             return view('Aportes.ListaAporteDirector');
-        }else{ 
+        }else{
             return view('Aportes.ListaAporte')->with([
                 'id' => $request->id
                 ]);
         }
-        
+
     }
-    
+
     public function lista()
-    {   
+    {
         return DB::table('lista_aportes')
         ->where('HABILITADO','=','TRUE')
         ->get();
@@ -47,16 +47,16 @@ class AporteController extends Controller
         ->join('users', function($join){
             $join->on('users.id','=','Aporte.ID_USUARIO')
             ->where([
-                ['Aporte.HABILITADO','=','1'] 
+                ['Aporte.HABILITADO','=','1']
             ]);
         })
         ->select('Aporte.id','Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
         ->get();*/
     }
-    
+
 
     public function listatodos(Request $request)
-    {   
+    {
         return DB::table('lista_aportes')
         ->where('HABILITADO','=','TRUE')
         ->get();
@@ -72,7 +72,7 @@ class AporteController extends Controller
     }
 
     public function listaDirector(Request $request)
-    {   
+    {
         return Aporte::orderBy('created_at', 'desc')->get();
     }
 
@@ -100,7 +100,7 @@ class AporteController extends Controller
      */
 
     public function store(Request $request)
-    { 
+    {
         $valorMaximoArchivo=3000; // En Kilobytes
         if($request->ID_TIPO_APORTE==1){
             $detalle=$request->CONTENIDO;
@@ -113,7 +113,7 @@ class AporteController extends Controller
                 list($type, $data) = explode(';', $data);
                 list(, $data)= explode(',', $data);
                 $data = base64_decode($data);
-                $image_name= auth()->id().time().$k.'.png';           
+                $image_name= auth()->id().time().$k.'.png';
                 $path = public_path().'/aportesImages/'. $image_name;
                 file_put_contents($path, $data);
                 $img->removeattribute('src');
@@ -123,23 +123,39 @@ class AporteController extends Controller
         }else{
             if($request->ID_TIPO_APORTE==2){
             $validateData = $request->validate([
-                'archivo' => 'required|image|mimetypes:video/mp4v-es,video/mpeg,video/quicktime|max:'.$valorMaximoArchivo,
-            ]);
+                'archivo' => 'required|mimetypes:video/mp4v-es,video/mpeg,video/quicktime|max:'.$valorMaximoArchivo,
+                ],
+                [
+                    'archivo.required' => 'El archivo es requerido',
+                    'archivo.mimetypes' => 'El archivo a anexar debe ser un video',
+                    'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo.' kb'
+                ]);
             }elseif($request->ID_TIPO_APORTE==3){
                 $validateData = $request->validate([
                     'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo,
+                ],
+                [
+                    'archivo.required' => 'El archivo es requerido',
+                    'archivo.mimes' => 'El archivo a anexar debe ser una imagen',
+                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
                 ]);
             }else{
                 $validateData = $request->validate([
                     'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo,
-                ]);
+                ],
+                [
+                    'archivo.required' => 'El archivo es requerido',
+                    'archivo.mimetypes' => 'El archivo a anexar debe ser un audio',
+                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                ]
+            );
             }
            if($request->hasFile('archivo')){
-               
+
                 $file = $request->file('archivo');
                 $name = auth()->id().time().$file->getClientOriginalName();
                 $file->move(public_path().'/aportesArchivos/', $name);
-                
+
             }
             $detalle = '/aportesArchivos/'.$name;
         }
@@ -178,8 +194,8 @@ class AporteController extends Controller
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
-            ->with(['TipoAporte' => $TipoAporte]);  
-            
+            ->with(['TipoAporte' => $TipoAporte]);
+
 
     }
 
@@ -203,11 +219,11 @@ class AporteController extends Controller
         return view('Aportes.verAporte')->with(['aporte' => $aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
             ->with(['TipoAporte' => $TipoAporte]);
-        
+
     }
 
     public function habilitar(Request $request){
-        
+
         $aporte = Aporte::find($request->id);
         $revisiones = $aporte->revisiones;
         $solventado_total=true;
@@ -226,7 +242,7 @@ class AporteController extends Controller
         }else{
             return '0';
         }
-        
+
     }
 
 
@@ -244,7 +260,7 @@ class AporteController extends Controller
         return view('Aportes.verAporteDirector')->with(['aporte' => $aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
             ->with(['TipoAporte' => $TipoAporte]);
-        
+
     }
 
     /**
@@ -256,7 +272,7 @@ class AporteController extends Controller
     public function edit($id)
     {
         $aporte = Aporte::find($id);
-        
+
         $Areas = Area::all();
         $TipoAportes=tipoAporte::all();
         $PalabrasClave = palabrasClave::all();
@@ -268,7 +284,7 @@ class AporteController extends Controller
         ->select('palabrasClave.id')
         ->get();
         $AreaSelec = Area::find($aporte->ID_AREA);
-        $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE); 
+        $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);
         return view('Aportes.editarAporte')
         ->with(['PalabrasClave' => $PalabrasClave])
         ->with(['aporte' => $aporte])
@@ -289,7 +305,7 @@ class AporteController extends Controller
      */
     public function update(Request $request, $aporteid)
     {
-       
+
         $detalle=$request->CONTENIDO;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
@@ -299,13 +315,13 @@ class AporteController extends Controller
             $data = $img->getattribute('src');
             //dd(count(explode(';', $data)));
             if (count(explode(';', $data)) == 1) {
-                //si entra aqui es porque ya existe la 
-                //imagen en el servidor asi que la saltara 
+                //si entra aqui es porque ya existe la
+                //imagen en el servidor asi que la saltara
             }else {
                 list($type, $data) = explode(';', $data);
                 list(, $data)= explode(',', $data);
                 $data = base64_decode($data);
-                $image_name= auth()->id().time().$k.'.png';           
+                $image_name= auth()->id().time().$k.'.png';
                 $path = public_path().'/aportesImages/'. $image_name;
                 file_put_contents($path, $data);
                 $img->removeattribute('src');
@@ -313,7 +329,7 @@ class AporteController extends Controller
             }
         }
         $detalle = $dom->savehtml();
-        
+
         $Aporte = Aporte::find($aporteid);
         $Aporte->TITULO = $request->TITULO;
         $Aporte->DESCRIPCION = $request->DESCRIPCION;
@@ -342,7 +358,7 @@ class AporteController extends Controller
             $pivote->ID_PALABRA_CLAVE = $value;
             $pivote->Save();
         }
-        
+
         $TipoAporte = tipoAporte::find($request->ID_TIPO_APORTE);
         $PalabrasClave = DB::table('aportePalabraClavePivote')
                         ->join('palabrasClave', function($join) use ($Aporte) {
@@ -351,7 +367,7 @@ class AporteController extends Controller
                         })
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
-        
+
         activity()->log('Aporte actualizado');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])

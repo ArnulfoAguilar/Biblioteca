@@ -54,7 +54,7 @@ Vue.component('estante-list', require('./components/Estante-list.vue').default);
 
 // ------------------------MODULO DE APORTES---------------------------------------------
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
-Vue.component('comentarios', require('./components/Comentarios.vue').default);
+Vue.component('comentarios', require('./components/comentarios.vue').default);
 Vue.component('aportes', require('./components/Aportes.vue').default);
 Vue.component('aportes-director', require('./components/Aportes-Director.vue').default);
 Vue.component('habilitar-aporte', require('./components/Habilitar-aporte.vue').default);
