@@ -66,6 +66,7 @@
             },
             
             verAporte(id){
+              console.log(id)
               window.location.href='/aportes/'+id;
             }, 
 

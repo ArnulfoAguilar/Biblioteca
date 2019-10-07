@@ -123,7 +123,7 @@ class AporteController extends Controller
         }else{
             if($request->ID_TIPO_APORTE==2){
             $validateData = $request->validate([
-                'archivo' => 'required|image|mimetypes:video/mp4v-es,video/mpeg,video/quicktime|max:'.$valorMaximoArchivo,
+                'archivo' => 'required|mimetypes:video/mp4v-es,video/mpeg,video/quicktime|max:'.$valorMaximoArchivo,
             ]);
             }elseif($request->ID_TIPO_APORTE==3){
                 $validateData = $request->validate([
@@ -255,8 +255,9 @@ class AporteController extends Controller
      */
     public function edit($id)
     {
-        $aporte = Aporte::find($id);
         
+        $aporte = Aporte::find($id);
+       
         $Areas = Area::all();
         $TipoAportes=tipoAporte::all();
         $PalabrasClave = palabrasClave::all();
@@ -268,7 +269,8 @@ class AporteController extends Controller
         ->select('palabrasClave.id')
         ->get();
         $AreaSelec = Area::find($aporte->ID_AREA);
-        $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE); 
+        $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);
+        
         return view('Aportes.editarAporte')
         ->with(['PalabrasClave' => $PalabrasClave])
         ->with(['aporte' => $aporte])

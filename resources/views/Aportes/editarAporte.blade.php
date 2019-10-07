@@ -70,21 +70,21 @@ Editar
                                         aria-describedby="Descripcion" required>
                                 </div>
 
-                            @if ($aporte->$TipoAporteSelect->id==1)
+                            @if ($TipoAporteSelect->id==1)
                             <div class="form-group hidden-print" id="contenido" >
                                 <label for="Contenido">Contenido</label>
                                 <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
                                     {!! $aporte->CONTENIDO !!}
                                 </textarea>
                             </div>
-                            @elseif($aporte->$TipoAporteSelect->id==2)
+                            @elseif($TipoAporteSelect->id==2)
 
                             <div class="form-group" id="archivos">
                                 <video src="{{ $aporte->CONTENIDO }}" width="640" height="480" muted controls></video>
                                 <input type="file" accept="video/*" name="archivo" id="inputArchivo">
                             </div>
                             
-                            @elseif($aporte->$TipoAporteSelect->id==3)
+                            @elseif($TipoAporteSelect->id==3)
                             <div class="form-group" id="archivos">
                                 <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
                                 <input type="file" accept="video/*" name="archivo" id="inputArchivo">

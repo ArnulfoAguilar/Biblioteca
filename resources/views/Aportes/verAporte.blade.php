@@ -58,7 +58,7 @@
                                 <div class="card">
                                     <div class="card-header bg-dark" >
                                         <div class="row">
-                                        <h4 class="col-md-10">{{ $aporte->TITULO }}</h4>
+                                        <h4 class="col-md-10">{{ $aporte->TITULO }} {{ $aporte->id }}</h4>
                                         <span class="col-md-2">{{ $aporte->created_at }}</span>
                                         </div>
                 

@@ -2265,6 +2265,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     verAporte: function verAporte(id) {
+      console.log(id);
       window.location.href = '/aportes/' + id;
     }
   }
