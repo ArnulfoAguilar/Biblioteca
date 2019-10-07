@@ -123,7 +123,7 @@ class AporteController extends Controller
         }else{
             if($request->ID_TIPO_APORTE==2){
             $validateData = $request->validate([
-                'archivo' => 'required|mimetypes:video/mp4v-es,video/mpeg,video/quicktime|max:'.$valorMaximoArchivo,
+                'archivo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:'.$valorMaximoArchivo,
                 ],
                 [
                     'archivo.required' => 'El archivo es requerido',
