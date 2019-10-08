@@ -26,7 +26,7 @@ Editar
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;">Editar Aporte</div>
 
                     <div class="card-body">
-                        <form  action="{{ route('aportes.update', $aporte->id) }}" method="post">
+                        <form  action="{{ route('aportes.update', $aporte->id) }}" method="post" enctype="multipart/form-data">
                             {{ csrf_field() }}  
                             {{ method_field('PUT') }}                         
                                 <div class="row">
