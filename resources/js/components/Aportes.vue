@@ -48,25 +48,14 @@
             this.cargarAportes();
         },
         methods :{
-            cargarAportes(){
-              if(this.habilitado != ''){
+            cargarAportes()
+            {
                 axios.get('/listaTodosAportes?id='+this.habilitado).then(response=>{
                   this.Aportes = response.data;
-                  console.log(this.Aportes)
                   }
-                )
-              }else{
-                axios.get('/listaAportes').then(response=>{
-                  this.Aportes = response.data;
-               
-                  }
-                )
-              }
-                
+                )                
             },
-            
             verAporte(id){
-              console.log(id)
               window.location.href='/aportes/'+id;
             }, 
 
