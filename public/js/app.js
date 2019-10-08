@@ -2253,19 +2253,11 @@ __webpack_require__.r(__webpack_exports__);
     cargarAportes: function cargarAportes() {
       var _this = this;
 
-      if (this.habilitado != '') {
-        axios.get('/listaTodosAportes?id=' + this.habilitado).then(function (response) {
-          _this.Aportes = response.data;
-          console.log(_this.Aportes);
-        });
-      } else {
-        axios.get('/listaAportes').then(function (response) {
-          _this.Aportes = response.data;
-        });
-      }
+      axios.get('/listaTodosAportes?id=' + this.habilitado).then(function (response) {
+        _this.Aportes = response.data;
+      });
     },
     verAporte: function verAporte(id) {
-      console.log(id);
       window.location.href = '/aportes/' + id;
     }
   }
@@ -62564,7 +62556,7 @@ var render = function() {
               _vm._v(" "),
               _c("p", { staticClass: "mb-0" }, [
                 _c("b", [_vm._v(_vm._s(item.TITULO) + ": ")]),
-                _vm._v(_vm._s(item.CONTENIDO) + "\n                  "),
+                _vm._v(_vm._s(item.CONTENIDO) + "\r\n                  "),
                 _vm.usuario == item.ID_USUARIO
                   ? _c(
                       "button",
@@ -62784,9 +62776,9 @@ var render = function() {
                               { key: index, domProps: { value: item.id } },
                               [
                                 _vm._v(
-                                  "\n                                          " +
+                                  "\r\n                                          " +
                                     _vm._s(item.text) +
-                                    "\n                                          "
+                                    "\r\n                                          "
                                 )
                               ]
                             )
@@ -62835,7 +62827,7 @@ var staticRenderFns = [
     return _c("span", { staticClass: "float-right" }, [
       _c("a", { staticClass: "link-black text-sm", attrs: { href: "#" } }, [
         _c("i", { staticClass: "far fa-thumbs-up mr-1" }),
-        _vm._v(" Like\n                    ")
+        _vm._v(" Like\r\n                    ")
       ])
     ])
   },
@@ -66810,14 +66802,18 @@ var render = function() {
           _c("div", { staticClass: "comment-text" }, [
             _c("span", { staticClass: "username" }, [
               _vm._v(
-                "\n                " + _vm._s(datos.name) + "\n              "
+                "\r\n                " +
+                  _vm._s(datos.name) +
+                  "\r\n              "
               ),
               _c("span", { staticClass: "text-muted float-right" }, [
                 _vm._v(_vm._s(datos.created_at))
               ])
             ]),
             _vm._v(
-              "\n              " + _vm._s(datos.COMENTARIO) + "\n            "
+              "\r\n              " +
+                _vm._s(datos.COMENTARIO) +
+                "\r\n            "
             )
           ]),
           _vm._v(" "),
@@ -87784,8 +87780,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\Biblioteca\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

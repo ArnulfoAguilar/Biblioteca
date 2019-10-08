@@ -57,18 +57,27 @@ class AporteController extends Controller
 
     public function listatodos(Request $request)
     {
-        return DB::table('lista_aportes')
-        ->where('HABILITADO','=','TRUE')
-        ->get();
-        /*return DB::table('Aporte')
-        ->join('users', function($join){
-            $join->on('users.id','=','Aporte.ID_USUARIO')
+        if($request->id==0){
+            return DB::table('lista_aportes')
+            ->where('HABILITADO','=','TRUE')
+            ->get();
+        }elseif($request->id==1){
+            return DB::table('lista_aportes')
             ->where([
-                ['Aporte.HABILITADO','=','1']
-            ]);
-        })
-        ->select('Aporte.id','Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
-        ->get();*/
+                ['HABILITADO','=','TRUE'],
+                ['ID_AUTOR','=',auth()->id()]
+            ])
+            ->get();
+        }elseif ($request->id==2) {
+            return DB::table('lista_aportes')
+            ->where([
+                ['HABILITADO','=','FALSE'],
+                ['ID_AUTOR','=',auth()->id()]
+            ])
+            ->get();
+        }else{
+            //poner aqui un 404
+        }
     }
 
     public function listaDirector(Request $request)
