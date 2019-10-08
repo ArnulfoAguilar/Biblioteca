@@ -54,11 +54,12 @@ Vue.component('estante-list', require('./components/Estante-list.vue').default);
 
 // ------------------------MODULO DE APORTES---------------------------------------------
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
-Vue.component('comentarios', require('./components/Comentarios.vue').default);
+Vue.component('comentarios', require('./components/comentarios.vue').default);
 Vue.component('aportes', require('./components/Aportes.vue').default);
 Vue.component('aportes-director', require('./components/Aportes-Director.vue').default);
 Vue.component('habilitar-aporte', require('./components/Habilitar-aporte.vue').default);
 Vue.component('habilitar-comentarios', require('./components/HabilitarComentarios.vue').default);
+Vue.component('palabra-prohibida', require('./components/Palabra-Prohibida.vue').default);
 
 // ------------------------MODULO DE ADQUISICIONES---------------------------------------------
 Vue.component('adquisiciones', require('./components/Adquisiciones.vue').default);

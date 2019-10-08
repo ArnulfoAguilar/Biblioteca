@@ -20,5 +20,8 @@ class TipoAporteTableSeeder extends Seeder
         DB::table('tipoAporte')->insert([
             'TIPO_APORTE' => 'PINTURA',
         ]);
+        DB::table('tipoAporte')->insert([
+            'TIPO_APORTE' => 'MUSICA',
+        ]);
     }
 }

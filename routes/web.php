@@ -56,7 +56,8 @@ Route::get('/comentario/habilitar', 'ComentarioController@habilitar')->name('com
 Route::post('/likeComentario', 'ComentarioController@interaccionLike')->name('interaccion.like');
 Route::post('/reportComentario', 'ComentarioController@interaccionReport')->name('interaccion.report');
 Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesComentario')->name('interaccion.report');
-
+Route::resource('/palabraProhibida', 'PalabraProhibidaController');
+Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida');
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
 Route::middleware(['web', 'rol:3'])->group(function () {

@@ -1,36 +1,33 @@
 <template>
-    <div class="container">   
-        <div class="col-md-12" v-for="(item, index) in Aportes" :key="index">
+    <div class="container ">   
+        <div class="row" >
             <!-- Box Comment -->
-           <a href="#" @click="verAporte(item.id)" style="text-decoration:none!important; color:black!important;">
-            <div class="card card-widget" >
-              <div class="card-header">
+            <div class="card card-widget col-md-5 col-xs-12" v-for="(item, index) in Aportes" :key="index" style="margin-left:25px;" >
+              <div class="card-header" style="background-color:white;">
                 <div class="user-block">
+                   <a href="#" @click="verAporte(item.id)" style="text-decoration:none!important; color:black!important;">
                   <img class="img-circle" src="" alt="">
-                  <span class="username"><a href="#">{{ item.name }}</a></span>
-                  
+                  <span class="username"><a href="#">{{ item.AUTOR_APORTE }}</a></span>
+                  </a>
+                  <span class="description">{{ item.created_at}}</span>
                 </div>
                 <!-- /.user-block -->
                 <div class="card-tools">
-                  
-                  <span class="description">{{ item.created_at}}</span>
                 </div>
                 <!-- /.card-tools -->
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <!-- post text -->
-                <h1>{{ item.TITULO }}</h1>
-                <p>{{ item.DESCRIPCION}}</p>
-                <p>{{ item.CONTENIDO}}</p>
-                <!-- Social sharing buttons -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
-                <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
-                <span class="float-right text-muted">2 comentarios</span>
+                <h5>{{ item.TITULO }}</h5>
+                <p>{{ item.DESCRIPCION}}</p>                
+              </div>
+              <div class="card-footer" style="background-color:white">
+                <span class="float-right text-muted"> {{item.CANTIDAD_COMENTARIOS == 0 ? "Sin ":item.CANTIDAD_COMENTARIOS}} comentarios</span>
               </div>
             </div>
             <!-- /.card -->
-            </a>
+            <!--</a>-->
           </div>
     </div>
 </template>
@@ -44,7 +41,7 @@
         data(){
             return{
                 Aportes: [],
-                Aporte: { TITULO:'', DESCRIPCION:'', CREATED_AT:'', NAME:''}
+                Aporte: { TITULO:'', DESCRIPCION:'', CREATED_AT:'', AUTOR_APORTE:'', CANTIDAD_COMENTARIOS:''}
             }
         },
         created(){
@@ -55,13 +52,13 @@
               if(this.habilitado != ''){
                 axios.get('/listaTodosAportes?id='+this.habilitado).then(response=>{
                   this.Aportes = response.data;
-                  console.log(this.Aportes);
+                  console.log(this.Aportes)
                   }
                 )
               }else{
                 axios.get('/listaAportes').then(response=>{
                   this.Aportes = response.data;
-                  console.log(this.Aportes);
+               
                   }
                 )
               }
@@ -69,6 +66,7 @@
             },
             
             verAporte(id){
+              console.log(id)
               window.location.href='/aportes/'+id;
             }, 
 
