@@ -60,7 +60,7 @@ Route::resource('/palabraProhibida', 'PalabraProhibidaController');
 Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida');
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
-Route::middleware(['web', 'rol:3'])->group(function () {
+Route::middleware(['web', 'rol:4'])->group(function () {
     Route::resource('/adquisiciones','AdquisicionController');
     Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
 });
