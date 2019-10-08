@@ -9,7 +9,8 @@ class Estante extends Model
     protected $table = 'Estante';
     protected $fillable =[
         'ID_BIBLIOTECA',
-        'ESTANTE'
+        'ESTANTE',
+        'CLASIFICACION'
     ];
 
     public function biblioteca()

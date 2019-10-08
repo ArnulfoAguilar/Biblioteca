@@ -49,6 +49,7 @@ class EstanteController extends Controller
         $estante = new Estante();
         $estante->ESTANTE = $request->ESTANTE;
         $estante->ID_BIBLIOTECA = $request->ID_BIBLIOTECA;
+        $estante->CLASIFICACION = '';
         $estante->save();
         activity()->log('Guardó estante');
 
@@ -88,6 +89,7 @@ class EstanteController extends Controller
         $estante = Estante::find($id);
         $estante->ESTANTE = $request->ESTANTE;
         $estante->ID_BIBLIOTECA = $request->ID_BIBLIOTECA;
+        $estante->CLASIFICACION = '';
         $estante->save();
         activity()->log('Actualizó estante');
 
