@@ -91,3 +91,7 @@ Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leida
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');
 /*RUTA para select de Area*/
+// -----------------------------------------ERRORES RUTAS -------------------------------------//
+
+Route::get('/error/1', 'ErroresController@error1')->name('error1');
+

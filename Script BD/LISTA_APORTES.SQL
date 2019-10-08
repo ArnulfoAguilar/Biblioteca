@@ -1,3 +1,4 @@
+CREATE OR REPLACE VIEW lista_aportes AS
 SELECT A
 	.ID,
 	A."TITULO",

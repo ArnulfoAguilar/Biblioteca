@@ -19,7 +19,7 @@ class CheckRole
         if (Auth::user()->ID_ROL != $role) {
             // Redirect...
             // return route('welcome');
-            return redirect(route('login'));
+            return redirect(route('error1'));
         }
         return $next($request);
     }
