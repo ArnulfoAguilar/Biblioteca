@@ -130,7 +130,7 @@
               <li class="nav-item">
                 <a href="{{route('aportes.index',['vista'=>2])}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Aportes pa Director</p>
+                  <p>Aportes Vista Director</p>
                 </a>
               </li>
             </ul>

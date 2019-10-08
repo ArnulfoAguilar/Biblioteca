@@ -14,7 +14,7 @@
                     <div class="timeline-body">
                       {{ item.DESCRIPCION}}
                       <a href="#" class="btn btn-primary btn-sm float-right" @click="verAporte(item.id)" > <i class="far fa-eye"></i> Ver </a> 
-                      <a href="#" class="btn btn-secondary btn-sm float-right" @click="alerta()" > <i class="far fa-circle"></i> Ver </a> 
+                      <!-- <a href="#" class="btn btn-secondary btn-sm float-right" @click="alerta()" > <i class="far fa-circle"></i> Ver </a>  -->
                     </div>
                 </div>
             </li>
