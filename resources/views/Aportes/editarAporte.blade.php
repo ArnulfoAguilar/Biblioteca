@@ -35,9 +35,8 @@ Editar
                                                Tipo de Aporte
                                             </label>
                                             <div >
-                                                <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE" required>
-                                                    <option selected value="{{ $TipoAporteSelect->id }}" disabled>{{ $TipoAporteSelect->TIPO_APORTE }}</option>
-                                                   
+                                                <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE" >
+                                                    <option selected value="{{ $TipoAporteSelect->id }}" >{{ $TipoAporteSelect->TIPO_APORTE }}</option>                          
                                                  </select>
                                             </div>
                                         </div>
@@ -46,9 +45,8 @@ Editar
                                     <label for="AREA">
                                        Area
                                     </label>
-                                    <div >
-                                        <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_AREA" required>
-                                            
+                                    <div>
+                                        <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_AREA" >
                                                 <option selected value="{{ $AreaSelec->ID_AREA }}" disabled>{{ $AreaSelec->AREA }}</option>
                                             @foreach($Areas as $Area)
                                                 <option value="{{ $Area->id }}">{{ $Area->AREA }}</option>
@@ -70,31 +68,23 @@ Editar
                                         aria-describedby="Descripcion" required>
                                 </div>
 
-                            @if ($TipoAporteSelect->id==1)
-                            <div class="form-group hidden-print" id="contenido" >
-                                <label for="Contenido">Contenido</label>
-                                <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
-                                    {!! $aporte->CONTENIDO !!}
-                                </textarea>
-                            </div>
-                            @elseif($TipoAporteSelect->id==2)
-
-                            <div class="form-group" id="archivos">
-                                <video src="{{ $aporte->CONTENIDO }}" width="640" height="480" muted controls></video>
-                                <input type="file" accept="video/*" name="archivo" id="inputArchivo">
-                            </div>
-                            
-                            @elseif($TipoAporteSelect->id==3)
-                            <div class="form-group" id="archivos">
-                                <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
-                                <input type="file" accept="video/*" name="archivo" id="inputArchivo">
-                            </div>
-                            @else
-                            <div class="form-group" id="archivos">
-                                <audio src="{{ $aporte->CONTENIDO }}" autoplay loop controls></audio>
-                                <input type="file" accept="video/*" name="archivo" id="inputArchivo">
-                            </div>
-                            @endif 
+                                <div class="form-group" id="contenido">
+                                        <label for="Contenido">Contenido</label>
+                                        <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" >
+                                        </textarea> 
+                                    </div>
+                                
+                                <div class="form-group" id="archivos">
+                                    @if($TipoAporteSelect->id==2)
+                                    <video src="{{ $aporte->CONTENIDO }}" width="640" height="480" muted controls></video>
+                                    @elseif($TipoAporteSelect->id==3)
+                                    <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
+                                    @else
+                                    <audio src="{{ $aporte->CONTENIDO }}" autoplay loop controls></audio>
+                                    @endif
+                                    <br>
+                                        <input type="file" accept="image/*" name="archivo" id="inputArchivo">
+                                </div>
                                 <div class="form-group">
                                         <label for="PALABRAS_CLAVE">
                                            Palabras Clave
@@ -144,6 +134,42 @@ Editar
             myArray.push(item.id);
         });
         $('#selectmult').val(myArray ).trigger('change');
+        cambiarContenido();
 });
-    </script>
+function cambiarContenido(){
+    var x = document.getElementById("select2tipo").value;
+    if(x==1){
+        $('#contenido').css("display", "");
+        $('#archivos').css("display", "none");
+    }else if(x==2){
+        //Video
+        $('#contenido').css("display", "none");
+        $('#archivos').css("display", "");
+        console.log("video")
+        document.getElementById("inputArchivo").accept = "video/*";
+    }else if(x==3)
+    {
+        //Pintura
+        $('#contenido').css("display", "none");
+        $('#archivos').css("display", "");
+        document.getElementById("inputArchivo").accept= "image/*";   
+    } else if(x==4){
+        //Musica
+        $('#contenido').css("display", "none");
+        $('#archivos').css("display", "");
+        document.getElementById("inputArchivo").accept = "audio/*";
+    }
+}
+$('#inputArchivo').change(function (e) {
+
+    var fileSize = $('#inputArchivo')[0].files[0].size;
+
+    var siezekiloByte = parseInt(fileSize / 1024);
+
+    if (siezekiloByte >  3000) {
+        alert("Archivo muy grande");
+       this.value='';
+    }
+    });
+</script>
 @endsection

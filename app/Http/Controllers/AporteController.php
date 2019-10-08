@@ -41,23 +41,6 @@ class AporteController extends Controller
 
     }
 
-    public function lista()
-    {
-        return DB::table('lista_aportes')
-        ->where('HABILITADO','=','TRUE')
-        ->get();
-        /*
-        return DB::table('Aporte')
-        ->join('users', function($join){
-            $join->on('users.id','=','Aporte.ID_USUARIO')
-            ->where([
-                ['Aporte.HABILITADO','=','1']
-            ]);
-        })
-        ->select('Aporte.id','Aporte.TITULO','Aporte.DESCRIPCION','Aporte.created_at','users.name')
-        ->get();*/
-    }
-
 
     public function listatodos(Request $request)
     {
@@ -103,6 +86,8 @@ class AporteController extends Controller
 // Esto notifica por email que hay un nuevo aporte
 //AHORITA NO FUNCIONARA YA QUE HAY DATOS EN EL .ENV QUE FALTAN; SOLO SE PONEN Y FUNCIONA
 // Mail::to("")->send(new Notificacion('Juan')); 
+///ESTO NO DEBERIA NOTIFICAR QUE HAY UN NUEVO APORTE, PUES AQUI SOLO ABRIO LA PANTALLA.
+///DEBERIA DE NOTIFICAR EN EL STORE
 
 
         return view('Aportes.NuevoAporte')
@@ -327,7 +312,9 @@ class AporteController extends Controller
      */
     public function update(Request $request, $aporteid)
     {
-
+        $valorMaximoArchivo=3000; // En Kilobytes
+        $detalle = null;
+        if($request->ID_TIPO_APORTE==1){
         $detalle=$request->CONTENIDO;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
@@ -351,11 +338,57 @@ class AporteController extends Controller
             }
         }
         $detalle = $dom->savehtml();
+    }else{
+    if($request->archivo!=null){
+        if($request->ID_TIPO_APORTE==2){
+        $validateData = $request->validate([
+            'archivo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:'.$valorMaximoArchivo,
+            ],
+            [
+                'archivo.required' => 'El archivo es requerido',
+                'archivo.mimetypes' => 'El archivo a anexar debe ser un video',
+                'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo.' kb'
+            ]);
+        }elseif($request->ID_TIPO_APORTE==3){
+            $validateData = $request->validate([
+                'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo,
+            ],
+            [
+                'archivo.required' => 'El archivo es requerido',
+                'archivo.mimes' => 'El archivo a anexar debe ser una imagen',
+                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+            ]);
+        }else{
+            $validateData = $request->validate([
+                'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo,
+            ],
+            [
+                'archivo.required' => 'El archivo es requerido',
+                'archivo.mimetypes' => 'El archivo a anexar debe ser un audio',
+                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+            ]
+        );
+        }
+       if($request->hasFile('archivo')){
+
+            $file = $request->file('archivo');
+            $name = auth()->id().time().$file->getClientOriginalName();
+            
+            $file->move(public_path().'/aportesArchivos/', $name);
+
+        }
+        $detalle = '/aportesArchivos/'.$name;
+    }
+    }
 
         $Aporte = Aporte::find($aporteid);
         $Aporte->TITULO = $request->TITULO;
         $Aporte->DESCRIPCION = $request->DESCRIPCION;
-        $Aporte->CONTENIDO = $detalle;
+        if ($detalle !=null) {
+            
+            $Aporte->CONTENIDO = $detalle;
+        }
+        
         if ($request->ID_AREA != null) {
             $Aporte->ID_AREA = $request->ID_AREA;
         }
@@ -390,7 +423,7 @@ class AporteController extends Controller
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
 
-        activity()->log('Aporte actualizado');
+       // activity()->log('Aporte actualizado');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
