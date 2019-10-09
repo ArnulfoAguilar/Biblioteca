@@ -148,18 +148,25 @@ $(document).ready(function() {
 function cambiarContenido(){
     var x = document.getElementById("select2tipo").value;
     console.log(x)
-if(x==1){
+    if(x==1){
 
-}else if(x==2){
-    console.log("video")
-    document.getElementById("inputArchivo").accept = "video/*";
- }else if(x==3)
- {
-    document.getElementById("inputArchivo").accept= "image/*";   
- } else if(x==4){
-    document.getElementById("inputArchivo").accept = "audio/*";
- }
+    }else if(x==2){
+        console.log("video")
+        document.getElementById("inputArchivo").accept = "video/*";
+    }else if(x==3)
+    {
+        document.getElementById("inputArchivo").accept= "image/*";   
+    } else if(x==4){
+        document.getElementById("inputArchivo").accept = "audio/*";
+    }
 }
-
+$('#inputArchivo').change(function (e) {
+    var fileSize = $('#inputArchivo')[0].files[0].size;
+    var siezekiloByte = parseInt(fileSize / 1024);
+    if (siezekiloByte >  3000) {
+        alert("Archivo muy grande");
+       this.value='';
+    }
+    });
 </script>
 @endsection
