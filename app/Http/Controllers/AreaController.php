@@ -17,10 +17,7 @@ class AreaController extends Controller
         
          $Areas = Area::all();
         $data = [];
-        $data[0] = [
-            'id'   => 0,
-            'text' =>'Seleccione',
-        ];
+        
         foreach ($Areas as $key => $value) {
             $data[$key+1] =[
                 'id'   => $value->id,

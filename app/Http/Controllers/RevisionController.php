@@ -47,6 +47,8 @@ class RevisionController extends Controller
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
         $revision->save();
+        activity()->log('Guardó revisión');
+
     }
 
     /**
@@ -91,6 +93,7 @@ class RevisionController extends Controller
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
         $revision->Save();
+        activity()->log('Actualizó revisión');
         return $revision;
     }
 
@@ -104,5 +107,6 @@ class RevisionController extends Controller
     {
         $revision = Revision::find($id);
         $revision->delete();
+        activity()->log('Eliminó revisión');
     }
 }

@@ -134,13 +134,30 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300%;" role="menu">
-                    @foreach (Auth::user()->unreadNotifications as $notification)
+                  @if ( sizeof(Auth::user()->unreadNotifications) == 0 )
                     <li class="">
-                    {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
-                      <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
-                      <div class="dropdown-divider"></div>
+                      <a href="#" class="nav-link" >No tienes notificaciones </a>
                     </li>
+                  @else
+                    @foreach (Auth::user()->unreadNotifications as $notification)
+                      @if ($notification->type == 'App\Notifications\NewAporte')
+                        <li class="">
+                        {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
+                          <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
+                          <div class="dropdown-divider"></div>
+                        </li>
+                      @endif
+                      @if ($notification->type == 'App\Notifications\NuevoComentario')
+                        <li class="">
+                        {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
+                          <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Comentó tu aporte</a>
+                          <div class="dropdown-divider"></div>
+                        </li>
+                      @endif
                     @endforeach
+                    
+                  @endif  
+                  
                 </ul>
             </li>
 

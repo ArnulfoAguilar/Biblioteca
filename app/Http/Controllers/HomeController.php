@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 
+//use Spatie\Activitylog\Models\Activity;
+
 class HomeController extends Controller
 {
     /**
@@ -43,6 +45,10 @@ class HomeController extends Controller
 
     public function roles(){
         return view('roles');
+    }
+
+    public function adquisiciones(){
+        return view('Adquisicion/listaadquisiciones');
     }
 
     public function marcarLeidas(){

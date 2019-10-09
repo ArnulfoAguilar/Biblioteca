@@ -17,8 +17,19 @@ class PalabraProhibidaController extends Controller
     }
     public function index()
     {
-        $palabraProhibida= palabraProhibida::all();
-        return $palabraProhibida;
+        $listapalabra = "";
+        $palabraProhibida = palabraProhibida::all();
+        $cantidadDePalabras=sizeof($palabraProhibida);
+        $contador=1;
+        foreach($palabraProhibida as $k => $palabra){
+            if($contador<$cantidadDePalabras){
+                $listapalabra.="^".$palabra->PALABRA."| ".$palabra->PALABRA." | ".$palabra->PALABRA."$|";
+            }else{
+                $listapalabra.="^".$palabra->PALABRA."| ".$palabra->PALABRA." | ".$palabra->PALABRA."$";
+            }
+            $contador++;
+        }
+        return $listapalabra;
     }
 
     /**
@@ -40,7 +51,7 @@ class PalabraProhibidaController extends Controller
     public function store(Request $request)
     {
         $palabraProhibida = new palabraProhibida();
-        $palabraProhibida->PALABRA = " "+$request->PALABRA;
+        $palabraProhibida->PALABRA = $request->PALABRA;
         $palabraProhibida->save();
     }
 

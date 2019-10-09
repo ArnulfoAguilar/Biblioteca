@@ -108,41 +108,36 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{route('aportes.index',['id'=>0])}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Aportes</p>
+                    </a>
+                </li>
               <li class="nav-item">
-              <a href="{{route('aportes.index')}}" class="nav-link">
+              <a href="{{route('aportes.index',['id'=>1])}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Mis Aprobados</p>
+                  <p>Mis Aportes Aprobados</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('aportes.index',['id'=>0])}}" class="nav-link">
+                <a href="{{route('aportes.index',['id'=>2])}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Lista Pendientes</p>
+                  <p>Mis Aportes Pendientes</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{route('aportes.index',['id'=>1])}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lista Aprobados</p>
-                </a>
-              </li>
+              
               <li class="nav-item">
                 <a href="{{route('aportes.index',['vista'=>2])}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Aportes pa Director</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('areas')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Item 2</p>
+                  <p>Aportes Vista Director</p>
                 </a>
               </li>
             </ul>
           </li>
           <!--adquisiciones-->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview {{ ( request()->is('adquisicion/*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('adquisicion/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-archive"></i>
               <p>
                 Adquisiciones
@@ -157,7 +152,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+              <a href="{{route('adquisicion.lista')}}" class="nav-link {{ ( request()->is('adquisicion/lista') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ver sugerencias</p>
                 </a>

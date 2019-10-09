@@ -45,6 +45,7 @@ class RolController extends Controller
         $newRol = new Rol();
         $newRol->ROL = $request->ROL;
         $newRol->Save();
+        activity()->log('Guardó rol');
     }
 
     /**
@@ -82,6 +83,7 @@ class RolController extends Controller
         $newRol = Rol::find($request->id);
         $newRol->ROL = $request->ROL;
         $newRol->save();
+        activity()->log('Actualizó rol');
         return $newRol;
     }
 
@@ -95,6 +97,7 @@ class RolController extends Controller
     {
         $newRol = Rol::find($role->id);
         $newRol->delete();
+        activity()->log('Eliminó rol');
     }
 
     public function asignarRolIndex($user = null)

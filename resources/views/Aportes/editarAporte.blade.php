@@ -26,7 +26,7 @@ Editar
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;">Editar Aporte</div>
 
                     <div class="card-body">
-                        <form  action="{{ route('aportes.update', $aporte->id) }}" method="post">
+                        <form  action="{{ route('aportes.update', $aporte->id) }}" method="post" enctype="multipart/form-data">
                             {{ csrf_field() }}  
                             {{ method_field('PUT') }}                         
                                 <div class="row">
@@ -35,11 +35,8 @@ Editar
                                                Tipo de Aporte
                                             </label>
                                             <div >
-                                                <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE">
-                                                    <option selected value="{{ $TipoAporteSelect->id }}" disabled>{{ $TipoAporteSelect->TIPO_APORTE }}</option>
-                                                   @foreach($TipoAportes as $TipoAporte)
-                                                   <option value="{{ $TipoAporte->id }}">{{ $TipoAporte->TIPO_APORTE }}</option>
-                                                   @endforeach
+                                                <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_TIPO_APORTE" >
+                                                    <option selected value="{{ $TipoAporteSelect->id }}" >{{ $TipoAporteSelect->TIPO_APORTE }}</option>                          
                                                  </select>
                                             </div>
                                         </div>
@@ -48,9 +45,8 @@ Editar
                                     <label for="AREA">
                                        Area
                                     </label>
-                                    <div >
-                                        <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_AREA">
-                                            
+                                    <div>
+                                        <select class="form-control select2" id="select2tipo" style="width: 100%;" name="ID_AREA" >
                                                 <option selected value="{{ $AreaSelec->ID_AREA }}" disabled>{{ $AreaSelec->AREA }}</option>
                                             @foreach($Areas as $Area)
                                                 <option value="{{ $Area->id }}">{{ $Area->AREA }}</option>
@@ -71,21 +67,30 @@ Editar
                                     <input type="text"  class="form-control" value="{{$aporte->DESCRIPCION}}" name="DESCRIPCION"
                                         aria-describedby="Descripcion" required>
                                 </div>
-                 
 
-                                <div class="form-group">
-                                    <label for="Contenido">Contenido</label>
-                                    <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" required>
-                                        {!! $aporte->CONTENIDO !!}
-                                    </textarea>
+                                <div class="form-group" id="contenido">
+                                        <label for="Contenido">Contenido</label>
+                                        <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" >
+                                        </textarea> 
+                                    </div>
+                                
+                                <div class="form-group" id="archivos">
+                                    @if($TipoAporteSelect->id==2)
+                                    <video src="{{ $aporte->CONTENIDO }}" width="640" height="480" muted controls></video>
+                                    @elseif($TipoAporteSelect->id==3)
+                                    <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
+                                    @else
+                                    <audio src="{{ $aporte->CONTENIDO }}" autoplay loop controls></audio>
+                                    @endif
+                                    <br>
+                                        <input type="file" accept="image/*" name="archivo" id="inputArchivo">
                                 </div>
-  
                                 <div class="form-group">
                                         <label for="PALABRAS_CLAVE">
                                            Palabras Clave
                                         </label>
                                         <div >
-                                            <select class="select2" name="PALABRAS_CLAVE[]" id="selectmult" multiple="multiple">
+                                            <select class="select2" name="PALABRAS_CLAVE[]" id="selectmult" multiple="multiple" required>
                                                 @foreach($PalabrasClave as $PalabraClave)
                                                <option value="{{ $PalabraClave->id }}">{{ $PalabraClave->PALABRA }}</option>
                                                @endforeach
@@ -118,9 +123,9 @@ Editar
 @endsection
 @section('jsExtra')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
-
     <script type="text/javascript">
     $(document).ready(function() {
+
     $('.select2').select2(); 
     var obj =@json($PalabrasClaveselect);
     myArray = [];
@@ -129,6 +134,42 @@ Editar
             myArray.push(item.id);
         });
         $('#selectmult').val(myArray ).trigger('change');
+        cambiarContenido();
 });
-    </script>
+function cambiarContenido(){
+    var x = document.getElementById("select2tipo").value;
+    if(x==1){
+        $('#contenido').css("display", "");
+        $('#archivos').css("display", "none");
+    }else if(x==2){
+        //Video
+        $('#contenido').css("display", "none");
+        $('#archivos').css("display", "");
+        console.log("video")
+        document.getElementById("inputArchivo").accept = "video/*";
+    }else if(x==3)
+    {
+        //Pintura
+        $('#contenido').css("display", "none");
+        $('#archivos').css("display", "");
+        document.getElementById("inputArchivo").accept= "image/*";   
+    } else if(x==4){
+        //Musica
+        $('#contenido').css("display", "none");
+        $('#archivos').css("display", "");
+        document.getElementById("inputArchivo").accept = "audio/*";
+    }
+}
+$('#inputArchivo').change(function (e) {
+
+    var fileSize = $('#inputArchivo')[0].files[0].size;
+
+    var siezekiloByte = parseInt(fileSize / 1024);
+
+    if (siezekiloByte >  3000) {
+        alert("Archivo muy grande");
+       this.value='';
+    }
+    });
+</script>
 @endsection

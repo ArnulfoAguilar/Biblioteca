@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 
@@ -49,6 +49,10 @@ Route::get('/listaAportesDirector', 'AporteController@listaDirector')->name('apo
 Route::get('/listaTodosAportes', 'AporteController@listatodos')->name('aportes.lista.todos');
 Route::resource('/revisiones','RevisionController');
 Route::resource('/comentarios','ComentarioController');
+
+Route::get('comentariostodos', 'ComentarioController@todos')->name('comentarios.todos');
+Route::get('/comentario/habilitar', 'ComentarioController@habilitar')->name('comentarios.habilitar');
+
 Route::post('/likeComentario', 'ComentarioController@interaccionLike')->name('interaccion.like');
 Route::post('/reportComentario', 'ComentarioController@interaccionReport')->name('interaccion.report');
 Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesComentario')->name('interaccion.report');
@@ -56,15 +60,22 @@ Route::resource('/palabraProhibida', 'PalabraProhibidaController');
 Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida');
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
-
+Route::middleware(['web', 'rol:4'])->group(function () {
+    Route::resource('/adquisiciones','AdquisicionController');
+    Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
+});
 
 // ---------------------------------RUTAS DEL MODULO DE ADMINISTRACION -------------------------------------//
-Route::resource('/users', 'UserController');
 
-Route::resource('/roles', 'RolController');
-Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
 
-Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
+
+    Route::resource('/users', 'UserController');
+
+    Route::resource('/roles', 'RolController');
+    Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
+
+    Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
+
 
 
 // -----------------------------------------OTRAS RUTAS -------------------------------------//
@@ -80,3 +91,7 @@ Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leida
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');
 /*RUTA para select de Area*/
+// -----------------------------------------ERRORES RUTAS -------------------------------------//
+
+Route::get('/error/1', 'ErroresController@error1')->name('error1');
+

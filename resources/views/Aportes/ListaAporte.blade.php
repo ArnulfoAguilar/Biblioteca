@@ -5,14 +5,15 @@
 
 @section('Encabezado')
 @switch($id)
-    @case(null)
-        Mis aportes aprobados
-        @break
     @case(0)
-        Aportes Pendientes de aprobación
+    Aportes de la Comunidad Padre Arrupe
         @break
     @case(1)
-        Aportes de la Comunidad Padre Arrupe
+    Mis aportes aprobados
+        @break 
+    @case(2)
+        Aportes Pendientes de aprobación
+        
         @break
     @default
         

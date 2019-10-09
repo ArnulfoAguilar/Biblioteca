@@ -7,6 +7,12 @@ use App\interaccionComentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Aporte;
+use App\User;
+
+use App\Notifications\NuevoComentario;
+use Illuminate\Support\Facades\Notification;
+
 class ComentarioController extends Controller
 {
     /**
@@ -39,6 +45,7 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
         $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
         $InteraccionComentario->save();
+        activity()->log('Dió Like');
     }
     
     public function interaccionReport(Request $request)
@@ -49,6 +56,7 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
         $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
         $InteraccionComentario->save();
+        activity()->log('Reportó');
     }
     public function interaccionesComentario(Request $request)
     {
@@ -74,6 +82,12 @@ class ComentarioController extends Controller
         $Comentario->ID_USUARIO = $request->ID_USUARIO;
         $Comentario->ID_APORTE = $request->ID_APORTE;
         $Comentario->save();
+
+        $Aporte = Aporte::find($request->ID_APORTE);
+        $user = User::find($Aporte->ID_USUARIO);
+        $user->notify(new NuevoComentario($Comentario)); //Esto notifica a un solo usuario
+        //Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
+        activity()->log('Realizó comentario');
     }
 
     /**
@@ -119,5 +133,31 @@ class ComentarioController extends Controller
     public function destroy(Comentario $comentario)
     {
         //
+    }
+
+    public function todos(Request $request)
+    {
+        if($request->ajax()){
+            return Comentario::where('ID_APORTE',$request->id)->get();
+        }else{
+            return redirect()->route('home');
+        }
+    }
+
+    public function habilitar(Request $request){
+
+        $comentario = Comentario::find($request->id);
+        if($comentario->HABILITADO){
+            $comentario->HABILITADO = false;
+        }else{
+            $comentario->HABILITADO = true;
+        }
+        $comentario->save();
+        if($comentario->HABILITADO){
+            activity()->log('Comentario habilitado');
+        }else{
+            activity()->log('Comentario deshabilitado');
+        }
+        return '1';
     }
 }
