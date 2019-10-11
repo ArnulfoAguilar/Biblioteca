@@ -47,6 +47,13 @@ class ComentarioController extends Controller
         $InteraccionComentario->save();
         activity()->log('Dió Like');
     }
+
+    public function interaccionDislike($id)
+    {
+        $InteraccionComentario = interaccionComentario::find($id);
+        $InteraccionComentario->delete();
+        activity()->log('Quitó Like');
+    }
     
     public function interaccionReport(Request $request)
     {
@@ -60,12 +67,23 @@ class ComentarioController extends Controller
     }
     public function interaccionesComentario(Request $request)
     {
-        return DB::table('opcionescomentario')->where([
+        return DB::table('opcionescomentario')
+        ->where([
             ['ID_APORTE', '=', $request->id],
             ['HABILITADO','=','1'],
             ['ID_USUARIO_INTERACCION','=',auth()->id()]
         ])
         ->select('ID_COMENTARIO', 'HABILITADO','ID_APORTE','ID_TIPO_INTERACCION','ID_USUARIO_INTERACCION')
+        ->get();
+    }
+
+    public function interacciones(Request $request)
+    {
+        return DB::table('interaccionComentario')
+        ->where([
+            ['ID_COMENTARIO',$request->id],
+            ['ID_USUARIO',auth()->id()]
+        ])
         ->get();
     }
 

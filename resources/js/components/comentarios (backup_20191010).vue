@@ -13,15 +13,8 @@
               {{ datos.COMENTARIO}}
             </div>
                           <!-- /.comment-text -->
-            <div class="row float-right">
-              <div v-if="prueba(datos.id) == true">
-                Tiene interaccion
-              </div>
-              <div v-else>
-                NO TIENE interaccion
-              </div>
-
-              <!-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> -->
+            <div class="row float-right" >
+              <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button>
               <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
             </div>
         </div>
@@ -48,14 +41,11 @@
         props: ['aporte','usuario'],
         data(){
           return{
-            interaccionesConLike: [],
-            dioLike:'',
             ocultar:false,
             nuevo: '',
             listaMalasPalabras: '',
             comentarios: [],
             InteraccionComentarios: [],
-            interacciones: [],
             palabrasProhibidas: [],
             Comentario : {  COMENTARIO:'', ID_USUARIO:this.usuario, ID_APORTE: this.aporte },
             InteraccionComentario: { DESCRIPCION:'', ID_TIPO_INTERACCION:'', ID_COMENTARIO:'', ID_USUARIO:this.usuario }
@@ -63,7 +53,7 @@
         },
         created(){
           this.cargar_comentarios();
-          // this.cargar_interacciones();
+          this.cargar_interacciones();
           this.cargar_malas_palabras();
         },
         methods:{
@@ -72,40 +62,12 @@
                 this.comentarios = res.data;            
                 })
           },
-          // Quiza no me sirva
-          cargar_interacciones_backup(){
+          cargar_interacciones(){
             axios.get('/interaccionesComentario/'+this.aporte).then(res=>{
                 this.InteraccionComentarios = res.data;
                
                 })
           },
-
-          // cargar_interacciones(){
-          //   axios.get('/interacciones'+id).then(res=>{
-          //       this.interacciones = res.data;
-          //       console.log(this.interacciones);
-          //       })
-          // },
-
-          prueba(id){
-            axios.get('/interacciones/'+id).then(res=>{
-              this.interaccionesConLike = res.data;
-              console.log(this.interaccionesConLike);
-            })
-
-            // if( this.interaccionesConLike == 0 ){
-            //   return false;
-            // }else{
-            //   return true;
-            // }
-          },
-
-          // prueba(){
-          //     return true;
-          // },
-
-
-          
           cargar_malas_palabras(){
             axios.get('/palabraProhibida').then(res=>{
                 this.listaMalasPalabras = res.data;
@@ -128,31 +90,6 @@
                   alert("Error al Guardar" + e);
               })
           },
-
-          disLike(idInteraccion){
-            this.$swal(
-              {
-                title: '¿Estas seguro?',
-                text: "¡Esta acción no se puede revertir!",
-                icon: 'warning',
-                  buttons: {
-                    confirm: true,
-                    cancel: true,
-                  },
-              }).then((value) => {
-                if (value) {
-                  axios.delete(`/adquisiciones/${idInteraccion}`)
-                  .then(()=>{
-                      swal('Exito','Registro Borrado','success')
-                      this.cargarSugerencias();
-                  })
-                }
-              }
-            );
-              
-          },
-
-
           Report(IdComentario){
             this.InteraccionComentario.ID_TIPO_INTERACCION= 2;
             this.InteraccionComentario.ID_COMENTARIO= IdComentario;
