@@ -14,18 +14,33 @@
             </div>
                           <!-- /.comment-text -->
             <div class="row float-right">
-              {{datos.id}}--{{datos_prueba}}
-              <!-- <div v-if="datos.id in datos_prueba">
-                est{á}
+<!-- ---------------------------------ESTO FUNCIONA (tiene un error pero funciona) --------------------------------------------------------------- -->
+              <div v-for="(miInteraccion, indice) in misInteracciones" :key="indice">
+                <div v-if="datos.id == miInteraccion.id">
+                  {{ usuarioDioLike() }}
+                  <button type="button"  class="btn btn-default btn-sm " @click="dislike(miInteraccion.int)"><i class="fas fa-thumbs-up">{{ datos.total_likes }}</i> Dislike</button>
+                </div>
+              </div>
+
+              <div v-if="dioLike === 1">
+                {{ setDioLike() }}
+              </div>
+              <div v-else>
+                <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button>
+              </div>
+<!-- ---------------------------------------------------------------// PRUEBAS --------------------------------------------------------------- -->
+              <!-- <input id="interaccion_usuario" v-model="dioLike">
+
+               <div v-if="interactue_prueba(datos.id) == 'si'">
+                Interactue
+              </div>
+              <div v-if="interactue_prueba(datos.id) == 'no'">
+                No interactue
               </div> -->
 
-              <!-- <div v-for="(dato, indice) in datos_prueba" :key="indice">
-                <div v-if="datos.id == dato">
-                  esta prrito
-                </div>
-              </div> -->
-              
-              <!-- <div v-for="(item, indice) in InteraccionComentarios" :key="indice">
+
+
+              <!-- <div v-for="(item, indice) in misInteracciones" :key="indice">
                 <div v-if="item.ID_COMENTARIO == datos.id">
                   Entra
                   <div v-if="item.ID_USUARIO_INTERACCION == usuario ">
@@ -38,14 +53,14 @@
                 
               </div> -->
 
-              <div v-if="interactue(datos.id) == true">
+              <!-- <div v-if="interactue(datos.id) == true">
                 Di like
               </div>
               <div v-else>
                 No di Like
-              </div>
+              </div> -->
 
-              <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button>
+              <!-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> -->
               <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
             </div>
         </div>
@@ -72,15 +87,18 @@
         props: ['aporte','usuario'],
         data(){
           return{
-            datos_prueba:['1','2','3','7'],
 
             interaccionesConLike: [],
-            dioLike:'',
+            dioLike:null,
+            misInteracciones_prueba: [],
+
+
+
             ocultar:false,
             nuevo: '',
             listaMalasPalabras: '',
             comentarios: [],
-            InteraccionComentarios: [],
+            misInteracciones: [],
             interacciones: [],
             palabrasProhibidas: [],
             Comentario : {  COMENTARIO:'', ID_USUARIO:this.usuario, ID_APORTE: this.aporte },
@@ -89,20 +107,27 @@
         },
         created(){
           this.cargar_comentarios();
-          this.cargar_interacciones();
+          //this.cargar_interacciones();
           this.cargar_malas_palabras();
+          this.interactue();
         },
         methods:{
+          refresh(){
+            this.cargar_comentarios();
+            this.cargar_malas_palabras();
+            this.interactue();
+          },
+
           cargar_comentarios(){
             axios.get('/comentarios?id='+this.aporte).then(res=>{
                 this.comentarios = res.data;            
                 })
           },
           // Quiza no me sirva
-          cargar_interacciones(){
+          cargar_interacciones_backup(){
             axios.get('/interaccionesComentario/'+this.aporte).then(res=>{
-                this.InteraccionComentarios = res.data;
-              //  console.log(this.InteraccionComentarios);
+                this.misInteracciones = res.data;
+              //  console.log(this.misInteracciones);
                 })
           },
 
@@ -113,85 +138,45 @@
           //       })
           // },
 
-          // prueba(id){
-          //   axios.get('/interacciones/'+id).then(res=>{
-          //     this.interaccionesConLike = res.data;
-          //     console.log(this.interaccionesConLike);
-          //   })
-
-            // if( this.interaccionesConLike == 0 ){
-            //   return false;
-            // }else{
-            //   return true;
-            // }
-          // },
-
-          interactue(id){
-            
-            
-
-            // this.datos = {idA:this.aporte, idC:id};
-
-            // console.log(this.datos);
-
-            var retorno_axios='algo';
-
-            // axios.get('/interactue/'+this.aporte+'/'+id).then(res=>{
-            //   console.log('data'+res.data);
-            //   this.dioLike = res.data
-            //   retorno_axios = res.data;
-            //   // if(res.data == 1){
-            //   //   this.dioLike = 1;
-            //   //   }
-              
-
-
-            //   if(res.data == 1 || res.data == '1'){
-            //     return true;
-            //   } else{
-            //     return false;
-            //   }
-              
-            // });
-
-            async function getInte() {
-            try {
-              const response = await axios.get('/interactue/'+this.aporte+'/'+id);
-              console.log(response);
-              comsole.log('entra');
-            } catch (error) {
-              console.error(error);
-            }
-          }
-
-
-            // return true;
-            console.log('dio like'+retorno_axios);
-
-
-            // var retorno_axios='1';
-
-            // if(id < 5){
-            //   retorno_axios = '1';
-            // }else{
-            //   retorno_axios = '0';
-            // }
-
-            //  if(retorno_axios == 1 || retorno_axios == '1'){
-            //    return true;
-            //  } else{
-            //    return false;
-            //  }
+          usuarioDioLike(){
+            this.dioLike = 1;
+            console.log('usuario dio like'+this.dioLike);
           },
 
+          setDioLike(){
+            this.dioLike = null;
+            console.log('Seteado a null');
+          },
+
+          interactue(){
+            axios.get('/interactue').then(res => {
+              this.misInteracciones = res.data;
+              // console.log(this.misInteracciones);
+            })
+          },
+
+          interactue_prueba(id){
+            var respuesta;
+            axios.get('/interactue_prueba/'+this.aporte+'/'+id).then(res => {
+              // this.misInteracciones_prueba = res.data;
+              console.log('dataaaaaaa: '+res.data)
+              respuesta = res.data;
+              $('#interaccion_usuario').val(5);
+              return res.data;
+              return 'si'
+              // console.log(this.misInteracciones_prueba);
+            })
+            return respuesta;
+          },
 
           
           cargar_malas_palabras(){
             axios.get('/palabraProhibida').then(res=>{
                 this.listaMalasPalabras = res.data;
-                console.log(this.listaMalasPalabras);
+                // console.log(this.listaMalasPalabras);
                 })
           },
+
           like(IdComentario){
             this.InteraccionComentario.ID_TIPO_INTERACCION= 1;
             this.InteraccionComentario.ID_COMENTARIO= IdComentario;
@@ -201,7 +186,7 @@
               toastr.clear();
               toastr.options.closeButton = true;
               toastr.success('Te ha gustado el Comentario', 'Like!!');
-              this.cargar_comentarios();
+              this.refresh();
               this.InteraccionComentario.ID_TIPO_INTERACCION = "";
               this.InteraccionComentario.ID_COMENTARIO = "";
             }).catch(e=>{
@@ -209,26 +194,14 @@
               })
           },
 
-          disLike(idInteraccion){
-            this.$swal(
-              {
-                title: '¿Estas seguro?',
-                text: "¡Esta acción no se puede revertir!",
-                icon: 'warning',
-                  buttons: {
-                    confirm: true,
-                    cancel: true,
-                  },
-              }).then((value) => {
-                if (value) {
-                  axios.delete(`/adquisiciones/${idInteraccion}`)
-                  .then(()=>{
-                      swal('Exito','Registro Borrado','success')
-                      this.cargarSugerencias();
-                  })
-                }
-              }
-            );
+          dislike(idInteraccion){
+            axios.post(`/dislikeComentario/${idInteraccion}`)
+                .then(()=>{
+                      toastr.clear();
+                      toastr.options.closeButton = true;
+                      toastr.success('Ya no te gusta el Comentario', 'Dislike :(');
+                      this.refresh();
+                })
               
           },
 
@@ -309,44 +282,6 @@
           }
         },
 
-        // computed:{
-        //   interactue: function(){
-            
-        //     // this.datos = {idA:this.aporte, idC:id};
-        //     // console.log(this.datos);
-        //     var retorno_axios='algo';
-        //     axios.get('/interactue/'+this.aporte+'/'+id).then(res=>{
-        //       console.log('data'+res.data);
-        //       // this.dioLike = res.data
-        //       retorno_axios = res.data;
-        //       // if(res.data == 1){
-        //       //   this.dioLike = 1;
-        //       //   }
-
-        //       if(res.data == 1 || res.data == '1'){
-        //         return true;
-        //       } else{
-        //         return false;
-        //       }
-              
-        //     });
-        //     // return true;
-        //     console.log('dio like'+retorno_axios);
-
-        //     // var retorno_axios='1';
-
-        //     // if(id < 5){
-        //     //   retorno_axios = '1';
-        //     // }else{
-        //     //   retorno_axios = '0';
-        //     // }
-
-        //     //  if(retorno_axios == 1 || retorno_axios == '1'){
-        //     //    return true;
-        //     //  } else{
-        //     //    return false;
-        //     //  }
-        //   },
-        // },
+       
     }
 </script>

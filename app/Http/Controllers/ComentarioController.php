@@ -89,14 +89,16 @@ class ComentarioController extends Controller
 
     public function interactue(Request $request)
     {
-        // dd($request);
-        // $idA = $request->datos[0];
-        // $idC = $request->datos[1];
+        return Comentario::select('Comentario.id', 'interaccionComentario.id as int')
+        ->join('interaccionComentario', 'Comentario.id', '=', 'interaccionComentario.ID_COMENTARIO')
+        ->where('interaccionComentario.ID_USUARIO', '=', auth()->id() )
+        ->get();
+    }
 
-        // $interactue =  DB::table('Comentario')
+    public function interactue_prueba(Request $request)
+    {
         $interactue =  Comentario::select('Comentario.*')
         ->join('interaccionComentario', 'Comentario.id', '=', 'interaccionComentario.ID_COMENTARIO')
-        
         ->where('Comentario.HABILITADO','=','1')
         ->where('interaccionComentario.ID_USUARIO', '=', auth()->id() )
         ->where('Comentario.ID_APORTE', '=', $request->idA)
@@ -104,9 +106,9 @@ class ComentarioController extends Controller
         ->get();
 
         if( sizeof($interactue) < 1 ){
-            return '0';
+            return 'no';
         }else{
-            return '1';
+            return 'si';
         }
 
     }

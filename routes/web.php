@@ -61,7 +61,11 @@ Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida')
 
 //------------------------Mis rutas para las interacciones
 Route::get('/interacciones/{id}', 'ComentarioController@interacciones');
-Route::get('/interactue/{idA}/{idC}', 'ComentarioController@interactue');
+Route::get('/interactue', 'ComentarioController@interactue');
+Route::post('/dislikeComentario/{id}', 'ComentarioController@interaccionDislike')->name('interaccion.dislike');
+
+Route::get('/interactue_prueba/{idA}/{idC}', 'ComentarioController@interactue_prueba');
+
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
 Route::middleware(['web', 'rol:4'])->group(function () {
