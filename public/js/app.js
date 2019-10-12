@@ -2229,6 +2229,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -2236,6 +2241,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['habilitado'],
   data: function data() {
     return {
+      search_titulo: '',
       Aportes: [],
       Aporte: {
         TITULO: '',
@@ -2259,6 +2265,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     verAporte: function verAporte(id) {
       window.location.href = '/aportes/' + id;
+    }
+  },
+  computed: {
+    searchEjemplar: function searchEjemplar() {
+      var _this2 = this;
+
+      console.log(this.search_titulo.length);
+
+      if (this.search_titulo != '' && this.search_titulo.length > 2) {
+        return this.Aportes.filter(function (item) {
+          return item.TITULO.toUpperCase().includes(_this2.search_titulo.toUpperCase()) || item.DESCRIPCION.toUpperCase().includes(_this2.search_titulo.toUpperCase());
+        });
+      } else {
+        return this.Aportes;
+      }
     }
   }
 });
@@ -63016,20 +63037,6 @@ var render = function() {
                       }
                     },
                     [_c("i", { staticClass: "far fa-eye" }), _vm._v(" Ver ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-secondary btn-sm float-right",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.alerta()
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "far fa-circle" }), _vm._v(" Ver ")]
                   )
                 ])
               ])
@@ -63081,90 +63088,121 @@ var render = function() {
     _c(
       "div",
       { staticClass: "row" },
-      _vm._l(_vm.Aportes, function(item, index) {
-        return _c(
-          "div",
-          {
-            key: index,
-            staticClass: "card card-widget col-md-5 col-xs-12",
-            staticStyle: { "margin-left": "25px" }
-          },
-          [
-            _c(
-              "div",
+      [
+        _c("div", { staticClass: "input-group mb-1 col-12" }, [
+          _c("input", {
+            directives: [
               {
-                staticClass: "card-header",
-                staticStyle: { "background-color": "white" }
-              },
-              [
-                _c("div", { staticClass: "user-block" }, [
-                  _c(
-                    "a",
-                    {
-                      staticStyle: {
-                        "text-decoration": "none!important",
-                        color: "black!important"
-                      },
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.verAporte(item.id)
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search_titulo,
+                expression: "search_titulo"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", name: "", id: "", autofocus: "" },
+            domProps: { value: _vm.search_titulo },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search_titulo = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("br"),
+        _c("br"),
+        _vm._v(" "),
+        _vm._l(_vm.searchEjemplar, function(item, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "card card-widget col-md-5 col-xs-12",
+              staticStyle: { "margin-left": "25px" }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "card-header",
+                  staticStyle: { "background-color": "white" }
+                },
+                [
+                  _c("div", { staticClass: "user-block" }, [
+                    _c(
+                      "a",
+                      {
+                        staticStyle: {
+                          "text-decoration": "none!important",
+                          color: "black!important"
+                        },
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.verAporte(item.id)
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c("img", {
-                        staticClass: "img-circle",
-                        attrs: { src: "", alt: "" }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "username" }, [
-                        _c("a", { attrs: { href: "#" } }, [
-                          _vm._v(_vm._s(item.AUTOR_APORTE))
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "img-circle",
+                          attrs: { src: "", alt: "" }
+                        }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "username" }, [
+                          _c("a", { attrs: { href: "#" } }, [
+                            _vm._v(_vm._s(item.AUTOR_APORTE))
+                          ])
                         ])
-                      ])
-                    ]
-                  ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "description" }, [
+                      _vm._v(_vm._s(item.created_at))
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("span", { staticClass: "description" }, [
-                    _vm._v(_vm._s(item.created_at))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-tools" })
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", [_vm._v(_vm._s(item.TITULO))]),
+                  _c("div", { staticClass: "card-tools" })
+                ]
+              ),
               _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(item.DESCRIPCION))])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "card-footer",
-                staticStyle: { "background-color": "white" }
-              },
-              [
-                _c("span", { staticClass: "float-right text-muted" }, [
-                  _vm._v(
-                    " " +
-                      _vm._s(
-                        item.CANTIDAD_COMENTARIOS == 0
-                          ? "Sin "
-                          : item.CANTIDAD_COMENTARIOS
-                      ) +
-                      " comentarios"
-                  )
-                ])
-              ]
-            )
-          ]
-        )
-      }),
-      0
+              _c("div", { staticClass: "card-body" }, [
+                _c("h5", [_vm._v(_vm._s(item.TITULO))]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(item.DESCRIPCION))])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "card-footer",
+                  staticStyle: { "background-color": "white" }
+                },
+                [
+                  _c("span", { staticClass: "float-right text-muted" }, [
+                    _vm._v(
+                      " " +
+                        _vm._s(
+                          item.CANTIDAD_COMENTARIOS == 0
+                            ? "Sin "
+                            : item.CANTIDAD_COMENTARIOS
+                        ) +
+                        " comentarios"
+                    )
+                  ])
+                ]
+              )
+            ]
+          )
+        })
+      ],
+      2
     )
   ])
 }
