@@ -87,6 +87,32 @@ class ComentarioController extends Controller
         ->get();
     }
 
+    public function interactue(Request $request)
+    {
+        // dd($request);
+        // $idA = $request->datos[0];
+        // $idC = $request->datos[1];
+
+        // $interactue =  DB::table('Comentario')
+        $interactue =  Comentario::select('Comentario.*')
+        ->join('interaccionComentario', 'Comentario.id', '=', 'interaccionComentario.ID_COMENTARIO')
+        
+        ->where('Comentario.HABILITADO','=','1')
+        ->where('interaccionComentario.ID_USUARIO', '=', auth()->id() )
+        ->where('Comentario.ID_APORTE', '=', $request->idA)
+        ->where('Comentario.id', '=', $request->idC)
+        ->get();
+
+        if( sizeof($interactue) < 1 ){
+            return '0';
+        }else{
+            return '1';
+        }
+
+    }
+
+
+
     /**
      * Store a newly created resource in storage.
      *

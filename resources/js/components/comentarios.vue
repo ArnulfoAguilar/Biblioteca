@@ -14,14 +14,38 @@
             </div>
                           <!-- /.comment-text -->
             <div class="row float-right">
-              <div v-if="prueba(datos.id) == true">
-                Tiene interaccion
+              {{datos.id}}--{{datos_prueba}}
+              <!-- <div v-if="datos.id in datos_prueba">
+                est{á}
+              </div> -->
+
+              <!-- <div v-for="(dato, indice) in datos_prueba" :key="indice">
+                <div v-if="datos.id == dato">
+                  esta prrito
+                </div>
+              </div> -->
+              
+              <!-- <div v-for="(item, indice) in InteraccionComentarios" :key="indice">
+                <div v-if="item.ID_COMENTARIO == datos.id">
+                  Entra
+                  <div v-if="item.ID_USUARIO_INTERACCION == usuario ">
+                    Yo Interactue
+                  </div>
+                  <div v-else>
+                    No es mio
+                  </div>
+                </div>
+                
+              </div> -->
+
+              <div v-if="interactue(datos.id) == true">
+                Di like
               </div>
               <div v-else>
-                NO TIENE interaccion
+                No di Like
               </div>
 
-              <!-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> -->
+              <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button>
               <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
             </div>
         </div>
@@ -48,6 +72,8 @@
         props: ['aporte','usuario'],
         data(){
           return{
+            datos_prueba:['1','2','3','7'],
+
             interaccionesConLike: [],
             dioLike:'',
             ocultar:false,
@@ -63,7 +89,7 @@
         },
         created(){
           this.cargar_comentarios();
-          // this.cargar_interacciones();
+          this.cargar_interacciones();
           this.cargar_malas_palabras();
         },
         methods:{
@@ -73,36 +99,90 @@
                 })
           },
           // Quiza no me sirva
-          cargar_interacciones_backup(){
+          cargar_interacciones(){
             axios.get('/interaccionesComentario/'+this.aporte).then(res=>{
                 this.InteraccionComentarios = res.data;
-               
+              //  console.log(this.InteraccionComentarios);
                 })
           },
 
           // cargar_interacciones(){
-          //   axios.get('/interacciones'+id).then(res=>{
+          //   axios.get('/interacciones'+this.aporte).then(res=>{
           //       this.interacciones = res.data;
           //       console.log(this.interacciones);
           //       })
           // },
 
-          prueba(id){
-            axios.get('/interacciones/'+id).then(res=>{
-              this.interaccionesConLike = res.data;
-              console.log(this.interaccionesConLike);
-            })
+          // prueba(id){
+          //   axios.get('/interacciones/'+id).then(res=>{
+          //     this.interaccionesConLike = res.data;
+          //     console.log(this.interaccionesConLike);
+          //   })
 
             // if( this.interaccionesConLike == 0 ){
             //   return false;
             // }else{
             //   return true;
             // }
-          },
-
-          // prueba(){
-          //     return true;
           // },
+
+          interactue(id){
+            
+            
+
+            // this.datos = {idA:this.aporte, idC:id};
+
+            // console.log(this.datos);
+
+            var retorno_axios='algo';
+
+            // axios.get('/interactue/'+this.aporte+'/'+id).then(res=>{
+            //   console.log('data'+res.data);
+            //   this.dioLike = res.data
+            //   retorno_axios = res.data;
+            //   // if(res.data == 1){
+            //   //   this.dioLike = 1;
+            //   //   }
+              
+
+
+            //   if(res.data == 1 || res.data == '1'){
+            //     return true;
+            //   } else{
+            //     return false;
+            //   }
+              
+            // });
+
+            async function getInte() {
+            try {
+              const response = await axios.get('/interactue/'+this.aporte+'/'+id);
+              console.log(response);
+              comsole.log('entra');
+            } catch (error) {
+              console.error(error);
+            }
+          }
+
+
+            // return true;
+            console.log('dio like'+retorno_axios);
+
+
+            // var retorno_axios='1';
+
+            // if(id < 5){
+            //   retorno_axios = '1';
+            // }else{
+            //   retorno_axios = '0';
+            // }
+
+            //  if(retorno_axios == 1 || retorno_axios == '1'){
+            //    return true;
+            //  } else{
+            //    return false;
+            //  }
+          },
 
 
           
@@ -228,5 +308,45 @@
             });
           }
         },
+
+        // computed:{
+        //   interactue: function(){
+            
+        //     // this.datos = {idA:this.aporte, idC:id};
+        //     // console.log(this.datos);
+        //     var retorno_axios='algo';
+        //     axios.get('/interactue/'+this.aporte+'/'+id).then(res=>{
+        //       console.log('data'+res.data);
+        //       // this.dioLike = res.data
+        //       retorno_axios = res.data;
+        //       // if(res.data == 1){
+        //       //   this.dioLike = 1;
+        //       //   }
+
+        //       if(res.data == 1 || res.data == '1'){
+        //         return true;
+        //       } else{
+        //         return false;
+        //       }
+              
+        //     });
+        //     // return true;
+        //     console.log('dio like'+retorno_axios);
+
+        //     // var retorno_axios='1';
+
+        //     // if(id < 5){
+        //     //   retorno_axios = '1';
+        //     // }else{
+        //     //   retorno_axios = '0';
+        //     // }
+
+        //     //  if(retorno_axios == 1 || retorno_axios == '1'){
+        //     //    return true;
+        //     //  } else{
+        //     //    return false;
+        //     //  }
+        //   },
+        // },
     }
 </script>
