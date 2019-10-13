@@ -32,6 +32,33 @@ class PalabraProhibidaController extends Controller
         return $listapalabra;
     }
 
+    // public function lista()
+    // {
+    //     $malasPalabras = [];
+    //     $palabrasProhibidas = palabraProhibida::select('PALABRA')->get();
+    //     foreach ($palabrasProhibidas as $key => $palabra) {
+    //         $malasPalabras[] .= $palabra->PALABRA;
+    //     }
+    //     return $malasPalabras;
+    // }
+
+    public function lista()
+    {
+        $listapalabra = "";
+        $palabraProhibida = palabraProhibida::all();
+        $cantidadDePalabras=sizeof($palabraProhibida);
+        $contador=1;
+        foreach($palabraProhibida as $k => $palabra){
+            if($contador<$cantidadDePalabras){
+                $listapalabra.="^".$palabra->PALABRA."| ".$palabra->PALABRA." | ".$palabra->PALABRA."$|";
+            }else{
+                $listapalabra.="^".$palabra->PALABRA."| ".$palabra->PALABRA." | ".$palabra->PALABRA."$";
+            }
+            $contador++;
+        }
+        return $listapalabra;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

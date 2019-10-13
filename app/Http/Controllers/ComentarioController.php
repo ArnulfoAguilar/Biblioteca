@@ -54,6 +54,50 @@ class ComentarioController extends Controller
         $InteraccionComentario->delete();
         activity()->log('Quitó Like');
     }
+//HEchos para la seccion de comentarios sin vue--------------------------------------------------
+    public function darLike(Request $request)
+    {
+        $InteraccionComentario = new interaccionComentario();
+        $InteraccionComentario->ID_TIPO_INTERACCION=1;
+        $InteraccionComentario->ID_COMENTARIO= $request->comentario;
+        $InteraccionComentario->ID_USUARIO = auth()->id();
+        $InteraccionComentario->save();
+        activity()->log('Dió Like');
+    }
+
+    public function darDislike(Request $request)
+    {
+        $InteraccionComentario = interaccionComentario::find($request->interaccion);
+        $InteraccionComentario->delete();
+        activity()->log('Quitó Like');
+    }
+
+    public function guardarComentario(Request $request)
+    {
+        // dd($request);
+        $id= (int)$request->aporte;
+            // dd($id);
+        try {
+            $Comentario =new Comentario();
+            $Comentario->COMENTARIO = $request->comentario;
+            $Comentario->ID_USUARIO = auth()->id();
+            $Comentario->ID_APORTE = $request->aporte;
+            $Comentario->save();
+
+            $Aporte = Aporte::find($request->aporte);
+            $user = User::find($Aporte->ID_USUARIO);
+            $user->notify(new NuevoComentario($Comentario)); //Esto notifica a un solo usuario
+            //Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
+            activity()->log('Realizó comentario');
+            
+            return redirect('/aportes/'.$id);
+        } catch (Exception $e) {
+            return $e->getMessage();     
+        }
+        
+    }
+// FIN HEchos para la seccion de comentarios sin vue----------------------------------
+
     
     public function interaccionReport(Request $request)
     {

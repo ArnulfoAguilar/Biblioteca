@@ -8,6 +8,9 @@ use App\Area;
 use App\palabrasClave;
 use App\tipoAporte;
 use App\User;
+use App\Comentario;
+use App\palabraProhibida;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -210,7 +213,7 @@ class AporteController extends Controller
      * @param  \App\Aporte  $aporte
      * @return \Illuminate\Http\Response
      */
-    public function show(Aporte $aporte)
+    public function show_backup(Aporte $aporte)
     {
 
         $PalabrasClave = DB::table('aportePalabraClavePivote')
@@ -224,6 +227,47 @@ class AporteController extends Controller
         return view('Aportes.verAporte')->with(['aporte' => $aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
             ->with(['TipoAporte' => $TipoAporte]);
+
+    }
+
+    public function show(Aporte $aporte)
+    {
+
+        $PalabrasClave = DB::table('aportePalabraClavePivote')
+        ->join('palabrasClave', function($join) use ($aporte) {
+            $join->on('aportePalabraClavePivote.ID_PALABRA_CLAVE','=','palabrasClave.id')
+            ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
+        })
+        ->select('palabrasClave.id','palabrasClave.PALABRA')
+        ->get();
+        $TipoAporte = tipoAporte::find($aporte->ID_TIPO_APORTE);
+        
+        $interacciones = Comentario::select('Comentario.id as id_comentario', 'interaccionComentario.id as id_interaccion')
+        ->join('interaccionComentario', 'Comentario.id', '=', 'interaccionComentario.ID_COMENTARIO')
+        ->where('interaccionComentario.ID_USUARIO', '=', auth()->id() )
+        ->get();
+
+        $comentarios = DB::table('comentarioslikes')
+        ->where('ID_APORTE', $aporte->id)
+        ->where('HABILITADO', true)->get();
+
+        // $malasPalabras = [];
+        // $palabrasProhibidas = palabraProhibida::select('PALABRA')->get();
+        // foreach ($palabrasProhibidas as $key => $palabra) {
+        //     $malasPalabras[] .= $palabra->PALABRA;
+        // }
+        // dd($malasPalabras);        
+
+        return view('Aportes.verAporte')
+        ->with([
+            'aporte' => $aporte,
+            'PalabrasClave' => $PalabrasClave,
+            'TipoAporte' => $TipoAporte,
+            'interacciones' => $interacciones,
+            'comentarios' => $comentarios,
+            // 'malasPalabras' => $malasPalabras
+            ]);
+            
 
     }
 

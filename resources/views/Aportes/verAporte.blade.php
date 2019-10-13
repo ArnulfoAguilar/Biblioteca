@@ -91,7 +91,60 @@
                                                         @endif 
                                                 </div>
                                                 @if ($aporte->COMENTARIOS==1 )
-                                                <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
+                                                {{-- <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios> --}}
+
+                                                @foreach ($comentarios as $comentario)
+                                                    <div class="card-footer card-comments">
+                                                        
+                                                        <div class="card-comment" >
+                                                        <!-- User image -->
+                                                            <img class="img-circle img-sm" src="" alt="">
+                                                        
+                                                            <div class="comment-text">
+                                                            <span class="username">
+                                                                {{$comentario->name}}
+                                                            <span class="text-muted float-right">{{ $comentario->created_at}}</span>
+                                                            </span><!-- /.username -->
+                                                            {{ $comentario->COMENTARIO}}
+                                                            </div>
+                                                                        <!-- /.comment-text -->
+                                                            <div class="row float-right">
+                                                                {{-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> --}}
+                                                                <?php $dioLike = false;?>
+                                                                @foreach ($interacciones as $interaccion)
+                                                                    @if ($interaccion->id_comentario == $comentario->id)
+                                                                        <?php $dioLike = true;?>
+                                                                        <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button"  class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down">{{ $comentario->total_likes }}</i> Dislike</button>
+                                                                    @endif
+                                                                @endforeach
+                                                                @if ($dioLike)
+                                                                    <?php $dioLike = false;?>
+                                                                @else
+                                                                    <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up">{{ $comentario->total_likes }}</i> Like</button>
+                                                                @endif
+                                                                <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
+                                                            </div>
+                                                        </div>
+                                                                        <!-- /.card-comment -->
+                                                    </div>
+                                                @endforeach
+                                                    
+                                                    <div class="card-footer">
+                                                    <img class="img-fluid img-circle img-sm" src="" alt="">
+                                                    <!-- .img-push is used to add margin to elements next to floating images -->
+                                                        <div class="img-push">
+                                                            {{-- <form @submit.prevent="comprobar_comentario"> --}}
+                                                            {{-- <form action="{{route('guardar.comentario')}}" class="create_comentario"> --}}
+                                                            <form action="{{route('guardar.comentario')}}" class="create_comentario" method="POST">
+                                                            {{ csrf_field() }}
+                                                            {{-- <input class="form-control form-control-lg" placeholder="Escribe un comentario..." v-model="Comentario.COMENTARIO"> --}}
+                                                            <input name="aporte" type="hidden" value="{{$aporte->id}}">
+                                                            <input name="comentario" class="form-control form-control-lg" placeholder="Escribe un comentario..." required>
+                                                            </form>  
+                                                        </div>
+                                                    </div>
+
+
                                                 @endif  
                                             </div>
                                         </div>
@@ -126,5 +179,107 @@
 
 {{-- <script src="jquery.min.js"></script>
 <script src="toastr.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+    
+    });
+
+    $('.like').click(function (e) {
+        var c = $(this).data('c');
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url: "{{ route('dar.like') }}",
+            method: "POST",
+            data: {
+                comentario:c,
+                _token: _token,
+            } ,
+            success: function(result) {
+                swal({ text: 'Te gusta el comentario', title: 'Like', icon: 'success',})
+                        .then( (value) => {
+                            location.reload();
+                        });
+                
+            }
+        });
+    });
+
+    $('.dislike').click(function (e) {
+        var i = $(this).data('i');
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url: "{{ route('dar.dislike') }}",
+            method: "POST",
+            data: {
+                interaccion:i,
+                _token: _token,
+            } ,
+            success: function(result) {
+                swal({ text: 'Te ha dejado de gustar el comentario', title: 'Dislike', icon: 'success',})
+                        .then( (value) => {
+                            location.reload();
+                        });
+            }
+        });
+    });
+
+    $('.create_comentario').submit(function (e) {
+        e.preventDefault();
+        var form = this;
+        var texto_ingresado = form.comentario.value;
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url: "{{ route('lista.malas.palabras') }}",
+            method: "POST",
+            data: {
+                _token: _token,
+            } ,
+            success: function(result) {                
+                if(texto_ingresado !=''){
+                    var regex = new RegExp("("+result+")",'igm')
+                    //console.log(regex)
+                    const str = texto_ingresado;
+                    let palabra_en_comentario;
+                    if ((palabra_en_comentario = regex.exec(str)) !== null){
+                        if (palabra_en_comentario.index === regex.lastIndex){
+                            regex.lastIndex++;
+                        }
+                        swal({
+                            text: 'Puede que su comentario tenga palabras inadecuadas.\n¿Desea continuar?',
+                            title: 'Alto', icon: 'warning', buttons: { cancel: true, confirm: true, },
+                        }).then((value) => {
+                            if (value){
+                                form.submit();
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        });
+                    }else{
+                        swal({ text: 'Espere la aprobación del administrador', title: 'Exito', icon: 'success',})
+                        .then( (value) => {
+                            
+                            form.submit();
+                            return true;
+                        });
+                    }
+                }else{
+                    swal({ text: 'Debe escribir un comentario', title: 'Alto', icon: 'warning',})
+                }
+
+            },
+            error: function(result) {
+                swal({ text: 'Su comentario no pudo ser validado', title: 'Error', icon: 'error',})
+            }
+        });
+
+        if(texto_ingresado == null || texto_ingresado == ''){
+            return false;
+        }
+        
+    });
+</script>
+
    
 @endsection 

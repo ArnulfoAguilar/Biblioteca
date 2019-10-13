@@ -66,6 +66,12 @@ Route::post('/dislikeComentario/{id}', 'ComentarioController@interaccionDislike'
 
 Route::get('/interactue_prueba/{idA}/{idC}', 'ComentarioController@interactue_prueba');
 
+//MIs rutas para comentarios sin VUE
+Route::post('/darLike', 'ComentarioController@darLike')->name('dar.like');
+Route::post('/darDislike', 'ComentarioController@darDislike')->name('dar.dislike');
+Route::post('/guadarComentario', 'ComentarioController@guardarComentario')->name('guardar.comentario');
+Route::post('/listaMalasPalabras', 'PalabraProhibidaController@lista')->name('lista.malas.palabras');
+
 
 // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
 Route::middleware(['web', 'rol:4'])->group(function () {
