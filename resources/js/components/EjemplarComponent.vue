@@ -130,21 +130,18 @@
                                     <label for="PRIMER_SUMARIO">Primer sumario</label>
                                     <div>
                                         <select2 :options="primerSumarios" :value="PRIMERSUMARIOID" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"></select2>
-                                        <!--<v-select :options="primerSumarios" label="text" :reduce="text =>text.id" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"></v-select>-->
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="SEGUNDO_SUMARIO">Segundo sumario</label>
                                     <div>
                                         <select2 :options="segundoSumarios" :value="SEGUNDOSUMARIOID" v-model="SEGUNDOSUMARIOID" @input="getTercerSumario"></select2>
-                                        <!--<v-select :options="segundoSumarios" label="text" :reduce="text=>text.id" v-model="SEGUNDOSUMARIOID"></v-select>-->
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="TERCER_SUMARIO">Tercer Sumario</label>
                                     <div>
                                         <select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2>
-                                        <!--<v-select :options="tercerSumarios" label="text" v-model="EJEMPLAR.TERCER_SUMARIO"></v-select>-->
                                     </div>
                                 </div>
                             </div>
@@ -398,11 +395,12 @@ export default {
                 // this.segundoSumarios=segundo.data;
                 // var tercero = await axios.get('/TercerSumarioSelect/'+componentState.selectedItem.ID_SEGUNDO_SUMARIO)
                 // this.tercerSumarios=tercero.data;
-                // this.editarFormulario(componentState.selectedItem)
-                this.editarFormulario(componentState.selectedItem);
+                //console.log(componentState.selectedItem)
+                this.editarFormulario(componentState.selectedItem.data);
+                this.$nextTick(()=>{$('#modalForm').modal('show');})
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarEjemplar(componentState.selectedItem.data, componentState.selectedIndex);
             }
         },
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
@@ -427,28 +425,25 @@ export default {
         //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
             this.PRIMERSUMARIOID=item.ID_PRIMER_SUMARIO;
             this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
-            this.EJEMPLAR = {
-                CATALOGO_MATERIAL:item.ID_CATALOGO_MATERIAL,
-                TERCER_SUMARIO:item.ID_TERCER_SUMARIO,
-                LUGAR_EDICION:item.LUGAR_EDICION,
-                TIPO_EMPASTADO:item.ID_TIPO_EMPASTADO,
-                TIPO_ADQUISICION:item.ID_TIPO_ADQUISICION,
-                ESTADO_EJEMPLAR:item.ID_ESTADO_EJEMPLAR,
-                AREA:item.ID_AREA,
-                OBSERVACIONES:item.OBSERVACIONES,
-                EJEMPLAR : item.EJEMPLAR,
-                DESCRIPCION : item.DESCRIPCION,
-                ISBN : item.ISBN,
-                AUTOR : item.AUTOR,
-                NUMERO_PAGINAS : item.NUMERO_PAGINAS,
-                COPIAS : item.NUMERO_COPIAS,
-                id : item.id,
-                SUBTITULO:item.SUBTITULO,
-                EDITORIAL:item.EDITORIAL,
-                EDICION:item.EDICION,
-                AÑO_EDICION:item.AÑO_EDICION
-            }
-            $('#modalForm').modal('show');
+            this.EJEMPLAR.CATALOGO_MATERIAL=item.ID_CATALOGO_MATERIAL;
+            this.EJEMPLAR.TERCER_SUMARIO=item.ID_TERCER_SUMARIO;
+            this.EJEMPLAR.LUGAR_EDICION=item.LUGAR_EDICION;
+            this.EJEMPLAR.TIPO_EMPASTADO=item.ID_TIPO_EMPASTADO;
+            this.EJEMPLAR.TIPO_ADQUISICION=item.ID_TIPO_ADQUISICION;
+            this.EJEMPLAR.ESTADO_EJEMPLAR=item.ID_ESTADO_EJEMPLAR;
+            this.EJEMPLAR.AREA=item.ID_AREA;
+            this.EJEMPLAR.OBSERVACIONES=item.OBSERVACIONES;
+            this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
+            this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
+            this.EJEMPLAR.ISBN = item.ISBN;
+            this.EJEMPLAR.AUTOR = item.AUTOR;
+            this.EJEMPLAR.NUMERO_PAGINAS = item.NUMERO_PAGINAS;
+            this.EJEMPLAR.COPIAS = item.NUMERO_COPIAS;
+            this.EJEMPLAR.id = item.id;
+            this.EJEMPLAR.SUBTITULO=item.SUBTITULO;
+            this.EJEMPLAR.EDITORIAL=item.EDITORIAL;
+            this.EJEMPLAR.EDICION=item.EDICION;
+            this.EJEMPLAR.AÑO_EDICION=item.AÑO_EDICION;
         //this.$forceUpdate();
         },
         eliminarEjemplar(EJEMPLAR, index){
@@ -533,14 +528,15 @@ export default {
         },
         getSegundoSumario(){
             if(this.PRIMERSUMARIOID>0){
-                axios.get('/SegundoSumarioSelect/'+this.PRIMERSUMARIOID).then(()=>{
+                axios.get('/SegundoSumarioSelect/'+this.PRIMERSUMARIOID).then((response)=>{
                     this.segundoSumarios = response.data;
                 });
             }
+
         },
         getTercerSumario(){
             if(this.PRIMERSUMARIOID>0 && this.SEGUNDOSUMARIOID>0){
-                var response= axios.get('/TercerSumarioSelect/'+this.SEGUNDOSUMARIOID).then(()=>{
+                var response= axios.get('/TercerSumarioSelect/'+this.SEGUNDOSUMARIOID).then((response)=>{
                     this.tercerSumarios = response.data;
                 });
             }
