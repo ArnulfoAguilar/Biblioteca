@@ -4728,6 +4728,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4739,7 +4772,39 @@ __webpack_require__.r(__webpack_exports__);
           name: null,
           data: null
         },
-        columns: []
+        columns: [{
+          name: 'EJEMPLAR',
+          title: 'Ejemplar',
+          order: 1,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: true
+        }, {
+          name: 'ESTADO_PRESTAMO',
+          title: 'Estado préstamo',
+          order: 2,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: true
+        }, {
+          name: 'name',
+          title: 'Solicitado por',
+          order: 3,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: true
+        }, {
+          name: 'FECHA_PRESTAMO',
+          title: 'Fecha de préstamo',
+          order: 3,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: false
+        }]
       },
       PRESTAMO: {
         FECHA_PRESTAMO: '',
@@ -4748,6 +4813,7 @@ __webpack_require__.r(__webpack_exports__);
         ID_ESTADO_PRESTAMO: '',
         ID_MATERIAL: ''
       },
+      prestamos: [],
       isEditing: false,
       createTitle: 'Agregar Ejemplar',
       editTitle: 'Editar Ejemplar',
@@ -4757,14 +4823,14 @@ __webpack_require__.r(__webpack_exports__);
   //vuelidate
   created: function created() {
     this.tableData.tableOptions = {
-      columns: this.columns,
+      columns: this.tableData.columns,
       responsiveTable: true,
       contextMenuRight: true,
       contextMenuAdd: false,
       contextMenuView: false,
       quickView: 0,
-      addNew: true,
-      deleteItem: true
+      addNew: true //deleteItem: true
+
     };
     this.sendData();
   },
@@ -4776,11 +4842,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.tableData.tableLoader = true;
-      axios.get('/ejemplars').then(function (res) {
-        _this.ejemplars = res.data;
+      axios.get('/biblioteca/prestamos').then(function (res) {
+        _this.prestamos = res.data;
         _this.tableData.eventFromApp = {
           name: 'sendData',
-          payload: _this.ejemplars
+          payload: _this.prestamos
         };
 
         _this.triggerEvent();
@@ -4800,11 +4866,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       if (componentState.lastAction === 'Refresh') {
-        axios.get('/ejemplars').then(function (result) {
-          _this3.ejemplars = result.data;
+        axios.get('/biblioteca/prestamos').then(function (result) {
+          _this3.prestamos = result.data;
           _this3.tableData.eventFromApp = {
             name: 'sendData',
-            payload: _this3.ejemplars
+            payload: _this3.prestamos
           };
 
           _this3.triggerEvent();

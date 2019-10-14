@@ -7,6 +7,39 @@
             :event-from-app-trigger="tableData.eventFromAppTrigger"
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
+
+        <!-- Modal con el formulario para agregar un nuevo libro o editar uno existente
+        <div id="modalForm" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                Modal content
+                <form @submit.prevent="submitHandler($v.$invalid)" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{titleToShow}}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="LUGAR_EDICION">Lugar Edición</label>
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.LUGAR_EDICION" id="LUGAR_EDICION"
+                                        aria-describedby="emailHelp">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="CATALOGO_MATERIAL">Tipo de material</label>
+                                    <div>
+                                        <select2 :options="catalogoMaterial" :value="EJEMPLAR.CATALOGO_MATERIAL" v-model="EJEMPLAR.CATALOGO_MATERIAL"></select2>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Guardar Ejemplar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        fin modal agregar -->
   </div>
 </template>
 
@@ -22,7 +55,44 @@ export default {
                     name: null,
                     data: null
                 },
-                columns: []
+                columns: [
+                    {
+                    name:'EJEMPLAR',
+                    title:'Ejemplar',
+                    order: 1,
+                    sort: true,
+                    type: 'string',
+                    filterable: true,
+                    enabled: true
+                },
+                {
+                    name:'ESTADO_PRESTAMO',
+                    title:'Estado préstamo',
+                    order: 2,
+                    sort: true,
+                    type: 'string',
+                    filterable: true,
+                    enabled: true
+                },
+                {
+                    name:'name',
+                    title:'Solicitado por',
+                    order: 3,
+                    sort: true,
+                    type: 'string',
+                    filterable: true,
+                    enabled: true
+                },
+                {
+                    name:'FECHA_PRESTAMO',
+                    title:'Fecha de préstamo',
+                    order: 3,
+                    sort: true,
+                    type: 'string',
+                    filterable: true,
+                    enabled: false
+                }
+                ]
             },
             PRESTAMO:{
                 FECHA_PRESTAMO:'',
@@ -31,6 +101,7 @@ export default {
                 ID_ESTADO_PRESTAMO:'',
                 ID_MATERIAL:''
             },
+            prestamos: [],
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
             editTitle: 'Editar Ejemplar',
@@ -40,14 +111,14 @@ export default {
     //vuelidate
     created(){
         this.tableData.tableOptions = {
-            columns: this.columns,
+            columns: this.tableData.columns,
             responsiveTable: true,
             contextMenuRight: true,
             contextMenuAdd: false,
             contextMenuView: false,
             quickView: 0,
             addNew: true,
-            deleteItem: true
+            //deleteItem: true
         };
         this.sendData();
     },
@@ -57,11 +128,11 @@ export default {
     methods:{
         sendData(){
             this.tableData.tableLoader = true;
-            axios.get('/ejemplars').then(res=>{
-                this.ejemplars=res.data;
+            axios.get('/biblioteca/prestamos').then(res=>{
+                this.prestamos=res.data;
                 this.tableData.eventFromApp = {
                     name: 'sendData',
-                    payload: this.ejemplars
+                    payload: this.prestamos
                 };
             this.triggerEvent();
             this.tableData.tableLoader = false;
@@ -75,11 +146,11 @@ export default {
         },
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
-                axios.get('/ejemplars').then((result)=>{
-                    this.ejemplars=result.data;
+                axios.get('/biblioteca/prestamos').then((result)=>{
+                    this.prestamos=result.data;
                     this.tableData.eventFromApp = {
                         name: 'sendData',
-                        payload: this.ejemplars
+                        payload: this.prestamos
                     };
                     this.triggerEvent();
                 })

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Modelos\VwPrestamo;
 use App\Modelos\Prestamo;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class PrestamoController extends Controller
      */
     public function index()
     {
-        //return view('Prestamo/prestamo');
+        return VwPrestamo::all();
     }
 
     /**
