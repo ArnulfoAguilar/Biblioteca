@@ -91,6 +91,13 @@ Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leida
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');
 /*RUTA para select de Area*/
+
+// -----------------------------------------Catálogos-------------------------------------//
+
+Route::resource('/palabraProhibida', 'PalabraProhibidaController');
+Route::get('/catalogos/palabras-prohibidas', 'PalabraProhibidaController@palabraProhibida')->name('palabras.prohibidas');
+Route::get('/getPalabras', 'PalabraProhibidaController@getPalabras');
+
 // -----------------------------------------ERRORES RUTAS -------------------------------------//
 
 Route::get('/error/1', 'ErroresController@error1')->name('error1');

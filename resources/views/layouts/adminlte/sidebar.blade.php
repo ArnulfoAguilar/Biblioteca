@@ -40,7 +40,7 @@
                   <p>Ver Préstamos</p>
                 </a>
               </li>
-              
+
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -126,7 +126,7 @@
                   <p>Mis Aportes Pendientes</p>
                 </a>
               </li>
-              
+
               <li class="nav-item">
                 <a href="{{route('aportes.index',['vista'=>2])}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -182,7 +182,7 @@
                     <p>Asignar rol</p>
                 </a>
               </li>
-              
+
             </ul>
           </li>
 
@@ -197,9 +197,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <a href="" class="nav-link ">
+              <a href="{{route('palabras.prohibidas')}}" class="nav-link {{ ( request()->is('catalogos/palabras-prohibidas') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Item 1 </p>
+                  <p>Palabras prohibidas </p>
                 </a>
               </li>
 
@@ -209,10 +209,10 @@
                     <p>Item 2</p>
                 </a>
               </li>
-              
+
             </ul>
           </li>
-          
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
