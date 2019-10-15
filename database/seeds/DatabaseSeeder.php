@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(tipoInteraccion::class);
         $this->call(ComiteTableSeeder::class);
         $this->call(PalabraProhibidaTableSeeder::class);
+        $this->call(ConfiguracionSeeder::class);
 
     }
 }

@@ -98,6 +98,8 @@ Route::resource('/palabraProhibida', 'PalabraProhibidaController');
 Route::get('/catalogos/palabras-prohibidas', 'PalabraProhibidaController@palabraProhibida')->name('palabras.prohibidas');
 Route::get('/getPalabras', 'PalabraProhibidaController@getPalabras');
 
+// -----------------------------------------CONFIGURACIONES -------------------------------------//
+Route::resource('/Configuracion', 'ConfiguracionController');
 // -----------------------------------------ERRORES RUTAS -------------------------------------//
 
 Route::get('/error/1', 'ErroresController@error1')->name('error1');
