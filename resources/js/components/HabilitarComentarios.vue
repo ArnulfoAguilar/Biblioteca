@@ -81,11 +81,17 @@
                   if (value) {
                     axios.get('/comentario/habilitar?id='+id).then(response=>{
                       if(response.data == '1'){
-                        swal('Exito','Cambio efectuado exitosamente','success')
+                        swal({title:'Exito',text:'Cambio efectuado exitosamente',icon:'success',  buttons: ["Ver cambios", "Okay"]})
+                        .then((value) => {
+                            if(!value){
+                              location.reload();
+                            }
+                          });
                         this.cargarComentarios()
                       }else{
                         swal('Error','Ocurrio un error al procesar su solicitud','error')
                         this.cargarComentarios()
+                        
                       }
                     })
                   }

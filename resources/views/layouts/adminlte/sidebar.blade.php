@@ -17,6 +17,9 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
+          <!--biblioteca-->
+          @if (Auth::user()->rol->id == '1' || Auth::user()->rol->id == '2' || Auth::user()->rol->id == '3' || Auth::user()->rol->id == '4')
           <li class="nav-item has-treeview {{ ( request()->is('biblioteca/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('biblioteca/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-atlas"></i>
@@ -30,7 +33,7 @@
               <li class="nav-item">
                 <a href="{{ route('buscar.disponible') }}" class="nav-link {{ ( request()->is('biblioteca/busqueda/*') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Realizar Préstamo</p>
+                <p>Realizar Préstamo</p>
                 </a>
               </li>
 
@@ -55,6 +58,9 @@
               </li>
             </ul>
           </li>
+          @endif
+          
+          @if (Auth::user()->rol->id == '1' || Auth::user()->rol->id == '2' || Auth::user()->rol->id == '3' || Auth::user()->rol->id == '4')
           <!--inventario-->
           <li class="nav-item has-treeview {{ ( request()->is('inventario/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('inventario/*') ) ? 'active' : '' }}">
@@ -98,9 +104,12 @@
               </li>
             </ul>
           </li>
+          @endif
+
+          @if (Auth::user()->rol->id == '1' || Auth::user()->rol->id == '2' || Auth::user()->rol->id == '3' || Auth::user()->rol->id == '4')
           <!--aportes-->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview {{ ( request()->is('aportes*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('aportes*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
                 Aportes
@@ -135,6 +144,9 @@
               </li>
             </ul>
           </li>
+          @endif
+
+          @if (Auth::user()->rol->id == '1' || Auth::user()->rol->id == '4')
           <!--adquisiciones-->
           <li class="nav-item has-treeview {{ ( request()->is('adquisicion/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('adquisicion/*') ) ? 'active' : '' }}">
@@ -159,6 +171,9 @@
               </li>
             </ul>
           </li>
+          @endif
+
+          @if (Auth::user()->rol->id == '1' )
           {{-- admisnistracion --}}
           <li class="nav-item has-treeview {{ ( request()->is('administracion/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('administracion/*') ) ? 'active' : '' }}">
@@ -185,7 +200,9 @@
               
             </ul>
           </li>
+          @endif
 
+          @if (Auth::user()->rol->id == '1' )
           {{-- Catalogos --}}
           <li class="nav-item has-treeview {{ ( request()->is('catalogos/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('catalogos/*') ) ? 'active' : '' }}">
@@ -212,6 +229,7 @@
               
             </ul>
           </li>
+          @endif
           
           <li class="nav-item">
             <a href="#" class="nav-link">

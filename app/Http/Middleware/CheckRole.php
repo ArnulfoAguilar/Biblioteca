@@ -14,13 +14,19 @@ class CheckRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, ... $roles)
     {
-        if (Auth::user()->ID_ROL != $role) {
-            // Redirect...
-            // return route('welcome');
+        // dd($roles);
+        $permitido = false; 
+        foreach ($roles as $key => $rol) {
+            if (Auth::user()->ID_ROL == $rol) {
+                $permitido = true;
+            }
+        }
+        if($permitido){
+            return $next($request);
+        }else{
             return redirect(route('error1'));
         }
-        return $next($request);
     }
 }
