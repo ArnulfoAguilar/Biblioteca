@@ -33,16 +33,29 @@
                   </div>
                   <input type="text" class="form-control" name id v-model="qry.isbn" />
                 </div>
-                <!--<div class="input-group mb-1 col-6">
+                <div class="input-group mb-1 col-6" v-if="isBibliotecario">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
-                      <input class="mr-2" type="checkbox" value />
                       <label class="form-check-label">Código de Barra</label>
                     </div>
                   </div>
                   <input type="text" class="form-control" name id />
-                </div>-->
-                <button class="btn btn-success float-left" type="submit">Buscar</button>
+                </div>
+              </div>
+              <div class="row mt-2" v-if="isBibliotecario">
+                <div class="input-group mb-1 col-6">
+                  <label class="form-check-label">Biblioteca</label>
+                  <select2></select2>
+                </div>
+                <div class="input-group mb-1 col-6">
+                  <label class="form-check-label">Otro filtro(No recuerdo cuál iba aquì XD)</label>
+                  <select2></select2>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-group mb-1 col-6">
+                  <button class="btn btn-success mt-2" type="submit">Buscar</button>
+                </div>
               </div>
             </form>
             <br />
@@ -219,6 +232,7 @@ export default {
         autor: "",
         isbn: ""
       },
+      isBibliotecario: true,
       hoy: this.$moment(new Date()).format("YYYY-MM-DD HH:mm"),
       materialesBibliotecarios: [],
       materialBibliotecario: {
