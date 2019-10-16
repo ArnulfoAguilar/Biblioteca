@@ -38,7 +38,12 @@
                         <ul class="nav nav-pills">
                           <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Aporte</a></li>
                           <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Revisiones</a></li>
-                          <li class="nav-item"><a class="nav-link" href="#comentarios" data-toggle="tab">Comentarios</a></li>
+
+                          @if (Auth::user()->rol->id == 1  )
+                            <li class="nav-item"><a class="nav-link" href="#comentarios" data-toggle="tab">Comentarios</a></li>
+                          @endif
+
+
                         </ul>
                       </div><!-- /.card-header -->
                       <div class="card-body">
@@ -50,9 +55,13 @@
                                         {{ $palabraClave->PALABRA}}
                                     </p>    
                                 @endforeach 
-                                @if ($aporte->HABILITADO == false)
-                                            <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
-                                @endif 
+
+                                @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 4 )
+                                    @if ($aporte->HABILITADO == false)
+                                                <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
+                                    @endif
+                                @endif
+
                                 <div class="container">    
                                     <div class="row justify-content-center">
                                         <div class="col-md-12">
@@ -68,7 +77,7 @@
                                                         <div class="float-right">
                                                                 @if ($aporte->ID_USUARIO == Auth::user()->id)
                                                                 <a class="btn btn-app" href="{{ route('aportes.edit', $aporte->id)}}">
-                                                                    <i class="fas fa-edit"></i> Edit
+                                                                    <i class="fas fa-edit"></i> Editar
                                                                 </a>
                                                                 @endif
                                                         </div>
@@ -130,8 +139,8 @@
                                                 @endforeach
                                                     
                                                     <div class="card-footer">
-                                                    <img class="img-fluid img-circle img-sm" src="" alt="">
-                                                    <!-- .img-push is used to add margin to elements next to floating images -->
+                                                        <img class="img-fluid img-circle img-sm" src="" alt="">
+                                                        <!-- .img-push is used to add margin to elements next to floating images -->
                                                         <div class="img-push">
                                                             {{-- <form @submit.prevent="comprobar_comentario"> --}}
                                                             {{-- <form action="{{route('guardar.comentario')}}" class="create_comentario"> --}}
@@ -156,9 +165,11 @@
                                 <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}" rol="{{Auth::user()->ID_ROL}}" usuario="{{Auth::user()->id}}"></revisiones>
                           </div>
 
+                        @if (Auth::user()->rol->id == 1  )
                             <div class="tab-pane" id="comentarios">
                                 <habilitar-comentarios aporte="{{$aporte->id}}"></habilitar-comentarios>
                             </div>
+                        @endif
 
                         </div>
                         <!-- /.tab-content -->

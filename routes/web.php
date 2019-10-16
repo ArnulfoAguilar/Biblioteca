@@ -92,7 +92,6 @@ Route::middleware(['web', 'rol:1,4'])->group(function () {
 // ---------------------------------RUTAS DEL MODULO DE ADMINISTRACION -------------------------------------//
 
 Route::middleware(['web', 'rol:1'])->group(function () {
-    Route::resource('/users', 'UserController');
     Route::resource('/roles', 'RolController');
     Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
     Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
@@ -111,6 +110,10 @@ Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leida
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');
 /*RUTA para select de Area*/
+
+//No le pongo middleware porque lo necesito para mostrar nombres en distintas vistas
+Route::resource('/users', 'UserController');
+
 // -----------------------------------------ERRORES RUTAS -------------------------------------//
 
 Route::get('/error/1', 'ErroresController@error1')->name('error1');

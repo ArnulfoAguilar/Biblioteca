@@ -7,7 +7,8 @@
         <div class="card-body">
             <div class="container-fluid">
                 <div class="row ">
-                    <div class="col-sm-12 mb-3">
+
+                    <div v-if="rol == 1 || rol == 3 || rol == 4" class="col-sm-12 mb-3">
                         <form @submit.prevent="editarRevision(Revision)" v-if="modoEditar">
                             <label for="NOMBRE">Nueva Observación:</label>
                             
@@ -34,11 +35,11 @@
                                 <input type="text" v-model="Revision.DETALLE_REVISION" class="form-control col-md-10" id="NOMBRE"
                                     placeholder="Escriba aca la nueva Observación..." required>
                                 <button class="btn btn-primary" type="submit">Agregar Observación</button>
-                                <!-- <input type="text" v-model="Revision.ID_APORTE"> -->
                             </div>
                         </form>
                                 
                     </div>
+                    
                     <div class=" col sm-12">
                         <label for="">Lista de Observaciones:</label>
                         <div class="tab-pane active" id="timeline">
@@ -62,8 +63,8 @@
                                         <div class="timeline-header">
                                             <div v-for="(user, index) in usuarios" :key="index">
                                                 <div v-if="user.id == item.ID_USUARIO">
-                                                        <p  v-if="item.ID_ESTADO_REVISION == 1">Observación de <b >{{user.name}}</b> solventada</p>
-                                                        <p  v-else><b>{{user.name}}</b> hizo una observación</p>
+                                                    <p  v-if="item.ID_ESTADO_REVISION == 1">Observación de <b >{{user.name}}</b> solventada</p>
+                                                    <p  v-else><b>{{user.name}}</b> hizo una observación</p>
                                                 </div>
                                             </div>
                                         </div>

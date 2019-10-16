@@ -24,4 +24,9 @@ class Revision extends Model
     {
         return $this->belongsTo('App\estadoRevision', 'ID_ESTADO_REVISION', 'id');
     }
+
+    public function usuario()
+    {
+        return $this->belongsTo('App\User', 'ID_USUARIO', 'id');
+    }
 }
