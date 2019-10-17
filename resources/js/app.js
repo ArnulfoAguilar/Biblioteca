@@ -11,6 +11,7 @@ var moment = require('moment');
 
 window.Vue = require('vue');
 window.toastr = require('toastr');
+window.bootbox = require('bootbox');
 
 Vue.use(Vuelidate);
 Vue.prototype.$moment = moment;

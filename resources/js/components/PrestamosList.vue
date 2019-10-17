@@ -8,38 +8,10 @@
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
 
-        <!-- Modal con el formulario para agregar un nuevo libro o editar uno existente
-        <div id="modalForm" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-                Modal content
-                <form @submit.prevent="submitHandler($v.$invalid)" >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">{{titleToShow}}</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-4 form-group">
-                                    <label for="LUGAR_EDICION">Lugar Edición</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.LUGAR_EDICION" id="LUGAR_EDICION"
-                                        aria-describedby="emailHelp">
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label for="CATALOGO_MATERIAL">Tipo de material</label>
-                                    <div>
-                                        <select2 :options="catalogoMaterial" :value="EJEMPLAR.CATALOGO_MATERIAL" v-model="EJEMPLAR.CATALOGO_MATERIAL"></select2>
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Ejemplar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <div id="busqueda" style="display: none;">
+            <buscar-material></buscar-material>
+            <button  onclick="otroModal"></button>
         </div>
-        fin modal agregar -->
   </div>
 </template>
 
@@ -101,6 +73,8 @@ export default {
                 ID_ESTADO_PRESTAMO:'',
                 ID_MATERIAL:''
             },
+            tipoPrestamos:[],
+            estadoPrestamos:[],
             prestamos: [],
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
@@ -158,7 +132,13 @@ export default {
             if (componentState.lastAction ==='AddItem') {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
-                $('#modalForm').modal('show');
+                //$('#modalForm').modal('show');
+                bootbox.dialog({
+                    title: this.createTitle,
+                    message:$('#busqueda').html(),
+                    onEscape: true,
+                    size: 'extra-large'
+                });
 
             }
             if (componentState.lastAction ==='EditItem') {
@@ -172,16 +152,16 @@ export default {
             }
         },
         guardar() {
-            const ejemplarToSave = this.EJEMPLAR;
-            console.log(ejemplarToSave.COPIAS);
+            const prestamoToSave = this.PRESTAMO;
+            console.log(prestamoToSave.COPIAS);
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
-                axios.put(`/ejemplars/${this.EJEMPLAR.id}`, ejemplarToSave).then(res=>{
+                axios.put(`/biblioteca/prestamos/${this.PRESTAMO.id}`, prestamoToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
             else
-                axios.post('/ejemplars', ejemplarToSave).then((res) =>{
+                axios.post('/biblioteca/prestamos', prestamoToSave).then((res) =>{
                     this.success(msg);
                 });
             this.vaciarModelo();
@@ -195,17 +175,16 @@ export default {
         this.PRESTAMO.ID_MATERIAL=item.ID_MATERIAL;
         this.isEditing = true;
         },
-        eliminarEjemplar(EJEMPLAR, index){
+        eliminarEjemplar(PRESTAMO, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar este registro?`);
             if(confirmacion){
-                axios.delete(`/ejemplars/${EJEMPLAR.id}`)
+                axios.delete(`/biblioteca/prestamos/${PRESTAMO.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("EJEMPLAR ELIMINADO");
                 })
             }
         },
@@ -232,6 +211,10 @@ export default {
             }else{
                 this.guardar();
             }
+        },
+        otroModal(){
+            debugger;
+            bootbox.alert('segundo modal');
         }
     }
 }
