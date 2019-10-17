@@ -36,7 +36,7 @@
                     <div class="card">
                       <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                          <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Aporte</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Aporte </a></li>
                           <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Revisiones</a></li>
                           <li class="nav-item"><a class="nav-link" href="#comentarios" data-toggle="tab">Comentarios</a></li>
                         </ul>
@@ -90,7 +90,7 @@
 
                                                         @endif 
                                                 </div>
-                                                @if ($aporte->COMENTARIOS==1 )
+                                                @if ($aporte->COMENTARIOS==1 && $PermiteComentarios->HABILITAR_COMENTARIOS==1 )
                                                 <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios>
                                                 @endif  
                                             </div>

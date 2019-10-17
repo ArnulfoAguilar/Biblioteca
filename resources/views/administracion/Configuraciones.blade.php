@@ -2,14 +2,12 @@
 @section('cssextra')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
 @endsection
-@section('Encabezado')
-Crea tu Aporte
-@endsection
+
 
 @section('breadcrumbs')
 <ol class="breadcrumb float-sm-right">
-    <li class="breadcrumb-item"><a href="#">Aportes</a></li>
-    <li class="breadcrumb-item active">Nuevo Aporte</li>
+    <li class="breadcrumb-item"><a href="#">Configuracion</a></li>
+    <li class="breadcrumb-item active">Variables Globales</li>
   </ol>
 @endsection
 
@@ -23,7 +21,7 @@ Crea tu Aporte
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">Nuevo Aporte</div>
+                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">Variables Globales</div>
                     
 @if(!empty($errors->all()))
 <div class="alert alert-danger alert-dismissible">
@@ -43,23 +41,26 @@ Crea tu Aporte
 </div>
 @endif
                     <div class="card-body">
-                        <form  action="{{ route('aportes.store') }}" method="post" enctype="multipart/form-data">
+                        <form  action="{{ route('Configuracion.update') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                                
                             <div class="row">
                                 <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Días Habiles de Préstamo</label>
-                                    <input type="number"  class="form-control" name="diasHabiles" placeholder="8"
+                                    <input type="number"  class="form-control" name="diasHabiles" placeholder="{{$configuraciones->DIAS_HABILES_PRORROGA}}"
                                         aria-describedby="Titulo" required>
                                 </div>
                                 <div class="form-group col-md-4 col-xs-12">
-                                    <label for="Titulo">Tamaño de Archivo (Mb)</label>
-                                    <input type="number"  class="form-control" name="archivoSize" placeholder="3 Mb"
+                                    <label for="Titulo">Tamaño de Archivo (Kb)</label>
+                                    <input type="number"  class="form-control" name="archivoSize" placeholder="{{$configuraciones->TAMAÑO_MAXIMO_ARCHIVOS}} Kb"
                                         aria-describedby="Titulo" required>
                                 </div>                            
                             </div><div>
                                 <div class="form-group col-md-4 col-xs-12">
                                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                    @if ( $configuraciones->HABILITAR_COMENTARIOS )
+                                            <input type="checkbox" class="custom-control-input" checked id="customSwitch3" name="customSwitch3" >
+                                    @endif
                                     <input type="checkbox" class="custom-control-input" id="customSwitch3" name="customSwitch3" >
                                     <label class="custom-control-label" for="customSwitch3">¿Permitir comentarios?</label>
                                     </div>

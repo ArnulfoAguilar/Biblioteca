@@ -70,8 +70,11 @@ Editar
 
                                 <div class="form-group" id="contenido">
                                         <label for="Contenido">Contenido</label>
+                                        @if($TipoAporteSelect->id==1)
                                         <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" >
+                                        {!! $aporte->CONTENIDO !!}
                                         </textarea> 
+                                        @endif
                                     </div>
                                 
                                 <div class="form-group" id="archivos">
@@ -165,8 +168,8 @@ $('#inputArchivo').change(function (e) {
     var fileSize = $('#inputArchivo')[0].files[0].size;
 
     var siezekiloByte = parseInt(fileSize / 1024);
-
-    if (siezekiloByte >  3000) {
+    const TamañoMax = @json($TamañoMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS);
+    if (siezekiloByte >  TamañoMax) {
         alert("Archivo muy grande");
        this.value='';
     }

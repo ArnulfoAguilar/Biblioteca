@@ -99,7 +99,8 @@ Route::get('/catalogos/palabras-prohibidas', 'PalabraProhibidaController@palabra
 Route::get('/getPalabras', 'PalabraProhibidaController@getPalabras');
 
 // -----------------------------------------CONFIGURACIONES -------------------------------------//
-Route::resource('/Configuracion', 'ConfiguracionController');
+Route::get('/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
+Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
 // -----------------------------------------ERRORES RUTAS -------------------------------------//
 
 Route::get('/error/1', 'ErroresController@error1')->name('error1');

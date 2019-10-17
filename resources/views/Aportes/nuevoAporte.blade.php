@@ -147,11 +147,10 @@ $(document).ready(function() {
 });
 function cambiarContenido(){
     var x = document.getElementById("select2tipo").value;
-    console.log(x)
+
     if(x==1){
 
     }else if(x==2){
-        console.log("video")
         document.getElementById("inputArchivo").accept = "video/*";
     }else if(x==3)
     {
@@ -162,8 +161,9 @@ function cambiarContenido(){
 }
 $('#inputArchivo').change(function (e) {
     var fileSize = $('#inputArchivo')[0].files[0].size;
-    var siezekiloByte = parseInt(fileSize / 1024);
-    if (siezekiloByte >  3000) {
+    var sizekiloByte = parseInt(fileSize / 1024);
+    const TamañoMax = @json($TamañoMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS);
+    if (sizekiloByte > TamañoMax ) {
         alert("Archivo muy grande");
        this.value='';
     }

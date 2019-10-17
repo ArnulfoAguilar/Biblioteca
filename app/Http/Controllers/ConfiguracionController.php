@@ -14,53 +14,10 @@ class ConfiguracionController extends Controller
      */
     public function index()
     {
-        $configuraciones= Configuracion::all();
-        
+        $configuraciones= Configuracion::first();
         return view('administracion.Configuraciones')
         ->with(['configuraciones' => $configuraciones]);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Configuracion  $configuracion
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Configuracion $configuracion)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Configuracion  $configuracion
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Configuracion $configuracion)
-    {
-        //
     }
 
     /**
@@ -70,19 +27,14 @@ class ConfiguracionController extends Controller
      * @param  \App\Configuracion  $configuracion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Configuracion $configuracion)
+    public function update(Request $request)
     {
-        //
+        $configuracion= Configuracion::find($request->id);
+        $request->diasHabiles != null ? $configuracion->DIAS_HABILES_PRORROGA=$request->diasHabiles : ''; 
+        $request->archivoSize!= null ? $configuracion->TAMAÑO_MAXIMO_ARCHIVOS=$request->archivoSize : '';
+        $request->customSwitch3 == '' || $request->customSwitch3 == null ? $configuracion->HABILITAR_COMENTARIOS = false:$configuracion->HABILITAR_COMENTARIOS = true;
+        $configuracion->Save();
+        return redirect()->route('Configuracion');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Configuracion  $configuracion
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Configuracion $configuracion)
-    {
-        //
-    }
 }
