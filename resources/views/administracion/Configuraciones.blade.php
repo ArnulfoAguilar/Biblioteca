@@ -44,22 +44,27 @@
                         <form  action="{{ route('Configuracion.update') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                                
+                            <input type="hidden" name="id" value="{{$configuraciones->id}}">
                             <div class="row">
                                 <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Días Habiles de Préstamo</label>
-                                    <input type="number"  class="form-control" name="diasHabiles" placeholder="{{$configuraciones->DIAS_HABILES_PRORROGA}}"
+                                    <input type="number"  class="form-control" name="diasHabiles" value="{{$configuraciones ? $configuraciones->DIAS_HABILES_PRORROGA : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->DIAS_HABILES_PRORROGA : ''}}"
                                         aria-describedby="Titulo" required>
                                 </div>
                                 <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Tamaño de Archivo (Kb)</label>
-                                    <input type="number"  class="form-control" name="archivoSize" placeholder="{{$configuraciones->TAMAÑO_MAXIMO_ARCHIVOS}} Kb"
+                                    <input type="number"  class="form-control" name="archivoSize" placeholder="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}} Kb"
+                                        value="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}}"
                                         aria-describedby="Titulo" required>
                                 </div>                            
                             </div><div>
                                 <div class="form-group col-md-4 col-xs-12">
                                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    @if ( $configuraciones->HABILITAR_COMENTARIOS )
+                                    @if($configuraciones)
+                                        @if ( $configuraciones->HABILITAR_COMENTARIOS )
                                             <input type="checkbox" class="custom-control-input" checked id="customSwitch3" name="customSwitch3" >
+                                        @endif
                                     @endif
                                     <input type="checkbox" class="custom-control-input" id="customSwitch3" name="customSwitch3" >
                                     <label class="custom-control-label" for="customSwitch3">¿Permitir comentarios?</label>
