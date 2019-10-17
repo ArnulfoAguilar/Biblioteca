@@ -5,66 +5,59 @@
         <div class="card">
           <div class="card-header bg-dark">Buscar libro</div>
           <div class="card-body">
-            <div>
+            <form v-on:submit.prevent="buscarMaterialBibliotecario()">
               <div class="row">
                 <div class="input-group mb-1 col-6">
                   <div class="input-group-prepend">
-                    <div
-                      class="input-group-text"
-                      :class="{'bg-secondary': !check_titulo, 'bg-success': check_titulo, }"
-                    >
-                      <input
-                        class="mr-2"
-                        type="checkbox"
-                        value
-                        id="check_titulo"
-                        v-model="check_titulo"
-                        checked
-                      />
+                    <div class="input-group-text">
                       <label class="form-check-label" for="defaultCheck1">Título</label>
                     </div>
                   </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name
-                    id
-                    :disabled="!check_titulo"
-                    v-model="search_titulo"
-                    autofocus
-                  />
+                  <input type="text" class="form-control" name id v-model="qry.titulo" autofocus />
                 </div>
                 <div class="input-group mb-1 col-6">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
-                      <input class="mr-2" type="checkbox" value id="check_autor" />
                       <label class="form-check-label" for="defaultCheck1">Autor</label>
                     </div>
                   </div>
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" v-model="qry.autor" />
                 </div>
               </div>
               <div class="row">
                 <div class="input-group mb-1 col-6">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
-                      <input class="mr-2" type="checkbox" value />
                       <label class="form-check-label">ISBN</label>
                     </div>
                   </div>
-                  <input type="text" class="form-control" name id />
+                  <input type="text" class="form-control" name id v-model="qry.isbn" />
                 </div>
-                <!--<div class="input-group mb-1 col-6">
+                <div class="input-group mb-1 col-6" v-if="isBibliotecario">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
-                      <input class="mr-2" type="checkbox" value />
                       <label class="form-check-label">Código de Barra</label>
                     </div>
                   </div>
                   <input type="text" class="form-control" name id />
-                </div>-->
+                </div>
               </div>
-            </div>
+              <div class="row mt-2" v-if="isBibliotecario">
+                <div class="input-group mb-1 col-6">
+                  <label class="form-check-label">Biblioteca</label>
+                  <select2></select2>
+                </div>
+                <div class="input-group mb-1 col-6">
+                  <label class="form-check-label">Otro filtro(No recuerdo cuál iba aquì XD)</label>
+                  <select2></select2>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-group mb-1 col-6">
+                  <button class="btn btn-success mt-2" type="submit">Buscar</button>
+                </div>
+              </div>
+            </form>
             <br />
             <ul class="list-group" v-for="(item,index) in materialesBibliotecarios" :key="index">
               <li class="list-group-item">
@@ -234,8 +227,12 @@ export default {
   data() {
     return {
       check_titulo: true,
-      search_titulo: "",
-      campo_titulo: "",
+      qry: {
+        titulo: "",
+        autor: "",
+        isbn: ""
+      },
+      isBibliotecario: true,
       hoy: this.$moment(new Date()).format("YYYY-MM-DD HH:mm"),
       materialesBibliotecarios: [],
       materialBibliotecario: {
@@ -294,6 +291,20 @@ export default {
         toastr.options.closeButton = true;
         toastr.success("Solicitud guardada correctamente", "Éxito");
       });
+    },
+    buscarMaterialBibliotecario() {
+      axios
+        .get("/material", {
+          params: {
+            titulo: this.qry.titulo,
+            isbn: this.qry.isbn,
+            autor: this.qry.autor,
+            biblioteca: this.qry.bibliotecas
+          }
+        })
+        .then(res => {
+          this.materialesBibliotecarios = res.data;
+        });
     }
   }
 };
