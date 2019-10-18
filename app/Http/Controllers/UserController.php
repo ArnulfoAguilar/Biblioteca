@@ -96,4 +96,13 @@ class UserController extends Controller
         activity()->log('Asignó rol a usuario');
         return redirect()->route('asignar.roles');
     }
+
+    public function asignarComite(Request $request)
+    {
+        $usuario = User::find($request->id);
+        $usuario->ID_COMITE = $request->ID_COMITE;
+        $usuario->save();
+        activity()->log('Asignó comite a usuario');
+        return redirect()->route('asignar.comites');
+    }
 }

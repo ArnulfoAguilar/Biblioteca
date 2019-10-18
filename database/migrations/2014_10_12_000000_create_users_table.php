@@ -28,6 +28,13 @@ class CreateUsersTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
+            $table->bigInteger('ID_COMITE')->unsigned()->nullable();
+            $table->foreign('ID_COMITE')
+                ->references('id')
+                ->on('Comite')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

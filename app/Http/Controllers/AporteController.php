@@ -199,8 +199,8 @@ class AporteController extends Controller
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
 
-            $user = User::all();
-            Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
+            $users = User::where('ID_COMITE', $request->ID_AREA)->orWhere('ID_ROL', 1)->get();//Trae lo usuarios pertenecientes al area y a los admin
+            Notification::send($users, new NewAporte($Aporte)); //Esto notifica a varios usuarios
             
             
             activity()->log('Aporte guardado');

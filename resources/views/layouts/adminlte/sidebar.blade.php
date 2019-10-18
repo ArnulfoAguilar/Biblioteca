@@ -198,6 +198,13 @@
                 </a>
               </li>
 
+              <li class="nav-item">
+                <a href="{{route('asignar.comites')}}" class="nav-link {{ ( request()->is('administracion/asignar/comites') ) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Asignar comite</p>
+                </a>
+              </li>
+
             </ul>
           </li>
           @endif
@@ -218,6 +225,13 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Palabras prohibidas </p>
                 </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('Configuracion')}}" class="nav-link {{ ( request()->is('catalogos/Configuracion') ) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Configuraciones </p>
+                  </a>
               </li>
 
               <li class="nav-item">

@@ -95,6 +95,10 @@ Route::middleware(['web', 'rol:1'])->group(function () {
     Route::resource('/roles', 'RolController');
     Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
     Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
+
+    Route::resource('/comites', 'ComiteController');
+    Route::post('/administracion/asignar/comite', 'UserController@asignarComite')->name('asignar.comite');
+    Route::get('/administracion/asignar/comites/{id?}', 'ComiteController@asignarComiteIndex')->name('asignar.comites');
 });
 
 // -----------------------------------------OTRAS RUTAS -------------------------------------//
@@ -122,7 +126,7 @@ Route::get('/catalogos/palabras-prohibidas', 'PalabraProhibidaController@palabra
 Route::get('/getPalabras', 'PalabraProhibidaController@getPalabras');
 
 // -----------------------------------------CONFIGURACIONES -------------------------------------//
-Route::get('/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
+Route::get('catalogos/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
 Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
 // -----------------------------------------ERRORES RUTAS -------------------------------------//
 

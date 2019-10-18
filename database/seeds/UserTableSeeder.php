@@ -29,28 +29,32 @@ class UserTableSeeder extends Seeder
             [
                 'name' => 'Administrador',
                 'email' => 'administrador@gmail.com',
-                'password' => bcrypt('12345678') // password
+                'password' => bcrypt('12345678'), // password
+                'ID_ROL' => '1',
             ]
         );
         DB::table('users')->insert(
             [
                 'name' => 'Estudiante',
                 'email' => 'estudiante@gmail.com',
-                'password' => bcrypt('12345678') // password
+                'password' => bcrypt('12345678'),// password
+                'ID_ROL' => '2',
             ]
         );
         DB::table('users')->insert(
             [
                 'name' => 'Docente',
                 'email' => 'docente@gmail.com',
-                'password' => bcrypt('12345678') // password
+                'password' => bcrypt('12345678'), // password
+                'ID_ROL' => '3',
             ]
         );
         DB::table('users')->insert(
             [
                 'name' => 'Comite',
                 'email' => 'comite@gmail.com',
-                'password' => bcrypt('12345678') // password
+                'password' => bcrypt('12345678'), // password
+                'ID_ROL' => '4',
             ]
         );
     }

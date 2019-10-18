@@ -6,14 +6,14 @@
                     <!-- <div class="card-header">Información de la Biblioteca</div> -->
                     <!-- <div class="card-body"> -->
                         <form @submit.prevent="editarUsuario(usuario)" v-if="modoEditar">
-                            <label for="NOMBRE">Editar Asignacion de Rol:</label>
+                            <label for="NOMBRE">Editar Asignacion de Comite:</label>
                             <div class="input-group">
                                 <input type="text" v-model="usuario.name" class="form-control col-md-6" id="NOMBRE"
                                     placeholder="Seleccione un usuario..." required disabled> 
-                                    <select class="form-control col-md-4" v-model="usuario.ID_ROL">
+                                    <select class="form-control col-md-4" v-model="usuario.ID_COMITE">
                                         <option disabled value="">Por favor seleccione una</option>
-                                        <option v-for="(item, index) in roles" :key="index" v-bind:value="item.id">
-                                        {{ item.ROL }}
+                                        <option v-for="(item, index) in comites" :key="index" v-bind:value="item.id">
+                                        {{ item.COMITE }}
                                         </option>
                                     </select>
                                 <div class="row col-md-3">
@@ -24,14 +24,14 @@
                             </div>
                         </form>
                         <form @submit.prevent="agregar" v-else>
-                            <label for="NOMBRE">Editar Asignacion de Rol:</label>
+                            <label for="NOMBRE">Editar Asignacion de Comite:</label>
                             <div class="input-group">
                                 <input type="text" v-model="usuario.name" class="form-control col-md-6" id="NOMBRE"
                                     placeholder="Seleccione un usuario..." required disabled> 
-                                    <select class="form-control col-md-4" v-model="usuario.ID_ROL" disabled>
+                                    <select class="form-control col-md-4" v-model="usuario.ID_COMITE" disabled>
                                         <option disabled value="">Por favor seleccione una</option>
-                                        <option v-for="(item, index) in roles" :key="index" v-bind:value="item.id">
-                                        {{ item.ROL }}
+                                        <option v-for="(item, index) in comites" :key="index" v-bind:value="item.id">
+                                        {{ item.COMITE }}
                                         </option>
                                     </select>
                                 <div class="row col-md-3">
@@ -59,7 +59,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Rol</th>
+                                <th scope="col">Comite</th>
                                 <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
@@ -68,13 +68,13 @@
                                 <th scope="row">{{item.id}}</th>
                                 <td>{{item.name}}</td>
                                 <td>{{item.email}}</td>
-                                <div v-for="(rol, index) in roles" :key="index">
-                                    <td v-if="rol.id == item.ID_ROL">
-                                        {{rol.ROL}}
+                                <div v-for="(comite, index) in comites" :key="index">
+                                    <td v-if="comite.id == item.ID_COMITE">
+                                        {{comite.COMITE}}
                                     </td>
                                 </div>
                                 <td>
-                                    <a href="#" class="btn btn-primary btn-sm" @click="editarFormulario(item)">Asignar Rol</a>
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" @click="editarFormulario(item)">Asignar Comite</a>
                                 </td>
                                 </tr>
                             </tbody>
@@ -99,16 +99,16 @@
     export default {
         
         mounted() {
-            console.log('Asigancion de roles mounted.')
+            console.log('Asigancion de comites mounted.')
         },
         data() {
             return {
                 // search:'',
                 modoEditar: false,
                 //NUEVO
+                usuario: {id:'', name:'', email:'', ID_ROL:'', ID_COMITE:'',},
                 usuarios: [],
-                roles:[],
-                usuario: {id:'', name:'', email:'', ID_ROL:''},
+                comites:[],
             }
         },
         created(){
@@ -119,8 +119,8 @@
                 axios.get('/users').then(res=>{
                     this.usuarios = res.data;
                 });
-                axios.get('/roles').then(res=>{
-                    this.roles = res.data;
+                axios.get('/comites').then(res=>{
+                    this.comites = res.data;
                 });
             },
 
@@ -131,6 +131,7 @@
                 this.usuario.name = item.name;
                 this.usuario.email = item.email;
                 this.usuario.ID_ROL = item.ID_ROL;
+                this.usuario.ID_COMITE = item.ID_COMITE;
                 this.modoEditar = true;
             },
 
@@ -138,24 +139,24 @@
                 
             const parametros = {
                 id: usuario.id,
-                ID_ROL: usuario.ID_ROL,
+                ID_COMITE: usuario.ID_COMITE,
                 };
                 
-            axios.post('/administracion/asignar/rol', parametros)
+            axios.post('/administracion/asignar/comite', parametros)
                 .then(response=>{
                     this.modoEditar = false;
                     toastr.clear();
                     toastr.options.closeButton = true;
-                    toastr.success('Rol asignado correctamente', 'Exito');
+                    toastr.success('Comite asignado correctamente', 'Exito');
                     console.log("Editado correctamente");
-                    this.usuario= {id:'', name:'', email:'', ID_ROL:''};
+                    this.usuario= {id:'', name:'', email:'', ID_ROL:'', ID_COMITE:''};
                     this.cargar();
                 })
             },
             
             cancelarEdicion(){
                 this.modoEditar = false;
-                this.usuario= {id:'', name:'', email:'', ID_ROL:''};
+                this.usuario= {id:'', name:'', email:'', ID_ROL:'', ID_COMITE:''};
                 this.check='';
             }
         },
@@ -163,7 +164,7 @@
                 RolUsuario: function (user) {
                     var rolito='Nada';
                     console.log(rolito, user);
-                    this.roles.forEach(element => {
+                    this.comites.forEach(element => {
                         if (user.ID_ROL === element.id) {
                             rolito = element.name
                             console.log(element);
