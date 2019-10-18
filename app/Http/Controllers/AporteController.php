@@ -29,6 +29,11 @@ use Illuminate\Support\Facades\Notification;
 
 class AporteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -334,7 +339,7 @@ class AporteController extends Controller
         $TamañoMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
                                             ->first();
         $aporte = Aporte::find($id);
-       
+       if($aporte->ID_USUARIO==auth()->id()){
         $Areas = Area::all();
         $TipoAportes=tipoAporte::all();
         $PalabrasClave = palabrasClave::all();
@@ -357,6 +362,9 @@ class AporteController extends Controller
         ->with(['PalabrasClaveselect' => $PalabrasClaveselect])
         ->with(['AreaSelec' => $AreaSelec])
         ->with(['TamañoMaximoArchivo'=>$TamañoMaximoArchivo]);;
+    }else {
+        abort(403);
+    }
 
     }
 
