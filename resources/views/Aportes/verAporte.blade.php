@@ -99,7 +99,7 @@
 
                                                         @endif 
                                                 </div>
-                                                @if ($aporte->COMENTARIOS==1 )
+                                                @if ($aporte->COMENTARIOS==1 && $PermiteComentarios->HABILITAR_COMENTARIOS == 1 )
                                                 {{-- <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios> --}}
 
                                                 @foreach ($comentarios as $comentario)

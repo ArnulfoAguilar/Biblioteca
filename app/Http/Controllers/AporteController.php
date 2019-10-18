@@ -259,6 +259,8 @@ class AporteController extends Controller
         ->where('ID_APORTE', $aporte->id)
         ->where('HABILITADO', true)->get();
 
+        $PermiteComentarios= Configuracion::select('HABILITAR_COMENTARIOS')->first();
+
         // $malasPalabras = [];
         // $palabrasProhibidas = palabraProhibida::select('PALABRA')->get();
         // foreach ($palabrasProhibidas as $key => $palabra) {
@@ -273,6 +275,7 @@ class AporteController extends Controller
             'TipoAporte' => $TipoAporte,
             'interacciones' => $interacciones,
             'comentarios' => $comentarios,
+            'PermiteComentarios'=> $PermiteComentarios
             // 'malasPalabras' => $malasPalabras
             ]);
             
