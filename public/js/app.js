@@ -2229,6 +2229,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -2236,6 +2241,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['habilitado'],
   data: function data() {
     return {
+      search_titulo: '',
       Aportes: [],
       Aporte: {
         TITULO: '',
@@ -2259,6 +2265,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     verAporte: function verAporte(id) {
       window.location.href = '/aportes/' + id;
+    }
+  },
+  computed: {
+    searchEjemplar: function searchEjemplar() {
+      var _this2 = this;
+
+      console.log(this.search_titulo.length);
+
+      if (this.search_titulo != '' && this.search_titulo.length > 2) {
+        return this.Aportes.filter(function (item) {
+          return item.TITULO.toUpperCase().includes(_this2.search_titulo.toUpperCase()) || item.DESCRIPCION.toUpperCase().includes(_this2.search_titulo.toUpperCase());
+        });
+      } else {
+        return this.Aportes;
+      }
     }
   }
 });
@@ -4645,39 +4666,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      /*Estos son los parametros que recibe el componente
-       *de la tabla, tableOptions y columns seran los que
-       *mas cambien dependiendo de la circunstancia en que
-       *se necesite la tabla. columns es la configuracion
-       *de las columnas en la tabla, este arreglo contendra
-       *un objeto por columna que poseera la tabla*/
-      tableOptions: {},
-      tableLoader: false,
-      eventFromAppTrigger: false,
-      eventFromApp: {
-        name: null,
-        data: null
+      tableData: {
+        tableOptions: {},
+        tableLoader: false,
+        eventFromAppTrigger: false,
+        eventFromApp: {
+          name: null,
+          payload: null
+        },
+        columns: [{
+          name: 'PALABRA',
+          title: 'Palabras Prohibidas',
+          order: 1,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: true
+        }]
       },
-      columns: [{
-        name: 'PALABRA',
-        title: 'Palabras Prohibidas',
-        order: 1,
-        sort: true,
-        type: 'string',
-        filterable: true,
-        enabled: true
-      }],
 
       /*isEditing nos hace la distincion si se esta editando o
        *ingresando un nuevo registro, y los titulos son los
        *del modal segun la situacion*/
       search: '',
       palabrasProhibidas: [],
-      modoEditar: false,
       PalabraProhibida: {
         id: '',
         PALABRA: ''
@@ -4685,8 +4706,7 @@ __webpack_require__.r(__webpack_exports__);
       isEditing: false,
       createTitle: 'Agregar Palabra',
       editTitle: 'Editar Palabra',
-      titleToShow: '',
-      hasError: false
+      titleToShow: ''
     };
   },
   validations: {
@@ -4697,10 +4717,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    /*en la creacion del componente, se establecen las opciones
-     *de la tabla*/
-    this.tableOptions = {
-      columns: this.columns,
+    this.tableData.tableOptions = {
+      columns: this.tableData.columns,
       responsiveTable: true,
       contextMenuRight: true,
       contextMenuAdd: false,
@@ -4711,43 +4729,42 @@ __webpack_require__.r(__webpack_exports__);
     };
     this.sendData(); // console.log('componente creado')
   },
-  mounted: function mounted() {// console.log('tabla montada')
+  mounted: function mounted() {
+    // console.log('tabla montada')
+    $('#modalAgregar').on('hide.bs.modal', this.cancelarEdicion);
   },
   methods: {
     sendData: function sendData() {
       var _this = this;
 
-      this.tableLoader = true;
-      axios.get('/palabraProhibida').then(function (res) {
+      this.tableData.tableLoader = true;
+      axios.get('/getPalabras').then(function (res) {
         _this.palabrasProhibidas = res.data;
-        _this.eventFromApp = {
+        _this.tableData.eventFromApp = {
           name: 'sendData',
           payload: _this.palabrasProhibidas
         };
 
         _this.triggerEvent();
 
-        _this.tableLoader = false;
+        _this.tableData.tableLoader = false;
       });
     },
     triggerEvent: function triggerEvent() {
       var _this2 = this;
 
-      this.eventFromAppTrigger = true;
+      this.tableData.eventFromAppTrigger = true;
       this.$nextTick(function () {
-        _this2.eventFromAppTrigger = false;
+        _this2.tableData.eventFromAppTrigger = false;
       });
     },
-
-    /*este metodo contiene las acciones de la tabla, todo depende del
-     *evento realizado es lo que hara la funcion*/
     processEventFromApp: function processEventFromApp(componentState) {
       var _this3 = this;
 
       if (componentState.lastAction === 'Refresh') {
         axios.get('/palabraProhibida').then(function (result) {
           _this3.palabrasProhibidas = result.data;
-          _this3.eventFromApp = {
+          _this3.tableData.eventFromApp = {
             name: 'sendData',
             payload: _this3.palabrasProhibidas
           };
@@ -4760,31 +4777,25 @@ __webpack_require__.r(__webpack_exports__);
         this.submit = this.agregar;
         this.titleToShow = this.createTitle;
         $('#modalAgregar').modal('show');
-        console.log(this.$v);
       }
 
       if (componentState.lastAction === 'EditItem') {
         this.submit = this.editarPalabra;
         this.titleToShow = this.editTitle;
-        this.editarFormulario(componentState.selectedItem);
+        this.editarFormulario(componentState.selectedItem.data);
         $('#modalAgregar').modal('show');
       }
 
       if (componentState.lastAction === 'DeleteItem') {
-        this.eliminarPalabra(componentState.selectedItem, componentState.selectedIndex);
+        this.eliminarPalabra(componentState.selectedItem.data, componentState.selectedIndex);
       }
     },
-
-    /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
-     *escena la variable del data isEditing*/
     guardar: function guardar() {
       var _this4 = this;
 
       var palabraToSave = this.PalabraProhibida;
       var msg = this.isEditing ? 'Editado correctamente' : 'Agregado correctamente';
       if (this.isEditing) axios.put("/palabraProhibida/".concat(this.PalabraProhibida.id), palabraToSave).then(function (res) {
-        _this4.modoEditar = false;
-
         _this4.success(msg);
       });else axios.post('/palabraProhibida', palabraToSave).then(function (res) {
         _this4.success(msg);
@@ -4803,7 +4814,25 @@ __webpack_require__.r(__webpack_exports__);
     eliminarPalabra: function eliminarPalabra(PalabraProhibida, index) {
       var _this5 = this;
 
-      // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+      /*this.$swal(
+          {
+            title: '¿Estas seguro?',
+            text: "¡Esta acción no se puede revertir!",
+            icon: 'warning',
+             buttons: {
+                cancel: true,
+                confirm: true,
+              },
+          }).then((value) => {
+            if (value) {
+              swal(
+                'Otro mensaje',
+                'Aca programe otra cosa joven',
+                'success'
+              )
+            }
+          }
+        );*/
       var confirmacion = confirm("\xBFEsta seguro de eliminar \"Palabra ".concat(PalabraProhibida.PALABRA, "\"?"));
 
       if (confirmacion) {
@@ -4818,27 +4847,17 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelarEdicion: function cancelarEdicion() {
-      this.modoEditar = false;
       this.PalabraProhibida = {
         id: '',
         PALABRA: ''
       };
     },
-
-    /*este metodo se ejecuta en respuesta de la promesa del axios
-     *basicamente es el toastr indicandonos el exitos de la operacion
-     *y la actualizacion del contenido de la tabla*/
     success: function success(msg) {
       this.sendData();
       toastr.clear();
       toastr.options.closeButton = true;
       toastr.success(msg, 'Exito');
     },
-
-    /*Este es el metodo que se ejecuta al hacer submit del formulario
-     *el parametro error es una propiedad que nos ofrece vuelidate
-     *la cual es un booleano que si existe un error en el modelo
-     *a validar es verdadero. */
     submitHandler: function submitHandler(error) {
       if (error) {
         toastr.clear();
@@ -62667,7 +62686,7 @@ var render = function() {
               _vm._v(" "),
               _c("p", { staticClass: "mb-0" }, [
                 _c("b", [_vm._v(_vm._s(item.TITULO) + ": ")]),
-                _vm._v(_vm._s(item.CONTENIDO) + "\r\n                  "),
+                _vm._v(_vm._s(item.CONTENIDO) + "\n                  "),
                 _vm.usuario == item.ID_USUARIO
                   ? _c(
                       "button",
@@ -62887,9 +62906,9 @@ var render = function() {
                               { key: index, domProps: { value: item.id } },
                               [
                                 _vm._v(
-                                  "\r\n                                          " +
+                                  "\n                                          " +
                                     _vm._s(item.text) +
-                                    "\r\n                                          "
+                                    "\n                                          "
                                 )
                               ]
                             )
@@ -62938,7 +62957,7 @@ var staticRenderFns = [
     return _c("span", { staticClass: "float-right" }, [
       _c("a", { staticClass: "link-black text-sm", attrs: { href: "#" } }, [
         _c("i", { staticClass: "far fa-thumbs-up mr-1" }),
-        _vm._v(" Like\r\n                    ")
+        _vm._v(" Like\n                    ")
       ])
     ])
   },
@@ -63016,20 +63035,6 @@ var render = function() {
                       }
                     },
                     [_c("i", { staticClass: "far fa-eye" }), _vm._v(" Ver ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-secondary btn-sm float-right",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.alerta()
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "far fa-circle" }), _vm._v(" Ver ")]
                   )
                 ])
               ])
@@ -63081,90 +63086,121 @@ var render = function() {
     _c(
       "div",
       { staticClass: "row" },
-      _vm._l(_vm.Aportes, function(item, index) {
-        return _c(
-          "div",
-          {
-            key: index,
-            staticClass: "card card-widget col-md-5 col-xs-12",
-            staticStyle: { "margin-left": "25px" }
-          },
-          [
-            _c(
-              "div",
+      [
+        _c("div", { staticClass: "input-group mb-1 col-12" }, [
+          _c("input", {
+            directives: [
               {
-                staticClass: "card-header",
-                staticStyle: { "background-color": "white" }
-              },
-              [
-                _c("div", { staticClass: "user-block" }, [
-                  _c(
-                    "a",
-                    {
-                      staticStyle: {
-                        "text-decoration": "none!important",
-                        color: "black!important"
-                      },
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.verAporte(item.id)
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search_titulo,
+                expression: "search_titulo"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", name: "", id: "", autofocus: "" },
+            domProps: { value: _vm.search_titulo },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search_titulo = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("br"),
+        _c("br"),
+        _vm._v(" "),
+        _vm._l(_vm.searchEjemplar, function(item, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "card card-widget col-md-5 col-xs-12",
+              staticStyle: { "margin-left": "25px" }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "card-header",
+                  staticStyle: { "background-color": "white" }
+                },
+                [
+                  _c("div", { staticClass: "user-block" }, [
+                    _c(
+                      "a",
+                      {
+                        staticStyle: {
+                          "text-decoration": "none!important",
+                          color: "black!important"
+                        },
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.verAporte(item.id)
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c("img", {
-                        staticClass: "img-circle",
-                        attrs: { src: "", alt: "" }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "username" }, [
-                        _c("a", { attrs: { href: "#" } }, [
-                          _vm._v(_vm._s(item.AUTOR_APORTE))
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "img-circle",
+                          attrs: { src: "", alt: "" }
+                        }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "username" }, [
+                          _c("a", { attrs: { href: "#" } }, [
+                            _vm._v(_vm._s(item.AUTOR_APORTE))
+                          ])
                         ])
-                      ])
-                    ]
-                  ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "description" }, [
+                      _vm._v(_vm._s(item.created_at))
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("span", { staticClass: "description" }, [
-                    _vm._v(_vm._s(item.created_at))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-tools" })
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", [_vm._v(_vm._s(item.TITULO))]),
+                  _c("div", { staticClass: "card-tools" })
+                ]
+              ),
               _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(item.DESCRIPCION))])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "card-footer",
-                staticStyle: { "background-color": "white" }
-              },
-              [
-                _c("span", { staticClass: "float-right text-muted" }, [
-                  _vm._v(
-                    " " +
-                      _vm._s(
-                        item.CANTIDAD_COMENTARIOS == 0
-                          ? "Sin "
-                          : item.CANTIDAD_COMENTARIOS
-                      ) +
-                      " comentarios"
-                  )
-                ])
-              ]
-            )
-          ]
-        )
-      }),
-      0
+              _c("div", { staticClass: "card-body" }, [
+                _c("h5", [_vm._v(_vm._s(item.TITULO))]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(item.DESCRIPCION))])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "card-footer",
+                  staticStyle: { "background-color": "white" }
+                },
+                [
+                  _c("span", { staticClass: "float-right text-muted" }, [
+                    _vm._v(
+                      " " +
+                        _vm._s(
+                          item.CANTIDAD_COMENTARIOS == 0
+                            ? "Sin "
+                            : item.CANTIDAD_COMENTARIOS
+                        ) +
+                        " comentarios"
+                    )
+                  ])
+                ]
+              )
+            ]
+          )
+        })
+      ],
+      2
     )
   ])
 }
@@ -66380,10 +66416,10 @@ var render = function() {
     [
       _c("JDTable", {
         attrs: {
-          option: _vm.tableOptions,
-          loader: _vm.tableLoader,
-          "event-from-app": _vm.eventFromApp,
-          "event-from-app-trigger": _vm.eventFromAppTrigger
+          option: _vm.tableData.tableOptions,
+          loader: _vm.tableData.tableLoader,
+          "event-from-app": _vm.tableData.eventFromApp,
+          "event-from-app-trigger": _vm.tableData.eventFromAppTrigger
         },
         on: {
           "event-from-jd-table": function($event) {
@@ -66437,14 +66473,17 @@ var render = function() {
                       _c("label", { attrs: { for: "NOMBRE" } }, [
                         _vm._v("Palabra")
                       ]),
+                      !_vm.$v.PalabraProhibida.PALABRA.required
+                        ? _c("b", { staticClass: "error" }, [_vm._v("*")])
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
                             name: "model",
                             rawName: "v-model.lazy",
-                            value: _vm.PalabraProhibida.PALABRA,
-                            expression: "PalabraProhibida.PALABRA",
+                            value: _vm.$v.PalabraProhibida.$model.PALABRA,
+                            expression: "$v.PalabraProhibida.$model.PALABRA",
                             modifiers: { lazy: true }
                           }
                         ],
@@ -66454,24 +66493,22 @@ var render = function() {
                           id: "PALABRA",
                           "aria-describedby": "emailHelp"
                         },
-                        domProps: { value: _vm.PalabraProhibida.PALABRA },
+                        domProps: {
+                          value: _vm.$v.PalabraProhibida.$model.PALABRA
+                        },
                         on: {
                           change: function($event) {
                             return _vm.$set(
-                              _vm.PalabraProhibida,
+                              _vm.$v.PalabraProhibida.$model,
                               "PALABRA",
                               $event.target.value
                             )
                           }
                         }
-                      }),
-                      _vm._v(" "),
-                      !_vm.$v.PalabraProhibida.PALABRA.required
-                        ? _c("div", { staticClass: "error" }, [
-                            _vm._v("Este campo es obligatorio")
-                          ])
-                        : _vm._e()
-                    ])
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0)
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-footer" }, [
@@ -66504,7 +66541,18 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row text-center" }, [
+      _c("div", { staticClass: "col-md-12 text-center" }, [
+        _c("b", { staticClass: "error" }, [_vm._v("*Campos obligatorios")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -67040,18 +67088,14 @@ var render = function() {
           _c("div", { staticClass: "comment-text" }, [
             _c("span", { staticClass: "username" }, [
               _vm._v(
-                "\r\n                " +
-                  _vm._s(datos.name) +
-                  "\r\n              "
+                "\n                " + _vm._s(datos.name) + "\n              "
               ),
               _c("span", { staticClass: "text-muted float-right" }, [
                 _vm._v(_vm._s(datos.created_at))
               ])
             ]),
             _vm._v(
-              "\r\n              " +
-                _vm._s(datos.COMENTARIO) +
-                "\r\n            "
+              "\n              " + _vm._s(datos.COMENTARIO) + "\n            "
             )
           ]),
           _vm._v(" "),
@@ -88088,8 +88132,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\Biblioteca\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -15,6 +15,18 @@ class PalabraProhibidaController extends Controller
     public function palabraProhibida(){
         return view('palabraProhibida.palabraProhibida');
     }
+
+    /**
+     * Getting a list of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function getPalabras()
+    {
+        return palabraProhibida::all();
+    }
+
     public function index()
     {
         $listapalabra = "";

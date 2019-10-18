@@ -114,6 +114,16 @@ Route::get('/area', 'AreaController@areaSelect')->name('areas');
 //No le pongo middleware porque lo necesito para mostrar nombres en distintas vistas
 Route::resource('/users', 'UserController');
 
+
+// -----------------------------------------Catálogos-------------------------------------//
+
+Route::resource('/palabraProhibida', 'PalabraProhibidaController');
+Route::get('/catalogos/palabras-prohibidas', 'PalabraProhibidaController@palabraProhibida')->name('palabras.prohibidas');
+Route::get('/getPalabras', 'PalabraProhibidaController@getPalabras');
+
+// -----------------------------------------CONFIGURACIONES -------------------------------------//
+Route::get('/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
+Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
 // -----------------------------------------ERRORES RUTAS -------------------------------------//
 
 Route::get('/error/1', 'ErroresController@error1')->name('error1');

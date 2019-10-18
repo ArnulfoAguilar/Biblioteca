@@ -1,10 +1,10 @@
 <template>
     <div>
         <JDTable
-            :option="tableOptions"
-            :loader="tableLoader"
-            :event-from-app="eventFromApp"
-            :event-from-app-trigger="eventFromAppTrigger"
+            :option="tableData.tableOptions"
+            :loader="tableData.tableLoader"
+            :event-from-app="tableData.eventFromApp"
+            :event-from-app-trigger="tableData.eventFromAppTrigger"
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
 
@@ -19,10 +19,15 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="NOMBRE">Palabra</label>
-                                <input type="text" v-model.lazy="PalabraProhibida.PALABRA" class="form-control" id="PALABRA"
+                                <label for="NOMBRE">Palabra</label><b v-if="!$v.PalabraProhibida.PALABRA.required" class="error">*</b>
+                                <input type="text" v-model.lazy="$v.PalabraProhibida.$model.PALABRA" class="form-control" id="PALABRA"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.PalabraProhibida.PALABRA.required" class="error">Este campo es obligatorio</div>
+
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-md-12 text-center">
+                                    <b class="error">*Campos obligatorios</b>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -43,44 +48,38 @@ import { required,numeric } from "vuelidate/lib/validators";
 export default {
     data(){
         return {
-            /*Estos son los parametros que recibe el componente
-             *de la tabla, tableOptions y columns seran los que
-             *mas cambien dependiendo de la circunstancia en que
-             *se necesite la tabla. columns es la configuracion
-             *de las columnas en la tabla, este arreglo contendra
-             *un objeto por columna que poseera la tabla*/
-            tableOptions:{},
-            tableLoader: false,
-            eventFromAppTrigger: false,
-            eventFromApp : {
-                name: null,
-                data: null
-            },
-            columns: [
-                {
-                    name:'PALABRA',
-                    title:'Palabras Prohibidas',
-                    order: 1,
-                    sort: true,
-                    type: 'string',
-                    filterable: true,
-                    enabled: true
+            tableData:{
+                tableOptions:{},
+                tableLoader: false,
+                eventFromAppTrigger: false,
+                eventFromApp : {
+                    name: null,
+                    payload: null
                 },
-                
-            ],
+                columns: [
+                    {
+                        name:'PALABRA',
+                        title:'Palabras Prohibidas',
+                        order: 1,
+                        sort: true,
+                        type: 'string',
+                        filterable: true,
+                        enabled: true
+                    },
+
+                ],
+            },
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
              *del modal segun la situacion*/
             search:'',
             palabrasProhibidas: [],
-            modoEditar: false,
             PalabraProhibida: { id:'', PALABRA: ''},
 
             isEditing: false,
             createTitle: 'Agregar Palabra',
             editTitle: 'Editar Palabra',
-            titleToShow: '',
-            hasError: false
+            titleToShow: ''
         }
     },
     validations:{
@@ -88,14 +87,12 @@ export default {
             PALABRA:{
                 required
             },
-            
+
         }
     },
     created(){
-        /*en la creacion del componente, se establecen las opciones
-         *de la tabla*/
-        this.tableOptions = {
-            columns: this.columns,
+        this.tableData.tableOptions = {
+            columns: this.tableData.columns,
             responsiveTable: true,
             contextMenuRight: true,
             contextMenuAdd: false,
@@ -109,33 +106,32 @@ export default {
     },
     mounted(){
        // console.log('tabla montada')
+       $('#modalAgregar').on('hide.bs.modal',this.cancelarEdicion);
     },
     methods:{
         sendData(){
-            this.tableLoader = true;
-            axios.get('/palabraProhibida').then(res=>{
+            this.tableData.tableLoader = true;
+            axios.get('/getPalabras').then(res=>{
                 this.palabrasProhibidas = res.data;
-                this.eventFromApp = {
+                this.tableData.eventFromApp = {
                     name: 'sendData',
                     payload: this.palabrasProhibidas
                 };
             this.triggerEvent();
-            this.tableLoader = false;
+            this.tableData.tableLoader = false;
             });
         },
         triggerEvent(){
-            this.eventFromAppTrigger = true;
+            this.tableData.eventFromAppTrigger = true;
             this.$nextTick(()=>{
-                this.eventFromAppTrigger = false;
+                this.tableData.eventFromAppTrigger = false;
             });
         },
-        /*este metodo contiene las acciones de la tabla, todo depende del
-         *evento realizado es lo que hara la funcion*/
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
                 axios.get('/palabraProhibida').then((result)=>{
                     this.palabrasProhibidas=result.data;
-                    this.eventFromApp = {
+                    this.tableData.eventFromApp = {
                         name: 'sendData',
                         payload: this.palabrasProhibidas
                     };
@@ -146,26 +142,22 @@ export default {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
                 $('#modalAgregar').modal('show');
-                console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
                 this.submit = this.editarPalabra;
                 this.titleToShow = this.editTitle;
-                this.editarFormulario(componentState.selectedItem);
+                this.editarFormulario(componentState.selectedItem.data);
                 $('#modalAgregar').modal('show');
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarPalabra(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarPalabra(componentState.selectedItem.data, componentState.selectedIndex);
             }
         },
-        /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
-         *escena la variable del data isEditing*/
         guardar() {
             const palabraToSave = this.PalabraProhibida;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
                 axios.put(`/palabraProhibida/${this.PalabraProhibida.id}`, palabraToSave).then(res=>{
-                    this.modoEditar = false;
                     this.success(msg);
                 });
             else
@@ -181,7 +173,25 @@ export default {
         this.isEditing = true;
         },
         eliminarPalabra(PalabraProhibida, index){
-            // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
+            /*this.$swal(
+                {
+                  title: '¿Estas seguro?',
+                  text: "¡Esta acción no se puede revertir!",
+                  icon: 'warning',
+                   buttons: {
+                      cancel: true,
+                      confirm: true,
+                    },
+                }).then((value) => {
+                  if (value) {
+                    swal(
+                      'Otro mensaje',
+                      'Aca programe otra cosa joven',
+                      'success'
+                    )
+                  }
+                }
+              );*/
             const confirmacion = confirm(`¿Esta seguro de eliminar "Palabra ${PalabraProhibida.PALABRA}"?`);
             if(confirmacion){
                 axios.delete(`/palabraProhibida/${PalabraProhibida.id}`)
@@ -194,22 +204,14 @@ export default {
             }
         },
         cancelarEdicion(){
-            this.modoEditar = false;
             this.PalabraProhibida = {id: '', PALABRA: ''};
         },
-        /*este metodo se ejecuta en respuesta de la promesa del axios
-         *basicamente es el toastr indicandonos el exitos de la operacion
-         *y la actualizacion del contenido de la tabla*/
         success(msg){
             this.sendData();
             toastr.clear();
             toastr.options.closeButton = true;
             toastr.success(msg, 'Exito');
         },
-        /*Este es el metodo que se ejecuta al hacer submit del formulario
-         *el parametro error es una propiedad que nos ofrece vuelidate
-         *la cual es un booleano que si existe un error en el modelo
-         *a validar es verdadero. */
         submitHandler(error){
             if(error){
                 toastr.clear();

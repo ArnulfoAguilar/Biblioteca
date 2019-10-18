@@ -11,6 +11,8 @@ use App\User;
 use App\Comentario;
 use App\palabraProhibida;
 
+
+use App\Configuracion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -34,12 +36,12 @@ class AporteController extends Controller
      */
     public function index(Request $request)
     {
+        
         if($request->vista == 2 || $request->vista == '2'){
             return view('Aportes.ListaAporteDirector');
         }else{
-            return view('Aportes.ListaAporte')->with([
-                'id' => $request->id
-                ]);
+            return view('Aportes.ListaAporte')
+            ->with([ 'id' => $request->id]);
         }
 
     }
@@ -92,11 +94,13 @@ class AporteController extends Controller
 ///ESTO NO DEBERIA NOTIFICAR QUE HAY UN NUEVO APORTE, PUES AQUI SOLO ABRIO LA PANTALLA.
 ///DEBERIA DE NOTIFICAR EN EL STORE
 
-
+        $TamañoMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
+                                            ->first();
         return view('Aportes.NuevoAporte')
             ->with(['Areas' => $Areas])
             ->with(['PalabrasClave' => $PalabrasClave])
-            ->with(['TipoAportes' => $TipoAportes]);
+            ->with(['TipoAportes' => $TipoAportes])
+            ->with(['TamañoMaximoArchivo'=>$TamañoMaximoArchivo]);
     }
 
     /**
@@ -108,7 +112,8 @@ class AporteController extends Controller
 
     public function store(Request $request)
     {
-        $valorMaximoArchivo=3000; // En Kilobytes
+        $valorMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
+                                            ->first();
         if($request->ID_TIPO_APORTE==1){
             $detalle=$request->CONTENIDO;
             $dom = new \domdocument();
@@ -223,10 +228,13 @@ class AporteController extends Controller
         })
         ->select('palabrasClave.id','palabrasClave.PALABRA')
         ->get();
+        $PermiteComentarios= Configuracion::select('HABILITAR_COMENTARIOS')
+                                            ->first();
         $TipoAporte = tipoAporte::find($aporte->ID_TIPO_APORTE);
         return view('Aportes.verAporte')->with(['aporte' => $aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
-            ->with(['TipoAporte' => $TipoAporte]);
+            ->with(['TipoAporte' => $TipoAporte])
+            ->with(['PermiteComentarios'=>$PermiteComentarios]);
 
     }
 
@@ -320,7 +328,8 @@ class AporteController extends Controller
      */
     public function edit($id)
     {
-        
+        $TamañoMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
+                                            ->first();
         $aporte = Aporte::find($id);
        
         $Areas = Area::all();
@@ -343,7 +352,8 @@ class AporteController extends Controller
         ->with(['TipoAportes' => $TipoAportes])
         ->with(['TipoAporteSelect' => $TipoAporteSelect])
         ->with(['PalabrasClaveselect' => $PalabrasClaveselect])
-        ->with(['AreaSelec' => $AreaSelec]);
+        ->with(['AreaSelec' => $AreaSelec])
+        ->with(['TamañoMaximoArchivo',$TamañoMaximoArchivo]);;
 
     }
 
@@ -356,7 +366,8 @@ class AporteController extends Controller
      */
     public function update(Request $request, $aporteid)
     {
-        $valorMaximoArchivo=3000; // En Kilobytes
+        $valorMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
+                                            ->first(); 
         $detalle = null;
         if($request->ID_TIPO_APORTE==1){
         $detalle=$request->CONTENIDO;
@@ -366,7 +377,6 @@ class AporteController extends Controller
         foreach($images as $k => $img)
         {
             $data = $img->getattribute('src');
-            //dd(count(explode(';', $data)));
             if (count(explode(';', $data)) == 1) {
                 //si entra aqui es porque ya existe la
                 //imagen en el servidor asi que la saltara
