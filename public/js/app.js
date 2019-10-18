@@ -4126,7 +4126,16 @@ __webpack_require__.r(__webpack_exports__);
         if (value) {
           axios.get('/comentario/habilitar?id=' + id).then(function (response) {
             if (response.data == '1') {
-              swal('Exito', 'Cambio efectuado exitosamente', 'success');
+              swal({
+                title: 'Exito',
+                text: 'Cambio efectuado exitosamente',
+                icon: 'success',
+                buttons: ["Ver cambios", "Okay"]
+              }).then(function (value) {
+                if (!value) {
+                  location.reload();
+                }
+              });
 
               _this2.cargarComentarios();
             } else {
@@ -4997,6 +5006,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Revisiones mounted.');
@@ -5450,16 +5460,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {},
   props: ['aporte', 'usuario'],
   data: function data() {
     return {
+      interaccionesConLike: [],
+      dioLike: null,
+      misInteracciones_prueba: [],
       ocultar: false,
       nuevo: '',
       listaMalasPalabras: '',
       comentarios: [],
-      InteraccionComentarios: [],
+      misInteracciones: [],
+      interacciones: [],
       palabrasProhibidas: [],
       Comentario: {
         COMENTARIO: '',
@@ -5475,11 +5535,17 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.cargar_comentarios();
-    this.cargar_interacciones();
+    this.cargar_comentarios(); //this.cargar_interacciones();
+
     this.cargar_malas_palabras();
+    this.interactue();
   },
   methods: {
+    refresh: function refresh() {
+      this.cargar_comentarios();
+      this.cargar_malas_palabras();
+      this.interactue();
+    },
     cargar_comentarios: function cargar_comentarios() {
       var _this = this;
 
@@ -5487,23 +5553,56 @@ __webpack_require__.r(__webpack_exports__);
         _this.comentarios = res.data;
       });
     },
-    cargar_interacciones: function cargar_interacciones() {
+    // Quiza no me sirva
+    cargar_interacciones_backup: function cargar_interacciones_backup() {
       var _this2 = this;
 
       axios.get('/interaccionesComentario/' + this.aporte).then(function (res) {
-        _this2.InteraccionComentarios = res.data;
+        _this2.misInteracciones = res.data; //  console.log(this.misInteracciones);
       });
     },
-    cargar_malas_palabras: function cargar_malas_palabras() {
+    // cargar_interacciones(){
+    //   axios.get('/interacciones'+this.aporte).then(res=>{
+    //       this.interacciones = res.data;
+    //       console.log(this.interacciones);
+    //       })
+    // },
+    usuarioDioLike: function usuarioDioLike() {
+      this.dioLike = 1;
+      console.log('usuario dio like' + this.dioLike);
+    },
+    setDioLike: function setDioLike() {
+      this.dioLike = null;
+      console.log('Seteado a null');
+    },
+    interactue: function interactue() {
       var _this3 = this;
 
+      axios.get('/interactue').then(function (res) {
+        _this3.misInteracciones = res.data; // console.log(this.misInteracciones);
+      });
+    },
+    interactue_prueba: function interactue_prueba(id) {
+      var respuesta;
+      axios.get('/interactue_prueba/' + this.aporte + '/' + id).then(function (res) {
+        // this.misInteracciones_prueba = res.data;
+        console.log('dataaaaaaa: ' + res.data);
+        respuesta = res.data;
+        $('#interaccion_usuario').val(5);
+        return res.data;
+        return 'si'; // console.log(this.misInteracciones_prueba);
+      });
+      return respuesta;
+    },
+    cargar_malas_palabras: function cargar_malas_palabras() {
+      var _this4 = this;
+
       axios.get('/palabraProhibida').then(function (res) {
-        _this3.listaMalasPalabras = res.data;
-        console.log(_this3.listaMalasPalabras);
+        _this4.listaMalasPalabras = res.data; // console.log(this.listaMalasPalabras);
       });
     },
     like: function like(IdComentario) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.InteraccionComentario.ID_TIPO_INTERACCION = 1;
       this.InteraccionComentario.ID_COMENTARIO = IdComentario;
@@ -5513,16 +5612,27 @@ __webpack_require__.r(__webpack_exports__);
         toastr.options.closeButton = true;
         toastr.success('Te ha gustado el Comentario', 'Like!!');
 
-        _this4.cargar_comentarios();
+        _this5.refresh();
 
-        _this4.InteraccionComentario.ID_TIPO_INTERACCION = "";
-        _this4.InteraccionComentario.ID_COMENTARIO = "";
+        _this5.InteraccionComentario.ID_TIPO_INTERACCION = "";
+        _this5.InteraccionComentario.ID_COMENTARIO = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });
     },
+    dislike: function dislike(idInteraccion) {
+      var _this6 = this;
+
+      axios.post("/dislikeComentario/".concat(idInteraccion)).then(function () {
+        toastr.clear();
+        toastr.options.closeButton = true;
+        toastr.success('Ya no te gusta el Comentario', 'Dislike :(');
+
+        _this6.refresh();
+      });
+    },
     Report: function Report(IdComentario) {
-      var _this5 = this;
+      var _this7 = this;
 
       this.InteraccionComentario.ID_TIPO_INTERACCION = 2;
       this.InteraccionComentario.ID_COMENTARIO = IdComentario;
@@ -5532,10 +5642,10 @@ __webpack_require__.r(__webpack_exports__);
         toastr.options.closeButton = true;
         toastr.success('El administrador revisara este comentario. ¡Gracias!', 'Reportado');
 
-        _this5.cargar_comentarios();
+        _this7.cargar_comentarios();
 
-        _this5.InteraccionComentario.ID_TIPO_INTERACCION = "";
-        _this5.InteraccionComentario.ID_COMENTARIO = "";
+        _this7.InteraccionComentario.ID_TIPO_INTERACCION = "";
+        _this7.InteraccionComentario.ID_COMENTARIO = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });
@@ -5562,7 +5672,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     mostrar_alerta: function mostrar_alerta(texto) {
-      var _this6 = this;
+      var _this8 = this;
 
       this.$swal({
         title: 'Alto',
@@ -5574,12 +5684,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (value) {
         if (value) {
-          _this6.agregar_comentario();
+          _this8.agregar_comentario();
         }
       });
     },
     agregar_comentario: function agregar_comentario() {
-      var _this7 = this;
+      var _this9 = this;
 
       var comentarioNuevo = this.Comentario;
       axios.post('/comentarios', comentarioNuevo).then(function (response) {
@@ -5587,9 +5697,9 @@ __webpack_require__.r(__webpack_exports__);
         toastr.options.closeButton = true;
         toastr.success('Espera por la aprobación', 'Guardado!!');
 
-        _this7.cargar_comentarios();
+        _this9.cargar_comentarios();
 
-        _this7.Comentario.COMENTARIO = "";
+        _this9.Comentario.COMENTARIO = "";
       })["catch"](function (e) {
         alert("Error al Guardar" + e);
       });
@@ -62686,7 +62796,7 @@ var render = function() {
               _vm._v(" "),
               _c("p", { staticClass: "mb-0" }, [
                 _c("b", [_vm._v(_vm._s(item.TITULO) + ": ")]),
-                _vm._v(_vm._s(item.CONTENIDO) + "\n                  "),
+                _vm._v(_vm._s(item.CONTENIDO) + "\r\n                  "),
                 _vm.usuario == item.ID_USUARIO
                   ? _c(
                       "button",
@@ -62906,9 +63016,9 @@ var render = function() {
                               { key: index, domProps: { value: item.id } },
                               [
                                 _vm._v(
-                                  "\n                                          " +
+                                  "\r\n                                          " +
                                     _vm._s(item.text) +
-                                    "\n                                          "
+                                    "\r\n                                          "
                                 )
                               ]
                             )
@@ -62957,7 +63067,7 @@ var staticRenderFns = [
     return _c("span", { staticClass: "float-right" }, [
       _c("a", { staticClass: "link-black text-sm", attrs: { href: "#" } }, [
         _c("i", { staticClass: "far fa-thumbs-up mr-1" }),
-        _vm._v(" Like\n                    ")
+        _vm._v(" Like\r\n                    ")
       ])
     ])
   },
@@ -66580,187 +66690,191 @@ var render = function() {
     _c("div", { staticClass: "card-body" }, [
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "row " }, [
-          _c("div", { staticClass: "col-sm-12 mb-3" }, [
-            _vm.modoEditar
-              ? _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.editarRevision(_vm.Revision)
-                      }
-                    }
-                  },
-                  [
-                    _c("label", { attrs: { for: "NOMBRE" } }, [
-                      _vm._v("Nueva Observación:")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.Revision.DETALLE_REVISION,
-                            expression: "Revision.DETALLE_REVISION"
-                          }
-                        ],
-                        staticClass: "form-control col-md-7",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE",
-                          placeholder: "Escriba aca la nueva Observación...",
-                          required: ""
-                        },
-                        domProps: { value: _vm.Revision.DETALLE_REVISION },
+          _vm.rol == 1 || _vm.rol == 3 || _vm.rol == 4
+            ? _c("div", { staticClass: "col-sm-12 mb-3" }, [
+                _vm.modoEditar
+                  ? _c(
+                      "form",
+                      {
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.Revision,
-                              "DETALLE_REVISION",
-                              $event.target.value
-                            )
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.editarRevision(_vm.Revision)
                           }
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-2" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.check,
-                              expression: "check"
-                            }
-                          ],
-                          staticClass: "col-md-2",
-                          attrs: { type: "checkbox", id: "check_titulo" },
-                          domProps: {
-                            checked: Array.isArray(_vm.check)
-                              ? _vm._i(_vm.check, null) > -1
-                              : _vm.check
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$a = _vm.check,
-                                $$el = $event.target,
-                                $$c = $$el.checked ? true : false
-                              if (Array.isArray($$a)) {
-                                var $$v = null,
-                                  $$i = _vm._i($$a, $$v)
-                                if ($$el.checked) {
-                                  $$i < 0 && (_vm.check = $$a.concat([$$v]))
-                                } else {
-                                  $$i > -1 &&
-                                    (_vm.check = $$a
-                                      .slice(0, $$i)
-                                      .concat($$a.slice($$i + 1)))
+                      },
+                      [
+                        _c("label", { attrs: { for: "NOMBRE" } }, [
+                          _vm._v("Nueva Observación:")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.Revision.DETALLE_REVISION,
+                                expression: "Revision.DETALLE_REVISION"
+                              }
+                            ],
+                            staticClass: "form-control col-md-7",
+                            attrs: {
+                              type: "text",
+                              id: "NOMBRE",
+                              placeholder:
+                                "Escriba aca la nueva Observación...",
+                              required: ""
+                            },
+                            domProps: { value: _vm.Revision.DETALLE_REVISION },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
                                 }
-                              } else {
-                                _vm.check = $$c
+                                _vm.$set(
+                                  _vm.Revision,
+                                  "DETALLE_REVISION",
+                                  $event.target.value
+                                )
                               }
                             }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            staticClass: "form-check-label",
-                            attrs: { for: "exampleCheck1" }
-                          },
-                          [_vm._v("Solventado")]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "row col-md-3" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success col-md-6",
-                            attrs: { type: "submit" }
-                          },
-                          [_vm._v("Guardar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger col-md-6",
-                            attrs: { type: "submit" },
-                            on: { click: _vm.cancelarEdicion }
-                          },
-                          [_vm._v("Cancelar")]
-                        )
-                      ])
-                    ])
-                  ]
-                )
-              : _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.agregar($event)
-                      }
-                    }
-                  },
-                  [
-                    _c("label", { attrs: { for: "NOMBRE" } }, [
-                      _vm._v("Nueva Observación:")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.Revision.DETALLE_REVISION,
-                            expression: "Revision.DETALLE_REVISION"
-                          }
-                        ],
-                        staticClass: "form-control col-md-10",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE",
-                          placeholder: "Escriba aca la nueva Observación...",
-                          required: ""
-                        },
-                        domProps: { value: _vm.Revision.DETALLE_REVISION },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.Revision,
-                              "DETALLE_REVISION",
-                              $event.target.value
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-2" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.check,
+                                  expression: "check"
+                                }
+                              ],
+                              staticClass: "col-md-2",
+                              attrs: { type: "checkbox", id: "check_titulo" },
+                              domProps: {
+                                checked: Array.isArray(_vm.check)
+                                  ? _vm._i(_vm.check, null) > -1
+                                  : _vm.check
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.check,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 && (_vm.check = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.check = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.check = $$c
+                                  }
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-check-label",
+                                attrs: { for: "exampleCheck1" }
+                              },
+                              [_vm._v("Solventado")]
                             )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row col-md-3" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success col-md-6",
+                                attrs: { type: "submit" }
+                              },
+                              [_vm._v("Guardar")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger col-md-6",
+                                attrs: { type: "submit" },
+                                on: { click: _vm.cancelarEdicion }
+                              },
+                              [_vm._v("Cancelar")]
+                            )
+                          ])
+                        ])
+                      ]
+                    )
+                  : _c(
+                      "form",
+                      {
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.agregar($event)
                           }
                         }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { type: "submit" }
-                        },
-                        [_vm._v("Agregar Observación")]
-                      )
-                    ])
-                  ]
-                )
-          ]),
+                      },
+                      [
+                        _c("label", { attrs: { for: "NOMBRE" } }, [
+                          _vm._v("Nueva Observación:")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.Revision.DETALLE_REVISION,
+                                expression: "Revision.DETALLE_REVISION"
+                              }
+                            ],
+                            staticClass: "form-control col-md-10",
+                            attrs: {
+                              type: "text",
+                              id: "NOMBRE",
+                              placeholder:
+                                "Escriba aca la nueva Observación...",
+                              required: ""
+                            },
+                            domProps: { value: _vm.Revision.DETALLE_REVISION },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.Revision,
+                                  "DETALLE_REVISION",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: { type: "submit" }
+                            },
+                            [_vm._v("Agregar Observación")]
+                          )
+                        ])
+                      ]
+                    )
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: " col sm-12" }, [
             _c("label", { attrs: { for: "" } }, [
@@ -67088,39 +67202,90 @@ var render = function() {
           _c("div", { staticClass: "comment-text" }, [
             _c("span", { staticClass: "username" }, [
               _vm._v(
-                "\n                " + _vm._s(datos.name) + "\n              "
+                "\r\n                " +
+                  _vm._s(datos.name) +
+                  "\r\n              "
               ),
               _c("span", { staticClass: "text-muted float-right" }, [
                 _vm._v(_vm._s(datos.created_at))
               ])
             ]),
             _vm._v(
-              "\n              " + _vm._s(datos.COMENTARIO) + "\n            "
+              "\r\n              " +
+                _vm._s(datos.COMENTARIO) +
+                "\r\n            "
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row float-right" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-default btn-sm ",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.like(datos.id)
-                  }
-                }
-              },
-              [
-                _c("i", { staticClass: "far fa-thumbs-up" }, [
-                  _vm._v(_vm._s(datos.total_likes))
-                ]),
-                _vm._v(" Like")
-              ]
-            ),
-            _vm._v(" "),
-            _vm._m(0, true)
-          ])
+          _c(
+            "div",
+            { staticClass: "row float-right" },
+            [
+              _vm._l(_vm.misInteracciones, function(miInteraccion, indice) {
+                return _c("div", { key: indice }, [
+                  datos.id == miInteraccion.id
+                    ? _c("div", [
+                        _vm._v(
+                          "\r\n                  " +
+                            _vm._s(_vm.usuarioDioLike()) +
+                            "\r\n                  "
+                        ),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-default btn-sm ",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.dislike(miInteraccion.int)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-thumbs-up" }, [
+                              _vm._v(_vm._s(datos.total_likes))
+                            ]),
+                            _vm._v(" Dislike")
+                          ]
+                        )
+                      ])
+                    : _vm._e()
+                ])
+              }),
+              _vm._v(" "),
+              _vm.dioLike === 1
+                ? _c("div", [
+                    _vm._v(
+                      "\r\n                " +
+                        _vm._s(_vm.setDioLike()) +
+                        "\r\n              "
+                    )
+                  ])
+                : _c("div", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default btn-sm ",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.like(datos.id)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "far fa-thumbs-up" }, [
+                          _vm._v(_vm._s(datos.total_likes))
+                        ]),
+                        _vm._v(" Like")
+                      ]
+                    )
+                  ]),
+              _vm._v(" "),
+              _vm._m(0, true)
+            ],
+            2
+          )
         ])
       }),
       0
@@ -88132,8 +88297,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\Biblioteca\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
