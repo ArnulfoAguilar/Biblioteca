@@ -24,7 +24,23 @@ Editar
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;">Editar Aporte</div>
-
+                    @if(!empty($errors->all()))
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Alerta</h5>
+                        <div class="">
+                            <h4 class="col-md-4">Por favor, valida los siguientes errores:</h4>
+                                <ul>
+                                    @foreach ($errors->all() as $mensaje)
+                                        <li>
+                                            {{$mensaje}}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                        </div>
+                    
+                    </div>
+                    @endif
                     <div class="card-body">
                         <form  action="{{ route('aportes.update', $aporte->id) }}" method="post" enctype="multipart/form-data">
                             {{ csrf_field() }}  
@@ -170,7 +186,8 @@ $('#inputArchivo').change(function (e) {
     var siezekiloByte = parseInt(fileSize / 1024);
     const TamañoMax = @json($TamañoMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS);
     if (siezekiloByte >  TamañoMax) {
-        alert("Archivo muy grande");
+        swal({ text: 'El archivo debe ser menor a '+ TamañoMax +' Kb', title: 'Upss', icon: 'warning',})
+                        
        this.value='';
     }
     });

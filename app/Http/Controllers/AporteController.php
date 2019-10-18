@@ -140,25 +140,25 @@ class AporteController extends Controller
                 [
                     'archivo.required' => 'El archivo es requerido',
                     'archivo.mimetypes' => 'El archivo a anexar debe ser un video',
-                    'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo.' kb'
+                    'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS.' kb'
                 ]);
             }elseif($request->ID_TIPO_APORTE==3){
                 $validateData = $request->validate([
-                    'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo,
+                    'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
                 ],
                 [
                     'archivo.required' => 'El archivo es requerido',
                     'archivo.mimes' => 'El archivo a anexar debe ser una imagen',
-                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
                 ]);
             }else{
                 $validateData = $request->validate([
-                    'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo,
+                    'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
                 ],
                 [
                     'archivo.required' => 'El archivo es requerido',
                     'archivo.mimetypes' => 'El archivo a anexar debe ser un audio',
-                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
                 ]
             );
             }
@@ -356,7 +356,7 @@ class AporteController extends Controller
         ->with(['TipoAporteSelect' => $TipoAporteSelect])
         ->with(['PalabrasClaveselect' => $PalabrasClaveselect])
         ->with(['AreaSelec' => $AreaSelec])
-        ->with(['TamañoMaximoArchivo',$TamañoMaximoArchivo]);;
+        ->with(['TamañoMaximoArchivo'=>$TamañoMaximoArchivo]);;
 
     }
 
@@ -369,10 +369,12 @@ class AporteController extends Controller
      */
     public function update(Request $request, $aporteid)
     {
+        
         $valorMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
-                                            ->first(); 
+        ->first();
         $detalle = null;
         if($request->ID_TIPO_APORTE==1){
+            
         $detalle=$request->CONTENIDO;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
@@ -396,36 +398,42 @@ class AporteController extends Controller
         }
         $detalle = $dom->savehtml();
     }else{
+        
+        
     if($request->archivo!=null){
+        
         if($request->ID_TIPO_APORTE==2){
+            
         $validateData = $request->validate([
             'archivo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:'.$valorMaximoArchivo,
             ],
             [
                 'archivo.required' => 'El archivo es requerido',
                 'archivo.mimetypes' => 'El archivo a anexar debe ser un video',
-                'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo.' kb'
+                'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS.' kb'
             ]);
         }elseif($request->ID_TIPO_APORTE==3){
+            
             $validateData = $request->validate([
-                'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo,
+                'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
             ],
             [
                 'archivo.required' => 'El archivo es requerido',
                 'archivo.mimes' => 'El archivo a anexar debe ser una imagen',
-                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
             ]);
         }else{
             $validateData = $request->validate([
-                'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo,
+                'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
             ],
             [
                 'archivo.required' => 'El archivo es requerido',
                 'archivo.mimetypes' => 'El archivo a anexar debe ser un audio',
-                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
             ]
         );
         }
+        
        if($request->hasFile('archivo')){
 
             $file = $request->file('archivo');
