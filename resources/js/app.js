@@ -68,6 +68,9 @@ Vue.component('adquisiciones', require('./components/Adquisiciones.vue').default
 Vue.component('roles', require('./components/Roles.vue').default);
 Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').default);
 
+// ------------------------MODULO DE BIOGRAFIA USUARIO---------------------------------------------
+Vue.component('biografia-sidebar', require('./components/biografia-sidebar.vue').default);
+Vue.component('biografia-aportes', require('./components/Biografia-Aportes.vue').default);
 
 
 /**

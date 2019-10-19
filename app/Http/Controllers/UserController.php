@@ -7,6 +7,10 @@ use App\User;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +55,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $Usuario = User::find($id);
+        return view('Usuarios.verUsuario')
+        ->with([
+            'usuario' => $Usuario
+            ]);
     }
 
     /**
