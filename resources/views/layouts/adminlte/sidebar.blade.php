@@ -19,6 +19,9 @@
                with font-awesome or any other icon font library -->
 
           <!--biblioteca-->
+          @if(Auth::user())
+
+
           @if (Auth::user()->rol->id == '1' || Auth::user()->rol->id == '2' || Auth::user()->rol->id == '3' || Auth::user()->rol->id == '4')
           <li class="nav-item has-treeview {{ ( request()->is('biblioteca/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('biblioteca/*') ) ? 'active' : '' }}">
@@ -235,15 +238,19 @@
               </li>
 
               <li class="nav-item">
-                <a href="" class="nav-link ">
+                <a href="{{route('registro.actividad')}}" class="nav-link {{ ( request()->is('catalogos/registros') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Item 2</p>
-                </a>
+                    <p>Registros de actividad </p>
+                  </a>
               </li>
+
 
             </ul>
           </li>
           @endif
+
+          @endif
+
 
           <li class="nav-item">
             <a href="#" class="nav-link">

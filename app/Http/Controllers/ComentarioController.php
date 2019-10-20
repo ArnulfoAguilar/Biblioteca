@@ -177,7 +177,7 @@ class ComentarioController extends Controller
         $user = User::find($Aporte->ID_USUARIO);
         $user->notify(new NuevoComentario($Comentario)); //Esto notifica a un solo usuario
         //Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
-        activity()->log('Realizó comentario');
+        activity()->performedOn($Comentario)->log('Hizo comentario con id: '.$Comentario->id);
     }
 
     /**
@@ -244,9 +244,9 @@ class ComentarioController extends Controller
         }
         $comentario->save();
         if($comentario->HABILITADO){
-            activity()->log('Comentario habilitado');
+            activity()->performedOn($comentario)->log('Comentario '.$comentario->id.' habilitado');
         }else{
-            activity()->log('Comentario deshabilitado');
+            activity()->performedOn($comentario)->log('Comentario '.$comentario->id.' deshabilitado');
         }
         return '1';
     }

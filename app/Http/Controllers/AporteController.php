@@ -203,7 +203,7 @@ class AporteController extends Controller
             Notification::send($users, new NewAporte($Aporte)); //Esto notifica a varios usuarios
             
             
-            activity()->log('Aporte guardado');
+            activity()->performedOn($Aporte)->log('Aporte guardado');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
@@ -297,7 +297,7 @@ class AporteController extends Controller
         {
             $aporte->HABILITADO = true;
             $aporte->save();
-            activity()->log('Aporte habilitado');
+            activity()->performedOn($aporte)->log('Aporte habilitado');
             return '1';
         }else{
             return '0';
@@ -480,7 +480,7 @@ class AporteController extends Controller
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
 
-       // activity()->log('Aporte actualizado');
+        activity()->performedOn($Aporte)->log('Aporte actualizado');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
