@@ -57,7 +57,6 @@
             }
         },
         created(){
-          console.log(this.usuarioid)
             this.cargarAportes();
         },
         methods :{
@@ -75,7 +74,6 @@
         },
         computed:{
             searchEjemplar: function(){
-              console.log(this.search_titulo.length)
                 if(this.search_titulo!='' && this.search_titulo.length > 2){
                    
                    return this.Aportes.filter((item) => 

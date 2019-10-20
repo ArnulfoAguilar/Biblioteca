@@ -58,6 +58,9 @@ class UserController extends Controller
     public function show($id)
     {
         $Usuario = User::find($id);
+        if($Usuario==null){
+            abort(404);
+        }
         return view('Usuarios.verUsuario')
         ->with([
             'usuario' => $Usuario

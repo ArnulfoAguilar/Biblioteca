@@ -81,7 +81,7 @@ class AporteController extends Controller
         
             return DB::table('lista_aportes')
             ->where([
-                ['HABILITADO','=','FALSE'],
+                ['HABILITADO','=','TRUE'],
                 ['ID_AUTOR','=',$request->id]
             ])
             ->get();

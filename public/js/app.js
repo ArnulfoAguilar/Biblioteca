@@ -2859,7 +2859,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    console.log(this.usuarioid);
     this.cargarAportes();
   },
   methods: {
@@ -2877,8 +2876,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     searchEjemplar: function searchEjemplar() {
       var _this2 = this;
-
-      console.log(this.search_titulo.length);
 
       if (this.search_titulo != '' && this.search_titulo.length > 2) {
         return this.Aportes.filter(function (item) {
