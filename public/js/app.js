@@ -2844,6 +2844,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log('Component mounted.');
   },
+  props: ['usuarioid'],
   data: function data() {
     return {
       search_titulo: '',
@@ -2858,13 +2859,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
+    console.log(this.usuarioid);
     this.cargarAportes();
   },
   methods: {
     cargarAportes: function cargarAportes() {
       var _this = this;
 
-      axios.get('/listaTodosAportes?id=' + this.habilitado).then(function (response) {
+      axios.get('/aportesProfile?id=' + this.usuarioid).then(function (response) {
         _this.Aportes = response.data;
       });
     },
@@ -5588,6 +5590,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  },
+  props: ['usuarioid', 'usuarioname', 'rol'],
+  data: function data() {
+    return {
+      CantidadAportesRealizados: '',
+      Usuario: {
+        usuario_id: '',
+        name: '',
+        email: '',
+        rol_id: '',
+        ROL: ''
+      }
+    };
+  },
+  created: function created() {
+    this.totalAportes();
+  },
+  methods: {
+    totalAportes: function totalAportes() {
+      var _this = this;
+
+      axios.get('/Usuario/totalAportesCreados/' + this.usuarioid).then(function (response) {
+        _this.CantidadAportesRealizados = response.data;
+      });
+    },
+    verAporte: function verAporte(id) {
+      window.location.href = '/aportes/' + id;
+    }
   }
 });
 
@@ -67501,78 +67531,98 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "col-md-3" }, [
+    _c("div", { staticClass: "card card-primary card-outline" }, [
+      _c("div", { staticClass: "card-body box-profile" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("h3", { staticClass: "profile-username text-center" }, [
+          _vm._v(_vm._s(this.usuarioname))
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "text-muted text-center" }, [
+          _vm._v(_vm._s(this.rol))
+        ]),
+        _vm._v(" "),
+        _c("ul", { staticClass: "list-group list-group-unbordered mb-3" }, [
+          _c("li", { staticClass: "list-group-item" }, [
+            _c("b", [_vm._v("Aportes")]),
+            _vm._v(" "),
+            _c("a", { staticClass: "float-right" }, [
+              _vm._v(_vm._s(this.CantidadAportesRealizados))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2)
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(3)
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("div", { staticClass: "card card-primary card-outline" }, [
-        _c("div", { staticClass: "card-body box-profile" }, [
-          _c("div", { staticClass: "text-center" }, [
-            _c("img", {
-              staticClass: "profile-user-img img-fluid img-circle",
-              attrs: { src: "", alt: "User profile picture" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("h3", { staticClass: "profile-username text-center" }, [
-            _vm._v("Nina Mcintire")
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "text-muted text-center" }, [
-            _vm._v("Software Engineer")
-          ]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "list-group list-group-unbordered mb-3" }, [
-            _c("li", { staticClass: "list-group-item" }, [
-              _c("b", [_vm._v("Followers")]),
-              _vm._v(" "),
-              _c("a", { staticClass: "float-right" }, [_vm._v("1,322")])
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "list-group-item" }, [
-              _c("b", [_vm._v("Following")]),
-              _vm._v(" "),
-              _c("a", { staticClass: "float-right" }, [_vm._v("543")])
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "list-group-item" }, [
-              _c("b", [_vm._v("Friends")]),
-              _vm._v(" "),
-              _c("a", { staticClass: "float-right" }, [_vm._v("13,287")])
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "text-center" }, [
+      _c("img", {
+        staticClass: "profile-user-img img-fluid img-circle",
+        attrs: { src: "", alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "list-group-item" }, [
+      _c("b", [_vm._v("Following")]),
+      _vm._v(" "),
+      _c("a", { staticClass: "float-right" }, [_vm._v("543")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "list-group-item" }, [
+      _c("b", [_vm._v("Friends")]),
+      _vm._v(" "),
+      _c("a", { staticClass: "float-right" }, [_vm._v("13,287")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card card-primary" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _c("h3", { staticClass: "card-title" }, [_vm._v("Acerca de mi")])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "card card-primary" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("h3", { staticClass: "card-title" }, [_vm._v("Acerca de mi")])
+      _c("div", { staticClass: "card-body" }, [
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-book mr-1" }),
+          _vm._v("Biografia")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("strong", [
-            _c("i", { staticClass: "fas fa-book mr-1" }),
-            _vm._v("Biografia")
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "text-muted" }, [
-            _vm._v(
-              "\n           B.S. in Computer Science from the University of Tennessee at Knoxville\n         "
-            )
-          ]),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c(
-            "a",
-            { staticClass: "btn btn-primary btn-block", attrs: { href: "#" } },
-            [_c("b", [_vm._v("Editar Biografia")])]
+        _c("p", { staticClass: "text-muted" }, [
+          _vm._v(
+            "\n           B.S. in Computer Science from the University of Tennessee at Knoxville\n         "
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c(
+          "a",
+          { staticClass: "btn btn-primary btn-block", attrs: { href: "#" } },
+          [_c("b", [_vm._v("Editar Biografia")])]
+        )
       ])
     ])
   }

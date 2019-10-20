@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
 use App\User;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+       // $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -103,5 +105,13 @@ class UserController extends Controller
         $usuario->save();
         activity()->log('Asignó rol a usuario');
         return redirect()->route('asignar.roles');
+    }
+
+    public function totalAportesCreados($UsuarioId)
+    {
+        $AportesRealizados = DB::table('Aporte')
+        ->where('ID_USUARIO','=',$UsuarioId)
+        ->count();  
+        return $AportesRealizados;
     }
 }

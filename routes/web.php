@@ -125,6 +125,8 @@ Route::get('/getPalabras', 'PalabraProhibidaController@getPalabras');
 Route::get('/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
 Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
 // -----------------------------------------ERRORES RUTAS -------------------------------------//
-
 Route::get('/error/1', 'ErroresController@error1')->name('error1');
+// -----------------------------------------PERFIL DE USUARIO -------------------------------------//
+Route::get('/Usuario/totalAportesCreados/{id}', 'UserController@totalAportesCreados')->name('totalAportesCreados');
+Route::get('/aportesProfile', 'AporteController@aportesProfile');
 

@@ -48,6 +48,7 @@
         mounted() {
             console.log('Component mounted.')
         },
+          props: ['usuarioid'],
         data(){
             return{
                 search_titulo:'',
@@ -56,12 +57,13 @@
             }
         },
         created(){
+          console.log(this.usuarioid)
             this.cargarAportes();
         },
         methods :{
             cargarAportes()
             {
-                axios.get('/listaTodosAportes?id='+this.habilitado).then(response=>{
+                 axios.get('/aportesProfile?id='+this.usuarioid).then(response=>{
                   this.Aportes = response.data;
                   }
                 )                

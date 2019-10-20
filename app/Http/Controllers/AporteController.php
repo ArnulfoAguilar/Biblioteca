@@ -73,8 +73,18 @@ class AporteController extends Controller
             ])
             ->get();
         }else{
-            //poner aqui un 404
+            abort(404);
         }
+    }
+    public function aportesProfile(Request $request)
+    {
+        
+            return DB::table('lista_aportes')
+            ->where([
+                ['HABILITADO','=','FALSE'],
+                ['ID_AUTOR','=',$request->id]
+            ])
+            ->get();
     }
 
     public function listaDirector(Request $request)
