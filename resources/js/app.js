@@ -7,14 +7,15 @@ import Vuelidate from 'vuelidate';
  */
 
 require('./bootstrap');
-var moment = require('moment');
+//var moment = require('moment');
 
 window.Vue = require('vue');
 window.toastr = require('toastr');
 window.bootbox = require('bootbox');
+window.moment = require('moment');
 
 Vue.use(Vuelidate);
-Vue.prototype.$moment = moment;
+//Vue.prototype.$moment = moment;
 
 /**
  * The following block of code may be used to automatically register your
@@ -30,6 +31,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('JDTable', JDTable);
 Vue.component('busqueda-api', require('./components/BusquedaApi.vue').default);
 Vue.component('select2', require('./components/select.vue').default);
+Vue.component('bootbox-modal', require('./components/BootboxDialog.vue').default);
 Vue.component('lista-ejem', require('./components/ListaEjem.vue').default);
 Vue.component('buscar-libro', require('./components/Buscar-libro.vue').default);
 Vue.component('buscar-material', require('./components/BuscarMaterialComponent.vue').default);

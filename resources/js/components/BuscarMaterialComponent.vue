@@ -84,140 +84,129 @@
         </div>
       </div>
 
-      <!-- Modal para realizar prestamo -->
-      <div id="modalPrestamo" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <form v-on:submit.prevent="guardarSolicitudPrestamo()">
-            <div class="modal-content">
-              <div class="modal-header bg-dark">
-                <h4 class="modal-title">Realizar préstamo de libro</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <label for="NOMBRE">Nombre del libro</label>
-                  <input
-                    v-model="materialBibliotecario.EJEMPLAR"
-                    type="text"
-                    class="form-control"
-                    id="NOMBRE"
-                    aria-describedby="emailHelp"
-                    disabled
-                  />
-                </div>
-                <div class="row">
-                  <div class="form-group col-md-6">
-                    <label for="AUTOR">Autor/es</label>
+        <!-- Modal para realizar prestamo -->
+      <bootbox-modal v-if="modalShowFlag" @close="modalClosing" :title ="modalTitle">
+            <!-- Modal content-->
+            <form v-on:submit.prevent="guardarSolicitudPrestamo()">
+                    <div class="form-group">
+                    <label for="NOMBRE">Nombre del libro</label>
                     <input
-                      v-model="materialBibliotecario.AUTOR"
-                      type="text"
-                      class="form-control"
-                      id="AUTOR"
-                      aria-describedby="emailHelp"
-                      disabled
-                    />
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="EDICION">Edición</label>
-                    <input
-                      v-model="materialBibliotecario.EDICION"
-                      type="text"
-                      class="form-control"
-                      id="EDICION"
-                      aria-describedby="emailHelp"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <!--<div class="row">
-                  <div class="form-group col-md-6">
-                    <label for="tipoAdquisición">Tipo Adquisición</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="tipoAdquisición"
-                      aria-describedby="emailHelp"
-                      disabled
-                    />
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="tipoPrestamo">Tipo Préstamo</label>
-                    <select class="custom-select">
-                      <option selected>Open this select menu</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                  </div>
-                </div>-->
-                <div class="row">
-                  <div class="form-group col-md-12">
-                    <label for="DESCRIPCION">Descripción</label>
-                    <textarea
-                      v-model="materialBibliotecario.DESCRIPCION"
-                      class="form-control"
-                      name
-                      id="DESCRIPCION"
-                      rows="3"
-                    ></textarea>
-                  </div>
-                </div>
-                <div class="row text-center">
-                  <div class="form-group col-md-11">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-info active">
-                        <input type="radio" name="options" id="option1" autocomplete="off" /> Solicitar préstamo
-                      </label>
-                      <label class="btn btn-info">
-                        <input type="radio" name="options" id="option2" autocomplete="off" /> Realizar reserva
-                      </label>
+                        v-model="materialBibliotecario.EJEMPLAR"
+                        type="text"
+                        class="form-control"
+                        id="NOMBRE"
+                        aria-describedby="emailHelp"
+                        />
                     </div>
-                  </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Autor/es</label>
+                            <input
+                            v-model="materialBibliotecario.AUTOR"
+                            type="text"
+                            class="form-control"
+                            id="AUTOR"
+                            aria-describedby="emailHelp"
+                            disabled
+                            />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="EDICION">Edición</label>
+                            <input
+                            v-model="materialBibliotecario.EDICION"
+                            type="text"
+                            class="form-control"
+                            id="EDICION"
+                            aria-describedby="emailHelp"
+                            disabled
+                            />
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="tipoAdquisición">Tipo Adquisición</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        id="tipoAdquisición"
+                        aria-describedby="emailHelp"
+                        disabled
+                        />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="tipoPrestamo">Tipo Préstamo</label>
+                        <select class="custom-select">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        </select>
+                    </div>
+                    </div>-->
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="DESCRIPCION">Descripción</label>
+                            <textarea
+                            v-model="materialBibliotecario.DESCRIPCION"
+                            class="form-control"
+                            name
+                            id="DESCRIPCION"
+                            rows="3"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="form-group col-md-11">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-info active">
+                                <input type="radio" name="options" id="option1" autocomplete="off" /> Solicitar préstamo
+                            </label>
+                            <label class="btn btn-info">
+                                <input type="radio" name="options" id="option2" autocomplete="off" /> Realizar reserva
+                            </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="COPIA">Código de barra</label>
+                            <input
+                            v-model="materialBibliotecario.CODIGO_BARRA"
+                            type="text"
+                            class="form-control"
+                            id="PAGINAS"
+                            aria-describedby="emailHelp"
+                            disabled
+                            />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="PAGINAS">Fecha y hora de préstamo</label>
+                            <input
+                            class="form-control"
+                            id="PAGINAS"
+                            v-model="hoy"
+                            aria-describedby="emailHelp"
+                            disabled
+                            />
+                        </div>
+                        <!--
+                        <div class="form-group col-md-4">
+                            <label for="PAGINAS">Fecha de devolución</label>
+                            <input
+                            type="date"
+                            class="form-control"
+                            id="PAGINAS"
+                            aria-describedby="emailHelp"
+                            disabled
+                            />
+                        </div>-->
+                    </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success float-left" type="submit">Finalizar</button>
+                    <button class="btn btn-dark" type="reset" data-dismiss="modal">Cancelar</button>
                 </div>
-                <div class="row">
-                  <div class="form-group col-md-6">
-                    <label for="COPIA">Código de barra</label>
-                    <input
-                      v-model="materialBibliotecario.CODIGO_BARRA"
-                      type="text"
-                      class="form-control"
-                      id="PAGINAS"
-                      aria-describedby="emailHelp"
-                      disabled
-                    />
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="PAGINAS">Fecha y hora de préstamo</label>
-                    <input
-                      class="form-control"
-                      id="PAGINAS"
-                      v-model="this.hoy"
-                      aria-describedby="emailHelp"
-                      disabled
-                    />
-                  </div>
-                  <!--
-                  <div class="form-group col-md-4">
-                    <label for="PAGINAS">Fecha de devolución</label>
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="PAGINAS"
-                      aria-describedby="emailHelp"
-                      disabled
-                    />
-                  </div>-->
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-success float-left" type="submit">Finalizar</button>
-                <button class="btn btn-dark" type="reset" data-dismiss="modal">Cancelar</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+            </form>
+      </bootbox-modal>
     </div>
   </div>
 </template>
@@ -227,13 +216,14 @@ export default {
   data() {
     return {
       check_titulo: true,
+      modalTitle: 'Realizar préstamo de libro',
       qry: {
         titulo: "",
         autor: "",
         isbn: ""
       },
       isBibliotecario: true,
-      hoy: this.$moment(new Date()).format("YYYY-MM-DD HH:mm"),
+      hoy: moment(new Date()).format("YYYY-MM-DD HH:mm"),
       materialesBibliotecarios: [],
       materialBibliotecario: {
         ID_MATERIAL: "",
@@ -256,7 +246,8 @@ export default {
         ID_TIPO_PRESTAMO: "",
         ID_ESTADO_PRESTAMO: "",
         ID_MATERIAL: ""
-      }
+      },
+    modalShowFlag: false
     };
   },
   created() {
@@ -266,6 +257,7 @@ export default {
   },
   methods: {
     seleccionarMaterial(material) {
+        this.modalShowFlag = true;
       this.materialBibliotecario.ID_MATERIAL = this.solicitudPrestamo.ID_MATERIAL =
         material.id;
       this.materialBibliotecario.EJEMPLAR = material.EJEMPLAR;
@@ -305,6 +297,23 @@ export default {
         .then(res => {
           this.materialesBibliotecarios = res.data;
         });
+    },
+    modalClosing(){
+        this.materialBibliotecario.ID_MATERIAL = "";
+        this.materialBibliotecario.ID_CATALOGO_MATERIAL= "";
+        this.materialBibliotecario.EJEMPLAR= "";
+        this.materialBibliotecario.AUTOR= "";
+        this.materialBibliotecario.EDICION= "";
+        this.materialBibliotecario.DESCRIPCION= "";
+        this.materialBibliotecario.ISBN= "";
+        this.materialBibliotecario.COPIA_NUMERO= "";
+        this.materialBibliotecario.ID_TERCER_SUMARIO= "";
+        this.materialBibliotecario.CODIGO_BARRA= "";
+        this.materialBibliotecario.ID_BIBLIOTECA= "";
+        this.materialBibliotecario.ID_ESTANTE  ="";
+        this.materialBibliotecario.FILAESTANTE= "";
+
+        this.modalShowFlag = false;
     }
   }
 };

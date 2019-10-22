@@ -8,10 +8,9 @@
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
 
-        <div id="busqueda" style="display: none;">
+        <bootbox-modal v-if="modalShowFlag" @close="modalClosing" :title="titleToShow" :size="'extra-large'">
             <buscar-material></buscar-material>
-            <button  onclick="otroModal"></button>
-        </div>
+        </bootbox-modal>
   </div>
 </template>
 
@@ -79,7 +78,8 @@ export default {
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
             editTitle: 'Editar Ejemplar',
-            titleToShow: ''
+            titleToShow: '',
+            modalShowFlag: false
         }
     },
     //vuelidate
@@ -133,12 +133,7 @@ export default {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
                 //$('#modalForm').modal('show');
-                bootbox.dialog({
-                    title: this.createTitle,
-                    message:$('#busqueda').html(),
-                    onEscape: true,
-                    size: 'extra-large'
-                });
+                this.modalShowFlag = true
 
             }
             if (componentState.lastAction ==='EditItem') {
@@ -196,6 +191,9 @@ export default {
                 ID_ESTADO_PRESTAMO:'',
                 ID_MATERIAL:''
             };
+        },
+        modalClosing(){
+            this.modalShowFlag = false;
         },
         success(msg){
             this.sendData();
