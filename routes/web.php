@@ -135,6 +135,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('catalogos/registro/actividad', 'RegistroActividadController@index')->name('registro.actividad');
     Route::get('catalogos/registro/actividad/descargar', 'RegistroActividadController@downloadTxt')->name('registro.actividad.descargar');
 
+    // -----------------------------------------CONFIGURACIONES -------------------------------------//
+    Route::get('graficos/aportes', 'GraficosController@index')->name('graficos.aportes');
+    Route::get('graficos/aportes/anio', 'GraficosController@aportesAnio')->name('graficos.aportes.anio');
+
     // -----------------------------------------ERRORES RUTAS -------------------------------------//
 
     Route::get('/error/1', 'ErroresController@error1')->name('error1');

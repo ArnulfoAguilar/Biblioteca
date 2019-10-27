@@ -1,0 +1,64 @@
+@extends('layouts.adminLTE')
+
+@section('content')
+
+<div class="container">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class=" float-right">
+                    <form class="form-inline" action="{{route('graficos.aportes')}}" method="GET">
+                        <input type="date" class="form-control mb-2 mr-sm-2" name="fecha_i" placeholder="Desde" value="{{$fecha_i ? $fecha_i : '' }}">
+                        <input type="date" class="form-control mb-2 mr-sm-2" name="fecha_f" placeholder="Hasta" value="{{$fecha_f ? $fecha_f : '' }}">
+                        <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body" id="chart_div"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+        
+    {{-- <div class="col-md-12" id="chart_div"></div> --}}
+
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js">
+</script>
+
+<script type="text/javascript">
+
+    var analytics = <?php echo $lista; ?>
+    // var analytics = {{$lista}}
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.arrayToDataTable(
+            analytics
+        );
+
+        // Set chart options
+        var options = {
+            'title':'APORTES POR ÁREA',
+            // 'width':900,
+            'height':400
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+
+@endsection

@@ -2,7 +2,8 @@ import JDTable from 'vue-jd-table/src/jd-table.vue';
 import Vuelidate from 'vuelidate';
 
 //Usado para utilizar swal - copiado directamente de npmjs.com
-import Vue from 'vue';
+// import Vue from 'vue';
+import Vue from 'vue/dist/vue.min.js'
 import VueSwal from 'vue-swal';
 Vue.use(VueSwal);
 //Usado para utilizar moment - copiado directamente de npmjs.com

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 
 //use Spatie\Activitylog\Models\Activity;
 
@@ -26,7 +27,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $hoy = date("d-m-Y");
+        $antes = date("d-m-Y",strtotime($hoy."- 7 days"));
+
+        $habilitados = DB::table('Aporte')->where('HABILITADO', true)->count();
+        $pendientes = DB::table('Aporte')->where('HABILITADO', false)->count();
+        $sugerencias = DB::table('Adquisicion')->where('created_at', '>', $antes)->count();
+        $aportes = DB::table('Aporte')->where('created_at', '>', $antes)->count();
+
+        return view('home')->with([
+            'habilitados' => $habilitados,
+            'pendientes' => $pendientes,
+            'sugerencias' => $sugerencias,
+            'aportes' => $aportes,
+        ]);
     }
 
     public function busqueda()
