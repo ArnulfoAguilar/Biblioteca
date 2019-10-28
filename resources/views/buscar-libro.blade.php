@@ -12,6 +12,5 @@ Búsqueda de libros
 @endsection
 
 @section('content')
-    <buscar-material></buscar-material>
-
+    <buscar-material :is-bibliotecario="false"></buscar-material>
 @endsection

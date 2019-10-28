@@ -20,6 +20,10 @@ class CreatePrestamosView extends Migration
                 ep."ESTADO_PRESTAMO",
                 e."EJEMPLAR",
                 u."name"
+                e."AUTOR",
+                e."EDICION",
+                e."ID_TIPO_ADQUISICION",
+                mb."CODIGO_BARRA"
             FROM "Prestamo" p
                 JOIN users u ON p."ID_USUARIO" = u.id
                 JOIN "estadoPrestamo" ep ON p."ID_ESTADO_PRESTAMO" = ep.id

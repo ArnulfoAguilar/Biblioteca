@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class tipoPrestamo extends Model
 {
     //
+    protected $table = 'tipoPrestamo';
 }

@@ -6,6 +6,7 @@ use App\Modelos\catalogoMaterial;
 use App\Modelos\estadoEjemplar;
 use App\Modelos\tipoAdquisicion;
 use App\Modelos\tipoEmpastado;
+use App\tipoPrestamo;
 use Illuminate\Http\Request;
 
 class Select2Controller extends Controller
@@ -79,6 +80,23 @@ class Select2Controller extends Controller
             $data[$key + 1] = [
                 'id'   => $value->id,
                 'text' => $value->NOMBRE,
+            ];
+        }
+        return response()->json($data);
+    }
+    public function tipoPrestamoSelect()
+    {
+        $tipoPrestamos = tipoPrestamo::all();
+
+        $data = [];
+        $data[0] = [
+            'id'   => 0,
+            'text' => 'Seleccione',
+        ];
+        foreach ($tipoPrestamos as $key => $value) {
+            $data[$key + 1] = [
+                'id'   => $value->id,
+                'text' => $value->TIPO_PRESTAMO,
             ];
         }
         return response()->json($data);
