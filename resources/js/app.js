@@ -36,6 +36,7 @@ Vue.component('buscar-material', require('./components/BuscarMaterialComponent.v
 Vue.component('lista-ejem-table', require('./components/ListaEjemTable.vue').default);
 Vue.component('ejemplar-component', require('./components/EjemplarComponent.vue').default);
 Vue.component('prestamos-list-component', require('./components/PrestamosList.vue').default);
+Vue.component('prestamos-mi-lista', require('./components/MisPrestamosList.vue').default)
 // Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 
 Vue.component('revisiones', require('./components/Revisiones.vue').default);

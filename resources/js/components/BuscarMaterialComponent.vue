@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-md-12" style="overflow: auto; height:500px; ">
+      <div class="col-md-12" style="overflow: auto">
         <div class="card">
           <div class="card-header bg-dark">Buscar libro</div>
           <div class="card-body">

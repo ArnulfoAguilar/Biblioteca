@@ -88,4 +88,23 @@ class PrestamoController extends Controller
     {
         //
     }
+
+    public function indexMisPrestamos()
+    {
+        return view('Prestamo.listaMisPrestamos');
+    }
+
+    public function listaMisPrestamos(Request $request)
+    {
+        if ($request->ajax()) {
+            $query = Prestamo::Where('ID_USUARIO', auth()->id())
+                ->leftJoin('tipoPrestamo AS tp', 'Prestamo.ID_TIPO_PRESTAMO', '=', 'tp.id')
+                ->join('estadoPrestamo AS ep', 'Prestamo.ID_ESTADO_PRESTAMO', '=', 'ep.id')
+                ->join('materialBibliotecario AS mb', 'Prestamo.ID_MATERIAL', '=', 'mb.id')
+                ->join('Ejemplar AS ej', 'mb.ID_EJEMPLAR', '=', 'ej.id')
+                ->join('catalogoMaterial AS cm', 'ej.ID_CATALOGO_MATERIAL', '=', 'cm.id')
+                ->get();
+        }
+        return ($query);
+    }
 }
