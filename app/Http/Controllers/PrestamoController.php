@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Modelos\VwPrestamo;
 use App\Modelos\Prestamo;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class PrestamoController extends Controller
      */
     public function index()
     {
-        //return view('Prestamo/prestamo');
+        return VwPrestamo::all();
     }
 
     /**
@@ -38,7 +39,8 @@ class PrestamoController extends Controller
         $prestamo = new Prestamo();
         $prestamo->FECHA_PRESTAMO = $request->FECHA_PRESTAMO;
         $prestamo->ID_USUARIO = auth()->id();
-        //$prestamo->ID_TIPO_PRESTAMO = 1;
+        if(!empty($request->ID_TIPO_PRESTAMO))$prestamo->ID_TIPO_PRESTAMO = $request->ID_TIPO_PRESTAMO;
+        if(!empty($request->FECHA_DEVOLUCION))$prestamo->FECHA_DEVOLUCION = $request->FECHA_DEVOLUCION;
         $prestamo->ID_ESTADO_PRESTAMO = $request->ID_ESTADO_PRESTAMO;
         $prestamo->ID_MATERIAL = $request->ID_MATERIAL;
         $prestamo->save();
@@ -75,7 +77,14 @@ class PrestamoController extends Controller
      */
     public function update(Request $request, Prestamo $prestamo)
     {
-        //
+        $prestamo = Prestamo::find($prestamo->id);
+        $prestamo->FECHA_PRESTAMO = $request->FECHA_PRESTAMO;
+        $prestamo->FECHA_DEVOLUCION = $request->FECHA_DEVOLUCION;
+        $prestamo->ID_USUARIO = auth()->id();
+        $prestamo->ID_TIPO_PRESTAMO = $request->ID_TIPO_PRESTAMO;
+        $prestamo->ID_ESTADO_PRESTAMO = $request->ID_ESTADO_PRESTAMO;
+        $prestamo->ID_MATERIAL = $request->ID_MATERIAL;
+        $prestamo->save();
     }
 
     /**
@@ -86,7 +95,8 @@ class PrestamoController extends Controller
      */
     public function destroy(Prestamo $prestamo)
     {
-        //
+        $Prestamo = Prestamo::find($prestamo->id);
+        $Prestamo->delete();
     }
 
     public function indexMisPrestamos()

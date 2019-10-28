@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/admin-lte/dist/js/adminlte.min.js":
 /*!********************************************************!*\
   !*** ./node_modules/admin-lte/dist/js/adminlte.min.js ***!
@@ -2436,6 +2448,79 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BootboxDialog.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BootboxDialog.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    config: {
+      type: Object
+    },
+    title: String,
+    size: String
+  },
+  beforeMount: function beforeMount() {
+    var vm = this;
+    var el = document.createElement('div');
+    vm._dialog = bootbox.dialog(Object.assign({}, {
+      title: this.title,
+      message: el,
+      closeButton: true,
+      backdrop: true,
+      size: this.size,
+      callback: function callback() {},
+      onEscape: function onEscape() {
+        if (vm._readyToDestroy) {
+          vm.$emit('close');
+        }
+
+        return false;
+      }
+    }, vm.config));
+
+    vm._dialog.on('shown.bs.modal', function () {
+      vm._readyToDestroy = true;
+    });
+
+    vm._dialog.init(function () {
+      vm._tempVm = new Vue({
+        el: el,
+        parent: vm,
+        render: function render(h) {
+          return h('div', [h('div', [vm.$slots["default"]]), h('div', [vm.$slots.buttons])]);
+        }
+      });
+
+      vm._updateHandler = function () {
+        vm._tempVm.$nextTick(vm._tempVm.$forceUpdate);
+      };
+
+      vm.$on('hook:updated', vm._updateHandler);
+    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    this._dialog.modal('hide');
+
+    this.$off('hook:updated', this._updateHandler);
+
+    this._tempVm.$destroy();
+
+    this._dialog = undefined;
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Buscar-libro.vue?vue&type=script&lang=js& ***!
@@ -2838,143 +2923,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       check_titulo: true,
+      modalTitle: "Realizar préstamo de libro",
       qry: {
         titulo: "",
         autor: "",
         isbn: ""
       },
-      isBibliotecario: true,
-      hoy: this.$moment(new Date()).format("YYYY-MM-DD HH:mm"),
       materialesBibliotecarios: [],
+      modalShowFlag: false,
       materialBibliotecario: {
         ID_MATERIAL: "",
         ID_CATALOGO_MATERIAL: "",
@@ -2988,14 +2948,8 @@ __webpack_require__.r(__webpack_exports__);
         CODIGO_BARRA: "",
         ID_BIBLIOTECA: "",
         ID_ESTANTE: "",
-        FILAESTANTE: ""
-      },
-      solicitudPrestamo: {
-        FECHA_PRESTAMO: "",
-        ID_USUARIO: "",
-        ID_TIPO_PRESTAMO: "",
-        ID_ESTADO_PRESTAMO: "",
-        ID_MATERIAL: ""
+        FILAESTANTE: "",
+        ID_TIPO_ADQUISICION: ""
       }
     };
   },
@@ -3008,29 +2962,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     seleccionarMaterial: function seleccionarMaterial(material) {
-      this.materialBibliotecario.ID_MATERIAL = this.solicitudPrestamo.ID_MATERIAL = material.id;
+      this.modalShowFlag = true;
+      this.materialBibliotecario.ID_MATERIAL = material.id;
       this.materialBibliotecario.EJEMPLAR = material.EJEMPLAR;
       this.materialBibliotecario.AUTOR = material.AUTOR;
       this.materialBibliotecario.EDICION = material.EDICION;
       this.materialBibliotecario.DESCRIPCION = material.DESCRIPCION;
       this.materialBibliotecario.CODIGO_BARRA = material.CODIGO_BARRA;
-      this.solicitudPrestamo.FECHA_PRESTAMO = this.hoy;
-      this.solicitudPrestamo.ID_TIPO_PRESTAMO = 1;
-    },
-    guardarSolicitudPrestamo: function guardarSolicitudPrestamo() {
-      if ($("#option2").val() === "on") {
-        this.solicitudPrestamo.ID_ESTADO_PRESTAMO = 2;
-      } else {
-        this.solicitudPrestamo.ID_ESTADO_PRESTAMO = 1;
-      }
-
-      var solicitudPrestamoToSave = this.solicitudPrestamo;
-      axios.post("/biblioteca/prestamos", solicitudPrestamoToSave).then(function (res) {
-        $("#modalPrestamo").modal("hide");
-        toastr.clear();
-        toastr.options.closeButton = true;
-        toastr.success("Solicitud guardada correctamente", "Éxito");
-      });
+      this.materialBibliotecario.ID_TIPO_ADQUISICION = material.ID_TIPO_ADQUISICION;
     },
     buscarMaterialBibliotecario: function buscarMaterialBibliotecario() {
       var _this2 = this;
@@ -3045,7 +2984,28 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this2.materialesBibliotecarios = res.data;
       });
+    },
+    modalClosing: function modalClosing() {
+      this.materialBibliotecario.ID_MATERIAL = "";
+      this.materialBibliotecario.ID_CATALOGO_MATERIAL = "";
+      this.materialBibliotecario.EJEMPLAR = "";
+      this.materialBibliotecario.AUTOR = "";
+      this.materialBibliotecario.EDICION = "";
+      this.materialBibliotecario.DESCRIPCION = "";
+      this.materialBibliotecario.ISBN = "";
+      this.materialBibliotecario.COPIA_NUMERO = "";
+      this.materialBibliotecario.ID_TERCER_SUMARIO = "";
+      this.materialBibliotecario.CODIGO_BARRA = "";
+      this.materialBibliotecario.ID_BIBLIOTECA = "";
+      this.materialBibliotecario.ID_ESTANTE = "";
+      this.materialBibliotecario.FILAESTANTE = "";
+      this.materialBibliotecario.ID_TIPO_ADQUISICION = "";
+      this.materialBibliotecario.ID_TIPO_PRESTAMO = "";
+      this.modalShowFlag = false;
     }
+  },
+  props: {
+    isBibliotecario: Boolean
   }
 });
 
@@ -3296,8 +3256,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var q__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! q */ "./node_modules/q/q.js");
+/* harmony import */ var q__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(q__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3474,6 +3444,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3564,32 +3535,32 @@ __webpack_require__.r(__webpack_exports__);
   validations: {
     EJEMPLAR: {
       EJEMPLAR: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
       },
       SUBTITULO: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
       },
       ISBN: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["numeric"]
       },
       AUTOR: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
       },
       DESCRIPCION: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
       },
       OBSERVACIONES: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
       },
       EDITORIAL: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
       },
       EDICION: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
       },
       AÑO_EDICION: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
       },
 
       /*PALABRAS_CLAVE:{
@@ -3611,12 +3582,12 @@ __webpack_require__.r(__webpack_exports__);
           required
       },*/
       NUMERO_PAGINAS: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["numeric"]
       },
       COPIAS: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["numeric"]
       }
     }
   },
@@ -3639,6 +3610,15 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     $('#modalForm').on('hide.bs.modal', this.vaciarModelo);
   },
+
+  /* beforeUpdate(){
+      if(this.SEGUNDOSUMARIOID>0 && this.segundoSumarios.length===0){
+      //console.log('tratando de llenar los combos');
+          this.getSegundoSumario();
+      }
+        if(this.EJEMPLAR.TERCER_SUMARIO>0&& this.tercerSumarios.length===0)
+          this.getTercerSumario();
+  }, */
   methods: {
     sendData: function sendData() {
       var _this = this;
@@ -3667,36 +3647,64 @@ __webpack_require__.r(__webpack_exports__);
 
     /*este metodo contiene las acciones de la tabla, todo depende del
      *evento realizado es lo que hara la funcion*/
-    processEventFromApp: function processEventFromApp(componentState) {
-      var _this3 = this;
+    processEventFromApp: function () {
+      var _processEventFromApp = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(componentState) {
+        var _this3 = this;
 
-      if (componentState.lastAction === 'Refresh') {
-        axios.get('/ejemplars').then(function (result) {
-          _this3.ejemplars = result.data;
-          _this3.eventFromApp = {
-            name: 'sendData',
-            payload: _this3.ejemplars
-          };
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (componentState.lastAction === 'Refresh') {
+                  axios.get('/ejemplars').then(function (result) {
+                    _this3.ejemplars = result.data;
+                    _this3.eventFromApp = {
+                      name: 'sendData',
+                      payload: _this3.ejemplars
+                    };
 
-          _this3.triggerEvent();
-        });
+                    _this3.triggerEvent();
+                  });
+                }
+
+                if (componentState.lastAction === 'AddItem') {
+                  this.titleToShow = this.createTitle;
+                  $('#modalForm').modal('show');
+                }
+
+                if (componentState.lastAction === 'EditItem') {
+                  this.titleToShow = this.editTitle; // var segundo = await axios.get('/SegundoSumarioSelect/'+componentState.selectedItem.ID_PRIMER_SUMARIO)
+                  // this.segundoSumarios=segundo.data;
+                  // var tercero = await axios.get('/TercerSumarioSelect/'+componentState.selectedItem.ID_SEGUNDO_SUMARIO)
+                  // this.tercerSumarios=tercero.data;
+                  //console.log(componentState.selectedItem)
+
+                  this.editarFormulario(componentState.selectedItem.data);
+                  this.$nextTick(function () {
+                    $('#modalForm').modal('show');
+                  });
+                }
+
+                if (componentState.lastAction === 'DeleteItem') {
+                  this.eliminarEjemplar(componentState.selectedItem.data, componentState.selectedIndex);
+                }
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function processEventFromApp(_x) {
+        return _processEventFromApp.apply(this, arguments);
       }
 
-      if (componentState.lastAction === 'AddItem') {
-        this.titleToShow = this.createTitle;
-        $('#modalForm').modal('show');
-      }
-
-      if (componentState.lastAction === 'EditItem') {
-        this.titleToShow = this.editTitle;
-        this.getSumarios(componentState.selectedItem);
-        $('#modalForm').modal('show');
-      }
-
-      if (componentState.lastAction === 'DeleteItem') {
-        this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
-      }
-    },
+      return processEventFromApp;
+    }(),
 
     /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
      *escena la variable del data isEditing*/
@@ -3716,6 +3724,18 @@ __webpack_require__.r(__webpack_exports__);
       $("#modalForm").modal('hide');
     },
     editarFormulario: function editarFormulario(item) {
+      this.isEditing = true; //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
+
+      this.PRIMERSUMARIOID = item.ID_PRIMER_SUMARIO;
+      this.SEGUNDOSUMARIOID = item.ID_SEGUNDO_SUMARIO;
+      this.EJEMPLAR.CATALOGO_MATERIAL = item.ID_CATALOGO_MATERIAL;
+      this.EJEMPLAR.TERCER_SUMARIO = item.ID_TERCER_SUMARIO;
+      this.EJEMPLAR.LUGAR_EDICION = item.LUGAR_EDICION;
+      this.EJEMPLAR.TIPO_EMPASTADO = item.ID_TIPO_EMPASTADO;
+      this.EJEMPLAR.TIPO_ADQUISICION = item.ID_TIPO_ADQUISICION;
+      this.EJEMPLAR.ESTADO_EJEMPLAR = item.ID_ESTADO_EJEMPLAR;
+      this.EJEMPLAR.AREA = item.ID_AREA;
+      this.EJEMPLAR.OBSERVACIONES = item.OBSERVACIONES;
       this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
       this.EJEMPLAR.DESCRIPCION = item.DESCRIPCION;
       this.EJEMPLAR.ISBN = item.ISBN;
@@ -3726,20 +3746,7 @@ __webpack_require__.r(__webpack_exports__);
       this.EJEMPLAR.SUBTITULO = item.SUBTITULO;
       this.EJEMPLAR.EDITORIAL = item.EDITORIAL;
       this.EJEMPLAR.EDICION = item.EDICION;
-      this.EJEMPLAR.AÑO_EDICION = item.AÑO_EDICION; //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
-
-      this.EJEMPLAR.CATALOGO_MATERIAL = item.ID_CATALOGO_MATERIAL;
-      this.EJEMPLAR.LUGAR_EDICION = item.LUGAR_EDICION;
-      this.EJEMPLAR.TIPO_EMPASTADO = item.ID_TIPO_EMPASTADO;
-      this.EJEMPLAR.TIPO_ADQUISICION = item.ID_TIPO_ADQUISICION;
-      this.EJEMPLAR.ESTADO_EJEMPLAR = item.ID_ESTADO_EJEMPLAR;
-      this.EJEMPLAR.AREA = item.ID_AREA;
-      this.EJEMPLAR.OBSERVACIONES = item.OBSERVACIONES;
-      this.PRIMERSUMARIOID = item.ID_PRIMER_SUMARIO;
-      this.SEGUNDOSUMARIOID = item.ID_SEGUNDO_SUMARIO;
-      this.EJEMPLAR.TERCER_SUMARIO = item.ID_TERCER_SUMARIO;
-      console.log(this.EJEMPLAR.TERCER_SUMARIO);
-      this.isEditing = true;
+      this.EJEMPLAR.AÑO_EDICION = item.AÑO_EDICION; //this.$forceUpdate();
     },
     eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
       var _this5 = this;
@@ -3755,7 +3762,6 @@ __webpack_require__.r(__webpack_exports__);
 
           toastr.options.closeButton = true;
           toastr.success('Eliminado correctamente', 'Exito');
-          console.log("EJEMPLAR ELIMINADO");
         });
       }
     },
@@ -3779,8 +3785,10 @@ __webpack_require__.r(__webpack_exports__);
         TIPO_EMPASTADO: '',
         TIPO_ADQUISICION: ''
       };
-      this.PRIMERSUMARIO = '';
-      this.SEGUNDOSUMARIO = '';
+      this.PRIMERSUMARIOID = '';
+      this.SEGUNDOSUMARIOID = '';
+      this.segundoSumarios = [];
+      this.tercerSumarios = [];
     },
 
     /*este metodo se ejecuta en respuesta de la promesa del axios
@@ -3828,30 +3836,39 @@ __webpack_require__.r(__webpack_exports__);
         _this6.catalogoMaterial = response.data;
       });
     },
-    getSumarios: function getSumarios(item) {
+    getSegundoSumario: function getSegundoSumario() {
       var _this7 = this;
 
-      if (item !== undefined && item.ID_PRIMER_SUMARIO > 0) {
-        axios.get('/SegundoSumarioSelect/' + item.ID_PRIMER_SUMARIO).then(function (response) {
+      if (this.PRIMERSUMARIOID > 0) {
+        axios.get('/SegundoSumarioSelect/' + this.PRIMERSUMARIOID).then(function (response) {
           _this7.segundoSumarios = response.data;
-          return axios.get('/TercerSumarioSelect/' + item.ID_SEGUNDO_SUMARIO);
-        }).then(function (response) {
-          _this7.tercerSumarios = response.data;
-        }).then(function () {
-          _this7.editarFormulario(item);
         });
       }
     },
-    getTercerSumario: function getTercerSumario(primerSumario, segundoSumarioId) {
+    getTercerSumario: function getTercerSumario() {
       var _this8 = this;
 
-      if (primerSumario > 0 && segundoSumarioId > 0) {
-        axios.get('/TercerSumarioSelect/' + segundoSumarioId).then(function (response) {
+      if (this.PRIMERSUMARIOID > 0 && this.SEGUNDOSUMARIOID > 0) {
+        var response = axios.get('/TercerSumarioSelect/' + this.SEGUNDOSUMARIOID).then(function (response) {
           _this8.tercerSumarios = response.data;
         });
       }
     }
-  }
+  } // watch:{
+  //     PRIMERSUMARIOID: async function (val) {
+  //         if(val>0){
+  //             var response= await axios.get('/SegundoSumarioSelect/'+val)
+  //             this.segundoSumarios = response.data
+  //         }
+  //     },
+  //     SEGUNDOSUMARIOID:async function (val) {
+  //         if(this.PRIMERSUMARIOID>0 && val>0){
+  //             var response= await axios.get('/TercerSumarioSelect/'+val)
+  //             this.tercerSumarios = response.data;
+  //         }
+  //     }
+  // }
+
 });
 
 /***/ }),
@@ -4694,6 +4711,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//import moment from "moment";
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4707,6 +4725,252 @@ __webpack_require__.r(__webpack_exports__);
     axios.get("/bibioteca/lista/mis-prestamos").then(function (res) {
       _this.misPrestamos = res.data;
     });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamoFormComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PrestamoFormComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    var _this = this;
+
+    if (this.isBibliotecario) {
+      axios.get('/TipoPrestamoSelect').then(function (estados) {
+        _this.tipoPrestamos = estados.data;
+      });
+      axios.get('/TipoAdquisicionSelect').then(function (adquisiciones) {
+        _this.tipoAdquisicion = adquisiciones.data;
+      }).then(function () {
+        _this.materialSeleccionado();
+      });
+    } else {
+      this.materialSeleccionado();
+    }
+  },
+  data: function data() {
+    return {
+      hoy: this.$moment(new Date()),
+      fechaDevolucion: '',
+      fechaPrestamo: '',
+      tipoPrestamos: [],
+      tipoAdquisicion: [],
+      prestamo: {
+        ID_MATERIAL: "",
+        ID_CATALOGO_MATERIAL: "",
+        EJEMPLAR: "",
+        AUTOR: "",
+        EDICION: "",
+        DESCRIPCION: "",
+        ISBN: "",
+        COPIA_NUMERO: "",
+        ID_TERCER_SUMARIO: "",
+        CODIGO_BARRA: "",
+        ID_BIBLIOTECA: "",
+        ID_ESTANTE: "",
+        FILAESTANTE: "",
+        ID_TIPO_ADQUISICION: ""
+      },
+      solicitud: {
+        FECHA_PRESTAMO: "",
+        ID_USUARIO: "",
+        ID_TIPO_PRESTAMO: "",
+        ID_ESTADO_PRESTAMO: "",
+        ID_MATERIAL: "",
+        ID_PRESTAMO: ''
+      }
+    };
+  },
+  methods: {
+    guardarSolicitudPrestamo: function guardarSolicitudPrestamo() {
+      var _this2 = this;
+
+      debugger;
+
+      if (!this.isBibliotecario) {
+        if ($("#option2").val() === "on") {
+          this.solicitud.ID_ESTADO_PRESTAMO = 2;
+        } else {
+          this.solicitud.ID_ESTADO_PRESTAMO = 1;
+        }
+      }
+
+      this.solicitud.ID_MATERIAL = this.material.ID_MATERIAL;
+      this.solicitud.FECHA_PRESTAMO = this.hoy.format("DD-MM-YYYY HH:mm");
+      this.solicitud.FECHA_DEVOLUCION = '';
+      var solicitudPrestamoToSave = this.solicitud;
+
+      if (this.isBibliotecario) {
+        solicitudPrestamoToSave.FECHA_DEVOLUCION = this.hoy.add(8, 'd').format("DD-MM-YYYY HH:mm");
+        solicitudPrestamoToSave.ID_ESTADO_PRESTAMO = 3;
+
+        if (solicitudPrestamoToSave.ID_PRESTAMO !== undefined && solicitudPrestamoToSave.ID_PRESTAMO !== '') {
+          axios.put("/biblioteca/prestamos/".concat(solicitudPrestamoToSave.ID_PRESTAMO), solicitudPrestamoToSave).then(function (res) {
+            _this2.showToastr();
+          });
+        } else {
+          axios.post("/biblioteca/prestamos", solicitudPrestamoToSave).then(function (res) {
+            _this2.showToastr();
+          });
+        }
+      } else {
+        axios.post("/biblioteca/prestamos", solicitudPrestamoToSave).then(function (res) {
+          _this2.showToastr();
+        });
+      }
+    },
+    materialSeleccionado: function materialSeleccionado() {
+      this.prestamo.ID_MATERIAL = this.material.ID_MATERIAL;
+      this.prestamo.ID_CATALOGO_MATERIAL = this.material.ID_CATALOGO_MATERIAL;
+      this.prestamo.EJEMPLAR = this.material.EJEMPLAR;
+      this.prestamo.AUTOR = this.material.AUTOR;
+      this.prestamo.EDICION = this.material.EDICION;
+      this.prestamo.DESCRIPCION = this.material.DESCRIPCION;
+      this.prestamo.ISBN = this.material.ISBN;
+      this.prestamo.COPIA_NUMERO = this.material.COPIA_NUMERO;
+      this.prestamo.CODIGO_BARRA = this.material.CODIGO_BARRA;
+      this.prestamo.ID_TERCER_SUMARIO = this.material.ID_TERCER_SUMARIO;
+      this.prestamo.ID_BIBLIOTECA = this.material.ID_BIBLIOTECA;
+      this.prestamo.ID_ESTANTE = this.material.ID_ESTANTE;
+      this.prestamo.FILAESTANTE = this.material.FILAESTANTE;
+      this.prestamo.ID_TIPO_ADQUISICION = this.material.ID_TIPO_ADQUISICION;
+      this.fechaPrestamo = this.hoy.format("DD-MM-YYYY HH:mm");
+      if (this.material.id !== undefined && this.material.id !== '') this.solicitud.ID_PRESTAMO = this.material.id;
+      if (this.isBibliotecario) this.fechaDevolucion = this.hoy.add(8, 'd').format("DD-MM-YYYY HH:mm");
+    },
+    showToastr: function showToastr() {
+      toastr.clear();
+      toastr.options.closeButton = true;
+      toastr.success("Solicitud guardada correctamente", "Éxito");
+      this.$emit('close', false);
+    }
+  },
+  props: {
+    isBibliotecario: Boolean,
+    material: Object
   }
 });
 
@@ -4733,6 +4997,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4744,48 +5016,76 @@ __webpack_require__.r(__webpack_exports__);
           name: null,
           data: null
         },
-        columns: []
+        columns: [{
+          name: 'EJEMPLAR',
+          title: 'Ejemplar',
+          order: 1,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: true
+        }, {
+          name: 'ESTADO_PRESTAMO',
+          title: 'Estado préstamo',
+          order: 2,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: true
+        }, {
+          name: 'name',
+          title: 'Solicitado por',
+          order: 3,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: true
+        }, {
+          name: 'FECHA_PRESTAMO',
+          title: 'Fecha de préstamo',
+          order: 4,
+          sort: true,
+          type: 'string',
+          filterable: true,
+          enabled: false
+        }]
       },
-      PRESTAMO: {
-        FECHA_PRESTAMO: '',
-        ID_USUARIO: '',
-        ID_DESPACHO: '',
-        ID_ESTADO_PRESTAMO: '',
-        ID_MATERIAL: ''
-      },
+      PRESTAMO: {},
+      tipoPrestamos: [],
+      estadoPrestamos: [],
+      prestamos: [],
       isEditing: false,
       createTitle: 'Agregar Ejemplar',
       editTitle: 'Editar Ejemplar',
-      titleToShow: ''
+      titleToShow: '',
+      modalShowFlag: false,
+      formShowFlag: false
     };
   },
   //vuelidate
   created: function created() {
     this.tableData.tableOptions = {
-      columns: this.columns,
+      columns: this.tableData.columns,
       responsiveTable: true,
       contextMenuRight: true,
       contextMenuAdd: false,
       contextMenuView: false,
       quickView: 0,
-      addNew: true,
-      deleteItem: true
+      addNew: true //deleteItem: true
+
     };
     this.sendData();
-  },
-  mounted: function mounted() {
-    $('#modalForm').on('hide.bs.modal', this.vaciarModelo);
   },
   methods: {
     sendData: function sendData() {
       var _this = this;
 
       this.tableData.tableLoader = true;
-      axios.get('/ejemplars').then(function (res) {
-        _this.ejemplars = res.data;
+      axios.get('/biblioteca/prestamos').then(function (res) {
+        _this.prestamos = res.data;
         _this.tableData.eventFromApp = {
           name: 'sendData',
-          payload: _this.ejemplars
+          payload: _this.prestamos
         };
 
         _this.triggerEvent();
@@ -4805,11 +5105,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       if (componentState.lastAction === 'Refresh') {
-        axios.get('/ejemplars').then(function (result) {
-          _this3.ejemplars = result.data;
+        axios.get('/biblioteca/prestamos').then(function (result) {
+          _this3.prestamos = result.data;
           _this3.tableData.eventFromApp = {
             name: 'sendData',
-            payload: _this3.ejemplars
+            payload: _this3.prestamos
           };
 
           _this3.triggerEvent();
@@ -4819,85 +5119,44 @@ __webpack_require__.r(__webpack_exports__);
       if (componentState.lastAction === 'AddItem') {
         this.submit = this.agregar;
         this.titleToShow = this.createTitle;
-        $('#modalForm').modal('show');
+        this.modalShowFlag = true;
       }
 
       if (componentState.lastAction === 'EditItem') {
         this.submit = this.editarEjemplar;
         this.titleToShow = this.editTitle;
-        this.editarFormulario(componentState.selectedItem);
-        $('#modalForm').modal('show');
+        this.PRESTAMO = componentState.selectedItem;
+        this.formShowFlag = true;
       }
 
       if (componentState.lastAction === 'DeleteItem') {
-        this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
+        this.eliminarPrestamo(componentState.selectedItem, componentState.selectedIndex);
       }
     },
-    guardar: function guardar() {
+    eliminarPrestamo: function eliminarPrestamo(PRESTAMO, index) {
       var _this4 = this;
 
-      var ejemplarToSave = this.EJEMPLAR;
-      console.log(ejemplarToSave.COPIAS);
-      var msg = this.isEditing ? 'Editado correctamente' : 'Agregado correctamente';
-      if (this.isEditing) axios.put("/ejemplars/".concat(this.EJEMPLAR.id), ejemplarToSave).then(function (res) {
-        _this4.modoEditar = false;
-
-        _this4.success(msg);
-      });else axios.post('/ejemplars', ejemplarToSave).then(function (res) {
-        _this4.success(msg);
-      });
-      this.vaciarModelo();
-      $("#modalForm").modal('hide');
-    },
-    editarFormulario: function editarFormulario(item) {
-      this.PRESTAMO.FECHA_PRESTAMO = item.FECHA_PRESTAMO;
-      this.PRESTAMO.ID_USUARIO = item.ID_USUARIO;
-      this.PRESTAMO.ID_DESPACHO = item.ID_DESPACHO;
-      this.PRESTAMO.ID_ESTADO_PRESTAMO = item.ID_ESTADO_PRESTAMO;
-      this.PRESTAMO.ID_MATERIAL = item.ID_MATERIAL;
-      this.isEditing = true;
-    },
-    eliminarEjemplar: function eliminarEjemplar(EJEMPLAR, index) {
-      var _this5 = this;
-
       // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-      var confirmacion = confirm("\xBFEsta seguro de eliminar \"EJEMPLAR ".concat(EJEMPLAR.EJEMPLAR, "\"?"));
+      var confirmacion = confirm("\xBFEsta seguro de eliminar este registro?");
 
       if (confirmacion) {
-        axios["delete"]("/ejemplars/".concat(EJEMPLAR.id)).then(function () {
+        axios["delete"]("/biblioteca/prestamos/".concat(PRESTAMO.id)).then(function () {
           toastr.clear();
 
-          _this5.sendData();
+          _this4.sendData();
 
           toastr.options.closeButton = true;
           toastr.success('Eliminado correctamente', 'Exito');
-          console.log("EJEMPLAR ELIMINADO");
         });
       }
     },
-    vaciarModelo: function vaciarModelo() {
-      this.PRESTAMO = {
-        FECHA_PRESTAMO: '',
-        ID_USUARIO: '',
-        ID_DESPACHO: '',
-        ID_ESTADO_PRESTAMO: '',
-        ID_MATERIAL: ''
-      };
+    modalClosing: function modalClosing(flag) {
+      if (flag) this.modalShowFlag = false;else this.formShowFlag = false;
     },
-    success: function success(msg) {
+    modalClosingAfterSubmit: function modalClosingAfterSubmit() {
+      this.prestamos = [];
       this.sendData();
-      toastr.clear();
-      toastr.options.closeButton = true;
-      toastr.success(msg, 'Exito');
-    },
-    submitHandler: function submitHandler(error) {
-      if (error) {
-        toastr.clear();
-        toastr.options.closeButton = true;
-        toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
-      } else {
-        this.guardar();
-      }
+      this.formShowFlag = false;
     }
   }
 });
@@ -5489,6 +5748,1401 @@ __webpack_require__.r(__webpack_exports__);
     $(this.$el).off().select2('destroy');
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/bootbox/bootbox.all.js":
+/*!*********************************************!*\
+  !*** ./node_modules/bootbox/bootbox.all.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! @preserve
+ * bootbox.js
+ * version: 5.3.2
+ * author: Nick Payne <nick@kurai.co.uk>
+ * license: MIT
+ * http://bootboxjs.com/
+ */
+(function (root, factory) {
+  'use strict';
+  if (true) {
+    // AMD
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+}(this, function init($, undefined) {
+  'use strict';
+
+  //  Polyfills Object.keys, if necessary.
+  //  @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+  if (!Object.keys) {
+    Object.keys = (function () {
+      var hasOwnProperty = Object.prototype.hasOwnProperty,
+        hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString'),
+        dontEnums = [
+          'toString',
+          'toLocaleString',
+          'valueOf',
+          'hasOwnProperty',
+          'isPrototypeOf',
+          'propertyIsEnumerable',
+          'constructor'
+        ],
+        dontEnumsLength = dontEnums.length;
+
+      return function (obj) {
+        if (typeof obj !== 'function' && (typeof obj !== 'object' || obj === null)) {
+          throw new TypeError('Object.keys called on non-object');
+        }
+
+        var result = [], prop, i;
+
+        for (prop in obj) {
+          if (hasOwnProperty.call(obj, prop)) {
+            result.push(prop);
+          }
+        }
+
+        if (hasDontEnumBug) {
+          for (i = 0; i < dontEnumsLength; i++) {
+            if (hasOwnProperty.call(obj, dontEnums[i])) {
+              result.push(dontEnums[i]);
+            }
+          }
+        }
+
+        return result;
+      };
+    }());
+  }
+
+  var exports = {};
+
+  var VERSION = '5.0.0';
+  exports.VERSION = VERSION;
+
+  var locales = {
+      ar : {
+        OK      : 'موافق',
+        CANCEL  : 'الغاء',
+        CONFIRM : 'تأكيد'
+      },
+      bg_BG : {
+        OK      : 'Ок',
+        CANCEL  : 'Отказ',
+        CONFIRM : 'Потвърждавам'
+      },
+      br : {
+        OK      : 'OK',
+        CANCEL  : 'Cancelar',
+        CONFIRM : 'Sim'
+      },
+      cs : {
+        OK      : 'OK',
+        CANCEL  : 'Zrušit',
+        CONFIRM : 'Potvrdit'
+      },
+      da : {
+        OK      : 'OK',
+        CANCEL  : 'Annuller',
+        CONFIRM : 'Accepter'
+      },
+      de : {
+        OK      : 'OK',
+        CANCEL  : 'Abbrechen',
+        CONFIRM : 'Akzeptieren'
+      },
+      el : {
+        OK      : 'Εντάξει',
+        CANCEL  : 'Ακύρωση',
+        CONFIRM : 'Επιβεβαίωση'
+      },
+      en : {
+        OK      : 'OK',
+        CANCEL  : 'Cancel',
+        CONFIRM : 'OK'
+      },
+      es : {
+        OK      : 'OK',
+        CANCEL  : 'Cancelar',
+        CONFIRM : 'Aceptar'
+      },
+      eu : {
+        OK      : 'OK',
+        CANCEL  : 'Ezeztatu',
+        CONFIRM : 'Onartu'
+      },
+      et : {
+        OK      : 'OK',
+        CANCEL  : 'Katkesta',
+        CONFIRM : 'OK'
+      },
+      fa : {
+        OK      : 'قبول',
+        CANCEL  : 'لغو',
+        CONFIRM : 'تایید'
+      },
+      fi : {
+        OK      : 'OK',
+        CANCEL  : 'Peruuta',
+        CONFIRM : 'OK'
+      },
+      fr : {
+        OK      : 'OK',
+        CANCEL  : 'Annuler',
+        CONFIRM : 'Confirmer'
+      },
+      he : {
+        OK      : 'אישור',
+        CANCEL  : 'ביטול',
+        CONFIRM : 'אישור'
+      },
+      hu : {
+        OK      : 'OK',
+        CANCEL  : 'Mégsem',
+        CONFIRM : 'Megerősít'
+      },
+      hr : {
+        OK      : 'OK',
+        CANCEL  : 'Odustani',
+        CONFIRM : 'Potvrdi'
+      },
+      id : {
+        OK      : 'OK',
+        CANCEL  : 'Batal',
+        CONFIRM : 'OK'
+      },
+      it : {
+        OK      : 'OK',
+        CANCEL  : 'Annulla',
+        CONFIRM : 'Conferma'
+      },
+      ja : {
+        OK      : 'OK',
+        CANCEL  : 'キャンセル',
+        CONFIRM : '確認'
+      },
+      ka : {
+        OK: 'OK',
+        CANCEL: 'გაუქმება',
+        CONFIRM: 'დადასტურება'
+      },
+      ko : {
+        OK: 'OK',
+        CANCEL: '취소',
+        CONFIRM: '확인'
+      },
+      lt : {
+        OK      : 'Gerai',
+        CANCEL  : 'Atšaukti',
+        CONFIRM : 'Patvirtinti'
+      },
+      lv : {
+        OK      : 'Labi',
+        CANCEL  : 'Atcelt',
+        CONFIRM : 'Apstiprināt'
+      },
+      nl : {
+        OK      : 'OK',
+        CANCEL  : 'Annuleren',
+        CONFIRM : 'Accepteren'
+      },
+      no : {
+        OK      : 'OK',
+        CANCEL  : 'Avbryt',
+        CONFIRM : 'OK'
+      },
+      pl : {
+        OK      : 'OK',
+        CANCEL  : 'Anuluj',
+        CONFIRM : 'Potwierdź'
+      },
+      pt : {
+        OK      : 'OK',
+        CANCEL  : 'Cancelar',
+        CONFIRM : 'Confirmar'
+      },
+      ru : {
+        OK      : 'OK',
+        CANCEL  : 'Отмена',
+        CONFIRM : 'Применить'
+      },
+      sk : {
+        OK      : 'OK',
+        CANCEL  : 'Zrušiť',
+        CONFIRM : 'Potvrdiť'
+      },
+      sl : {
+        OK      : 'OK',
+        CANCEL  : 'Prekliči',
+        CONFIRM : 'Potrdi'
+      },
+      sq : {
+        OK      : 'OK',
+        CANCEL  : 'Anulo',
+        CONFIRM : 'Prano'
+      },
+      sv : {
+        OK      : 'OK',
+        CANCEL  : 'Avbryt',
+        CONFIRM : 'OK'
+      },
+      sw: {
+        OK      : 'Sawa',
+        CANCEL  : 'Ghairi',
+        CONFIRM: 'Thibitisha'
+      },
+      ta:{
+        OK      : 'சரி',
+        CANCEL  : 'ரத்து செய்',
+        CONFIRM : 'உறுதி செய்'
+      },
+      th : {
+        OK      : 'ตกลง',
+        CANCEL  : 'ยกเลิก',
+        CONFIRM : 'ยืนยัน'
+      },
+      tr : {
+        OK      : 'Tamam',
+        CANCEL  : 'İptal',
+        CONFIRM : 'Onayla'
+      },
+      uk : {
+        OK      : 'OK',
+        CANCEL  : 'Відміна',
+        CONFIRM : 'Прийняти'
+      },
+      zh_CN : {
+        OK      : 'OK',
+        CANCEL  : '取消',
+        CONFIRM : '确认'
+      },
+      zh_TW : {
+        OK      : 'OK',
+        CANCEL  : '取消',
+        CONFIRM : '確認'
+      }
+  };
+
+  var templates = {
+    dialog:
+    '<div class="bootbox modal" tabindex="-1" role="dialog" aria-hidden="true">' +
+    '<div class="modal-dialog">' +
+    '<div class="modal-content">' +
+    '<div class="modal-body"><div class="bootbox-body"></div></div>' +
+    '</div>' +
+    '</div>' +
+    '</div>',
+    header:
+    '<div class="modal-header">' +
+    '<h5 class="modal-title"></h5>' +
+    '</div>',
+    footer:
+    '<div class="modal-footer"></div>',
+    closeButton:
+    '<button type="button" class="bootbox-close-button close" aria-hidden="true">&times;</button>',
+    form:
+    '<form class="bootbox-form"></form>',
+    button:
+    '<button type="button" class="btn"></button>',
+    option:
+    '<option></option>',
+    promptMessage:
+    '<div class="bootbox-prompt-message"></div>',
+    inputs: {
+      text:
+      '<input class="bootbox-input bootbox-input-text form-control" autocomplete="off" type="text" />',
+      textarea:
+      '<textarea class="bootbox-input bootbox-input-textarea form-control"></textarea>',
+      email:
+      '<input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="email" />',
+      select:
+      '<select class="bootbox-input bootbox-input-select form-control"></select>',
+      checkbox:
+      '<div class="form-check checkbox"><label class="form-check-label"><input class="form-check-input bootbox-input bootbox-input-checkbox" type="checkbox" /></label></div>',
+      radio:
+      '<div class="form-check radio"><label class="form-check-label"><input class="form-check-input bootbox-input bootbox-input-radio" type="radio" name="bootbox-radio" /></label></div>',
+      date:
+      '<input class="bootbox-input bootbox-input-date form-control" autocomplete="off" type="date" />',
+      time:
+      '<input class="bootbox-input bootbox-input-time form-control" autocomplete="off" type="time" />',
+      number:
+      '<input class="bootbox-input bootbox-input-number form-control" autocomplete="off" type="number" />',
+      password:
+      '<input class="bootbox-input bootbox-input-password form-control" autocomplete="off" type="password" />',
+      range:
+      '<input class="bootbox-input bootbox-input-range form-control-range" autocomplete="off" type="range" />'
+    }
+  };
+
+
+  var defaults = {
+    // default language
+    locale: 'en',
+    // show backdrop or not. Default to static so user has to interact with dialog
+    backdrop: 'static',
+    // animate the modal in/out
+    animate: true,
+    // additional class string applied to the top level dialog
+    className: null,
+    // whether or not to include a close button
+    closeButton: true,
+    // show the dialog immediately by default
+    show: true,
+    // dialog container
+    container: 'body',
+    // default value (used by the prompt helper)
+    value: '',
+    // default input type (used by the prompt helper)
+    inputType: 'text',
+    // switch button order from cancel/confirm (default) to confirm/cancel
+    swapButtonOrder: false,
+    // center modal vertically in page
+    centerVertical: false,
+    // Append "multiple" property to the select when using the "prompt" helper
+    multiple: false,
+    // Automatically scroll modal content when height exceeds viewport height
+    scrollable: false
+  };
+
+
+  // PUBLIC FUNCTIONS
+  // *************************************************************************************************************
+
+  // Return all currently registered locales, or a specific locale if "name" is defined
+  exports.locales = function (name) {
+    return name ? locales[name] : locales;
+  };
+
+
+  // Register localized strings for the OK, Confirm, and Cancel buttons
+  exports.addLocale = function (name, values) {
+    $.each(['OK', 'CANCEL', 'CONFIRM'], function (_, v) {
+      if (!values[v]) {
+        throw new Error('Please supply a translation for "' + v + '"');
+      }
+    });
+
+    locales[name] = {
+      OK: values.OK,
+      CANCEL: values.CANCEL,
+      CONFIRM: values.CONFIRM
+    };
+
+    return exports;
+  };
+
+
+  // Remove a previously-registered locale
+  exports.removeLocale = function (name) {
+    if (name !== 'en') {
+      delete locales[name];
+    }
+    else {
+      throw new Error('"en" is used as the default and fallback locale and cannot be removed.');
+    }
+
+    return exports;
+  };
+
+
+  // Set the default locale
+  exports.setLocale = function (name) {
+    return exports.setDefaults('locale', name);
+  };
+
+
+  // Override default value(s) of Bootbox.
+  exports.setDefaults = function () {
+    var values = {};
+
+    if (arguments.length === 2) {
+      // allow passing of single key/value...
+      values[arguments[0]] = arguments[1];
+    } else {
+      // ... and as an object too
+      values = arguments[0];
+    }
+
+    $.extend(defaults, values);
+
+    return exports;
+  };
+
+
+  // Hides all currently active Bootbox modals
+  exports.hideAll = function () {
+    $('.bootbox').modal('hide');
+
+    return exports;
+  };
+
+
+  // Allows the base init() function to be overridden
+  exports.init = function (_$) {
+    return init(_$ || $);
+  };
+
+
+  // CORE HELPER FUNCTIONS
+  // *************************************************************************************************************
+
+  // Core dialog function
+  exports.dialog = function (options) {
+    if ($.fn.modal === undefined) {
+      throw new Error(
+        '"$.fn.modal" is not defined; please double check you have included ' +
+        'the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ ' +
+        'for more details.'
+      );
+    }
+
+    options = sanitize(options);
+
+    if ($.fn.modal.Constructor.VERSION) {
+      options.fullBootstrapVersion = $.fn.modal.Constructor.VERSION;
+      var i = options.fullBootstrapVersion.indexOf('.');
+      options.bootstrap = options.fullBootstrapVersion.substring(0, i);
+    }
+    else {
+      // Assuming version 2.3.2, as that was the last "supported" 2.x version
+      options.bootstrap = '2';
+      options.fullBootstrapVersion = '2.3.2';
+      console.warn('Bootbox will *mostly* work with Bootstrap 2, but we do not officially support it. Please upgrade, if possible.');
+    }
+
+    var dialog = $(templates.dialog);
+    var innerDialog = dialog.find('.modal-dialog');
+    var body = dialog.find('.modal-body');
+    var header = $(templates.header);
+    var footer = $(templates.footer);
+    var buttons = options.buttons;
+
+    var callbacks = {
+      onEscape: options.onEscape
+    };
+
+    body.find('.bootbox-body').html(options.message);
+
+    // Only attempt to create buttons if at least one has 
+    // been defined in the options object
+    if (getKeyLength(options.buttons) > 0) {
+      each(buttons, function (key, b) {
+        var button = $(templates.button);
+        button.data('bb-handler', key);
+        button.addClass(b.className);
+
+        switch(key)
+        {
+          case 'ok':
+          case 'confirm':
+            button.addClass('bootbox-accept');
+            break;
+
+          case 'cancel':
+            button.addClass('bootbox-cancel');
+            break;
+        }
+
+        button.html(b.label);
+        footer.append(button);
+
+        callbacks[key] = b.callback;
+      });
+
+      body.after(footer);
+    }
+
+    if (options.animate === true) {
+      dialog.addClass('fade');
+    }
+
+    if (options.className) {
+      dialog.addClass(options.className);
+    }
+
+    if (options.size) {
+      // Requires Bootstrap 3.1.0 or higher
+      if (options.fullBootstrapVersion.substring(0, 3) < '3.1') {
+        console.warn('"size" requires Bootstrap 3.1.0 or higher. You appear to be using ' + options.fullBootstrapVersion + '. Please upgrade to use this option.');
+      }
+
+      switch(options.size)
+      {
+        case 'small':
+        case 'sm':
+          innerDialog.addClass('modal-sm');
+          break;
+
+        case 'large':
+        case 'lg':
+          innerDialog.addClass('modal-lg');
+          break;
+
+        case 'xl':
+        case 'extra-large':
+          // Requires Bootstrap 4.2.0 or higher
+          if (options.fullBootstrapVersion.substring(0, 3) < '4.2') {
+            console.warn('Using size "xl"/"extra-large" requires Bootstrap 4.2.0 or higher. You appear to be using ' + options.fullBootstrapVersion + '. Please upgrade to use this option.');
+          }
+          innerDialog.addClass('modal-xl');
+          break;
+      }
+    }
+
+    if(options.scrollable){
+      // Requires Bootstrap 4.3.0 or higher
+      if (options.fullBootstrapVersion.substring(0, 3) < '4.3') {
+        console.warn('Using "scrollable" requires Bootstrap 4.3.0 or higher. You appear to be using ' + options.fullBootstrapVersion + '. Please upgrade to use this option.');
+      }
+
+      innerDialog.addClass('modal-dialog-scrollable');
+    }
+
+    if (options.title) {
+      body.before(header);
+      dialog.find('.modal-title').html(options.title);
+    }
+
+    if (options.closeButton) {
+      var closeButton = $(templates.closeButton);
+
+      if (options.title) {
+        if (options.bootstrap > 3) {
+          dialog.find('.modal-header').append(closeButton);
+        }
+        else {
+          dialog.find('.modal-header').prepend(closeButton);
+        }
+      } else {
+        closeButton.prependTo(body);
+      }
+    }
+
+    if(options.centerVertical){
+      // Requires Bootstrap 4.0.0-beta.3 or higher
+      if (options.fullBootstrapVersion < '4.0.0') {
+        console.warn('"centerVertical" requires Bootstrap 4.0.0-beta.3 or higher. You appear to be using ' + options.fullBootstrapVersion + '. Please upgrade to use this option.');
+      }
+
+      innerDialog.addClass('modal-dialog-centered');
+    }
+
+    // Bootstrap event listeners; these handle extra
+    // setup & teardown required after the underlying
+    // modal has performed certain actions.
+
+    // make sure we unbind any listeners once the dialog has definitively been dismissed
+      dialog.one('hide.bs.modal', function (e) {
+        if (e.target === this) {
+          dialog.off('escape.close.bb');
+          dialog.off('click');
+        }
+    });
+
+    dialog.one('hidden.bs.modal', function (e) {
+      // ensure we don't accidentally intercept hidden events triggered
+      // by children of the current dialog. We shouldn't need to handle this anymore, 
+      // now that Bootstrap namespaces its events, but still worth doing.
+      if (e.target === this) {
+        dialog.remove();
+      }
+    });
+
+    dialog.one('shown.bs.modal', function () {
+      dialog.find('.bootbox-accept:first').trigger('focus');
+    });
+
+    // Bootbox event listeners; used to decouple some
+    // behaviours from their respective triggers
+
+    if (options.backdrop !== 'static') {
+      // A boolean true/false according to the Bootstrap docs
+      // should show a dialog the user can dismiss by clicking on
+      // the background.
+      // We always only ever pass static/false to the actual
+      // $.modal function because with "true" we can't trap
+      // this event (the .modal-backdrop swallows it)
+      // However, we still want to sort of respect true
+      // and invoke the escape mechanism instead
+      dialog.on('click.dismiss.bs.modal', function (e) {
+        // @NOTE: the target varies in >= 3.3.x releases since the modal backdrop
+        // moved *inside* the outer dialog rather than *alongside* it
+        if (dialog.children('.modal-backdrop').length) {
+          e.currentTarget = dialog.children('.modal-backdrop').get(0);
+        }
+
+        if (e.target !== e.currentTarget) {
+          return;
+        }
+
+        dialog.trigger('escape.close.bb');
+      });
+    }
+
+    dialog.on('escape.close.bb', function (e) {
+      // the if statement looks redundant but it isn't; without it
+      // if we *didn't* have an onEscape handler then processCallback
+      // would automatically dismiss the dialog
+      if (callbacks.onEscape) {
+        processCallback(e, dialog, callbacks.onEscape);
+      }
+    });
+
+
+    dialog.on('click', '.modal-footer button:not(.disabled)', function (e) {
+      var callbackKey = $(this).data('bb-handler');
+
+      if (callbackKey !== undefined) {
+        // Only process callbacks for buttons we recognize:
+        processCallback(e, dialog, callbacks[callbackKey]);
+      }
+    });
+
+    dialog.on('click', '.bootbox-close-button', function (e) {
+      // onEscape might be falsy but that's fine; the fact is
+      // if the user has managed to click the close button we
+      // have to close the dialog, callback or not
+      processCallback(e, dialog, callbacks.onEscape);
+    });
+
+    dialog.on('keyup', function (e) {
+      if (e.which === 27) {
+        dialog.trigger('escape.close.bb');
+      }
+    });
+
+    // the remainder of this method simply deals with adding our
+    // dialogent to the DOM, augmenting it with Bootstrap's modal
+    // functionality and then giving the resulting object back
+    // to our caller
+
+    $(options.container).append(dialog);
+
+    dialog.modal({
+      backdrop: options.backdrop ? 'static' : false,
+      keyboard: false,
+      show: false
+    });
+
+    if (options.show) {
+      dialog.modal('show');
+    }
+
+    return dialog;
+  };
+
+
+  // Helper function to simulate the native alert() behavior. **NOTE**: This is non-blocking, so any
+  // code that must happen after the alert is dismissed should be placed within the callback function 
+  // for this alert.
+  exports.alert = function () {
+    var options;
+
+    options = mergeDialogOptions('alert', ['ok'], ['message', 'callback'], arguments);
+
+    // @TODO: can this move inside exports.dialog when we're iterating over each
+    // button and checking its button.callback value instead?
+    if (options.callback && !$.isFunction(options.callback)) {
+      throw new Error('alert requires the "callback" property to be a function when provided');
+    }
+
+    // override the ok and escape callback to make sure they just invoke
+    // the single user-supplied one (if provided)
+    options.buttons.ok.callback = options.onEscape = function () {
+      if ($.isFunction(options.callback)) {
+        return options.callback.call(this);
+      }
+
+      return true;
+    };
+
+    return exports.dialog(options);
+  };
+
+
+  // Helper function to simulate the native confirm() behavior. **NOTE**: This is non-blocking, so any
+  // code that must happen after the confirm is dismissed should be placed within the callback function 
+  // for this confirm.
+  exports.confirm = function () {
+    var options;
+
+    options = mergeDialogOptions('confirm', ['cancel', 'confirm'], ['message', 'callback'], arguments);
+
+    // confirm specific validation; they don't make sense without a callback so make
+    // sure it's present
+    if (!$.isFunction(options.callback)) {
+      throw new Error('confirm requires a callback');
+    }
+
+    // overrides; undo anything the user tried to set they shouldn't have
+    options.buttons.cancel.callback = options.onEscape = function () {
+      return options.callback.call(this, false);
+    };
+
+    options.buttons.confirm.callback = function () {
+      return options.callback.call(this, true);
+    };
+
+    return exports.dialog(options);
+  };
+
+
+  // Helper function to simulate the native prompt() behavior. **NOTE**: This is non-blocking, so any
+  // code that must happen after the prompt is dismissed should be placed within the callback function 
+  // for this prompt.
+  exports.prompt = function () {
+    var options;
+    var promptDialog;
+    var form;
+    var input;
+    var shouldShow;
+    var inputOptions;
+
+    // we have to create our form first otherwise
+    // its value is undefined when gearing up our options
+    // @TODO this could be solved by allowing message to
+    // be a function instead...
+    form = $(templates.form);
+
+    // prompt defaults are more complex than others in that
+    // users can override more defaults
+    options = mergeDialogOptions('prompt', ['cancel', 'confirm'], ['title', 'callback'], arguments);
+
+    if (!options.value) {
+      options.value = defaults.value;
+    }
+
+    if (!options.inputType) {
+      options.inputType = defaults.inputType;
+    }
+
+    // capture the user's show value; we always set this to false before
+    // spawning the dialog to give us a chance to attach some handlers to
+    // it, but we need to make sure we respect a preference not to show it
+    shouldShow = (options.show === undefined) ? defaults.show : options.show;
+    // This is required prior to calling the dialog builder below - we need to 
+    // add an event handler just before the prompt is shown
+    options.show = false;
+
+    // Handles the 'cancel' action
+    options.buttons.cancel.callback = options.onEscape = function () {
+      return options.callback.call(this, null);
+    };
+
+    // Prompt submitted - extract the prompt value. This requires a bit of work, 
+    // given the different input types available.
+    options.buttons.confirm.callback = function () {
+      var value;
+
+      if (options.inputType === 'checkbox') {
+        value = input.find('input:checked').map(function () {
+          return $(this).val();
+        }).get();
+      } else if (options.inputType === 'radio') {
+        value = input.find('input:checked').val();
+      }
+      else {
+        if (input[0].checkValidity && !input[0].checkValidity()) {
+          // prevents button callback from being called
+          return false;
+        } else {
+          if (options.inputType === 'select' && options.multiple === true) {
+            value = input.find('option:selected').map(function () {
+              return $(this).val();
+            }).get();
+          }
+          else{
+            value = input.val();
+          }
+        }
+      }
+
+      return options.callback.call(this, value);
+    };
+
+    // prompt-specific validation
+    if (!options.title) {
+      throw new Error('prompt requires a title');
+    }
+
+    if (!$.isFunction(options.callback)) {
+      throw new Error('prompt requires a callback');
+    }
+
+    if (!templates.inputs[options.inputType]) {
+      throw new Error('Invalid prompt type');
+    }
+
+    // create the input based on the supplied type
+    input = $(templates.inputs[options.inputType]);
+
+    switch (options.inputType) {
+      case 'text':
+      case 'textarea':
+      case 'email':
+      case 'password':
+        input.val(options.value);
+        
+        if (options.placeholder) {
+          input.attr('placeholder', options.placeholder);
+        }
+    
+        if (options.pattern) {
+          input.attr('pattern', options.pattern);
+        }
+    
+        if (options.maxlength) {
+          input.attr('maxlength', options.maxlength);
+        }
+
+        if (options.required) {
+          input.prop({ 'required': true });
+        }
+        
+        if (options.rows && !isNaN(parseInt(options.rows))) {
+          if(options.inputType === 'textarea'){
+            input.attr({ 'rows': options.rows });
+          }
+        }
+
+        break;
+
+
+      case 'date':
+      case 'time':
+      case 'number':
+      case 'range':
+        input.val(options.value);
+        
+        if (options.placeholder) {
+          input.attr('placeholder', options.placeholder);
+        }
+    
+        if (options.pattern) {
+          input.attr('pattern', options.pattern);
+        }
+
+        if (options.required) {
+          input.prop({ 'required': true });
+        }
+        
+        // These input types have extra attributes which affect their input validation.
+        // Warning: For most browsers, date inputs are buggy in their implementation of 'step', so 
+        // this attribute will have no effect. Therefore, we don't set the attribute for date inputs.
+        // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date#Setting_maximum_and_minimum_dates
+        if (options.inputType !== 'date') {
+          if (options.step) {
+            if (options.step === 'any' || (!isNaN(options.step) && parseInt(options.step) > 0)) {
+              input.attr('step', options.step);
+            }
+            else {
+              throw new Error('"step" must be a valid positive number or the value "any". See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-step for more information.');
+            }
+          }
+        }
+
+        if(minAndMaxAreValid(options.inputType, options.min, options.max)){
+          if(options.min !== undefined){
+            input.attr('min', options.min);
+          }
+          if(options.max !== undefined){
+            input.attr('max', options.max);
+          }
+        }
+
+        break;
+
+
+      case 'select':
+        var groups = {};
+        inputOptions = options.inputOptions || [];
+
+        if (!$.isArray(inputOptions)) {
+          throw new Error('Please pass an array of input options');
+        }
+
+        if (!inputOptions.length) {
+          throw new Error('prompt with "inputType" set to "select" requires at least one option');
+        }
+
+        // placeholder is not actually a valid attribute for select,
+        // but we'll allow it, assuming it might be used for a plugin
+        if (options.placeholder) {
+          input.attr('placeholder', options.placeholder);
+        }
+        
+        if (options.required) {
+          input.prop({ 'required': true });
+        }
+        
+        if (options.multiple) {
+          input.prop({ 'multiple': true });
+        }
+        
+        each(inputOptions, function (_, option) {
+          // assume the element to attach to is the input...
+          var elem = input;
+
+          if (option.value === undefined || option.text === undefined) {
+            throw new Error('each option needs a "value" property and a "text" property');
+          }
+
+          // ... but override that element if this option sits in a group
+
+          if (option.group) {
+            // initialise group if necessary
+            if (!groups[option.group]) {
+              groups[option.group] = $('<optgroup />').attr('label', option.group);
+            }
+
+            elem = groups[option.group];
+          }
+
+          var o = $(templates.option);
+          o.attr('value', option.value).text(option.text);
+          elem.append(o);
+        });
+
+        each(groups, function (_, group) {
+          input.append(group);
+        });
+
+        // safe to set a select's value as per a normal input
+        input.val(options.value);
+
+        break;
+
+
+      case 'checkbox':
+        var checkboxValues = $.isArray(options.value) ? options.value : [options.value];
+        inputOptions = options.inputOptions || [];
+
+        if (!inputOptions.length) {
+          throw new Error('prompt with "inputType" set to "checkbox" requires at least one option');
+        }
+
+        // checkboxes have to nest within a containing element, so
+        // they break the rules a bit and we end up re-assigning
+        // our 'input' element to this container instead
+        input = $('<div class="bootbox-checkbox-list"></div>');
+
+        each(inputOptions, function (_, option) {
+          if (option.value === undefined || option.text === undefined) {
+            throw new Error('each option needs a "value" property and a "text" property');
+          }
+
+          var checkbox = $(templates.inputs[options.inputType]);
+
+          checkbox.find('input').attr('value', option.value);
+          checkbox.find('label').append('\n' + option.text);
+
+          // we've ensured values is an array so we can always iterate over it
+          each(checkboxValues, function (_, value) {
+            if (value === option.value) {
+              checkbox.find('input').prop('checked', true);
+            }
+          });
+
+          input.append(checkbox);
+        });
+        break;
+
+
+      case 'radio':
+        // Make sure that value is not an array (only a single radio can ever be checked)
+        if (options.value !== undefined && $.isArray(options.value)) {
+          throw new Error('prompt with "inputType" set to "radio" requires a single, non-array value for "value"');
+        }
+
+        inputOptions = options.inputOptions || [];
+
+        if (!inputOptions.length) {
+          throw new Error('prompt with "inputType" set to "radio" requires at least one option');
+        }
+
+        // Radiobuttons have to nest within a containing element, so
+        // they break the rules a bit and we end up re-assigning
+        // our 'input' element to this container instead
+        input = $('<div class="bootbox-radiobutton-list"></div>');
+
+        // Radiobuttons should always have an initial checked input checked in a "group".
+        // If value is undefined or doesn't match an input option, select the first radiobutton
+        var checkFirstRadio = true;
+
+        each(inputOptions, function (_, option) {
+          if (option.value === undefined || option.text === undefined) {
+            throw new Error('each option needs a "value" property and a "text" property');
+          }
+
+          var radio = $(templates.inputs[options.inputType]);
+
+          radio.find('input').attr('value', option.value);
+          radio.find('label').append('\n' + option.text);
+
+          if (options.value !== undefined) {
+            if (option.value === options.value) {
+              radio.find('input').prop('checked', true);
+              checkFirstRadio = false;
+            }
+          }
+
+          input.append(radio);
+        });
+
+        if (checkFirstRadio) {
+          input.find('input[type="radio"]').first().prop('checked', true);
+        }
+        break;
+    }
+
+    // now place it in our form
+    form.append(input);
+
+    form.on('submit', function (e) {
+      e.preventDefault();
+      // Fix for SammyJS (or similar JS routing library) hijacking the form post.
+      e.stopPropagation();
+
+      // @TODO can we actually click *the* button object instead?
+      // e.g. buttons.confirm.click() or similar
+      promptDialog.find('.bootbox-accept').trigger('click');
+    });
+
+    if ($.trim(options.message) !== '') {
+      // Add the form to whatever content the user may have added.
+      var message = $(templates.promptMessage).html(options.message);
+      form.prepend(message);
+      options.message = form;
+    }
+    else {
+      options.message = form;
+    }
+
+    // Generate the dialog
+    promptDialog = exports.dialog(options);
+
+    // clear the existing handler focusing the submit button...
+    promptDialog.off('shown.bs.modal');
+
+    // ...and replace it with one focusing our input, if possible
+    promptDialog.on('shown.bs.modal', function () {
+      // need the closure here since input isn't
+      // an object otherwise
+      input.focus();
+    });
+
+    if (shouldShow === true) {
+      promptDialog.modal('show');
+    }
+
+    return promptDialog;
+  };
+
+
+  // INTERNAL FUNCTIONS
+  // *************************************************************************************************************
+
+  // Map a flexible set of arguments into a single returned object
+  // If args.length is already one just return it, otherwise
+  // use the properties argument to map the unnamed args to
+  // object properties.
+  // So in the latter case:
+  //  mapArguments(["foo", $.noop], ["message", "callback"])
+  //  -> { message: "foo", callback: $.noop }
+  function mapArguments(args, properties) {
+    var argn = args.length;
+    var options = {};
+
+    if (argn < 1 || argn > 2) {
+      throw new Error('Invalid argument length');
+    }
+
+    if (argn === 2 || typeof args[0] === 'string') {
+      options[properties[0]] = args[0];
+      options[properties[1]] = args[1];
+    } else {
+      options = args[0];
+    }
+
+    return options;
+  }
+
+
+  //  Merge a set of default dialog options with user supplied arguments
+  function mergeArguments(defaults, args, properties) {
+    return $.extend(
+      // deep merge
+      true,
+      // ensure the target is an empty, unreferenced object
+      {},
+      // the base options object for this type of dialog (often just buttons)
+      defaults,
+      // args could be an object or array; if it's an array properties will
+      // map it to a proper options object
+      mapArguments(
+        args,
+        properties
+      )
+    );
+  }
+
+
+  //  This entry-level method makes heavy use of composition to take a simple
+  //  range of inputs and return valid options suitable for passing to bootbox.dialog
+  function mergeDialogOptions(className, labels, properties, args) {
+    var locale;
+    if(args && args[0]){
+      locale = args[0].locale || defaults.locale;
+      var swapButtons = args[0].swapButtonOrder || defaults.swapButtonOrder;
+
+      if(swapButtons){
+        labels = labels.reverse();
+      }
+    }
+
+    //  build up a base set of dialog properties
+    var baseOptions = {
+      className: 'bootbox-' + className,
+      buttons: createLabels(labels, locale)
+    };
+
+    // Ensure the buttons properties generated, *after* merging
+    // with user args are still valid against the supplied labels
+    return validateButtons(
+      // merge the generated base properties with user supplied arguments
+      mergeArguments(
+        baseOptions,
+        args,
+        // if args.length > 1, properties specify how each arg maps to an object key
+        properties
+      ),
+      labels
+    );
+  }
+
+
+  //  Checks each button object to see if key is valid. 
+  //  This function will only be called by the alert, confirm, and prompt helpers. 
+  function validateButtons(options, buttons) {
+    var allowedButtons = {};
+    each(buttons, function (key, value) {
+      allowedButtons[value] = true;
+    });
+
+    each(options.buttons, function (key) {
+      if (allowedButtons[key] === undefined) {
+        throw new Error('button key "' + key + '" is not allowed (options are ' + buttons.join(' ') + ')');
+      }
+    });
+
+    return options;
+  }
+
+
+
+  //  From a given list of arguments, return a suitable object of button labels.
+  //  All this does is normalise the given labels and translate them where possible.
+  //  e.g. "ok", "confirm" -> { ok: "OK", cancel: "Annuleren" }
+  function createLabels(labels, locale) {
+    var buttons = {};
+
+    for (var i = 0, j = labels.length; i < j; i++) {
+      var argument = labels[i];
+      var key = argument.toLowerCase();
+      var value = argument.toUpperCase();
+
+      buttons[key] = {
+        label: getText(value, locale)
+      };
+    }
+
+    return buttons;
+  }
+
+
+
+  //  Get localized text from a locale. Defaults to 'en' locale if no locale 
+  //  provided or a non-registered locale is requested
+  function getText(key, locale) {
+    var labels = locales[locale];
+
+    return labels ? labels[key] : locales.en[key];
+  }
+
+
+
+  //  Filter and tidy up any user supplied parameters to this dialog.
+  //  Also looks for any shorthands used and ensures that the options
+  //  which are returned are all normalized properly
+  function sanitize(options) {
+    var buttons;
+    var total;
+
+    if (typeof options !== 'object') {
+      throw new Error('Please supply an object of options');
+    }
+
+    if (!options.message) {
+      throw new Error('"message" option must not be null or an empty string.');
+    }
+
+    // make sure any supplied options take precedence over defaults
+    options = $.extend({}, defaults, options);
+
+    // no buttons is still a valid dialog but it's cleaner to always have
+    // a buttons object to iterate over, even if it's empty
+    if (!options.buttons) {
+      options.buttons = {};
+    }
+
+    buttons = options.buttons;
+
+    total = getKeyLength(buttons);
+
+    each(buttons, function (key, button, index) {
+      if ($.isFunction(button)) {
+        // short form, assume value is our callback. Since button
+        // isn't an object it isn't a reference either so re-assign it
+        button = buttons[key] = {
+          callback: button
+        };
+      }
+
+      // before any further checks make sure by now button is the correct type
+      if ($.type(button) !== 'object') {
+        throw new Error('button with key "' + key + '" must be an object');
+      }
+
+      if (!button.label) {
+        // the lack of an explicit label means we'll assume the key is good enough
+        button.label = key;
+      }
+
+      if (!button.className) {     
+        var isPrimary = false;
+        if(options.swapButtonOrder){
+          isPrimary = index === 0;
+        }
+        else{
+          isPrimary = index === total-1;
+        }
+
+        if (total <= 2 && isPrimary) {
+          // always add a primary to the main option in a one or two-button dialog
+          button.className = 'btn-primary';
+        } else {
+          // adding both classes allows us to target both BS3 and BS4 without needing to check the version
+          button.className = 'btn-secondary btn-default';
+        }
+      }
+    });
+
+    return options;
+  }
+
+
+  //  Returns a count of the properties defined on the object
+  function getKeyLength(obj) {
+    return Object.keys(obj).length;
+  }
+
+
+  //  Tiny wrapper function around jQuery.each; just adds index as the third parameter
+  function each(collection, iterator) {
+    var index = 0;
+    $.each(collection, function (key, value) {
+      iterator(key, value, index++);
+    });
+  }
+
+
+  //  Handle the invoked dialog callback
+  function processCallback(e, dialog, callback) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    // by default we assume a callback will get rid of the dialog,
+    // although it is given the opportunity to override this
+
+    // so, if the callback can be invoked and it *explicitly returns false*
+    // then we'll set a flag to keep the dialog active...
+    var preserveDialog = $.isFunction(callback) && callback.call(dialog, e) === false;
+
+    // ... otherwise we'll bin it
+    if (!preserveDialog) {
+      dialog.modal('hide');
+    }
+  }
+  
+  // Validate `min` and `max` values based on the current `inputType` value
+  function minAndMaxAreValid(type, min, max){
+    var result = false;
+    var minValid = true;
+    var maxValid = true;
+
+    if (type === 'date') {
+      if (min !== undefined && !(minValid = dateIsValid(min))) {
+        console.warn('Browsers which natively support the "date" input type expect date values to be of the form "YYYY-MM-DD" (see ISO-8601 https://www.iso.org/iso-8601-date-and-time-format.html). Bootbox does not enforce this rule, but your min value may not be enforced by this browser.');
+      }
+      else if (max !== undefined && !(maxValid = dateIsValid(max))) {
+        console.warn('Browsers which natively support the "date" input type expect date values to be of the form "YYYY-MM-DD" (see ISO-8601 https://www.iso.org/iso-8601-date-and-time-format.html). Bootbox does not enforce this rule, but your max value may not be enforced by this browser.');
+      }
+    }
+    else if (type === 'time') {
+      if (min !== undefined && !(minValid = timeIsValid(min))) {
+        throw new Error('"min" is not a valid time. See https://www.w3.org/TR/2012/WD-html-markup-20120315/datatypes.html#form.data.time for more information.');
+      }
+      else if (max !== undefined && !(maxValid = timeIsValid(max))) {
+        throw new Error('"max" is not a valid time. See https://www.w3.org/TR/2012/WD-html-markup-20120315/datatypes.html#form.data.time for more information.');
+      }
+    }
+    else {
+      if (min !== undefined && isNaN(min)) {
+        throw new Error('"min" must be a valid number. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-min for more information.');
+      }
+
+      if (max !== undefined && isNaN(max)) {
+        throw new Error('"max" must be a valid number. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-max for more information.');
+      }
+    }
+    
+    if(minValid && maxValid){
+      if(max <= min){
+        throw new Error('"max" must be greater than "min". See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-max for more information.');
+      }
+      else{
+        result = true;
+      }
+    }
+
+    return result;
+  }
+
+  function timeIsValid(value){
+    return /([01][0-9]|2[0-3]):[0-5][0-9]?:[0-5][0-9]/.test(value);
+  }
+
+  function dateIsValid(value){
+    return /(\d{4})-(\d{2})-(\d{2})/.test(value);
+  }
+
+
+  //  Register the default locale
+  exports.addLocale('en', {
+    OK: 'OK',
+    CANCEL: 'Cancel',
+    CONFIRM: 'OK'
+  });
+
+
+  //  The Bootbox object
+  return exports;
+}));
 
 /***/ }),
 
@@ -58103,6 +59757,2800 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/q/q.js":
+/*!*****************************!*\
+  !*** ./node_modules/q/q.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process, setImmediate) {// vim:ts=4:sts=4:sw=4:
+/*!
+ *
+ * Copyright 2009-2017 Kris Kowal under the terms of the MIT
+ * license found at https://github.com/kriskowal/q/blob/v1/LICENSE
+ *
+ * With parts by Tyler Close
+ * Copyright 2007-2009 Tyler Close under the terms of the MIT X license found
+ * at http://www.opensource.org/licenses/mit-license.html
+ * Forked at ref_send.js version: 2009-05-11
+ *
+ * With parts by Mark Miller
+ * Copyright (C) 2011 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+(function (definition) {
+    "use strict";
+
+    // This file will function properly as a <script> tag, or a module
+    // using CommonJS and NodeJS or RequireJS module formats.  In
+    // Common/Node/RequireJS, the module exports the Q API and when
+    // executed as a simple <script>, it creates a Q global instead.
+
+    // Montage Require
+    if (typeof bootstrap === "function") {
+        bootstrap("promise", definition);
+
+    // CommonJS
+    } else if (true) {
+        module.exports = definition();
+
+    // RequireJS
+    } else { var previousQ, global; }
+
+})(function () {
+"use strict";
+
+var hasStacks = false;
+try {
+    throw new Error();
+} catch (e) {
+    hasStacks = !!e.stack;
+}
+
+// All code after this point will be filtered from stack traces reported
+// by Q.
+var qStartingLine = captureLine();
+var qFileName;
+
+// shims
+
+// used for fallback in "allResolved"
+var noop = function () {};
+
+// Use the fastest possible means to execute a task in a future turn
+// of the event loop.
+var nextTick =(function () {
+    // linked list of tasks (single, with head node)
+    var head = {task: void 0, next: null};
+    var tail = head;
+    var flushing = false;
+    var requestTick = void 0;
+    var isNodeJS = false;
+    // queue for late tasks, used by unhandled rejection tracking
+    var laterQueue = [];
+
+    function flush() {
+        /* jshint loopfunc: true */
+        var task, domain;
+
+        while (head.next) {
+            head = head.next;
+            task = head.task;
+            head.task = void 0;
+            domain = head.domain;
+
+            if (domain) {
+                head.domain = void 0;
+                domain.enter();
+            }
+            runSingle(task, domain);
+
+        }
+        while (laterQueue.length) {
+            task = laterQueue.pop();
+            runSingle(task);
+        }
+        flushing = false;
+    }
+    // runs a single function in the async queue
+    function runSingle(task, domain) {
+        try {
+            task();
+
+        } catch (e) {
+            if (isNodeJS) {
+                // In node, uncaught exceptions are considered fatal errors.
+                // Re-throw them synchronously to interrupt flushing!
+
+                // Ensure continuation if the uncaught exception is suppressed
+                // listening "uncaughtException" events (as domains does).
+                // Continue in next event to avoid tick recursion.
+                if (domain) {
+                    domain.exit();
+                }
+                setTimeout(flush, 0);
+                if (domain) {
+                    domain.enter();
+                }
+
+                throw e;
+
+            } else {
+                // In browsers, uncaught exceptions are not fatal.
+                // Re-throw them asynchronously to avoid slow-downs.
+                setTimeout(function () {
+                    throw e;
+                }, 0);
+            }
+        }
+
+        if (domain) {
+            domain.exit();
+        }
+    }
+
+    nextTick = function (task) {
+        tail = tail.next = {
+            task: task,
+            domain: isNodeJS && process.domain,
+            next: null
+        };
+
+        if (!flushing) {
+            flushing = true;
+            requestTick();
+        }
+    };
+
+    if (typeof process === "object" &&
+        process.toString() === "[object process]" && process.nextTick) {
+        // Ensure Q is in a real Node environment, with a `process.nextTick`.
+        // To see through fake Node environments:
+        // * Mocha test runner - exposes a `process` global without a `nextTick`
+        // * Browserify - exposes a `process.nexTick` function that uses
+        //   `setTimeout`. In this case `setImmediate` is preferred because
+        //    it is faster. Browserify's `process.toString()` yields
+        //   "[object Object]", while in a real Node environment
+        //   `process.toString()` yields "[object process]".
+        isNodeJS = true;
+
+        requestTick = function () {
+            process.nextTick(flush);
+        };
+
+    } else if (typeof setImmediate === "function") {
+        // In IE10, Node.js 0.9+, or https://github.com/NobleJS/setImmediate
+        if (typeof window !== "undefined") {
+            requestTick = setImmediate.bind(window, flush);
+        } else {
+            requestTick = function () {
+                setImmediate(flush);
+            };
+        }
+
+    } else if (typeof MessageChannel !== "undefined") {
+        // modern browsers
+        // http://www.nonblocking.io/2011/06/windownexttick.html
+        var channel = new MessageChannel();
+        // At least Safari Version 6.0.5 (8536.30.1) intermittently cannot create
+        // working message ports the first time a page loads.
+        channel.port1.onmessage = function () {
+            requestTick = requestPortTick;
+            channel.port1.onmessage = flush;
+            flush();
+        };
+        var requestPortTick = function () {
+            // Opera requires us to provide a message payload, regardless of
+            // whether we use it.
+            channel.port2.postMessage(0);
+        };
+        requestTick = function () {
+            setTimeout(flush, 0);
+            requestPortTick();
+        };
+
+    } else {
+        // old browsers
+        requestTick = function () {
+            setTimeout(flush, 0);
+        };
+    }
+    // runs a task after all other tasks have been run
+    // this is useful for unhandled rejection tracking that needs to happen
+    // after all `then`d tasks have been run.
+    nextTick.runAfter = function (task) {
+        laterQueue.push(task);
+        if (!flushing) {
+            flushing = true;
+            requestTick();
+        }
+    };
+    return nextTick;
+})();
+
+// Attempt to make generics safe in the face of downstream
+// modifications.
+// There is no situation where this is necessary.
+// If you need a security guarantee, these primordials need to be
+// deeply frozen anyway, and if you don’t need a security guarantee,
+// this is just plain paranoid.
+// However, this **might** have the nice side-effect of reducing the size of
+// the minified code by reducing x.call() to merely x()
+// See Mark Miller’s explanation of what this does.
+// http://wiki.ecmascript.org/doku.php?id=conventions:safe_meta_programming
+var call = Function.call;
+function uncurryThis(f) {
+    return function () {
+        return call.apply(f, arguments);
+    };
+}
+// This is equivalent, but slower:
+// uncurryThis = Function_bind.bind(Function_bind.call);
+// http://jsperf.com/uncurrythis
+
+var array_slice = uncurryThis(Array.prototype.slice);
+
+var array_reduce = uncurryThis(
+    Array.prototype.reduce || function (callback, basis) {
+        var index = 0,
+            length = this.length;
+        // concerning the initial value, if one is not provided
+        if (arguments.length === 1) {
+            // seek to the first value in the array, accounting
+            // for the possibility that is is a sparse array
+            do {
+                if (index in this) {
+                    basis = this[index++];
+                    break;
+                }
+                if (++index >= length) {
+                    throw new TypeError();
+                }
+            } while (1);
+        }
+        // reduce
+        for (; index < length; index++) {
+            // account for the possibility that the array is sparse
+            if (index in this) {
+                basis = callback(basis, this[index], index);
+            }
+        }
+        return basis;
+    }
+);
+
+var array_indexOf = uncurryThis(
+    Array.prototype.indexOf || function (value) {
+        // not a very good shim, but good enough for our one use of it
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+);
+
+var array_map = uncurryThis(
+    Array.prototype.map || function (callback, thisp) {
+        var self = this;
+        var collect = [];
+        array_reduce(self, function (undefined, value, index) {
+            collect.push(callback.call(thisp, value, index, self));
+        }, void 0);
+        return collect;
+    }
+);
+
+var object_create = Object.create || function (prototype) {
+    function Type() { }
+    Type.prototype = prototype;
+    return new Type();
+};
+
+var object_defineProperty = Object.defineProperty || function (obj, prop, descriptor) {
+    obj[prop] = descriptor.value;
+    return obj;
+};
+
+var object_hasOwnProperty = uncurryThis(Object.prototype.hasOwnProperty);
+
+var object_keys = Object.keys || function (object) {
+    var keys = [];
+    for (var key in object) {
+        if (object_hasOwnProperty(object, key)) {
+            keys.push(key);
+        }
+    }
+    return keys;
+};
+
+var object_toString = uncurryThis(Object.prototype.toString);
+
+function isObject(value) {
+    return value === Object(value);
+}
+
+// generator related shims
+
+// FIXME: Remove this function once ES6 generators are in SpiderMonkey.
+function isStopIteration(exception) {
+    return (
+        object_toString(exception) === "[object StopIteration]" ||
+        exception instanceof QReturnValue
+    );
+}
+
+// FIXME: Remove this helper and Q.return once ES6 generators are in
+// SpiderMonkey.
+var QReturnValue;
+if (typeof ReturnValue !== "undefined") {
+    QReturnValue = ReturnValue;
+} else {
+    QReturnValue = function (value) {
+        this.value = value;
+    };
+}
+
+// long stack traces
+
+var STACK_JUMP_SEPARATOR = "From previous event:";
+
+function makeStackTraceLong(error, promise) {
+    // If possible, transform the error stack trace by removing Node and Q
+    // cruft, then concatenating with the stack trace of `promise`. See #57.
+    if (hasStacks &&
+        promise.stack &&
+        typeof error === "object" &&
+        error !== null &&
+        error.stack
+    ) {
+        var stacks = [];
+        for (var p = promise; !!p; p = p.source) {
+            if (p.stack && (!error.__minimumStackCounter__ || error.__minimumStackCounter__ > p.stackCounter)) {
+                object_defineProperty(error, "__minimumStackCounter__", {value: p.stackCounter, configurable: true});
+                stacks.unshift(p.stack);
+            }
+        }
+        stacks.unshift(error.stack);
+
+        var concatedStacks = stacks.join("\n" + STACK_JUMP_SEPARATOR + "\n");
+        var stack = filterStackString(concatedStacks);
+        object_defineProperty(error, "stack", {value: stack, configurable: true});
+    }
+}
+
+function filterStackString(stackString) {
+    var lines = stackString.split("\n");
+    var desiredLines = [];
+    for (var i = 0; i < lines.length; ++i) {
+        var line = lines[i];
+
+        if (!isInternalFrame(line) && !isNodeFrame(line) && line) {
+            desiredLines.push(line);
+        }
+    }
+    return desiredLines.join("\n");
+}
+
+function isNodeFrame(stackLine) {
+    return stackLine.indexOf("(module.js:") !== -1 ||
+           stackLine.indexOf("(node.js:") !== -1;
+}
+
+function getFileNameAndLineNumber(stackLine) {
+    // Named functions: "at functionName (filename:lineNumber:columnNumber)"
+    // In IE10 function name can have spaces ("Anonymous function") O_o
+    var attempt1 = /at .+ \((.+):(\d+):(?:\d+)\)$/.exec(stackLine);
+    if (attempt1) {
+        return [attempt1[1], Number(attempt1[2])];
+    }
+
+    // Anonymous functions: "at filename:lineNumber:columnNumber"
+    var attempt2 = /at ([^ ]+):(\d+):(?:\d+)$/.exec(stackLine);
+    if (attempt2) {
+        return [attempt2[1], Number(attempt2[2])];
+    }
+
+    // Firefox style: "function@filename:lineNumber or @filename:lineNumber"
+    var attempt3 = /.*@(.+):(\d+)$/.exec(stackLine);
+    if (attempt3) {
+        return [attempt3[1], Number(attempt3[2])];
+    }
+}
+
+function isInternalFrame(stackLine) {
+    var fileNameAndLineNumber = getFileNameAndLineNumber(stackLine);
+
+    if (!fileNameAndLineNumber) {
+        return false;
+    }
+
+    var fileName = fileNameAndLineNumber[0];
+    var lineNumber = fileNameAndLineNumber[1];
+
+    return fileName === qFileName &&
+        lineNumber >= qStartingLine &&
+        lineNumber <= qEndingLine;
+}
+
+// discover own file name and line number range for filtering stack
+// traces
+function captureLine() {
+    if (!hasStacks) {
+        return;
+    }
+
+    try {
+        throw new Error();
+    } catch (e) {
+        var lines = e.stack.split("\n");
+        var firstLine = lines[0].indexOf("@") > 0 ? lines[1] : lines[2];
+        var fileNameAndLineNumber = getFileNameAndLineNumber(firstLine);
+        if (!fileNameAndLineNumber) {
+            return;
+        }
+
+        qFileName = fileNameAndLineNumber[0];
+        return fileNameAndLineNumber[1];
+    }
+}
+
+function deprecate(callback, name, alternative) {
+    return function () {
+        if (typeof console !== "undefined" &&
+            typeof console.warn === "function") {
+            console.warn(name + " is deprecated, use " + alternative +
+                         " instead.", new Error("").stack);
+        }
+        return callback.apply(callback, arguments);
+    };
+}
+
+// end of shims
+// beginning of real work
+
+/**
+ * Constructs a promise for an immediate reference, passes promises through, or
+ * coerces promises from different systems.
+ * @param value immediate reference or promise
+ */
+function Q(value) {
+    // If the object is already a Promise, return it directly.  This enables
+    // the resolve function to both be used to created references from objects,
+    // but to tolerably coerce non-promises to promises.
+    if (value instanceof Promise) {
+        return value;
+    }
+
+    // assimilate thenables
+    if (isPromiseAlike(value)) {
+        return coerce(value);
+    } else {
+        return fulfill(value);
+    }
+}
+Q.resolve = Q;
+
+/**
+ * Performs a task in a future turn of the event loop.
+ * @param {Function} task
+ */
+Q.nextTick = nextTick;
+
+/**
+ * Controls whether or not long stack traces will be on
+ */
+Q.longStackSupport = false;
+
+/**
+ * The counter is used to determine the stopping point for building
+ * long stack traces. In makeStackTraceLong we walk backwards through
+ * the linked list of promises, only stacks which were created before
+ * the rejection are concatenated.
+ */
+var longStackCounter = 1;
+
+// enable long stacks if Q_DEBUG is set
+if (typeof process === "object" && process && process.env && process.env.Q_DEBUG) {
+    Q.longStackSupport = true;
+}
+
+/**
+ * Constructs a {promise, resolve, reject} object.
+ *
+ * `resolve` is a callback to invoke with a more resolved value for the
+ * promise. To fulfill the promise, invoke `resolve` with any value that is
+ * not a thenable. To reject the promise, invoke `resolve` with a rejected
+ * thenable, or invoke `reject` with the reason directly. To resolve the
+ * promise to another thenable, thus putting it in the same state, invoke
+ * `resolve` with that other thenable.
+ */
+Q.defer = defer;
+function defer() {
+    // if "messages" is an "Array", that indicates that the promise has not yet
+    // been resolved.  If it is "undefined", it has been resolved.  Each
+    // element of the messages array is itself an array of complete arguments to
+    // forward to the resolved promise.  We coerce the resolution value to a
+    // promise using the `resolve` function because it handles both fully
+    // non-thenable values and other thenables gracefully.
+    var messages = [], progressListeners = [], resolvedPromise;
+
+    var deferred = object_create(defer.prototype);
+    var promise = object_create(Promise.prototype);
+
+    promise.promiseDispatch = function (resolve, op, operands) {
+        var args = array_slice(arguments);
+        if (messages) {
+            messages.push(args);
+            if (op === "when" && operands[1]) { // progress operand
+                progressListeners.push(operands[1]);
+            }
+        } else {
+            Q.nextTick(function () {
+                resolvedPromise.promiseDispatch.apply(resolvedPromise, args);
+            });
+        }
+    };
+
+    // XXX deprecated
+    promise.valueOf = function () {
+        if (messages) {
+            return promise;
+        }
+        var nearerValue = nearer(resolvedPromise);
+        if (isPromise(nearerValue)) {
+            resolvedPromise = nearerValue; // shorten chain
+        }
+        return nearerValue;
+    };
+
+    promise.inspect = function () {
+        if (!resolvedPromise) {
+            return { state: "pending" };
+        }
+        return resolvedPromise.inspect();
+    };
+
+    if (Q.longStackSupport && hasStacks) {
+        try {
+            throw new Error();
+        } catch (e) {
+            // NOTE: don't try to use `Error.captureStackTrace` or transfer the
+            // accessor around; that causes memory leaks as per GH-111. Just
+            // reify the stack trace as a string ASAP.
+            //
+            // At the same time, cut off the first line; it's always just
+            // "[object Promise]\n", as per the `toString`.
+            promise.stack = e.stack.substring(e.stack.indexOf("\n") + 1);
+            promise.stackCounter = longStackCounter++;
+        }
+    }
+
+    // NOTE: we do the checks for `resolvedPromise` in each method, instead of
+    // consolidating them into `become`, since otherwise we'd create new
+    // promises with the lines `become(whatever(value))`. See e.g. GH-252.
+
+    function become(newPromise) {
+        resolvedPromise = newPromise;
+
+        if (Q.longStackSupport && hasStacks) {
+            // Only hold a reference to the new promise if long stacks
+            // are enabled to reduce memory usage
+            promise.source = newPromise;
+        }
+
+        array_reduce(messages, function (undefined, message) {
+            Q.nextTick(function () {
+                newPromise.promiseDispatch.apply(newPromise, message);
+            });
+        }, void 0);
+
+        messages = void 0;
+        progressListeners = void 0;
+    }
+
+    deferred.promise = promise;
+    deferred.resolve = function (value) {
+        if (resolvedPromise) {
+            return;
+        }
+
+        become(Q(value));
+    };
+
+    deferred.fulfill = function (value) {
+        if (resolvedPromise) {
+            return;
+        }
+
+        become(fulfill(value));
+    };
+    deferred.reject = function (reason) {
+        if (resolvedPromise) {
+            return;
+        }
+
+        become(reject(reason));
+    };
+    deferred.notify = function (progress) {
+        if (resolvedPromise) {
+            return;
+        }
+
+        array_reduce(progressListeners, function (undefined, progressListener) {
+            Q.nextTick(function () {
+                progressListener(progress);
+            });
+        }, void 0);
+    };
+
+    return deferred;
+}
+
+/**
+ * Creates a Node-style callback that will resolve or reject the deferred
+ * promise.
+ * @returns a nodeback
+ */
+defer.prototype.makeNodeResolver = function () {
+    var self = this;
+    return function (error, value) {
+        if (error) {
+            self.reject(error);
+        } else if (arguments.length > 2) {
+            self.resolve(array_slice(arguments, 1));
+        } else {
+            self.resolve(value);
+        }
+    };
+};
+
+/**
+ * @param resolver {Function} a function that returns nothing and accepts
+ * the resolve, reject, and notify functions for a deferred.
+ * @returns a promise that may be resolved with the given resolve and reject
+ * functions, or rejected by a thrown exception in resolver
+ */
+Q.Promise = promise; // ES6
+Q.promise = promise;
+function promise(resolver) {
+    if (typeof resolver !== "function") {
+        throw new TypeError("resolver must be a function.");
+    }
+    var deferred = defer();
+    try {
+        resolver(deferred.resolve, deferred.reject, deferred.notify);
+    } catch (reason) {
+        deferred.reject(reason);
+    }
+    return deferred.promise;
+}
+
+promise.race = race; // ES6
+promise.all = all; // ES6
+promise.reject = reject; // ES6
+promise.resolve = Q; // ES6
+
+// XXX experimental.  This method is a way to denote that a local value is
+// serializable and should be immediately dispatched to a remote upon request,
+// instead of passing a reference.
+Q.passByCopy = function (object) {
+    //freeze(object);
+    //passByCopies.set(object, true);
+    return object;
+};
+
+Promise.prototype.passByCopy = function () {
+    //freeze(object);
+    //passByCopies.set(object, true);
+    return this;
+};
+
+/**
+ * If two promises eventually fulfill to the same value, promises that value,
+ * but otherwise rejects.
+ * @param x {Any*}
+ * @param y {Any*}
+ * @returns {Any*} a promise for x and y if they are the same, but a rejection
+ * otherwise.
+ *
+ */
+Q.join = function (x, y) {
+    return Q(x).join(y);
+};
+
+Promise.prototype.join = function (that) {
+    return Q([this, that]).spread(function (x, y) {
+        if (x === y) {
+            // TODO: "===" should be Object.is or equiv
+            return x;
+        } else {
+            throw new Error("Q can't join: not the same: " + x + " " + y);
+        }
+    });
+};
+
+/**
+ * Returns a promise for the first of an array of promises to become settled.
+ * @param answers {Array[Any*]} promises to race
+ * @returns {Any*} the first promise to be settled
+ */
+Q.race = race;
+function race(answerPs) {
+    return promise(function (resolve, reject) {
+        // Switch to this once we can assume at least ES5
+        // answerPs.forEach(function (answerP) {
+        //     Q(answerP).then(resolve, reject);
+        // });
+        // Use this in the meantime
+        for (var i = 0, len = answerPs.length; i < len; i++) {
+            Q(answerPs[i]).then(resolve, reject);
+        }
+    });
+}
+
+Promise.prototype.race = function () {
+    return this.then(Q.race);
+};
+
+/**
+ * Constructs a Promise with a promise descriptor object and optional fallback
+ * function.  The descriptor contains methods like when(rejected), get(name),
+ * set(name, value), post(name, args), and delete(name), which all
+ * return either a value, a promise for a value, or a rejection.  The fallback
+ * accepts the operation name, a resolver, and any further arguments that would
+ * have been forwarded to the appropriate method above had a method been
+ * provided with the proper name.  The API makes no guarantees about the nature
+ * of the returned object, apart from that it is usable whereever promises are
+ * bought and sold.
+ */
+Q.makePromise = Promise;
+function Promise(descriptor, fallback, inspect) {
+    if (fallback === void 0) {
+        fallback = function (op) {
+            return reject(new Error(
+                "Promise does not support operation: " + op
+            ));
+        };
+    }
+    if (inspect === void 0) {
+        inspect = function () {
+            return {state: "unknown"};
+        };
+    }
+
+    var promise = object_create(Promise.prototype);
+
+    promise.promiseDispatch = function (resolve, op, args) {
+        var result;
+        try {
+            if (descriptor[op]) {
+                result = descriptor[op].apply(promise, args);
+            } else {
+                result = fallback.call(promise, op, args);
+            }
+        } catch (exception) {
+            result = reject(exception);
+        }
+        if (resolve) {
+            resolve(result);
+        }
+    };
+
+    promise.inspect = inspect;
+
+    // XXX deprecated `valueOf` and `exception` support
+    if (inspect) {
+        var inspected = inspect();
+        if (inspected.state === "rejected") {
+            promise.exception = inspected.reason;
+        }
+
+        promise.valueOf = function () {
+            var inspected = inspect();
+            if (inspected.state === "pending" ||
+                inspected.state === "rejected") {
+                return promise;
+            }
+            return inspected.value;
+        };
+    }
+
+    return promise;
+}
+
+Promise.prototype.toString = function () {
+    return "[object Promise]";
+};
+
+Promise.prototype.then = function (fulfilled, rejected, progressed) {
+    var self = this;
+    var deferred = defer();
+    var done = false;   // ensure the untrusted promise makes at most a
+                        // single call to one of the callbacks
+
+    function _fulfilled(value) {
+        try {
+            return typeof fulfilled === "function" ? fulfilled(value) : value;
+        } catch (exception) {
+            return reject(exception);
+        }
+    }
+
+    function _rejected(exception) {
+        if (typeof rejected === "function") {
+            makeStackTraceLong(exception, self);
+            try {
+                return rejected(exception);
+            } catch (newException) {
+                return reject(newException);
+            }
+        }
+        return reject(exception);
+    }
+
+    function _progressed(value) {
+        return typeof progressed === "function" ? progressed(value) : value;
+    }
+
+    Q.nextTick(function () {
+        self.promiseDispatch(function (value) {
+            if (done) {
+                return;
+            }
+            done = true;
+
+            deferred.resolve(_fulfilled(value));
+        }, "when", [function (exception) {
+            if (done) {
+                return;
+            }
+            done = true;
+
+            deferred.resolve(_rejected(exception));
+        }]);
+    });
+
+    // Progress propagator need to be attached in the current tick.
+    self.promiseDispatch(void 0, "when", [void 0, function (value) {
+        var newValue;
+        var threw = false;
+        try {
+            newValue = _progressed(value);
+        } catch (e) {
+            threw = true;
+            if (Q.onerror) {
+                Q.onerror(e);
+            } else {
+                throw e;
+            }
+        }
+
+        if (!threw) {
+            deferred.notify(newValue);
+        }
+    }]);
+
+    return deferred.promise;
+};
+
+Q.tap = function (promise, callback) {
+    return Q(promise).tap(callback);
+};
+
+/**
+ * Works almost like "finally", but not called for rejections.
+ * Original resolution value is passed through callback unaffected.
+ * Callback may return a promise that will be awaited for.
+ * @param {Function} callback
+ * @returns {Q.Promise}
+ * @example
+ * doSomething()
+ *   .then(...)
+ *   .tap(console.log)
+ *   .then(...);
+ */
+Promise.prototype.tap = function (callback) {
+    callback = Q(callback);
+
+    return this.then(function (value) {
+        return callback.fcall(value).thenResolve(value);
+    });
+};
+
+/**
+ * Registers an observer on a promise.
+ *
+ * Guarantees:
+ *
+ * 1. that fulfilled and rejected will be called only once.
+ * 2. that either the fulfilled callback or the rejected callback will be
+ *    called, but not both.
+ * 3. that fulfilled and rejected will not be called in this turn.
+ *
+ * @param value      promise or immediate reference to observe
+ * @param fulfilled  function to be called with the fulfilled value
+ * @param rejected   function to be called with the rejection exception
+ * @param progressed function to be called on any progress notifications
+ * @return promise for the return value from the invoked callback
+ */
+Q.when = when;
+function when(value, fulfilled, rejected, progressed) {
+    return Q(value).then(fulfilled, rejected, progressed);
+}
+
+Promise.prototype.thenResolve = function (value) {
+    return this.then(function () { return value; });
+};
+
+Q.thenResolve = function (promise, value) {
+    return Q(promise).thenResolve(value);
+};
+
+Promise.prototype.thenReject = function (reason) {
+    return this.then(function () { throw reason; });
+};
+
+Q.thenReject = function (promise, reason) {
+    return Q(promise).thenReject(reason);
+};
+
+/**
+ * If an object is not a promise, it is as "near" as possible.
+ * If a promise is rejected, it is as "near" as possible too.
+ * If it’s a fulfilled promise, the fulfillment value is nearer.
+ * If it’s a deferred promise and the deferred has been resolved, the
+ * resolution is "nearer".
+ * @param object
+ * @returns most resolved (nearest) form of the object
+ */
+
+// XXX should we re-do this?
+Q.nearer = nearer;
+function nearer(value) {
+    if (isPromise(value)) {
+        var inspected = value.inspect();
+        if (inspected.state === "fulfilled") {
+            return inspected.value;
+        }
+    }
+    return value;
+}
+
+/**
+ * @returns whether the given object is a promise.
+ * Otherwise it is a fulfilled value.
+ */
+Q.isPromise = isPromise;
+function isPromise(object) {
+    return object instanceof Promise;
+}
+
+Q.isPromiseAlike = isPromiseAlike;
+function isPromiseAlike(object) {
+    return isObject(object) && typeof object.then === "function";
+}
+
+/**
+ * @returns whether the given object is a pending promise, meaning not
+ * fulfilled or rejected.
+ */
+Q.isPending = isPending;
+function isPending(object) {
+    return isPromise(object) && object.inspect().state === "pending";
+}
+
+Promise.prototype.isPending = function () {
+    return this.inspect().state === "pending";
+};
+
+/**
+ * @returns whether the given object is a value or fulfilled
+ * promise.
+ */
+Q.isFulfilled = isFulfilled;
+function isFulfilled(object) {
+    return !isPromise(object) || object.inspect().state === "fulfilled";
+}
+
+Promise.prototype.isFulfilled = function () {
+    return this.inspect().state === "fulfilled";
+};
+
+/**
+ * @returns whether the given object is a rejected promise.
+ */
+Q.isRejected = isRejected;
+function isRejected(object) {
+    return isPromise(object) && object.inspect().state === "rejected";
+}
+
+Promise.prototype.isRejected = function () {
+    return this.inspect().state === "rejected";
+};
+
+//// BEGIN UNHANDLED REJECTION TRACKING
+
+// This promise library consumes exceptions thrown in handlers so they can be
+// handled by a subsequent promise.  The exceptions get added to this array when
+// they are created, and removed when they are handled.  Note that in ES6 or
+// shimmed environments, this would naturally be a `Set`.
+var unhandledReasons = [];
+var unhandledRejections = [];
+var reportedUnhandledRejections = [];
+var trackUnhandledRejections = true;
+
+function resetUnhandledRejections() {
+    unhandledReasons.length = 0;
+    unhandledRejections.length = 0;
+
+    if (!trackUnhandledRejections) {
+        trackUnhandledRejections = true;
+    }
+}
+
+function trackRejection(promise, reason) {
+    if (!trackUnhandledRejections) {
+        return;
+    }
+    if (typeof process === "object" && typeof process.emit === "function") {
+        Q.nextTick.runAfter(function () {
+            if (array_indexOf(unhandledRejections, promise) !== -1) {
+                process.emit("unhandledRejection", reason, promise);
+                reportedUnhandledRejections.push(promise);
+            }
+        });
+    }
+
+    unhandledRejections.push(promise);
+    if (reason && typeof reason.stack !== "undefined") {
+        unhandledReasons.push(reason.stack);
+    } else {
+        unhandledReasons.push("(no stack) " + reason);
+    }
+}
+
+function untrackRejection(promise) {
+    if (!trackUnhandledRejections) {
+        return;
+    }
+
+    var at = array_indexOf(unhandledRejections, promise);
+    if (at !== -1) {
+        if (typeof process === "object" && typeof process.emit === "function") {
+            Q.nextTick.runAfter(function () {
+                var atReport = array_indexOf(reportedUnhandledRejections, promise);
+                if (atReport !== -1) {
+                    process.emit("rejectionHandled", unhandledReasons[at], promise);
+                    reportedUnhandledRejections.splice(atReport, 1);
+                }
+            });
+        }
+        unhandledRejections.splice(at, 1);
+        unhandledReasons.splice(at, 1);
+    }
+}
+
+Q.resetUnhandledRejections = resetUnhandledRejections;
+
+Q.getUnhandledReasons = function () {
+    // Make a copy so that consumers can't interfere with our internal state.
+    return unhandledReasons.slice();
+};
+
+Q.stopUnhandledRejectionTracking = function () {
+    resetUnhandledRejections();
+    trackUnhandledRejections = false;
+};
+
+resetUnhandledRejections();
+
+//// END UNHANDLED REJECTION TRACKING
+
+/**
+ * Constructs a rejected promise.
+ * @param reason value describing the failure
+ */
+Q.reject = reject;
+function reject(reason) {
+    var rejection = Promise({
+        "when": function (rejected) {
+            // note that the error has been handled
+            if (rejected) {
+                untrackRejection(this);
+            }
+            return rejected ? rejected(reason) : this;
+        }
+    }, function fallback() {
+        return this;
+    }, function inspect() {
+        return { state: "rejected", reason: reason };
+    });
+
+    // Note that the reason has not been handled.
+    trackRejection(rejection, reason);
+
+    return rejection;
+}
+
+/**
+ * Constructs a fulfilled promise for an immediate reference.
+ * @param value immediate reference
+ */
+Q.fulfill = fulfill;
+function fulfill(value) {
+    return Promise({
+        "when": function () {
+            return value;
+        },
+        "get": function (name) {
+            return value[name];
+        },
+        "set": function (name, rhs) {
+            value[name] = rhs;
+        },
+        "delete": function (name) {
+            delete value[name];
+        },
+        "post": function (name, args) {
+            // Mark Miller proposes that post with no name should apply a
+            // promised function.
+            if (name === null || name === void 0) {
+                return value.apply(void 0, args);
+            } else {
+                return value[name].apply(value, args);
+            }
+        },
+        "apply": function (thisp, args) {
+            return value.apply(thisp, args);
+        },
+        "keys": function () {
+            return object_keys(value);
+        }
+    }, void 0, function inspect() {
+        return { state: "fulfilled", value: value };
+    });
+}
+
+/**
+ * Converts thenables to Q promises.
+ * @param promise thenable promise
+ * @returns a Q promise
+ */
+function coerce(promise) {
+    var deferred = defer();
+    Q.nextTick(function () {
+        try {
+            promise.then(deferred.resolve, deferred.reject, deferred.notify);
+        } catch (exception) {
+            deferred.reject(exception);
+        }
+    });
+    return deferred.promise;
+}
+
+/**
+ * Annotates an object such that it will never be
+ * transferred away from this process over any promise
+ * communication channel.
+ * @param object
+ * @returns promise a wrapping of that object that
+ * additionally responds to the "isDef" message
+ * without a rejection.
+ */
+Q.master = master;
+function master(object) {
+    return Promise({
+        "isDef": function () {}
+    }, function fallback(op, args) {
+        return dispatch(object, op, args);
+    }, function () {
+        return Q(object).inspect();
+    });
+}
+
+/**
+ * Spreads the values of a promised array of arguments into the
+ * fulfillment callback.
+ * @param fulfilled callback that receives variadic arguments from the
+ * promised array
+ * @param rejected callback that receives the exception if the promise
+ * is rejected.
+ * @returns a promise for the return value or thrown exception of
+ * either callback.
+ */
+Q.spread = spread;
+function spread(value, fulfilled, rejected) {
+    return Q(value).spread(fulfilled, rejected);
+}
+
+Promise.prototype.spread = function (fulfilled, rejected) {
+    return this.all().then(function (array) {
+        return fulfilled.apply(void 0, array);
+    }, rejected);
+};
+
+/**
+ * The async function is a decorator for generator functions, turning
+ * them into asynchronous generators.  Although generators are only part
+ * of the newest ECMAScript 6 drafts, this code does not cause syntax
+ * errors in older engines.  This code should continue to work and will
+ * in fact improve over time as the language improves.
+ *
+ * ES6 generators are currently part of V8 version 3.19 with the
+ * --harmony-generators runtime flag enabled.  SpiderMonkey has had them
+ * for longer, but under an older Python-inspired form.  This function
+ * works on both kinds of generators.
+ *
+ * Decorates a generator function such that:
+ *  - it may yield promises
+ *  - execution will continue when that promise is fulfilled
+ *  - the value of the yield expression will be the fulfilled value
+ *  - it returns a promise for the return value (when the generator
+ *    stops iterating)
+ *  - the decorated function returns a promise for the return value
+ *    of the generator or the first rejected promise among those
+ *    yielded.
+ *  - if an error is thrown in the generator, it propagates through
+ *    every following yield until it is caught, or until it escapes
+ *    the generator function altogether, and is translated into a
+ *    rejection for the promise returned by the decorated generator.
+ */
+Q.async = async;
+function async(makeGenerator) {
+    return function () {
+        // when verb is "send", arg is a value
+        // when verb is "throw", arg is an exception
+        function continuer(verb, arg) {
+            var result;
+
+            // Until V8 3.19 / Chromium 29 is released, SpiderMonkey is the only
+            // engine that has a deployed base of browsers that support generators.
+            // However, SM's generators use the Python-inspired semantics of
+            // outdated ES6 drafts.  We would like to support ES6, but we'd also
+            // like to make it possible to use generators in deployed browsers, so
+            // we also support Python-style generators.  At some point we can remove
+            // this block.
+
+            if (typeof StopIteration === "undefined") {
+                // ES6 Generators
+                try {
+                    result = generator[verb](arg);
+                } catch (exception) {
+                    return reject(exception);
+                }
+                if (result.done) {
+                    return Q(result.value);
+                } else {
+                    return when(result.value, callback, errback);
+                }
+            } else {
+                // SpiderMonkey Generators
+                // FIXME: Remove this case when SM does ES6 generators.
+                try {
+                    result = generator[verb](arg);
+                } catch (exception) {
+                    if (isStopIteration(exception)) {
+                        return Q(exception.value);
+                    } else {
+                        return reject(exception);
+                    }
+                }
+                return when(result, callback, errback);
+            }
+        }
+        var generator = makeGenerator.apply(this, arguments);
+        var callback = continuer.bind(continuer, "next");
+        var errback = continuer.bind(continuer, "throw");
+        return callback();
+    };
+}
+
+/**
+ * The spawn function is a small wrapper around async that immediately
+ * calls the generator and also ends the promise chain, so that any
+ * unhandled errors are thrown instead of forwarded to the error
+ * handler. This is useful because it's extremely common to run
+ * generators at the top-level to work with libraries.
+ */
+Q.spawn = spawn;
+function spawn(makeGenerator) {
+    Q.done(Q.async(makeGenerator)());
+}
+
+// FIXME: Remove this interface once ES6 generators are in SpiderMonkey.
+/**
+ * Throws a ReturnValue exception to stop an asynchronous generator.
+ *
+ * This interface is a stop-gap measure to support generator return
+ * values in older Firefox/SpiderMonkey.  In browsers that support ES6
+ * generators like Chromium 29, just use "return" in your generator
+ * functions.
+ *
+ * @param value the return value for the surrounding generator
+ * @throws ReturnValue exception with the value.
+ * @example
+ * // ES6 style
+ * Q.async(function* () {
+ *      var foo = yield getFooPromise();
+ *      var bar = yield getBarPromise();
+ *      return foo + bar;
+ * })
+ * // Older SpiderMonkey style
+ * Q.async(function () {
+ *      var foo = yield getFooPromise();
+ *      var bar = yield getBarPromise();
+ *      Q.return(foo + bar);
+ * })
+ */
+Q["return"] = _return;
+function _return(value) {
+    throw new QReturnValue(value);
+}
+
+/**
+ * The promised function decorator ensures that any promise arguments
+ * are settled and passed as values (`this` is also settled and passed
+ * as a value).  It will also ensure that the result of a function is
+ * always a promise.
+ *
+ * @example
+ * var add = Q.promised(function (a, b) {
+ *     return a + b;
+ * });
+ * add(Q(a), Q(B));
+ *
+ * @param {function} callback The function to decorate
+ * @returns {function} a function that has been decorated.
+ */
+Q.promised = promised;
+function promised(callback) {
+    return function () {
+        return spread([this, all(arguments)], function (self, args) {
+            return callback.apply(self, args);
+        });
+    };
+}
+
+/**
+ * sends a message to a value in a future turn
+ * @param object* the recipient
+ * @param op the name of the message operation, e.g., "when",
+ * @param args further arguments to be forwarded to the operation
+ * @returns result {Promise} a promise for the result of the operation
+ */
+Q.dispatch = dispatch;
+function dispatch(object, op, args) {
+    return Q(object).dispatch(op, args);
+}
+
+Promise.prototype.dispatch = function (op, args) {
+    var self = this;
+    var deferred = defer();
+    Q.nextTick(function () {
+        self.promiseDispatch(deferred.resolve, op, args);
+    });
+    return deferred.promise;
+};
+
+/**
+ * Gets the value of a property in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of property to get
+ * @return promise for the property value
+ */
+Q.get = function (object, key) {
+    return Q(object).dispatch("get", [key]);
+};
+
+Promise.prototype.get = function (key) {
+    return this.dispatch("get", [key]);
+};
+
+/**
+ * Sets the value of a property in a future turn.
+ * @param object    promise or immediate reference for object object
+ * @param name      name of property to set
+ * @param value     new value of property
+ * @return promise for the return value
+ */
+Q.set = function (object, key, value) {
+    return Q(object).dispatch("set", [key, value]);
+};
+
+Promise.prototype.set = function (key, value) {
+    return this.dispatch("set", [key, value]);
+};
+
+/**
+ * Deletes a property in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of property to delete
+ * @return promise for the return value
+ */
+Q.del = // XXX legacy
+Q["delete"] = function (object, key) {
+    return Q(object).dispatch("delete", [key]);
+};
+
+Promise.prototype.del = // XXX legacy
+Promise.prototype["delete"] = function (key) {
+    return this.dispatch("delete", [key]);
+};
+
+/**
+ * Invokes a method in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of method to invoke
+ * @param value     a value to post, typically an array of
+ *                  invocation arguments for promises that
+ *                  are ultimately backed with `resolve` values,
+ *                  as opposed to those backed with URLs
+ *                  wherein the posted value can be any
+ *                  JSON serializable object.
+ * @return promise for the return value
+ */
+// bound locally because it is used by other methods
+Q.mapply = // XXX As proposed by "Redsandro"
+Q.post = function (object, name, args) {
+    return Q(object).dispatch("post", [name, args]);
+};
+
+Promise.prototype.mapply = // XXX As proposed by "Redsandro"
+Promise.prototype.post = function (name, args) {
+    return this.dispatch("post", [name, args]);
+};
+
+/**
+ * Invokes a method in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of method to invoke
+ * @param ...args   array of invocation arguments
+ * @return promise for the return value
+ */
+Q.send = // XXX Mark Miller's proposed parlance
+Q.mcall = // XXX As proposed by "Redsandro"
+Q.invoke = function (object, name /*...args*/) {
+    return Q(object).dispatch("post", [name, array_slice(arguments, 2)]);
+};
+
+Promise.prototype.send = // XXX Mark Miller's proposed parlance
+Promise.prototype.mcall = // XXX As proposed by "Redsandro"
+Promise.prototype.invoke = function (name /*...args*/) {
+    return this.dispatch("post", [name, array_slice(arguments, 1)]);
+};
+
+/**
+ * Applies the promised function in a future turn.
+ * @param object    promise or immediate reference for target function
+ * @param args      array of application arguments
+ */
+Q.fapply = function (object, args) {
+    return Q(object).dispatch("apply", [void 0, args]);
+};
+
+Promise.prototype.fapply = function (args) {
+    return this.dispatch("apply", [void 0, args]);
+};
+
+/**
+ * Calls the promised function in a future turn.
+ * @param object    promise or immediate reference for target function
+ * @param ...args   array of application arguments
+ */
+Q["try"] =
+Q.fcall = function (object /* ...args*/) {
+    return Q(object).dispatch("apply", [void 0, array_slice(arguments, 1)]);
+};
+
+Promise.prototype.fcall = function (/*...args*/) {
+    return this.dispatch("apply", [void 0, array_slice(arguments)]);
+};
+
+/**
+ * Binds the promised function, transforming return values into a fulfilled
+ * promise and thrown errors into a rejected one.
+ * @param object    promise or immediate reference for target function
+ * @param ...args   array of application arguments
+ */
+Q.fbind = function (object /*...args*/) {
+    var promise = Q(object);
+    var args = array_slice(arguments, 1);
+    return function fbound() {
+        return promise.dispatch("apply", [
+            this,
+            args.concat(array_slice(arguments))
+        ]);
+    };
+};
+Promise.prototype.fbind = function (/*...args*/) {
+    var promise = this;
+    var args = array_slice(arguments);
+    return function fbound() {
+        return promise.dispatch("apply", [
+            this,
+            args.concat(array_slice(arguments))
+        ]);
+    };
+};
+
+/**
+ * Requests the names of the owned properties of a promised
+ * object in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @return promise for the keys of the eventually settled object
+ */
+Q.keys = function (object) {
+    return Q(object).dispatch("keys", []);
+};
+
+Promise.prototype.keys = function () {
+    return this.dispatch("keys", []);
+};
+
+/**
+ * Turns an array of promises into a promise for an array.  If any of
+ * the promises gets rejected, the whole array is rejected immediately.
+ * @param {Array*} an array (or promise for an array) of values (or
+ * promises for values)
+ * @returns a promise for an array of the corresponding values
+ */
+// By Mark Miller
+// http://wiki.ecmascript.org/doku.php?id=strawman:concurrency&rev=1308776521#allfulfilled
+Q.all = all;
+function all(promises) {
+    return when(promises, function (promises) {
+        var pendingCount = 0;
+        var deferred = defer();
+        array_reduce(promises, function (undefined, promise, index) {
+            var snapshot;
+            if (
+                isPromise(promise) &&
+                (snapshot = promise.inspect()).state === "fulfilled"
+            ) {
+                promises[index] = snapshot.value;
+            } else {
+                ++pendingCount;
+                when(
+                    promise,
+                    function (value) {
+                        promises[index] = value;
+                        if (--pendingCount === 0) {
+                            deferred.resolve(promises);
+                        }
+                    },
+                    deferred.reject,
+                    function (progress) {
+                        deferred.notify({ index: index, value: progress });
+                    }
+                );
+            }
+        }, void 0);
+        if (pendingCount === 0) {
+            deferred.resolve(promises);
+        }
+        return deferred.promise;
+    });
+}
+
+Promise.prototype.all = function () {
+    return all(this);
+};
+
+/**
+ * Returns the first resolved promise of an array. Prior rejected promises are
+ * ignored.  Rejects only if all promises are rejected.
+ * @param {Array*} an array containing values or promises for values
+ * @returns a promise fulfilled with the value of the first resolved promise,
+ * or a rejected promise if all promises are rejected.
+ */
+Q.any = any;
+
+function any(promises) {
+    if (promises.length === 0) {
+        return Q.resolve();
+    }
+
+    var deferred = Q.defer();
+    var pendingCount = 0;
+    array_reduce(promises, function (prev, current, index) {
+        var promise = promises[index];
+
+        pendingCount++;
+
+        when(promise, onFulfilled, onRejected, onProgress);
+        function onFulfilled(result) {
+            deferred.resolve(result);
+        }
+        function onRejected(err) {
+            pendingCount--;
+            if (pendingCount === 0) {
+                var rejection = err || new Error("" + err);
+
+                rejection.message = ("Q can't get fulfillment value from any promise, all " +
+                    "promises were rejected. Last error message: " + rejection.message);
+
+                deferred.reject(rejection);
+            }
+        }
+        function onProgress(progress) {
+            deferred.notify({
+                index: index,
+                value: progress
+            });
+        }
+    }, undefined);
+
+    return deferred.promise;
+}
+
+Promise.prototype.any = function () {
+    return any(this);
+};
+
+/**
+ * Waits for all promises to be settled, either fulfilled or
+ * rejected.  This is distinct from `all` since that would stop
+ * waiting at the first rejection.  The promise returned by
+ * `allResolved` will never be rejected.
+ * @param promises a promise for an array (or an array) of promises
+ * (or values)
+ * @return a promise for an array of promises
+ */
+Q.allResolved = deprecate(allResolved, "allResolved", "allSettled");
+function allResolved(promises) {
+    return when(promises, function (promises) {
+        promises = array_map(promises, Q);
+        return when(all(array_map(promises, function (promise) {
+            return when(promise, noop, noop);
+        })), function () {
+            return promises;
+        });
+    });
+}
+
+Promise.prototype.allResolved = function () {
+    return allResolved(this);
+};
+
+/**
+ * @see Promise#allSettled
+ */
+Q.allSettled = allSettled;
+function allSettled(promises) {
+    return Q(promises).allSettled();
+}
+
+/**
+ * Turns an array of promises into a promise for an array of their states (as
+ * returned by `inspect`) when they have all settled.
+ * @param {Array[Any*]} values an array (or promise for an array) of values (or
+ * promises for values)
+ * @returns {Array[State]} an array of states for the respective values.
+ */
+Promise.prototype.allSettled = function () {
+    return this.then(function (promises) {
+        return all(array_map(promises, function (promise) {
+            promise = Q(promise);
+            function regardless() {
+                return promise.inspect();
+            }
+            return promise.then(regardless, regardless);
+        }));
+    });
+};
+
+/**
+ * Captures the failure of a promise, giving an oportunity to recover
+ * with a callback.  If the given promise is fulfilled, the returned
+ * promise is fulfilled.
+ * @param {Any*} promise for something
+ * @param {Function} callback to fulfill the returned promise if the
+ * given promise is rejected
+ * @returns a promise for the return value of the callback
+ */
+Q.fail = // XXX legacy
+Q["catch"] = function (object, rejected) {
+    return Q(object).then(void 0, rejected);
+};
+
+Promise.prototype.fail = // XXX legacy
+Promise.prototype["catch"] = function (rejected) {
+    return this.then(void 0, rejected);
+};
+
+/**
+ * Attaches a listener that can respond to progress notifications from a
+ * promise's originating deferred. This listener receives the exact arguments
+ * passed to ``deferred.notify``.
+ * @param {Any*} promise for something
+ * @param {Function} callback to receive any progress notifications
+ * @returns the given promise, unchanged
+ */
+Q.progress = progress;
+function progress(object, progressed) {
+    return Q(object).then(void 0, void 0, progressed);
+}
+
+Promise.prototype.progress = function (progressed) {
+    return this.then(void 0, void 0, progressed);
+};
+
+/**
+ * Provides an opportunity to observe the settling of a promise,
+ * regardless of whether the promise is fulfilled or rejected.  Forwards
+ * the resolution to the returned promise when the callback is done.
+ * The callback can return a promise to defer completion.
+ * @param {Any*} promise
+ * @param {Function} callback to observe the resolution of the given
+ * promise, takes no arguments.
+ * @returns a promise for the resolution of the given promise when
+ * ``fin`` is done.
+ */
+Q.fin = // XXX legacy
+Q["finally"] = function (object, callback) {
+    return Q(object)["finally"](callback);
+};
+
+Promise.prototype.fin = // XXX legacy
+Promise.prototype["finally"] = function (callback) {
+    if (!callback || typeof callback.apply !== "function") {
+        throw new Error("Q can't apply finally callback");
+    }
+    callback = Q(callback);
+    return this.then(function (value) {
+        return callback.fcall().then(function () {
+            return value;
+        });
+    }, function (reason) {
+        // TODO attempt to recycle the rejection with "this".
+        return callback.fcall().then(function () {
+            throw reason;
+        });
+    });
+};
+
+/**
+ * Terminates a chain of promises, forcing rejections to be
+ * thrown as exceptions.
+ * @param {Any*} promise at the end of a chain of promises
+ * @returns nothing
+ */
+Q.done = function (object, fulfilled, rejected, progress) {
+    return Q(object).done(fulfilled, rejected, progress);
+};
+
+Promise.prototype.done = function (fulfilled, rejected, progress) {
+    var onUnhandledError = function (error) {
+        // forward to a future turn so that ``when``
+        // does not catch it and turn it into a rejection.
+        Q.nextTick(function () {
+            makeStackTraceLong(error, promise);
+            if (Q.onerror) {
+                Q.onerror(error);
+            } else {
+                throw error;
+            }
+        });
+    };
+
+    // Avoid unnecessary `nextTick`ing via an unnecessary `when`.
+    var promise = fulfilled || rejected || progress ?
+        this.then(fulfilled, rejected, progress) :
+        this;
+
+    if (typeof process === "object" && process && process.domain) {
+        onUnhandledError = process.domain.bind(onUnhandledError);
+    }
+
+    promise.then(void 0, onUnhandledError);
+};
+
+/**
+ * Causes a promise to be rejected if it does not get fulfilled before
+ * some milliseconds time out.
+ * @param {Any*} promise
+ * @param {Number} milliseconds timeout
+ * @param {Any*} custom error message or Error object (optional)
+ * @returns a promise for the resolution of the given promise if it is
+ * fulfilled before the timeout, otherwise rejected.
+ */
+Q.timeout = function (object, ms, error) {
+    return Q(object).timeout(ms, error);
+};
+
+Promise.prototype.timeout = function (ms, error) {
+    var deferred = defer();
+    var timeoutId = setTimeout(function () {
+        if (!error || "string" === typeof error) {
+            error = new Error(error || "Timed out after " + ms + " ms");
+            error.code = "ETIMEDOUT";
+        }
+        deferred.reject(error);
+    }, ms);
+
+    this.then(function (value) {
+        clearTimeout(timeoutId);
+        deferred.resolve(value);
+    }, function (exception) {
+        clearTimeout(timeoutId);
+        deferred.reject(exception);
+    }, deferred.notify);
+
+    return deferred.promise;
+};
+
+/**
+ * Returns a promise for the given value (or promised value), some
+ * milliseconds after it resolved. Passes rejections immediately.
+ * @param {Any*} promise
+ * @param {Number} milliseconds
+ * @returns a promise for the resolution of the given promise after milliseconds
+ * time has elapsed since the resolution of the given promise.
+ * If the given promise rejects, that is passed immediately.
+ */
+Q.delay = function (object, timeout) {
+    if (timeout === void 0) {
+        timeout = object;
+        object = void 0;
+    }
+    return Q(object).delay(timeout);
+};
+
+Promise.prototype.delay = function (timeout) {
+    return this.then(function (value) {
+        var deferred = defer();
+        setTimeout(function () {
+            deferred.resolve(value);
+        }, timeout);
+        return deferred.promise;
+    });
+};
+
+/**
+ * Passes a continuation to a Node function, which is called with the given
+ * arguments provided as an array, and returns a promise.
+ *
+ *      Q.nfapply(FS.readFile, [__filename])
+ *      .then(function (content) {
+ *      })
+ *
+ */
+Q.nfapply = function (callback, args) {
+    return Q(callback).nfapply(args);
+};
+
+Promise.prototype.nfapply = function (args) {
+    var deferred = defer();
+    var nodeArgs = array_slice(args);
+    nodeArgs.push(deferred.makeNodeResolver());
+    this.fapply(nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+};
+
+/**
+ * Passes a continuation to a Node function, which is called with the given
+ * arguments provided individually, and returns a promise.
+ * @example
+ * Q.nfcall(FS.readFile, __filename)
+ * .then(function (content) {
+ * })
+ *
+ */
+Q.nfcall = function (callback /*...args*/) {
+    var args = array_slice(arguments, 1);
+    return Q(callback).nfapply(args);
+};
+
+Promise.prototype.nfcall = function (/*...args*/) {
+    var nodeArgs = array_slice(arguments);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+    this.fapply(nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+};
+
+/**
+ * Wraps a NodeJS continuation passing function and returns an equivalent
+ * version that returns a promise.
+ * @example
+ * Q.nfbind(FS.readFile, __filename)("utf-8")
+ * .then(console.log)
+ * .done()
+ */
+Q.nfbind =
+Q.denodeify = function (callback /*...args*/) {
+    if (callback === undefined) {
+        throw new Error("Q can't wrap an undefined function");
+    }
+    var baseArgs = array_slice(arguments, 1);
+    return function () {
+        var nodeArgs = baseArgs.concat(array_slice(arguments));
+        var deferred = defer();
+        nodeArgs.push(deferred.makeNodeResolver());
+        Q(callback).fapply(nodeArgs).fail(deferred.reject);
+        return deferred.promise;
+    };
+};
+
+Promise.prototype.nfbind =
+Promise.prototype.denodeify = function (/*...args*/) {
+    var args = array_slice(arguments);
+    args.unshift(this);
+    return Q.denodeify.apply(void 0, args);
+};
+
+Q.nbind = function (callback, thisp /*...args*/) {
+    var baseArgs = array_slice(arguments, 2);
+    return function () {
+        var nodeArgs = baseArgs.concat(array_slice(arguments));
+        var deferred = defer();
+        nodeArgs.push(deferred.makeNodeResolver());
+        function bound() {
+            return callback.apply(thisp, arguments);
+        }
+        Q(bound).fapply(nodeArgs).fail(deferred.reject);
+        return deferred.promise;
+    };
+};
+
+Promise.prototype.nbind = function (/*thisp, ...args*/) {
+    var args = array_slice(arguments, 0);
+    args.unshift(this);
+    return Q.nbind.apply(void 0, args);
+};
+
+/**
+ * Calls a method of a Node-style object that accepts a Node-style
+ * callback with a given array of arguments, plus a provided callback.
+ * @param object an object that has the named method
+ * @param {String} name name of the method of object
+ * @param {Array} args arguments to pass to the method; the callback
+ * will be provided by Q and appended to these arguments.
+ * @returns a promise for the value or error
+ */
+Q.nmapply = // XXX As proposed by "Redsandro"
+Q.npost = function (object, name, args) {
+    return Q(object).npost(name, args);
+};
+
+Promise.prototype.nmapply = // XXX As proposed by "Redsandro"
+Promise.prototype.npost = function (name, args) {
+    var nodeArgs = array_slice(args || []);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+    this.dispatch("post", [name, nodeArgs]).fail(deferred.reject);
+    return deferred.promise;
+};
+
+/**
+ * Calls a method of a Node-style object that accepts a Node-style
+ * callback, forwarding the given variadic arguments, plus a provided
+ * callback argument.
+ * @param object an object that has the named method
+ * @param {String} name name of the method of object
+ * @param ...args arguments to pass to the method; the callback will
+ * be provided by Q and appended to these arguments.
+ * @returns a promise for the value or error
+ */
+Q.nsend = // XXX Based on Mark Miller's proposed "send"
+Q.nmcall = // XXX Based on "Redsandro's" proposal
+Q.ninvoke = function (object, name /*...args*/) {
+    var nodeArgs = array_slice(arguments, 2);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+    Q(object).dispatch("post", [name, nodeArgs]).fail(deferred.reject);
+    return deferred.promise;
+};
+
+Promise.prototype.nsend = // XXX Based on Mark Miller's proposed "send"
+Promise.prototype.nmcall = // XXX Based on "Redsandro's" proposal
+Promise.prototype.ninvoke = function (name /*...args*/) {
+    var nodeArgs = array_slice(arguments, 1);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+    this.dispatch("post", [name, nodeArgs]).fail(deferred.reject);
+    return deferred.promise;
+};
+
+/**
+ * If a function would like to support both Node continuation-passing-style and
+ * promise-returning-style, it can end its internal promise chain with
+ * `nodeify(nodeback)`, forwarding the optional nodeback argument.  If the user
+ * elects to use a nodeback, the result will be sent there.  If they do not
+ * pass a nodeback, they will receive the result promise.
+ * @param object a result (or a promise for a result)
+ * @param {Function} nodeback a Node.js-style callback
+ * @returns either the promise or nothing
+ */
+Q.nodeify = nodeify;
+function nodeify(object, nodeback) {
+    return Q(object).nodeify(nodeback);
+}
+
+Promise.prototype.nodeify = function (nodeback) {
+    if (nodeback) {
+        this.then(function (value) {
+            Q.nextTick(function () {
+                nodeback(null, value);
+            });
+        }, function (error) {
+            Q.nextTick(function () {
+                nodeback(error);
+            });
+        });
+    } else {
+        return this;
+    }
+};
+
+Q.noConflict = function() {
+    throw new Error("Q.noConflict only works when Q is used as a global");
+};
+
+// All code before this point will be filtered from stack traces.
+var qEndingLine = captureLine();
+
+return Q;
+
+});
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js"), __webpack_require__(/*! ./../timers-browserify/main.js */ "./node_modules/timers-browserify/main.js").setImmediate))
+
+/***/ }),
+
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/select2/dist/js/select2.js":
 /*!*************************************************!*\
   !*** ./node_modules/select2/dist/js/select2.js ***!
@@ -77614,7 +82062,7 @@ __webpack_require__.r(__webpack_exports__);
 				sortColumnIndex : this.columns.activeSortIndex ? this.columns.activeSortIndex : 0,
 				sortDirection   : this.columns.activeSortAsc ? 'ASC' : 'DESC',
 				sortSpecial     : this.columns.activeSortSpecial ? this.columns.activeSortSpecial : null,
-				selectedItem    : this.row.selectedIndex !== null ? this.currentTableData[ this.row.selectedIndex ] : this.row.activeContextIndex !== null ? this.currentTableData[ this.row.activeContextIndex ] : null,
+				selectedItem    : this.row.selectedIndex !== null ? this.data[ this.row.selectedIndex ] : this.row.activeContextIndex !== null ? this.data[ this.row.activeContextIndex ] : null,
 				selectedIndex   : this.row.selectedIndex !== null ? this.row.selectedIndex : this.row.activeContextIndex !== null  ? this.row.activeContextIndex : null,
 				currentView     : this.rendering.views.currentView
 			}
@@ -80030,6 +84478,30 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BootboxDialog.vue?vue&type=template&id=fb8ca934&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BootboxDialog.vue?vue&type=template&id=fb8ca934& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "hidden" })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Buscar-libro.vue?vue&type=template&id=391e7d98&":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Buscar-libro.vue?vue&type=template&id=391e7d98& ***!
@@ -80602,487 +85074,276 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c(
-        "div",
-        { staticClass: "col-md-12", staticStyle: { overflow: "auto" } },
-        [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header bg-dark" }, [
-              _vm._v("Buscar libro")
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "card-body" },
-              [
-                _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.buscarMaterialBibliotecario()
+    _c(
+      "div",
+      { staticClass: "row justify-content-center" },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "col-md-12",
+            style: {
+              overflow: "auto",
+              height: _vm.isBibliotecario ? "500px" : ""
+            }
+          },
+          [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header bg-dark" }, [
+                _vm._v("Buscar libro")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-body" },
+                [
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.buscarMaterialBibliotecario()
+                        }
                       }
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "input-group mb-1 col-6" }, [
-                        _vm._m(0),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.qry.titulo,
-                              expression: "qry.titulo"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            name: "",
-                            id: "",
-                            autofocus: ""
-                          },
-                          domProps: { value: _vm.qry.titulo },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                    },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "input-group mb-1 col-6" }, [
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.qry.titulo,
+                                expression: "qry.titulo"
                               }
-                              _vm.$set(_vm.qry, "titulo", $event.target.value)
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              name: "",
+                              id: "",
+                              autofocus: ""
+                            },
+                            domProps: { value: _vm.qry.titulo },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.qry, "titulo", $event.target.value)
+                              }
                             }
-                          }
-                        })
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-1 col-6" }, [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.qry.autor,
+                                expression: "qry.autor"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.qry.autor },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.qry, "autor", $event.target.value)
+                              }
+                            }
+                          })
+                        ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "input-group mb-1 col-6" }, [
-                        _vm._m(1),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.qry.autor,
-                              expression: "qry.autor"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text" },
-                          domProps: { value: _vm.qry.autor },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "input-group mb-1 col-6" }, [
+                          _vm._m(2),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.qry.isbn,
+                                expression: "qry.isbn"
                               }
-                              _vm.$set(_vm.qry, "autor", $event.target.value)
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "input-group mb-1 col-6" }, [
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.qry.isbn,
-                              expression: "qry.isbn"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text", name: "", id: "" },
-                          domProps: { value: _vm.qry.isbn },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", name: "", id: "" },
+                            domProps: { value: _vm.qry.isbn },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.qry, "isbn", $event.target.value)
                               }
-                              _vm.$set(_vm.qry, "isbn", $event.target.value)
                             }
-                          }
-                        })
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _vm.isBibliotecario
+                          ? _c(
+                              "div",
+                              { staticClass: "input-group mb-1 col-6" },
+                              [
+                                _vm._m(3),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", name: "", id: "" }
+                                })
+                              ]
+                            )
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _vm.isBibliotecario
-                        ? _c("div", { staticClass: "input-group mb-1 col-6" }, [
-                            _vm._m(3),
+                        ? _c("div", { staticClass: "row mt-2" }, [
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-1 col-6" },
+                              [
+                                _c(
+                                  "label",
+                                  { staticClass: "form-check-label" },
+                                  [_vm._v("Biblioteca")]
+                                ),
+                                _vm._v(" "),
+                                _c("select2")
+                              ],
+                              1
+                            ),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", name: "", id: "" }
-                            })
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-1 col-6" },
+                              [
+                                _c(
+                                  "label",
+                                  { staticClass: "form-check-label" },
+                                  [
+                                    _vm._v(
+                                      "Otro filtro(No recuerdo cuál iba aquì XD)"
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("select2")
+                              ],
+                              1
+                            )
                           ])
-                        : _vm._e()
-                    ]),
-                    _vm._v(" "),
-                    _vm.isBibliotecario
-                      ? _c("div", { staticClass: "row mt-2" }, [
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm._m(4)
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _vm._l(_vm.materialesBibliotecarios, function(item, index) {
+                    return _c("ul", { key: index, staticClass: "list-group" }, [
+                      _c("li", { staticClass: "list-group-item" }, [
+                        _c(
+                          "span",
+                          { staticClass: "badge bg-info float-right" },
+                          [_vm._v("Disponible")]
+                        ),
+                        _vm._v(" "),
+                        _c("label", { staticClass: "col-lg-5" }, [
+                          _vm._v("Título: " + _vm._s(item.EJEMPLAR))
+                        ]),
+                        _vm._v(" "),
+                        _c("label", { staticClass: "col-lg-5" }, [
+                          _vm._v("Autor: " + _vm._s(item.AUTOR))
+                        ]),
+                        _vm._v(" "),
+                        _c("label", { staticClass: "col-lg-5" }, [
+                          _vm._v("Lugar: " + _vm._s(item.ID_BIBLIOTECA))
+                        ]),
+                        _vm._v(" "),
+                        _c("label", { staticClass: "col-lg-5" }, [
+                          _vm._v(
+                            "Tipo de ítem: " + _vm._s(item.ID_CATALOGO_MATERIAL)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("label", { staticClass: "col-lg-5" }, [
+                          _vm._v("Edición: " + _vm._s(item.EDICION))
+                        ]),
+                        _vm._v(" "),
+                        _c("label", { staticClass: "col-lg-5" }, [
+                          _vm._v("Copia número: " + _vm._s(item.COPIA_NUMERO))
+                        ]),
+                        _vm._v(" "),
+                        _c("label", [
                           _c(
-                            "div",
-                            { staticClass: "input-group mb-1 col-6" },
-                            [
-                              _c("label", { staticClass: "form-check-label" }, [
-                                _vm._v("Biblioteca")
-                              ]),
-                              _vm._v(" "),
-                              _c("select2")
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "input-group mb-1 col-6" },
-                            [
-                              _c("label", { staticClass: "form-check-label" }, [
-                                _vm._v(
-                                  "Otro filtro(No recuerdo cuál iba aquì XD)"
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("select2")
-                            ],
-                            1
+                            "button",
+                            {
+                              staticClass: "btn btn-success btn-sm",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#modalPrestamo"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.seleccionarMaterial(item)
+                                }
+                              }
+                            },
+                            [_vm._v("Realizar Prestamo")]
                           )
                         ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm._m(4)
-                  ]
-                ),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _vm._l(_vm.materialesBibliotecarios, function(item, index) {
-                  return _c("ul", { key: index, staticClass: "list-group" }, [
-                    _c("li", { staticClass: "list-group-item" }, [
-                      _c("span", { staticClass: "badge bg-info float-right" }, [
-                        _vm._v("Disponible")
-                      ]),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "col-lg-5" }, [
-                        _vm._v("Título: " + _vm._s(item.EJEMPLAR))
-                      ]),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "col-lg-5" }, [
-                        _vm._v("Autor: " + _vm._s(item.AUTOR))
-                      ]),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "col-lg-5" }, [
-                        _vm._v("Lugar: " + _vm._s(item.ID_BIBLIOTECA))
-                      ]),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "col-lg-5" }, [
-                        _vm._v(
-                          "Tipo de ítem: " + _vm._s(item.ID_CATALOGO_MATERIAL)
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "col-lg-5" }, [
-                        _vm._v("Edición: " + _vm._s(item.EDICION))
-                      ]),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "col-lg-5" }, [
-                        _vm._v("Copia número: " + _vm._s(item.COPIA_NUMERO))
-                      ]),
-                      _vm._v(" "),
-                      _c("label", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success btn-sm",
-                            attrs: {
-                              type: "button",
-                              "data-toggle": "modal",
-                              "data-target": "#modalPrestamo"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.seleccionarMaterial(item)
-                              }
-                            }
-                          },
-                          [_vm._v("Realizar Prestamo")]
-                        )
                       ])
                     ])
-                  ])
-                })
-              ],
-              2
-            )
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal fade",
-          attrs: { id: "modalPrestamo", role: "dialog" }
-        },
-        [
-          _c("div", { staticClass: "modal-dialog" }, [
-            _c(
-              "form",
+                  })
+                ],
+                2
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm.modalShowFlag
+          ? _c(
+              "bootbox-modal",
               {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.guardarSolicitudPrestamo()
-                  }
-                }
+                attrs: { title: _vm.modalTitle },
+                on: { close: _vm.modalClosing }
               },
               [
-                _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(5),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "NOMBRE" } }, [
-                        _vm._v("Nombre del libro")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.materialBibliotecario.EJEMPLAR,
-                            expression: "materialBibliotecario.EJEMPLAR"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE",
-                          "aria-describedby": "emailHelp",
-                          disabled: ""
-                        },
-                        domProps: { value: _vm.materialBibliotecario.EJEMPLAR },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.materialBibliotecario,
-                              "EJEMPLAR",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "form-group col-md-6" }, [
-                        _c("label", { attrs: { for: "AUTOR" } }, [
-                          _vm._v("Autor/es")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.materialBibliotecario.AUTOR,
-                              expression: "materialBibliotecario.AUTOR"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            id: "AUTOR",
-                            "aria-describedby": "emailHelp",
-                            disabled: ""
-                          },
-                          domProps: { value: _vm.materialBibliotecario.AUTOR },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.materialBibliotecario,
-                                "AUTOR",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group col-md-6" }, [
-                        _c("label", { attrs: { for: "EDICION" } }, [
-                          _vm._v("Edición")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.materialBibliotecario.EDICION,
-                              expression: "materialBibliotecario.EDICION"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            id: "EDICION",
-                            "aria-describedby": "emailHelp",
-                            disabled: ""
-                          },
-                          domProps: {
-                            value: _vm.materialBibliotecario.EDICION
-                          },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.materialBibliotecario,
-                                "EDICION",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "form-group col-md-12" }, [
-                        _c("label", { attrs: { for: "DESCRIPCION" } }, [
-                          _vm._v("Descripción")
-                        ]),
-                        _vm._v(" "),
-                        _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.materialBibliotecario.DESCRIPCION,
-                              expression: "materialBibliotecario.DESCRIPCION"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { name: "", id: "DESCRIPCION", rows: "3" },
-                          domProps: {
-                            value: _vm.materialBibliotecario.DESCRIPCION
-                          },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.materialBibliotecario,
-                                "DESCRIPCION",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(6),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "form-group col-md-6" }, [
-                        _c("label", { attrs: { for: "COPIA" } }, [
-                          _vm._v("Código de barra")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.materialBibliotecario.CODIGO_BARRA,
-                              expression: "materialBibliotecario.CODIGO_BARRA"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            id: "PAGINAS",
-                            "aria-describedby": "emailHelp",
-                            disabled: ""
-                          },
-                          domProps: {
-                            value: _vm.materialBibliotecario.CODIGO_BARRA
-                          },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.materialBibliotecario,
-                                "CODIGO_BARRA",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group col-md-6" }, [
-                        _c("label", { attrs: { for: "PAGINAS" } }, [
-                          _vm._v("Fecha y hora de préstamo")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: this.hoy,
-                              expression: "this.hoy"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            id: "PAGINAS",
-                            "aria-describedby": "emailHelp",
-                            disabled: ""
-                          },
-                          domProps: { value: this.hoy },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(this, "hoy", $event.target.value)
-                            }
-                          }
-                        })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(7)
-                ])
-              ]
+                _c("prestamo-form", {
+                  attrs: {
+                    "is-bibliotecario": _vm.isBibliotecario,
+                    material: _vm.materialBibliotecario
+                  },
+                  on: {
+                    close: function($event) {
+                      _vm.modalShowFlag = $event
+                    }
+                  }
+                })
+              ],
+              1
             )
-          ])
-        ]
-      )
-    ])
+          : _vm._e()
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -81148,90 +85409,6 @@ var staticRenderFns = [
           [_vm._v("Buscar")]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header bg-dark" }, [
-      _c("h4", { staticClass: "modal-title" }, [
-        _vm._v("Realizar préstamo de libro")
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("×")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row text-center" }, [
-      _c("div", { staticClass: "form-group col-md-11" }, [
-        _c(
-          "div",
-          {
-            staticClass: "btn-group btn-group-toggle",
-            attrs: { "data-toggle": "buttons" }
-          },
-          [
-            _c("label", { staticClass: "btn btn-info active" }, [
-              _c("input", {
-                attrs: {
-                  type: "radio",
-                  name: "options",
-                  id: "option1",
-                  autocomplete: "off"
-                }
-              }),
-              _vm._v(" Solicitar préstamo\n                    ")
-            ]),
-            _vm._v(" "),
-            _c("label", { staticClass: "btn btn-info" }, [
-              _c("input", {
-                attrs: {
-                  type: "radio",
-                  name: "options",
-                  id: "option2",
-                  autocomplete: "off"
-                }
-              }),
-              _vm._v(" Realizar reserva\n                    ")
-            ])
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-success float-left",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Finalizar")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-dark",
-          attrs: { type: "reset", "data-dismiss": "modal" }
-        },
-        [_vm._v("Cancelar")]
-      )
     ])
   }
 ]
@@ -82442,6 +86619,7 @@ var render = function() {
                                 options: _vm.primerSumarios,
                                 value: _vm.PRIMERSUMARIOID
                               },
+                              on: { input: _vm.getSegundoSumario },
                               model: {
                                 value: _vm.PRIMERSUMARIOID,
                                 callback: function($$v) {
@@ -82468,6 +86646,7 @@ var render = function() {
                                 options: _vm.segundoSumarios,
                                 value: _vm.SEGUNDOSUMARIOID
                               },
+                              on: { input: _vm.getTercerSumario },
                               model: {
                                 value: _vm.SEGUNDOSUMARIOID,
                                 callback: function($$v) {
@@ -83748,6 +87927,388 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamoFormComponent.vue?vue&type=template&id=47bc157f&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PrestamoFormComponent.vue?vue&type=template&id=47bc157f& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.guardarSolicitudPrestamo()
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "NOMBRE" } }, [
+            _vm._v("Nombre del libro")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.prestamo.EJEMPLAR,
+                expression: "prestamo.EJEMPLAR"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              id: "NOMBRE",
+              "aria-describedby": "emailHelp",
+              readonly: ""
+            },
+            domProps: { value: _vm.prestamo.EJEMPLAR },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.prestamo, "EJEMPLAR", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "form-group col-md-6" }, [
+            _c("label", { attrs: { for: "AUTOR" } }, [_vm._v("Autor/es")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.prestamo.AUTOR,
+                  expression: "prestamo.AUTOR"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "AUTOR",
+                "aria-describedby": "emailHelp",
+                readonly: ""
+              },
+              domProps: { value: _vm.prestamo.AUTOR },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.prestamo, "AUTOR", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-md-6" }, [
+            _c("label", { attrs: { for: "EDICION" } }, [_vm._v("Edición")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.prestamo.EDICION,
+                  expression: "prestamo.EDICION"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "EDICION",
+                "aria-describedby": "emailHelp",
+                readonly: ""
+              },
+              domProps: { value: _vm.prestamo.EDICION },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.prestamo, "EDICION", $event.target.value)
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.isBibliotecario
+          ? _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "form-group col-md-6" },
+                [
+                  _c("label", { attrs: { for: "tipoAdquisición" } }, [
+                    _vm._v("Tipo Adquisición")
+                  ]),
+                  _vm._v(" "),
+                  _c("select2", {
+                    attrs: {
+                      options: _vm.tipoAdquisicion,
+                      value: _vm.prestamo.ID_TIPO_ADQUISICION,
+                      disabled: ""
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.isBibliotecario
+                ? _c(
+                    "div",
+                    { staticClass: "form-group col-md-6" },
+                    [
+                      _c("label", { attrs: { for: "tipoPrestamo" } }, [
+                        _vm._v("Tipo Préstamo")
+                      ]),
+                      _vm._v(" "),
+                      _c("select2", {
+                        attrs: { options: _vm.tipoPrestamos },
+                        model: {
+                          value: _vm.solicitud.ID_TIPO_PRESTAMO,
+                          callback: function($$v) {
+                            _vm.$set(_vm.solicitud, "ID_TIPO_PRESTAMO", $$v)
+                          },
+                          expression: "solicitud.ID_TIPO_PRESTAMO"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "form-group col-md-12" }, [
+            _c("label", { attrs: { for: "DESCRIPCION" } }, [
+              _vm._v("Descripción")
+            ]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.prestamo.DESCRIPCION,
+                  expression: "prestamo.DESCRIPCION"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "", id: "DESCRIPCION", rows: "3", readonly: "" },
+              domProps: { value: _vm.prestamo.DESCRIPCION },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.prestamo, "DESCRIPCION", $event.target.value)
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        !_vm.isBibliotecario
+          ? _c("div", { staticClass: "row text-center" }, [_vm._m(0)])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "form-group col-md-6" }, [
+            _c("label", { attrs: { for: "COPIA" } }, [
+              _vm._v("Código de barra")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.prestamo.CODIGO_BARRA,
+                  expression: "prestamo.CODIGO_BARRA"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "PAGINAS",
+                "aria-describedby": "emailHelp",
+                readonly: ""
+              },
+              domProps: { value: _vm.prestamo.CODIGO_BARRA },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.prestamo, "CODIGO_BARRA", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-md-6" }, [
+            _c("label", { attrs: { for: "PAGINAS" } }, [
+              _vm._v("Fecha y hora de préstamo")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.fechaPrestamo,
+                  expression: "fechaPrestamo"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                id: "PAGINAS",
+                "aria-describedby": "emailHelp",
+                readonly: ""
+              },
+              domProps: { value: _vm.fechaPrestamo },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.fechaPrestamo = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _vm.isBibliotecario
+            ? _c("div", { staticClass: "form-group col-md-6" }, [
+                _c("label", { attrs: { for: "PAGINAS" } }, [
+                  _vm._v("Fecha de devolución")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.fechaDevolucion,
+                      expression: "fechaDevolucion"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    id: "PAGINAS",
+                    "aria-describedby": "emailHelp",
+                    readonly: ""
+                  },
+                  domProps: { value: _vm.fechaDevolucion },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.fechaDevolucion = $event.target.value
+                    }
+                  }
+                })
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _vm._m(1)
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-11" }, [
+      _c(
+        "div",
+        {
+          staticClass: "btn-group btn-group-toggle",
+          attrs: { "data-toggle": "buttons" }
+        },
+        [
+          _c("label", { staticClass: "btn btn-info active" }, [
+            _c("input", {
+              attrs: {
+                type: "radio",
+                name: "options",
+                id: "option1",
+                autocomplete: "off"
+              }
+            }),
+            _vm._v(" Solicitar préstamo\r\n                    ")
+          ]),
+          _vm._v(" "),
+          _c("label", { staticClass: "btn btn-info" }, [
+            _c("input", {
+              attrs: {
+                type: "radio",
+                name: "options",
+                id: "option2",
+                autocomplete: "off"
+              }
+            }),
+            _vm._v(" Realizar reserva\r\n                    ")
+          ])
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success float-left",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Finalizar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-dark",
+          attrs: { type: "reset", "data-dismiss": "modal" }
+        },
+        [_vm._v("Cancelar")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamosList.vue?vue&type=template&id=54528292&":
 /*!****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PrestamosList.vue?vue&type=template&id=54528292& ***!
@@ -83783,7 +88344,44 @@ var render = function() {
       _c("iframe", {
         staticStyle: { display: "none" },
         attrs: { id: "excelExportArea" }
-      })
+      }),
+      _vm._v(" "),
+      _vm.modalShowFlag
+        ? _c(
+            "bootbox-modal",
+            {
+              attrs: { title: _vm.titleToShow, size: "extra-large" },
+              on: {
+                close: function($event) {
+                  return _vm.modalClosing(true)
+                }
+              }
+            },
+            [_c("buscar-material", { attrs: { isBibliotecario: true } })],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.formShowFlag
+        ? _c(
+            "bootbox-modal",
+            {
+              attrs: { title: "Confirmar préstamo" },
+              on: {
+                close: function($event) {
+                  return _vm.modalClosing(false)
+                }
+              }
+            },
+            [
+              _c("prestamo-form", {
+                attrs: { "is-bibliotecario": true, material: _vm.PRESTAMO },
+                on: { close: _vm.modalClosingAfterSubmit }
+              })
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )
@@ -96382,6 +100980,2456 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+var Language =
+/*#__PURE__*/
+function () {
+  function Language(language, months, monthsAbbr, days) {
+    _classCallCheck(this, Language);
+
+    this.language = language;
+    this.months = months;
+    this.monthsAbbr = monthsAbbr;
+    this.days = days;
+    this.rtl = false;
+    this.ymd = false;
+    this.yearSuffix = '';
+  }
+
+  _createClass(Language, [{
+    key: "language",
+    get: function get() {
+      return this._language;
+    },
+    set: function set(language) {
+      if (typeof language !== 'string') {
+        throw new TypeError('Language must be a string');
+      }
+
+      this._language = language;
+    }
+  }, {
+    key: "months",
+    get: function get() {
+      return this._months;
+    },
+    set: function set(months) {
+      if (months.length !== 12) {
+        throw new RangeError("There must be 12 months for ".concat(this.language, " language"));
+      }
+
+      this._months = months;
+    }
+  }, {
+    key: "monthsAbbr",
+    get: function get() {
+      return this._monthsAbbr;
+    },
+    set: function set(monthsAbbr) {
+      if (monthsAbbr.length !== 12) {
+        throw new RangeError("There must be 12 abbreviated months for ".concat(this.language, " language"));
+      }
+
+      this._monthsAbbr = monthsAbbr;
+    }
+  }, {
+    key: "days",
+    get: function get() {
+      return this._days;
+    },
+    set: function set(days) {
+      if (days.length !== 7) {
+        throw new RangeError("There must be 7 days for ".concat(this.language, " language"));
+      }
+
+      this._days = days;
+    }
+  }]);
+
+  return Language;
+}(); // eslint-disable-next-line
+
+var en = new Language('English', ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']) // eslint-disable-next-line
+;
+
+var utils = {
+  /**
+   * @type {Boolean}
+   */
+  useUtc: false,
+
+  /**
+   * Returns the full year, using UTC or not
+   * @param {Date} date
+   */
+  getFullYear: function getFullYear(date) {
+    return this.useUtc ? date.getUTCFullYear() : date.getFullYear();
+  },
+
+  /**
+   * Returns the month, using UTC or not
+   * @param {Date} date
+   */
+  getMonth: function getMonth(date) {
+    return this.useUtc ? date.getUTCMonth() : date.getMonth();
+  },
+
+  /**
+   * Returns the date, using UTC or not
+   * @param {Date} date
+   */
+  getDate: function getDate(date) {
+    return this.useUtc ? date.getUTCDate() : date.getDate();
+  },
+
+  /**
+   * Returns the day, using UTC or not
+   * @param {Date} date
+   */
+  getDay: function getDay(date) {
+    return this.useUtc ? date.getUTCDay() : date.getDay();
+  },
+
+  /**
+   * Returns the hours, using UTC or not
+   * @param {Date} date
+   */
+  getHours: function getHours(date) {
+    return this.useUtc ? date.getUTCHours() : date.getHours();
+  },
+
+  /**
+   * Returns the minutes, using UTC or not
+   * @param {Date} date
+   */
+  getMinutes: function getMinutes(date) {
+    return this.useUtc ? date.getUTCMinutes() : date.getMinutes();
+  },
+
+  /**
+   * Sets the full year, using UTC or not
+   * @param {Date} date
+   */
+  setFullYear: function setFullYear(date, value, useUtc) {
+    return this.useUtc ? date.setUTCFullYear(value) : date.setFullYear(value);
+  },
+
+  /**
+   * Sets the month, using UTC or not
+   * @param {Date} date
+   */
+  setMonth: function setMonth(date, value, useUtc) {
+    return this.useUtc ? date.setUTCMonth(value) : date.setMonth(value);
+  },
+
+  /**
+   * Sets the date, using UTC or not
+   * @param {Date} date
+   * @param {Number} value
+   */
+  setDate: function setDate(date, value, useUtc) {
+    return this.useUtc ? date.setUTCDate(value) : date.setDate(value);
+  },
+
+  /**
+   * Check if date1 is equivalent to date2, without comparing the time
+   * @see https://stackoverflow.com/a/6202196/4455925
+   * @param {Date} date1
+   * @param {Date} date2
+   */
+  compareDates: function compareDates(date1, date2) {
+    var d1 = new Date(date1.getTime());
+    var d2 = new Date(date2.getTime());
+
+    if (this.useUtc) {
+      d1.setUTCHours(0, 0, 0, 0);
+      d2.setUTCHours(0, 0, 0, 0);
+    } else {
+      d1.setHours(0, 0, 0, 0);
+      d2.setHours(0, 0, 0, 0);
+    }
+
+    return d1.getTime() === d2.getTime();
+  },
+
+  /**
+   * Validates a date object
+   * @param {Date} date - an object instantiated with the new Date constructor
+   * @return {Boolean}
+   */
+  isValidDate: function isValidDate(date) {
+    if (Object.prototype.toString.call(date) !== '[object Date]') {
+      return false;
+    }
+
+    return !isNaN(date.getTime());
+  },
+
+  /**
+   * Return abbreviated week day name
+   * @param {Date}
+   * @param {Array}
+   * @return {String}
+   */
+  getDayNameAbbr: function getDayNameAbbr(date, days) {
+    if (_typeof(date) !== 'object') {
+      throw TypeError('Invalid Type');
+    }
+
+    return days[this.getDay(date)];
+  },
+
+  /**
+   * Return name of the month
+   * @param {Number|Date}
+   * @param {Array}
+   * @return {String}
+   */
+  getMonthName: function getMonthName(month, months) {
+    if (!months) {
+      throw Error('missing 2nd parameter Months array');
+    }
+
+    if (_typeof(month) === 'object') {
+      return months[this.getMonth(month)];
+    }
+
+    if (typeof month === 'number') {
+      return months[month];
+    }
+
+    throw TypeError('Invalid type');
+  },
+
+  /**
+   * Return an abbreviated version of the month
+   * @param {Number|Date}
+   * @return {String}
+   */
+  getMonthNameAbbr: function getMonthNameAbbr(month, monthsAbbr) {
+    if (!monthsAbbr) {
+      throw Error('missing 2nd paramter Months array');
+    }
+
+    if (_typeof(month) === 'object') {
+      return monthsAbbr[this.getMonth(month)];
+    }
+
+    if (typeof month === 'number') {
+      return monthsAbbr[month];
+    }
+
+    throw TypeError('Invalid type');
+  },
+
+  /**
+   * Alternative get total number of days in month
+   * @param {Number} year
+   * @param {Number} m
+   * @return {Number}
+   */
+  daysInMonth: function daysInMonth(year, month) {
+    return /8|3|5|10/.test(month) ? 30 : month === 1 ? !(year % 4) && year % 100 || !(year % 400) ? 29 : 28 : 31;
+  },
+
+  /**
+   * Get nth suffix for date
+   * @param {Number} day
+   * @return {String}
+   */
+  getNthSuffix: function getNthSuffix(day) {
+    switch (day) {
+      case 1:
+      case 21:
+      case 31:
+        return 'st';
+
+      case 2:
+      case 22:
+        return 'nd';
+
+      case 3:
+      case 23:
+        return 'rd';
+
+      default:
+        return 'th';
+    }
+  },
+
+  /**
+   * Formats date object
+   * @param {Date}
+   * @param {String}
+   * @param {Object}
+   * @return {String}
+   */
+  formatDate: function formatDate(date, format, translation) {
+    translation = !translation ? en : translation;
+    var year = this.getFullYear(date);
+    var month = this.getMonth(date) + 1;
+    var day = this.getDate(date);
+    var str = format.replace(/dd/, ('0' + day).slice(-2)).replace(/d/, day).replace(/yyyy/, year).replace(/yy/, String(year).slice(2)).replace(/MMMM/, this.getMonthName(this.getMonth(date), translation.months)).replace(/MMM/, this.getMonthNameAbbr(this.getMonth(date), translation.monthsAbbr)).replace(/MM/, ('0' + month).slice(-2)).replace(/M(?!a|ä|e)/, month).replace(/su/, this.getNthSuffix(this.getDate(date))).replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days));
+    return str;
+  },
+
+  /**
+   * Creates an array of dates for each day in between two dates.
+   * @param {Date} start
+   * @param {Date} end
+   * @return {Array}
+   */
+  createDateArray: function createDateArray(start, end) {
+    var dates = [];
+
+    while (start <= end) {
+      dates.push(new Date(start));
+      start = this.setDate(new Date(start), this.getDate(new Date(start)) + 1);
+    }
+
+    return dates;
+  },
+
+  /**
+   * method used as a prop validator for input values
+   * @param {*} val
+   * @return {Boolean}
+   */
+  validateDateInput: function validateDateInput(val) {
+    return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number';
+  }
+};
+var makeDateUtils = function makeDateUtils(useUtc) {
+  return _objectSpread({}, utils, {
+    useUtc: useUtc
+  });
+};
+var utils$1 = _objectSpread({}, utils) // eslint-disable-next-line
+;
+
+var script = {
+  props: {
+    selectedDate: Date,
+    resetTypedDate: [Date],
+    format: [String, Function],
+    translation: Object,
+    inline: Boolean,
+    id: String,
+    name: String,
+    refName: String,
+    openDate: Date,
+    placeholder: String,
+    inputClass: [String, Object, Array],
+    clearButton: Boolean,
+    clearButtonIcon: String,
+    calendarButton: Boolean,
+    calendarButtonIcon: String,
+    calendarButtonIconContent: String,
+    disabled: Boolean,
+    required: Boolean,
+    typeable: Boolean,
+    bootstrapStyling: Boolean,
+    useUtc: Boolean
+  },
+  data: function data() {
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      input: null,
+      typedDate: false,
+      utils: constructedDateUtils
+    };
+  },
+  computed: {
+    formattedValue: function formattedValue() {
+      if (!this.selectedDate) {
+        return null;
+      }
+
+      if (this.typedDate) {
+        return this.typedDate;
+      }
+
+      return typeof this.format === 'function' ? this.format(this.selectedDate) : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation);
+    },
+    computedInputClass: function computedInputClass() {
+      if (this.bootstrapStyling) {
+        if (typeof this.inputClass === 'string') {
+          return [this.inputClass, 'form-control'].join(' ');
+        }
+
+        return _objectSpread({
+          'form-control': true
+        }, this.inputClass);
+      }
+
+      return this.inputClass;
+    }
+  },
+  watch: {
+    resetTypedDate: function resetTypedDate() {
+      this.typedDate = false;
+    }
+  },
+  methods: {
+    showCalendar: function showCalendar() {
+      this.$emit('showCalendar');
+    },
+
+    /**
+     * Attempt to parse a typed date
+     * @param {Event} event
+     */
+    parseTypedDate: function parseTypedDate(event) {
+      // close calendar if escape or enter are pressed
+      if ([27, // escape
+      13 // enter
+      ].includes(event.keyCode)) {
+        this.input.blur();
+      }
+
+      if (this.typeable) {
+        var typedDate = Date.parse(this.input.value);
+
+        if (!isNaN(typedDate)) {
+          this.typedDate = this.input.value;
+          this.$emit('typedDate', new Date(this.typedDate));
+        }
+      }
+    },
+
+    /**
+     * nullify the typed date to defer to regular formatting
+     * called once the input is blurred
+     */
+    inputBlurred: function inputBlurred() {
+      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+        this.clearDate();
+        this.input.value = null;
+        this.typedDate = null;
+      }
+
+      this.$emit('closeCalendar');
+    },
+
+    /**
+     * emit a clearDate event
+     */
+    clearDate: function clearDate() {
+      this.$emit('clearDate');
+    }
+  },
+  mounted: function mounted() {
+    this.input = this.$el.querySelector('input');
+  }
+} // eslint-disable-next-line
+;
+
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
+    createInjectorSSR = createInjector;
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
+
+
+  var options = typeof script === 'function' ? script.options : script; // render functions
+
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (style) {
+        style.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      style.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return script;
+}
+
+var normalizeComponent_1 = normalizeComponent;
+
+/* script */
+const __vue_script__ = script;
+
+/* template */
+var __vue_render__ = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    { class: { "input-group": _vm.bootstrapStyling } },
+    [
+      _vm.calendarButton
+        ? _c(
+            "span",
+            {
+              staticClass: "vdp-datepicker__calendar-button",
+              class: { "input-group-prepend": _vm.bootstrapStyling },
+              style: { "cursor:not-allowed;": _vm.disabled },
+              on: { click: _vm.showCalendar }
+            },
+            [
+              _c(
+                "span",
+                { class: { "input-group-text": _vm.bootstrapStyling } },
+                [
+                  _c("i", { class: _vm.calendarButtonIcon }, [
+                    _vm._v(
+                      "\n        " +
+                        _vm._s(_vm.calendarButtonIconContent) +
+                        "\n        "
+                    ),
+                    !_vm.calendarButtonIcon
+                      ? _c("span", [_vm._v("…")])
+                      : _vm._e()
+                  ])
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("input", {
+        ref: _vm.refName,
+        class: _vm.computedInputClass,
+        attrs: {
+          type: _vm.inline ? "hidden" : "text",
+          name: _vm.name,
+          id: _vm.id,
+          "open-date": _vm.openDate,
+          placeholder: _vm.placeholder,
+          "clear-button": _vm.clearButton,
+          disabled: _vm.disabled,
+          required: _vm.required,
+          readonly: !_vm.typeable,
+          autocomplete: "off"
+        },
+        domProps: { value: _vm.formattedValue },
+        on: {
+          click: _vm.showCalendar,
+          keyup: _vm.parseTypedDate,
+          blur: _vm.inputBlurred
+        }
+      }),
+      _vm._v(" "),
+      _vm.clearButton && _vm.selectedDate
+        ? _c(
+            "span",
+            {
+              staticClass: "vdp-datepicker__clear-button",
+              class: { "input-group-append": _vm.bootstrapStyling },
+              on: {
+                click: function($event) {
+                  return _vm.clearDate()
+                }
+              }
+            },
+            [
+              _c(
+                "span",
+                { class: { "input-group-text": _vm.bootstrapStyling } },
+                [
+                  _c("i", { class: _vm.clearButtonIcon }, [
+                    !_vm.clearButtonIcon ? _c("span", [_vm._v("×")]) : _vm._e()
+                  ])
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._t("afterDateInput")
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__ = undefined;
+  /* scoped */
+  const __vue_scope_id__ = undefined;
+  /* module identifier */
+  const __vue_module_identifier__ = undefined;
+  /* functional template */
+  const __vue_is_functional_template__ = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var DateInput = normalizeComponent_1(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    undefined,
+    undefined
+  );
+
+//
+var script$1 = {
+  props: {
+    showDayView: Boolean,
+    selectedDate: Date,
+    pageDate: Date,
+    pageTimestamp: Number,
+    fullMonthName: Boolean,
+    allowedToShowView: Function,
+    dayCellContent: {
+      type: Function,
+      "default": function _default(day) {
+        return day.date;
+      }
+    },
+    disabledDates: Object,
+    highlighted: Object,
+    calendarClass: [String, Object, Array],
+    calendarStyle: Object,
+    translation: Object,
+    isRtl: Boolean,
+    mondayFirst: Boolean,
+    useUtc: Boolean
+  },
+  data: function data() {
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils
+    };
+  },
+  computed: {
+    /**
+     * Returns an array of day names
+     * @return {String[]}
+     */
+    daysOfWeek: function daysOfWeek() {
+      if (this.mondayFirst) {
+        var tempDays = this.translation.days.slice();
+        tempDays.push(tempDays.shift());
+        return tempDays;
+      }
+
+      return this.translation.days;
+    },
+
+    /**
+     * Returns the day number of the week less one for the first of the current month
+     * Used to show amount of empty cells before the first in the day calendar layout
+     * @return {Number}
+     */
+    blankDays: function blankDays() {
+      var d = this.pageDate;
+      var dObj = this.useUtc ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)) : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes());
+
+      if (this.mondayFirst) {
+        return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6;
+      }
+
+      return this.utils.getDay(dObj);
+    },
+
+    /**
+     * @return {Object[]}
+     */
+    days: function days() {
+      var d = this.pageDate;
+      var days = []; // set up a new date object to the beginning of the current 'page'
+
+      var dObj = this.useUtc ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)) : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes());
+      var daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj));
+
+      for (var i = 0; i < daysInMonth; i++) {
+        days.push({
+          date: this.utils.getDate(dObj),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedDate(dObj),
+          isDisabled: this.isDisabledDate(dObj),
+          isHighlighted: this.isHighlightedDate(dObj),
+          isHighlightStart: this.isHighlightStart(dObj),
+          isHighlightEnd: this.isHighlightEnd(dObj),
+          isToday: this.utils.compareDates(dObj, new Date()),
+          isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
+          isSaturday: this.utils.getDay(dObj) === 6,
+          isSunday: this.utils.getDay(dObj) === 0
+        });
+        this.utils.setDate(dObj, this.utils.getDate(dObj) + 1);
+      }
+
+      return days;
+    },
+
+    /**
+     * Gets the name of the month the current page is on
+     * @return {String}
+     */
+    currMonthName: function currMonthName() {
+      var monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr;
+      return this.utils.getMonthNameAbbr(this.utils.getMonth(this.pageDate), monthName);
+    },
+
+    /**
+     * Gets the name of the year that current page is on
+     * @return {Number}
+     */
+    currYearName: function currYearName() {
+      var yearSuffix = this.translation.yearSuffix;
+      return "".concat(this.utils.getFullYear(this.pageDate)).concat(yearSuffix);
+    },
+
+    /**
+     * Is this translation using year/month/day format?
+     * @return {Boolean}
+     */
+    isYmd: function isYmd() {
+      return this.translation.ymd && this.translation.ymd === true;
+    },
+
+    /**
+     * Is the left hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isLeftNavDisabled: function isLeftNavDisabled() {
+      return this.isRtl ? this.isNextMonthDisabled(this.pageTimestamp) : this.isPreviousMonthDisabled(this.pageTimestamp);
+    },
+
+    /**
+     * Is the right hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isRightNavDisabled: function isRightNavDisabled() {
+      return this.isRtl ? this.isPreviousMonthDisabled(this.pageTimestamp) : this.isNextMonthDisabled(this.pageTimestamp);
+    }
+  },
+  methods: {
+    selectDate: function selectDate(date) {
+      if (date.isDisabled) {
+        this.$emit('selectedDisabled', date);
+        return false;
+      }
+
+      this.$emit('selectDate', date);
+    },
+
+    /**
+     * @return {Number}
+     */
+    getPageMonth: function getPageMonth() {
+      return this.utils.getMonth(this.pageDate);
+    },
+
+    /**
+     * Emit an event to show the month picker
+     */
+    showMonthCalendar: function showMonthCalendar() {
+      this.$emit('showMonthCalendar');
+    },
+
+    /**
+     * Change the page month
+     * @param {Number} incrementBy
+     */
+    changeMonth: function changeMonth(incrementBy) {
+      var date = this.pageDate;
+      this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy);
+      this.$emit('changedMonth', date);
+    },
+
+    /**
+     * Decrement the page month
+     */
+    previousMonth: function previousMonth() {
+      if (!this.isPreviousMonthDisabled()) {
+        this.changeMonth(-1);
+      }
+    },
+
+    /**
+     * Is the previous month disabled?
+     * @return {Boolean}
+     */
+    isPreviousMonthDisabled: function isPreviousMonthDisabled() {
+      if (!this.disabledDates || !this.disabledDates.to) {
+        return false;
+      }
+
+      var d = this.pageDate;
+      return this.utils.getMonth(this.disabledDates.to) >= this.utils.getMonth(d) && this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(d);
+    },
+
+    /**
+     * Increment the current page month
+     */
+    nextMonth: function nextMonth() {
+      if (!this.isNextMonthDisabled()) {
+        this.changeMonth(+1);
+      }
+    },
+
+    /**
+     * Is the next month disabled?
+     * @return {Boolean}
+     */
+    isNextMonthDisabled: function isNextMonthDisabled() {
+      if (!this.disabledDates || !this.disabledDates.from) {
+        return false;
+      }
+
+      var d = this.pageDate;
+      return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) && this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d);
+    },
+
+    /**
+     * Whether a day is selected
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedDate: function isSelectedDate(dObj) {
+      return this.selectedDate && this.utils.compareDates(this.selectedDate, dObj);
+    },
+
+    /**
+     * Whether a day is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledDate: function isDisabledDate(date) {
+      var _this = this;
+
+      var disabledDates = false;
+
+      if (typeof this.disabledDates === 'undefined') {
+        return false;
+      }
+
+      if (typeof this.disabledDates.dates !== 'undefined') {
+        this.disabledDates.dates.forEach(function (d) {
+          if (_this.utils.compareDates(date, d)) {
+            disabledDates = true;
+            return true;
+          }
+        });
+      }
+
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to && date < this.disabledDates.to) {
+        disabledDates = true;
+      }
+
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from && date > this.disabledDates.from) {
+        disabledDates = true;
+      }
+
+      if (typeof this.disabledDates.ranges !== 'undefined') {
+        this.disabledDates.ranges.forEach(function (range) {
+          if (typeof range.from !== 'undefined' && range.from && typeof range.to !== 'undefined' && range.to) {
+            if (date < range.to && date > range.from) {
+              disabledDates = true;
+              return true;
+            }
+          }
+        });
+      }
+
+      if (typeof this.disabledDates.days !== 'undefined' && this.disabledDates.days.indexOf(this.utils.getDay(date)) !== -1) {
+        disabledDates = true;
+      }
+
+      if (typeof this.disabledDates.daysOfMonth !== 'undefined' && this.disabledDates.daysOfMonth.indexOf(this.utils.getDate(date)) !== -1) {
+        disabledDates = true;
+      }
+
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+        disabledDates = true;
+      }
+
+      return disabledDates;
+    },
+
+    /**
+     * Whether a day is highlighted (only if it is not disabled already except when highlighted.includeDisabled is true)
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHighlightedDate: function isHighlightedDate(date) {
+      var _this2 = this;
+
+      if (!(this.highlighted && this.highlighted.includeDisabled) && this.isDisabledDate(date)) {
+        return false;
+      }
+
+      var highlighted = false;
+
+      if (typeof this.highlighted === 'undefined') {
+        return false;
+      }
+
+      if (typeof this.highlighted.dates !== 'undefined') {
+        this.highlighted.dates.forEach(function (d) {
+          if (_this2.utils.compareDates(date, d)) {
+            highlighted = true;
+            return true;
+          }
+        });
+      }
+
+      if (this.isDefined(this.highlighted.from) && this.isDefined(this.highlighted.to)) {
+        highlighted = date >= this.highlighted.from && date <= this.highlighted.to;
+      }
+
+      if (typeof this.highlighted.days !== 'undefined' && this.highlighted.days.indexOf(this.utils.getDay(date)) !== -1) {
+        highlighted = true;
+      }
+
+      if (typeof this.highlighted.daysOfMonth !== 'undefined' && this.highlighted.daysOfMonth.indexOf(this.utils.getDate(date)) !== -1) {
+        highlighted = true;
+      }
+
+      if (typeof this.highlighted.customPredictor === 'function' && this.highlighted.customPredictor(date)) {
+        highlighted = true;
+      }
+
+      return highlighted;
+    },
+    dayClasses: function dayClasses(day) {
+      return {
+        'selected': day.isSelected,
+        'disabled': day.isDisabled,
+        'highlighted': day.isHighlighted,
+        'today': day.isToday,
+        'weekend': day.isWeekend,
+        'sat': day.isSaturday,
+        'sun': day.isSunday,
+        'highlight-start': day.isHighlightStart,
+        'highlight-end': day.isHighlightEnd
+      };
+    },
+
+    /**
+     * Whether a day is highlighted and it is the first date
+     * in the highlighted range of dates
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHighlightStart: function isHighlightStart(date) {
+      return this.isHighlightedDate(date) && this.highlighted.from instanceof Date && this.utils.getFullYear(this.highlighted.from) === this.utils.getFullYear(date) && this.utils.getMonth(this.highlighted.from) === this.utils.getMonth(date) && this.utils.getDate(this.highlighted.from) === this.utils.getDate(date);
+    },
+
+    /**
+     * Whether a day is highlighted and it is the first date
+     * in the highlighted range of dates
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHighlightEnd: function isHighlightEnd(date) {
+      return this.isHighlightedDate(date) && this.highlighted.to instanceof Date && this.utils.getFullYear(this.highlighted.to) === this.utils.getFullYear(date) && this.utils.getMonth(this.highlighted.to) === this.utils.getMonth(date) && this.utils.getDate(this.highlighted.to) === this.utils.getDate(date);
+    },
+
+    /**
+     * Helper
+     * @param  {mixed}  prop
+     * @return {Boolean}
+     */
+    isDefined: function isDefined(prop) {
+      return typeof prop !== 'undefined' && prop;
+    }
+  } // eslint-disable-next-line
+
+};
+
+/* script */
+const __vue_script__$1 = script$1;
+
+/* template */
+var __vue_render__$1 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showDayView,
+          expression: "showDayView"
+        }
+      ],
+      class: [_vm.calendarClass, "vdp-datepicker__calendar"],
+      style: _vm.calendarStyle,
+      on: {
+        mousedown: function($event) {
+          $event.preventDefault();
+        }
+      }
+    },
+    [
+      _vm._t("beforeCalendarHeader"),
+      _vm._v(" "),
+      _c("header", [
+        _c(
+          "span",
+          {
+            staticClass: "prev",
+            class: { disabled: _vm.isLeftNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.nextMonth() : _vm.previousMonth();
+              }
+            }
+          },
+          [_vm._v("<")]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "day__month_btn",
+            class: _vm.allowedToShowView("month") ? "up" : "",
+            on: { click: _vm.showMonthCalendar }
+          },
+          [
+            _vm._v(
+              _vm._s(_vm.isYmd ? _vm.currYearName : _vm.currMonthName) +
+                " " +
+                _vm._s(_vm.isYmd ? _vm.currMonthName : _vm.currYearName)
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "next",
+            class: { disabled: _vm.isRightNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.previousMonth() : _vm.nextMonth();
+              }
+            }
+          },
+          [_vm._v(">")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { class: _vm.isRtl ? "flex-rtl" : "" },
+        [
+          _vm._l(_vm.daysOfWeek, function(d) {
+            return _c(
+              "span",
+              { key: d.timestamp, staticClass: "cell day-header" },
+              [_vm._v(_vm._s(d))]
+            )
+          }),
+          _vm._v(" "),
+          _vm.blankDays > 0
+            ? _vm._l(_vm.blankDays, function(d) {
+                return _c("span", {
+                  key: d.timestamp,
+                  staticClass: "cell day blank"
+                })
+              })
+            : _vm._e(),
+          _vm._l(_vm.days, function(day) {
+            return _c("span", {
+              key: day.timestamp,
+              staticClass: "cell day",
+              class: _vm.dayClasses(day),
+              domProps: { innerHTML: _vm._s(_vm.dayCellContent(day)) },
+              on: {
+                click: function($event) {
+                  return _vm.selectDate(day)
+                }
+              }
+            })
+          })
+        ],
+        2
+      )
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__$1 = [];
+__vue_render__$1._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$1 = undefined;
+  /* scoped */
+  const __vue_scope_id__$1 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$1 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$1 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var PickerDay = normalizeComponent_1(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    undefined,
+    undefined
+  );
+
+//
+var script$2 = {
+  props: {
+    showMonthView: Boolean,
+    selectedDate: Date,
+    pageDate: Date,
+    pageTimestamp: Number,
+    disabledDates: Object,
+    calendarClass: [String, Object, Array],
+    calendarStyle: Object,
+    translation: Object,
+    isRtl: Boolean,
+    allowedToShowView: Function,
+    useUtc: Boolean
+  },
+  data: function data() {
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils
+    };
+  },
+  computed: {
+    months: function months() {
+      var d = this.pageDate;
+      var months = []; // set up a new date object to the beginning of the current 'page'
+
+      var dObj = this.useUtc ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate())) : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes());
+
+      for (var i = 0; i < 12; i++) {
+        months.push({
+          month: this.utils.getMonthName(i, this.translation.months),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedMonth(dObj),
+          isDisabled: this.isDisabledMonth(dObj)
+        });
+        this.utils.setMonth(dObj, this.utils.getMonth(dObj) + 1);
+      }
+
+      return months;
+    },
+
+    /**
+     * Get year name on current page.
+     * @return {String}
+     */
+    pageYearName: function pageYearName() {
+      var yearSuffix = this.translation.yearSuffix;
+      return "".concat(this.utils.getFullYear(this.pageDate)).concat(yearSuffix);
+    },
+
+    /**
+     * Is the left hand navigation disabled
+     * @return {Boolean}
+     */
+    isLeftNavDisabled: function isLeftNavDisabled() {
+      return this.isRtl ? this.isNextYearDisabled(this.pageTimestamp) : this.isPreviousYearDisabled(this.pageTimestamp);
+    },
+
+    /**
+     * Is the right hand navigation disabled
+     * @return {Boolean}
+     */
+    isRightNavDisabled: function isRightNavDisabled() {
+      return this.isRtl ? this.isPreviousYearDisabled(this.pageTimestamp) : this.isNextYearDisabled(this.pageTimestamp);
+    }
+  },
+  methods: {
+    /**
+     * Emits a selectMonth event
+     * @param {Object} month
+     */
+    selectMonth: function selectMonth(month) {
+      if (month.isDisabled) {
+        return false;
+      }
+
+      this.$emit('selectMonth', month);
+    },
+
+    /**
+     * Changes the year up or down
+     * @param {Number} incrementBy
+     */
+    changeYear: function changeYear(incrementBy) {
+      var date = this.pageDate;
+      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy);
+      this.$emit('changedYear', date);
+    },
+
+    /**
+     * Decrements the year
+     */
+    previousYear: function previousYear() {
+      if (!this.isPreviousYearDisabled()) {
+        this.changeYear(-1);
+      }
+    },
+
+    /**
+     * Checks if the previous year is disabled or not
+     * @return {Boolean}
+     */
+    isPreviousYearDisabled: function isPreviousYearDisabled() {
+      if (!this.disabledDates || !this.disabledDates.to) {
+        return false;
+      }
+
+      return this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(this.pageDate);
+    },
+
+    /**
+     * Increments the year
+     */
+    nextYear: function nextYear() {
+      if (!this.isNextYearDisabled()) {
+        this.changeYear(1);
+      }
+    },
+
+    /**
+     * Checks if the next year is disabled or not
+     * @return {Boolean}
+     */
+    isNextYearDisabled: function isNextYearDisabled() {
+      if (!this.disabledDates || !this.disabledDates.from) {
+        return false;
+      }
+
+      return this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(this.pageDate);
+    },
+
+    /**
+     * Emits an event that shows the year calendar
+     */
+    showYearCalendar: function showYearCalendar() {
+      this.$emit('showYearCalendar');
+    },
+
+    /**
+     * Whether the selected date is in this month
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedMonth: function isSelectedMonth(date) {
+      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date) && this.utils.getMonth(this.selectedDate) === this.utils.getMonth(date);
+    },
+
+    /**
+     * Whether a month is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledMonth: function isDisabledMonth(date) {
+      var disabledDates = false;
+
+      if (typeof this.disabledDates === 'undefined') {
+        return false;
+      }
+
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
+        if (this.utils.getMonth(date) < this.utils.getMonth(this.disabledDates.to) && this.utils.getFullYear(date) <= this.utils.getFullYear(this.disabledDates.to) || this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
+          disabledDates = true;
+        }
+      }
+
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
+        if (this.utils.getMonth(date) > this.utils.getMonth(this.disabledDates.from) && this.utils.getFullYear(date) >= this.utils.getFullYear(this.disabledDates.from) || this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
+          disabledDates = true;
+        }
+      }
+
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+        disabledDates = true;
+      }
+
+      return disabledDates;
+    }
+  } // eslint-disable-next-line
+
+};
+
+/* script */
+const __vue_script__$2 = script$2;
+
+/* template */
+var __vue_render__$2 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showMonthView,
+          expression: "showMonthView"
+        }
+      ],
+      class: [_vm.calendarClass, "vdp-datepicker__calendar"],
+      style: _vm.calendarStyle,
+      on: {
+        mousedown: function($event) {
+          $event.preventDefault();
+        }
+      }
+    },
+    [
+      _vm._t("beforeCalendarHeader"),
+      _vm._v(" "),
+      _c("header", [
+        _c(
+          "span",
+          {
+            staticClass: "prev",
+            class: { disabled: _vm.isLeftNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.nextYear() : _vm.previousYear();
+              }
+            }
+          },
+          [_vm._v("<")]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "month__year_btn",
+            class: _vm.allowedToShowView("year") ? "up" : "",
+            on: { click: _vm.showYearCalendar }
+          },
+          [_vm._v(_vm._s(_vm.pageYearName))]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "next",
+            class: { disabled: _vm.isRightNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.previousYear() : _vm.nextYear();
+              }
+            }
+          },
+          [_vm._v(">")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.months, function(month) {
+        return _c(
+          "span",
+          {
+            key: month.timestamp,
+            staticClass: "cell month",
+            class: { selected: month.isSelected, disabled: month.isDisabled },
+            on: {
+              click: function($event) {
+                $event.stopPropagation();
+                return _vm.selectMonth(month)
+              }
+            }
+          },
+          [_vm._v(_vm._s(month.month))]
+        )
+      })
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__$2 = [];
+__vue_render__$2._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$2 = undefined;
+  /* scoped */
+  const __vue_scope_id__$2 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$2 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$2 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var PickerMonth = normalizeComponent_1(
+    { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
+    undefined,
+    undefined
+  );
+
+//
+var script$3 = {
+  props: {
+    showYearView: Boolean,
+    selectedDate: Date,
+    pageDate: Date,
+    pageTimestamp: Number,
+    disabledDates: Object,
+    highlighted: Object,
+    calendarClass: [String, Object, Array],
+    calendarStyle: Object,
+    translation: Object,
+    isRtl: Boolean,
+    allowedToShowView: Function,
+    useUtc: Boolean
+  },
+  computed: {
+    years: function years() {
+      var d = this.pageDate;
+      var years = []; // set up a new date object to the beginning of the current 'page'7
+
+      var dObj = this.useUtc ? new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate())) : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes());
+
+      for (var i = 0; i < 10; i++) {
+        years.push({
+          year: this.utils.getFullYear(dObj),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedYear(dObj),
+          isDisabled: this.isDisabledYear(dObj)
+        });
+        this.utils.setFullYear(dObj, this.utils.getFullYear(dObj) + 1);
+      }
+
+      return years;
+    },
+
+    /**
+     * @return {String}
+     */
+    getPageDecade: function getPageDecade() {
+      var decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10;
+      var decadeEnd = decadeStart + 9;
+      var yearSuffix = this.translation.yearSuffix;
+      return "".concat(decadeStart, " - ").concat(decadeEnd).concat(yearSuffix);
+    },
+
+    /**
+     * Is the left hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isLeftNavDisabled: function isLeftNavDisabled() {
+      return this.isRtl ? this.isNextDecadeDisabled(this.pageTimestamp) : this.isPreviousDecadeDisabled(this.pageTimestamp);
+    },
+
+    /**
+     * Is the right hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isRightNavDisabled: function isRightNavDisabled() {
+      return this.isRtl ? this.isPreviousDecadeDisabled(this.pageTimestamp) : this.isNextDecadeDisabled(this.pageTimestamp);
+    }
+  },
+  data: function data() {
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils
+    };
+  },
+  methods: {
+    selectYear: function selectYear(year) {
+      if (year.isDisabled) {
+        return false;
+      }
+
+      this.$emit('selectYear', year);
+    },
+    changeYear: function changeYear(incrementBy) {
+      var date = this.pageDate;
+      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy);
+      this.$emit('changedDecade', date);
+    },
+    previousDecade: function previousDecade() {
+      if (this.isPreviousDecadeDisabled()) {
+        return false;
+      }
+
+      this.changeYear(-10);
+    },
+    isPreviousDecadeDisabled: function isPreviousDecadeDisabled() {
+      if (!this.disabledDates || !this.disabledDates.to) {
+        return false;
+      }
+
+      var disabledYear = this.utils.getFullYear(this.disabledDates.to);
+      var lastYearInPreviousPage = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10 - 1;
+      return disabledYear > lastYearInPreviousPage;
+    },
+    nextDecade: function nextDecade() {
+      if (this.isNextDecadeDisabled()) {
+        return false;
+      }
+
+      this.changeYear(10);
+    },
+    isNextDecadeDisabled: function isNextDecadeDisabled() {
+      if (!this.disabledDates || !this.disabledDates.from) {
+        return false;
+      }
+
+      var disabledYear = this.utils.getFullYear(this.disabledDates.from);
+      var firstYearInNextPage = Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10;
+      return disabledYear < firstYearInNextPage;
+    },
+
+    /**
+     * Whether the selected date is in this year
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedYear: function isSelectedYear(date) {
+      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date);
+    },
+
+    /**
+     * Whether a year is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledYear: function isDisabledYear(date) {
+      var disabledDates = false;
+
+      if (typeof this.disabledDates === 'undefined' || !this.disabledDates) {
+        return false;
+      }
+
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
+        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
+          disabledDates = true;
+        }
+      }
+
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
+        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
+          disabledDates = true;
+        }
+      }
+
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+        disabledDates = true;
+      }
+
+      return disabledDates;
+    }
+  } // eslint-disable-next-line
+
+};
+
+/* script */
+const __vue_script__$3 = script$3;
+
+/* template */
+var __vue_render__$3 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showYearView,
+          expression: "showYearView"
+        }
+      ],
+      class: [_vm.calendarClass, "vdp-datepicker__calendar"],
+      style: _vm.calendarStyle,
+      on: {
+        mousedown: function($event) {
+          $event.preventDefault();
+        }
+      }
+    },
+    [
+      _vm._t("beforeCalendarHeader"),
+      _vm._v(" "),
+      _c("header", [
+        _c(
+          "span",
+          {
+            staticClass: "prev",
+            class: { disabled: _vm.isLeftNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.nextDecade() : _vm.previousDecade();
+              }
+            }
+          },
+          [_vm._v("<")]
+        ),
+        _vm._v(" "),
+        _c("span", [_vm._v(_vm._s(_vm.getPageDecade))]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "next",
+            class: { disabled: _vm.isRightNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.previousDecade() : _vm.nextDecade();
+              }
+            }
+          },
+          [_vm._v(">")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.years, function(year) {
+        return _c(
+          "span",
+          {
+            key: year.timestamp,
+            staticClass: "cell year",
+            class: { selected: year.isSelected, disabled: year.isDisabled },
+            on: {
+              click: function($event) {
+                $event.stopPropagation();
+                return _vm.selectYear(year)
+              }
+            }
+          },
+          [_vm._v(_vm._s(year.year))]
+        )
+      })
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__$3 = [];
+__vue_render__$3._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$3 = undefined;
+  /* scoped */
+  const __vue_scope_id__$3 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$3 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$3 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var PickerYear = normalizeComponent_1(
+    { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
+    __vue_inject_styles__$3,
+    __vue_script__$3,
+    __vue_scope_id__$3,
+    __vue_is_functional_template__$3,
+    __vue_module_identifier__$3,
+    undefined,
+    undefined
+  );
+
+//
+var script$4 = {
+  components: {
+    DateInput: DateInput,
+    PickerDay: PickerDay,
+    PickerMonth: PickerMonth,
+    PickerYear: PickerYear
+  },
+  props: {
+    value: {
+      validator: function validator(val) {
+        return utils$1.validateDateInput(val);
+      }
+    },
+    name: String,
+    refName: String,
+    id: String,
+    format: {
+      type: [String, Function],
+      "default": 'dd MMM yyyy'
+    },
+    language: {
+      type: Object,
+      "default": function _default() {
+        return en;
+      }
+    },
+    openDate: {
+      validator: function validator(val) {
+        return utils$1.validateDateInput(val);
+      }
+    },
+    dayCellContent: Function,
+    fullMonthName: Boolean,
+    disabledDates: Object,
+    highlighted: Object,
+    placeholder: String,
+    inline: Boolean,
+    calendarClass: [String, Object, Array],
+    inputClass: [String, Object, Array],
+    wrapperClass: [String, Object, Array],
+    mondayFirst: Boolean,
+    clearButton: Boolean,
+    clearButtonIcon: String,
+    calendarButton: Boolean,
+    calendarButtonIcon: String,
+    calendarButtonIconContent: String,
+    bootstrapStyling: Boolean,
+    initialView: String,
+    disabled: Boolean,
+    required: Boolean,
+    typeable: Boolean,
+    useUtc: Boolean,
+    minimumView: {
+      type: String,
+      "default": 'day'
+    },
+    maximumView: {
+      type: String,
+      "default": 'year'
+    }
+  },
+  data: function data() {
+    var startDate = this.openDate ? new Date(this.openDate) : new Date();
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    var pageTimestamp = constructedDateUtils.setDate(startDate, 1);
+    return {
+      /*
+       * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
+       * This represents the first day of the current viewing month
+       * {Number}
+       */
+      pageTimestamp: pageTimestamp,
+
+      /*
+       * Selected Date
+       * {Date}
+       */
+      selectedDate: null,
+
+      /*
+       * Flags to show calendar views
+       * {Boolean}
+       */
+      showDayView: false,
+      showMonthView: false,
+      showYearView: false,
+
+      /*
+       * Positioning
+       */
+      calendarHeight: 0,
+      resetTypedDate: new Date(),
+      utils: constructedDateUtils
+    };
+  },
+  watch: {
+    value: function value(_value) {
+      this.setValue(_value);
+    },
+    openDate: function openDate() {
+      this.setPageDate();
+    },
+    initialView: function initialView() {
+      this.setInitialView();
+    }
+  },
+  computed: {
+    computedInitialView: function computedInitialView() {
+      if (!this.initialView) {
+        return this.minimumView;
+      }
+
+      return this.initialView;
+    },
+    pageDate: function pageDate() {
+      return new Date(this.pageTimestamp);
+    },
+    translation: function translation() {
+      return this.language;
+    },
+    calendarStyle: function calendarStyle() {
+      return {
+        position: this.isInline ? 'static' : undefined
+      };
+    },
+    isOpen: function isOpen() {
+      return this.showDayView || this.showMonthView || this.showYearView;
+    },
+    isInline: function isInline() {
+      return !!this.inline;
+    },
+    isRtl: function isRtl() {
+      return this.translation.rtl === true;
+    }
+  },
+  methods: {
+    /**
+     * Called in the event that the user navigates to date pages and
+     * closes the picker without selecting a date.
+     */
+    resetDefaultPageDate: function resetDefaultPageDate() {
+      if (this.selectedDate === null) {
+        this.setPageDate();
+        return;
+      }
+
+      this.setPageDate(this.selectedDate);
+    },
+
+    /**
+     * Effectively a toggle to show/hide the calendar
+     * @return {mixed}
+     */
+    showCalendar: function showCalendar() {
+      if (this.disabled || this.isInline) {
+        return false;
+      }
+
+      if (this.isOpen) {
+        return this.close(true);
+      }
+
+      this.setInitialView();
+    },
+
+    /**
+     * Sets the initial picker page view: day, month or year
+     */
+    setInitialView: function setInitialView() {
+      var initialView = this.computedInitialView;
+
+      if (!this.allowedToShowView(initialView)) {
+        throw new Error("initialView '".concat(this.initialView, "' cannot be rendered based on minimum '").concat(this.minimumView, "' and maximum '").concat(this.maximumView, "'"));
+      }
+
+      switch (initialView) {
+        case 'year':
+          this.showYearCalendar();
+          break;
+
+        case 'month':
+          this.showMonthCalendar();
+          break;
+
+        default:
+          this.showDayCalendar();
+          break;
+      }
+    },
+
+    /**
+     * Are we allowed to show a specific picker view?
+     * @param {String} view
+     * @return {Boolean}
+     */
+    allowedToShowView: function allowedToShowView(view) {
+      var views = ['day', 'month', 'year'];
+      var minimumViewIndex = views.indexOf(this.minimumView);
+      var maximumViewIndex = views.indexOf(this.maximumView);
+      var viewIndex = views.indexOf(view);
+      return viewIndex >= minimumViewIndex && viewIndex <= maximumViewIndex;
+    },
+
+    /**
+     * Show the day picker
+     * @return {Boolean}
+     */
+    showDayCalendar: function showDayCalendar() {
+      if (!this.allowedToShowView('day')) {
+        return false;
+      }
+
+      this.close();
+      this.showDayView = true;
+      return true;
+    },
+
+    /**
+     * Show the month picker
+     * @return {Boolean}
+     */
+    showMonthCalendar: function showMonthCalendar() {
+      if (!this.allowedToShowView('month')) {
+        return false;
+      }
+
+      this.close();
+      this.showMonthView = true;
+      return true;
+    },
+
+    /**
+     * Show the year picker
+     * @return {Boolean}
+     */
+    showYearCalendar: function showYearCalendar() {
+      if (!this.allowedToShowView('year')) {
+        return false;
+      }
+
+      this.close();
+      this.showYearView = true;
+      return true;
+    },
+
+    /**
+     * Set the selected date
+     * @param {Number} timestamp
+     */
+    setDate: function setDate(timestamp) {
+      var date = new Date(timestamp);
+      this.selectedDate = date;
+      this.setPageDate(date);
+      this.$emit('selected', date);
+      this.$emit('input', date);
+    },
+
+    /**
+     * Clear the selected date
+     */
+    clearDate: function clearDate() {
+      this.selectedDate = null;
+      this.setPageDate();
+      this.$emit('selected', null);
+      this.$emit('input', null);
+      this.$emit('cleared');
+    },
+
+    /**
+     * @param {Object} date
+     */
+    selectDate: function selectDate(date) {
+      this.setDate(date.timestamp);
+
+      if (!this.isInline) {
+        this.close(true);
+      }
+
+      this.resetTypedDate = new Date();
+    },
+
+    /**
+     * @param {Object} date
+     */
+    selectDisabledDate: function selectDisabledDate(date) {
+      this.$emit('selectedDisabled', date);
+    },
+
+    /**
+     * @param {Object} month
+     */
+    selectMonth: function selectMonth(month) {
+      var date = new Date(month.timestamp);
+
+      if (this.allowedToShowView('day')) {
+        this.setPageDate(date);
+        this.$emit('changedMonth', month);
+        this.showDayCalendar();
+      } else {
+        this.selectDate(month);
+      }
+    },
+
+    /**
+     * @param {Object} year
+     */
+    selectYear: function selectYear(year) {
+      var date = new Date(year.timestamp);
+
+      if (this.allowedToShowView('month')) {
+        this.setPageDate(date);
+        this.$emit('changedYear', year);
+        this.showMonthCalendar();
+      } else {
+        this.selectDate(year);
+      }
+    },
+
+    /**
+     * Set the datepicker value
+     * @param {Date|String|Number|null} date
+     */
+    setValue: function setValue(date) {
+      if (typeof date === 'string' || typeof date === 'number') {
+        var parsed = new Date(date);
+        date = isNaN(parsed.valueOf()) ? null : parsed;
+      }
+
+      if (!date) {
+        this.setPageDate();
+        this.selectedDate = null;
+        return;
+      }
+
+      this.selectedDate = date;
+      this.setPageDate(date);
+    },
+
+    /**
+     * Sets the date that the calendar should open on
+     */
+    setPageDate: function setPageDate(date) {
+      if (!date) {
+        if (this.openDate) {
+          date = new Date(this.openDate);
+        } else {
+          date = new Date();
+        }
+      }
+
+      this.pageTimestamp = this.utils.setDate(new Date(date), 1);
+    },
+
+    /**
+     * Handles a month change from the day picker
+     */
+    handleChangedMonthFromDayPicker: function handleChangedMonthFromDayPicker(date) {
+      this.setPageDate(date);
+      this.$emit('changedMonth', date);
+    },
+
+    /**
+     * Set the date from a typedDate event
+     */
+    setTypedDate: function setTypedDate(date) {
+      this.setDate(date.getTime());
+    },
+
+    /**
+     * Close all calendar layers
+     * @param {Boolean} emitEvent - emit close event
+     */
+    close: function close(emitEvent) {
+      this.showDayView = this.showMonthView = this.showYearView = false;
+
+      if (!this.isInline) {
+        if (emitEvent) {
+          this.$emit('closed');
+        }
+
+        document.removeEventListener('click', this.clickOutside, false);
+      }
+    },
+
+    /**
+     * Initiate the component
+     */
+    init: function init() {
+      if (this.value) {
+        this.setValue(this.value);
+      }
+
+      if (this.isInline) {
+        this.setInitialView();
+      }
+    }
+  },
+  mounted: function mounted() {
+    this.init();
+  }
+} // eslint-disable-next-line
+;
+
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+function createInjector(context) {
+  return function (id, style) {
+    return addStyle(id, style);
+  };
+}
+var HEAD = document.head || document.getElementsByTagName('head')[0];
+var styles = {};
+
+function addStyle(id, css) {
+  var group = isOldIE ? css.media || 'default' : id;
+  var style = styles[group] || (styles[group] = {
+    ids: new Set(),
+    styles: []
+  });
+
+  if (!style.ids.has(id)) {
+    style.ids.add(id);
+    var code = css.source;
+
+    if (css.map) {
+      // https://developer.chrome.com/devtools/docs/javascript-debugging
+      // this makes source maps inside style tags work properly in Chrome
+      code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875
+
+      code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) + ' */';
+    }
+
+    if (!style.element) {
+      style.element = document.createElement('style');
+      style.element.type = 'text/css';
+      if (css.media) style.element.setAttribute('media', css.media);
+      HEAD.appendChild(style.element);
+    }
+
+    if ('styleSheet' in style.element) {
+      style.styles.push(code);
+      style.element.styleSheet.cssText = style.styles.filter(Boolean).join('\n');
+    } else {
+      var index = style.ids.size - 1;
+      var textNode = document.createTextNode(code);
+      var nodes = style.element.childNodes;
+      if (nodes[index]) style.element.removeChild(nodes[index]);
+      if (nodes.length) style.element.insertBefore(textNode, nodes[index]);else style.element.appendChild(textNode);
+    }
+  }
+}
+
+var browser = createInjector;
+
+/* script */
+const __vue_script__$4 = script$4;
+
+/* template */
+var __vue_render__$4 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      staticClass: "vdp-datepicker",
+      class: [_vm.wrapperClass, _vm.isRtl ? "rtl" : ""]
+    },
+    [
+      _c(
+        "date-input",
+        {
+          attrs: {
+            selectedDate: _vm.selectedDate,
+            resetTypedDate: _vm.resetTypedDate,
+            format: _vm.format,
+            translation: _vm.translation,
+            inline: _vm.inline,
+            id: _vm.id,
+            name: _vm.name,
+            refName: _vm.refName,
+            openDate: _vm.openDate,
+            placeholder: _vm.placeholder,
+            inputClass: _vm.inputClass,
+            typeable: _vm.typeable,
+            clearButton: _vm.clearButton,
+            clearButtonIcon: _vm.clearButtonIcon,
+            calendarButton: _vm.calendarButton,
+            calendarButtonIcon: _vm.calendarButtonIcon,
+            calendarButtonIconContent: _vm.calendarButtonIconContent,
+            disabled: _vm.disabled,
+            required: _vm.required,
+            bootstrapStyling: _vm.bootstrapStyling,
+            "use-utc": _vm.useUtc
+          },
+          on: {
+            showCalendar: _vm.showCalendar,
+            closeCalendar: _vm.close,
+            typedDate: _vm.setTypedDate,
+            clearDate: _vm.clearDate
+          }
+        },
+        [_vm._t("afterDateInput", null, { slot: "afterDateInput" })],
+        2
+      ),
+      _vm._v(" "),
+      _vm.allowedToShowView("day")
+        ? _c(
+            "picker-day",
+            {
+              attrs: {
+                pageDate: _vm.pageDate,
+                selectedDate: _vm.selectedDate,
+                showDayView: _vm.showDayView,
+                fullMonthName: _vm.fullMonthName,
+                allowedToShowView: _vm.allowedToShowView,
+                disabledDates: _vm.disabledDates,
+                highlighted: _vm.highlighted,
+                calendarClass: _vm.calendarClass,
+                calendarStyle: _vm.calendarStyle,
+                translation: _vm.translation,
+                pageTimestamp: _vm.pageTimestamp,
+                isRtl: _vm.isRtl,
+                mondayFirst: _vm.mondayFirst,
+                dayCellContent: _vm.dayCellContent,
+                "use-utc": _vm.useUtc
+              },
+              on: {
+                changedMonth: _vm.handleChangedMonthFromDayPicker,
+                selectDate: _vm.selectDate,
+                showMonthCalendar: _vm.showMonthCalendar,
+                selectedDisabled: _vm.selectDisabledDate
+              }
+            },
+            [
+              _vm._t("beforeCalendarHeader", null, {
+                slot: "beforeCalendarHeader"
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.allowedToShowView("month")
+        ? _c(
+            "picker-month",
+            {
+              attrs: {
+                pageDate: _vm.pageDate,
+                selectedDate: _vm.selectedDate,
+                showMonthView: _vm.showMonthView,
+                allowedToShowView: _vm.allowedToShowView,
+                disabledDates: _vm.disabledDates,
+                calendarClass: _vm.calendarClass,
+                calendarStyle: _vm.calendarStyle,
+                translation: _vm.translation,
+                isRtl: _vm.isRtl,
+                "use-utc": _vm.useUtc
+              },
+              on: {
+                selectMonth: _vm.selectMonth,
+                showYearCalendar: _vm.showYearCalendar,
+                changedYear: _vm.setPageDate
+              }
+            },
+            [
+              _vm._t("beforeCalendarHeader", null, {
+                slot: "beforeCalendarHeader"
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.allowedToShowView("year")
+        ? _c(
+            "picker-year",
+            {
+              attrs: {
+                pageDate: _vm.pageDate,
+                selectedDate: _vm.selectedDate,
+                showYearView: _vm.showYearView,
+                allowedToShowView: _vm.allowedToShowView,
+                disabledDates: _vm.disabledDates,
+                calendarClass: _vm.calendarClass,
+                calendarStyle: _vm.calendarStyle,
+                translation: _vm.translation,
+                isRtl: _vm.isRtl,
+                "use-utc": _vm.useUtc
+              },
+              on: { selectYear: _vm.selectYear, changedDecade: _vm.setPageDate }
+            },
+            [
+              _vm._t("beforeCalendarHeader", null, {
+                slot: "beforeCalendarHeader"
+              })
+            ],
+            2
+          )
+        : _vm._e()
+    ],
+    1
+  )
+};
+var __vue_staticRenderFns__$4 = [];
+__vue_render__$4._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$4 = function (inject) {
+    if (!inject) return
+    inject("data-v-64ca2bb5_0", { source: ".rtl {\n  direction: rtl;\n}\n.vdp-datepicker {\n  position: relative;\n  text-align: left;\n}\n.vdp-datepicker * {\n  box-sizing: border-box;\n}\n.vdp-datepicker__calendar {\n  position: absolute;\n  z-index: 100;\n  background: #fff;\n  width: 300px;\n  border: 1px solid #ccc;\n}\n.vdp-datepicker__calendar header {\n  display: block;\n  line-height: 40px;\n}\n.vdp-datepicker__calendar header span {\n  display: inline-block;\n  text-align: center;\n  width: 71.42857142857143%;\n  float: left;\n}\n.vdp-datepicker__calendar header .prev,\n.vdp-datepicker__calendar header .next {\n  width: 14.285714285714286%;\n  float: left;\n  text-indent: -10000px;\n  position: relative;\n}\n.vdp-datepicker__calendar header .prev:after,\n.vdp-datepicker__calendar header .next:after {\n  content: '';\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translateX(-50%) translateY(-50%);\n  border: 6px solid transparent;\n}\n.vdp-datepicker__calendar header .prev:after {\n  border-right: 10px solid #000;\n  margin-left: -5px;\n}\n.vdp-datepicker__calendar header .prev.disabled:after {\n  border-right: 10px solid #ddd;\n}\n.vdp-datepicker__calendar header .next:after {\n  border-left: 10px solid #000;\n  margin-left: 5px;\n}\n.vdp-datepicker__calendar header .next.disabled:after {\n  border-left: 10px solid #ddd;\n}\n.vdp-datepicker__calendar header .prev:not(.disabled),\n.vdp-datepicker__calendar header .next:not(.disabled),\n.vdp-datepicker__calendar header .up:not(.disabled) {\n  cursor: pointer;\n}\n.vdp-datepicker__calendar header .prev:not(.disabled):hover,\n.vdp-datepicker__calendar header .next:not(.disabled):hover,\n.vdp-datepicker__calendar header .up:not(.disabled):hover {\n  background: #eee;\n}\n.vdp-datepicker__calendar .disabled {\n  color: #ddd;\n  cursor: default;\n}\n.vdp-datepicker__calendar .flex-rtl {\n  display: flex;\n  width: inherit;\n  flex-wrap: wrap;\n}\n.vdp-datepicker__calendar .cell {\n  display: inline-block;\n  padding: 0 5px;\n  width: 14.285714285714286%;\n  height: 40px;\n  line-height: 40px;\n  text-align: center;\n  vertical-align: middle;\n  border: 1px solid transparent;\n}\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year {\n  cursor: pointer;\n}\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {\n  border: 1px solid #4bd;\n}\n.vdp-datepicker__calendar .cell.selected {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.selected:hover {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.selected.highlighted {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.highlighted {\n  background: #cae5ed;\n}\n.vdp-datepicker__calendar .cell.highlighted.disabled {\n  color: #a3a3a3;\n}\n.vdp-datepicker__calendar .cell.grey {\n  color: #888;\n}\n.vdp-datepicker__calendar .cell.grey:hover {\n  background: inherit;\n}\n.vdp-datepicker__calendar .cell.day-header {\n  font-size: 75%;\n  white-space: nowrap;\n  cursor: inherit;\n}\n.vdp-datepicker__calendar .cell.day-header:hover {\n  background: inherit;\n}\n.vdp-datepicker__calendar .month,\n.vdp-datepicker__calendar .year {\n  width: 33.333%;\n}\n.vdp-datepicker__clear-button,\n.vdp-datepicker__calendar-button {\n  cursor: pointer;\n  font-style: normal;\n}\n.vdp-datepicker__clear-button.disabled,\n.vdp-datepicker__calendar-button.disabled {\n  color: #999;\n  cursor: default;\n}\n", map: {"version":3,"sources":["Datepicker.vue"],"names":[],"mappings":"AAAA;EACE,cAAc;AAChB;AACA;EACE,kBAAkB;EAClB,gBAAgB;AAClB;AACA;EACE,sBAAsB;AACxB;AACA;EACE,kBAAkB;EAClB,YAAY;EACZ,gBAAgB;EAChB,YAAY;EACZ,sBAAsB;AACxB;AACA;EACE,cAAc;EACd,iBAAiB;AACnB;AACA;EACE,qBAAqB;EACrB,kBAAkB;EAClB,yBAAyB;EACzB,WAAW;AACb;AACA;;EAEE,0BAA0B;EAC1B,WAAW;EACX,qBAAqB;EACrB,kBAAkB;AACpB;AACA;;EAEE,WAAW;EACX,kBAAkB;EAClB,SAAS;EACT,QAAQ;EACR,4CAA4C;EAC5C,6BAA6B;AAC/B;AACA;EACE,6BAA6B;EAC7B,iBAAiB;AACnB;AACA;EACE,6BAA6B;AAC/B;AACA;EACE,4BAA4B;EAC5B,gBAAgB;AAClB;AACA;EACE,4BAA4B;AAC9B;AACA;;;EAGE,eAAe;AACjB;AACA;;;EAGE,gBAAgB;AAClB;AACA;EACE,WAAW;EACX,eAAe;AACjB;AACA;EACE,aAAa;EACb,cAAc;EACd,eAAe;AACjB;AACA;EACE,qBAAqB;EACrB,cAAc;EACd,0BAA0B;EAC1B,YAAY;EACZ,iBAAiB;EACjB,kBAAkB;EAClB,sBAAsB;EACtB,6BAA6B;AAC/B;AACA;;;EAGE,eAAe;AACjB;AACA;;;EAGE,sBAAsB;AACxB;AACA;EACE,gBAAgB;AAClB;AACA;EACE,gBAAgB;AAClB;AACA;EACE,gBAAgB;AAClB;AACA;EACE,mBAAmB;AACrB;AACA;EACE,cAAc;AAChB;AACA;EACE,WAAW;AACb;AACA;EACE,mBAAmB;AACrB;AACA;EACE,cAAc;EACd,mBAAmB;EACnB,eAAe;AACjB;AACA;EACE,mBAAmB;AACrB;AACA;;EAEE,cAAc;AAChB;AACA;;EAEE,eAAe;EACf,kBAAkB;AACpB;AACA;;EAEE,WAAW;EACX,eAAe;AACjB","file":"Datepicker.vue","sourcesContent":[".rtl {\n  direction: rtl;\n}\n.vdp-datepicker {\n  position: relative;\n  text-align: left;\n}\n.vdp-datepicker * {\n  box-sizing: border-box;\n}\n.vdp-datepicker__calendar {\n  position: absolute;\n  z-index: 100;\n  background: #fff;\n  width: 300px;\n  border: 1px solid #ccc;\n}\n.vdp-datepicker__calendar header {\n  display: block;\n  line-height: 40px;\n}\n.vdp-datepicker__calendar header span {\n  display: inline-block;\n  text-align: center;\n  width: 71.42857142857143%;\n  float: left;\n}\n.vdp-datepicker__calendar header .prev,\n.vdp-datepicker__calendar header .next {\n  width: 14.285714285714286%;\n  float: left;\n  text-indent: -10000px;\n  position: relative;\n}\n.vdp-datepicker__calendar header .prev:after,\n.vdp-datepicker__calendar header .next:after {\n  content: '';\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translateX(-50%) translateY(-50%);\n  border: 6px solid transparent;\n}\n.vdp-datepicker__calendar header .prev:after {\n  border-right: 10px solid #000;\n  margin-left: -5px;\n}\n.vdp-datepicker__calendar header .prev.disabled:after {\n  border-right: 10px solid #ddd;\n}\n.vdp-datepicker__calendar header .next:after {\n  border-left: 10px solid #000;\n  margin-left: 5px;\n}\n.vdp-datepicker__calendar header .next.disabled:after {\n  border-left: 10px solid #ddd;\n}\n.vdp-datepicker__calendar header .prev:not(.disabled),\n.vdp-datepicker__calendar header .next:not(.disabled),\n.vdp-datepicker__calendar header .up:not(.disabled) {\n  cursor: pointer;\n}\n.vdp-datepicker__calendar header .prev:not(.disabled):hover,\n.vdp-datepicker__calendar header .next:not(.disabled):hover,\n.vdp-datepicker__calendar header .up:not(.disabled):hover {\n  background: #eee;\n}\n.vdp-datepicker__calendar .disabled {\n  color: #ddd;\n  cursor: default;\n}\n.vdp-datepicker__calendar .flex-rtl {\n  display: flex;\n  width: inherit;\n  flex-wrap: wrap;\n}\n.vdp-datepicker__calendar .cell {\n  display: inline-block;\n  padding: 0 5px;\n  width: 14.285714285714286%;\n  height: 40px;\n  line-height: 40px;\n  text-align: center;\n  vertical-align: middle;\n  border: 1px solid transparent;\n}\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year {\n  cursor: pointer;\n}\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {\n  border: 1px solid #4bd;\n}\n.vdp-datepicker__calendar .cell.selected {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.selected:hover {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.selected.highlighted {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.highlighted {\n  background: #cae5ed;\n}\n.vdp-datepicker__calendar .cell.highlighted.disabled {\n  color: #a3a3a3;\n}\n.vdp-datepicker__calendar .cell.grey {\n  color: #888;\n}\n.vdp-datepicker__calendar .cell.grey:hover {\n  background: inherit;\n}\n.vdp-datepicker__calendar .cell.day-header {\n  font-size: 75%;\n  white-space: nowrap;\n  cursor: inherit;\n}\n.vdp-datepicker__calendar .cell.day-header:hover {\n  background: inherit;\n}\n.vdp-datepicker__calendar .month,\n.vdp-datepicker__calendar .year {\n  width: 33.333%;\n}\n.vdp-datepicker__clear-button,\n.vdp-datepicker__calendar-button {\n  cursor: pointer;\n  font-style: normal;\n}\n.vdp-datepicker__clear-button.disabled,\n.vdp-datepicker__calendar-button.disabled {\n  color: #999;\n  cursor: default;\n}\n"]}, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$4 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$4 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$4 = false;
+  /* style inject SSR */
+  
+
+  
+  var Datepicker = normalizeComponent_1(
+    { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
+    __vue_inject_styles__$4,
+    __vue_script__$4,
+    __vue_scope_id__$4,
+    __vue_is_functional_template__$4,
+    __vue_module_identifier__$4,
+    browser,
+    undefined
+  );
+
+/* harmony default export */ __webpack_exports__["default"] = (Datepicker);
+
+
+/***/ }),
+
 /***/ "./node_modules/vuelidate/lib/index.js":
 /*!*********************************************!*\
   !*** ./node_modules/vuelidate/lib/index.js ***!
@@ -98412,6 +105460,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_jd_table_src_jd_table_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-jd-table/src/jd-table.vue */ "./node_modules/vue-jd-table/src/jd-table.vue");
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
+
 
 
 /**
@@ -98426,6 +105476,8 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.toastr = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+window.bootbox = __webpack_require__(/*! bootbox */ "./node_modules/bootbox/bootbox.all.js"); //window.moment = require('moment');
+
 Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
 Vue.prototype.$moment = moment;
 /**
@@ -98440,11 +105492,14 @@ Vue.prototype.$moment = moment;
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('JDTable', vue_jd_table_src_jd_table_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
+Vue.component('date-picker', vuejs_datepicker__WEBPACK_IMPORTED_MODULE_2__["default"]);
 Vue.component('busqueda-api', __webpack_require__(/*! ./components/BusquedaApi.vue */ "./resources/js/components/BusquedaApi.vue")["default"]);
 Vue.component('select2', __webpack_require__(/*! ./components/select.vue */ "./resources/js/components/select.vue")["default"]);
+Vue.component('bootbox-modal', __webpack_require__(/*! ./components/BootboxDialog.vue */ "./resources/js/components/BootboxDialog.vue")["default"]);
 Vue.component('lista-ejem', __webpack_require__(/*! ./components/ListaEjem.vue */ "./resources/js/components/ListaEjem.vue")["default"]);
 Vue.component('buscar-libro', __webpack_require__(/*! ./components/Buscar-libro.vue */ "./resources/js/components/Buscar-libro.vue")["default"]);
 Vue.component('buscar-material', __webpack_require__(/*! ./components/BuscarMaterialComponent.vue */ "./resources/js/components/BuscarMaterialComponent.vue")["default"]);
+Vue.component('prestamo-form', __webpack_require__(/*! ./components/PrestamoFormComponent.vue */ "./resources/js/components/PrestamoFormComponent.vue")["default"]);
 Vue.component('lista-ejem-table', __webpack_require__(/*! ./components/ListaEjemTable.vue */ "./resources/js/components/ListaEjemTable.vue")["default"]);
 Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]);
 Vue.component('prestamos-list-component', __webpack_require__(/*! ./components/PrestamosList.vue */ "./resources/js/components/PrestamosList.vue")["default"]);
@@ -98740,6 +105795,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Biblioteca_list_vue_vue_type_template_id_ff989dac___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Biblioteca_list_vue_vue_type_template_id_ff989dac___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/BootboxDialog.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/BootboxDialog.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BootboxDialog_vue_vue_type_template_id_fb8ca934___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BootboxDialog.vue?vue&type=template&id=fb8ca934& */ "./resources/js/components/BootboxDialog.vue?vue&type=template&id=fb8ca934&");
+/* harmony import */ var _BootboxDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BootboxDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/BootboxDialog.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _BootboxDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BootboxDialog_vue_vue_type_template_id_fb8ca934___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BootboxDialog_vue_vue_type_template_id_fb8ca934___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/BootboxDialog.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/BootboxDialog.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/BootboxDialog.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BootboxDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./BootboxDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BootboxDialog.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BootboxDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/BootboxDialog.vue?vue&type=template&id=fb8ca934&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/BootboxDialog.vue?vue&type=template&id=fb8ca934& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BootboxDialog_vue_vue_type_template_id_fb8ca934___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./BootboxDialog.vue?vue&type=template&id=fb8ca934& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BootboxDialog.vue?vue&type=template&id=fb8ca934&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BootboxDialog_vue_vue_type_template_id_fb8ca934___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BootboxDialog_vue_vue_type_template_id_fb8ca934___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -99361,6 +106485,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MisPrestamosList_vue_vue_type_template_id_595867e6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MisPrestamosList_vue_vue_type_template_id_595867e6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PrestamoFormComponent.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/PrestamoFormComponent.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PrestamoFormComponent_vue_vue_type_template_id_47bc157f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PrestamoFormComponent.vue?vue&type=template&id=47bc157f& */ "./resources/js/components/PrestamoFormComponent.vue?vue&type=template&id=47bc157f&");
+/* harmony import */ var _PrestamoFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PrestamoFormComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/PrestamoFormComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PrestamoFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PrestamoFormComponent_vue_vue_type_template_id_47bc157f___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PrestamoFormComponent_vue_vue_type_template_id_47bc157f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PrestamoFormComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PrestamoFormComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/PrestamoFormComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamoFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PrestamoFormComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamoFormComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamoFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PrestamoFormComponent.vue?vue&type=template&id=47bc157f&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/PrestamoFormComponent.vue?vue&type=template&id=47bc157f& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamoFormComponent_vue_vue_type_template_id_47bc157f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PrestamoFormComponent.vue?vue&type=template&id=47bc157f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamoFormComponent.vue?vue&type=template&id=47bc157f&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamoFormComponent_vue_vue_type_template_id_47bc157f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrestamoFormComponent_vue_vue_type_template_id_47bc157f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

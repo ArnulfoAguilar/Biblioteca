@@ -78,6 +78,7 @@ Route::get('/TipoEmpastadoSelect', 'Select2Controller@tipoEmpastadoSelect');
 Route::get('/TipoAdquisicionSelect', 'Select2Controller@tipoAdquisicionSelect');
 Route::get('/EstadoEjemplarSelect', 'Select2Controller@estadoEjemplarSelect');
 Route::get('/CatalogoMaterialSelect', 'Select2Controller@catalogoMaterialSelect');
+Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
 
 /*RUTA para select de Area*/
 Route::get('/area', 'AreaController@areaSelect')->name('areas');

@@ -28,9 +28,11 @@
     },
     "dependencies": {
         "admin-lte": "^3.0.0-beta.2",
+        "bootbox": "^5.3.2",
         "moment": "^2.24.0",
         "select2": "^4.0.7",
         "toastr": "^2.1.4",
+        "vuejs-datepicker": "^1.6.2",
         "vuelidate": "^0.7.4"
     }
 }

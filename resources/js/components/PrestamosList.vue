@@ -7,6 +7,14 @@
             :event-from-app-trigger="tableData.eventFromAppTrigger"
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
+
+        <bootbox-modal v-if="modalShowFlag" @close="modalClosing(true)" :title="titleToShow" :size="'extra-large'">
+            <buscar-material :isBibliotecario="true"></buscar-material>
+        </bootbox-modal>
+
+        <bootbox-modal v-if="formShowFlag" @close="modalClosing(false)" :title="'Confirmar préstamo'">
+          <prestamo-form :is-bibliotecario="true" :material="PRESTAMO" @close="modalClosingAfterSubmit"></prestamo-form>
+        </bootbox-modal>
   </div>
 </template>
 
@@ -22,46 +30,79 @@ export default {
                     name: null,
                     data: null
                 },
-                columns: []
+                columns: [
+                    {
+                        name:'EJEMPLAR',
+                        title:'Ejemplar',
+                        order: 1,
+                        sort: true,
+                        type: 'string',
+                        filterable: true,
+                        enabled: true
+                    },
+                    {
+                        name:'ESTADO_PRESTAMO',
+                        title:'Estado préstamo',
+                        order: 2,
+                        sort: true,
+                        type: 'string',
+                        filterable: true,
+                        enabled: true
+                    },
+                    {
+                        name:'name',
+                        title:'Solicitado por',
+                        order: 3,
+                        sort: true,
+                        type: 'string',
+                        filterable: true,
+                        enabled: true
+                    },
+                    {
+                        name:'FECHA_PRESTAMO',
+                        title:'Fecha de préstamo',
+                        order: 4,
+                        sort: true,
+                        type: 'string',
+                        filterable: true,
+                        enabled: false
+                    }
+                ]
             },
-            PRESTAMO:{
-                FECHA_PRESTAMO:'',
-                ID_USUARIO:'',
-                ID_DESPACHO:'',
-                ID_ESTADO_PRESTAMO:'',
-                ID_MATERIAL:''
-            },
+            PRESTAMO:{},
+            tipoPrestamos:[],
+            estadoPrestamos:[],
+            prestamos: [],
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
             editTitle: 'Editar Ejemplar',
-            titleToShow: ''
+            titleToShow: '',
+            modalShowFlag: false,
+            formShowFlag: false
         }
     },
     //vuelidate
     created(){
         this.tableData.tableOptions = {
-            columns: this.columns,
+            columns: this.tableData.columns,
             responsiveTable: true,
             contextMenuRight: true,
             contextMenuAdd: false,
             contextMenuView: false,
             quickView: 0,
             addNew: true,
-            deleteItem: true
+            //deleteItem: true
         };
         this.sendData();
-    },
-    mounted(){
-        $('#modalForm').on('hide.bs.modal',this.vaciarModelo);
     },
     methods:{
         sendData(){
             this.tableData.tableLoader = true;
-            axios.get('/ejemplars').then(res=>{
-                this.ejemplars=res.data;
+            axios.get('/biblioteca/prestamos').then(res=>{
+                this.prestamos=res.data;
                 this.tableData.eventFromApp = {
                     name: 'sendData',
-                    payload: this.ejemplars
+                    payload: this.prestamos
                 };
             this.triggerEvent();
             this.tableData.tableLoader = false;
@@ -75,11 +116,11 @@ export default {
         },
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
-                axios.get('/ejemplars').then((result)=>{
-                    this.ejemplars=result.data;
+                axios.get('/biblioteca/prestamos').then((result)=>{
+                    this.prestamos=result.data;
                     this.tableData.eventFromApp = {
                         name: 'sendData',
-                        payload: this.ejemplars
+                        payload: this.prestamos
                     };
                     this.triggerEvent();
                 })
@@ -87,81 +128,43 @@ export default {
             if (componentState.lastAction ==='AddItem') {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
-                $('#modalForm').modal('show');
+                this.modalShowFlag = true
 
             }
             if (componentState.lastAction ==='EditItem') {
                 this.submit = this.editarEjemplar;
                 this.titleToShow = this.editTitle;
-                this.editarFormulario(componentState.selectedItem);
-                $('#modalForm').modal('show');
+                this.PRESTAMO=componentState.selectedItem;
+                this.formShowFlag = true;
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarEjemplar(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarPrestamo(componentState.selectedItem, componentState.selectedIndex);
             }
         },
-        guardar() {
-            const ejemplarToSave = this.EJEMPLAR;
-            console.log(ejemplarToSave.COPIAS);
-            const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
-            if(this.isEditing)
-                axios.put(`/ejemplars/${this.EJEMPLAR.id}`, ejemplarToSave).then(res=>{
-                    this.modoEditar = false;
-                    this.success(msg);
-                });
-            else
-                axios.post('/ejemplars', ejemplarToSave).then((res) =>{
-                    this.success(msg);
-                });
-            this.vaciarModelo();
-            $("#modalForm").modal('hide');
-        },
-        editarFormulario(item){
-        this.PRESTAMO.FECHA_PRESTAMO=item.FECHA_PRESTAMO;
-        this.PRESTAMO.ID_USUARIO=item.ID_USUARIO;
-        this.PRESTAMO.ID_DESPACHO=item.ID_DESPACHO
-        this.PRESTAMO.ID_ESTADO_PRESTAMO=item.ID_ESTADO_PRESTAMO;
-        this.PRESTAMO.ID_MATERIAL=item.ID_MATERIAL;
-        this.isEditing = true;
-        },
-        eliminarEjemplar(EJEMPLAR, index){
+        eliminarPrestamo(PRESTAMO, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "EJEMPLAR ${EJEMPLAR.EJEMPLAR}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar este registro?`);
             if(confirmacion){
-                axios.delete(`/ejemplars/${EJEMPLAR.id}`)
+                axios.delete(`/biblioteca/prestamos/${PRESTAMO.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("EJEMPLAR ELIMINADO");
                 })
             }
         },
-        vaciarModelo(){
-            this.PRESTAMO={
-                FECHA_PRESTAMO:'',
-                ID_USUARIO:'',
-                ID_DESPACHO:'',
-                ID_ESTADO_PRESTAMO:'',
-                ID_MATERIAL:''
-            };
+        modalClosing(flag){
+            if(flag)
+                this.modalShowFlag = false;
+            else
+                this.formShowFlag = false;
         },
-        success(msg){
+        modalClosingAfterSubmit(){
+            this.prestamos=[];
             this.sendData();
-            toastr.clear();
-            toastr.options.closeButton = true;
-            toastr.success(msg, 'Exito');
+            this.formShowFlag = false;
         },
-        submitHandler(error){
-            if(error){
-                toastr.clear();
-                toastr.options.closeButton = true;
-                toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
-            }else{
-                this.guardar();
-            }
-        }
     }
 }
 </script>
