@@ -139,6 +139,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('graficos/aportes', 'GraficosController@index')->name('graficos.aportes');
     Route::get('graficos/aportes/anio', 'GraficosController@aportesAnio')->name('graficos.aportes.anio');
 
+// -----------------------------------------CONFIGURACIONES -------------------------------------//
+Route::get('/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
+Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
+// -----------------------------------------ERRORES RUTAS -------------------------------------//
+Route::get('/error/1', 'ErroresController@error1')->name('error1');
+// -----------------------------------------PERFIL DE USUARIO -------------------------------------//
+Route::get('/Usuario/totalAportesCreados/{id}', 'UserController@totalAportesCreados')->name('totalAportesCreados');
+Route::get('/aportesProfile', 'AporteController@aportesProfile');
+
+
     // -----------------------------------------ERRORES RUTAS -------------------------------------//
 
     Route::get('/error/1', 'ErroresController@error1')->name('error1');

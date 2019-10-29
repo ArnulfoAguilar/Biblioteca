@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
 use App\User;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+       // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +57,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $Usuario = User::find($id);
+        if($Usuario==null){
+            abort(404);
+        }
+        return view('Usuarios.verUsuario')
+        ->with([
+            'usuario' => $Usuario
+            ]);
     }
 
     /**
@@ -97,6 +110,7 @@ class UserController extends Controller
         return redirect()->route('asignar.roles');
     }
 
+
     public function asignarComite(Request $request)
     {
         $usuario = User::find($request->id);
@@ -105,4 +119,11 @@ class UserController extends Controller
         activity()->log('Asignó comite a usuario');
         return redirect()->route('asignar.comites');
     }
-}
+    public function totalAportesCreados($UsuarioId)
+    {
+        $AportesRealizados = DB::table('Aporte')
+        ->where('ID_USUARIO','=',$UsuarioId)
+        ->count();  
+        return $AportesRealizados;
+
+    }
