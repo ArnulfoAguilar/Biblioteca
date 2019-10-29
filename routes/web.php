@@ -27,6 +27,9 @@ Route::resource('/biblioteca/prestamos', 'PrestamoController');
 Route::get('bibioteca/misPrestamos', 'PrestamoController@indexMisPrestamos')->name('index.misPrestamos');
 Route::get('bibioteca/lista/mis-prestamos', 'PrestamoController@listaMisPrestamos')->name('misPrestamos');
 
+Route::get('/biblioteca/prestamos', 'PrestamosController@index')->name('prestamos.v2');
+Route::POST('/aprobar/prestamo', 'PrestamosController@aprobarPrestamo')->name('aprobar.prestamo');
+
 // ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
 
 Route::get('/inventario/bibliotecas', 'BibliotecaController@biblioteca')->name('biblioteca');

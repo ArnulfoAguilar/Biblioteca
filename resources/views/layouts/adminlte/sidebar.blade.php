@@ -40,6 +40,14 @@
                   <p>Ver Préstamos(René)</p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="{{route ('prestamos.v2')}}" class="nav-link {{ ( request()->is('biblioteca/prestamos') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ver Préstamos V2</p>
+                </a>
+              </li>
+              
               <li class="nav-item">
               <a href="{{route ('index.misPrestamos')}}" class="nav-link {{( request()->is('bibioteca/misPrestamos') ) ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
