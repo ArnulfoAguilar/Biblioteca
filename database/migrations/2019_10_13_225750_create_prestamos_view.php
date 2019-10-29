@@ -19,7 +19,7 @@ class CreatePrestamosView extends Migration
                 p."FECHA_PRESTAMO",
                 ep."ESTADO_PRESTAMO",
                 e."EJEMPLAR",
-                u."name"
+                u."name",
                 e."AUTOR",
                 e."EDICION",
                 e."ID_TIPO_ADQUISICION",
