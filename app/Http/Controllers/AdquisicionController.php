@@ -108,6 +108,6 @@ class AdquisicionController extends Controller
     {
         $sugerencia = Adquisicion::find($id);
         $sugerencia->delete();
-        activity()->log('Requisicion eliminada');
+        activity()->performedOn($sugerencia)->log('Requisicion eliminada');
     }
 }
