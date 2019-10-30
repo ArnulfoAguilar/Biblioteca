@@ -119,6 +119,7 @@ class UserController extends Controller
         activity()->log('Asignó comite a usuario');
         return redirect()->route('asignar.comites');
     }
+
     public function totalAportesCreados($UsuarioId)
     {
         $AportesRealizados = DB::table('Aporte')
@@ -127,3 +128,4 @@ class UserController extends Controller
         return $AportesRealizados;
 
     }
+}
