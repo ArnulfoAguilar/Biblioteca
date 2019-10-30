@@ -208,6 +208,13 @@
                   </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{route('Configuracion')}}" class="nav-link {{ ( request()->is('catalogos/Configuracion') ) ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Configuraciones </p>
+                      </a>
+                  </li>
+
               </ul>
             </li>
             @endif
@@ -230,12 +237,7 @@
                   </a>
                 </li>
 
-                <li class="nav-item">
-                  <a href="{{route('Configuracion')}}" class="nav-link {{ ( request()->is('catalogos/Configuracion') ) ? 'active' : '' }}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Configuraciones </p>
-                    </a>
-                </li>
+               
 
                 <li class="nav-item">
                   <a href="{{route('registro.actividad')}}" class="nav-link {{ ( request()->is('catalogos/registros') ) ? 'active' : '' }}">

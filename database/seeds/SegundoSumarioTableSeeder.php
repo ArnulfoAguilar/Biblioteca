@@ -32,7 +32,7 @@ class SegundoSumarioTableSeeder extends Seeder
             'ID_PRIMER_SUMARIO' => 3
         ]);
         DB::table('segundoSumario')->insert([
-            'id' => 4,
+            'id' => 5,
             'DESCRIPCION' => '230 - Cristianismo; Teología Cristiana',
             'ID_PRIMER_SUMARIO' => 3
         ]);
