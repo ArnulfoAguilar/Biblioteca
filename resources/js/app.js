@@ -1,6 +1,6 @@
 import JDTable from 'vue-jd-table/src/jd-table.vue';
 import Vuelidate from 'vuelidate';
-import Datepicker from 'vuejs-datepicker';
+//import Datepicker from 'vuejs-datepicker';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -30,7 +30,7 @@ Vue.prototype.$moment = moment;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('JDTable', JDTable);
-Vue.component('date-picker', Datepicker);
+//Vue.component('date-picker', Datepicker);
 Vue.component('busqueda-api', require('./components/BusquedaApi.vue').default);
 Vue.component('select2', require('./components/select.vue').default);
 Vue.component('bootbox-modal', require('./components/BootboxDialog.vue').default);
