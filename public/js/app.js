@@ -2916,11 +2916,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       check_titulo: true,
-      modalTitle: 'Realizar préstamo de libro',
+      modalTitle: "Realizar préstamo de libro",
       qry: {
         titulo: "",
         autor: "",
@@ -3609,7 +3616,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       //console.log('tratando de llenar los combos');
           this.getSegundoSumario();
       }
-       if(this.EJEMPLAR.TERCER_SUMARIO>0&& this.tercerSumarios.length===0)
+        if(this.EJEMPLAR.TERCER_SUMARIO>0&& this.tercerSumarios.length===0)
           this.getTercerSumario();
   }, */
   methods: {
@@ -4659,6 +4666,70 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MisPrestamosList.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MisPrestamosList.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//import moment from "moment";
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      misPrestamos: []
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    this.$moment.locale("es");
+    axios.get("/bibioteca/lista/mis-prestamos").then(function (res) {
+      _this.misPrestamos = res.data;
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamoFormComponent.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PrestamoFormComponent.vue?vue&type=script&lang=js& ***!
@@ -4802,7 +4873,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      hoy: moment(new Date()),
+      hoy: this.$moment(new Date()),
       fechaDevolucion: '',
       fechaPrestamo: '',
       tipoPrestamos: [],
@@ -87751,6 +87822,111 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MisPrestamosList.vue?vue&type=template&id=595867e6&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MisPrestamosList.vue?vue&type=template&id=595867e6& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "contener-fluid" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-12", staticStyle: { overflow: "auto" } },
+        [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header bg-dark" }, [
+              _vm._v("Mis préstamos bibliotecarios")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              [
+                _c("form"),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _vm._l(_vm.misPrestamos, function(item, index) {
+                  return _c("ul", { key: index, staticClass: "list-group" }, [
+                    _c("li", { staticClass: "list-group-item" }, [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "badge float-right",
+                          class: {
+                            "bg-info": item.ID_ESTADO_PRESTAMO == 1, //Solicitado
+                            "bg-success": item.ID_ESTADO_PRESTAMO == 3, //Prestado
+                            "bg-warning": item.ID_ESTADO_PRESTAMO == 2, //Reservado y 4.Pendiente de Devolucion
+                            "bg-danger": item.ID_ESTADO_PRESTAMO == 4
+                          }
+                        },
+                        [_vm._v(_vm._s(item.ESTADO_PRESTAMO))]
+                      ),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "col-lg-5" }, [
+                        _vm._v("Título: " + _vm._s(item.EJEMPLAR))
+                      ]),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "col-lg-5" }, [
+                        _vm._v("Autor: " + _vm._s(item.AUTOR))
+                      ]),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "col-lg-5" }, [
+                        _vm._v("Biblioteca:")
+                      ]),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "col-lg-5" }, [
+                        _vm._v(
+                          "Tipo de préstamo: " + _vm._s(item.TIPO_PRESTAMO)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "col-lg-5" }, [
+                        _vm._v(
+                          "Fecha de préstamo: " +
+                            _vm._s(
+                              _vm.$moment(item.FECHA_PRESTAMO).format("lll")
+                            )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "col-lg-5" }, [
+                        _vm._v(
+                          "Fecha de devolución: " +
+                            _vm._s(
+                              _vm.$moment(item.FECHA_DEVOLUCION).format("lll")
+                            )
+                        )
+                      ])
+                    ])
+                  ])
+                })
+              ],
+              2
+            )
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PrestamoFormComponent.vue?vue&type=template&id=47bc157f&":
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PrestamoFormComponent.vue?vue&type=template&id=47bc157f& ***!
@@ -88084,7 +88260,7 @@ var staticRenderFns = [
                 autocomplete: "off"
               }
             }),
-            _vm._v(" Solicitar préstamo\n                    ")
+            _vm._v(" Solicitar préstamo\r\n                    ")
           ]),
           _vm._v(" "),
           _c("label", { staticClass: "btn btn-info" }, [
@@ -88096,7 +88272,7 @@ var staticRenderFns = [
                 autocomplete: "off"
               }
             }),
-            _vm._v(" Realizar reserva\n                    ")
+            _vm._v(" Realizar reserva\r\n                    ")
           ])
         ]
       )
@@ -105294,15 +105470,16 @@ __webpack_require__.r(__webpack_exports__);
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //var moment = require('moment');
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.toastr = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
-window.bootbox = __webpack_require__(/*! bootbox */ "./node_modules/bootbox/bootbox.all.js");
-window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a); //Vue.prototype.$moment = moment;
+window.bootbox = __webpack_require__(/*! bootbox */ "./node_modules/bootbox/bootbox.all.js"); //window.moment = require('moment');
 
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
+Vue.prototype.$moment = moment;
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -105325,7 +105502,8 @@ Vue.component('buscar-material', __webpack_require__(/*! ./components/BuscarMate
 Vue.component('prestamo-form', __webpack_require__(/*! ./components/PrestamoFormComponent.vue */ "./resources/js/components/PrestamoFormComponent.vue")["default"]);
 Vue.component('lista-ejem-table', __webpack_require__(/*! ./components/ListaEjemTable.vue */ "./resources/js/components/ListaEjemTable.vue")["default"]);
 Vue.component('ejemplar-component', __webpack_require__(/*! ./components/EjemplarComponent.vue */ "./resources/js/components/EjemplarComponent.vue")["default"]);
-Vue.component('prestamos-list-component', __webpack_require__(/*! ./components/PrestamosList.vue */ "./resources/js/components/PrestamosList.vue")["default"]); // Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
+Vue.component('prestamos-list-component', __webpack_require__(/*! ./components/PrestamosList.vue */ "./resources/js/components/PrestamosList.vue")["default"]);
+Vue.component('prestamos-mi-lista', __webpack_require__(/*! ./components/MisPrestamosList.vue */ "./resources/js/components/MisPrestamosList.vue")["default"]); // Vue.component('nuevo-aporte', require('./components/nuevoAporte.vue').default);
 
 Vue.component('revisiones', __webpack_require__(/*! ./components/Revisiones.vue */ "./resources/js/components/Revisiones.vue")["default"]); //Vue.component('comentarios', require('./components/Comentarios.vue').default);
 
@@ -106243,6 +106421,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/MisPrestamosList.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/MisPrestamosList.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MisPrestamosList_vue_vue_type_template_id_595867e6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MisPrestamosList.vue?vue&type=template&id=595867e6& */ "./resources/js/components/MisPrestamosList.vue?vue&type=template&id=595867e6&");
+/* harmony import */ var _MisPrestamosList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MisPrestamosList.vue?vue&type=script&lang=js& */ "./resources/js/components/MisPrestamosList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _MisPrestamosList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MisPrestamosList_vue_vue_type_template_id_595867e6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MisPrestamosList_vue_vue_type_template_id_595867e6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/MisPrestamosList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/MisPrestamosList.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/MisPrestamosList.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MisPrestamosList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./MisPrestamosList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MisPrestamosList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MisPrestamosList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/MisPrestamosList.vue?vue&type=template&id=595867e6&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/MisPrestamosList.vue?vue&type=template&id=595867e6& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MisPrestamosList_vue_vue_type_template_id_595867e6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./MisPrestamosList.vue?vue&type=template&id=595867e6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MisPrestamosList.vue?vue&type=template&id=595867e6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MisPrestamosList_vue_vue_type_template_id_595867e6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MisPrestamosList_vue_vue_type_template_id_595867e6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/PrestamoFormComponent.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/PrestamoFormComponent.vue ***!
@@ -106606,8 +106853,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/keepercito/Documents/apache/Biblioteca/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp7\htdocs\Biblioteca\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp7\htdocs\Biblioteca\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

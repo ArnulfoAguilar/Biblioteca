@@ -24,6 +24,11 @@ Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimi
 Route::get('/biblioteca/imprimir', 'LibroController@Tags')->name('imprimir');
 Route::get('/biblioteca/prestamo', 'HomeController@prestamos')->name('prestamos');
 Route::resource('/biblioteca/prestamos', 'PrestamoController');
+Route::get('bibioteca/misPrestamos', 'PrestamoController@indexMisPrestamos')->name('index.misPrestamos');
+Route::get('bibioteca/lista/mis-prestamos', 'PrestamoController@listaMisPrestamos')->name('misPrestamos');
+
+Route::get('/biblioteca/prestamos-vii', 'PrestamosController@index')->name('prestamos.v2');
+Route::POST('/aprobar/prestamo', 'PrestamosController@aprobarPrestamo')->name('aprobar.prestamo');
 
 // ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
 

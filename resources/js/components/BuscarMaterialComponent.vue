@@ -1,7 +1,10 @@
 <template>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-md-12" v-bind:style="{overflow: 'auto', height:(isBibliotecario)?'500px':'' }">
+      <div
+        class="col-md-12"
+        v-bind:style="{overflow: 'auto', height:(isBibliotecario)?'500px':'' }"
+      >
         <div class="card">
           <div class="card-header bg-dark">Buscar libro</div>
           <div class="card-body">
@@ -84,7 +87,11 @@
         </div>
       </div>
       <bootbox-modal v-if="modalShowFlag" @close="modalClosing" :title="modalTitle">
-          <prestamo-form :is-bibliotecario="isBibliotecario" :material="materialBibliotecario" @close="modalShowFlag = $event"></prestamo-form>
+        <prestamo-form
+          :is-bibliotecario="isBibliotecario"
+          :material="materialBibliotecario"
+          @close="modalShowFlag = $event"
+        ></prestamo-form>
       </bootbox-modal>
     </div>
   </div>
@@ -94,31 +101,31 @@
 export default {
   data() {
     return {
-        check_titulo: true,
-        modalTitle: 'Realizar préstamo de libro',
-        qry: {
-            titulo: "",
-            autor: "",
-            isbn: ""
-        },
-        materialesBibliotecarios: [],
-        modalShowFlag: false,
-        materialBibliotecario: {
-            ID_MATERIAL: "",
-            ID_CATALOGO_MATERIAL: "",
-            EJEMPLAR: "",
-            AUTOR: "",
-            EDICION: "",
-            DESCRIPCION: "",
-            ISBN: "",
-            COPIA_NUMERO: "",
-            ID_TERCER_SUMARIO: "",
-            CODIGO_BARRA: "",
-            ID_BIBLIOTECA: "",
-            ID_ESTANTE: "",
-            FILAESTANTE: "",
-            ID_TIPO_ADQUISICION: ""
-        }
+      check_titulo: true,
+      modalTitle: "Realizar préstamo de libro",
+      qry: {
+        titulo: "",
+        autor: "",
+        isbn: ""
+      },
+      materialesBibliotecarios: [],
+      modalShowFlag: false,
+      materialBibliotecario: {
+        ID_MATERIAL: "",
+        ID_CATALOGO_MATERIAL: "",
+        EJEMPLAR: "",
+        AUTOR: "",
+        EDICION: "",
+        DESCRIPCION: "",
+        ISBN: "",
+        COPIA_NUMERO: "",
+        ID_TERCER_SUMARIO: "",
+        CODIGO_BARRA: "",
+        ID_BIBLIOTECA: "",
+        ID_ESTANTE: "",
+        FILAESTANTE: "",
+        ID_TIPO_ADQUISICION: ""
+      }
     };
   },
   created() {
@@ -128,14 +135,15 @@ export default {
   },
   methods: {
     seleccionarMaterial(material) {
-        this.modalShowFlag = true;
-        this.materialBibliotecario.ID_MATERIAL = material.id;
-        this.materialBibliotecario.EJEMPLAR = material.EJEMPLAR;
-        this.materialBibliotecario.AUTOR = material.AUTOR;
-        this.materialBibliotecario.EDICION = material.EDICION;
-        this.materialBibliotecario.DESCRIPCION = material.DESCRIPCION;
-        this.materialBibliotecario.CODIGO_BARRA = material.CODIGO_BARRA;
-        this.materialBibliotecario.ID_TIPO_ADQUISICION = material.ID_TIPO_ADQUISICION;
+      this.modalShowFlag = true;
+      this.materialBibliotecario.ID_MATERIAL = material.id;
+      this.materialBibliotecario.EJEMPLAR = material.EJEMPLAR;
+      this.materialBibliotecario.AUTOR = material.AUTOR;
+      this.materialBibliotecario.EDICION = material.EDICION;
+      this.materialBibliotecario.DESCRIPCION = material.DESCRIPCION;
+      this.materialBibliotecario.CODIGO_BARRA = material.CODIGO_BARRA;
+      this.materialBibliotecario.ID_TIPO_ADQUISICION =
+        material.ID_TIPO_ADQUISICION;
     },
     buscarMaterialBibliotecario() {
       axios
@@ -151,28 +159,28 @@ export default {
           this.materialesBibliotecarios = res.data;
         });
     },
-    modalClosing(){
-        this.materialBibliotecario.ID_MATERIAL = "";
-        this.materialBibliotecario.ID_CATALOGO_MATERIAL= "";
-        this.materialBibliotecario.EJEMPLAR= "";
-        this.materialBibliotecario.AUTOR= "";
-        this.materialBibliotecario.EDICION= "";
-        this.materialBibliotecario.DESCRIPCION= "";
-        this.materialBibliotecario.ISBN= "";
-        this.materialBibliotecario.COPIA_NUMERO= "";
-        this.materialBibliotecario.ID_TERCER_SUMARIO= "";
-        this.materialBibliotecario.CODIGO_BARRA= "";
-        this.materialBibliotecario.ID_BIBLIOTECA= "";
-        this.materialBibliotecario.ID_ESTANTE  ="";
-        this.materialBibliotecario.FILAESTANTE= "";
-        this.materialBibliotecario.ID_TIPO_ADQUISICION= "";
-        this.materialBibliotecario.ID_TIPO_PRESTAMO= "";
+    modalClosing() {
+      this.materialBibliotecario.ID_MATERIAL = "";
+      this.materialBibliotecario.ID_CATALOGO_MATERIAL = "";
+      this.materialBibliotecario.EJEMPLAR = "";
+      this.materialBibliotecario.AUTOR = "";
+      this.materialBibliotecario.EDICION = "";
+      this.materialBibliotecario.DESCRIPCION = "";
+      this.materialBibliotecario.ISBN = "";
+      this.materialBibliotecario.COPIA_NUMERO = "";
+      this.materialBibliotecario.ID_TERCER_SUMARIO = "";
+      this.materialBibliotecario.CODIGO_BARRA = "";
+      this.materialBibliotecario.ID_BIBLIOTECA = "";
+      this.materialBibliotecario.ID_ESTANTE = "";
+      this.materialBibliotecario.FILAESTANTE = "";
+      this.materialBibliotecario.ID_TIPO_ADQUISICION = "";
+      this.materialBibliotecario.ID_TIPO_PRESTAMO = "";
 
-        this.modalShowFlag = false;
-    },
+      this.modalShowFlag = false;
+    }
   },
-  props:{
-      isBibliotecario: Boolean
+  props: {
+    isBibliotecario: Boolean
   }
-}
+};
 </script>

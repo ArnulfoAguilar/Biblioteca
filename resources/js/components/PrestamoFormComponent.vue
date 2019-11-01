@@ -131,7 +131,7 @@ export default {
     },
     data(){
         return{
-            hoy: moment(new Date()),
+            hoy: this.$moment(new Date()),
             fechaDevolucion: '',
             fechaPrestamo: '',
             tipoPrestamos: [],
