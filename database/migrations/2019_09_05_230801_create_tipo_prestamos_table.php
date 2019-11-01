@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEstadoDespachosTable extends Migration
+class CreateTipoPrestamosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateEstadoDespachosTable extends Migration
      */
     public function up()
     {
-        Schema::create('estadoDespacho', function (Blueprint $table) {
-            $table->bigIncrements('ID_DESPACHO');
-            $table->string('ESTADO_DESPACHO', 250);
+        Schema::create('tipoPrestamo', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('TIPO_PRESTAMO', 50);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateEstadoDespachosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estadoDespacho');
+        Schema::dropIfExists('tipoPrestamo');
     }
 }

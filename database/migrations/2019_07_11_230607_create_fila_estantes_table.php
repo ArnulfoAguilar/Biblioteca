@@ -15,7 +15,7 @@ class CreateFilaEstantesTable extends Migration
     {
         Schema::create('filaEstante', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('FILAESTANTE','255');
+            $table->string('FILAESTANTE', '255');
             $table->bigInteger('ID_ESTANTE')->unsigned();
             // $table->unsignedInteger('ID_ESTANTE');
             $table->foreign('ID_ESTANTE')
@@ -31,6 +31,7 @@ class CreateFilaEstantesTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

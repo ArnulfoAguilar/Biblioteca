@@ -15,8 +15,9 @@ class CreatePrimerSumariosTable extends Migration
     {
         Schema::create('primerSumario', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('DESCRIPCION','255');
+            $table->string('DESCRIPCION', '255');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

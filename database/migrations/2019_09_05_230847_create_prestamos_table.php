@@ -14,19 +14,20 @@ class CreatePrestamosTable extends Migration
     public function up()
     {
         Schema::create('Prestamo', function (Blueprint $table) {
-            $table->bigIncrements('ID_PRESTAMO');
-            $table->date('FECHA_PRESTAMO');
+            $table->bigIncrements('id');
+            $table->dateTime('FECHA_PRESTAMO');
+            $table->dateTime('FECHA_DEVOLUCION')->nullable();
             $table->bigInteger('ID_USUARIO')->unsigned();
             $table->foreign('ID_USUARIO')->references('id')->on('users')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->bigInteger('ID_DESPACHO')->unsigned();
-            $table->foreign('ID_DESPACHO')->references('ID_DESPACHO')
-                ->on('estadoDespacho')
+            $table->bigInteger('ID_TIPO_PRESTAMO')->nullable()->unsigned();
+            $table->foreign('ID_TIPO_PRESTAMO')->references('id')
+                ->on('tipoPrestamo')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->bigInteger('ID_ESTADO_PRESTAMO')->unsigned();
-            $table->foreign('ID_ESTADO_PRESTAMO')->references('ID_ESTADO_PRESTAMO')->on('estadoPrestamo')
+            $table->foreign('ID_ESTADO_PRESTAMO')->references('id')->on('estadoPrestamo')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->bigInteger('ID_MATERIAL')->unsigned();
@@ -34,6 +35,7 @@ class CreatePrestamosTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

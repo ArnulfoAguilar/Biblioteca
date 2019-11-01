@@ -27,6 +27,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
         Route::get('/biblioteca/imprimir', 'LibroController@Tags')->name('imprimir');
 
+        Route::get('/biblioteca/prestamo', 'HomeController@prestamos')->name('prestamos');
+        Route::resource('/biblioteca/prestamos', 'PrestamoController');
+        Route::get('bibioteca/misPrestamos', 'PrestamoController@indexMisPrestamos')->name('index.misPrestamos');
+        Route::get('bibioteca/lista/mis-prestamos', 'PrestamoController@listaMisPrestamos')->name('misPrestamos');
+
+        Route::get('/biblioteca/prestamos', 'PrestamosController@index')->name('prestamos.v2');
+        Route::POST('/aprobar/prestamo', 'PrestamosController@aprobarPrestamo')->name('aprobar.prestamo');
+
     });
 
     // ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
@@ -54,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/aporte/obtener', 'AporteController@obtener')->name('obtener.aporte');
         Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
 
+
         Route::get('/aporte/habilitar', 'AporteController@habilitar')->name('aportes.habilitar');
 
         Route::get('/listaAportesDirector', 'AporteController@listaDirector')->name('aportes.lista.director');
@@ -69,6 +78,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesComentario')->name('interaccion.report');
         Route::resource('/palabraProhibida', 'PalabraProhibidaController');
         Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida');
+        
+Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
+Route::resource('/ejemplars', 'EjemplarController');
+Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
+Route::resource('/Ejemplar', 'EjemplarController');
+Route::resource('/material', 'MaterialBibliotecarioController');
+Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 
         //------------------------Mis rutas para las interacciones
         Route::get('/interacciones/{id}', 'ComentarioController@interacciones');
@@ -113,6 +129,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/TercerSumarioSelect/{id}', 'tercerSumarioController@tercerSumarioSelect');
 
     Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leidas');
+    
+Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
+Route::get('/SegundoSumarioSelect/{id}', 'SegundoSumarioController@segundoSumarioSelect');
+Route::get('/TercerSumarioSelect/{id}', 'TercerSumarioController@tercerSumarioSelect');
+
+/*Rutas para select2 del formulario de ejemplar*/
+Route::get('/TipoEmpastadoSelect', 'Select2Controller@tipoEmpastadoSelect');
+Route::get('/TipoAdquisicionSelect', 'Select2Controller@tipoAdquisicionSelect');
+Route::get('/EstadoEjemplarSelect', 'Select2Controller@estadoEjemplarSelect');
+Route::get('/CatalogoMaterialSelect', 'Select2Controller@catalogoMaterialSelect');
+Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
 
     /*RUTA para select de Area*/
     Route::get('/area', 'AreaController@areaSelect')->name('areas');

@@ -69,4 +69,9 @@ class HomeController extends Controller
         $user = Auth::user();
         $user->unreadNotifications->markAsRead();
     }
+    
+    public function prestamos()
+    {
+        return view('Prestamo/prestamo');
+    }
 }

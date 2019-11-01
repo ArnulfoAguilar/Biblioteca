@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\materialBibliotecario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MaterialBibliotecarioController extends Controller
 {
@@ -12,11 +13,24 @@ class MaterialBibliotecarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $qry = DB::table('busquedamaterialprestamosview')->get();
+            if ($request->titulo != "") {
+                $qry = DB::table('busquedamaterialprestamosview')->where('EJEMPLAR', 'like', '%' . $request->titulo . '%')->get();
+            }
+            if ($request->autor != "") {
+                $qry = DB::table('busquedamaterialprestamosview')->where('AUTOR', 'like', '%' . $request->autor . '%')->get();
+            }
+            if ($request->isbn != "") {
+                $qry = DB::table('busquedamaterialprestamosview')->where('ISBN', 'like', '%' . $request->isbn . '%')->get();
+            }
+            return $qry;
+        } else {
+            return redirect('home');
+        }
     }
-
     /**
      * Show the form for creating a new resource.
      *

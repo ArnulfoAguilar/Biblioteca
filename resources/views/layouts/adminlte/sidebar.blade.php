@@ -37,8 +37,47 @@
                   <a href="{{ route('buscar.disponible') }}" class="nav-link {{ ( request()->is('biblioteca/busqueda/*') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                   <p>Realizar Préstamo</p>
-                  </a>
-                </li>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ver Préstamos(René)</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route ('prestamos.v2')}}" class="nav-link {{ ( request()->is('biblioteca/prestamos') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ver Préstamos V2</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+              <a href="{{route ('index.misPrestamos')}}" class="nav-link {{( request()->is('bibioteca/misPrestamos') ) ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mis Préstamos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ver Deudores</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Penalizaciones</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!--inventario-->
+          <li class="nav-item has-treeview {{ ( request()->is('inventario/*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('inventario/*') ) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-book"></i>
 
                 <li class="nav-item">
                   <a href="#" class="nav-link ">

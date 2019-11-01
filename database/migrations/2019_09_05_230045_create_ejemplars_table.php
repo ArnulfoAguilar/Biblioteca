@@ -23,16 +23,16 @@ class CreateEjemplarsTable extends Migration
             $table->string('AÑO_EDICION', 4)->nullable();
             $table->string('LUGAR_EDICION', 100)->nullable();
             $table->string('OBSERVACIONES', 500)->nullable();
-            $table->string('IMAGEN', 100);
+            $table->string('IMAGEN', 100)->nullable();
             $table->string('DESCRIPCION', 1500);
             $table->string('PALABRAS_CLAVE', 500)->nullable();
             $table->integer('NUMERO_PAGINAS')->nullable();
             $table->integer('NUMERO_COPIAS');
             $table->string('AUTOR', 255)->nullable();
-            $table->bigInteger('ID_CATEGORIA')->nullable()->unsigned();
-            $table->foreign('ID_CATEGORIA')
+            $table->bigInteger('ID_AREA')->nullable()->unsigned();
+            $table->foreign('ID_AREA')
                 ->references('id')
-                ->on('categoriaLibro')
+                ->on('Area')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->bigInteger('ID_TERCER_SUMARIO')->nullable()->unsigned();
@@ -41,19 +41,25 @@ class CreateEjemplarsTable extends Migration
                 ->on('tercerSumario')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->bigInteger('ID_TIPO_EMPASTADO');
+            $table->bigInteger('ID_TIPO_EMPASTADO')->nullable()->unsigned();
             $table->foreign('ID_TIPO_EMPASTADO')->references('ID_TIPO_EMPASTADO')
                 ->on('tipoEmpastado')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->bigInteger('ID_TIPO_ADQUISICION');
+            $table->bigInteger('ID_TIPO_ADQUISICION')->nullable()->unsigned();
             $table->foreign('ID_TIPO_ADQUISICION')->references('ID_TIPO_ADQUISICION')
                 ->on('tipoAdquisicion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->bigInteger('ID_ESTADO_EJEMPLAR');
+            $table->bigInteger('ID_ESTADO_EJEMPLAR')->nullable()->unsigned();
             $table->foreign('ID_ESTADO_EJEMPLAR')->references('ID_ESTADO_EJEMPLAR')
                 ->on('estadoEjemplar')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table->bigInteger('ID_CATALOGO_MATERIAL')->nullable()->unsigned();
+            $table->foreign('ID_CATALOGO_MATERIAL')
+                ->references('id')
+                ->on('catalogoMaterial')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->timestamps();

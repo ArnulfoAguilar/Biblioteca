@@ -15,7 +15,7 @@ class CreateSegundoSumariosTable extends Migration
     {
         Schema::create('segundoSumario', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('DESCRIPCION','255');
+            $table->string('DESCRIPCION', '255');
             // $table->unsignedInteger('ID_PRIMER_SUMARIO');
             $table->bigInteger('ID_PRIMER_SUMARIO')->unsigned();
             $table->foreign('ID_PRIMER_SUMARIO')
@@ -24,8 +24,8 @@ class CreateSegundoSumariosTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
             $table->timestamps();
+            $table->softDeletes();
         });
-        
     }
 
     /**

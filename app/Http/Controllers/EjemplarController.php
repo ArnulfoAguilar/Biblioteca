@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Ejemplar;
+use App\Modelos\Ejemplar;
+use App\Modelos\VwEjemplarSumarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,18 +16,18 @@ class EjemplarController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()){
-            return Ejemplar::all();
-        }else{
+        if ($request->ajax()) {
+            return VwEjemplarSumarios::all();
+        } else {
             return view('home');
         }
     }
 
     public function disponibles(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             return Ejemplar::all();
-        }else{
+        } else {
             return view('home');
         }
     }
@@ -50,25 +51,37 @@ class EjemplarController extends Controller
     public function store(Request $request)
     {
         $url = $request->IMAGEN;
-        if($url != null){
+        if ($url != null) {
             $contents = file_get_contents($url);
-            $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
+            $file = '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
             Storage::put($file, $contents);
         }
-        $Ejemplar= new Ejemplar();
+        $Ejemplar = new Ejemplar();
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
         $Ejemplar->AUTOR = $request->AUTOR;
         $Ejemplar->EJEMPLAR = $request->EJEMPLAR;
         $Ejemplar->ISBN = $request->ISBN;
-        if($url == null){
+        if ($url == null) {
             $Ejemplar->IMAGEN = '';
-
-        }else {
-
+        } else {
             $Ejemplar->IMAGEN = $file;
         }
+        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCERSUMARIO;
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
+        $Ejemplar->SUBTITULO = $request->SUBTITULO;
+        $Ejemplar->EDITORIAL = $request->EDITORIAL;
+        $Ejemplar->EDICION = $request->EDICION;
+        $Ejemplar->AÑO_EDICION = $request->AÑO_EDICION;
+        $Ejemplar->LUGAR_EDICION = $request->LUGAR_EDICION;
+        $Ejemplar->OBSERVACIONES = $request->OBSERVACIONES;
+        $Ejemplar->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
+        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
+        $Ejemplar->ID_TIPO_EMPASTADO = $request->TIPO_EMPASTADO;
+        $Ejemplar->ID_TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
+        $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;
+        $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
+        $Ejemplar->ID_AREA = $request->AREA;
         $Ejemplar->save();
         activity()->log('Guardó ejemplar');
     }
@@ -105,23 +118,36 @@ class EjemplarController extends Controller
     public function update(Request $request, Ejemplar $ejemplar)
     {
         $url = $request->IMAGEN;
-        if($url != null){
+        if ($url != null) {
             $contents = file_get_contents($url);
-            $file = '/bookImages/'.urlencode($request->EJEMPLAR).".png";
+            $file = '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
             Storage::put($file, $contents);
         }
-        $Ejemplar= Ejemplar::find($ejemplar->id);
+        $Ejemplar = Ejemplar::find($ejemplar->id);
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
         $Ejemplar->AUTOR = $request->AUTOR;
         $Ejemplar->EJEMPLAR = $request->EJEMPLAR;
         $Ejemplar->ISBN = $request->ISBN;
-        if($url == null){
+        if ($url == null) {
             $Ejemplar->IMAGEN = '';
-        }else{
+        } else {
             $Ejemplar->IMAGEN = $file;
         }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
+        $Ejemplar->SUBTITULO = $request->SUBTITULO;
+        $Ejemplar->EDITORIAL = $request->EDITORIAL;
+        $Ejemplar->EDICION = $request->EDICION;
+        $Ejemplar->AÑO_EDICION = $request->AÑO_EDICION;
+        $Ejemplar->LUGAR_EDICION = $request->LUGAR_EDICION;
+        $Ejemplar->OBSERVACIONES = $request->OBSERVACIONES;
+        $Ejemplar->PALABRAS_CLAVE = $request->PALABRAS_CLAVE;
+        $Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
+        $Ejemplar->ID_TIPO_EMPASTADO = $request->TIPO_EMPASTADO;
+        $Ejemplar->ID_TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
+        $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;
+        $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
+        $Ejemplar->ID_AREA = $request->AREA;
         $Ejemplar->save();
         activity()->log('Editó ejemplar');
         return $Ejemplar;

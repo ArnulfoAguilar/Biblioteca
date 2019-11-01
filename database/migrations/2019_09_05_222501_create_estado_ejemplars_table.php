@@ -17,6 +17,7 @@ class CreateEstadoEjemplarsTable extends Migration
             $table->bigIncrements('ID_ESTADO_EJEMPLAR');
             $table->string('NOMBRE', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
