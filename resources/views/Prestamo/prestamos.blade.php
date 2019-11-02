@@ -52,50 +52,30 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($prestamos as $prestamo)
-                                        {{-- <tr>
-                                            <td></td>
-                                            @foreach ($users as $user)
-                                                @if ($prestamo->ID_USUARIO == $user->id)
-                                                    <td>{{$user->name}}</td>
-                                                @endif
-                                            @endforeach
-
-                                            @foreach ($materiales as $material)
-                                                @if ($prestamo->ID_MATERIAL == $material->id)
-                                                    @foreach ($ejemplares as $ejemplar)
-                                                        @if ($material->ID_EJEMPLAR == $ejemplar->id)
-                                                            <td>{{$ejemplar->EJEMPLAR}}</td>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                            @endforeach
-
-                                            @foreach ($estados as $estado)
-                                                @if ($prestamo->ID_ESTADO_PRESTAMO == $estado->id)
-                                                    <td>{{$estado->ESTADO_PRESTAMO}}</td>
-                                                @endif
-                                            @endforeach
-
-                                            <td></td>
-                                        </tr> --}}
-
+                                    @if(sizeof($prestamos) <= 0)
                                         <tr>
-                                        <td>{{$prestamo->id}}</td>
-                                        <td>{{$prestamo->name}}</td>
-                                        <td>{{$prestamo->EJEMPLAR}}</td>
-                                        <td>{{$prestamo->ESTADO_PRESTAMO}}</td>
-                                        <td>
-                                            @if ($prestamo->ID_ESTADO_PRESTAMO == 2)
-                                                <button class="btn btn-sm btn-primary aprobar" title="Aprobar" data-pres="{{$prestamo->id}}"><i class="fas fa-check"></i></button>
-                                            @endif
-
-                                            @if ($prestamo->ID_ESTADO_PRESTAMO == 3)
-                                                <button class="btn btn-sm btn-success finalizar" title="Finalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-check-double"></i></button>
-                                            @endif
-                                        </td>
+                                            <td>--</td>
+                                            <td class="text-center" colspan="4">No Hay Prestamos Realizados</td>
                                         </tr>
-                                    @endforeach
+                                    @else
+                                        @foreach ($prestamos as $prestamo)
+                                            <tr>
+                                            <td>{{$prestamo->id}}</td>
+                                            <td>{{$prestamo->name}}</td>
+                                            <td>{{$prestamo->EJEMPLAR}}</td>
+                                            <td>{{$prestamo->ESTADO_PRESTAMO}}</td>
+                                            <td>
+                                                @if ($prestamo->ID_ESTADO_PRESTAMO == 2)
+                                                    <button class="btn btn-sm btn-primary aprobar" title="Aprobar" data-pres="{{$prestamo->id}}"><i class="fas fa-check"></i></button>
+                                                @endif
+
+                                                @if ($prestamo->ID_ESTADO_PRESTAMO == 3)
+                                                    <button class="btn btn-sm btn-success finalizar" title="Finalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-check-double"></i></button>
+                                                @endif
+                                            </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                    
                                 </tbody>
                                 <tfoot>

@@ -8,7 +8,7 @@ import VueSwal from 'vue-swal';
 Vue.use(VueSwal);
 //Usado para utilizar moment - copiado directamente de npmjs.com
 // import VueMoment from 'vue-moment';
-Vue.use(require('vue-moment'));
+// Vue.use(require('vue-moment'));
 // Vue.use(VueMoment);
 
 

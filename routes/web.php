@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('bibioteca/misPrestamos', 'PrestamoController@indexMisPrestamos')->name('index.misPrestamos');
         Route::get('bibioteca/lista/mis-prestamos', 'PrestamoController@listaMisPrestamos')->name('misPrestamos');
 
-        Route::get('/biblioteca/prestamos', 'PrestamosController@index')->name('prestamos.v2');
+        Route::get('/biblioteca/prestamosV2', 'PrestamosController@index')->name('prestamos.v2');
         Route::POST('/aprobar/prestamo', 'PrestamosController@aprobarPrestamo')->name('aprobar.prestamo');
 
     });
