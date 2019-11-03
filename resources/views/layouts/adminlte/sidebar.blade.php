@@ -49,7 +49,7 @@
             </li>
             
             <li class="nav-item">
-            <a href="{{route ('index.misPrestamos')}}" class="nav-link {{( request()->is('bibioteca/misPrestamos') ) ? 'active' : ''}}">
+            <a href="{{route ('index.misPrestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos') ) ? 'active' : ''}}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Mis Préstamos</p>
               </a>

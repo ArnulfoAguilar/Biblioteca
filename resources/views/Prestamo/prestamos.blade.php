@@ -48,6 +48,7 @@
                                     <th scope="col">Usuario solicitante</th>
                                     <th scope="col">Ejemplar Solicitado</th>
                                     <th scope="col">Estado del prestamo</th>
+                                    <th scope="col">Fecha de devolucion esperada</th>
                                     <th scope="col">Acciones</th>
                                   </tr>
                                 </thead>
@@ -64,14 +65,39 @@
                                             <td>{{$prestamo->name}}</td>
                                             <td>{{$prestamo->EJEMPLAR}}</td>
                                             <td>{{$prestamo->ESTADO_PRESTAMO}}</td>
+                                            <td>{{$prestamo->ID_ESTADO_PRESTAMO == 5 ? '--' : date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) }}</td>
                                             <td>
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 2)
-                                                    <button class="btn btn-sm btn-primary aprobar" title="Aprobar" data-pres="{{$prestamo->id}}"><i class="fas fa-check"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-primary" title="Aprobar" data-toggle="modal" data-target="#modalAprobar" 
+                                                    data-prestamo="{{$prestamo->id}}" data-ejemplar="{{$prestamo->EJEMPLAR}}" data-autor="{{$prestamo->AUTOR}}" data-edicion="{{$prestamo->EDICION}}"
+                                                    data-fecha1="{{$prestamo->FECHA_PRESTAMO}}" data-fecha2="{{$prestamo->FECHA_DEVOLUCION}}"
+                                                    data-adquisicion="{{$prestamo->tipoAdquisicion}}"
+                                                    >
+                                                    <i class="fas fa-check"></i>
+                                                    </button>
                                                 @endif
 
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 3)
                                                     <button class="btn btn-sm btn-success finalizar" title="Finalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-check-double"></i></button>
+                                                    <button class="btn btn-sm btn-warning prorrogar" title="Prorrogar" data-pres="{{$prestamo->id}}"><i class="far fa-clock"></i></button>
+                                                    <button class="btn btn-sm btn-danger penalizar" title="Penalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-ruler"></i></button>
                                                 @endif
+
+                                                @if ($prestamo->ID_ESTADO_PRESTAMO == 5)
+                                                    <button type="button" class="btn btn-sm btn-info" title="Ver detalle" data-toggle="modal" data-target="#modalDetalle" 
+                                                    data-prestamo="{{$prestamo->id}}" data-ejemplar="{{$prestamo->EJEMPLAR}}" data-autor="{{$prestamo->AUTOR}}" data-edicion="{{$prestamo->EDICION}}"
+                                                    data-fecha1="{{$prestamo->FECHA_PRESTAMO}}" data-fecha2="{{$prestamo->FECHA_DEVOLUCION}}"
+                                                    data-adquisicion="{{$prestamo->tipoAdquisicion}}" data-tipo_p="{{$prestamo->tipoPrestamo}}"
+                                                    >
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                @endif
+
+                                                @if ($prestamo->ID_ESTADO_PRESTAMO == 6)
+                                                    <button class="btn btn-sm btn-success finalizar" title="Finalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-check-double"></i></button>
+                                                    <button class="btn btn-sm btn-danger penalizar" title="Penalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-ruler"></i></button>
+                                                @endif
+                                                
                                             </td>
                                             </tr>
                                         @endforeach
@@ -106,29 +132,255 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalAprobar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aprobar Préstamo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input class="form-control" type="hidden" id="prestamo" name="prestamo" disabled>
+                        <div class="form-group col-md-12">
+                            <label for="AUTOR">Nombre del libro</label>
+                            <input class="form-control" type="text" id="ejemplar" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Autor/es</label>
+                            <input class="form-control" type="text" id="autor" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Fecha de préstamo</label>
+                            <input class="form-control" type="text" id="fecha1" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Fecha de devolución</label>
+                            <input class="form-control" type="text" id="fecha2" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Tipo de adquisición</label>
+                            <input class="form-control" type="text" id="adquisicion" disabled>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="AUTOR">Tipo de préstamo</label>
+                            <select class="form-control" id="tipoPrestamo" name="tipoPrestamo">
+                                @foreach ($tiposPrestamos as $tipo)
+                                    <option value="{{$tipo->id}}">{{$tipo->TIPO_PRESTAMO}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                    </div>
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary aprobar">Aprobar Préstamo</button>
+                </div>        
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detalle del Préstamo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="ejemplar">Nombre del libro</label>
+                            <input class="form-control" type="text" id="ejemplar" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="autor">Autor/es</label>
+                            <input class="form-control" type="text" id="autor" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="fecha1">Fecha de préstamo</label>
+                            <input class="form-control" type="text" id="fecha1" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="fecha2">Fecha de devolución</label>
+                            <input class="form-control" type="text" id="fecha2" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="adquisicion">Tipo de adquisición</label>
+                            <input class="form-control" type="text" id="adquisicion" disabled>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="tipoPrestamo">Tipo de préstamo</label>
+                            <input class="form-control" type="text" id="tipo_p" disabled>
+                        </div>
+                        
+                    </div>
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>        
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('jsExtra')
 
     <script type="text/javascript">
-        $('.aprobar').click(function () {
-            var id = $(this).data('pres')
-            var _token = $('input[name="_token"]').val();
-            $.ajax({
-                url: "{{ route('aprobar.prestamo')}}",
-                method: "POST",
-                data: {
-                    id: id,
-                    _token: _token,
-                },
-                success: function (result) {
-                    swal({ type: 'success', title: 'Exito', text: 'Aporte aprobado con exito',})
-                },
-                error: function (result) {
-                    swal({ type: 'error', title: 'Oops...', text: 'Error',})
-                },
 
-            })
+        $('#modalAprobar').on('show.bs.modal', function (event) {
+            $('#modalAprobar').focus()
+            var button = $(event.relatedTarget)
+            // var prestamo = button.data('prestamo')
+            $('.modal-body #prestamo').val(button.data('prestamo'));
+            $('.modal-body #autor').val(button.data('autor'));
+            $('.modal-body #ejemplar').val(button.data('ejemplar'));
+            $('.modal-body #fecha1').val(button.data('fecha1'));
+            $('.modal-body #fecha2').val(button.data('fecha2'));
+            $('.modal-body #adquisicion').val(button.data('adquisicion'));
         });
+
+        $('#modalDetalle').on('show.bs.modal', function (event) {
+            $('#modalDetalle').focus()
+            var button = $(event.relatedTarget)
+            // var prestamo = button.data('prestamo')
+            $('.modal-body #autor').val(button.data('autor'));
+            $('.modal-body #ejemplar').val(button.data('ejemplar'));
+            $('.modal-body #fecha1').val(button.data('fecha1'));
+            $('.modal-body #fecha2').val(button.data('fecha2'));
+            $('.modal-body #adquisicion').val(button.data('adquisicion'));
+            $('.modal-body #tipo_p').val(button.data('tipo_p'));
+        });
+
+        $(".aprobar").click(function(){
+            $('#modalAprobar').modal('hide');
+
+            var id = $('#prestamo').val();
+            var tipoPrestamo = $('#tipoPrestamo').val();
+            var _token = $('input[name="_token"]').val();
+
+            swal({
+                title: "¿Esta seguro de aprobar este prestamo?",
+                icon: "warning",
+                buttons: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{ route('aprobar.prestamo')}}",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            tipoPrestamo: tipoPrestamo,
+                            _token: _token,
+                        },
+                        success: function (result) {
+                            swal({ icon: 'success', title: 'Éxito', text: 'Préstamo aprobado exitosamente',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                        error: function (result) {
+                            swal({ icon: 'error', title: 'Error', text: 'Intente de nuevo. Si eso no funciona contacte al administrador',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                    })
+                } else {
+                    location.reload();
+                }
+            });
+
+        });
+
+        $(".finalizar").click(function(){
+            var id = $(this).data('pres');
+            var _token = $('input[name="_token"]').val();
+
+            swal({
+                title: "¿Está seguro de finalizar este préstamo?",
+                text: "El libro se marcará como disponible, y estará visible para futuros préstamos",
+                icon: "warning",
+                buttons: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{ route('finalizar.prestamo')}}",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            _token: _token,
+                        },
+                        success: function (result) {
+                            swal({ icon: 'success', title: 'Éxito', text: 'Préstamo finalizado exitosamente',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                        error: function (result) {
+                            swal({ icon: 'error', title: 'Error', text: 'Intente de nuevo. Si eso no funciona contacte al administrador',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                    })
+                } else {
+                    location.reload();
+                }
+            });
+
+        });
+
+
+        $(".prorrogar").click(function(){
+            var id = $(this).data('pres');
+            var _token = $('input[name="_token"]').val();
+
+            swal({
+                title: "¿Está seguro de prorrogar este préstamo?",
+                icon: "warning",
+                buttons: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{ route('prorrogar.prestamo')}}",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            _token: _token,
+                        },
+                        success: function (result) {
+                            swal({ icon: 'success', title: 'Éxito', text: 'Préstamo prorrogado exitosamente',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                        error: function (result) {
+                            swal({ icon: 'error', title: 'Error', text: 'Intente de nuevo. Si eso no funciona contacte al administrador',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                    })
+                } else {
+                    location.reload();
+                }
+            });
+
+        });
+
+        
+
     </script>
 
 

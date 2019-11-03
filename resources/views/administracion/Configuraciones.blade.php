@@ -53,6 +53,12 @@
                                         aria-describedby="Titulo" required>
                                 </div>
                                 <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Días para prórroga</label>
+                                    <input type="number"  class="form-control" name="diasProrroga" value="{{$configuraciones ? $configuraciones->DIAS_PRORROGABLES : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->DIAS_PRORROGABLES : ''}}"
+                                        aria-describedby="Titulo" required>
+                                </div>
+                                <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Tamaño de Archivo (Kb)</label>
                                     <input type="number"  class="form-control" name="archivoSize" placeholder="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}} Kb"
                                         value="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}}"

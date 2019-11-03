@@ -16,6 +16,7 @@ class CreateConfiguracionsTable extends Migration
         Schema::create('configuraciones', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('DIAS_HABILES_PRORROGA');
+            $table->integer('DIAS_PRORROGABLES');
             $table->boolean('HABILITAR_COMENTARIOS');
             $table->float('TAMAÑO_MAXIMO_ARCHIVOS');
             $table->timestamps();

@@ -17,6 +17,7 @@ class CreatePrestamosTable extends Migration
             $table->bigIncrements('id');
             $table->dateTime('FECHA_PRESTAMO');
             $table->dateTime('FECHA_DEVOLUCION')->nullable();
+            $table->dateTime('FECHA_ESPERADA_DEVOLUCION')->nullable();
             $table->bigInteger('ID_USUARIO')->unsigned();
             $table->foreign('ID_USUARIO')->references('id')->on('users')
                 ->onDelete('restrict')

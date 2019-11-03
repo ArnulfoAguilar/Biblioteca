@@ -27,5 +27,9 @@ class EstadoPrestamoTableSeeder extends Seeder
             'id' => 4,
             'ESTADO_PRESTAMO' => 'Pendiente de Devolución',
         ]);
+        DB::table('estadoPrestamo')->insert([
+            'id' => 5,
+            'ESTADO_PRESTAMO' => 'Finalizado',
+        ]);
     }
 }
