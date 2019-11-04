@@ -61,7 +61,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{route ('penalizaciones.lista')}}" class="nav-link {{( request()->is('biblioteca/penalizaciones') ) ? 'active' : ''}}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Penalizaciones</p>
               </a>

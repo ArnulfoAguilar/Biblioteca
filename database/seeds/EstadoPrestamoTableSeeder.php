@@ -31,5 +31,13 @@ class EstadoPrestamoTableSeeder extends Seeder
             'id' => 5,
             'ESTADO_PRESTAMO' => 'Finalizado',
         ]);
+        DB::table('estadoPrestamo')->insert([
+            'id' => 6,
+            'ESTADO_PRESTAMO' => 'Prorrogado',
+        ]);
+        DB::table('estadoPrestamo')->insert([
+            'id' => 7,
+            'ESTADO_PRESTAMO' => 'Penalizado',
+        ]);
     }
 }

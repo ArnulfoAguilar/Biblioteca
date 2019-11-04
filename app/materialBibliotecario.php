@@ -15,4 +15,9 @@ class materialBibliotecario extends Model
         'ID_ESTANTE',
         'ID_CATALOGO_MATERIAL'
     ];
+
+    public function ejemplar()
+    {
+        return $this->belongsTo('App\Modelos\Ejemplar', 'ID_EJEMPLAR', 'id');
+    }
 }

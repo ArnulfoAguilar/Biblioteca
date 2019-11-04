@@ -7,6 +7,7 @@ use App\Modelos\Ejemplar;
 use App\tipoPrestamo;
 use App\materialBibliotecario;
 use App\Prorroga;
+use App\Penalizacion;
 use App\User;
 use App\Configuracion;
 use Illuminate\Http\Request;
@@ -102,6 +103,18 @@ class PrestamosController extends Controller
         $prorroga->ID_PRESTAMO =  $prestamo->id;
 
         $prorroga->save();
+        $prestamo->save();
+    }
+
+    public function penalizarPrestamo(Request $request)
+    {
+        $prestamo = Prestamo::find($request->id);
+        $prestamo->ID_ESTADO_PRESTAMO = 7;
+
+        $penalizacion = new Penalizacion();
+        $penalizacion->ID_PRESTAMO = $request->id;
+
+        $penalizacion->save();
         $prestamo->save();
     }
 }

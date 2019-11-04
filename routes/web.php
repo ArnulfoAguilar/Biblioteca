@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
         Route::POST('/aprobar/prestamo', 'PrestamosController@aprobarPrestamo')->name('aprobar.prestamo');
         Route::POST('/finalizar/prestamo', 'PrestamosController@finalizarPrestamo')->name('finalizar.prestamo');
         Route::POST('/prorrogar/prestamo', 'PrestamosController@prorrogarPrestamo')->name('prorrogar.prestamo');
+        Route::POST('/penalizar/prestamo', 'PrestamosController@penalizarPrestamo')->name('penalizar.prestamo');
+
+        Route::get('/biblioteca/penalizaciones', 'PenalizacionController@index')->name('penalizaciones.lista');
 
     });
 

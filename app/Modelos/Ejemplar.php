@@ -22,4 +22,9 @@ class Ejemplar extends Model
         'ID_TERCER_SUMARIO',
         ];
     use SoftDeletes;
+
+    public function materiales()
+    {
+        return $this->hasMany('App\materialBibliotecario', 'ID_EJEMPLAR', 'id');
+    }
 }

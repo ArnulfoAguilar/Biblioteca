@@ -18,8 +18,8 @@ class CreateAdquisicionTable extends Migration
             $table->string('TITULO',250);
             $table->string('DESCRIPCION',250);
             $table->string('CONTENIDO',50000);
+
             $table->unsignedInteger('ID_AREA');
-            
             $table->foreign('ID_AREA')
             ->references('id')
             ->on('Area')
@@ -32,6 +32,7 @@ class CreateAdquisicionTable extends Migration
             ->on('users')
             ->onDelete('cascade')
             ->onUpdate('cascade');
+            
             $table->timestamps();
         });
     }

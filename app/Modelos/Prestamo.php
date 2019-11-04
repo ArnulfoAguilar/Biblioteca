@@ -16,4 +16,19 @@ class Prestamo extends Model
         'ID_MATERIAL'
 
     ];
+
+    public function usuario()
+    {
+        return $this->belongsTo('App\User', 'ID_USUARIO', 'id');
+    }
+
+    public function penalizacion()
+    {
+        return $this->belongsTo('App\Penalizacion', 'ID_PRESTAMO', 'id');
+    }
+
+    public function material()
+    {
+        return $this->belongsTo('App\materialBibliotecario', 'ID_MATERIAL', 'id');
+    }
 }

@@ -47,8 +47,8 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Usuario solicitante</th>
                                     <th scope="col">Ejemplar Solicitado</th>
-                                    <th scope="col">Estado del prestamo</th>
-                                    <th scope="col">Fecha de devolucion esperada</th>
+                                    <th scope="col">Estado del préstamo</th>
+                                    <th scope="col">Fecha de devolución esperada</th>
                                     <th scope="col">Acciones</th>
                                   </tr>
                                 </thead>
@@ -80,7 +80,6 @@
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 3)
                                                     <button class="btn btn-sm btn-success finalizar" title="Finalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-check-double"></i></button>
                                                     <button class="btn btn-sm btn-warning prorrogar" title="Prorrogar" data-pres="{{$prestamo->id}}"><i class="far fa-clock"></i></button>
-                                                    <button class="btn btn-sm btn-danger penalizar" title="Penalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-ruler"></i></button>
                                                 @endif
 
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 5)
@@ -95,9 +94,16 @@
 
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 6)
                                                     <button class="btn btn-sm btn-success finalizar" title="Finalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-check-double"></i></button>
+                                                @endif
+
+                                                @if ($prestamo->ID_ESTADO_PRESTAMO == 7)
+                                                    <div class="badge bg-red">Penalizado</div>
+                                                @endif
+
+                                                @if ( date('d-m-Y') > date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) 
+                                                    && $prestamo->ID_ESTADO_PRESTAMO!=5 && $prestamo->ID_ESTADO_PRESTAMO!=7 )
                                                     <button class="btn btn-sm btn-danger penalizar" title="Penalizar" data-pres="{{$prestamo->id}}"><i class="fas fa-ruler"></i></button>
                                                 @endif
-                                                
                                             </td>
                                             </tr>
                                         @endforeach
@@ -379,7 +385,43 @@
 
         });
 
-        
+        $(".penalizar").click(function(){
+            var id = $(this).data('pres');
+            var _token = $('input[name="_token"]').val();
+
+            swal({
+                title: "¿Está seguro de penalizar al usuario relacionado a este préstamo?",
+                icon: "warning",
+                buttons: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{ route('penalizar.prestamo')}}",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            _token: _token,
+                        },
+                        success: function (result) {
+                            swal({ icon: 'success', title: 'Éxito', text: 'Penalización creada exitosamente. Puede ver las penalizaciones en el panel respectivo',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                        error: function (result) {
+                            swal({ icon: 'error', title: 'Error', text: 'Intente de nuevo. Si eso no funciona contacte al administrador',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                    })
+                } else {
+                    location.reload();
+                }
+            });
+
+        });
 
     </script>
 

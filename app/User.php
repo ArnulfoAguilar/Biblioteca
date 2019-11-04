@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Revision', 'ID_USUARIO', 'id');
     }
+
+    public function prestamos()
+    {
+        return $this->hasMany('App\Modelos\Prestamo', 'ID_USUARIO', 'id');
+    }
 }
