@@ -14,7 +14,7 @@ class CreateProrrogasTable extends Migration
     public function up()
     {
         Schema::create('Prorroga', function (Blueprint $table) {
-            $table->bigIncrements('ID_PRORROGA');
+            $table->bigIncrements('id');
             $table->date('FECHA_INICIO');
             $table->date('FECHA_FIN');
             $table->bigInteger('ID_PRESTAMO')->unsigned();

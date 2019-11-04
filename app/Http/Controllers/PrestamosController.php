@@ -6,6 +6,7 @@ use App\Modelos\Prestamo;
 use App\Modelos\Ejemplar;
 use App\tipoPrestamo;
 use App\materialBibliotecario;
+use App\Prorroga;
 use App\User;
 use App\Configuracion;
 use Illuminate\Http\Request;
@@ -95,6 +96,12 @@ class PrestamosController extends Controller
 
         $prestamo->FECHA_ESPERADA_DEVOLUCION = date("d-m-Y",strtotime($fechaInicial.$dias));
 
+        $prorroga = new Prorroga();
+        $prorroga->FECHA_INICIO = $fechaInicial;
+        $prorroga->FECHA_FIN =  $prestamo->FECHA_ESPERADA_DEVOLUCION;
+        $prorroga->ID_PRESTAMO =  $prestamo->id;
+
+        $prorroga->save();
         $prestamo->save();
     }
 }
