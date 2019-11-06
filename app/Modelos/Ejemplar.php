@@ -20,11 +20,17 @@ class Ejemplar extends Model
         'ID_AUTOR',
         'ID_CATEGORIA',
         'ID_TERCER_SUMARIO',
+        'ID_TIPO_ADQUISICION',
         ];
     use SoftDeletes;
 
     public function materiales()
     {
         return $this->hasMany('App\materialBibliotecario', 'ID_EJEMPLAR', 'id');
+    }
+
+    public function tipoAdquisicion()
+    {
+        return $this->belongsTo('App\Modelos\tipoAdquisicion', 'ID_TIPO_ADQUISICION', 'ID_TIPO_ADQUISICION');
     }
 }

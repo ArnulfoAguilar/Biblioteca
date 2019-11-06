@@ -18,4 +18,9 @@ class tipoPrestamo extends Model
     // ];
     //
     protected $table = 'tipoPrestamo';
+
+    public function prestamos()
+    {
+        return $this->hasMany('App\Modelos\Prestamo', 'ID_TIPO_PRESTAMO', 'id');
+    }
 }

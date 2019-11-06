@@ -49,6 +49,15 @@ class PrestamosController extends Controller
         ]);
     }
 
+    public function misPrestamos(Request $request)
+    {
+        $prestamos = Prestamo::where('ID_USUARIO', auth()->id())->orderBy('created_at', 'asc')->get();
+
+        return view('Prestamo.misPrestamos')->with([
+            'prestamos'=> $prestamos,
+        ]);
+    }
+
     public function aprobarPrestamo(Request $request)
     {
         $prestamo = Prestamo::find($request->id);

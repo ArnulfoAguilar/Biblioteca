@@ -41,7 +41,7 @@
                                     {{$penalizaciones->links()}}
                             </div>
 
-                            <table class="table table-hover">
+                            <table class="table table-hover table-bordered" id="penalizaciones">
                                 <thead>
                                   <tr>
                                     <th scope="col">#</th>
@@ -105,10 +105,16 @@
 @endsection
 @section('jsExtra')
 
+    <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+    
+    <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
+
     <script type="text/javascript">
+    
+        $(document).ready( function () {
+            $('#penalizaciones').DataTable();
+        } );
 
     </script>
-
-
 
 @endsection

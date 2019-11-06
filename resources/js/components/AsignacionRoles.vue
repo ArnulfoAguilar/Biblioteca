@@ -53,7 +53,7 @@
                         Usuarios
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="usuarios">
                             <thead>
                                 <tr>
                                 <th scope="col">ID</th>
@@ -93,9 +93,10 @@
 <!-- Datos del componente VUE -->
     </div>
 </template>
-
+    
 
 <script>
+
     export default {
         
         mounted() {
