@@ -54,6 +54,14 @@
                 <p>Mis Préstamos</p>
               </a>
             </li>
+
+            <li class="nav-item">
+            <a href="{{route ('mis.prestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos/v2') ) ? 'active' : ''}}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Mis Préstamos V2</p>
+              </a>
+            </li>
+
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>

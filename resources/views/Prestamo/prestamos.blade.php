@@ -41,7 +41,7 @@
                                     {{$prestamos->links()}}
                             </div>
 
-                            <table class="table table-hover">
+                            <table class="table table-hover table-bordered" id="prestamos">
                                 <thead>
                                   <tr>
                                     <th scope="col">#</th>
@@ -65,7 +65,17 @@
                                             <td>{{$prestamo->name}}</td>
                                             <td>{{$prestamo->EJEMPLAR}}</td>
                                             <td>{{$prestamo->ESTADO_PRESTAMO}}</td>
-                                            <td>{{$prestamo->ID_ESTADO_PRESTAMO == 5 ? '--' : date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) }}</td>
+                                            <td>
+                                                @if ($prestamo->FECHA_ESPERADA_DEVOLUCION != null)
+                                                    @if ($prestamo->ID_ESTADO_PRESTAMO != 5)
+                                                        {{ date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) }}
+                                                    @else
+                                                        --
+                                                    @endif
+                                                @else
+                                                    --
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 2)
                                                     <button type="button" class="btn btn-sm btn-primary" title="Aprobar" data-toggle="modal" data-target="#modalAprobar" 
@@ -237,9 +247,18 @@
     </div>
 
 @endsection
+
 @section('jsExtra')
 
+    <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+    
+    <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
+
     <script type="text/javascript">
+
+        $(document).ready( function () {
+            $('#prestamos').DataTable();
+        } );
 
         $('#modalAprobar').on('show.bs.modal', function (event) {
             $('#modalAprobar').focus()

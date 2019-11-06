@@ -31,4 +31,14 @@ class Prestamo extends Model
     {
         return $this->belongsTo('App\materialBibliotecario', 'ID_MATERIAL', 'id');
     }
+
+    public function tipoPrestamo()
+    {
+        return $this->belongsTo('App\tipoPrestamo', 'ID_TIPO_PRESTAMO', 'id');
+    }
+
+    public function estadoPrestamo()
+    {
+        return $this->belongsTo('App\estadoPrestamo', 'ID_ESTADO_PRESTAMO', 'id');
+    }
 }

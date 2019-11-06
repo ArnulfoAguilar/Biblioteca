@@ -104,3 +104,7 @@ Asignacion de roles a usuarios
 <asignacion-roles></asignacion-roles>
 
 @endsection
+
+@section('jsExtra')
+   
+@endsection
