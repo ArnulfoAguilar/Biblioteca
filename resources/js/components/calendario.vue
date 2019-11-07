@@ -160,17 +160,19 @@
                 toastr.success(msg, 'Exito');
                 this.modalClosing();
             },
-            eliminarEvento(){
+            async eliminarEvento(){
                 // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
                 this.modalClosing();
                 const confirmacion = confirm(`¿Esta seguro de eliminar "Evento ${this.evento.title}"?`);
                 if(confirmacion){
-                    axios.delete(`/administracion/calendario/${this.evento.id}`)
+                    axios.delete(`/administracion/calendarios/${this.evento.id}`)
                     .then(()=>{
                         toastr.clear();
                         toastr.options.closeButton = true;
                         toastr.success('Eliminado correctamente', 'Exito');
                     })
+                    const response = await axios.get('/administracion/calendarios');
+                    this.eventos=response.data;
                 }
             },
 
