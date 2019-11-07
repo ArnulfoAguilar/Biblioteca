@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex justify-content-end">   
         <button class="btn btn-primary" @click="habilitar()">
-          <i class="fas fa-check"></i> Habilitar
+          <i class="fas fa-check"></i> Aprobar para publicación
         </button>
     </div>
 </template>

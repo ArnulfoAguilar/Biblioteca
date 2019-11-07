@@ -27,7 +27,9 @@ class ComentarioController extends Controller
             return DB::table('comentarioslikes')->where([
                 ['ID_APORTE', '=', $request->id],
                 ['HABILITADO','=','1']
-            ])->get();
+            ])
+            ->latest()
+            ->get();
         }else{
             return redirect()->route('home');
         }

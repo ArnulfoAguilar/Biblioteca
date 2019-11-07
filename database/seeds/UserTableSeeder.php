@@ -31,6 +31,7 @@ class UserTableSeeder extends Seeder
                 'email' => 'administrador@gmail.com',
                 'password' => bcrypt('12345678'), // password
                 'ID_ROL' => '1',
+                'BIOGRAFIA' => 'Esta es mi pequeña biografia',
             ]
         );
         DB::table('users')->insert(
@@ -39,6 +40,7 @@ class UserTableSeeder extends Seeder
                 'email' => 'estudiante@gmail.com',
                 'password' => bcrypt('12345678'),// password
                 'ID_ROL' => '2',
+                'BIOGRAFIA' => 'Esta es mi pequeña biografia',
             ]
         );
         DB::table('users')->insert(
@@ -47,6 +49,7 @@ class UserTableSeeder extends Seeder
                 'email' => 'docente@gmail.com',
                 'password' => bcrypt('12345678'), // password
                 'ID_ROL' => '3',
+                'BIOGRAFIA' => 'Esta es mi pequeña biografia',
             ]
         );
         DB::table('users')->insert(
@@ -55,6 +58,7 @@ class UserTableSeeder extends Seeder
                 'email' => 'comite@gmail.com',
                 'password' => bcrypt('12345678'), // password
                 'ID_ROL' => '4',
+                'BIOGRAFIA' => 'Esta es mi pequeña biografia',
             ]
         );
     }

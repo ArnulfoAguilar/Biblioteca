@@ -14,7 +14,9 @@ class ConfiguracionSeeder extends Seeder
         DB::table('configuraciones')->insert([
             'DIAS_HABILES_PRORROGA' => 8,
             'HABILITAR_COMENTARIOS' => True,
-            'TAMAÑO_MAXIMO_ARCHIVOS'=>3000
+            'TAMAÑO_MAXIMO_ARCHIVOS'=>3000,
+            'NOMBRE_INSTITUCION'=>"Colegio Padre Arrupe",
+            'DIRECCION_INSTITUCION'=>"Calle Padre Salazar Simpson, San Salvador"
         ]);
     }
 }

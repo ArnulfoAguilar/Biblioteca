@@ -148,7 +148,12 @@
                                                             {{ csrf_field() }}
                                                             {{-- <input class="form-control form-control-lg" placeholder="Escribe un comentario..." v-model="Comentario.COMENTARIO"> --}}
                                                             <input name="aporte" type="hidden" value="{{$aporte->id}}">
-                                                            <input name="comentario" class="form-control form-control-lg" placeholder="Escribe un comentario..." required>
+                                                            <div class="input-group input-group-lg">
+                                                                    <input type="text" name="comentario" required class="form-control" placeholder="Escribe un comentario...">
+                                                                    <span class="input-group-append">
+                                                                      <button type="submit" class="btn btn-success btn-flat">Publicar</button>
+                                                                    </span>
+                                                                  </div>
                                                             </form>  
                                                         </div>
                                                     </div>

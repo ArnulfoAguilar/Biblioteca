@@ -57,6 +57,7 @@ class AporteController extends Controller
         if($request->id==0){
             return DB::table('lista_aportes')
             ->where('HABILITADO','=','TRUE')
+            ->latest()
             ->get();
         }elseif($request->id==1){
             return DB::table('lista_aportes')
@@ -64,6 +65,7 @@ class AporteController extends Controller
                 ['HABILITADO','=','TRUE'],
                 ['ID_AUTOR','=',auth()->id()]
             ])
+            ->latest()
             ->get();
         }elseif ($request->id==2) {
             return DB::table('lista_aportes')
@@ -71,6 +73,7 @@ class AporteController extends Controller
                 ['HABILITADO','=','FALSE'],
                 ['ID_AUTOR','=',auth()->id()]
             ])
+            ->latest()
             ->get();
         }else{
             abort(404);
@@ -84,6 +87,7 @@ class AporteController extends Controller
                 ['HABILITADO','=','TRUE'],
                 ['ID_AUTOR','=',$request->id]
             ])
+            ->latest()
             ->get();
     }
 
@@ -359,6 +363,7 @@ class AporteController extends Controller
             ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
         })
         ->select('palabrasClave.id')
+        ->latest()
         ->get();
         $AreaSelec = Area::find($aporte->ID_AREA);
         $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);

@@ -10,7 +10,9 @@ class Configuracion extends Model
     protected $fillable = [
         'DIAS_HABILES_PRORROGA',
         'HABILITAR_COMENTARIOS',
-        'TAMAÑO_MAXIMO_ARCHIVOS'
+        'TAMAÑO_MAXIMO_ARCHIVOS',
+        'NOMBRE_INSTITUCION',
+        'DIRECCION_INSTITUCION'
     ];
 
 }
