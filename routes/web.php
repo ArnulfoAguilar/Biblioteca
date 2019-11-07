@@ -66,6 +66,8 @@ Route::resource('/roles', 'RolController');
 Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
 
 Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
+Route::get('/administracion/calendario','HomeController@calendario')->name('calendario');
+Route::resource('/administracion/calendarios','CalendarioController');
 
 
 // -----------------------------------------OTRAS RUTAS -------------------------------------//

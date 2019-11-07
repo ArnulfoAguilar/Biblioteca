@@ -57,6 +57,7 @@ Vue.component('estante-list', require('./components/Estante-list.vue').default);
 // ------------------------MODULO DE ADMINISTRACION---------------------------------------------
 Vue.component('roles', require('./components/Roles.vue').default);
 Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').default);
+Vue.component('calendario', require('./components/calendario.vue').default);
 
 
 

@@ -47,7 +47,7 @@
                   <p>Ver Préstamos V2</p>
                 </a>
               </li>
-              
+
               <li class="nav-item">
               <a href="{{route ('index.misPrestamos')}}" class="nav-link {{( request()->is('bibioteca/misPrestamos') ) ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
@@ -192,6 +192,13 @@
                 <a href="{{route('asignar.roles')}}" class="nav-link {{ ( request()->is('administracion/asignar/roles') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Asignar rol</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('calendario')}}" class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Calendario</p>
                 </a>
               </li>
 
