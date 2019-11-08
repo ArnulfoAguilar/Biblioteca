@@ -53,7 +53,7 @@
                                     @if(sizeof($prestamos) <= 0)
                                         <tr>
                                             <td>--</td>
-                                            <td class="text-center" colspan="4">No Hay Prestamos Realizados</td>
+                                            <td class="text-center" colspan="7">No Hay Prestamos Realizados</td>
                                         </tr>
                                     @else
                                         @foreach ($prestamos as $prestamo)

@@ -58,6 +58,6 @@ class CreatePrestamosView extends Migration
      */
     public function down()
     {
-        DB::unprepared('DROP VIEW vwprestamos');
+        DB::unprepared('DROP VIEW IF EXISTS vwprestamos');
     }
 }
