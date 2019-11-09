@@ -40,8 +40,6 @@ class PrestamosController extends Controller
         ->where('Prestamo.ID_ESTADO_PRESTAMO', '!=', '8')
         ->paginate(10);
 
-        
-
         $tiposPrestamos = tipoPrestamo::all();
         $tiposPenalizaciones = tipoPenalizacion::all();
 
@@ -70,17 +68,11 @@ class PrestamosController extends Controller
             ->where('DISPONIBLE', true)->count();
         }
         
-        // dd($ejemplares, $cuentas);
-
         $tiposPrestamos = tipoPrestamo::all();
 
         return view('Prestamo.realizarPrestamos')->with([
             'ejemplares'=> $ejemplares,
             'cuentas'=> $cuentas,
-            // 'users'=> $users,
-            // 'estados'=> $estados,
-            // 'materiales'=> $materiales,
-            // 'ejemplares'=> $ejemplares,
         ]);
     }
 
@@ -89,12 +81,6 @@ class PrestamosController extends Controller
         $prestamo =  new Prestamo();
         $prestamo->FECHA_PRESTAMO = date('Ymd H:i:s');
 
-        $diasHabilitar = Configuracion::select('DIAS_HABILES_PRORROGA')->get();
-        foreach ($diasHabilitar as $dia) {
-            $dias = "+ ".(string)$dia->DIAS_HABILES_PRORROGA." days";
-        }
-
-        $prestamo->FECHA_ESPERADA_DEVOLUCION = date("d-m-Y",strtotime($prestamo->FECHA_PRESTAMO.$dias));
         $prestamo->ID_USUARIO = auth()->id();
         $prestamo->ID_ESTADO_PRESTAMO = 1;
         // $prestamo->ID_TIPO_PRESTAMO = $request->tipoPrestamo;
@@ -131,8 +117,9 @@ class PrestamosController extends Controller
             $dias = "+ ".(string)$dia->DIAS_HABILES_PRORROGA." days";
         }
 
-        $prestamo->FECHA_ESPERADA_DEVOLUCION = date("d-m-Y",strtotime($prestamo->FECHA_PRESTAMO.$dias));
+        $devolucion = date("d-m-Y",strtotime($prestamo->FECHA_PRESTAMO.$dias));
 
+        $prestamo->FECHA_ESPERADA_DEVOLUCION = PrestamosController::verificarDevolucion($devolucion);
        
         $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
         $material->DISPONIBLE = false;
@@ -199,5 +186,38 @@ class PrestamosController extends Controller
 
         $prestamo->save();
         $material->save();
+    }
+
+    public function verificarDevolucion($fecha_devolucion){
+
+        $devolucion = $fecha_devolucion;
+        
+        $hoy = date('Ymd');
+        
+        $asuetos = DB::table('calendarios')
+        ->where('inicio_inactividad', '>=', $hoy )
+        ->where('inicio_inactividad', '<', date("d-m-Y",strtotime($hoy."+ 60 days")) )
+        ->orderBy('inicio_inactividad', 'asc')
+        ->get();
+        
+        foreach ($asuetos as $key => $asueto) {
+            if ($asueto->fin_inactividad == null) {
+                if (date("d-m-Y",strtotime($asueto->inicio_inactividad)) == $devolucion) {
+                    $devolucion = date("d-m-Y",strtotime($asueto->inicio_inactividad."+ 1 days"));
+                }
+            }else{
+                if 
+                (
+                    $devolucion >= date("d-m-Y",strtotime($asueto->inicio_inactividad)) && 
+                    $devolucion <= date("d-m-Y",strtotime($asueto->fin_inactividad))
+                ){
+                    $devolucion = date("d-m-Y",strtotime($asueto->fin_inactividad."+ 1 days"));
+                }
+            }
+           
+        }
+
+        return $devolucion;
+
     }
 }
