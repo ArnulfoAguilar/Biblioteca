@@ -46,4 +46,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Revision', 'ID_USUARIO', 'id');
     }
+    public function Nivel()
+    {
+        return $this->belongsTo('App\Niveles', 'ID_NIVEL', 'id');
+    }
 }
