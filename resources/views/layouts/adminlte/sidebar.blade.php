@@ -261,6 +261,14 @@
                 <p>Registros de actividad </p>
               </a>
             </li>
+
+            <li class="nav-item">
+              <a href="{{route('calendario')}}" 
+                class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Calendario</p>
+              </a>
+            </li>
   
   
           </ul>

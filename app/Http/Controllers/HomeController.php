@@ -76,4 +76,8 @@ class HomeController extends Controller
     {
         return view('Prestamo/prestamo');
     }
+    public function calendario()
+    {
+        return view('calendario');
+    }
 }

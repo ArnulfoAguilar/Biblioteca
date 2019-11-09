@@ -4,7 +4,7 @@
         <section class="book-search" id="bookSearchApp" >
             <form id="book-search" class="input-group input-group-lg col-md-6" style="margin-left: auto; margin-right: auto;" @submit.prevent="search">
                 <h2 class="col-md-12">Busqueda de libros por titulo</h2>
-                <input type="text" class="form-control col-md-9" v-model:trim="searchTerm" placeholder="⌕">
+                <input type="text" class="form-control col-md-9" v-model.trim="searchTerm" placeholder="⌕">
                 <button class="btn btn-info btn-flat col-md-3" type="submit">Buscar!</button>
             </form>
             <div class="row">
@@ -163,9 +163,10 @@
             chooseBook(){
                 axios.get(this.URLChoose+this.chooseTerm)
                     .then(response => {
+                        var description = response.data.volumeInfo.description;
                         this.chooseImg= response.data.volumeInfo.imageLinks;
                         this.EJEMPLAR.IMAGEN =this.chooseImg.thumbnail;
-                        this.EJEMPLAR.DESCRIPCION = response.data.volumeInfo.description;
+                        this.EJEMPLAR.DESCRIPCION = this.strippedContent(description);
                         this.EJEMPLAR.EJEMPLAR = response.data.volumeInfo.title;
                         this.EJEMPLAR.ISBN = response.data.volumeInfo.industryIdentifiers[1].identifier;
                         this.EJEMPLAR.AUTOR = response.data.volumeInfo.authors.toString();
@@ -213,6 +214,12 @@
                 }
             }
 
+        },
+        computed: {
+            strippedContent(description) {
+                let regex = /(<([^>]+)>)/ig;
+                return description.replace(regex, "");
+            }
         }
     }
 

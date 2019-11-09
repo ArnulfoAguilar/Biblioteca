@@ -133,6 +133,9 @@ Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
         Route::resource('/comites', 'ComiteController');
         Route::post('/administracion/asignar/comite', 'UserController@asignarComite')->name('asignar.comite');
         Route::get('/administracion/asignar/comites/{id?}', 'ComiteController@asignarComiteIndex')->name('asignar.comites');
+
+        Route::get('/administracion/calendario','HomeController@calendario')->name('calendario');
+        Route::resource('/administracion/calendarios','CalendarioController');
     });
 
     // -----------------------------------------OTRAS RUTAS -------------------------------------//
