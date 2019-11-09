@@ -6,7 +6,7 @@
 
 @section('breadcrumbs')
 <ol class="breadcrumb float-sm-right">
-    <li class="breadcrumb-item"><a href="#">Listado de penalizaciones</a></li>
+    <li class="breadcrumb-item"><a href="#">Realizar préstamos</a></li>
     <li class="breadcrumb-item active">Biblioteca</li>
   </ol>
 @endsection
@@ -21,7 +21,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-dark">Listado de penalizaciones
+                    <div class="card-header bg-dark">Listado de libros disponibles
                         <div class=" float-right">
                             {{-- <form class="form-inline" action="{{route('registro.actividad')}}" method="GET">
                                 <input type="date" class="form-control mb-2 mr-sm-2" name="fecha_i" placeholder="Desde" value="{{$fecha_i ? $fecha_i : '' }}">
@@ -38,48 +38,52 @@
                                     'fecha_f' => $fecha_f
                                     ])->links()}} --}}
 
-                                    {{$penalizaciones->links()}}
+                                    {{$ejemplares->links()}}
                             </div>
 
-                            <table class="table table-hover table-bordered" id="penalizaciones">
+                            <table class="table table-hover table-bordered" id="libros">
                                 <thead>
                                   <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Usuario reportado</th>
-                                    <th scope="col">Préstamo involucrado</th>
-                                    <th scope="col">Material</th>
-                                    <th scope="col">Copia</th>
-                                    <th scope="col">Devolución esperada</th>
-                                    <th scope="col">Penalización</th>
+                                    <th scope="col">Título</th>
+                                    <th scope="col">Autor</th>
+                                    <th scope="col">Edición</th>
+                                    <th scope="col">Disponibles</th>
                                     <th scope="col">Acciones</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    @if(sizeof($penalizaciones) <= 0)
+                                    @if(sizeof($ejemplares) <= 0)
                                         <tr>
                                             <td>--</td>
-                                            <td class="text-center" colspan="4">No Hay Penalizaciones Realizadas</td>
+                                            <td class="text-center" colspan="4">No Hay libros disponibles</td>
                                         </tr>
                                     @else
-                                        @foreach ($penalizaciones as $penalizacion)
-                                            <tr>
-                                                <td>{{$penalizacion->id}}</td>
-                                                <td>{{$penalizacion->prestamo->usuario->name}}</td>
-                                                <td>{{$penalizacion->prestamo->id}}</td>
-                                                <td>{{$penalizacion->prestamo->material->ejemplar->EJEMPLAR}}</td>
-                                                <td>{{$penalizacion->prestamo->material->COPIA_NUMERO}}</td>
-                                                <td>{{ date('d-m-Y', strtotime( $penalizacion->prestamo->FECHA_ESPERADA_DEVOLUCION )) }}</td>
-                                                <td>{{$penalizacion->tipo->TIPO_PENALIZACION}}</td>
-                                                <td>
-                                                    @if ($penalizacion->SOLVENTADA == true)
-                                                        <div class="badge bg-success">
-                                                            Solventada
-                                                        </div>
-                                                    @else
-                                                        <button class="btn  btn-info solventar" title="Solventar" data-pena="{{$penalizacion->id}}"><i class="fas fa-hands-helping"></i></button>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        @foreach ($cuentas as $key => $cuenta)
+                                            @foreach ($ejemplares as $key2 => $ejemplar)
+                                            @if ($key == $key2 && $cuenta > 0)
+                                                <tr>    
+                                                    <td>{{$key+1}}</td>
+                                                    <td>{{$ejemplar->EJEMPLAR}}</td>
+                                                    <td>{{$ejemplar->AUTOR}}</td>
+                                                    <td>{{$ejemplar->EDICION}}</td>
+                                                    <td>
+                                                        {{$cuenta}}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-success solicitar" title="Solicitar" data-ejem="{{$ejemplar->id}}"><i class="fa fa-hand-paper"></i> Solicitar</button>
+                                                    </td>
+                                                </tr>
+                                            {{-- @else
+                                                <tr>
+                                                <td col="5">
+                                                        Posiblemente la cuenta esta en 0
+                                                    </td> 
+                                                </tr> --}}
+                                                
+                                            @endif
+                                                
+                                            @endforeach
                                         @endforeach
                                         
                                     @endif
@@ -96,7 +100,7 @@
                                         'fecha_i' => $fecha_i,
                                         'fecha_f' => $fecha_f
                                         ])->links()}} --}}
-                                        {{$penalizaciones->links()}}
+                                        {{$ejemplares->links()}}
 
                                 </div>
                                
@@ -113,7 +117,9 @@
         </div>
     </div>
 
+
 @endsection
+
 @section('jsExtra')
 
     <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
@@ -121,31 +127,33 @@
     <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
 
     <script type="text/javascript">
-    
-        $(document).ready( function () {
-            $('#penalizaciones').DataTable();
-        } );
 
-        $(".solventar").click(function(){
-            var id = $(this).data('pena');
+        $(document).ready( function () {
+            $('#libros').DataTable();
+        } );
+      
+
+        $(".solicitar").click(function(){
+            var id = $(this).data('ejem');
             var _token = $('input[name="_token"]').val();
 
             swal({
-                title: "¿Está seguro de solventar esta penalización?",
+                title: "¿Está seguro de solicitar este libro?",
                 icon: "warning",
                 buttons: true,
             })
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('solventar.penalizacion')}}",
+                        url: "{{ route('solicitar.prestamo')}}",
                         method: "POST",
                         data: {
                             id: id,
                             _token: _token,
                         },
                         success: function (result) {
-                            swal({ icon: 'success', title: 'Éxito', text: 'Penalización solventada exitosamente',})
+                            console.log(result)
+                            swal({ icon: 'success', title: 'Éxito', text: 'Libro solicitado exitosamente',})
                             .then((value) => {
                                 location.reload();
                             });
@@ -163,7 +171,10 @@
             });
 
         });
+       
 
     </script>
+
+
 
 @endsection

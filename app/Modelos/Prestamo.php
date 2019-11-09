@@ -13,7 +13,8 @@ class Prestamo extends Model
         'ID_USUARIO',
         'ID_TIPO_PRESTAMO',
         'ID_ESTADO_PRESTAMO',
-        'ID_MATERIAL'
+        'ID_MATERIAL',
+        'ID_PENALIZACION',
 
     ];
 
@@ -22,9 +23,9 @@ class Prestamo extends Model
         return $this->belongsTo('App\User', 'ID_USUARIO', 'id');
     }
 
-    public function penalizacion()
+    public function penalizaciones()
     {
-        return $this->belongsTo('App\Penalizacion', 'ID_PRESTAMO', 'id');
+        return $this->hasMany('App\Penalizacion', 'ID_PRESTAMO', 'id');
     }
 
     public function material()

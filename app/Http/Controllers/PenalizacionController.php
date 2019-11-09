@@ -85,4 +85,12 @@ class PenalizacionController extends Controller
     {
         //
     }
+
+    public function solventar(Request $request)
+    {
+        $penalizacion = Penalizacion::find($request->id);
+        $penalizacion->SOLVENTADA = true;
+    
+        $penalizacion->save();
+    }
 }

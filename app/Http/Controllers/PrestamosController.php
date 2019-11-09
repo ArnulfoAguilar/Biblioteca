@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Modelos\Prestamo;
 use App\Modelos\Ejemplar;
 use App\tipoPrestamo;
+use App\tipoPenalizacion;
 use App\materialBibliotecario;
 use App\Prorroga;
 use App\Penalizacion;
@@ -27,7 +28,8 @@ class PrestamosController extends Controller
         $prestamos = DB::table('Prestamo')
         ->select('Prestamo.*', 'Ejemplar.EJEMPLAR', 'estadoPrestamo.ESTADO_PRESTAMO',
         'users.name', 'Ejemplar.AUTOR', 'Ejemplar.EDICION', 'Ejemplar.ID_TIPO_ADQUISICION',
-        'tipoAdquisicion.NOMBRE as tipoAdquisicion', 'tipoPrestamo.TIPO_PRESTAMO as tipoPrestamo'
+        'tipoAdquisicion.NOMBRE as tipoAdquisicion', 'tipoPrestamo.TIPO_PRESTAMO as tipoPrestamo',
+        'materialBibliotecario.COPIA_NUMERO as copia'
          )
         ->join('materialBibliotecario', 'materialBibliotecario.id', '=', 'Prestamo.ID_MATERIAL')
         ->join('Ejemplar', 'Ejemplar.id', '=', 'materialBibliotecario.ID_EJEMPLAR')
@@ -35,17 +37,18 @@ class PrestamosController extends Controller
         ->join('tipoAdquisicion', 'tipoAdquisicion.ID_TIPO_ADQUISICION', '=', 'Ejemplar.ID_TIPO_ADQUISICION')
         ->join('users', 'users.id', '=', 'Prestamo.ID_USUARIO')
         ->leftjoin('tipoPrestamo', 'tipoPrestamo.id', '=', 'Prestamo.ID_TIPO_PRESTAMO')
+        ->where('Prestamo.ID_ESTADO_PRESTAMO', '!=', '8')
         ->paginate(10);
 
+        
+
         $tiposPrestamos = tipoPrestamo::all();
+        $tiposPenalizaciones = tipoPenalizacion::all();
 
         return view('Prestamo.prestamos')->with([
             'prestamos'=> $prestamos,
             'tiposPrestamos'=> $tiposPrestamos,
-            // 'users'=> $users,
-            // 'estados'=> $estados,
-            // 'materiales'=> $materiales,
-            // 'ejemplares'=> $ejemplares,
+            'tiposPenalizaciones'=> $tiposPenalizaciones,
         ]);
     }
 
@@ -56,6 +59,64 @@ class PrestamosController extends Controller
         return view('Prestamo.misPrestamos')->with([
             'prestamos'=> $prestamos,
         ]);
+    }
+
+    public function realizarPrestamo(Request $request)
+    {
+        $cuentas = [];
+        $ejemplares = Ejemplar::paginate(20);
+        foreach ($ejemplares as $key => $ejemplar) {
+            $cuentas[] += materialBibliotecario::where('ID_EJEMPLAR', $ejemplar->id)
+            ->where('DISPONIBLE', true)->count();
+        }
+        
+        // dd($ejemplares, $cuentas);
+
+        $tiposPrestamos = tipoPrestamo::all();
+
+        return view('Prestamo.realizarPrestamos')->with([
+            'ejemplares'=> $ejemplares,
+            'cuentas'=> $cuentas,
+            // 'users'=> $users,
+            // 'estados'=> $estados,
+            // 'materiales'=> $materiales,
+            // 'ejemplares'=> $ejemplares,
+        ]);
+    }
+
+    public function solicitarPrestamo(Request $request)
+    {
+        $prestamo =  new Prestamo();
+        $prestamo->FECHA_PRESTAMO = date('Ymd H:i:s');
+
+        $diasHabilitar = Configuracion::select('DIAS_HABILES_PRORROGA')->get();
+        foreach ($diasHabilitar as $dia) {
+            $dias = "+ ".(string)$dia->DIAS_HABILES_PRORROGA." days";
+        }
+
+        $prestamo->FECHA_ESPERADA_DEVOLUCION = date("d-m-Y",strtotime($prestamo->FECHA_PRESTAMO.$dias));
+        $prestamo->ID_USUARIO = auth()->id();
+        $prestamo->ID_ESTADO_PRESTAMO = 1;
+        // $prestamo->ID_TIPO_PRESTAMO = $request->tipoPrestamo;
+        $material = materialBibliotecario::select('id')
+        ->where('ID_EJEMPLAR', $request->id)
+        ->where('DISPONIBLE', true)
+        ->first();     
+        $prestamo->ID_MATERIAL = $material->id;
+               
+        $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
+        $material->DISPONIBLE = false;
+
+        $prestamo->save();
+        $material->save();
+    }
+
+    public function reservarPrestamo(Request $request)
+    {
+        $prestamo = Prestamo::find($request->id);
+        $prestamo->ID_ESTADO_PRESTAMO = 2;
+
+        $prestamo->save();
     }
 
     public function aprobarPrestamo(Request $request)
@@ -122,8 +183,21 @@ class PrestamosController extends Controller
 
         $penalizacion = new Penalizacion();
         $penalizacion->ID_PRESTAMO = $request->id;
+        $penalizacion->ID_TIPO_PENALIZACION = $request->tipoPenalizacion;
 
         $penalizacion->save();
         $prestamo->save();
+    }
+
+    public function cancelarPrestamo(Request $request)
+    {
+        $prestamo = Prestamo::find($request->id);
+        $prestamo->ID_ESTADO_PRESTAMO = 8;
+       
+        $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
+        $material->DISPONIBLE = true;
+
+        $prestamo->save();
+        $material->save();
     }
 }

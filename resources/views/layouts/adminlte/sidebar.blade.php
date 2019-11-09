@@ -35,6 +35,13 @@
             </li>
 
             <li class="nav-item">
+              <a href="{{ route('realizar.prestamo') }}" class="nav-link {{ ( request()->is('biblioteca/realizar/prestamo/*') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Realizar Préstamo V2</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ver Préstamos(René)</p>

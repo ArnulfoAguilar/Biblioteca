@@ -36,12 +36,19 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/biblioteca/prestamosV2', 'PrestamosController@index')->name('prestamos.v2');
         Route::get('biblioteca/mis/prestamos/v2', 'PrestamosController@misPrestamos')->name('mis.prestamos');
+
+        Route::get('/realizar/prestamo', 'PrestamosController@realizarPrestamo')->name('realizar.prestamo');
+        
+        Route::POST('/solicitar/prestamo', 'PrestamosController@solicitarPrestamo')->name('solicitar.prestamo');
+        Route::POST('/reservar/prestamo', 'PrestamosController@reservarPrestamo')->name('reservar.prestamo');
         Route::POST('/aprobar/prestamo', 'PrestamosController@aprobarPrestamo')->name('aprobar.prestamo');
         Route::POST('/finalizar/prestamo', 'PrestamosController@finalizarPrestamo')->name('finalizar.prestamo');
         Route::POST('/prorrogar/prestamo', 'PrestamosController@prorrogarPrestamo')->name('prorrogar.prestamo');
         Route::POST('/penalizar/prestamo', 'PrestamosController@penalizarPrestamo')->name('penalizar.prestamo');
+        Route::POST('/cancelar/prestamo', 'PrestamosController@cancelarPrestamo')->name('cancelar.prestamo');
 
         Route::get('/biblioteca/penalizaciones', 'PenalizacionController@index')->name('penalizaciones.lista');
+        Route::POST('/biblioteca/solventar/penalizacion', 'PenalizacionController@solventar')->name('solventar.penalizacion');
 
     });
 

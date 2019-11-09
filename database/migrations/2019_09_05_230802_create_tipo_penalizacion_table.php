@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePenalizacionTable extends Migration
+class CreateTipoPenalizacionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,11 @@ class CreatePenalizacionTable extends Migration
      */
     public function up()
     {
-        Schema::create('penalizacion', function (Blueprint $table) {
+        Schema::create('tipoPenalizacion', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger('ID_PRESTAMO');
-            $table->foreign('ID_PRESTAMO')
-            ->references('id')
-            ->on('Prestamo')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
-
+            $table->string('TIPO_PENALIZACION', 600);
+           
             $table->timestamps();
         });
     }
@@ -34,6 +29,6 @@ class CreatePenalizacionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('penalizacion');
+        Schema::dropIfExists('tipoPenalizacion');
     }
 }
