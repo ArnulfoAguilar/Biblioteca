@@ -14,7 +14,9 @@ class PuntuacionesController extends Controller
      */
     public function index()
     {
-        //
+        $puntuaciones= Puntuaciones::first();
+        return view('administracion.Puntuaciones')
+        ->with(['puntuaciones' => $puntuaciones]);
     }
 
     /**
@@ -69,7 +71,8 @@ class PuntuacionesController extends Controller
      */
     public function update(Request $request, Puntuaciones $puntuaciones)
     {
-        //
+
+
     }
 
     /**
