@@ -23,21 +23,21 @@ Route::middleware(['auth'])->group(function () {
     // ------------------------------- RUTAS DEL MODULO BIBLIOTECA ------------------------------//
     Route::middleware(['web', 'rol:1,2,3,4'])->group(function () {
 
-        Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
+        // Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
         Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
         Route::get('/biblioteca/imprimir', 'LibroController@Tags')->name('imprimir');
 
-        Route::get('/biblioteca/prestamo', 'HomeController@prestamos')->name('prestamos');
+        // Route::get('/biblioteca/prestamo', 'HomeController@prestamos')->name('prestamos');
         Route::resource('/biblioteca/prestamos', 'PrestamoController');
-        Route::get('biblioteca/mis/prestamos', 'PrestamoController@indexMisPrestamos')->name('index.misPrestamos');
+        // Route::get('biblioteca/mis/prestamos', 'PrestamoController@indexMisPrestamos')->name('index.misPrestamos');
         Route::get('bibioteca/lista/mis-prestamos', 'PrestamoController@listaMisPrestamos')->name('misPrestamos');
 
 
 
-        Route::get('/biblioteca/prestamosV2', 'PrestamosController@index')->name('prestamos.v2');
-        Route::get('biblioteca/mis/prestamos/v2', 'PrestamosController@misPrestamos')->name('mis.prestamos');
+        Route::get('/biblioteca/prestamo/lista', 'PrestamosController@index')->name('prestamos');
+        Route::get('biblioteca/mis/prestamos', 'PrestamosController@misPrestamos')->name('mis.prestamos');
 
-        Route::get('/realizar/prestamo', 'PrestamosController@realizarPrestamo')->name('realizar.prestamo');
+        Route::get('biblioteca/realizar/prestamo', 'PrestamosController@realizarPrestamo')->name('realizar.prestamo');
         
         Route::POST('/solicitar/prestamo', 'PrestamosController@solicitarPrestamo')->name('solicitar.prestamo');
         Route::POST('/reservar/prestamo', 'PrestamosController@reservarPrestamo')->name('reservar.prestamo');

@@ -77,7 +77,7 @@
                         <div class="icon">
                             <i class="fas fa-book"></i>
                         </div>
-                        <a href="{{route('prestamos.v2')}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{route('prestamos')}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             @endif

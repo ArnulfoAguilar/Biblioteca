@@ -99,10 +99,10 @@ class PrestamoController extends Controller
         $Prestamo->delete();
     }
 
-    public function indexMisPrestamos()
-    {
-        return view('Prestamo.listaMisPrestamos');
-    }
+    // public function indexMisPrestamos()
+    // {
+    //     return view('Prestamo.listaMisPrestamos');
+    // }
 
     public function listaMisPrestamos(Request $request)
     {

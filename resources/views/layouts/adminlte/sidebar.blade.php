@@ -27,54 +27,40 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            
+
             <li class="nav-item">
-              <a href="{{ route('buscar.disponible') }}" class="nav-link {{ ( request()->is('biblioteca/busqueda/*') ) ? 'active' : '' }}">
+              <a href="{{ route('realizar.prestamo') }}" class="nav-link {{ ( request()->is('biblioteca/realizar/prestamo') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Realizar Préstamo</p>
               </a>
             </li>
 
-            <li class="nav-item">
-              <a href="{{ route('realizar.prestamo') }}" class="nav-link {{ ( request()->is('biblioteca/realizar/prestamo/*') ) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Realizar Préstamo V2</p>
-              </a>
-            </li>
+            
 
             <li class="nav-item">
-              <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo') ) ? 'active' : '' }}">
+              <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo/lista') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Ver Préstamos(René)</p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="{{route ('prestamos.v2')}}" class="nav-link {{ ( request()->is('biblioteca/prestamos') ) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Ver Préstamos V2</p>
+                <p>Ver Préstamos</p>
               </a>
             </li>
             
+            
+
             <li class="nav-item">
-            <a href="{{route ('index.misPrestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos') ) ? 'active' : ''}}">
+            <a href="{{route ('mis.prestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos') ) ? 'active' : ''}}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Mis Préstamos</p>
               </a>
             </li>
 
-            <li class="nav-item">
-            <a href="{{route ('mis.prestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos/v2') ) ? 'active' : ''}}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Mis Préstamos V2</p>
-              </a>
-            </li>
-
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ver Deudores</p>
               </a>
-            </li>
+            </li> -->
+
             <li class="nav-item">
               <a href="{{route ('penalizaciones.lista')}}" class="nav-link {{( request()->is('biblioteca/penalizaciones') ) ? 'active' : ''}}">
                 <i class="far fa-circle nav-icon"></i>
