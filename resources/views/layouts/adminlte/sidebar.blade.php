@@ -300,8 +300,6 @@
               <p>Aportes 2</p>
             </a>
           </li>
-
-
         </ul>
       </li>
       @endif

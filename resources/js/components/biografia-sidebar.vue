@@ -6,7 +6,7 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle" src="" alt="">
+                  <img class="profile-user-img img-fluid " v-bind:src="src"  alt="">
                 </div>
 
                 <h3 class="profile-username text-center">{{ this.usuarioname }}</h3>
@@ -16,12 +16,6 @@
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
                     <b>Aportes</b> <a class="float-right">{{this.CantidadAportesRealizados}}</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Following</b> <a class="float-right">543</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Friends</b> <a class="float-right">13,287</a>
                   </li>
                 </ul>
               </div>
@@ -39,13 +33,10 @@
                 <strong><i class="fas fa-book mr-1"></i>Biografia</strong>
 
                 <p class="text-muted">
-                  B.S. in Computer Science from the University of Tennessee at Knoxville
+                  {{this.biografia}}
                 </p>
 
                 <hr>
-
-                
-                <a href="#" class="btn btn-primary btn-block"><b>Editar Biografia</b></a>
               </div>
               <!-- /.card-body -->
             </div>
@@ -59,20 +50,32 @@
         mounted() {
             console.log('Component mounted.')
         },
-        props: ['usuarioid','usuarioname','rol'],
+        props: ['usuarioid','usuarioname','rol','biografia','idnivel'],
         data(){
             return{
+                src: '',
                 CantidadAportesRealizados:'',
-                Usuario: { usuario_id:'', name:'', email:'', rol_id:'', ROL:''}
+                Niveles:[],
+                Nivel:{id:'',NIVEL:'',PUNTAJE_MINIMO:'',BAGDE:''},
+                Usuario: { usuario_id:'', name:'', email:'', rol_id:'', ROL:'', biografia:''}
             }
         },created(){
           this.totalAportes();
+          this.Insignia();
         },
          methods :{
             totalAportes()
             {
                  axios.get('/Usuario/totalAportesCreados/'+this.usuarioid).then(response=>{
                   this.CantidadAportesRealizados = response.data;
+                  }
+                )                
+            },
+            Insignia()
+            {
+                 axios.get('/Niveles/'+this.idnivel).then(response=>{
+                  this.Niveles = response.data;
+                  this.src=this.Niveles.BAGDE;
                   }
                 )                
             },

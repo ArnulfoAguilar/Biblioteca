@@ -46,9 +46,10 @@ class NivelesController extends Controller
      * @param  \App\Niveles  $niveles
      * @return \Illuminate\Http\Response
      */
-    public function show(Niveles $niveles)
+    public function show($id)
     {
-        //
+        $niveles= Niveles::find($id);
+        return $niveles;
     }
 
     /**

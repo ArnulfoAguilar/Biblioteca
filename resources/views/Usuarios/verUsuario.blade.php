@@ -1,7 +1,7 @@
 @extends('layouts.adminLTE')
 
 @section('content')
-<div class="container">
+<div class="container" >
     <section class="content">
             <div class="container-fluid">
               <div class="row">
@@ -9,6 +9,8 @@
               usuarioid="{{ $usuario->id }}"
               usuarioname="{{ $usuario->name }}"
               rol="{{$usuario->rol->ROL}}"
+              biografia="{{$usuario->BIOGRAFIA}}"
+              idnivel="{{ $usuario->ID_NIVEL }}"
               >
             </biografia-sidebar>
             <biografia-aportes
@@ -21,3 +23,4 @@
           </section>
 </div>
 @endsection
+

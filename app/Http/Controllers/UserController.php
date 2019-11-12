@@ -61,6 +61,7 @@ class UserController extends Controller
         if($Usuario==null){
             abort(404);
         }
+        
         return view('Usuarios.verUsuario')
         ->with([
             'usuario' => $Usuario
