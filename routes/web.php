@@ -188,8 +188,8 @@ Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
     Route::get('graficos/aportes/anio', 'GraficosController@aportesAnio')->name('graficos.aportes.anio');
 
 // -----------------------------------------CONFIGURACIONES -------------------------------------//
-Route::get('/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
-Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
+// Route::get('/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
+// Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
 // -----------------------------------------ERRORES RUTAS -------------------------------------//
 Route::get('/error/1', 'ErroresController@error1')->name('error1');
 // -----------------------------------------PERFIL DE USUARIO -------------------------------------//

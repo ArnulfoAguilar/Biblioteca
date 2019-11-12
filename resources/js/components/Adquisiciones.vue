@@ -1,21 +1,24 @@
 <template>
 <div>
-  <div class="d-flex justify-content-end" v-for="(user,index) in Usuarios" :key="index">
-      <button v-if="usuario == user.id && user.ID_ROL == 4" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Sugerir</button>
-  </div>
+      <div class="d-flex justify-content-end" v-for="(user,index) in Usuarios" :key="index">
+          <button v-if="usuario == user.id && user.ID_ROL == 4" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Crear nueva sugerencia</button>
+      </div>
+
       <br>
+
       <div v-if="Sugerencias < 1">
         <ul class="timeline timeline-inverse">
             <li>
               <i class="far fa-clock bg-gray"></i>
               <div class="timeline-item">
                 <div class="timeline-header bg-gray">
-                  No hay Aportes
+                  No hay sugerencias
                 </div>
               </div>
             </li>
         </ul>
       </div>
+
       <div class= "card" v-for="(item,index) in Sugerencias" :key="index">
         <!-- <div class="card-header">
         </div> -->

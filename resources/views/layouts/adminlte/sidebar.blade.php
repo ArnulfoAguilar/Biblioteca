@@ -155,21 +155,23 @@
           </ul>
         </li>
         <!--adquisiciones-->
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-archive"></i>
+
+        <li class="nav-item has-treeview {{ ( request()->is('adquisicion/*') ) ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ ( request()->is('adquisicion/*') ) ? 'active' : '' }}">
+            <i class="nav-icon fas fa-atlas"></i>
+
             <p>
               Adquisiciones
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Sugerir Adquisición</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="{{route('adquisicion.lista')}}"
                   class="nav-link {{ ( request()->is('adquisicion/lista') ) ? 'active' : '' }}">
@@ -211,6 +213,14 @@
               </a>
             </li>
 
+            <li class="nav-item">
+              <a href="{{route('calendario')}}" 
+                class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Calendario</p>
+              </a>
+            </li>
+
           </ul>
         </li>
 
@@ -242,20 +252,12 @@
   
             <li class="nav-item">
               <a href="{{route('registro.actividad')}}"
-                class="nav-link {{ ( request()->is('catalogos/registros') ) ? 'active' : '' }}">
+                class="nav-link {{ ( request()->is('catalogos/registro/actividad') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Registros de actividad </p>
               </a>
             </li>
 
-            <li class="nav-item">
-              <a href="{{route('calendario')}}" 
-                class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Calendario</p>
-              </a>
-            </li>
-  
   
           </ul>
         </li>
@@ -275,7 +277,7 @@
             <a href="{{route('graficos.aportes')}}"
               class="nav-link {{ ( request()->is('graficos/aportes') ) ? 'active' : '' }}">
               <i class="far fa-circle nav-icon"></i>
-              <p>Aportes </p>
+              <p>Aportes por área</p>
             </a>
           </li>
 
@@ -283,7 +285,7 @@
             <a href="{{route('graficos.aportes.anio')}}"
               class="nav-link {{ ( request()->is('graficos/aportes/anio') ) ? 'active' : '' }}">
               <i class="far fa-circle nav-icon"></i>
-              <p>Aportes 2</p>
+              <p>Aportes al año</p>
             </a>
           </li>
         </ul>
