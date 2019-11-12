@@ -58,7 +58,7 @@
                                     @if(sizeof($penalizaciones) <= 0)
                                         <tr>
                                             <td>--</td>
-                                            <td class="text-center" colspan="4">No Hay Penalizaciones Realizadas</td>
+                                            <td class="text-center" colspan="7">No Hay Penalizaciones Realizadas</td>
                                         </tr>
                                     @else
                                         @foreach ($penalizaciones as $penalizacion)

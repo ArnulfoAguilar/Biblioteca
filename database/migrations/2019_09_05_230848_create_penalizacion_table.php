@@ -15,7 +15,7 @@ class CreatePenalizacionTable extends Migration
     {
         Schema::create('penalizacion', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('SOLVENTADA');
+            $table->boolean('SOLVENTADA')->nullable();
 
             $table->unsignedInteger('ID_PRESTAMO');
             $table->foreign('ID_PRESTAMO')

@@ -13,6 +13,7 @@ Vue.use(VueSwal);
 
 
 import Datepicker from 'vuejs-datepicker';
+//import Datepicker from 'vuejs-datepicker';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -83,6 +84,7 @@ Vue.component('adquisiciones', require('./components/Adquisiciones.vue').default
 Vue.component('roles', require('./components/Roles.vue').default);
 Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').default);
 Vue.component('asignacion-comites', require('./components/AsignacionComites.vue').default);
+Vue.component('calendario', require('./components/calendario.vue').default);
 
 
 
