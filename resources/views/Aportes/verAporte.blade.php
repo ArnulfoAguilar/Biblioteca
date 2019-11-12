@@ -262,17 +262,7 @@
                         if (palabra_en_comentario.index === regex.lastIndex){
                             regex.lastIndex++;
                         }
-                        swal({
-                            text: 'Puede que su comentario tenga palabras inadecuadas.\n¿Desea continuar?',
-                            title: 'Alto', icon: 'warning', buttons: { cancel: true, confirm: true, },
-                        }).then((value) => {
-                            if (value){
-                                form.submit();
-                                return true;
-                            }else{
-                                return false;
-                            }
-                        });
+                        <th scope="col">Editar</th>
                     }else{
                         swal({ text: 'Espere la aprobación del administrador', title: 'Exito', icon: 'success',})
                         .then( (value) => {

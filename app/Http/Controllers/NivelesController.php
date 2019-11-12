@@ -14,7 +14,9 @@ class NivelesController extends Controller
      */
     public function index()
     {
-        //
+        $niveles= Niveles::all();
+        return view('administracion.Niveles')
+        ->with(['niveles' => $niveles]);
     }
 
     /**

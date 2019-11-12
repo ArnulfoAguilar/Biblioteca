@@ -7,7 +7,7 @@
 @section('breadcrumbs')
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="#">Configuracion</a></li>
-    <li class="breadcrumb-item active">Variables Globales</li>
+    <li class="breadcrumb-item active">Niveles</li>
   </ol>
 @endsection
 
@@ -27,7 +27,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">Puntuaciones</div>
+                    <div class="card-header" style="background-color:#343A40!important; color:white!important;">Niveles</div>
                     
                         @if(!empty($errors->all()))
                             <div class="alert alert-danger alert-dismissible">
@@ -51,24 +51,25 @@
                             <thead>
                               <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Puntuacion</th>
-                                <th scope="col">Valor</th>
-                                <th scope="col">Editar</th>
-                                <th scope="col">Eliminar</th>
+                                <th scope="col">Nivel</th>
+                                <th scope="col">Puntaje Minimo</th>
+                                <th scope="col">Badge</th>
+                                <th scope="col">Background</th>
                               </tr>
                             </thead>
                             <tbody>
-                                @if(sizeof($puntuaciones) <= 0)
+                                @if(sizeof($niveles) <= 0)
                                     <tr>
                                         <td>--</td>
-                                        <td class="text-center" colspan="7">No Hay Puntuaciones registradas</td>
+                                        <td class="text-center" colspan="7">No Hay Niveles registradas</td>
                                     </tr>
                                 @else
-                                    @foreach ($puntuaciones as $puntuacion)
+                                    @foreach ($niveles as $nivel)
                                         <tr>
-                                            <td>{{$puntuacion->id}}</td>
-                                            <td>{{$puntuacion->PUNTUACION}}</td>
-                                            <td>{{$puntuacion->VALOR}}</td>
+                                            <td>{{$nivel->id}}</td>
+                                            <td>{{$nivel->NIVEL}}</td>
+                                            <td>{{$nivel->PUNTAJE_MINIMO}}</td>
+                                            <td>{{$nivel->BADGE}}</td>
                                             <td><button type="button" class="btn btn-block btn-warning">Editar</button></td>
                                             <td> <button type="button" class="btn btn-block btn-danger">Eliminar</button></td>    
                                         </tr>
