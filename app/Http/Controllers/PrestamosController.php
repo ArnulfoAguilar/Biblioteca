@@ -188,9 +188,9 @@ class PrestamosController extends Controller
         $material->save();
     }
 
-    public function verificarDevolucion($fecha_devolucion){
+    public function verificarDevolucion($fecha_devolucion_inicial){
 
-        $devolucion = $fecha_devolucion;
+        $devolucion = $fecha_devolucion_inicial;
         
         $hoy = date('Ymd');
         
@@ -211,7 +211,7 @@ class PrestamosController extends Controller
                     $devolucion >= date("d-m-Y",strtotime($asueto->inicio_inactividad)) && 
                     $devolucion <= date("d-m-Y",strtotime($asueto->fin_inactividad))
                 ){
-                    $devolucion = date("d-m-Y",strtotime($asueto->fin_inactividad."+ 1 days"));
+                    $devolucion = date("d-m-Y",strtotime($asueto->fin_inactividad));
                 }
             }
            

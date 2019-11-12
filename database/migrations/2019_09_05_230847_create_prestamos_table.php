@@ -15,7 +15,7 @@ class CreatePrestamosTable extends Migration
     {
         Schema::create('Prestamo', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->dateTime('FECHA_PRESTAMO');
+            $table->dateTime('FECHA_PRESTAMO')->nullable();
             $table->dateTime('FECHA_DEVOLUCION')->nullable();
             $table->dateTime('FECHA_ESPERADA_DEVOLUCION')->nullable();
             $table->bigInteger('ID_USUARIO')->unsigned();
