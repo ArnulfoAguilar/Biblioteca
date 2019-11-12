@@ -28,10 +28,17 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@fullcalendar/core": "^4.3.1",
+        "@fullcalendar/daygrid": "^4.3.0",
+        "@fullcalendar/vue": "^4.3.1",
         "admin-lte": "^3.0.0-beta.2",
+        "bootbox": "^5.3.2",
+        "moment": "^2.24.0",
         "select2": "^4.0.7",
+        "toastr": "^2.1.4",
         "vue-moment": "^4.0.0",
         "vue-swal": "^1.0.0",
+        "vuejs-datepicker": "^1.6.2",
         "vuelidate": "^0.7.4"
     }
 }

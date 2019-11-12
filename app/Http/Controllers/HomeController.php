@@ -34,12 +34,14 @@ class HomeController extends Controller
         $pendientes = DB::table('Aporte')->where('HABILITADO', false)->count();
         $sugerencias = DB::table('Adquisicion')->where('created_at', '>', $antes)->count();
         $aportes = DB::table('Aporte')->where('created_at', '>', $antes)->count();
+        $prestamos = DB::table('Prestamo')->where('ID_ESTADO_PRESTAMO', '!=', 5)->count();
 
         return view('home')->with([
             'habilitados' => $habilitados,
             'pendientes' => $pendientes,
             'sugerencias' => $sugerencias,
             'aportes' => $aportes,
+            'prestamos' => $prestamos,
         ]);
     }
 
@@ -68,5 +70,14 @@ class HomeController extends Controller
     public function marcarLeidas(){
         $user = Auth::user();
         $user->unreadNotifications->markAsRead();
+    }
+    
+    public function prestamos()
+    {
+        return view('Prestamo/prestamo');
+    }
+    public function calendario()
+    {
+        return view('calendario');
     }
 }

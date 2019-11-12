@@ -1,5 +1,5 @@
 <template>
-    <select class="form-control">
+    <select style="width: 100%;">
         <slot></slot>
     </select>
 </template>
@@ -34,8 +34,5 @@
         }
     }
 </script>
-<style>
-    select{
-        width: 100%;
-    }
+<style scoped>
 </style>

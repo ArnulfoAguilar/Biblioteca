@@ -31,6 +31,7 @@ class ConfiguracionController extends Controller
     {
         $configuracion= Configuracion::find($request->id);
         $request->diasHabiles != null ? $configuracion->DIAS_HABILES_PRORROGA=$request->diasHabiles : ''; 
+        $request->diasProrroga != null ? $configuracion->DIAS_PRORROGABLES=$request->diasProrroga : ''; 
         $request->archivoSize!= null ? $configuracion->TAMAÑO_MAXIMO_ARCHIVOS=$request->archivoSize : '';
         $request->customSwitch3 == '' || $request->customSwitch3 == null ? $configuracion->HABILITAR_COMENTARIOS = false:$configuracion->HABILITAR_COMENTARIOS = true;
         $request->nombreInstitucion != null ? $configuracion->NOMBRE_INSTITUCION = $request->nombreInstitucion: '';

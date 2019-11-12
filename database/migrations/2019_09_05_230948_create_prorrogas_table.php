@@ -14,14 +14,15 @@ class CreateProrrogasTable extends Migration
     public function up()
     {
         Schema::create('Prorroga', function (Blueprint $table) {
-            $table->bigIncrements('ID_PRORROGA');
+            $table->bigIncrements('id');
             $table->date('FECHA_INICIO');
             $table->date('FECHA_FIN');
             $table->bigInteger('ID_PRESTAMO')->unsigned();
-            $table->foreign('ID_PRESTAMO')->references('ID_PRESTAMO')->on('Prestamo')
+            $table->foreign('ID_PRESTAMO')->references('id')->on('Prestamo')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

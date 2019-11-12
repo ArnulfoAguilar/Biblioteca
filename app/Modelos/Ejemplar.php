@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Modelos;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ejemplar extends Model
 {
@@ -20,10 +21,18 @@ class Ejemplar extends Model
         'ID_CATEGORIA',
         'ID_TERCER_SUMARIO',
         'PRECIO',
+        'ID_TIPO_ADQUISICION',
+
         ];
-    
-    public function libros()
+    use SoftDeletes;
+
+    public function materiales()
     {
-        return $this->hasMany('App\Libro', 'ID_EJEMPLAR', 'id');
+        return $this->hasMany('App\materialBibliotecario', 'ID_EJEMPLAR', 'id');
+    }
+
+    public function tipoAdquisicion()
+    {
+        return $this->belongsTo('App\Modelos\tipoAdquisicion', 'ID_TIPO_ADQUISICION', 'ID_TIPO_ADQUISICION');
     }
 }

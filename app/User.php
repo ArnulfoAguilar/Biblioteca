@@ -46,8 +46,15 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Revision', 'ID_USUARIO', 'id');
     }
+
     public function Nivel()
     {
         return $this->belongsTo('App\Niveles', 'ID_NIVEL', 'id');
+
+    }
+    public function prestamos()
+    {
+        return $this->hasMany('App\Modelos\Prestamo', 'ID_USUARIO', 'id');
+
     }
 }

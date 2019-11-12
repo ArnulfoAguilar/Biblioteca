@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriaLibrosTable extends Migration
+class CreateCalendariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateCategoriaLibrosTable extends Migration
      */
     public function up()
     {
-        Schema::create('categoriaLibro', function (Blueprint $table) {
+        Schema::create('calendarios', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('CATEGORIA_LIBRO','255');
+            $table->date('inicio_inactividad');
+            $table->date('fin_inactividad')->nullable();
+            $table->string('nombre_inactividad');
+            $table->integer('año_fecha');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +31,6 @@ class CreateCategoriaLibrosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categoriaLibro');
+        Schema::dropIfExists('calendarios');
     }
 }
