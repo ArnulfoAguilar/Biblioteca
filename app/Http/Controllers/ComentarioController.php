@@ -243,6 +243,9 @@ class ComentarioController extends Controller
             $comentario->HABILITADO = true;
         }
         $comentario->save();
+        $user = User::find($comentario->ID_USUARIO);
+        $user->notify(new NuevoComentario($comentario));
+
         if($comentario->HABILITADO){
             activity()->performedOn($comentario)->log('Comentario '.$comentario->id.' habilitado');
         }else{

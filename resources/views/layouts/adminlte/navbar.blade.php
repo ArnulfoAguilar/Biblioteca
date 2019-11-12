@@ -127,7 +127,7 @@
             @endif
         @else
             <li class="nav-item dropdown">
-                <a href="#" id="notificaciones" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                <a href="#"  class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                   <i class="far fa-bell nav-icon"></i>
                     <span class="badge bg-dark">
                       {{count(Auth::user()->unreadNotifications)}}
@@ -140,20 +140,26 @@
                     </li>
                   @else
                     @foreach (Auth::user()->unreadNotifications as $notification)
-                      @if ($notification->type == 'App\Notifications\NewAporte')
-                        <li class="">
-                        {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
-                          <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
+                      <li class="">
+                          <a href="#" id="notificaciones" class="nav-link bg-purple" >Marcar como leídas</a>
                           <div class="dropdown-divider"></div>
-                        </li>
-                      @endif
-                      @if ($notification->type == 'App\Notifications\NuevoComentario')
-                        <li class="">
-                        {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
-                          <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Comentó tu aporte</a>
-                          <div class="dropdown-divider"></div>
-                        </li>
-                      @endif
+                      </li>
+                      <li class="">
+
+                          @if ($notification->type == 'App\Notifications\NewAporte')
+                              <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\NuevoComentario')
+                              <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Comentó tu aporte</a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\NuevaRevision')
+                              <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Te hizo una observación</a>
+                          @endif
+
+                        <div class="dropdown-divider"></div>
+                      </li>
                     @endforeach
                     
                   @endif  

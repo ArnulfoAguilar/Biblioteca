@@ -84,6 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               },
               success: function (result) {
                   console.log("Notificaciones marcadas como leidas")
+                  location.reload();
                   // $('#reemplazar').html(result);
               },
           })

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Revision;
 
+use App\User;
+
+use App\Notifications\NuevaRevision;
+use Illuminate\Support\Facades\Notification;
+
 class RevisionController extends Controller
 {
     /**
@@ -47,6 +52,9 @@ class RevisionController extends Controller
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
         $revision->save();
+
+        $user = User::find(auth()->id());
+        $user->notify(new NuevaRevision($revision));
         activity()->log('Guardó revisión');
 
     }
@@ -93,6 +101,9 @@ class RevisionController extends Controller
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
         $revision->Save();
+
+        $user = User::find(auth()->id());
+        $user->notify(new NuevaRevision($revision));
         activity()->log('Actualizó revisión');
         return $revision;
     }
