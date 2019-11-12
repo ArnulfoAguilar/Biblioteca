@@ -79,7 +79,7 @@ class PrestamosController extends Controller
     public function solicitarPrestamo(Request $request)
     {
         $prestamo =  new Prestamo();
-        $prestamo->FECHA_PRESTAMO = date('Ymd H:i:s');
+        // $prestamo->FECHA_PRESTAMO = date('Ymd H:i:s');
 
         $prestamo->ID_USUARIO = auth()->id();
         $prestamo->ID_ESTADO_PRESTAMO = 1;
