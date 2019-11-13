@@ -247,6 +247,20 @@ class ComentarioController extends Controller
         $comentario->save();
         if($comentario->HABILITADO){
             activity()->performedOn($comentario)->log('Comentario '.$comentario->id.' habilitado');
+            //Actualizar puntuacion Habilitar Comentario//
+            $Puntuaciones = Puntuaciones::find(8);
+            $Niveles = Niveles::all();
+            $Usuario = User::find($comentario->ID_USUARIO);
+            $Usuario->PUNTOS += $Puntuaciones->VALOR;
+            $Niveles = Niveles::all();
+            foreach ($Niveles as $nivel) {
+             
+                if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                     $Usuario->ID_NIVEL = $nivel->id;
+                }
+            }
+            $Usuario->save();
+            //Actualizar puntuacion habilitar Comentario// 
         }else{
             activity()->performedOn($comentario)->log('Comentario '.$comentario->id.' deshabilitado');
         }

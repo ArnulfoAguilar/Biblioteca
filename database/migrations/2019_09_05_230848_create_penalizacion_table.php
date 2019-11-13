@@ -19,7 +19,7 @@ class CreatePenalizacionTable extends Migration
 
             $table->unsignedInteger('ID_PRESTAMO');
             $table->foreign('ID_PRESTAMO')
-            ->references('id')
+            ->references('IDPRESTAMO')
             ->on('Prestamo')
             ->onUpdate('cascade')
             ->onDelete('cascade');

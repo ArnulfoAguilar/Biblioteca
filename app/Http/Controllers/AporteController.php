@@ -10,6 +10,7 @@ use App\tipoAporte;
 use App\User;
 use App\Comentario;
 use App\Puntuaciones;
+use App\Niveles;
 
 
 use App\Configuracion;
@@ -106,13 +107,6 @@ class AporteController extends Controller
         $Areas = Area::all();
         $TipoAportes = tipoAporte::all();
         $PalabrasClave = palabrasClave::all();
-
-// Esto notifica por email que hay un nuevo aporte
-//AHORITA NO FUNCIONARA YA QUE HAY DATOS EN EL .ENV QUE FALTAN; SOLO SE PONEN Y FUNCIONA
-// Mail::to("")->send(new Notificacion('Juan')); 
-///ESTO NO DEBERIA NOTIFICAR QUE HAY UN NUEVO APORTE, PUES AQUI SOLO ABRIO LA PANTALLA.
-///DEBERIA DE NOTIFICAR EN EL STORE
-
         $TamañoMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
                                             ->first();
         return view('Aportes.NuevoAporte')
@@ -155,6 +149,13 @@ class AporteController extends Controller
         $Puntuaciones = Puntuaciones::find(3);
         $Usuario = User::find(auth()->id());
         $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Niveles = Niveles::all();
+        foreach ($Niveles as $nivel) {
+         
+            if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                 $Usuario->ID_NIVEL = $nivel->id;
+            }
+        }
         $Usuario->save();
         //Actualizar puntuacion Aporte escrito//  
         }else{
@@ -171,6 +172,13 @@ class AporteController extends Controller
                 $Puntuaciones = Puntuaciones::find(4);
                 $Usuario = User::find(auth()->id());
                 $Usuario->PUNTOS += $Puntuaciones->VALOR;
+                $Niveles = Niveles::all();
+                foreach ($Niveles as $nivel) {
+                 
+                    if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                         $Usuario->ID_NIVEL = $nivel->id;
+                    }
+                }
                 $Usuario->save();
                 //Actualizar puntuacion Aporte Video//  
             }elseif($request->ID_TIPO_APORTE==3){
@@ -186,6 +194,13 @@ class AporteController extends Controller
                 $Puntuaciones = Puntuaciones::find(5);
                 $Usuario = User::find(auth()->id());
                 $Usuario->PUNTOS += $Puntuaciones->VALOR;
+                $Niveles = Niveles::all();
+                foreach ($Niveles as $nivel) {
+                 
+                    if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                         $Usuario->ID_NIVEL = $nivel->id;
+                    }
+                }
                 $Usuario->save();
                 //Actualizar puntuacion Aporte Pintura//
             }else{
@@ -202,7 +217,15 @@ class AporteController extends Controller
             $Puntuaciones = Puntuaciones::find(6);
             $Usuario = User::find(auth()->id());
             $Usuario->PUNTOS += $Puntuaciones->VALOR;
+            $Niveles = Niveles::all();
+            foreach ($Niveles as $nivel) {
+             
+                if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                     $Usuario->ID_NIVEL = $nivel->id;
+                }
+            }
             $Usuario->save();
+            
             //Actualizar puntuacion Aporte Musica//
             }
            if($request->hasFile('archivo')){
@@ -238,6 +261,13 @@ class AporteController extends Controller
         dd($Puntuaciones);
         $Usuario = Comite::find(auth()->id());
         $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Niveles = Niveles::all();
+        foreach ($Niveles as $nivel) {
+         
+            if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                 $Usuario->ID_NIVEL = $nivel->id;
+            }
+        }
         $Usuario->save();
 
         //Actualizar puntuacion//
@@ -316,6 +346,13 @@ class AporteController extends Controller
         $Puntuaciones = Puntuaciones::find(1);
         $Usuario = User::find(auth()->id());
         $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Niveles = Niveles::all();
+           foreach ($Niveles as $nivel) {
+            
+               if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                    $Usuario->ID_NIVEL = $nivel->id;
+               }
+           }
         $Usuario->save();
         //Actualizar puntuacion//      
 
@@ -351,8 +388,16 @@ class AporteController extends Controller
             activity()->performedOn($aporte)->log('Aporte habilitado');
               //Actualizar puntuacion Habilitar aporte//
             $Puntuaciones = Puntuaciones::find(8);
+            $Niveles = Niveles::all();
             $Usuario = User::find($aporte->ID_USUARIO);
             $Usuario->PUNTOS += $Puntuaciones->VALOR;
+            $Niveles = Niveles::all();
+            foreach ($Niveles as $nivel) {
+             
+                if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                     $Usuario->ID_NIVEL = $nivel->id;
+                }
+            }
             $Usuario->save();
             //Actualizar puntuacion habilitar aporte// 
             return '1';
