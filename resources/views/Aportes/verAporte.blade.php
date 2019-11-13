@@ -91,7 +91,7 @@
                                                         
                                                         @elseif($aporte->ID_TIPO_APORTE==3)
                                                             <p>{{$aporte->DESCRIPCION}}</p><br>
-                                                            <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
+                                                            <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="auto" height="auto">
                                                         
                                                         @else
                                                             <p>{{$aporte->DESCRIPCION}}</p><br>
