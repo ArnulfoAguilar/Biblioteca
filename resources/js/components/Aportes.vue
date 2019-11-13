@@ -12,7 +12,7 @@
                 <div class="user-block">
                    <a href="#" @click="verAporte(item.id)" style="text-decoration:none!important; color:black!important;">
                   <img class="img-circle" src="" alt="">
-                  <span class="username"><a href="#">{{ item.AUTOR_APORTE }}</a></span>
+                  <span class="username"><a href="#" @click="verAutor(item.AUTOR_APORTE)">{{ item.AUTOR_APORTE }}</a></span>
                   </a>
                   <span class="description">{{ item.created_at}}</span>
                 </div>
@@ -63,7 +63,10 @@
             },
             verAporte(id){
               window.location.href='/aportes/'+id;
-            }, 
+            },
+            verAutor(id){
+              window.location.href='/users/'+id;
+            },  
 
         },
         computed:{
