@@ -11,7 +11,9 @@ class Configuracion extends Model
         'DIAS_HABILES_PRORROGA',
         'DIAS_PRORROGABLES',
         'HABILITAR_COMENTARIOS',
-        'TAMAÑO_MAXIMO_ARCHIVOS'
+        'TAMAÑO_MAXIMO_ARCHIVOS',
+        'NOMBRE_INSTITUCION',
+        'DIRECCION_INSTITUCION'
     ];
 
 }

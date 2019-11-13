@@ -91,7 +91,7 @@
                                                         
                                                         @elseif($aporte->ID_TIPO_APORTE==3)
                                                             <p>{{$aporte->DESCRIPCION}}</p><br>
-                                                            <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
+                                                            <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="auto" height="auto">
                                                         
                                                         @else
                                                             <p>{{$aporte->DESCRIPCION}}</p><br>
@@ -148,7 +148,12 @@
                                                             {{ csrf_field() }}
                                                             {{-- <input class="form-control form-control-lg" placeholder="Escribe un comentario..." v-model="Comentario.COMENTARIO"> --}}
                                                             <input name="aporte" type="hidden" value="{{$aporte->id}}">
-                                                            <input name="comentario" class="form-control form-control-lg" placeholder="Escribe un comentario..." required>
+                                                            <div class="input-group input-group-lg">
+                                                                    <input type="text" name="comentario" required class="form-control" placeholder="Escribe un comentario...">
+                                                                    <span class="input-group-append">
+                                                                      <button type="submit" class="btn btn-success btn-flat">Publicar</button>
+                                                                    </span>
+                                                                  </div>
                                                             </form>  
                                                         </div>
                                                     </div>
@@ -257,17 +262,7 @@
                         if (palabra_en_comentario.index === regex.lastIndex){
                             regex.lastIndex++;
                         }
-                        swal({
-                            text: 'Puede que su comentario tenga palabras inadecuadas.\n¿Desea continuar?',
-                            title: 'Alto', icon: 'warning', buttons: { cancel: true, confirm: true, },
-                        }).then((value) => {
-                            if (value){
-                                form.submit();
-                                return true;
-                            }else{
-                                return false;
-                            }
-                        });
+                        <th scope="col">Editar</th>
                     }else{
                         swal({ text: 'Espere la aprobación del administrador', title: 'Exito', icon: 'success',})
                         .then( (value) => {

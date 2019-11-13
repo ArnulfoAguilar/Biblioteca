@@ -34,8 +34,13 @@ class ConfiguracionController extends Controller
         $request->diasProrroga != null ? $configuracion->DIAS_PRORROGABLES=$request->diasProrroga : ''; 
         $request->archivoSize!= null ? $configuracion->TAMAÑO_MAXIMO_ARCHIVOS=$request->archivoSize : '';
         $request->customSwitch3 == '' || $request->customSwitch3 == null ? $configuracion->HABILITAR_COMENTARIOS = false:$configuracion->HABILITAR_COMENTARIOS = true;
+        $request->nombreInstitucion != null ? $configuracion->NOMBRE_INSTITUCION = $request->nombreInstitucion: '';
+        $request->direccionInstitucion != null ? $configuracion->DIRECCION_INSTITUCION = $request->direccionInstitucion: '';
         $configuracion->Save();
-        return redirect()->route('Configuracion');
+        $configuraciones= Configuracion::first();
+        //return redirect()->route('Configuracion')->with(['Message' => $Message]);
+        return back()->with('success','Configuracion guardada con éxito!');
+
     }
 
 }

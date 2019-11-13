@@ -19,8 +19,8 @@
                     </div>
                     <div class="timeline-body">
                       {{ item.COMENTARIO}}
-                      <a href="#" class="btn btn-success btn-sm float-right" @click="habilitar(item.id)" v-if="item.HABILITADO == false"> <i class="fas fa-check"></i> Habilitar </a> 
-                      <a href="#" class="btn btn-secondary btn-sm float-right" @click="habilitar(item.id)"  v-else> <i class="fas fa-times"></i> Deshabilitar </a> 
+                      <a href="#" class="btn btn-success btn-sm float-right" @click="habilitar(item.id)" v-if="item.HABILITADO == false"> <i class="fas fa-check"></i>Aprobar para publicación </a> 
+                      <a href="#" class="btn btn-secondary btn-sm float-right" @click="habilitar(item.id)"  v-else> <i class="fas fa-times"></i> Deshabilitar para publicación </a> 
                     </div>
                 </div>
             </li>

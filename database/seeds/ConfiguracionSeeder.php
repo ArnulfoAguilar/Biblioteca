@@ -15,7 +15,9 @@ class ConfiguracionSeeder extends Seeder
             'DIAS_HABILES_PRORROGA' => 8,
             'DIAS_PRORROGABLES' => 5,
             'HABILITAR_COMENTARIOS' => True,
-            'TAMAÑO_MAXIMO_ARCHIVOS'=>3000
+            'TAMAÑO_MAXIMO_ARCHIVOS'=>3000,
+            'NOMBRE_INSTITUCION'=>"Colegio Padre Arrupe",
+            'DIRECCION_INSTITUCION'=>"Calle Padre Salazar Simpson, San Salvador"
         ]);
     }
 }

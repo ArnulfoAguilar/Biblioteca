@@ -164,7 +164,7 @@ $('#inputArchivo').change(function (e) {
     var sizekiloByte = parseInt(fileSize / 1024);
     const TamañoMax = @json($TamañoMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS);
     if (sizekiloByte > TamañoMax ) {
-        alert("Archivo muy grande");
+        swal({ text: 'El archivo debe ser menor a '+ TamañoMax +' Kb', title: 'Upss', icon: 'warning',})
        this.value='';
     }
     });

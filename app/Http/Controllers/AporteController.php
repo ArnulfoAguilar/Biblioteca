@@ -9,7 +9,8 @@ use App\palabrasClave;
 use App\tipoAporte;
 use App\User;
 use App\Comentario;
-use App\palabraProhibida;
+use App\Puntuaciones;
+use App\Niveles;
 
 
 use App\Configuracion;
@@ -30,6 +31,11 @@ use Illuminate\Support\Facades\Notification;
 
 class AporteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -53,6 +59,7 @@ class AporteController extends Controller
         if($request->id==0){
             return DB::table('lista_aportes')
             ->where('HABILITADO','=','TRUE')
+            ->latest()
             ->get();
         }elseif($request->id==1){
             return DB::table('lista_aportes')
@@ -60,6 +67,7 @@ class AporteController extends Controller
                 ['HABILITADO','=','TRUE'],
                 ['ID_AUTOR','=',auth()->id()]
             ])
+            ->latest()
             ->get();
         }elseif ($request->id==2) {
             return DB::table('lista_aportes')
@@ -67,10 +75,22 @@ class AporteController extends Controller
                 ['HABILITADO','=','FALSE'],
                 ['ID_AUTOR','=',auth()->id()]
             ])
+            ->latest()
             ->get();
         }else{
-            //poner aqui un 404
+            abort(404);
         }
+    }
+    public function aportesProfile(Request $request)
+    {
+        
+            return DB::table('lista_aportes')
+            ->where([
+                ['HABILITADO','=','TRUE'],
+                ['ID_AUTOR','=',$request->id]
+            ])
+            ->latest()
+            ->get();
     }
 
     public function listaDirector(Request $request)
@@ -88,13 +108,6 @@ class AporteController extends Controller
         $Areas = Area::all();
         $TipoAportes = tipoAporte::all();
         $PalabrasClave = palabrasClave::all();
-
-// Esto notifica por email que hay un nuevo aporte
-//AHORITA NO FUNCIONARA YA QUE HAY DATOS EN EL .ENV QUE FALTAN; SOLO SE PONEN Y FUNCIONA
-// Mail::to("")->send(new Notificacion('Juan')); 
-///ESTO NO DEBERIA NOTIFICAR QUE HAY UN NUEVO APORTE, PUES AQUI SOLO ABRIO LA PANTALLA.
-///DEBERIA DE NOTIFICAR EN EL STORE
-
         $TamañoMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
                                             ->first();
         return view('Aportes.NuevoAporte')
@@ -133,6 +146,19 @@ class AporteController extends Controller
                 $img->setattribute('src', "/aportesImages/". $image_name);
             }
             $detalle = $dom->savehtml();
+        //Actualizar puntuacion Aporte escrito//
+        $Puntuaciones = Puntuaciones::find(3);
+        $Usuario = User::find(auth()->id());
+        $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Niveles = Niveles::all();
+        foreach ($Niveles as $nivel) {
+         
+            if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                 $Usuario->ID_NIVEL = $nivel->id;
+            }
+        }
+        $Usuario->save();
+        //Actualizar puntuacion Aporte escrito//  
         }else{
             if($request->ID_TIPO_APORTE==2){
             $validateData = $request->validate([
@@ -141,27 +167,67 @@ class AporteController extends Controller
                 [
                     'archivo.required' => 'El archivo es requerido',
                     'archivo.mimetypes' => 'El archivo a anexar debe ser un video',
-                    'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo.' kb'
+                    'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS.' kb'
                 ]);
+                //Actualizar puntuacion Aporte Video//
+                $Puntuaciones = Puntuaciones::find(4);
+                $Usuario = User::find(auth()->id());
+                $Usuario->PUNTOS += $Puntuaciones->VALOR;
+                $Niveles = Niveles::all();
+                foreach ($Niveles as $nivel) {
+                 
+                    if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                         $Usuario->ID_NIVEL = $nivel->id;
+                    }
+                }
+                $Usuario->save();
+                //Actualizar puntuacion Aporte Video//  
             }elseif($request->ID_TIPO_APORTE==3){
                 $validateData = $request->validate([
-                    'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo,
+                    'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
                 ],
                 [
                     'archivo.required' => 'El archivo es requerido',
                     'archivo.mimes' => 'El archivo a anexar debe ser una imagen',
-                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
                 ]);
+                //Actualizar puntuacion Aporte Pintura//
+                $Puntuaciones = Puntuaciones::find(5);
+                $Usuario = User::find(auth()->id());
+                $Usuario->PUNTOS += $Puntuaciones->VALOR;
+                $Niveles = Niveles::all();
+                foreach ($Niveles as $nivel) {
+                 
+                    if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                         $Usuario->ID_NIVEL = $nivel->id;
+                    }
+                }
+                $Usuario->save();
+                //Actualizar puntuacion Aporte Pintura//
             }else{
                 $validateData = $request->validate([
-                    'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo,
+                    'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
                 ],
                 [
                     'archivo.required' => 'El archivo es requerido',
                     'archivo.mimetypes' => 'El archivo a anexar debe ser un audio',
-                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                    'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
                 ]
             );
+            //Actualizar puntuacion Aporte Musica//
+            $Puntuaciones = Puntuaciones::find(6);
+            $Usuario = User::find(auth()->id());
+            $Usuario->PUNTOS += $Puntuaciones->VALOR;
+            $Niveles = Niveles::all();
+            foreach ($Niveles as $nivel) {
+             
+                if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                     $Usuario->ID_NIVEL = $nivel->id;
+                }
+            }
+            $Usuario->save();
+            
+            //Actualizar puntuacion Aporte Musica//
             }
            if($request->hasFile('archivo')){
 
@@ -191,6 +257,21 @@ class AporteController extends Controller
             $pivote->ID_PALABRA_CLAVE = $value;
             $pivote->Save();
         }
+        //Actualizar puntuacion//
+        $Puntuaciones = Puntuaciones::find(3);
+        dd($Puntuaciones);
+        $Usuario = Comite::find(auth()->id());
+        $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Niveles = Niveles::all();
+        foreach ($Niveles as $nivel) {
+         
+            if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                 $Usuario->ID_NIVEL = $nivel->id;
+            }
+        }
+        $Usuario->save();
+
+        //Actualizar puntuacion//
         $TipoAporte = tipoAporte::find($request->ID_TIPO_APORTE);
         $PalabrasClave = DB::table('aportePalabraClavePivote')
                         ->join('palabrasClave', function($join) use ($Aporte) {
@@ -262,12 +343,19 @@ class AporteController extends Controller
 
         $PermiteComentarios= Configuracion::select('HABILITAR_COMENTARIOS')->first();
 
-        // $malasPalabras = [];
-        // $palabrasProhibidas = palabraProhibida::select('PALABRA')->get();
-        // foreach ($palabrasProhibidas as $key => $palabra) {
-        //     $malasPalabras[] .= $palabra->PALABRA;
-        // }
-        // dd($malasPalabras);        
+        //Actualizar puntuacion//
+        $Puntuaciones = Puntuaciones::find(1);
+        $Usuario = User::find(auth()->id());
+        $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Niveles = Niveles::all();
+           foreach ($Niveles as $nivel) {
+            
+               if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                    $Usuario->ID_NIVEL = $nivel->id;
+               }
+           }
+        $Usuario->save();
+        //Actualizar puntuacion//      
 
         return view('Aportes.verAporte')
         ->with([
@@ -299,6 +387,20 @@ class AporteController extends Controller
             $aporte->HABILITADO = true;
             $aporte->save();
             activity()->performedOn($aporte)->log('Aporte habilitado');
+              //Actualizar puntuacion Habilitar aporte//
+            $Puntuaciones = Puntuaciones::find(8);
+            $Niveles = Niveles::all();
+            $Usuario = User::find($aporte->ID_USUARIO);
+            $Usuario->PUNTOS += $Puntuaciones->VALOR;
+            $Niveles = Niveles::all();
+            foreach ($Niveles as $nivel) {
+             
+                if($Usuario->PUNTOS >= $nivel->PUNTAJE_MINIMO){
+                     $Usuario->ID_NIVEL = $nivel->id;
+                }
+            }
+            $Usuario->save();
+            //Actualizar puntuacion habilitar aporte// 
             return '1';
         }else{
             return '0';
@@ -336,31 +438,35 @@ class AporteController extends Controller
                                             ->first();
                                             // dd($TamañoMaximoArchivo);
         $aporte = Aporte::find($id);
-       
-        $Areas = Area::all();
-        $TipoAportes=tipoAporte::all();
-        $PalabrasClave = palabrasClave::all();
-        $PalabrasClaveselect = DB::table('aportePalabraClavePivote')
-        ->join('palabrasClave', function($join) use ($aporte) {
-            $join->on('aportePalabraClavePivote.ID_PALABRA_CLAVE','=','palabrasClave.id')
-            ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
-        })
-        ->select('palabrasClave.id')
-        ->get();
-        $AreaSelec = Area::find($aporte->ID_AREA);
-        $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);
-        
-        return view('Aportes.editarAporte')
-        ->with([
-            'PalabrasClave' => $PalabrasClave,
-            'aporte' => $aporte,
-            'Areas' => $Areas,
-            'TipoAportes' => $TipoAportes,
-            'TipoAporteSelect' => $TipoAporteSelect,
-            'PalabrasClaveselect' => $PalabrasClaveselect,
-            'AreaSelec' => $AreaSelec,
-            'TamañoMaximoArchivo' => $TamañoMaximoArchivo,
-        ]);
+        if($aporte->ID_USUARIO==auth()->id()){
+            $Areas = Area::all();
+            $TipoAportes=tipoAporte::all();
+            $PalabrasClave = palabrasClave::all();
+            $PalabrasClaveselect = DB::table('aportePalabraClavePivote')
+            ->join('palabrasClave', function($join) use ($aporte) {
+                $join->on('aportePalabraClavePivote.ID_PALABRA_CLAVE','=','palabrasClave.id')
+                ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
+            })
+            ->select('palabrasClave.id')
+            
+            ->get();
+            $AreaSelec = Area::find($aporte->ID_AREA);
+            $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);
+            
+            return view('Aportes.editarAporte')
+            ->with([
+                'PalabrasClave' => $PalabrasClave,
+                'aporte' => $aporte,
+                'Areas' => $Areas,
+                'TipoAportes' => $TipoAportes,
+                'TipoAporteSelect' => $TipoAporteSelect,
+                'PalabrasClaveselect' => $PalabrasClaveselect,
+                'AreaSelec' => $AreaSelec,
+                'TamañoMaximoArchivo' => $TamañoMaximoArchivo,
+            ]);
+        }else {
+            abort(403);
+        }
 
     }
 
@@ -373,10 +479,12 @@ class AporteController extends Controller
      */
     public function update(Request $request, $aporteid)
     {
+        
         $valorMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
-                                            ->first(); 
+        ->first();
         $detalle = null;
         if($request->ID_TIPO_APORTE==1){
+            
         $detalle=$request->CONTENIDO;
         $dom = new \domdocument();
         $dom->loadHtml('<?xml encoding="UTF-8">'.$detalle);
@@ -400,36 +508,42 @@ class AporteController extends Controller
         }
         $detalle = $dom->savehtml();
     }else{
+        
+        
     if($request->archivo!=null){
+        
         if($request->ID_TIPO_APORTE==2){
+            
         $validateData = $request->validate([
             'archivo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:'.$valorMaximoArchivo,
             ],
             [
                 'archivo.required' => 'El archivo es requerido',
                 'archivo.mimetypes' => 'El archivo a anexar debe ser un video',
-                'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo.' kb'
+                'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS.' kb'
             ]);
         }elseif($request->ID_TIPO_APORTE==3){
+            
             $validateData = $request->validate([
-                'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo,
+                'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
             ],
             [
                 'archivo.required' => 'El archivo es requerido',
                 'archivo.mimes' => 'El archivo a anexar debe ser una imagen',
-                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
             ]);
         }else{
             $validateData = $request->validate([
-                'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo,
+                'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
             ],
             [
                 'archivo.required' => 'El archivo es requerido',
                 'archivo.mimetypes' => 'El archivo a anexar debe ser un audio',
-                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo . ' kb'
+                'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
             ]
         );
         }
+        
        if($request->hasFile('archivo')){
 
             $file = $request->file('archivo');

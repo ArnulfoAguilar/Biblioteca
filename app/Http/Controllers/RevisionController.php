@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\Revisiones;
 use Illuminate\Http\Request;
 use App\Revision;
+use App\Http\Controllers\Aporte;
 
 use App\User;
 
@@ -105,6 +107,9 @@ class RevisionController extends Controller
         $user = User::find(auth()->id());
         $user->notify(new NuevaRevision($revision));
         activity()->log('Actualizó revisión');
+        $Aporte = Aporte::find($request->ID_APORTE);
+        $user = User::find($Aporte->ID_USUARIO);
+        $user->notify(new Revisiones($revision));
         return $revision;
     }
 

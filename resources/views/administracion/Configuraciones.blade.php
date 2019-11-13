@@ -12,6 +12,12 @@
 @endsection
 
 @section('content')
+@if ($message = Session::get('success'))
+<div class="alert alert-success alert-block">
+	<button type="button" class="close" data-dismiss="alert">×</button>	
+        <strong>{{ $message }}</strong>
+</div>
+@endif
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -23,29 +29,41 @@
                 <div class="card">
                     <div class="card-header" style="background-color:#343A40!important; color:white!important;">Variables Globales</div>
                     
-@if(!empty($errors->all()))
-<div class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h5><i class="icon fas fa-ban"></i> Alerta</h5>
-    <div class="">
-        <h4 class="col-md-4">Por favor, valida los siguientes errores:</h4>
-            <ul>
-                @foreach ($errors->all() as $mensaje)
-                    <li>
-                        {{$mensaje}}
-                    </li>
-                @endforeach
-            </ul>
-    </div>
+                        @if(!empty($errors->all()))
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Alerta</h5>
+                                <div class="">
+                                    <h4 class="col-md-4">Por favor, valida los siguientes errores:</h4>
+                                    <ul>
+                                    @foreach ($errors->all() as $mensaje)
+                                        <li>
+                                            {{$mensaje}}
+                                        </li>
+                                    @endforeach
+                                    </ul>
+                                </div>
 
-</div>
-@endif
+                            </div>
+                        @endif
                     <div class="card-body">
                         <form  action="{{ route('Configuracion.update') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                                
                             <input type="hidden" name="id" value="{{$configuraciones->id}}">
                             <div class="row">
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label for="Titulo">Nombre del colegio</label>
+                                    <input type="text"  class="form-control" name="nombreInstitucion" value="{{$configuraciones ? $configuraciones->NOMBRE_INSTITUCION : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->NOMBRE_INSTITUCION : ''}}"
+                                        aria-describedby="Titulo" required>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                        <label for="Titulo">Direccion del colegio</label>
+                                        <input type="text"  class="form-control" name="direccionInstitucion" value="{{$configuraciones ? $configuraciones->DIRECCION_INSTITUCION : ''}}" 
+                                            placeholder="{{$configuraciones ? $configuraciones->DIRECCION_INSTITUCION : ''}}"
+                                            aria-describedby="Titulo" required>
+                                    </div>
                                 <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Días Habiles de Préstamo</label>
                                     <input type="number"  class="form-control" name="diasHabiles" value="{{$configuraciones ? $configuraciones->DIAS_HABILES_PRORROGA : ''}}" 

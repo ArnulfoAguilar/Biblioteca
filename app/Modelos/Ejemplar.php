@@ -20,7 +20,9 @@ class Ejemplar extends Model
         'ID_AUTOR',
         'ID_CATEGORIA',
         'ID_TERCER_SUMARIO',
+        'PRECIO',
         'ID_TIPO_ADQUISICION',
+
         ];
     use SoftDeletes;
 

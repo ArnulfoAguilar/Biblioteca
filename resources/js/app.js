@@ -88,6 +88,9 @@ Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').de
 Vue.component('asignacion-comites', require('./components/AsignacionComites.vue').default);
 Vue.component('calendario', require('./components/calendario.vue').default);
 
+// ------------------------MODULO DE BIOGRAFIA USUARIO---------------------------------------------
+Vue.component('biografia-sidebar', require('./components/biografia-sidebar.vue').default);
+Vue.component('biografia-aportes', require('./components/Biografia-Aportes.vue').default);
 
 
 /**
