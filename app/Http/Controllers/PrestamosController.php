@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 
 use DB;
 
+use App\Notifications\PrestamoAprobado;
+use Illuminate\Support\Facades\Notification;
+
 class PrestamosController extends Controller
 {
     public function index(Request $request)
@@ -124,8 +127,11 @@ class PrestamosController extends Controller
         $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
         $material->DISPONIBLE = false;
 
-        $prestamo->save();
-        $material->save();
+        // $prestamo->save();
+        // $material->save();
+
+        $user = User::find(  $prestamo->ID_USUARIO );
+        $user->notify(new PrestamoAprobado($prestamo));
     }
 
     public function finalizarPrestamo(Request $request)

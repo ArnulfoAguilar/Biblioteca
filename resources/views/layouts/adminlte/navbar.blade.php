@@ -139,23 +139,31 @@
                       <a href="#" class="nav-link" >No tienes notificaciones </a>
                     </li>
                   @else
+                    <li class="">
+                        <a href="#" id="notificaciones" class="nav-link bg-purple" >Marcar como leídas</a>
+                        <div class="dropdown-divider"></div>
+                    </li>
                     @foreach (Auth::user()->unreadNotifications as $notification)
-                      <li class="">
-                          <a href="#" id="notificaciones" class="nav-link bg-purple" >Marcar como leídas</a>
-                          <div class="dropdown-divider"></div>
-                      </li>
                       <li class="">
 
                           @if ($notification->type == 'App\Notifications\NewAporte')
-                              <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
+                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\AporteModificado')
+                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> modificó su aporte</a>
                           @endif
 
                           @if ($notification->type == 'App\Notifications\NuevoComentario')
-                              <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Comentó tu aporte</a>
+                            <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Comentó tu aporte</a>
                           @endif
 
                           @if ($notification->type == 'App\Notifications\NuevaRevision')
-                              <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Te hizo una observación</a>
+                            <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Te hizo una observación</a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\PrestamoAprobado')
+                            <a href="{{route ('mis.prestamos')}}" class="nav-link" >Tu Préstamo fue aprobado</a>
                           @endif
 
                         <div class="dropdown-divider"></div>

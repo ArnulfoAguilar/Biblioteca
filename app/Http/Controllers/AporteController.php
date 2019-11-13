@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use TJGazel\Toastr\Facades\Toastr;
 
 use App\Notifications\NewAporte;
+use App\Notifications\AporteModificado;
 use App\Mail\Notificacion;//usado para los emails
 use Illuminate\Support\Facades\Mail;//usado para los emails
 
@@ -333,6 +334,7 @@ class AporteController extends Controller
     {
         $TamañoMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
                                             ->first();
+                                            // dd($TamañoMaximoArchivo);
         $aporte = Aporte::find($id);
        
         $Areas = Area::all();
@@ -349,14 +351,16 @@ class AporteController extends Controller
         $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);
         
         return view('Aportes.editarAporte')
-        ->with(['PalabrasClave' => $PalabrasClave])
-        ->with(['aporte' => $aporte])
-        ->with(['Areas' => $Areas])
-        ->with(['TipoAportes' => $TipoAportes])
-        ->with(['TipoAporteSelect' => $TipoAporteSelect])
-        ->with(['PalabrasClaveselect' => $PalabrasClaveselect])
-        ->with(['AreaSelec' => $AreaSelec])
-        ->with(['TamañoMaximoArchivo',$TamañoMaximoArchivo]);;
+        ->with([
+            'PalabrasClave' => $PalabrasClave,
+            'aporte' => $aporte,
+            'Areas' => $Areas,
+            'TipoAportes' => $TipoAportes,
+            'TipoAporteSelect' => $TipoAporteSelect,
+            'PalabrasClaveselect' => $PalabrasClaveselect,
+            'AreaSelec' => $AreaSelec,
+            'TamañoMaximoArchivo' => $TamañoMaximoArchivo,
+        ]);
 
     }
 
@@ -480,6 +484,8 @@ class AporteController extends Controller
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
 
+        $users = User::where('ID_COMITE', $request->ID_AREA)->orWhere('ID_ROL', 1)->get();//Trae lo usuarios pertenecientes al area y a los admin
+        Notification::send($users, new AporteModificado($Aporte)); //Esto notifica a varios usuarios
         activity()->performedOn($Aporte)->log('Aporte actualizado');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
