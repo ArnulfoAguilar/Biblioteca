@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AgregarCampoBiografiaEnTablaUser extends Migration
+class AddPuntuacionToUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AgregarCampoBiografiaEnTablaUser extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('BIOGRAFIA')->nullable();
+        Schema::table('user', function (Blueprint $table) {
+            $table->int('PUNTOS')->default(0);
         });
     }
 
@@ -24,9 +24,9 @@ class AgregarCampoBiografiaEnTablaUser extends Migration
      * @return void
      */
     public function down()
-    {Schema::table('users', function (Blueprint $table) {
-        
-        $table->dropColumn('BIOGRAFIA');
-    });
+    {
+        Schema::table('user', function (Blueprint $table) {
+            //
+        });
     }
 }

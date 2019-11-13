@@ -9,7 +9,7 @@ use App\palabrasClave;
 use App\tipoAporte;
 use App\User;
 use App\Comentario;
-use App\palabraProhibida;
+use App\Puntuaciones;
 
 
 use App\Configuracion;
@@ -151,6 +151,12 @@ class AporteController extends Controller
                 $img->setattribute('src', "/aportesImages/". $image_name);
             }
             $detalle = $dom->savehtml();
+        //Actualizar puntuacion Aporte escrito//
+        $Puntuaciones = Puntuaciones::find(3);
+        $Usuario = User::find(auth()->id());
+        $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Usuario->save();
+        //Actualizar puntuacion Aporte escrito//  
         }else{
             if($request->ID_TIPO_APORTE==2){
             $validateData = $request->validate([
@@ -161,6 +167,12 @@ class AporteController extends Controller
                     'archivo.mimetypes' => 'El archivo a anexar debe ser un video',
                     'archivo.max' => 'El archivo no debe ser mayor a '.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS.' kb'
                 ]);
+                //Actualizar puntuacion Aporte Video//
+                $Puntuaciones = Puntuaciones::find(4);
+                $Usuario = User::find(auth()->id());
+                $Usuario->PUNTOS += $Puntuaciones->VALOR;
+                $Usuario->save();
+                //Actualizar puntuacion Aporte Video//  
             }elseif($request->ID_TIPO_APORTE==3){
                 $validateData = $request->validate([
                     'archivo' => 'required|mimes:png,jpeg,jpg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
@@ -170,6 +182,12 @@ class AporteController extends Controller
                     'archivo.mimes' => 'El archivo a anexar debe ser una imagen',
                     'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
                 ]);
+                //Actualizar puntuacion Aporte Pintura//
+                $Puntuaciones = Puntuaciones::find(5);
+                $Usuario = User::find(auth()->id());
+                $Usuario->PUNTOS += $Puntuaciones->VALOR;
+                $Usuario->save();
+                //Actualizar puntuacion Aporte Pintura//
             }else{
                 $validateData = $request->validate([
                     'archivo' => 'required|mimetypes:audio/mpeg|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
@@ -180,6 +198,12 @@ class AporteController extends Controller
                     'archivo.max' => 'El archivo no debe ser mayor a ' . $valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS . ' kb'
                 ]
             );
+            //Actualizar puntuacion Aporte Musica//
+            $Puntuaciones = Puntuaciones::find(6);
+            $Usuario = User::find(auth()->id());
+            $Usuario->PUNTOS += $Puntuaciones->VALOR;
+            $Usuario->save();
+            //Actualizar puntuacion Aporte Musica//
             }
            if($request->hasFile('archivo')){
 
@@ -209,6 +233,14 @@ class AporteController extends Controller
             $pivote->ID_PALABRA_CLAVE = $value;
             $pivote->Save();
         }
+        //Actualizar puntuacion//
+        $Puntuaciones = Puntuaciones::find(3);
+        dd($Puntuaciones);
+        $Usuario = Comite::find(auth()->id());
+        $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Usuario->save();
+
+        //Actualizar puntuacion//
         $TipoAporte = tipoAporte::find($request->ID_TIPO_APORTE);
         $PalabrasClave = DB::table('aportePalabraClavePivote')
                         ->join('palabrasClave', function($join) use ($Aporte) {
@@ -280,12 +312,12 @@ class AporteController extends Controller
 
         $PermiteComentarios= Configuracion::select('HABILITAR_COMENTARIOS')->first();
 
-        // $malasPalabras = [];
-        // $palabrasProhibidas = palabraProhibida::select('PALABRA')->get();
-        // foreach ($palabrasProhibidas as $key => $palabra) {
-        //     $malasPalabras[] .= $palabra->PALABRA;
-        // }
-        // dd($malasPalabras);        
+        //Actualizar puntuacion//
+        $Puntuaciones = Puntuaciones::find(1);
+        $Usuario = User::find(auth()->id());
+        $Usuario->PUNTOS += $Puntuaciones->VALOR;
+        $Usuario->save();
+        //Actualizar puntuacion//      
 
         return view('Aportes.verAporte')
         ->with([
@@ -317,6 +349,12 @@ class AporteController extends Controller
             $aporte->HABILITADO = true;
             $aporte->save();
             activity()->performedOn($aporte)->log('Aporte habilitado');
+              //Actualizar puntuacion Habilitar aporte//
+            $Puntuaciones = Puntuaciones::find(8);
+            $Usuario = User::find($aporte->ID_USUARIO);
+            $Usuario->PUNTOS += $Puntuaciones->VALOR;
+            $Usuario->save();
+            //Actualizar puntuacion habilitar aporte// 
             return '1';
         }else{
             return '0';
@@ -363,7 +401,7 @@ class AporteController extends Controller
             ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
         })
         ->select('palabrasClave.id')
-        ->latest()
+        
         ->get();
         $AreaSelec = Area::find($aporte->ID_AREA);
         $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);
