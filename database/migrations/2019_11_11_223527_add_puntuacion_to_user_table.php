@@ -13,20 +13,14 @@ class AddPuntuacionToUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->int('PUNTOS')->default(0);
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('PUNTOS')->default(0);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
-        Schema::table('user', function (Blueprint $table) {
-            //
-        });
+       //
     }
 }
