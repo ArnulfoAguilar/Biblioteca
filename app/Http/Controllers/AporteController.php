@@ -259,8 +259,8 @@ class AporteController extends Controller
         }
         //Actualizar puntuacion//
         $Puntuaciones = Puntuaciones::find(3);
-        dd($Puntuaciones);
-        $Usuario = Comite::find(auth()->id());
+        // dd($Puntuaciones);
+        $Usuario = User::find(auth()->id());
         $Usuario->PUNTOS += $Puntuaciones->VALOR;
         $Niveles = Niveles::all();
         foreach ($Niveles as $nivel) {

@@ -26,6 +26,7 @@
                     toastr.clear();
                     toastr.options.closeButton = true;
                     toastr.success('Aporte aprobado y habilitado', 'Exito');
+                    location.reload();
                   }else{
                     toastr.clear();
                     toastr.options.closeButton = true;

@@ -46,5 +46,10 @@ class PuntuacionesSeeder extends Seeder
             'PUNTUACION' => 'PRESTAR LIBRO',
             'VALOR'=>1
         ]);
+        DB::table('Puntuacion')->insert([
+            'id' => 8,
+            'PUNTUACION' => 'APORTE HABILITADO',
+            'VALOR'=>1
+        ]);
     }
 }

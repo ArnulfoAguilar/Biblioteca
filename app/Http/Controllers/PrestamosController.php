@@ -106,6 +106,9 @@ class PrestamosController extends Controller
         $prestamo->ID_ESTADO_PRESTAMO = 2;
 
         $prestamo->save();
+
+        $user = User::find(  $prestamo->ID_USUARIO );
+        $user->notify(new PrestamoAprobado($prestamo));
     }
 
     public function aprobarPrestamo(Request $request)
@@ -124,14 +127,18 @@ class PrestamosController extends Controller
 
         $prestamo->FECHA_ESPERADA_DEVOLUCION = PrestamosController::verificarDevolucion($devolucion);
        
+        if($prestamo->tipoPrestamo->id == 4){
+            $prestamo->FECHA_ESPERADA_DEVOLUCION = date('Ymd H:i:s');
+        }
+
         $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
         $material->DISPONIBLE = false;
 
-        // $prestamo->save();
-        // $material->save();
+        $prestamo->save();
+        $material->save();
 
-        $user = User::find(  $prestamo->ID_USUARIO );
-        $user->notify(new PrestamoAprobado($prestamo));
+        // $user = User::find(  $prestamo->ID_USUARIO );
+        // $user->notify(new PrestamoAprobado($prestamo));
     }
 
     public function finalizarPrestamo(Request $request)
@@ -158,8 +165,11 @@ class PrestamosController extends Controller
             $dias = "+ ".(string)$dia->DIAS_PRORROGABLES." days";
         }
 
-        $prestamo->FECHA_ESPERADA_DEVOLUCION = date("d-m-Y",strtotime($fechaInicial.$dias));
 
+        $devolucion = date("d-m-Y",strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION.$dias));
+
+        $prestamo->FECHA_ESPERADA_DEVOLUCION = PrestamosController::verificarDevolucion($devolucion);
+       
         $prorroga = new Prorroga();
         $prorroga->FECHA_INICIO = $fechaInicial;
         $prorroga->FECHA_FIN =  $prestamo->FECHA_ESPERADA_DEVOLUCION;
