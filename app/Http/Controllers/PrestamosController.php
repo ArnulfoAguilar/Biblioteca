@@ -16,17 +16,14 @@ use Illuminate\Http\Request;
 use DB;
 
 use App\Notifications\PrestamoAprobado;
+use App\Notifications\NuevaPenalizacion;
 use Illuminate\Support\Facades\Notification;
 
 class PrestamosController extends Controller
 {
     public function index(Request $request)
     {
-        // $prestamos = Prestamo::all();
-        // $users = User::all();
-        // $estados = tipoPrestamo::all();
-        // $materiales = materialBibliotecario::all();
-        // $ejemplares = Ejemplar::all();
+
 
         $prestamos = DB::table('Prestamo')
         ->select('Prestamo.*', 'Ejemplar.EJEMPLAR', 'estadoPrestamo.ESTADO_PRESTAMO',
@@ -72,10 +69,18 @@ class PrestamosController extends Controller
         }
         
         $tiposPrestamos = tipoPrestamo::all();
+        $penalizado=false;
+        $penalizaciones = Penalizacion::where('SOLVENTADA', '!=', true)->get();
+        foreach ($penalizaciones as $key => $penalizacion) {
+            if ($penalizacion->prestamo->usuario->id == auth()->id() && $penalizacion->tipo->id == 3) {
+                $penalizado=true;
+            }
+        }
 
         return view('Prestamo.realizarPrestamos')->with([
             'ejemplares'=> $ejemplares,
             'cuentas'=> $cuentas,
+            'penalizado' => $penalizado,
         ]);
     }
 
@@ -137,8 +142,6 @@ class PrestamosController extends Controller
         $prestamo->save();
         $material->save();
 
-        // $user = User::find(  $prestamo->ID_USUARIO );
-        // $user->notify(new PrestamoAprobado($prestamo));
     }
 
     public function finalizarPrestamo(Request $request)
@@ -186,10 +189,14 @@ class PrestamosController extends Controller
 
         $penalizacion = new Penalizacion();
         $penalizacion->ID_PRESTAMO = $request->id;
+        $penalizacion->SOLVENTADA = false;
         $penalizacion->ID_TIPO_PENALIZACION = $request->tipoPenalizacion;
 
         $penalizacion->save();
         $prestamo->save();
+
+        $user = User::find( $prestamo->ID_USUARIO );
+        $user->notify(new NuevaPenalizacion($prestamo));
     }
 
     public function cancelarPrestamo(Request $request)

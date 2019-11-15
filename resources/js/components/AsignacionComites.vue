@@ -116,7 +116,7 @@
         },
         methods: {
             cargar(){
-                axios.get('/users').then(res=>{
+                axios.get('/usuarios/para/asignacion/comite').then(res=>{
                     this.usuarios = res.data;
                 });
                 axios.get('/comites').then(res=>{

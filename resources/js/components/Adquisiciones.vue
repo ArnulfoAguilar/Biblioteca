@@ -1,11 +1,21 @@
 <template>
 <div>
-  <div v-for="(user,index) in Usuarios" :key="index">
-      <button v-if="usuario == user.id && user.ID_ROL == 4" type="button" class="btn btn-primary " data-toggle="modal" data-target="#modalEditar">Sugerir</button>
-
+  <div class="d-flex justify-content-end" v-for="(user,index) in Usuarios" :key="index">
+      <button v-if="usuario == user.id && user.ID_ROL == 4" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Sugerir</button>
   </div>
       <br>
-      
+      <div v-if="Sugerencias < 1">
+        <ul class="timeline timeline-inverse">
+            <li>
+              <i class="far fa-clock bg-gray"></i>
+              <div class="timeline-item">
+                <div class="timeline-header bg-gray">
+                  No hay Aportes
+                </div>
+              </div>
+            </li>
+        </ul>
+      </div>
       <div class= "card" v-for="(item,index) in Sugerencias" :key="index">
         <!-- <div class="card-header">
         </div> -->
@@ -51,18 +61,19 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="NOMBRE">Titulo de la sugerencia</label>
+                                    <label for="NOMBRE">Título de la sugerencia</label>
                                     <input type="text" v-model="Sugerencia.TITULO" class="form-control" id="NOMBRE"
                                         aria-describedby="emailHelp" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="DESCRIPCION">Descripcion</label>
-                                    
-                                    <input type="text" class="form-control" v-model="Sugerencia.DESCRIPCION" id="ISBN"
-                                        aria-describedby="emailHelp" required>
+                                    <label for="DESCRIPCION">Descripción</label>
+                                    <textarea class="form-control" id="DESCRIPCION" v-model="Sugerencia.DESCRIPCION"
+                                        rows="3" required></textarea>
+                                    <!-- <input type="text" class="form-control" v-model="Sugerencia.DESCRIPCION" id="ISBN"
+                                        aria-describedby="emailHelp" required> -->
                                 </div>
                                 <div class="form-group">
-                                    <label for="ISBN">Contenido de la sugerencia</label>
+                                    <label for="ISBN">Justificación de la sugerencia</label>
                                     <textarea class="form-control" id="DESCRIPCION" v-model="Sugerencia.CONTENIDO"
                                         rows="3" required></textarea>
                                 </div>

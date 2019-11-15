@@ -71,7 +71,13 @@
                                                         {{$cuenta}}
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn btn-sm btn-success solicitar" title="Solicitar" data-ejem="{{$ejemplar->id}}"><i class="fa fa-hand-paper"></i> Solicitar</button>
+                                                        @if ($penalizado == true)
+                                                            <div class="badge bg-red">
+                                                                Usted esta penalizado
+                                                            </div>
+                                                        @else
+                                                            <button class="btn btn-sm btn-success solicitar" title="Solicitar" data-ejem="{{$ejemplar->id}}"><i class="fa fa-hand-paper"></i> Solicitar</button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             {{-- @else

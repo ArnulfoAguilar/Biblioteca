@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comite;
+use App\Area;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -42,9 +43,16 @@ class ComiteController extends Controller
     public function store(Request $request)
     {
         //
+
+        $newArea = new Area();
+        $newArea->AREA = $request->COMITE;
+        $newArea->Save();
+
         $newComite = new Comite();
         $newComite->COMITE = $request->COMITE;
+        $newComite->ID_AREA = $newArea->id;
         $newComite->Save();
+
         activity()->log('Guardó comite');
     }
 

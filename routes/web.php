@@ -165,6 +165,8 @@ Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
 
     //No le pongo middleware porque lo necesito para mostrar nombres en distintas vistas
     Route::resource('/users', 'UserController');
+    Route::get('/usuarios/para/asignacion/comite', 'UserController@obtenerUsuarios');
+
 
 
     // -----------------------------------------Catálogos-------------------------------------//
