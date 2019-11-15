@@ -55,6 +55,7 @@
                                 <tbody>
                                     @foreach ($registros as $key => $registro)
                                         <tr>
+                                            
                                             {{-- <th scope="row">{{$key+1}}</th> --}}
                                             <th scope="row">{{$registro->id}}</th>
                                             @php
@@ -73,7 +74,18 @@
                                             @if ($found == false)
                                                 <td> << Usuario no encontrado >> </td>
                                             @endif
-                                            <td>{{$registro->description}}</td>
+                                            <td>
+                                                {{$registro->description}}
+                                                
+                                                @if ($registro->subject_id != null)
+                                                    @if ($registro->subject_type == 'App\Aporte')
+                                                        <a href="/aportes/{{$registro->subject_id}}" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    @endif
+                                                    
+                                                @endif
+                                            </td>
                                             <td>{{$registro->created_at}}</td>
                                         </tr>
                                     @endforeach
