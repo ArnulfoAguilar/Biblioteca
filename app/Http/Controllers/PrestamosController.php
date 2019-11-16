@@ -11,6 +11,7 @@ use App\Prorroga;
 use App\Penalizacion;
 use App\User;
 use App\Configuracion;
+use App\Aporte;
 use Illuminate\Http\Request;
 
 use DB;
@@ -77,8 +78,11 @@ class PrestamosController extends Controller
             }
         }
 
+        $aportes = Aporte::where('HABILITADO', true)->get();
+
         return view('Prestamo.realizarPrestamos')->with([
             'ejemplares'=> $ejemplares,
+            'aportes'=> $aportes,
             'cuentas'=> $cuentas,
             'penalizado' => $penalizado,
         ]);
@@ -242,5 +246,14 @@ class PrestamosController extends Controller
 
         return $devolucion;
 
+    }
+
+    public function verAporteOnLine($aporte){
+        $aporte_a_enviar = Aporte::find($aporte);
+        $aporte_a_enviar->VISTAS += 1;
+        $aporte_a_enviar->save();
+        return view('Prestamo.verPrestamoOnLine')->with([
+            'aporte'=> $aporte_a_enviar,
+        ]);
     }
 }

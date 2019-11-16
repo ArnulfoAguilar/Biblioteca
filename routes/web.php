@@ -50,6 +50,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/biblioteca/penalizaciones', 'PenalizacionController@index')->name('penalizaciones.lista');
         Route::POST('/biblioteca/solventar/penalizacion', 'PenalizacionController@solventar')->name('solventar.penalizacion');
 
+        Route::get('/ver/aporte/online/{aporte}', 'PrestamosController@verAporteOnLine')->name('ver.aporte.online');
+
+
     });
 
     // ------------------------------- RUTAS DEL MODULO DE INVENTARIO----------------------------//
@@ -100,6 +103,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/Ejemplar', 'EjemplarController');
         Route::resource('/material', 'MaterialBibliotecarioController');
         Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
+
 
         //------------------------Mis rutas (K) para las interacciones
         Route::get('/interacciones/{id}', 'ComentarioController@interacciones');
