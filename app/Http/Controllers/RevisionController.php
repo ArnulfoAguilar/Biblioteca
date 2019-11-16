@@ -57,7 +57,7 @@ class RevisionController extends Controller
 
         $user = User::find(auth()->id());
         $user->notify(new NuevaRevision($revision));
-        activity()->log('Guardó revisión');
+        activity()->performedOn($revision)->log('Guardó revisión ('.$revision->id.')');
 
     }
 
@@ -106,7 +106,7 @@ class RevisionController extends Controller
 
         $user = User::find(auth()->id());
         $user->notify(new NuevaRevision($revision));
-        activity()->log('Actualizó revisión');
+        activity()->performedOn($revision)->log('Actualizó revisión ('.$revision->id.')');
         $Aporte = Aporte::find($request->ID_APORTE);
         $user = User::find($Aporte->ID_USUARIO);
         $user->notify(new Revisiones($revision));
@@ -123,6 +123,6 @@ class RevisionController extends Controller
     {
         $revision = Revision::find($id);
         $revision->delete();
-        activity()->log('Eliminó revisión');
+        activity()->performedOn($revision)->log('Eliminó revisión ('.$revision->id.')');
     }
 }

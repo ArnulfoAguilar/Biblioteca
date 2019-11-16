@@ -92,6 +92,7 @@ class PalabraProhibidaController extends Controller
         $palabraProhibida = new palabraProhibida();
         $palabraProhibida->PALABRA = $request->PALABRA;
         $palabraProhibida->save();
+        activity()->performedOn($palabraProhibida)->log('Agregó palabra prohibida ('.$palabraProhibida->PALABRA.')');
     }
 
     /**
@@ -128,6 +129,7 @@ class PalabraProhibidaController extends Controller
         $palabraProhibida = palabraProhibida::find($id);
         $palabraProhibida->PALABRA = $request->PALABRA;
         $palabraProhibida->save();
+        activity()->performedOn($palabraProhibida)->log('Modificó palabra prohibida ('.$palabraProhibida->PALABRA.')');
     }
 
     /**
@@ -140,5 +142,6 @@ class PalabraProhibidaController extends Controller
     {
         $palabraProhibida = palabraProhibida::find($id);
         $palabraProhibida->delete();
+        activity()->performedOn($palabraProhibida)->log('Eliminó palabra prohibida ('.$palabraProhibida->PALABRA.')');
     }
 }

@@ -285,7 +285,7 @@ class AporteController extends Controller
             Notification::send($users, new NewAporte($Aporte)); //Esto notifica a varios usuarios
             
             
-            activity()->performedOn($Aporte)->log('Aporte guardado');
+            activity()->performedOn($Aporte)->log('Aporte guardado ('.$Aporte->TITULO.')');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
@@ -386,7 +386,7 @@ class AporteController extends Controller
         {
             $aporte->HABILITADO = true;
             $aporte->save();
-            activity()->performedOn($aporte)->log('Aporte habilitado');
+            activity()->performedOn($aporte)->log('Aporte habilitado ('.$aporte->TITULO.')');
               //Actualizar puntuacion Habilitar aporte//
             $Puntuaciones = Puntuaciones::find(8);
             $Niveles = Niveles::all();
@@ -600,7 +600,7 @@ class AporteController extends Controller
 
         $users = User::where('ID_COMITE', $request->ID_AREA)->orWhere('ID_ROL', 1)->get();//Trae lo usuarios pertenecientes al area y a los admin
         Notification::send($users, new AporteModificado($Aporte)); //Esto notifica a varios usuarios
-        activity()->performedOn($Aporte)->log('Aporte actualizado');
+        activity()->performedOn($Aporte)->log('Aporte actualizado ('.$Aporte->TITULO.')');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])

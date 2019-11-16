@@ -61,7 +61,9 @@
                                     @else
                                         @foreach ($aportes as $aporte)
                                             <tr>
-                                                <td>--</td>
+                                                <td>
+                                                    --
+                                                </td>
                                                 <td>{{$aporte->TITULO}}</td>
                                                 <td>{{$aporte->usuario->name}}</td>
                                                 <td>

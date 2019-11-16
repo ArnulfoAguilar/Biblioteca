@@ -99,7 +99,7 @@ Editar
                                     @elseif($TipoAporteSelect->id==3)
                                     <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
                                     @else
-                                    <audio src="{{ $aporte->CONTENIDO }}" loop controls></audio>
+                                    <audio class="col-12" src="{{ $aporte->CONTENIDO }}" loop controls></audio>
                                     @endif
                                     <br>
                                         <input type="file" accept="image/*" name="archivo" id="inputArchivo">

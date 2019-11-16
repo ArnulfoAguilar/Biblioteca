@@ -103,7 +103,7 @@ class PenalizacionController extends Controller
         $material->DISPONIBLE = true;
         $material->save();
 
-        
+        activity()->performedOn($penalizacion)->log('Solventó penalización ('.$penalizacion->id.') ');
     
     }
 }

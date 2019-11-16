@@ -82,6 +82,46 @@
                                                         <a href="/aportes/{{$registro->subject_id}}" title="Ir">
                                                             <i class="fas fa-external-link-alt"></i>
                                                         </a>
+                                                    @elseif ($registro->subject_type == 'App\Adquisicion')
+                                                        <a href="/adquisicion/lista" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    @elseif ($registro->subject_type == 'App\Biblioteca')
+                                                        <a href="/inventario/bibliotecas" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    {{-- @elseif ($registro->subject_type == 'App\Comentario')
+                                                        <a href="#" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a> --}}
+                                                    @elseif ($registro->subject_type == 'App\Configuracion')
+                                                        <a href="/catalogos/Configuracion" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    @elseif ($registro->subject_type == 'App\Modelos\Ejemplar')
+                                                        <a href="/inventario/lista/ejemplares" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    @elseif ($registro->subject_type == 'App\palabraProhibida')
+                                                        <a href="/catalogos/palabras-prohibidas" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    @elseif ($registro->subject_type == 'App\Penalizacion')
+                                                        <a href="/biblioteca/penalizaciones" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    @elseif ($registro->subject_type == 'App\Modelos\Prestamo')
+                                                        <a href="/biblioteca/prestamo/lista" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    {{-- @elseif ($registro->subject_type == 'App\Revision')
+                                                        <a href="#" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a> --}}
+                                                    @elseif ($registro->subject_type == 'App\Rol')
+                                                        <a href="/administracion/roles" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
                                                     @endif
                                                     
                                                 @endif

@@ -53,7 +53,7 @@ class ComiteController extends Controller
         $newComite->ID_AREA = $newArea->id;
         $newComite->Save();
 
-        activity()->log('Guardó comite');
+        activity()->performedOn($newComite)->log('Guardó comite ('.$newComite->COMITE.')');
     }
 
     /**
@@ -91,7 +91,7 @@ class ComiteController extends Controller
         $newComite = Comite::find($request->id);
         $newComite->COMITE = $request->COMITE;
         $newComite->save();
-        activity()->log('Actualizó comite');
+        activity()->performedOn($newComite)->log('Actualizó comite ('.$newComite->COMITE.')');
         return $newComite;
     }
 
@@ -104,8 +104,9 @@ class ComiteController extends Controller
     public function destroy(Comite $comite)
     {
         $newComite = Comite::find($comite->id);
+        $comite = $newComite->COMITE;
         $newComite->delete();
-        activity()->log('Eliminó comite');
+        activity()->performedOn($newComite)->log('Eliminó comite ('.$comite.')');
     }
 
     public function asignarComiteIndex($user = null)

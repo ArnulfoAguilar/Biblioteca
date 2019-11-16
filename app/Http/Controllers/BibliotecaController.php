@@ -42,7 +42,7 @@ class BibliotecaController extends Controller
         $biblioteca = new Biblioteca();
         $biblioteca->BIBLIOTECA = $request->BIBLIOTECA;
         $biblioteca->save();
-        activity()->log('Biblioteca guardada');
+        activity()->performedOn($biblioteca)->log('Biblioteca guardada ('.$biblioteca->BIBLIOTECA.')');
     }
 
     /**
@@ -79,7 +79,7 @@ class BibliotecaController extends Controller
         $biblioteca = Biblioteca::find($id);
         $biblioteca->BIBLIOTECA = $request ->BIBLIOTECA;
         $biblioteca->save();
-        activity()->log('Biblioteca actualizada');
+        activity()->performedOn($biblioteca)->log('Biblioteca actualizada ('.$biblioteca->BIBLIOTECA.')');
     }
 
     /**
@@ -92,6 +92,6 @@ class BibliotecaController extends Controller
     {
         $biblioteca = Biblioteca::find($id);
         $biblioteca->delete();
-        activity()->log('Biblioteca eliminada');
+        activity()->log('Biblioteca eliminada ');
     }
 }

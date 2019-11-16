@@ -107,6 +107,9 @@ class PrestamosController extends Controller
 
         $prestamo->save();
         $material->save();
+
+        activity()->performedOn($prestamo)->log('Solicitó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function reservarPrestamo(Request $request)
@@ -118,6 +121,9 @@ class PrestamosController extends Controller
 
         $user = User::find(  $prestamo->ID_USUARIO );
         $user->notify(new PrestamoAprobado($prestamo));
+
+        activity()->performedOn($prestamo)->log('Reservó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function aprobarPrestamo(Request $request)
@@ -146,6 +152,9 @@ class PrestamosController extends Controller
         $prestamo->save();
         $material->save();
 
+        activity()->performedOn($prestamo)->log('Aprobó un préstamo ('.$prestamo->id.') ');
+
+
     }
 
     public function finalizarPrestamo(Request $request)
@@ -159,6 +168,9 @@ class PrestamosController extends Controller
 
         $prestamo->save();
         $material->save();
+
+        activity()->performedOn($prestamo)->log('Finalizó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function prorrogarPrestamo(Request $request)
@@ -184,6 +196,9 @@ class PrestamosController extends Controller
 
         $prorroga->save();
         $prestamo->save();
+
+        activity()->performedOn($prestamo)->log('Prorrogó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function penalizarPrestamo(Request $request)
@@ -201,6 +216,9 @@ class PrestamosController extends Controller
 
         $user = User::find( $prestamo->ID_USUARIO );
         $user->notify(new NuevaPenalizacion($prestamo));
+
+        activity()->performedOn($prestamo)->log('Penalizó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function cancelarPrestamo(Request $request)
@@ -213,6 +231,9 @@ class PrestamosController extends Controller
 
         $prestamo->save();
         $material->save();
+
+        activity()->performedOn($prestamo)->log('Canceló un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function verificarDevolucion($fecha_devolucion_inicial){
