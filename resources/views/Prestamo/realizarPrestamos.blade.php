@@ -66,13 +66,15 @@
                                                 <td>{{$aporte->usuario->name}}</td>
                                                 <td>
                                                     @if ($aporte->ID_TIPO_APORTE==1)
-                                                        Escrito
+                                                        <i class="fas fa-pen"></i> Escrito
                                                     @elseif($aporte->ID_TIPO_APORTE==2)
-                                                        Video
+                                                        <i class="fas fa-film"></i> Video
                                                     @elseif($aporte->ID_TIPO_APORTE==3)
-                                                        Pintura
+                                                        <i class="fas fa-palette"></i> Pintura
+                                                    @elseif($aporte->ID_TIPO_APORTE==4)
+                                                        <i class="fas fa-music"></i> Música
                                                     @else
-                                                        Música
+                                                        <i class="fas fa-question"></i> Desconocido
                                                     @endif 
                                                 </td>
                                                 <td>&infin;</td>

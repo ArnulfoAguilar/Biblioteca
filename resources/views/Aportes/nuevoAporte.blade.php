@@ -96,7 +96,7 @@ Crea tu Aporte
                                        Palabras Clave
                                     </label>
                                     <div >
-                                        <select class="select2" name="PALABRAS_CLAVE[]" multiple="multiple" required>
+                                        <select class="select2 form-control" name="PALABRAS_CLAVE[]" multiple="multiple" required>
                                             @foreach($PalabrasClave as $PalabraClave)
                                            <option value="{{ $PalabraClave->id }}">{{ $PalabraClave->PALABRA }}</option>
                                            @endforeach
@@ -114,7 +114,7 @@ Crea tu Aporte
                                 
                             <div class="modal-footer">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
-                                <button class="btn btn-danger">Cancelar</button>
+                                <a class="btn btn-danger" href="/aportes/create" role="button">Cancelar</a>
                             </div>
                         
                     </form>

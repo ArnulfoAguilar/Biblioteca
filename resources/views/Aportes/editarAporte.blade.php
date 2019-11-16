@@ -99,7 +99,7 @@ Editar
                                     @elseif($TipoAporteSelect->id==3)
                                     <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="400" height="453">
                                     @else
-                                    <audio src="{{ $aporte->CONTENIDO }}" autoplay loop controls></audio>
+                                    <audio src="{{ $aporte->CONTENIDO }}" loop controls></audio>
                                     @endif
                                     <br>
                                         <input type="file" accept="image/*" name="archivo" id="inputArchivo">
@@ -109,7 +109,7 @@ Editar
                                            Palabras Clave
                                         </label>
                                         <div >
-                                            <select class="select2" name="PALABRAS_CLAVE[]" id="selectmult" multiple="multiple" required>
+                                            <select class="select2 form-control" name="PALABRAS_CLAVE[]" id="selectmult" multiple="multiple" required>
                                                 @foreach($PalabrasClave as $PalabraClave)
                                                <option value="{{ $PalabraClave->id }}">{{ $PalabraClave->PALABRA }}</option>
                                                @endforeach
@@ -129,7 +129,7 @@ Editar
                                 </div>     
                             <div class="modal-footer">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
-                                <button class="btn btn-danger">Cancelar</button>
+                                <a class="btn btn-danger" href="/aportes/create" role="button">Cancelar</a>
                             </div>
                         
                     </form>

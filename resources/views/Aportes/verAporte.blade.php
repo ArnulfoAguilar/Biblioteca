@@ -95,7 +95,7 @@
                                                         
                                                         @else
                                                             <p>{{$aporte->DESCRIPCION}}</p><br>
-                                                            <audio src="{{ $aporte->CONTENIDO }}" autoplay loop controls></audio>
+                                                            <audio src="{{ $aporte->CONTENIDO }}" loop controls></audio>
 
                                                         @endif 
                                                 </div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Penalizacion;
+use App\Modelos\Prestamo;
+use App\materialBibliotecario;
 
 class PenalizacionController extends Controller
 {
@@ -90,7 +92,18 @@ class PenalizacionController extends Controller
     {
         $penalizacion = Penalizacion::find($request->id);
         $penalizacion->SOLVENTADA = true;
-    
         $penalizacion->save();
+
+        $prestamo = Prestamo::find($penalizacion->ID_PRESTAMO);
+        $prestamo->ID_ESTADO_PRESTAMO = 5;
+        $prestamo->FECHA_DEVOLUCION = date('Ymd H:i:s');
+        $prestamo->save();
+       
+        $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
+        $material->DISPONIBLE = true;
+        $material->save();
+
+        
+    
     }
 }
