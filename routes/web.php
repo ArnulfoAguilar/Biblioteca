@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/listaMisAportesSinAprobar', 'AporteController@listaMisAportesSinAprobar')->name('aportes.listaMisAportesSinAprobar');
         Route::get('/GetMisAportesSinAprobar', 'AporteController@GetMisAportesSinAprobar')->name('aportes.GetMisAportesSinAprobar');
+        Route::get('/GetVistaAportesDirector', 'AporteController@GetVistaAportesDirector')->name('aportes.GetVistaAportesDirector');
         Route::resource('/revisiones','RevisionController');
         Route::resource('/comentarios','ComentarioController');
 

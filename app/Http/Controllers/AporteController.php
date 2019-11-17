@@ -42,14 +42,11 @@ class AporteController extends Controller
      */
     public function index(Request $request)
     {
-        
-        if($request->vista == 2 || $request->vista == '2'){
-            return view('Aportes.ListaAporteDirector');
-        }else{
             return view('Aportes.ListaAporte')
             ->with([ 'id' => $request->id]);
-        }
-
+    }
+    public function GetVistaAportesDirector(Request $request){
+        return view('Aportes.ListaAporteDirector');
     }
     public function GetMisAportesAprobados(Request $request)
     {

@@ -155,7 +155,7 @@
               </a>
             </li>
             <li class="nav-item">
-                <a href="{{route('aportes.index',['vista'=>2])}}" class="nav-link">
+                <a href="{{route('aportes.GetVistaAportesDirector')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Aportes Vista Director</p>
                 </a>
