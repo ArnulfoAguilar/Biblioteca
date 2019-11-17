@@ -139,19 +139,19 @@
             <li class="nav-item">
             <a href="{{route('aportes.index')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Mis Aprobados</p>
+                <p>Aportes</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('aportes.index',['id'=>0])}}" class="nav-link">
+              <a href="{{route('aportes.GetMisAportesAprobados')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Lista Pendientes</p>
+                <p>Mis Aportes Aprobados</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('aportes.index',['id'=>1])}}" class="nav-link">
+              <a href="{{route('aportes.GetMisAportesSinAprobar')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Lista Aprobados</p>
+                <p>Mis Aportes Sin Aprobar</p>
               </a>
             </li>
             <li class="nav-item">

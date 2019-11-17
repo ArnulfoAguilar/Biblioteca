@@ -76,12 +76,14 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/aportes', 'AporteController');
         Route::get('/aporte/obtener', 'AporteController@obtener')->name('obtener.aporte');
         Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
-
-
         Route::get('/aporte/habilitar', 'AporteController@habilitar')->name('aportes.habilitar');
-
         Route::get('/listaAportesDirector', 'AporteController@listaDirector')->name('aportes.lista.director');
         Route::get('/listaTodosAportes', 'AporteController@listatodos')->name('aportes.lista.todos');
+        Route::get('/listaMisAportesAprobados', 'AporteController@listaMisAportesAprobados')->name('aportes.listaMisAportesAprobados');
+        Route::get('/GetMisAportesAprobados', 'AporteController@GetMisAportesAprobados')->name('aportes.GetMisAportesAprobados');
+
+        Route::get('/listaMisAportesSinAprobar', 'AporteController@listaMisAportesSinAprobar')->name('aportes.listaMisAportesSinAprobar');
+        Route::get('/GetMisAportesSinAprobar', 'AporteController@GetMisAportesSinAprobar')->name('aportes.GetMisAportesSinAprobar');
         Route::resource('/revisiones','RevisionController');
         Route::resource('/comentarios','ComentarioController');
 
