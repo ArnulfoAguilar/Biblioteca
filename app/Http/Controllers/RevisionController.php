@@ -55,7 +55,7 @@ class RevisionController extends Controller
         $revision->ID_USUARIO = auth()->id();
         $revision->save();
 
-        $user = User::find(auth()->id());
+        $user = User::find($revision->aporte->usuario->id);
         $user->notify(new NuevaRevision($revision));
         activity()->performedOn($revision)->log('Guardó revisión ('.$revision->id.')');
 
