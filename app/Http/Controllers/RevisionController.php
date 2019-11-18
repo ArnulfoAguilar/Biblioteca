@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Notifications\Revisiones;
 use Illuminate\Http\Request;
 use App\Revision;
-use App\Http\Controllers\Aporte;
+use App\Modelos\Aporte;
 
 use App\User;
 
@@ -104,12 +104,16 @@ class RevisionController extends Controller
         $revision->ID_USUARIO = auth()->id();
         $revision->Save();
 
-        $user = User::find(auth()->id());
+        // $user = User::find(auth()->id());
+        // $user->notify(new NuevaRevision($revision));
+        // activity()->performedOn($revision)->log('Actualizó revisión ('.$revision->id.')');
+        // $Aporte = Aporte::find($request->ID_APORTE);
+        // $user = User::find($Aporte->ID_USUARIO);
+        // $user->notify(new Revisiones($revision));
+
+        $user = User::find($revision->aporte->usuario->id);
         $user->notify(new NuevaRevision($revision));
-        activity()->performedOn($revision)->log('Actualizó revisión ('.$revision->id.')');
-        $Aporte = Aporte::find($request->ID_APORTE);
-        $user = User::find($Aporte->ID_USUARIO);
-        $user->notify(new Revisiones($revision));
+        activity()->performedOn($revision)->log('Modificó revisión ('.$revision->id.')');
         return $revision;
     }
 
