@@ -181,6 +181,7 @@ Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
     Route::get('catalogos/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
     Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
     Route::resource('/Puntuaciones', 'PuntuacionesController');
+    Route::get('/Puntuacion', 'PuntuacionesController@Puntuacion')->name('Configuracion.puntuacion');
     Route::resource('/Niveles', 'NivelesController');
     Route::get('catalogos/registro/actividad', 'RegistroActividadController@index')->name('registro.actividad');
     Route::get('catalogos/registro/actividad/descargar', 'RegistroActividadController@downloadTxt')->name('registro.actividad.descargar');
