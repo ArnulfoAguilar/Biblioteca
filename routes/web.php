@@ -134,6 +134,7 @@ Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
         Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
 
         Route::resource('/comites', 'ComiteController');
+        Route::get('/Comite','ComiteController@Comite')->name('Comite');
         Route::post('/administracion/asignar/comite', 'UserController@asignarComite')->name('asignar.comite');
         Route::get('/administracion/asignar/comites/{id?}', 'ComiteController@asignarComiteIndex')->name('asignar.comites');
 

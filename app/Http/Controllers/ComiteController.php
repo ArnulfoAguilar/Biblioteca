@@ -13,6 +13,10 @@ class ComiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function Comite()
+    {
+        return view('administracion.Comites');
+    }
     public function index(Request $request)
     {
         //
