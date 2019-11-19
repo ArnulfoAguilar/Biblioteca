@@ -89,6 +89,7 @@ Vue.component('asignacion-comites', require('./components/AsignacionComites.vue'
 Vue.component('calendario', require('./components/calendario.vue').default);
 Vue.component('comites-list', require('./components/Comites.vue').default);
 Vue.component('puntuaciones-list', require('./components/Puntuaciones.vue').default);
+Vue.component('niveles-list', require('./components/Niveles.vue').default);
 
 // ------------------------MODULO DE BIOGRAFIA USUARIO---------------------------------------------
 Vue.component('biografia-sidebar', require('./components/biografia-sidebar.vue').default);

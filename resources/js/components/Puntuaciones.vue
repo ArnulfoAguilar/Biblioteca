@@ -22,13 +22,13 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="Puntuacion.PUNTUACION" class="form-control" id="BIBLIOTECA"
+                                <input type="text" v-model.lazy="Puntuacion.PUNTUACION" class="form-control" id="NIVEL"
                                     aria-describedby="emailHelp">
                                 <div v-if="!$v.Puntuacion.PUNTUACION.required" class="error">Este campo es obligatorio</div>
                             </div>
                             <div class="form-group">
                                 <label for="NOMBRE">Valor</label>
-                                <input type="text" v-model.lazy="Puntuacion.VALOR" class="form-control" id="BIBLIOTECA"
+                                <input type="text" v-model.lazy="Puntuacion.VALOR" class="form-control" id="VALOR"
                                     aria-describedby="emailHelp">
                                 <div v-if="!$v.Puntuacion.VALOR.required" class="error">Este campo es obligatorio</div>
                             </div>
@@ -170,7 +170,7 @@ export default {
                 console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarBiblioteca;
+                this.submit = this.editarPuntuacion;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
                 $('#modalAgregar').modal('show');
@@ -182,7 +182,7 @@ export default {
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
          *escena la variable del data isEditing*/
         guardar() {
-            const puntuacionSave = this.Biblioteca;
+            const puntuacionSave = this.Puntuacion;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
                 axios.put(`/Puntuaciones/${this.Puntuacion.id}`, puntuacionSave).then(res=>{
@@ -217,7 +217,7 @@ export default {
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.Biblioteca = {id: '', BIBLIOTECA: ''};
+            this.Nivel = {id: '', NIVEL: '',PUNTAJE_MINIMO: '', BADGE: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion
