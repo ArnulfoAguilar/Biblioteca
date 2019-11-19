@@ -79,36 +79,42 @@ class GraficosController extends Controller
 
     public function aportesAnio(Request $request)
     {
-        $meses = ['-','Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
-        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        $lista[] =['Mes'];
+        // $listaa=[];
+        // array_push($listaa, 'one');
+        // dd($listaa);
+        
+        $lista =[];
+        
         $areas = DB::table('Area')->get();
+        $areas_a_enviar=[];
         foreach ($areas as $key => $area) {
-           array_push($lista[0], $area->AREA);
+           array_push($areas_a_enviar, $area->AREA);
         }
+        // array_push($lista, $areas_a_enviar);
+        // dd($areas_a_enviar);
 
         if($request->anio && $request->anio > 0){
-            for ($i=1; $i<13 ; $i++) { 
-                $elemento=[$meses[$i]];
-                foreach ($areas as $key => $area) {
-                    $consulta = DB::table('Aporte')
-                    ->where('ID_AREA', $area->id)
-                    ->whereRaw('extract(month from created_at) = ?', [$i])
-                    ->whereRaw('extract(year from created_at) = ?', [$request->anio])
-                    ->count();
-                    array_push($elemento, $consulta );                
+            foreach ($areas as $key => $area) {
+                $elemento=[];
+                for ($i=1; $i<13 ; $i++) { 
+                    $cuenta = DB::table('Aporte')
+                        ->where('ID_AREA', $area->id)
+                        ->whereRaw('extract(month from created_at) = ?', [$i])
+                        ->whereRaw('extract(year from created_at) = ?', [$request->anio])
+                        ->count();
+                    array_push($elemento, $cuenta ); 
                 }
                 array_push($lista, $elemento );
             }
         }else{
-            for ($i=1; $i<13 ; $i++) { 
-                $elemento=[$meses[$i]];
-                foreach ($areas as $key => $area) {
-                    $consulta = DB::table('Aporte')
-                    ->where('ID_AREA', $area->id)
-                    ->whereRaw('extract(month from created_at) = ?', [$i])
-                    ->count();
-                    array_push($elemento, $consulta );                
+            foreach ($areas as $key => $area) {
+                $elemento=[];
+                for ($i=1; $i<13 ; $i++) { 
+                    $cuenta = DB::table('Aporte')
+                        ->where('ID_AREA', $area->id)
+                        ->whereRaw('extract(month from created_at) = ?', [$i])
+                        ->count();
+                    array_push($elemento, $cuenta ); 
                 }
                 array_push($lista, $elemento );
             }
@@ -117,6 +123,7 @@ class GraficosController extends Controller
         return view('Graficos.aportes-anio')
         ->with([
             'lista' => json_encode($lista),
+            'areas' => json_encode($areas_a_enviar),
             'anio' => $request->anio
         ]);
         

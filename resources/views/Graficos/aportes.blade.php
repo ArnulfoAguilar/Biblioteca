@@ -15,50 +15,57 @@
                 </div>
             </div>
             <div class="card-body" id="chart_div"></div>
+            <div id="container3" style="width:100%; height:400px;"></div>
         </div>
     </div>
 </div>
 
 <div class="container">
-        
-    {{-- <div class="col-md-12" id="chart_div"></div> --}}
-
 </div>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js">
-</script>
+<script type="text/javascript" charset="utf8" src="/js/highcharts.js"></script>
 
-<script type="text/javascript">
-
-    var analytics = <?php echo $lista; ?>
-    // var analytics = {{$lista}}
-    // Load the Visualization API and the corechart package.
-    google.charts.load('current', {'packages':['corechart']});
-
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawChart);
-
-    // Callback that creates and populates a data table,
-    // instantiates the pie chart, passes in the data and
-    // draws it.
-    function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.arrayToDataTable(
-            analytics
-        );
-
-        // Set chart options
-        var options = {
-            'title':'APORTES POR ÁREA',
-            // 'width':900,
-            'height':400
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var analytics = <?php echo $lista; ?>;
+        var options={
+            chart: {
+                renderTo: 'container3',
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Aportes por area'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Area',
+                colorByPoint: true,
+                data: []
+            }]
         };
+        for(i=1; i<analytics.length; i++){
+            options.series[0].data.push( {name: analytics[i][0], y:analytics[i][1] } );
+        }
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-    }
+        chart = new Highcharts.Chart(options);
+
+    });
+
 </script>
 
 @endsection
