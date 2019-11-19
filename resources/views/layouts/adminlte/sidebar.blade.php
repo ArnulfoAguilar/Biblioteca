@@ -199,6 +199,13 @@
             </li>
 
             <li class="nav-item">
+            <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('administracion/comites') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Lista de comites</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a href="{{route('asignar.roles')}}" class="nav-link {{ ( request()->is('administracion/asignar/roles') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Asignar rol</p>

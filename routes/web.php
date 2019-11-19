@@ -133,11 +133,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['web', 'rol:1'])->group(function () {
 
+        Route::get('/administracion/comites', 'HomeController@comites')->name('comites');
         Route::resource('/roles', 'RolController');
+        Route::resource('/comites', 'ComiteController');
         Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
         Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
 
-        Route::resource('/comites', 'ComiteController');
+        // Route::resource('/comites', 'ComiteController');
         Route::post('/administracion/asignar/comite', 'UserController@asignarComite')->name('asignar.comite');
         Route::get('/administracion/asignar/comites/{id?}', 'ComiteController@asignarComiteIndex')->name('asignar.comites');
 

@@ -63,6 +63,10 @@ class HomeController extends Controller
         return view('roles');
     }
 
+    public function comites(){
+        return view('comites');
+    }
+
     public function adquisiciones(){
         return view('Adquisicion/listaadquisiciones');
     }

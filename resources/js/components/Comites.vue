@@ -9,11 +9,11 @@
             @event-from-jd-table="processEventFromApp($event)"></JDTable>
         <iframe id="excelExportArea" style="display:none"></iframe>
 
-        <!-- Modal con el formulario para agregar un nuevo rol o editar uno existente-->
+        <!-- Modal con el formulario para agregar un nuevo libro o editar uno existente-->
         <div id="modalAgregar" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
-                <form @submit.prevent="guardar" >
+                <form @submit.prevent="submitHandler($v.$invalid)" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">{{titleToShow}}</h4>
@@ -22,13 +22,16 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model="ROL.ROL" class="form-control" id="NOMBRE"
-                                    aria-describedby="emailHelp" required>
+                                <input type="text" v-model.lazy="COMITE.COMITE" class="form-control" id="NOMBRE"
+                                    aria-describedby="emailHelp">
+                                <div v-if="!$v.COMITE.COMITE.required" class="error">Este campo es obligatorio</div>
                             </div>
+                            
+                            
                             
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Rol</button>
+                            <button class="btn btn-primary" type="submit">Guardar Comite</button>
                             <button class="btn btn-danger" type="submit"
                                 @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -36,11 +39,12 @@
                 </form>
             </div>
         </div>
-        <!-- fin modal agregar -->
+        <!-- fin modal agregar -->{{COMITE}}
     </div>
 </template>
 
 <script>
+import { required,numeric } from "vuelidate/lib/validators";
 export default {
     data(){
         return {
@@ -59,8 +63,8 @@ export default {
             },
             columns: [
                 {
-                    name:'ROL',
-                    title:'Rol',
+                    name:'COMITE',
+                    title:'Comite',
                     order: 1,
                     sort: true,
                     type: 'string',
@@ -72,13 +76,21 @@ export default {
              *ingresando un nuevo registro, y los titulos son los
              *del modal segun la situacion*/
             search:'',
-            roles: [],
+            comites: [],
             modoEditar: false,
-            ROL: { ROL: ''},
+            COMITE: { COMITE: '', },
             isEditing: false,
-            createTitle: 'Agregar Rol',
-            editTitle: 'Editar Rol',
-            titleToShow: ''
+            createTitle: 'Agregar Comite',
+            editTitle: 'Editar Comite',
+            titleToShow: '',
+            hasError: false
+        }
+    },
+    validations:{
+        COMITE:{
+            COMITE:{
+                required
+            },
         }
     },
     created(){
@@ -87,25 +99,27 @@ export default {
         this.tableOptions = {
             columns: this.columns,
             responsiveTable: true,
+            contextMenuRight: true,
+            contextMenuAdd: false,
+            contextMenuView: false,
+            quickView: 0,
             addNew: true,
-            editItem:true,
             deleteItem: true
         };
         this.sendData();
-        console.log('componente roles creado')
+       // console.log('componente creado')
     },
     mounted(){
-        console.log('tabla roles montada')
+       console.log('comites montada')
     },
     methods:{
         sendData(){
-            debugger;
             this.tableLoader = true;
-            axios.get('/roles').then(res=>{
-                this.roles=res.data;
+            axios.get('/comites').then(res=>{
+                this.comites=res.data;
                 this.eventFromApp = {
                     name: 'sendData',
-                    payload: this.roles
+                    payload: this.comites
                 };
             this.triggerEvent();
             this.tableLoader = false;
@@ -121,11 +135,11 @@ export default {
          *evento realizado es lo que hara la funcion*/
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
-                axios.get('/roles').then((result)=>{
-                    this.roles=result.data;
+                axios.get('/comites').then((result)=>{
+                    this.comites=result.data;
                     this.eventFromApp = {
                         name: 'sendData',
-                        payload: this.roles
+                        payload: this.comites
                     };
                     this.triggerEvent();
                 })
@@ -134,56 +148,58 @@ export default {
                 this.submit = this.agregar;
                 this.titleToShow = this.createTitle;
                 $('#modalAgregar').modal('show');
+                console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarRol;
+                this.submit = this.editarComite;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
                 $('#modalAgregar').modal('show');
             }
             if (componentState.lastAction ==='DeleteItem') {
-                this.eliminarRol(componentState.selectedItem, componentState.selectedIndex);
+                this.eliminarComite(componentState.selectedItem, componentState.selectedIndex);
             }
         },
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
          *escena la variable del data isEditing*/
         guardar() {
-            const rolToSave = this.ROL;
+            const comiteToSave = this.COMITE;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
-                axios.put(`/roles/${this.ROL.id}`, rolToSave).then(res=>{
+                axios.put(`/comites/${this.COMITE.id}`, comiteToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
             else
-                axios.post('/roles', rolToSave).then((res) =>{
+                axios.post('/comites', comiteToSave).then((res) =>{
                     this.success(msg);
                 });
-            this.ROL = {ROL: ''};
+            this.COMITE = {COMITE: ''};
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.ROL.ROL = item.ROL;
-        this.ROL.id = item.id;
+        this.COMITE.COMITE = item.data.COMITE;
+        
+        this.COMITE.id = item.data.id;
         this.isEditing = true;
         },
-        eliminarRol(ROL, index){
+        eliminarComite(COMITE, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "ROL ${ROL.ROL}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "COMITE ${COMITE.COMITE}"?`);
             if(confirmacion){
-                axios.delete(`/roles/${ROL.id}`)
+                axios.delete(`/comites/${COMITE.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("ROL ELIMINADO");
+                    console.log("COMITE ELIMINADO");
                 })
             }
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.ROL = {ROL: ''};
+            this.COMITE = {COMITE: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion
@@ -193,6 +209,19 @@ export default {
             toastr.clear();
             toastr.options.closeButton = true;
             toastr.success(msg, 'Exito');
+        },
+        /*Este es el metodo que se ejecuta al hacer submit del formulario
+         *el parametro error es una propiedad que nos ofrece vuelidate
+         *la cual es un booleano que si existe un error en el modelo
+         *a validar es verdadero. */
+        submitHandler(error){
+            if(error){
+                toastr.clear();
+                toastr.options.closeButton = true;
+                toastr.error('Debe corregir los errores en el formulario si desear guardar un registro');
+            }else{
+                this.guardar();
+            }
         }
     }
 }

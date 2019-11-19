@@ -84,6 +84,7 @@ Vue.component('adquisiciones', require('./components/Adquisiciones.vue').default
 
 // ------------------------MODULO DE ADMINISTRACION---------------------------------------------
 Vue.component('roles', require('./components/Roles.vue').default);
+Vue.component('comites', require('./components/Comites.vue').default);
 Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').default);
 Vue.component('asignacion-comites', require('./components/AsignacionComites.vue').default);
 Vue.component('calendario', require('./components/calendario.vue').default);

@@ -89,8 +89,11 @@ class ComiteController extends Controller
     {
         //
         $newComite = Comite::find($request->id);
+        $newArea = Area::find($request->id);
         $newComite->COMITE = $request->COMITE;
+        $newArea->AREA = $request->COMITE;
         $newComite->save();
+        $newArea->save();
         activity()->performedOn($newComite)->log('Actualizó comite ('.$newComite->COMITE.')');
         return $newComite;
     }
@@ -104,8 +107,10 @@ class ComiteController extends Controller
     public function destroy(Comite $comite)
     {
         $newComite = Comite::find($comite->id);
+        $newArea = Area::find($comite->id);
         $comite = $newComite->COMITE;
         $newComite->delete();
+        $newArea->delete();
         activity()->performedOn($newComite)->log('Eliminó comite ('.$comite.')');
     }
 
