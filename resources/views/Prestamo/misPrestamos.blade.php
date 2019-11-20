@@ -96,6 +96,9 @@
                                                         @case(7)
                                                             <div class="badge bg-danger">{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</div>
                                                             @break
+                                                        @case(8)
+                                                            <div class="badge bg-danger">{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</div>
+                                                            @break
                                                         @default
                                                             
                                                     @endswitch
