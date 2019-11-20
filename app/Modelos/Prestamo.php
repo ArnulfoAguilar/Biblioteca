@@ -28,9 +28,9 @@ class Prestamo extends Model
         return $this->hasMany('App\Penalizacion', 'ID_PRESTAMO', 'id');
     }
 
-    public function material()
+    public function materiales()
     {
-        return $this->belongsTo('App\materialBibliotecario', 'ID_MATERIAL', 'id');
+        return $this->belongsToMany('App\materialBibliotecario', 'prestamo_material', 'ID_PRESTAMO', 'ID_MATERIAL')->withTimestamps();
     }
 
     public function tipoPrestamo()

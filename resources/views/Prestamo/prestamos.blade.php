@@ -63,10 +63,18 @@
                                         @foreach ($prestamos as $prestamo)
                                             <tr>
                                             <td>{{$prestamo->id}}</td>
-                                            <td>{{$prestamo->name}}</td>
-                                            <td>{{$prestamo->EJEMPLAR}}</td>
-                                            <td>{{$prestamo->copia}}</td>
-                                            <td>{{$prestamo->ESTADO_PRESTAMO}}</td>
+                                            <td>{{$prestamo->usuario->name}}</td>
+                                            <td>
+                                                @foreach ($prestamo->materiales as $material)
+                                                    <div> {{$material->ejemplar->EJEMPLAR}}</div>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach ($prestamo->materiales as $material)
+                                                    <div> {{$material->COPIA_NUMERO}}</div>
+                                                @endforeach
+                                            </td>
+                                            <td>{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</td>
                                             <td>
                                                 @if ($prestamo->FECHA_ESPERADA_DEVOLUCION != null)
                                                     @if ($prestamo->ID_ESTADO_PRESTAMO != 5)
@@ -87,10 +95,7 @@
 
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 2)
                                                     <button type="button" class="btn btn-sm btn-primary" title="Prestar" data-toggle="modal" data-target="#modalAprobar" 
-                                                        data-prestamo="{{$prestamo->id}}" data-ejemplar="{{$prestamo->EJEMPLAR}}" data-autor="{{$prestamo->AUTOR}}" data-edicion="{{$prestamo->EDICION}}"
-                                                        data-fecha1="{{$prestamo->FECHA_PRESTAMO}}" data-fecha2="{{$prestamo->FECHA_DEVOLUCION}}"
-                                                        data-adquisicion="{{$prestamo->tipoAdquisicion}}"
-                                                        >
+                                                        data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE}}">
                                                             <i class="fas fa-check"></i>
                                                     </button>
                                                     <button class="btn btn-sm btn-danger cancelar" title="Cancelar" data-pres="{{$prestamo->id}}"><i class="far fa-times-circle"></i></button>
@@ -105,10 +110,7 @@
 
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 5)
                                                     <button type="button" class="btn btn-sm btn-info" title="Ver detalle" data-toggle="modal" data-target="#modalDetalle" 
-                                                    data-prestamo="{{$prestamo->id}}" data-ejemplar="{{$prestamo->EJEMPLAR}}" data-autor="{{$prestamo->AUTOR}}" data-edicion="{{$prestamo->EDICION}}"
-                                                    data-fecha1="{{$prestamo->FECHA_PRESTAMO}}" data-fecha2="{{$prestamo->FECHA_DEVOLUCION}}"
-                                                    data-adquisicion="{{$prestamo->tipoAdquisicion}}" data-tipo_p="{{$prestamo->tipoPrestamo}}"
-                                                    >
+                                                    data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE}}" data-tipo="{{$prestamo->tipoPrestamo->TIPO_PRESTAMO}}">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
                                                 @endif
@@ -185,14 +187,7 @@
                             <label for="AUTOR">Autor/es</label>
                             <input class="form-control" type="text" id="autor" disabled>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="AUTOR">Fecha de préstamo</label>
-                            <input class="form-control" type="text" id="fecha1" disabled>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="AUTOR">Fecha de devolución</label>
-                            <input class="form-control" type="text" id="fecha2" disabled>
-                        </div>
+
                         <div class="form-group col-md-6">
                             <label for="AUTOR">Tipo de adquisición</label>
                             <input class="form-control" type="text" id="adquisicion" disabled>
@@ -340,13 +335,12 @@
         $('#modalAprobar').on('show.bs.modal', function (event) {
             $('#modalAprobar').focus()
             var button = $(event.relatedTarget)
-            // var prestamo = button.data('prestamo')
-            $('.modal-body #prestamo').val(button.data('prestamo'));
-            $('.modal-body #autor').val(button.data('autor'));
-            $('.modal-body #ejemplar').val(button.data('ejemplar'));
-            $('.modal-body #fecha1').val(button.data('fecha1'));
-            $('.modal-body #fecha2').val(button.data('fecha2'));
-            $('.modal-body #adquisicion').val(button.data('adquisicion'));
+            var prestamo = button.data('prestamo')
+            var adquisicion = button.data('adquisicion')
+            $('.modal-body #prestamo').val(prestamo.id);
+            $('.modal-body #autor').val(prestamo.materiales[0].ejemplar.AUTOR);
+            $('.modal-body #ejemplar').val(prestamo.materiales[0].ejemplar.EJEMPLAR);
+            $('.modal-body #adquisicion').val(adquisicion);
         });
 
         $('#modalPenalizar').on('show.bs.modal', function (event) {
@@ -363,14 +357,15 @@
 
         $('#modalDetalle').on('show.bs.modal', function (event) {
             $('#modalDetalle').focus()
-            var button = $(event.relatedTarget)
-            // var prestamo = button.data('prestamo')
-            $('.modal-body #autor').val(button.data('autor'));
-            $('.modal-body #ejemplar').val(button.data('ejemplar'));
-            $('.modal-body #fecha1').val(button.data('fecha1'));
-            $('.modal-body #fecha2').val(button.data('fecha2'));
-            $('.modal-body #adquisicion').val(button.data('adquisicion'));
-            $('.modal-body #tipo_p').val(button.data('tipo_p'));
+            var button = $(event.relatedTarget);
+            var prestamo = button.data('prestamo');
+            var tipo = button.data('tipo');
+            $('.modal-body #autor').val(prestamo.materiales[0].ejemplar.AUTOR);
+            $('.modal-body #ejemplar').val(prestamo.materiales[0].ejemplar.EJEMPLAR);
+            $('.modal-body #fecha1').val(prestamo.FECHA_PRESTAMO);
+            $('.modal-body #fecha2').val(prestamo.FECHA_DEVOLUCION);
+            $('.modal-body #adquisicion').val(adquisicion);
+            $('.modal-body #tipo_p').val(tipo);
         });
 
         $(".reservar").click(function(){
@@ -417,6 +412,7 @@
             var id = $('#prestamo').val();
             var tipoPrestamo = $('#tipoPrestamo').val();
             var _token = $('input[name="_token"]').val();
+            console.log(id, tipoPrestamo);
 
             swal({
                 title: "¿Esta seguro de aprobar este prestamo?",

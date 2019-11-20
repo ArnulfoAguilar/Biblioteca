@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePrestamosTable extends Migration
+class CreatePrestamoMaterialTable extends Migration
 {
     /**
      * Run the migrations.
@@ -57,32 +57,17 @@ class CreatePrestamosTable extends Migration
 
     public function up()
     {
-        Schema::create('Prestamo', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->dateTime('FECHA_PRESTAMO')->nullable();
-            $table->dateTime('FECHA_DEVOLUCION')->nullable();
-            $table->dateTime('FECHA_ESPERADA_DEVOLUCION')->nullable();
-            $table->bigInteger('ID_USUARIO')->unsigned();
-            
-            $table->foreign('ID_USUARIO')->references('id')->on('users')
+        Schema::create('prestamo_material', function (Blueprint $table) {
+
+            $table->bigInteger('ID_PRESTAMO')->unsigned();
+            $table->foreign('ID_PRESTAMO')->references('id')->on('Prestamo')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->bigInteger('ID_TIPO_PRESTAMO')->nullable()->unsigned();
-            $table->foreign('ID_TIPO_PRESTAMO')->references('id')
-                ->on('tipoPrestamo')
+            $table->bigInteger('ID_MATERIAL')->unsigned();
+            $table->foreign('ID_MATERIAL')->references('id')->on('materialBibliotecario')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-
-            $table->bigInteger('ID_ESTADO_PRESTAMO')->unsigned();
-            $table->foreign('ID_ESTADO_PRESTAMO')->references('id')->on('estadoPrestamo')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
-
-            // $table->bigInteger('ID_MATERIAL')->unsigned();
-            // $table->foreign('ID_MATERIAL')->references('id')->on('materialBibliotecario')
-            //     ->onDelete('restrict')
-            //     ->onUpdate('cascade');
 
             $table->timestamps();
             $table->softDeletes();
@@ -96,7 +81,7 @@ class CreatePrestamosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Prestamo');
+        Schema::dropIfExists('prestamo_material');
     }
 }
 

@@ -105,7 +105,10 @@
                                                                 Usted esta penalizado
                                                             </div>
                                                         @else
-                                                            <button class="btn btn-sm btn-success solicitar" title="Solicitar" data-ejem="{{$ejemplar->id}}"><i class="fa fa-hand-paper"></i> Solicitar</button>
+                                                            <button type="button" class="btn btn-sm btn-primary" title="Prestar" data-toggle="modal" data-target="#modalSolicitar" 
+                                                                data-ejemplar="{{$ejemplar}}" data-disponible="{{$cuenta}}">
+                                                                <i class="fa fa-hand-paper"></i> Solicitar
+                                                            </button>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -152,6 +155,54 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalSolicitar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aprobar Préstamo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input class="form-control" type="hidden" id="id_ejemplar" disabled>
+                        <div class="form-group col-md-12">
+                            <label for="AUTOR">Nombre del libro</label>
+                            <input class="form-control" type="text" id="ejemplar" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Autor/es</label>
+                            <input class="form-control" type="text" id="autor" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Edición</label>
+                            <input class="form-control" type="text" id="edicion" disabled>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="AUTOR">Editorial</label>
+                            <input class="form-control" type="text" id="editorial" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Cantidad disponible</label>
+                            <input class="form-control" type="text" id="disponible" disabled>
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <label for="AUTOR">Cantidad a solicitar</label>
+                            <input class="form-control" type="number" id="cantidad" min="1" value="1" required {{Auth::user()->rol->id == 2 ? 'disabled' : ''}}>
+                        </div>
+                        
+                    </div>
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancelar" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary solicitar">Solicitar</button>
+                </div>        
+            </div>
+        </div>
+    </div>
 
 @endsection
 
@@ -167,11 +218,36 @@
             $('#libros').DataTable();
         } );
       
+        $('#modalSolicitar').on('show.bs.modal', function (event) {
+            $('#modalAprobar').focus()
+            var button = $(event.relatedTarget)
+            var ejemplar = button.data('ejemplar');
+            var disponible = button.data('disponible');
+            $('.modal-body #ejemplar').val(ejemplar.EJEMPLAR);
+            $('.modal-body #id_ejemplar').val(ejemplar.id);
+            $('.modal-body #autor').val(ejemplar.AUTOR);
+            $('.modal-body #edicion').val(ejemplar.EDICION);
+            $('.modal-body #editorial').val(ejemplar.EDITORIAL);
+            $('.modal-body #disponible').val(disponible);
 
+        });
+
+        $("#cantidad").change(function(){
+            var cantidad = $(this).val();
+            var disponible = $('#disponible').val();
+            if(cantidad != null && cantidad > 0){
+                if(cantidad > disponible){
+                    $(this).val(disponible);
+                }
+            }else{
+                $(this).val(disponible);
+            }
+        });
         $(".solicitar").click(function(){
-            var id = $(this).data('ejem');
+            $('#modalSolicitar').modal('hide');
+            var id = $('#id_ejemplar').val();
+            var cantidad = $('#cantidad').val();
             var _token = $('input[name="_token"]').val();
-
             swal({
                 title: "¿Está seguro de solicitar este libro?",
                 icon: "warning",
@@ -184,6 +260,7 @@
                         method: "POST",
                         data: {
                             id: id,
+                            cantidad: cantidad,
                             _token: _token,
                         },
                         success: function (result) {
@@ -203,9 +280,14 @@
                 } else {
                     location.reload();
                 }
-            });
-
+            });  
         });
+
+        $(".cancelar").click(function(){
+            location.reload();
+        });
+
+
        
 
     </script>
@@ -213,3 +295,5 @@
 
 
 @endsection
+
+

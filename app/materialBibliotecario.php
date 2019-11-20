@@ -20,4 +20,9 @@ class materialBibliotecario extends Model
     {
         return $this->belongsTo('App\Modelos\Ejemplar', 'ID_EJEMPLAR', 'id');
     }
+
+    public function prestamos()
+    {
+        return $this->belongsToMany('App\Modelos\Prestamo', 'prestamo_material', 'ID_MATERIAL', 'ID_PRESTAMO')->withTimestamps();
+    }
 }

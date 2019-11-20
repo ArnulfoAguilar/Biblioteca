@@ -59,8 +59,16 @@
                                         @foreach ($prestamos as $prestamo)
                                             <tr>
                                                 <td>{{$prestamo->id}}</td>
-                                                <td>{{$prestamo->material->ejemplar->EJEMPLAR}}</td>
-                                                <td>{{$prestamo->material->ejemplar->AUTOR}}</td>
+                                                <td>
+                                                    @foreach ($prestamo->materiales as $material)
+                                                        <div> {{$material->ejemplar->EJEMPLAR}}</div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($prestamo->materiales as $material)
+                                                        <div> {{$material->ejemplar->AUTOR}}</div>
+                                                    @endforeach
+                                                </td>
                                                 <td>--</td>
                                                 <td>{{ $prestamo->tipoPrestamo != null ? $prestamo->tipoPrestamo->TIPO_PRESTAMO : 'Sin especificar' }}</td>
                                                 <td>{{ $prestamo->FECHA_PRESTAMO != null ? date('d-m-Y', strtotime($prestamo->FECHA_PRESTAMO)) : 'Sin fecha' }}</td>
@@ -68,7 +76,7 @@
                                                 <td>
                                                     @switch($prestamo->estadoPrestamo->id)
                                                         @case(1)
-                                                            <div class="badge bg-primary">{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</div>
+                                                            <div class="badge bg-info">{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</div>
                                                             @break
                                                         @case(2)
                                                             <div class="badge bg-primary">{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</div>
