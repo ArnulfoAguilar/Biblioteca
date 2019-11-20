@@ -47,14 +47,14 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
         $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
         $InteraccionComentario->save();
-        activity()->log('Dió Like');
+        activity()->performedOn($InteraccionComentario)->log('Dió Like');
     }
 
     public function interaccionDislike($id)
     {
         $InteraccionComentario = interaccionComentario::find($id);
         $InteraccionComentario->delete();
-        activity()->log('Quitó Like');
+        activity()->performedOn($InteraccionComentario)->log('Quitó Like');
     }
 //HEchos para la seccion de comentarios sin vue--------------------------------------------------
     public function darLike(Request $request)
@@ -64,14 +64,14 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_COMENTARIO= $request->comentario;
         $InteraccionComentario->ID_USUARIO = auth()->id();
         $InteraccionComentario->save();
-        activity()->log('Dió Like');
+        activity()->performedOn($InteraccionComentario)->log('Dió Like');
     }
 
     public function darDislike(Request $request)
     {
         $InteraccionComentario = interaccionComentario::find($request->interaccion);
         $InteraccionComentario->delete();
-        activity()->log('Quitó Like');
+        activity()->performedOn($InteraccionComentario)->log('Quitó Like');
     }
 
     public function guardarComentario(Request $request)
@@ -90,7 +90,7 @@ class ComentarioController extends Controller
             $user = User::find($Aporte->ID_USUARIO);
             $user->notify(new NuevoComentario($Comentario)); //Esto notifica a un solo usuario
             //Notification::send($user, new NewAporte($Aporte)); //Esto notifica a varios usuarios
-            activity()->log('Realizó comentario');
+            activity()->performedOn($Comentario)->log('Realizó comentario');
             
             return redirect('/aportes/'.$id);
         } catch (Exception $e) {
@@ -109,7 +109,7 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
         $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
         $InteraccionComentario->save();
-        activity()->log('Reportó');
+        activity()->performedOn($Comentario)->log('Reportó');
     }
     public function interaccionesComentario(Request $request)
     {
@@ -245,6 +245,9 @@ class ComentarioController extends Controller
             $comentario->HABILITADO = true;
         }
         $comentario->save();
+        $user = User::find($comentario->ID_USUARIO);
+        $user->notify(new NuevoComentario($comentario));
+
         if($comentario->HABILITADO){
             activity()->performedOn($comentario)->log('Comentario '.$comentario->id.' habilitado');
             //Actualizar puntuacion Habilitar Comentario//

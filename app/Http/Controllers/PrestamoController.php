@@ -44,6 +44,9 @@ class PrestamoController extends Controller
         $prestamo->ID_ESTADO_PRESTAMO = $request->ID_ESTADO_PRESTAMO;
         $prestamo->ID_MATERIAL = $request->ID_MATERIAL;
         $prestamo->save();
+
+        activity()->performedOn($prestamo)->log('Solicitó un préstamo ('.$prestamo->id.') ');
+
     }
 
     /**
@@ -85,6 +88,8 @@ class PrestamoController extends Controller
         $prestamo->ID_ESTADO_PRESTAMO = $request->ID_ESTADO_PRESTAMO;
         $prestamo->ID_MATERIAL = $request->ID_MATERIAL;
         $prestamo->save();
+
+        activity()->performedOn($prestamo)->log('Modificó el préstamo ('.$prestamo->id.') ');
     }
 
     /**
@@ -97,12 +102,13 @@ class PrestamoController extends Controller
     {
         $Prestamo = Prestamo::find($prestamo->id);
         $Prestamo->delete();
+        activity()->performedOn($Prestamo)->log('Eliminó el préstamo ('.$prestamo->id.') ');
     }
 
-    public function indexMisPrestamos()
-    {
-        return view('Prestamo.listaMisPrestamos');
-    }
+    // public function indexMisPrestamos()
+    // {
+    //     return view('Prestamo.listaMisPrestamos');
+    // }
 
     public function listaMisPrestamos(Request $request)
     {

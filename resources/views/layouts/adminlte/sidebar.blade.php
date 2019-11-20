@@ -27,54 +27,40 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            
+
             <li class="nav-item">
-              <a href="{{ route('buscar.disponible') }}" class="nav-link {{ ( request()->is('biblioteca/busqueda/*') ) ? 'active' : '' }}">
+              <a href="{{ route('realizar.prestamo') }}" class="nav-link {{ ( request()->is('biblioteca/realizar/prestamo') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Realizar Préstamo</p>
               </a>
             </li>
 
-            <li class="nav-item">
-              <a href="{{ route('realizar.prestamo') }}" class="nav-link {{ ( request()->is('biblioteca/realizar/prestamo/*') ) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Realizar Préstamo V2</p>
-              </a>
-            </li>
+            
 
             <li class="nav-item">
-              <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo') ) ? 'active' : '' }}">
+              <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo/lista') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Ver Préstamos(René)</p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="{{route ('prestamos.v2')}}" class="nav-link {{ ( request()->is('biblioteca/prestamos') ) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Ver Préstamos V2</p>
+                <p>Ver Préstamos</p>
               </a>
             </li>
             
+            
+
             <li class="nav-item">
-            <a href="{{route ('index.misPrestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos') ) ? 'active' : ''}}">
+            <a href="{{route ('mis.prestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos') ) ? 'active' : ''}}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Mis Préstamos</p>
               </a>
             </li>
 
-            <li class="nav-item">
-            <a href="{{route ('mis.prestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos/v2') ) ? 'active' : ''}}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Mis Préstamos V2</p>
-              </a>
-            </li>
-
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ver Deudores</p>
               </a>
-            </li>
+            </li> -->
+
             <li class="nav-item">
               <a href="{{route ('penalizaciones.lista')}}" class="nav-link {{( request()->is('biblioteca/penalizaciones') ) ? 'active' : ''}}">
                 <i class="far fa-circle nav-icon"></i>
@@ -169,21 +155,23 @@
           </ul>
         </li>
         <!--adquisiciones-->
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-archive"></i>
+
+        <li class="nav-item has-treeview {{ ( request()->is('adquisicion/*') ) ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ ( request()->is('adquisicion/*') ) ? 'active' : '' }}">
+            <i class="nav-icon fas fa-atlas"></i>
+
             <p>
               Adquisiciones
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Sugerir Adquisición</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="{{route('adquisicion.lista')}}"
                   class="nav-link {{ ( request()->is('adquisicion/lista') ) ? 'active' : '' }}">
@@ -211,6 +199,13 @@
             </li>
 
             <li class="nav-item">
+            <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('administracion/comites') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Lista de comites</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a href="{{route('asignar.roles')}}" class="nav-link {{ ( request()->is('administracion/asignar/roles') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Asignar rol</p>
@@ -222,6 +217,14 @@
                 class="nav-link {{ ( request()->is('administracion/asignar/comites') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Asignar comite</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{route('calendario')}}" 
+                class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Calendario</p>
               </a>
             </li>
 
@@ -256,20 +259,12 @@
   
             <li class="nav-item">
               <a href="{{route('registro.actividad')}}"
-                class="nav-link {{ ( request()->is('catalogos/registros') ) ? 'active' : '' }}">
+                class="nav-link {{ ( request()->is('catalogos/registro/actividad') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Registros de actividad </p>
               </a>
             </li>
 
-            <li class="nav-item">
-              <a href="{{route('calendario')}}" 
-                class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Calendario</p>
-              </a>
-            </li>
-  
   
           </ul>
         </li>
@@ -289,7 +284,7 @@
             <a href="{{route('graficos.aportes')}}"
               class="nav-link {{ ( request()->is('graficos/aportes') ) ? 'active' : '' }}">
               <i class="far fa-circle nav-icon"></i>
-              <p>Aportes </p>
+              <p>Aportes por área</p>
             </a>
           </li>
 
@@ -297,7 +292,7 @@
             <a href="{{route('graficos.aportes.anio')}}"
               class="nav-link {{ ( request()->is('graficos/aportes/anio') ) ? 'active' : '' }}">
               <i class="far fa-circle nav-icon"></i>
-              <p>Aportes 2</p>
+              <p>Aportes al año</p>
             </a>
           </li>
         </ul>

@@ -22,4 +22,11 @@ class Aporte extends Model
     {
         return $this->hasMany('App\Revision', 'ID_APORTE', 'id');
     }
+
+    public function usuario()
+    {
+        return $this->belongsTo('App\User', 'ID_USUARIO', 'id');
+    }
+
+
 }

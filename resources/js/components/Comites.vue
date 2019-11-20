@@ -21,11 +21,13 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="NOMBRE">Comite</label>
-                                <input type="text" v-model.lazy="Comite.COMITE" class="form-control" id="COMITE"
+                                <label for="NOMBRE">Nombre</label>
+                                <input type="text" v-model.lazy="COMITE.COMITE" class="form-control" id="NOMBRE"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.Comite.COMITE.required" class="error">Este campo es obligatorio</div>
+                                <div v-if="!$v.COMITE.COMITE.required" class="error">Este campo es obligatorio</div>
                             </div>
+                            
+                            
                             
                         </div>
                         <div class="modal-footer">
@@ -37,7 +39,7 @@
                 </form>
             </div>
         </div>
-        <!-- fin modal agregar -->
+        <!-- fin modal agregar -->{{COMITE}}
     </div>
 </template>
 
@@ -62,24 +64,21 @@ export default {
             columns: [
                 {
                     name:'COMITE',
-                    title:'COMITE',
+                    title:'Comite',
                     order: 1,
                     sort: true,
                     type: 'string',
                     filterable: true,
                     enabled: true
                 },
-                
             ],
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
              *del modal segun la situacion*/
             search:'',
             comites: [],
-            areas: [],
             modoEditar: false,
-            Comite: { id:'', COMITE: '', AREA:''},
-
+            COMITE: { COMITE: '', },
             isEditing: false,
             createTitle: 'Agregar Comite',
             editTitle: 'Editar Comite',
@@ -88,11 +87,8 @@ export default {
         }
     },
     validations:{
-        Comite:{
+        COMITE:{
             COMITE:{
-                required
-            },
-            AREA:{
                 required
             },
         }
@@ -112,25 +108,21 @@ export default {
         };
         this.sendData();
        // console.log('componente creado')
-       axios.get('/area').then((response)=>{
-                this.areas = response.data;
-            });
     },
     mounted(){
-       // console.log('tabla montada')
+       console.log('comites montada')
     },
     methods:{
         sendData(){
             this.tableLoader = true;
             axios.get('/comites').then(res=>{
-                this.comites = res.data;
+                this.comites=res.data;
                 this.eventFromApp = {
                     name: 'sendData',
                     payload: this.comites
                 };
             this.triggerEvent();
             this.tableLoader = false;
-            console.log(this.comites);
             });
         },
         triggerEvent(){
@@ -171,10 +163,10 @@ export default {
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
          *escena la variable del data isEditing*/
         guardar() {
-            const comiteToSave = this.Comite;
+            const comiteToSave = this.COMITE;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
             if(this.isEditing)
-                axios.put(`/comites/${this.Comite.id}`, comiteToSave).then(res=>{
+                axios.put(`/comites/${this.COMITE.id}`, comiteToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
@@ -182,20 +174,20 @@ export default {
                 axios.post('/comites', comiteToSave).then((res) =>{
                     this.success(msg);
                 });
-            this.Comite = {id: '', Comite: '',AREA:''};
+            this.COMITE = {COMITE: ''};
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.Comite.COMITE = item.COMITE;
-        this.Comite.id = item.id;
-        this.Comite.AREA = item.AREA;
+        this.COMITE.COMITE = item.data.COMITE;
+        
+        this.COMITE.id = item.data.id;
         this.isEditing = true;
         },
-        eliminarComite(Comite, index){
+        eliminarComite(COMITE, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Comite ${Comite.COMITE}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "COMITE ${COMITE.COMITE}"?`);
             if(confirmacion){
-                axios.delete(`/comites/${Comite.id}`)
+                axios.delete(`/comites/${COMITE.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
@@ -207,7 +199,7 @@ export default {
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.Comite = {id: '', COMITE: '', AREA: ''};
+            this.COMITE = {COMITE: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion

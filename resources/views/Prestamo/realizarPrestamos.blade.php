@@ -47,18 +47,47 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Título</th>
                                     <th scope="col">Autor</th>
-                                    <th scope="col">Edición</th>
+                                    <th scope="col">Edición/Tipo</th>
                                     <th scope="col">Disponibles</th>
                                     <th scope="col">Acciones</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    @if(sizeof($ejemplares) <= 0)
+                                    @if(sizeof($ejemplares) <= 0 && sizeof($aportes) )
                                         <tr>
                                             <td>--</td>
                                             <td class="text-center" colspan="4">No Hay libros disponibles</td>
                                         </tr>
                                     @else
+                                        @foreach ($aportes as $aporte)
+                                            <tr>
+                                                <td>
+                                                    --
+                                                </td>
+                                                <td>{{$aporte->TITULO}}</td>
+                                                <td>{{$aporte->usuario->name}}</td>
+                                                <td>
+                                                    @if ($aporte->ID_TIPO_APORTE==1)
+                                                        <i class="fas fa-pen"></i> Escrito
+                                                    @elseif($aporte->ID_TIPO_APORTE==2)
+                                                        <i class="fas fa-film"></i> Video
+                                                    @elseif($aporte->ID_TIPO_APORTE==3)
+                                                        <i class="fas fa-palette"></i> Pintura
+                                                    @elseif($aporte->ID_TIPO_APORTE==4)
+                                                        <i class="fas fa-music"></i> Música
+                                                    @else
+                                                        <i class="fas fa-question"></i> Desconocido
+                                                    @endif 
+                                                </td>
+                                                <td>&infin;</td>
+                                                <td class="text-center">
+                                                    <a href="{{route('ver.aporte.online', $aporte)}}">
+                                                        <button class="btn btn-sm btn-success" title="Ver Aporte"><i class="fa fa-eye"></i> Ver</button>
+                                                    </a>
+                                                </td>
+                                                
+                                            </tr>
+                                        @endforeach
                                         @foreach ($cuentas as $key => $cuenta)
                                             @foreach ($ejemplares as $key2 => $ejemplar)
                                             @if ($key == $key2 && $cuenta > 0)
@@ -71,7 +100,13 @@
                                                         {{$cuenta}}
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn btn-sm btn-success solicitar" title="Solicitar" data-ejem="{{$ejemplar->id}}"><i class="fa fa-hand-paper"></i> Solicitar</button>
+                                                        @if ($penalizado == true)
+                                                            <div class="badge bg-red">
+                                                                Usted esta penalizado
+                                                            </div>
+                                                        @else
+                                                            <button class="btn btn-sm btn-success solicitar" title="Solicitar" data-ejem="{{$ejemplar->id}}"><i class="fa fa-hand-paper"></i> Solicitar</button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             {{-- @else

@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Notifications\Revisiones;
 use Illuminate\Http\Request;
 use App\Revision;
-use App\Http\Controllers\Aporte;
+use App\Modelos\Aporte;
+
+use App\User;
+
+use App\Notifications\NuevaRevision;
+use Illuminate\Support\Facades\Notification;
 
 class RevisionController extends Controller
 {
@@ -49,7 +54,10 @@ class RevisionController extends Controller
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
         $revision->save();
-        activity()->log('Guardó revisión');
+
+        $user = User::find($revision->aporte->usuario->id);
+        $user->notify(new NuevaRevision($revision));
+        activity()->performedOn($revision)->log('Guardó revisión ('.$revision->id.')');
 
     }
 
@@ -95,10 +103,17 @@ class RevisionController extends Controller
         $revision->ID_APORTE = $request->ID_APORTE;
         $revision->ID_USUARIO = auth()->id();
         $revision->Save();
-        activity()->log('Actualizó revisión');
-        $Aporte = Aporte::find($request->ID_APORTE);
-        $user = User::find($Aporte->ID_USUARIO);
-        $user->notify(new Revisiones($revision));
+
+        // $user = User::find(auth()->id());
+        // $user->notify(new NuevaRevision($revision));
+        // activity()->performedOn($revision)->log('Actualizó revisión ('.$revision->id.')');
+        // $Aporte = Aporte::find($request->ID_APORTE);
+        // $user = User::find($Aporte->ID_USUARIO);
+        // $user->notify(new Revisiones($revision));
+
+        $user = User::find($revision->aporte->usuario->id);
+        $user->notify(new NuevaRevision($revision));
+        activity()->performedOn($revision)->log('Modificó revisión ('.$revision->id.')');
         return $revision;
     }
 
@@ -112,6 +127,6 @@ class RevisionController extends Controller
     {
         $revision = Revision::find($id);
         $revision->delete();
-        activity()->log('Eliminó revisión');
+        activity()->performedOn($revision)->log('Eliminó revisión ('.$revision->id.')');
     }
 }

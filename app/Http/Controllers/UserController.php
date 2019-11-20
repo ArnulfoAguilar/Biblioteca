@@ -129,4 +129,10 @@ class UserController extends Controller
         return $AportesRealizados;
 
     }
+
+    public function obtenerUsuarios(){
+        return User::where('ID_ROL', '!=', '2')
+        ->where('ID_ROL', '!=', '1')
+        ->get();
+    }
 }

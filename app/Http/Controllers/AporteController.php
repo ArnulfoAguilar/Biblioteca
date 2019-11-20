@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Storage;
 use TJGazel\Toastr\Facades\Toastr;
 
 use App\Notifications\NewAporte;
+use App\Notifications\AporteModificado;
 use App\Mail\Notificacion;//usado para los emails
 use Illuminate\Support\Facades\Mail;//usado para los emails
 
@@ -266,8 +267,8 @@ class AporteController extends Controller
         }
         //Actualizar puntuacion//
         $Puntuaciones = Puntuaciones::find(3);
-        dd($Puntuaciones);
-        $Usuario = Comite::find(auth()->id());
+        // dd($Puntuaciones);
+        $Usuario = User::find(auth()->id());
         $Usuario->PUNTOS += $Puntuaciones->VALOR;
         $Niveles = Niveles::all();
         foreach ($Niveles as $nivel) {
@@ -292,7 +293,7 @@ class AporteController extends Controller
             Notification::send($users, new NewAporte($Aporte)); //Esto notifica a varios usuarios
             
             
-            activity()->performedOn($Aporte)->log('Aporte guardado');
+            activity()->performedOn($Aporte)->log('Aporte guardado ('.$Aporte->TITULO.')');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])
@@ -393,7 +394,7 @@ class AporteController extends Controller
         {
             $aporte->HABILITADO = true;
             $aporte->save();
-            activity()->performedOn($aporte)->log('Aporte habilitado');
+            activity()->performedOn($aporte)->log('Aporte habilitado ('.$aporte->TITULO.')');
               //Actualizar puntuacion Habilitar aporte//
             $Puntuaciones = Puntuaciones::find(8);
             $Niveles = Niveles::all();
@@ -443,34 +444,37 @@ class AporteController extends Controller
     {
         $TamañoMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
                                             ->first();
+                                            // dd($TamañoMaximoArchivo);
         $aporte = Aporte::find($id);
-       if($aporte->ID_USUARIO==auth()->id()){
-        $Areas = Area::all();
-        $TipoAportes=tipoAporte::all();
-        $PalabrasClave = palabrasClave::all();
-        $PalabrasClaveselect = DB::table('aportePalabraClavePivote')
-        ->join('palabrasClave', function($join) use ($aporte) {
-            $join->on('aportePalabraClavePivote.ID_PALABRA_CLAVE','=','palabrasClave.id')
-            ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
-        })
-        ->select('palabrasClave.id')
-        
-        ->get();
-        $AreaSelec = Area::find($aporte->ID_AREA);
-        $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);
-        
-        return view('Aportes.editarAporte')
-        ->with(['PalabrasClave' => $PalabrasClave])
-        ->with(['aporte' => $aporte])
-        ->with(['Areas' => $Areas])
-        ->with(['TipoAportes' => $TipoAportes])
-        ->with(['TipoAporteSelect' => $TipoAporteSelect])
-        ->with(['PalabrasClaveselect' => $PalabrasClaveselect])
-        ->with(['AreaSelec' => $AreaSelec])
-        ->with(['TamañoMaximoArchivo'=>$TamañoMaximoArchivo]);;
-    }else {
-        abort(403);
-    }
+        if($aporte->ID_USUARIO==auth()->id()){
+            $Areas = Area::all();
+            $TipoAportes=tipoAporte::all();
+            $PalabrasClave = palabrasClave::all();
+            $PalabrasClaveselect = DB::table('aportePalabraClavePivote')
+            ->join('palabrasClave', function($join) use ($aporte) {
+                $join->on('aportePalabraClavePivote.ID_PALABRA_CLAVE','=','palabrasClave.id')
+                ->where('aportePalabraClavePivote.ID_APORTE','=',$aporte->id);
+            })
+            ->select('palabrasClave.id')
+            
+            ->get();
+            $AreaSelec = Area::find($aporte->ID_AREA);
+            $TipoAporteSelect = tipoAporte::find($aporte->ID_TIPO_APORTE);
+            
+            return view('Aportes.editarAporte')
+            ->with([
+                'PalabrasClave' => $PalabrasClave,
+                'aporte' => $aporte,
+                'Areas' => $Areas,
+                'TipoAportes' => $TipoAportes,
+                'TipoAporteSelect' => $TipoAporteSelect,
+                'PalabrasClaveselect' => $PalabrasClaveselect,
+                'AreaSelec' => $AreaSelec,
+                'TamañoMaximoArchivo' => $TamañoMaximoArchivo,
+            ]);
+        }else {
+            abort(403);
+        }
 
     }
 
@@ -602,7 +606,9 @@ class AporteController extends Controller
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
 
-        activity()->performedOn($Aporte)->log('Aporte actualizado');
+        $users = User::where('ID_COMITE', $request->ID_AREA)->orWhere('ID_ROL', 1)->get();//Trae lo usuarios pertenecientes al area y a los admin
+        Notification::send($users, new AporteModificado($Aporte)); //Esto notifica a varios usuarios
+        activity()->performedOn($Aporte)->log('Aporte actualizado ('.$Aporte->TITULO.')');
 
             return redirect()->route('aportes.show',['aporte' => $Aporte])
             ->with(['PalabrasClave' => $PalabrasClave])

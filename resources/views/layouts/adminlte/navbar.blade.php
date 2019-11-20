@@ -118,16 +118,16 @@
       </li>-->
         @guest
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
             </li>
             @if (Route::has('register'))
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    <a class="nav-link" href="{{ route('register') }}">{{ __('Regístrate') }}</a>
                 </li>
             @endif
         @else
             <li class="nav-item dropdown">
-                <a href="#" id="notificaciones" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                <a href="#"  class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                   <i class="far fa-bell nav-icon"></i>
                     <span class="badge bg-dark">
                       {{count(Auth::user()->unreadNotifications)}}
@@ -139,21 +139,39 @@
                       <a href="#" class="nav-link" >No tienes notificaciones </a>
                     </li>
                   @else
+                    <li class="">
+                        <a href="#" id="notificaciones" class="nav-link bg-purple" >Marcar como leídas</a>
+                        <div class="dropdown-divider"></div>
+                    </li>
                     @foreach (Auth::user()->unreadNotifications as $notification)
-                      @if ($notification->type == 'App\Notifications\NewAporte')
-                        <li class="">
-                        {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
-                          <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
-                          <div class="dropdown-divider"></div>
-                        </li>
-                      @endif
-                      @if ($notification->type == 'App\Notifications\NuevoComentario')
-                        <li class="">
-                        {{-- <a href="{{ route('posts.show', $notification->data['post']['id']) }}"><i>{{ $notification->data["user"]["name"] }}</i> has commented in <b>{{ $notification->data["post"]["title"] }}</b></a> --}}
-                          <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Comentó tu aporte</a>
-                          <div class="dropdown-divider"></div>
-                        </li>
-                      @endif
+                      <li class="">
+
+                          @if ($notification->type == 'App\Notifications\NewAporte')
+                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\AporteModificado')
+                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> modificó su aporte</a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\NuevoComentario')
+                            <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Comentó tu aporte</a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\NuevaRevision')
+                            <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Te hizo una observación</a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\PrestamoAprobado')
+                            <a href="{{route ('mis.prestamos')}}" class="nav-link" >Tu Préstamo fue aprobado</a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\NuevaPenalizacion')
+                            <a href="{{route ('mis.prestamos')}}" class="nav-link" >Haz sido penalizado en la biblioteca</a>
+                          @endif
+
+                        <div class="dropdown-divider"></div>
+                      </li>
                     @endforeach
                     
                   @endif  
@@ -173,7 +191,7 @@
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
+                        {{ __('Cerrar sesión') }}
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

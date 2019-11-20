@@ -115,7 +115,7 @@
                 this.evento.start = inicio;
                 this.evento.id = info.event.id;
                 if(info.event.end!==undefined && info.event.end!==null){
-                    fin = this.$moment(info.event.end).format('DD-MM-YYYY');
+                    fin = this.$moment(info.event.end).subtract(1,'days').format('DD-MM-YYYY');
                     this.evento.end = fin;
                 }
                 this.evento.title = this.eventoFromCalendar.title;

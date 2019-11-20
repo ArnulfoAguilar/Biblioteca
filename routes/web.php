@@ -23,21 +23,21 @@ Route::middleware(['auth'])->group(function () {
     // ------------------------------- RUTAS DEL MODULO BIBLIOTECA ------------------------------//
     Route::middleware(['web', 'rol:1,2,3,4'])->group(function () {
 
-        Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
+        // Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
         Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
         Route::get('/biblioteca/imprimir', 'LibroController@Tags')->name('imprimir');
 
-        Route::get('/biblioteca/prestamo', 'HomeController@prestamos')->name('prestamos');
+        // Route::get('/biblioteca/prestamo', 'HomeController@prestamos')->name('prestamos');
         Route::resource('/biblioteca/prestamos', 'PrestamoController');
-        Route::get('biblioteca/mis/prestamos', 'PrestamoController@indexMisPrestamos')->name('index.misPrestamos');
+        // Route::get('biblioteca/mis/prestamos', 'PrestamoController@indexMisPrestamos')->name('index.misPrestamos');
         Route::get('bibioteca/lista/mis-prestamos', 'PrestamoController@listaMisPrestamos')->name('misPrestamos');
 
 
 
-        Route::get('/biblioteca/prestamosV2', 'PrestamosController@index')->name('prestamos.v2');
-        Route::get('biblioteca/mis/prestamos/v2', 'PrestamosController@misPrestamos')->name('mis.prestamos');
+        Route::get('/biblioteca/prestamo/lista', 'PrestamosController@index')->name('prestamos');
+        Route::get('biblioteca/mis/prestamos', 'PrestamosController@misPrestamos')->name('mis.prestamos');
 
-        Route::get('/realizar/prestamo', 'PrestamosController@realizarPrestamo')->name('realizar.prestamo');
+        Route::get('biblioteca/realizar/prestamo', 'PrestamosController@realizarPrestamo')->name('realizar.prestamo');
         
         Route::POST('/solicitar/prestamo', 'PrestamosController@solicitarPrestamo')->name('solicitar.prestamo');
         Route::POST('/reservar/prestamo', 'PrestamosController@reservarPrestamo')->name('reservar.prestamo');
@@ -49,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/biblioteca/penalizaciones', 'PenalizacionController@index')->name('penalizaciones.lista');
         Route::POST('/biblioteca/solventar/penalizacion', 'PenalizacionController@solventar')->name('solventar.penalizacion');
+
+        Route::get('/ver/aporte/online/{aporte}', 'PrestamosController@verAporteOnLine')->name('ver.aporte.online');
+
 
     });
 
@@ -97,21 +100,22 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/palabraProhibida', 'PalabraProhibidaController');
         Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida');
         
-Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
-Route::resource('/ejemplars', 'EjemplarController');
-Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
-Route::resource('/Ejemplar', 'EjemplarController');
-Route::resource('/material', 'MaterialBibliotecarioController');
-Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
+        Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
+        Route::resource('/ejemplars', 'EjemplarController');
+        Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
+        Route::resource('/Ejemplar', 'EjemplarController');
+        Route::resource('/material', 'MaterialBibliotecarioController');
+        Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 
-        //------------------------Mis rutas para las interacciones
+
+        //------------------------Mis rutas (K) para las interacciones
         Route::get('/interacciones/{id}', 'ComentarioController@interacciones');
         Route::get('/interactue', 'ComentarioController@interactue');
         Route::post('/dislikeComentario/{id}', 'ComentarioController@interaccionDislike')->name('interaccion.dislike');
 
         Route::get('/interactue_prueba/{idA}/{idC}', 'ComentarioController@interactue_prueba');
 
-        //MIs rutas para comentarios sin VUE
+        //MIs rutas (K) para comentarios sin VUE
         Route::post('/darLike', 'ComentarioController@darLike')->name('dar.like');
         Route::post('/darDislike', 'ComentarioController@darDislike')->name('dar.dislike');
         Route::post('/guadarComentario', 'ComentarioController@guardarComentario')->name('guardar.comentario');
@@ -122,14 +126,19 @@ Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 
     // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
     Route::middleware(['web', 'rol:1,4'])->group(function () {
+
         Route::resource('/adquisiciones','AdquisicionController');
         Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
+
     });
 
     // ---------------------------------RUTAS DEL MODULO DE ADMINISTRACION -------------------------------------//
 
     Route::middleware(['web', 'rol:1'])->group(function () {
+
+        Route::get('/administracion/comites', 'HomeController@comites')->name('comites');
         Route::resource('/roles', 'RolController');
+        Route::resource('/comites', 'ComiteController');
         Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
         Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
 
@@ -152,16 +161,17 @@ Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 
     Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leidas');
     
-Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
-Route::get('/SegundoSumarioSelect/{id}', 'SegundoSumarioController@segundoSumarioSelect');
-Route::get('/TercerSumarioSelect/{id}', 'TercerSumarioController@tercerSumarioSelect');
+    // ESTAS SON LAS MIAMA QUE ESTASN ACA ARRIBA O QUE PEX? 
+    Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
+    Route::get('/SegundoSumarioSelect/{id}', 'SegundoSumarioController@segundoSumarioSelect');
+    Route::get('/TercerSumarioSelect/{id}', 'TercerSumarioController@tercerSumarioSelect');
 
-/*Rutas para select2 del formulario de ejemplar*/
-Route::get('/TipoEmpastadoSelect', 'Select2Controller@tipoEmpastadoSelect');
-Route::get('/TipoAdquisicionSelect', 'Select2Controller@tipoAdquisicionSelect');
-Route::get('/EstadoEjemplarSelect', 'Select2Controller@estadoEjemplarSelect');
-Route::get('/CatalogoMaterialSelect', 'Select2Controller@catalogoMaterialSelect');
-Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
+    /*Rutas para select2 del formulario de ejemplar*/
+    Route::get('/TipoEmpastadoSelect', 'Select2Controller@tipoEmpastadoSelect');
+    Route::get('/TipoAdquisicionSelect', 'Select2Controller@tipoAdquisicionSelect');
+    Route::get('/EstadoEjemplarSelect', 'Select2Controller@estadoEjemplarSelect');
+    Route::get('/CatalogoMaterialSelect', 'Select2Controller@catalogoMaterialSelect');
+    Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
 
     /*RUTA para select de Area*/
     Route::get('/area', 'AreaController@areaSelect')->name('areas');
@@ -169,6 +179,8 @@ Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
 
     //No le pongo middleware porque lo necesito para mostrar nombres en distintas vistas
     Route::resource('/users', 'UserController');
+    Route::get('/usuarios/para/asignacion/comite', 'UserController@obtenerUsuarios');
+
 
 
     // -----------------------------------------Catálogos-------------------------------------//
@@ -191,18 +203,12 @@ Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
     Route::get('graficos/aportes', 'GraficosController@index')->name('graficos.aportes');
     Route::get('graficos/aportes/anio', 'GraficosController@aportesAnio')->name('graficos.aportes.anio');
 
-// -----------------------------------------CONFIGURACIONES -------------------------------------//
-Route::get('/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
-Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
-// -----------------------------------------ERRORES RUTAS -------------------------------------//
-Route::get('/error/1', 'ErroresController@error1')->name('error1');
-// -----------------------------------------PERFIL DE USUARIO -------------------------------------//
-Route::get('/Usuario/totalAportesCreados/{id}', 'UserController@totalAportesCreados')->name('totalAportesCreados');
-Route::get('/aportesProfile', 'AporteController@aportesProfile');
-
-
     // -----------------------------------------ERRORES RUTAS -------------------------------------//
-
     Route::get('/error/1', 'ErroresController@error1')->name('error1');
+    
+    // -----------------------------------------PERFIL DE USUARIO -------------------------------------//
+    Route::get('/Usuario/totalAportesCreados/{id}', 'UserController@totalAportesCreados')->name('totalAportesCreados');
+    Route::get('/aportesProfile', 'AporteController@aportesProfile');
+
 
 });

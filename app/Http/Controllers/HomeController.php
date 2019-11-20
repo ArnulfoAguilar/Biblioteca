@@ -55,12 +55,16 @@ class HomeController extends Controller
         return view('lista-ejemplares');
     }
 
-    public function busquedaLibro(){
-        return view('buscar-libro');
-    }
+    // public function busquedaLibro(){
+    //     return view('buscar-libro');
+    // }
 
     public function roles(){
         return view('roles');
+    }
+
+    public function comites(){
+        return view('comites');
     }
 
     public function adquisiciones(){
@@ -72,10 +76,11 @@ class HomeController extends Controller
         $user->unreadNotifications->markAsRead();
     }
     
-    public function prestamos()
-    {
-        return view('Prestamo/prestamo');
-    }
+    // public function prestamos()
+    // {
+    //     return view('Prestamo/prestamo');
+    // }
+
     public function calendario()
     {
         return view('calendario');

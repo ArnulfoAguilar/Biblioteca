@@ -23,30 +23,30 @@
                             <div class="row">
                                 <div class="col-md-4 form-group">
                                     <label for="ISBN">ISBN</label><b v-if="!$v.EJEMPLAR.ISBN.required" class="error">*</b>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN"
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN" maxlength="13"
                                         aria-describedby="emailHelp">
                                     <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="NOMBRE">Nombre</label><b v-if="!$v.EJEMPLAR.EJEMPLAR.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE"
+                                    <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE" maxlength="500"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="SUBTITULO">Subtitulo</label><b v-if="!$v.EJEMPLAR.SUBTITULO.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO"
+                                    <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO" maxlength="400"
                                     aria-describedby="emailHelp">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 form-group">
                                     <label for="EDITORIAL">Editorial</label><b v-if="!$v.EJEMPLAR.EDITORIAL.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EDITORIAL" class="form-control" id="EDITORIAL"
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDITORIAL" class="form-control" id="EDITORIAL" maxlength="100"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="EDICION">Edición</label><b v-if="!$v.EJEMPLAR.EDICION.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" class="form-control" id="EDICION"
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" class="form-control" id="EDICION" maxlength="100"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-4 form-group">
@@ -58,7 +58,7 @@
                             <div class="row">
                                 <div class="col-md-4 form-group">
                                     <label for="AUTOR">AUTOR/es</label><b v-if="!$v.EJEMPLAR.AUTOR.required" class="error">*</b>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR"
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR" maxlength="255"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-4 form-group">
@@ -148,12 +148,12 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label for="DESCRIPCION">Descripción</label><b v-if="!$v.EJEMPLAR.DESCRIPCION.required" class="error">*</b>
-                                    <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION"
+                                    <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION" maxlength="1500"
                                         rows="3"></textarea>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label for="OBSERVACIONES">Observaciones</label><b v-if="!$v.EJEMPLAR.OBSERVACIONES.required" class="error">*</b>
-                                <textarea class="form-control" id="OBSERVACIONES" v-model="EJEMPLAR.OBSERVACIONES"
+                                <textarea class="form-control" id="OBSERVACIONES" v-model="EJEMPLAR.OBSERVACIONES" maxlength="500"
                                     rows="3"></textarea>
                                 </div>
                             </div>

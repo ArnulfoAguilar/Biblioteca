@@ -42,6 +42,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Rol', 'ID_ROL', 'id');
     }
 
+    public function aportes()
+    {
+        return $this->hasMany('App\Aporte', 'ID_USUARIO', 'id');
+    }
+
     public function revisiones()
     {
         return $this->hasMany('App\Revision', 'ID_USUARIO', 'id');

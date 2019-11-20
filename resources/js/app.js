@@ -4,8 +4,10 @@ import Vuelidate from 'vuelidate';
 //Usado para utilizar swal - copiado directamente de npmjs.com
 // import Vue from 'vue';
 import Vue from 'vue/dist/vue.min.js'
+
 import VueSwal from 'vue-swal';
 Vue.use(VueSwal);
+
 //Usado para utilizar moment - copiado directamente de npmjs.com
 // import VueMoment from 'vue-moment';
 // Vue.use(require('vue-moment'));
@@ -84,6 +86,7 @@ Vue.component('adquisiciones', require('./components/Adquisiciones.vue').default
 
 // ------------------------MODULO DE ADMINISTRACION---------------------------------------------
 Vue.component('roles', require('./components/Roles.vue').default);
+Vue.component('comites', require('./components/Comites.vue').default);
 Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').default);
 Vue.component('asignacion-comites', require('./components/AsignacionComites.vue').default);
 Vue.component('calendario', require('./components/calendario.vue').default);

@@ -45,7 +45,7 @@ class AdquisicionController extends Controller
             $sugerencia->ID_AREA = $request->ID_AREA;
             $sugerencia->ID_USUARIO = auth()->id();
             $sugerencia->save();
-            activity()->log('Requisicion guardada');
+            activity()->performedOn($sugerencia)->log('Sugerencia de adquisición guardada ('.$sugerencia->TITULO.')');
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -91,7 +91,7 @@ class AdquisicionController extends Controller
             $sugerencia->ID_AREA = $request->ID_AREA;
             $sugerencia->ID_USUARIO = auth()->id();
             $sugerencia->save();
-            activity()->log('Requisicion actualizada');
+            activity()->performedOn($sugerencia)->log('Sugerencia de adquisición actualizada ('.$sugerencia->TITULO.')');
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -107,7 +107,8 @@ class AdquisicionController extends Controller
     public function destroy($id)
     {
         $sugerencia = Adquisicion::find($id);
+        $sugerencia_nombre = $sugerencia->TITULO;
         $sugerencia->delete();
-        activity()->performedOn($sugerencia)->log('Requisicion eliminada');
+        activity()->performedOn($sugerencia)->log('Sugerencia de adquisición eliminada ('.$sugerencia_nombre.')');
     }
 }

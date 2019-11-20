@@ -11,19 +11,20 @@ use App\Prorroga;
 use App\Penalizacion;
 use App\User;
 use App\Configuracion;
+use App\Aporte;
 use Illuminate\Http\Request;
 
 use DB;
+
+use App\Notifications\PrestamoAprobado;
+use App\Notifications\NuevaPenalizacion;
+use Illuminate\Support\Facades\Notification;
 
 class PrestamosController extends Controller
 {
     public function index(Request $request)
     {
-        // $prestamos = Prestamo::all();
-        // $users = User::all();
-        // $estados = tipoPrestamo::all();
-        // $materiales = materialBibliotecario::all();
-        // $ejemplares = Ejemplar::all();
+
 
         $prestamos = DB::table('Prestamo')
         ->select('Prestamo.*', 'Ejemplar.EJEMPLAR', 'estadoPrestamo.ESTADO_PRESTAMO',
@@ -69,17 +70,28 @@ class PrestamosController extends Controller
         }
         
         $tiposPrestamos = tipoPrestamo::all();
+        $penalizado=false;
+        $penalizaciones = Penalizacion::where('SOLVENTADA', '!=', true)->get();
+        foreach ($penalizaciones as $key => $penalizacion) {
+            if ($penalizacion->prestamo->usuario->id == auth()->id() && $penalizacion->tipo->id == 3) {
+                $penalizado=true;
+            }
+        }
+
+        $aportes = Aporte::where('HABILITADO', true)->get();
 
         return view('Prestamo.realizarPrestamos')->with([
             'ejemplares'=> $ejemplares,
+            'aportes'=> $aportes,
             'cuentas'=> $cuentas,
+            'penalizado' => $penalizado,
         ]);
     }
 
     public function solicitarPrestamo(Request $request)
     {
         $prestamo =  new Prestamo();
-        $prestamo->FECHA_PRESTAMO = date('Ymd H:i:s');
+        // $prestamo->FECHA_PRESTAMO = date('Ymd H:i:s');
 
         $prestamo->ID_USUARIO = auth()->id();
         $prestamo->ID_ESTADO_PRESTAMO = 1;
@@ -95,6 +107,9 @@ class PrestamosController extends Controller
 
         $prestamo->save();
         $material->save();
+
+        activity()->performedOn($prestamo)->log('Solicitó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function reservarPrestamo(Request $request)
@@ -103,6 +118,12 @@ class PrestamosController extends Controller
         $prestamo->ID_ESTADO_PRESTAMO = 2;
 
         $prestamo->save();
+
+        $user = User::find(  $prestamo->ID_USUARIO );
+        $user->notify(new PrestamoAprobado($prestamo));
+
+        activity()->performedOn($prestamo)->log('Reservó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function aprobarPrestamo(Request $request)
@@ -121,11 +142,19 @@ class PrestamosController extends Controller
 
         $prestamo->FECHA_ESPERADA_DEVOLUCION = PrestamosController::verificarDevolucion($devolucion);
        
+        if($prestamo->tipoPrestamo->id == 4){
+            $prestamo->FECHA_ESPERADA_DEVOLUCION = date('Ymd H:i:s');
+        }
+
         $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
         $material->DISPONIBLE = false;
 
         $prestamo->save();
         $material->save();
+
+        activity()->performedOn($prestamo)->log('Aprobó un préstamo ('.$prestamo->id.') ');
+
+
     }
 
     public function finalizarPrestamo(Request $request)
@@ -139,6 +168,9 @@ class PrestamosController extends Controller
 
         $prestamo->save();
         $material->save();
+
+        activity()->performedOn($prestamo)->log('Finalizó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function prorrogarPrestamo(Request $request)
@@ -152,8 +184,11 @@ class PrestamosController extends Controller
             $dias = "+ ".(string)$dia->DIAS_PRORROGABLES." days";
         }
 
-        $prestamo->FECHA_ESPERADA_DEVOLUCION = date("d-m-Y",strtotime($fechaInicial.$dias));
 
+        $devolucion = date("d-m-Y",strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION.$dias));
+
+        $prestamo->FECHA_ESPERADA_DEVOLUCION = PrestamosController::verificarDevolucion($devolucion);
+       
         $prorroga = new Prorroga();
         $prorroga->FECHA_INICIO = $fechaInicial;
         $prorroga->FECHA_FIN =  $prestamo->FECHA_ESPERADA_DEVOLUCION;
@@ -161,6 +196,9 @@ class PrestamosController extends Controller
 
         $prorroga->save();
         $prestamo->save();
+
+        activity()->performedOn($prestamo)->log('Prorrogó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function penalizarPrestamo(Request $request)
@@ -170,10 +208,17 @@ class PrestamosController extends Controller
 
         $penalizacion = new Penalizacion();
         $penalizacion->ID_PRESTAMO = $request->id;
+        $penalizacion->SOLVENTADA = false;
         $penalizacion->ID_TIPO_PENALIZACION = $request->tipoPenalizacion;
 
         $penalizacion->save();
         $prestamo->save();
+
+        $user = User::find( $prestamo->ID_USUARIO );
+        $user->notify(new NuevaPenalizacion($prestamo));
+
+        activity()->performedOn($prestamo)->log('Penalizó un préstamo ('.$prestamo->id.') ');
+
     }
 
     public function cancelarPrestamo(Request $request)
@@ -186,11 +231,14 @@ class PrestamosController extends Controller
 
         $prestamo->save();
         $material->save();
+
+        activity()->performedOn($prestamo)->log('Canceló un préstamo ('.$prestamo->id.') ');
+
     }
 
-    public function verificarDevolucion($fecha_devolucion){
+    public function verificarDevolucion($fecha_devolucion_inicial){
 
-        $devolucion = $fecha_devolucion;
+        $devolucion = $fecha_devolucion_inicial;
         
         $hoy = date('Ymd');
         
@@ -211,7 +259,7 @@ class PrestamosController extends Controller
                     $devolucion >= date("d-m-Y",strtotime($asueto->inicio_inactividad)) && 
                     $devolucion <= date("d-m-Y",strtotime($asueto->fin_inactividad))
                 ){
-                    $devolucion = date("d-m-Y",strtotime($asueto->fin_inactividad."+ 1 days"));
+                    $devolucion = date("d-m-Y",strtotime($asueto->fin_inactividad));
                 }
             }
            
@@ -219,5 +267,14 @@ class PrestamosController extends Controller
 
         return $devolucion;
 
+    }
+
+    public function verAporteOnLine($aporte){
+        $aporte_a_enviar = Aporte::find($aporte);
+        $aporte_a_enviar->VISTAS += 1;
+        $aporte_a_enviar->save();
+        return view('Prestamo.verPrestamoOnLine')->with([
+            'aporte'=> $aporte_a_enviar,
+        ]);
     }
 }

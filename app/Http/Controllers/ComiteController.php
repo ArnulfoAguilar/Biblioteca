@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comite;
+use App\Area;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -46,10 +47,17 @@ class ComiteController extends Controller
     public function store(Request $request)
     {
         //
+
+        $newArea = new Area();
+        $newArea->AREA = $request->COMITE;
+        $newArea->Save();
+
         $newComite = new Comite();
         $newComite->COMITE = $request->COMITE;
+        $newComite->ID_AREA = $newArea->id;
         $newComite->Save();
-        activity()->log('Guardó comite');
+
+        activity()->performedOn($newComite)->log('Guardó comite ('.$newComite->COMITE.')');
     }
 
     /**
@@ -85,9 +93,12 @@ class ComiteController extends Controller
     {
         //
         $newComite = Comite::find($request->id);
+        $newArea = Area::find($request->id);
         $newComite->COMITE = $request->COMITE;
+        $newArea->AREA = $request->COMITE;
         $newComite->save();
-        activity()->log('Actualizó comite');
+        $newArea->save();
+        activity()->performedOn($newComite)->log('Actualizó comite ('.$newComite->COMITE.')');
         return $newComite;
     }
 
@@ -100,8 +111,11 @@ class ComiteController extends Controller
     public function destroy(Comite $comite)
     {
         $newComite = Comite::find($comite->id);
+        $newArea = Area::find($comite->id);
+        $comite = $newComite->COMITE;
         $newComite->delete();
-        activity()->log('Eliminó comite');
+        $newArea->delete();
+        activity()->performedOn($newComite)->log('Eliminó comite ('.$comite.')');
     }
 
     public function asignarComiteIndex($user = null)

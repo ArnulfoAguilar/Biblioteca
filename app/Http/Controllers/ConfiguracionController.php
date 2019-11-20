@@ -38,6 +38,7 @@ class ConfiguracionController extends Controller
         $request->direccionInstitucion != null ? $configuracion->DIRECCION_INSTITUCION = $request->direccionInstitucion: '';
         $configuracion->Save();
         $configuraciones= Configuracion::first();
+        activity()->performedOn($configuracion)->log('Modifico las configuraciones');
         //return redirect()->route('Configuracion')->with(['Message' => $Message]);
         return back()->with('success','Configuracion guardada con éxito!');
 
