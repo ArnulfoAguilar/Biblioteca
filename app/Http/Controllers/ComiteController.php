@@ -104,10 +104,10 @@ class ComiteController extends Controller
      * @param  \App\Comite  $comite
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comite $comite)
+    public function destroy($comite)
     {
-        $newComite = Comite::find($comite->id);
-        $newArea = Area::find($comite->id);
+        $newComite = Comite::find($comite);
+        $newArea = Area::find($comite);
         $comite = $newComite->COMITE;
         $newComite->delete();
         $newArea->delete();

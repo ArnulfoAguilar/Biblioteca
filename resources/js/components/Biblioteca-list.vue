@@ -169,6 +169,7 @@ export default {
             if(this.isEditing)
                 axios.put(`/Biblioteca/${this.Biblioteca.id}`, bibliotecaToSave).then(res=>{
                     this.modoEditar = false;
+                    this.isEditing = false;
                     this.success(msg);
                 });
             else
@@ -179,15 +180,16 @@ export default {
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.Biblioteca.BIBLIOTECA = item.BIBLIOTECA;
-        this.Biblioteca.id = item.id;
+        this.Biblioteca.BIBLIOTECA = item.data.BIBLIOTECA;
+        this.Biblioteca.id = item.data.id;
         this.isEditing = true;
+        this.modoEditar = true;
         },
         eliminarBiblioteca(Biblioteca, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Biblioteca ${Biblioteca.BIBLIOTECA}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "Biblioteca ${Biblioteca.data.BIBLIOTECA}"?`);
             if(confirmacion){
-                axios.delete(`/Biblioteca/${Biblioteca.id}`)
+                axios.delete(`/Biblioteca/${Biblioteca.data.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();

@@ -119,7 +119,11 @@
                                                             <i class="fas fa-external-link-alt"></i>
                                                         </a> --}}
                                                     @elseif ($registro->subject_type == 'App\Rol')
-                                                        <a href="/administracion/roles" title="Ir">
+                                                        <a href="/catalogos/roles" title="Ir">
+                                                            <i class="fas fa-external-link-alt"></i>
+                                                        </a>
+                                                    @elseif ($registro->subject_type == 'App\tipoPenalizacion')
+                                                        <a href="/catalogos/tipos/penalizaciones" title="Ir">
                                                             <i class="fas fa-external-link-alt"></i>
                                                         </a>
                                                     @endif

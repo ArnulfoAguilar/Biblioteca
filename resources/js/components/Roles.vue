@@ -178,16 +178,16 @@ export default {
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.ROL.ROL = item.ROL;
+        this.ROL.ROL = item.data.ROL;
         
-        this.ROL.id = item.id;
+        this.ROL.id = item.data.id;
         this.isEditing = true;
         },
         eliminarRol(ROL, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "ROL ${ROL.ROL}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "ROL ${ROL.data.ROL}"?`);
             if(confirmacion){
-                axios.delete(`/roles/${ROL.id}`)
+                axios.delete(`/roles/${ROL.data.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();

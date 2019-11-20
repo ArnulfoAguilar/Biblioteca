@@ -205,6 +205,7 @@ export default {
             if(this.isEditing)
                 axios.put(`/Estante/${this.Estante.id}`, estanteToSave).then(res=>{
                     this.modoEditar = false;
+                    this.isEditing = false;
                     this.success(msg);
                 });
             else
@@ -215,16 +216,17 @@ export default {
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.Estante.ESTANTE = item.ESTANTE;
-        this.Estante.ID_BIBLIOTECA = item.ID_BIBLIOTECA;
-        this.Estante.id = item.id;
+        this.Estante.ESTANTE = item.data.ESTANTE;
+        this.Estante.ID_BIBLIOTECA = item.data.ID_BIBLIOTECA;
+        this.Estante.id = item.data.id;
         this.isEditing = true;
+        this.modoEditar = true;
         },
         eliminarEstante(Estante, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Estante ${Estante.ESTANTE}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "Estante ${Estante.data.ESTANTE}"?`);
             if(confirmacion){
-                axios.delete(`/Estante/${Estante.id}`)
+                axios.delete(`/Estante/${Estante.data.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
@@ -236,6 +238,7 @@ export default {
         },
         cancelarEdicion(){
             this.modoEditar = false;
+            this.isEditing = false;
             this.Estante = {id: '', ESTANTE: '', ID_BIBLIOTECA:''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios

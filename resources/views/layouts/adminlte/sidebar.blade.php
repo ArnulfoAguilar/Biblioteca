@@ -191,19 +191,7 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
-            <li class="nav-item">
-            <a href="{{route('roles')}}" class="nav-link {{ ( request()->is('administracion/roles') ) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Lista de roles</p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-            <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('administracion/comites') ) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Lista de comites</p>
-              </a>
-            </li>
+            
 
             <li class="nav-item">
               <a href="{{route('asignar.roles')}}" class="nav-link {{ ( request()->is('administracion/asignar/roles') ) ? 'active' : '' }}">
@@ -242,10 +230,32 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
+              <a href="{{route('roles')}}" class="nav-link {{ ( request()->is('catalogos/roles') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Lista de roles</p>
+              </a>
+            </li>
+  
+            <li class="nav-item">
+              <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('catalogos/comites') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Lista de comites</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a href="{{route('palabras.prohibidas')}}"
                 class="nav-link {{ ( request()->is('catalogos/palabras-prohibidas') ) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Palabras prohibidas </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{route('tipos.penalizaciones')}}"
+                class="nav-link {{ ( request()->is('catalogos/tipos/penalizaciones') ) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tipos de penalizaciones </p>
               </a>
             </li>
   

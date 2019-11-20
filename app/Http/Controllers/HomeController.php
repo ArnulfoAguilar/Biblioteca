@@ -67,6 +67,10 @@ class HomeController extends Controller
         return view('comites');
     }
 
+    public function tiposPenalizaciones(){
+        return view('tiposPenalizaciones');
+    }
+
     public function adquisiciones(){
         return view('Adquisicion/listaadquisiciones');
     }
