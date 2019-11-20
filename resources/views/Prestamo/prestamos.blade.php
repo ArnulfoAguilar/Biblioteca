@@ -126,10 +126,7 @@
                                                 @if ( date('d-m-Y') > date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) 
                                                     && $prestamo->ID_ESTADO_PRESTAMO!=5 && $prestamo->ID_ESTADO_PRESTAMO!=7 )
                                                     <button type="button" class="btn btn-sm btn-danger" title="Penalizar" data-toggle="modal" data-target="#modalPenalizar" 
-                                                        data-prestamo="{{$prestamo->id}}" data-ejemplar="{{$prestamo->EJEMPLAR}}" data-autor="{{$prestamo->AUTOR}}" data-edicion="{{$prestamo->EDICION}}"
-                                                        data-fecha1="{{$prestamo->FECHA_PRESTAMO}}" data-fecha2="{{$prestamo->FECHA_DEVOLUCION}}"
-                                                        data-adquisicion="{{$prestamo->tipoAdquisicion}}"
-                                                        >
+                                                        data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE}}" data-tipoprestamo="{{$prestamo->tipoPrestamo->TIPO_PRESTAMO}}">
                                                             <i class="fas fa-ruler"></i>
                                                     </button>
                                                 @endif
@@ -292,11 +289,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="AUTOR">Tipo de préstamo</label>
-                                <select class="form-control" id="tipoPrestamo" name="tipoPrestamo">
-                                    @foreach ($tiposPrestamos as $tipo)
-                                        <option value="{{$tipo->id}}">{{$tipo->TIPO_PRESTAMO}}</option>
-                                    @endforeach
-                                </select>
+                                <input class="form-control" type="text" id="tipoPrestamo" disabled>
                             </div>
                             <div class="form-group col-md-12">
                                     <label for="AUTOR">Tipo de penalización</label>
@@ -346,19 +339,23 @@
         $('#modalPenalizar').on('show.bs.modal', function (event) {
             $('#modalPenalizar').focus()
             var button = $(event.relatedTarget)
-            // var prestamo = button.data('prestamo')
-            $('.modal-body #prestamo').val(button.data('prestamo'));
-            $('.modal-body #autor').val(button.data('autor'));
-            $('.modal-body #ejemplar').val(button.data('ejemplar'));
-            $('.modal-body #fecha1').val(button.data('fecha1'));
-            $('.modal-body #fecha2').val(button.data('fecha2'));
-            $('.modal-body #adquisicion').val(button.data('adquisicion'));
+            var prestamo = button.data('prestamo')
+            var adquisicion = button.data('adquisicion')
+            var tipoprestamo = button.data('tipoprestamo')
+            $('.modal-body #prestamo').val(prestamo.id);
+            $('.modal-body #autor').val(prestamo.materiales[0].ejemplar.AUTOR);
+            $('.modal-body #ejemplar').val(prestamo.materiales[0].ejemplar.EJEMPLAR);
+            $('.modal-body #fecha1').val(prestamo.FECHA_PRESTAMO);
+            $('.modal-body #fecha2').val(prestamo.FECHA_DEVOLUCION);
+            $('.modal-body #adquisicion').val(adquisicion);
+            $('.modal-body #tipoPrestamo').val(tipoprestamo);
         });
 
         $('#modalDetalle').on('show.bs.modal', function (event) {
             $('#modalDetalle').focus()
             var button = $(event.relatedTarget);
             var prestamo = button.data('prestamo');
+            var adquisicion = button.data('adquisicion')
             var tipo = button.data('tipo');
             $('.modal-body #autor').val(prestamo.materiales[0].ejemplar.AUTOR);
             $('.modal-body #ejemplar').val(prestamo.materiales[0].ejemplar.EJEMPLAR);

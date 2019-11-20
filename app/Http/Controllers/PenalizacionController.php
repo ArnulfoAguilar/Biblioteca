@@ -99,9 +99,13 @@ class PenalizacionController extends Controller
         $prestamo->FECHA_DEVOLUCION = date('Ymd H:i:s');
         $prestamo->save();
        
-        $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
-        $material->DISPONIBLE = true;
-        $material->save();
+        // $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
+        // $material->DISPONIBLE = true;
+        // $material->save();
+        foreach ($prestamo->materiales as $key => $material) {
+            $material->DISPONIBLE = true;
+            $material->save();
+        }
 
         activity()->performedOn($penalizacion)->log('Solventó penalización ('.$penalizacion->id.') ');
     
