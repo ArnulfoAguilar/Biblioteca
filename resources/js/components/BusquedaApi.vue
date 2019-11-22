@@ -218,7 +218,6 @@
                                     <div>
                                         <select2 :options="areas" :value="EJEMPLAR.AREA" v-model="EJEMPLAR.AREA"></select2>
                                     </div>
-                                    <!--<div v-if="!$v.EJEMPLAR.ESTADO_EJEMPLAR.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                             </div>
                             <div class="row">
@@ -274,9 +273,9 @@
     export default {
         name: "BusquedaApi",
         mounted() {
-            axios.get('/PrimerSumarioSelect').then((response)=>{
-                this.primerSumarios = response.data;
-            });
+            
+            this.inicializandoSelect2();
+            
             console.log('Component mounted.')
         },
         data() {
@@ -288,6 +287,11 @@
                 chooseTerm:'',
                 URLChoose:'https://www.googleapis.com/books/v1/volumes/',
                 primerSumarios :[],
+                tipoEmpastados:[],
+                tipoAdquisicion:[],
+                estadoEjemplar:[],
+                areas:[],
+                catalogoMaterial:[],
                 segundoSumarios: [],
                 tercerSumarios: [],
                 chooseResults: [],
@@ -362,7 +366,28 @@
                     console.log(e)
                 })
             },
-
+            inicializandoSelect2(){
+            axios.get('/PrimerSumarioSelect/').then((response)=>{
+                this.primerSumarios = response.data;
+            });
+            axios.get('/TipoEmpastadoSelect').then((response)=>{
+                this.tipoEmpastados = response.data;
+            });
+            axios.get('/TipoAdquisicionSelect').then((response)=>{
+                this.tipoAdquisicion = response.data;
+            });
+            axios.get('/EstadoEjemplarSelect').then((response)=>{
+                this.estadoEjemplar = response.data;
+                onsole.log(this.estadoEjemplar)
+            });
+            axios.get('/area').then((response)=>{
+                this.areas = response.data;
+                //console.log(this.areas)
+            });
+            axios.get('/CatalogoMaterialSelect').then((response)=>{
+                this.catalogoMaterial = response.data;
+            });
+        },
             getSegundoSumario(){
                 console.log(this.EJEMPLAR.PRIMERSUMARIO)
                 if(this.EJEMPLAR.PRIMERSUMARIO!=0){
