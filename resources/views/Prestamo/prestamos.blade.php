@@ -45,11 +45,12 @@
                                 <thead>
                                   <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Usuario solicitante</th>
+                                    <th scope="col">Solicitante</th>
                                     <th scope="col">Ejemplar Solicitado</th>
                                     <th scope="col">Copia</th>
-                                    <th scope="col">Estado del préstamo</th>
-                                    <th scope="col">Fecha de devolución esperada</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Devolución esperada</th>
+                                    <th scope="col">Devolución</th>
                                     <th scope="col">Acciones</th>
                                   </tr>
                                 </thead>
@@ -77,11 +78,14 @@
                                             <td>{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</td>
                                             <td>
                                                 @if ($prestamo->FECHA_ESPERADA_DEVOLUCION != null)
-                                                    @if ($prestamo->ID_ESTADO_PRESTAMO != 5)
-                                                        {{ date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) }}
-                                                    @else
-                                                        --
-                                                    @endif
+                                                    {{ date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) }}
+                                                @else
+                                                    --
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($prestamo->FECHA_DEVOLUCION != null)
+                                                    {{ date('d-m-Y', strtotime($prestamo->FECHA_DEVOLUCION)) }}
                                                 @else
                                                     --
                                                 @endif
@@ -95,7 +99,7 @@
 
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 2)
                                                     <button type="button" class="btn btn-sm btn-primary" title="Prestar" data-toggle="modal" data-target="#modalAprobar" 
-                                                        data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE}}">
+                                                        data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion? $prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE: ' '}}">
                                                             <i class="fas fa-check"></i>
                                                     </button>
                                                     <button class="btn btn-sm btn-danger cancelar" title="Cancelar" data-pres="{{$prestamo->id}}"><i class="far fa-times-circle"></i></button>
@@ -110,7 +114,7 @@
 
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 5)
                                                     <button type="button" class="btn btn-sm btn-info" title="Ver detalle" data-toggle="modal" data-target="#modalDetalle" 
-                                                    data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE}}" data-tipo="{{$prestamo->tipoPrestamo->TIPO_PRESTAMO}}">
+                                                    data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion? $prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE: ' '}}" data-tipo="{{$prestamo->tipoPrestamo->TIPO_PRESTAMO}}">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
                                                 @endif
@@ -126,7 +130,7 @@
                                                 @if ( date('d-m-Y') > date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) 
                                                     && $prestamo->ID_ESTADO_PRESTAMO!=5 && $prestamo->ID_ESTADO_PRESTAMO!=7 )
                                                     <button type="button" class="btn btn-sm btn-danger" title="Penalizar" data-toggle="modal" data-target="#modalPenalizar" 
-                                                        data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE}}" data-tipoprestamo="{{$prestamo->tipoPrestamo->TIPO_PRESTAMO}}">
+                                                        data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion? $prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE: ' '}}" data-tipoprestamo="{{$prestamo->tipoPrestamo->TIPO_PRESTAMO}}">
                                                             <i class="fas fa-ruler"></i>
                                                     </button>
                                                 @endif
