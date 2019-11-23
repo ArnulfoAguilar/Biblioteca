@@ -50,9 +50,7 @@ class LibroController extends Controller
         ->where('Ejemplar.id','=',$id)
         ->select('Ejemplar.EJEMPLAR','materialBibliotecario.CODIGO_BARRA')
         ->get();
-        activity()->log('Generó etiquetas');
- 
-
+        activity()->log('Generó etiquetasdel ejemplar con ID'.$id);
         $pdf = new Dompdf();
         $view =  \View::make("Etiquetas.AllTags", compact('tags'))->render();
         $pdf = \App::make('dompdf.wrapper');
