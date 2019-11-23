@@ -25,21 +25,6 @@ class PrestamosController extends Controller
     public function index(Request $request)
     {
 
-
-        // $prestamos = DB::table('Prestamo')
-        // ->select('Prestamo.*', 'Ejemplar.EJEMPLAR', 'estadoPrestamo.ESTADO_PRESTAMO',
-        // 'users.name', 'Ejemplar.AUTOR', 'Ejemplar.EDICION', 'Ejemplar.ID_TIPO_ADQUISICION',
-        // 'tipoAdquisicion.NOMBRE as tipoAdquisicion', 'tipoPrestamo.TIPO_PRESTAMO as tipoPrestamo',
-        // 'materialBibliotecario.COPIA_NUMERO as copia'
-        //  )
-        // ->join('materialBibliotecario', 'materialBibliotecario.id', '=', 'Prestamo.ID_MATERIAL')
-        // ->join('Ejemplar', 'Ejemplar.id', '=', 'materialBibliotecario.ID_EJEMPLAR')
-        // ->join('estadoPrestamo', 'estadoPrestamo.id', '=', 'Prestamo.ID_ESTADO_PRESTAMO')
-        // ->join('tipoAdquisicion', 'tipoAdquisicion.ID_TIPO_ADQUISICION', '=', 'Ejemplar.ID_TIPO_ADQUISICION')
-        // ->join('users', 'users.id', '=', 'Prestamo.ID_USUARIO')
-        // ->leftjoin('tipoPrestamo', 'tipoPrestamo.id', '=', 'Prestamo.ID_TIPO_PRESTAMO')
-        // ->where('Prestamo.ID_ESTADO_PRESTAMO', '!=', '8')
-        // ->paginate(10);
         $prestamos = Prestamo::orderBy('id', 'ASC')->paginate(10);
 
         $tiposPrestamos = tipoPrestamo::all();

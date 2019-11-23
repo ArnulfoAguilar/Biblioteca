@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Aporte;
+use App\Puntuaciones;
+use App\Niveles;
 use App\User;
 
 use App\Notifications\NuevoComentario;

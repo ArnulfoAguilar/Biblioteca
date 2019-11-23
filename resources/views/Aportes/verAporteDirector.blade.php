@@ -20,11 +20,18 @@
         </div>
     @endif
     <div class="container">
+        
+        <h4 >Autor: {{$aporte->usuario->name}}</h4>
+        <br>
+
+        Palabras Clave:
         @foreach ($PalabrasClave as $palabraClave)
-                <p href="#" class="btn btn-sm btn-primary col-xs-1">
-                    {{ $palabraClave->PALABRA}}
-                </p>    
-        @endforeach
+            <div class="badge bg-info">{{$palabraClave->PALABRA }}</div>
+                
+        @endforeach 
+
+        <br><br>
+        
     </div>
     <div class="container">    
         <div class="row justify-content-center">

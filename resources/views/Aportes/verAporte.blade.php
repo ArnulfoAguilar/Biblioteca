@@ -37,30 +37,33 @@
                       <div class="card-header p-2">
                         <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Aporte </a></li>
-                          <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Revisiones</a></li>
+                          
+                        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4 || Auth::user()->rol->id == $aporte->ID_USUARIO  )
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Revisiones</a></li>
+                        @endif
+                        
+                        @if (Auth::user()->rol->id == 1  )
+                        <li class="nav-item"><a class="nav-link" href="#comentarios" data-toggle="tab">Comentarios</a></li>
+                        @endif
 
-                          @if (Auth::user()->rol->id == 1  )
-                            <li class="nav-item"><a class="nav-link" href="#comentarios" data-toggle="tab">Comentarios</a></li>
-                          @endif
-
-
+                          
                         </ul>
                       </div><!-- /.card-header -->
                       <div class="card-body">
                         <div class="tab-content">
                           <div class="tab-pane active" id="activity">
+
+                                <h4 >Autor: {{$aporte->usuario->name}}</h4>
+                                <br>
                      
+                                Palabras Clave:
                                 @foreach ($PalabrasClave as $palabraClave)
-                                    <p href="#" class="btn btn-sm btn-primary col-xs-1">
-                                        {{ $palabraClave->PALABRA}}
-                                    </p>    
+                                    <div class="badge bg-info">{{$palabraClave->PALABRA }}</div>
+                                      
                                 @endforeach 
 
-                                @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 4 )
-                                    @if ($aporte->HABILITADO == false)
-                                                <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
-                                    @endif
-                                @endif
+                                <br><br>
+                                
 
                                 <div class="container">    
                                     <div class="row justify-content-center">
@@ -180,6 +183,15 @@
                         </div>
                         <!-- /.tab-content -->
                       </div><!-- /.card-body -->
+
+                      <div class="card-footer">
+                        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 4 )
+                            @if ($aporte->HABILITADO == false)
+                                        <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
+                            @endif
+                        @endif
+                      </div><!-- /.card-footer -->
+
                     </div>
 
                     <!-- /.nav-tabs-custom -->
@@ -262,7 +274,7 @@
                         if (palabra_en_comentario.index === regex.lastIndex){
                             regex.lastIndex++;
                         }
-                        <th scope="col">Editar</th>
+                        // <th scope="col">Editar</th>
                     }else{
                         swal({ text: 'Espere la aprobación del administrador', title: 'Exito', icon: 'success',})
                         .then( (value) => {
