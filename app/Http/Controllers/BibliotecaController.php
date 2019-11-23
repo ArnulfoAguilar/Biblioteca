@@ -92,6 +92,6 @@ class BibliotecaController extends Controller
     {
         $biblioteca = Biblioteca::find($id);
         $biblioteca->delete();
-        activity()->log('Biblioteca eliminada ');
+        activity()->log('Biblioteca eliminada ('.$biblioteca->BIBLIOTECA.')');
     }
 }

@@ -22,16 +22,16 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="COMITE.COMITE" class="form-control" id="NOMBRE"
+                                <input type="text" v-model.lazy="TIPO_PENALIZACION.TIPO_PENALIZACION" class="form-control" id="NOMBRE"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.COMITE.COMITE.required" class="error">Este campo es obligatorio</div>
+                                <div v-if="!$v.TIPO_PENALIZACION.TIPO_PENALIZACION.required" class="error">Este campo es obligatorio</div>
                             </div>
                             
                             
                             
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Comite</button>
+                            <button class="btn btn-primary" type="submit">Guardar Penalizacion</button>
                             <button class="btn btn-danger" type="submit"
                                 @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -39,7 +39,7 @@
                 </form>
             </div>
         </div>
-        <!-- fin modal agregar -->
+        <!-- fin modal agregar -->{{TIPO_PENALIZACION}} {{isEditing}} {{modoEditar}}
     </div>
 </template>
 
@@ -63,8 +63,8 @@ export default {
             },
             columns: [
                 {
-                    name:'COMITE',
-                    title:'Comite',
+                    name:'TIPO_PENALIZACION',
+                    title:'Penalizacion',
                     order: 1,
                     sort: true,
                     type: 'string',
@@ -76,19 +76,19 @@ export default {
              *ingresando un nuevo registro, y los titulos son los
              *del modal segun la situacion*/
             search:'',
-            comites: [],
+            penalizaciones: [],
             modoEditar: false,
-            COMITE: { COMITE: '', },
+            TIPO_PENALIZACION: { TIPO_PENALIZACION: '', },
             isEditing: false,
-            createTitle: 'Agregar Comite',
-            editTitle: 'Editar Comite',
+            createTitle: 'Agregar Penalizacion',
+            editTitle: 'Editar Penalizacion',
             titleToShow: '',
             hasError: false
         }
     },
     validations:{
-        COMITE:{
-            COMITE:{
+        TIPO_PENALIZACION:{
+            TIPO_PENALIZACION:{
                 required
             },
         }
@@ -110,19 +110,21 @@ export default {
        // console.log('componente creado')
     },
     mounted(){
-       console.log('comites montada')
+       console.log('penalizaciones montada')
     },
     methods:{
         sendData(){
             this.tableLoader = true;
-            axios.get('/comites').then(res=>{
-                this.comites=res.data;
+            axios.get('/penalizaciones').then(res=>{
+                this.penalizaciones=res.data;
                 this.eventFromApp = {
                     name: 'sendData',
-                    payload: this.comites
+                    payload: this.penalizaciones
                 };
             this.triggerEvent();
             this.tableLoader = false;
+                                console.log(this.penalizaciones);
+
             });
         },
         triggerEvent(){
@@ -135,13 +137,14 @@ export default {
          *evento realizado es lo que hara la funcion*/
         processEventFromApp(componentState){
             if(componentState.lastAction === 'Refresh'){
-                axios.get('/comites').then((result)=>{
-                    this.comites=result.data;
+                axios.get('/penalizaciones').then((result)=>{
+                    this.penalizaciones=result.data;
                     this.eventFromApp = {
                         name: 'sendData',
-                        payload: this.comites
+                        payload: this.penalizaciones
                     };
                     this.triggerEvent();
+                    console.log(this.penalizaciones);
                 })
             }
             if (componentState.lastAction ==='AddItem') {
@@ -151,7 +154,7 @@ export default {
                 console.log(this.$v);
             }
             if (componentState.lastAction ==='EditItem') {
-                this.submit = this.editarComite;
+                this.submit = this.editarPenalizacion;
                 this.titleToShow = this.editTitle;
                 this.editarFormulario(componentState.selectedItem);
                 $('#modalAgregar').modal('show');
@@ -163,43 +166,46 @@ export default {
         /*se dejo un solo metodo para el guardar un registro nuevo, aca es donde entra en
          *escena la variable del data isEditing*/
         guardar() {
-            const comiteToSave = this.COMITE;
+            const penalizacionToSave = this.TIPO_PENALIZACION;
             const msg = (this.isEditing) ?'Editado correctamente': 'Agregado correctamente';
-            if(this.isEditing)
-                axios.put(`/comites/${this.COMITE.id}`, comiteToSave).then(res=>{
+            if(this.modoEditar)
+                axios.put(`/penalizaciones/${this.TIPO_PENALIZACION.id}`, penalizacionToSave).then(res=>{
                     this.modoEditar = false;
                     this.success(msg);
                 });
             else
-                axios.post('/comites', comiteToSave).then((res) =>{
+                axios.post('/penalizaciones', penalizacionToSave).then((res) =>{
                     this.success(msg);
                 });
-            this.COMITE = {COMITE: ''};
+            this.TIPO_PENALIZACION = {TIPO_PENALIZACION: ''};
             $("#modalAgregar").modal('hide');
         },
         editarFormulario(item){
-        this.COMITE.COMITE = item.data.COMITE;
+        this.TIPO_PENALIZACION.TIPO_PENALIZACION = item.data.TIPO_PENALIZACION;
         
-        this.COMITE.id = item.data.id;
+        this.TIPO_PENALIZACION.id = item.data.id;
         this.isEditing = true;
+        this.modoEditar = true;
         },
-        eliminarComite(COMITE, index){
+        eliminarComite(TIPO_PENALIZACION, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "COMITE ${COMITE.data.COMITE}"?`);
+            console.log(TIPO_PENALIZACION.data.id);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "TIPO_PENALIZACION: ${TIPO_PENALIZACION.data.TIPO_PENALIZACION} "?`);
             if(confirmacion){
-                axios.delete(`/comites/${COMITE.data.id}`)
+                axios.delete(`/penalizaciones/${TIPO_PENALIZACION.data.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
                     toastr.success('Eliminado correctamente', 'Exito');
-                    console.log("COMITE ELIMINADO");
+                    console.log("TIPO_PENALIZACION ELIMINADA");
                 })
             }
         },
         cancelarEdicion(){
             this.modoEditar = false;
-            this.COMITE = {COMITE: ''};
+            this.isEditing = false;
+            this.TIPO_PENALIZACION = {TIPO_PENALIZACION: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion

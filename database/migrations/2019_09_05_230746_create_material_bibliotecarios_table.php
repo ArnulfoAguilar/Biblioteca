@@ -11,6 +11,40 @@ class CreateMaterialBibliotecariosTable extends Migration
      *
      * @return void
      */
+    // public function up()
+    // {
+    //     Schema::create('materialBibliotecario', function (Blueprint $table) {
+    //         $table->bigIncrements('id');
+    //         $table->string('CODIGO_BARRA', '25');
+    //         $table->integer('COPIA_NUMERO');
+    //         $table->bigInteger('ID_EJEMPLAR')->nullable()->unsigned();
+    //         $table->foreign('ID_EJEMPLAR')
+    //             ->references('id')
+    //             ->on('Ejemplar')
+    //             ->onDelete('restrict')
+    //             ->onUpdate('cascade');
+    //         $table->boolean('DISPONIBLE')->nullable();
+    //         $table->bigInteger('ID_FILA')->nullable()->unsigned();
+    //         $table->foreign('ID_FILA')
+    //             ->references('id')
+    //             ->on('filaEstante')
+    //             ->onDelete('restrict')
+    //             ->onUpdate('cascade');
+    //         $table->timestamps();
+    //         $table->softDeletes();
+    //     });
+    // }
+
+    // /**
+    //  * Reverse the migrations.
+    //  *
+    //  * @return void
+    //  */
+    // public function down()
+    // {
+    //     Schema::dropIfExists('materialBibliotecario');
+    // }
+
     public function up()
     {
         Schema::create('materialBibliotecario', function (Blueprint $table) {

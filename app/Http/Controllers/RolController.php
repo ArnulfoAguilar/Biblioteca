@@ -94,12 +94,11 @@ class RolController extends Controller
      * @param  \App\Rol  $rol
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rol $role)
+    public function destroy($role)
     {
-        $newRol = Rol::find($role->id);
-        $rol = $role->ROL;
+        $newRol = Rol::find($role);
         $newRol->delete();
-        activity()->performedOn($newRol)->log('Eliminó rol'.$rol);
+        activity()->performedOn($newRol)->log('Eliminó rol ('.$newRol->ROL.')');
     }
 
     public function asignarRolIndex($user = null)

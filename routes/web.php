@@ -69,7 +69,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/ejemplars', 'EjemplarController');
         Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
         Route::resource('/Ejemplar', 'EjemplarController');
-        Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
+        Route::get('/catalogos/roles', 'HomeController@roles')->name('roles');
+        Route::get('/catalogos/tipos/penalizaciones', 'HomeController@tiposPenalizaciones')->name('tipos.penalizaciones');
 
     });
 
@@ -105,7 +106,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
         Route::resource('/Ejemplar', 'EjemplarController');
         Route::resource('/material', 'MaterialBibliotecarioController');
-        Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
+        // Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 
 
         //------------------------Mis rutas (K) para las interacciones
@@ -136,9 +137,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['web', 'rol:1'])->group(function () {
 
-        Route::get('/administracion/comites', 'HomeController@comites')->name('comites');
+        Route::get('/catalogos/comites', 'HomeController@comites')->name('comites');
         Route::resource('/roles', 'RolController');
         Route::resource('/comites', 'ComiteController');
+        Route::resource('/penalizaciones', 'TipoPenalizacionesController');
         Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
         Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
 

@@ -66,8 +66,18 @@
                                                 <td>{{$penalizacion->id}}</td>
                                                 <td>{{$penalizacion->prestamo->usuario->name}}</td>
                                                 <td>{{$penalizacion->prestamo->id}}</td>
-                                                <td>{{$penalizacion->prestamo->material->ejemplar->EJEMPLAR}}</td>
-                                                <td>{{$penalizacion->prestamo->material->COPIA_NUMERO}}</td>
+                                                <td>
+                                                    @foreach ($penalizacion->prestamo->materiales as $material)
+                                                        <div> {{$material->ejemplar->EJEMPLAR}}</div>
+                                                    @endforeach
+                                                    {{-- {{$penalizacion->prestamo->material->ejemplar->EJEMPLAR}} --}}
+                                                </td>
+                                                <td>
+                                                    @foreach ($penalizacion->prestamo->materiales as $material)
+                                                        <div> {{$material->COPIA_NUMERO}}</div>
+                                                    @endforeach
+                                                    {{-- {{$penalizacion->prestamo->material->COPIA_NUMERO}} --}}
+                                                </td>
                                                 <td>{{ date('d-m-Y', strtotime( $penalizacion->prestamo->FECHA_ESPERADA_DEVOLUCION )) }}</td>
                                                 <td>{{$penalizacion->tipo->TIPO_PENALIZACION}}</td>
                                                 <td>
