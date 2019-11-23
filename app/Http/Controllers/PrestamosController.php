@@ -20,6 +20,9 @@ use App\Notifications\PrestamoAprobado;
 use App\Notifications\NuevaPenalizacion;
 use Illuminate\Support\Facades\Notification;
 
+use App\Mail\Notificacion;//usado para los emails
+use Illuminate\Support\Facades\Mail;//usado para los emails
+
 class PrestamosController extends Controller
 {
     public function index(Request $request)
@@ -109,6 +112,7 @@ class PrestamosController extends Controller
 
         $user = User::find(  $prestamo->ID_USUARIO );
         $user->notify(new PrestamoAprobado($prestamo));
+        //Mail::to($user->email)->send(new Notificacion($user->name, 1));
 
         activity()->performedOn($prestamo)->log('Reservó un préstamo ('.$prestamo->id.') ');
 
@@ -141,7 +145,9 @@ class PrestamosController extends Controller
         // $material->save();
 
         activity()->performedOn($prestamo)->log('Aprobó un préstamo ('.$prestamo->id.') ');
-
+        
+        // $user = User::find(  $prestamo->ID_USUARIO );
+        // Mail::to($user->email)->send(new Notificacion($user->name, 2));
 
     }
 
@@ -158,6 +164,9 @@ class PrestamosController extends Controller
         }
         
         activity()->performedOn($prestamo)->log('Finalizó un préstamo ('.$prestamo->id.') ');
+        
+        //$user = User::find(  $prestamo->ID_USUARIO );
+        //Mail::to($user->email)->send(new Notificacion($user->name, 3));
 
     }
 

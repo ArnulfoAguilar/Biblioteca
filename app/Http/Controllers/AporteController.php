@@ -22,6 +22,7 @@ use TJGazel\Toastr\Facades\Toastr;
 
 use App\Notifications\NewAporte;
 use App\Notifications\AporteModificado;
+
 use App\Mail\Notificacion;//usado para los emails
 use Illuminate\Support\Facades\Mail;//usado para los emails
 
