@@ -80,12 +80,15 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/aportes', 'AporteController');
         Route::get('/aporte/obtener', 'AporteController@obtener')->name('obtener.aporte');
         Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
-
-
         Route::get('/aporte/habilitar', 'AporteController@habilitar')->name('aportes.habilitar');
-
         Route::get('/listaAportesDirector', 'AporteController@listaDirector')->name('aportes.lista.director');
         Route::get('/listaTodosAportes', 'AporteController@listatodos')->name('aportes.lista.todos');
+        Route::get('/listaMisAportesAprobados', 'AporteController@listaMisAportesAprobados')->name('aportes.listaMisAportesAprobados');
+        Route::get('/GetMisAportesAprobados', 'AporteController@GetMisAportesAprobados')->name('aportes.GetMisAportesAprobados');
+
+        Route::get('/listaMisAportesSinAprobar', 'AporteController@listaMisAportesSinAprobar')->name('aportes.listaMisAportesSinAprobar');
+        Route::get('/GetMisAportesSinAprobar', 'AporteController@GetMisAportesSinAprobar')->name('aportes.GetMisAportesSinAprobar');
+        Route::get('/GetVistaAportesDirector', 'AporteController@GetVistaAportesDirector')->name('aportes.GetVistaAportesDirector');
         Route::resource('/revisiones','RevisionController');
         Route::resource('/comentarios','ComentarioController');
 
@@ -141,7 +144,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/administracion/asignar/rol', 'UserController@asignarRol')->name('asignar.rol');
         Route::get('/administracion/asignar/roles/{id?}', 'RolController@asignarRolIndex')->name('asignar.roles');
 
-        // Route::resource('/comites', 'ComiteController');
+        Route::resource('/comites', 'ComiteController');
+        Route::get('/Comite','ComiteController@Comite')->name('Comite');
         Route::post('/administracion/asignar/comite', 'UserController@asignarComite')->name('asignar.comite');
         Route::get('/administracion/asignar/comites/{id?}', 'ComiteController@asignarComiteIndex')->name('asignar.comites');
 
@@ -191,7 +195,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('catalogos/Configuracion', 'ConfiguracionController@index')->name('Configuracion');
     Route::post('/Configuracion/update', 'ConfiguracionController@update')->name('Configuracion.update');
     Route::resource('/Puntuaciones', 'PuntuacionesController');
+    Route::get('/Puntuacion', 'PuntuacionesController@Puntuacion')->name('Configuracion.puntuacion');
     Route::resource('/Niveles', 'NivelesController');
+    Route::get('/Nivel', 'NivelesController@Nivel')->name('Configuracion.Nivel');
     Route::get('catalogos/registro/actividad', 'RegistroActividadController@index')->name('registro.actividad');
     Route::get('catalogos/registro/actividad/descargar', 'RegistroActividadController@downloadTxt')->name('registro.actividad.descargar');
 

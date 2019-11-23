@@ -43,33 +43,33 @@ class AporteController extends Controller
      */
     public function index(Request $request)
     {
-        
-        if($request->vista == 2 || $request->vista == '2'){
-            return view('Aportes.ListaAporteDirector');
-        }else{
             return view('Aportes.ListaAporte')
             ->with([ 'id' => $request->id]);
-        }
-
+    }
+    public function GetVistaAportesDirector(Request $request){
+        return view('Aportes.ListaAporteDirector');
+    }
+    public function GetMisAportesAprobados(Request $request)
+    {
+            return view('Aportes.MisAportesAprobados');
+    }
+    public function GetMisAportesSinAprobar(Request $request)
+    {
+            return view('Aportes.MisAportesSinAprobar');
     }
 
 
     public function listatodos(Request $request)
     {
-        if($request->id==0){
+       
             return DB::table('lista_aportes')
             ->where('HABILITADO','=','TRUE')
             ->latest()
             ->get();
-        }elseif($request->id==1){
-            return DB::table('lista_aportes')
-            ->where([
-                ['HABILITADO','=','TRUE'],
-                ['ID_AUTOR','=',auth()->id()]
-            ])
-            ->latest()
-            ->get();
-        }elseif ($request->id==2) {
+       
+    }
+    public function listaMisAportesSinAprobar(Request $request)
+    {
             return DB::table('lista_aportes')
             ->where([
                 ['HABILITADO','=','FALSE'],
@@ -77,9 +77,17 @@ class AporteController extends Controller
             ])
             ->latest()
             ->get();
-        }else{
-            abort(404);
-        }
+    }
+    public function listaMisAportesAprobados(Request $request)
+    {
+        
+            return DB::table('lista_aportes')
+            ->where([
+                ['HABILITADO','=','TRUE'],
+                ['ID_AUTOR','=',auth()->id()]
+            ])
+            ->latest()
+            ->get();
     }
     public function aportesProfile(Request $request)
     {

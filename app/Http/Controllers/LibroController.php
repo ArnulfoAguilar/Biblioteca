@@ -16,22 +16,22 @@ class LibroController extends Controller
     {
         //if($request->ajax()){
             $tags= DB::table('Ejemplar')
-                    ->join('Libro', 'Ejemplar.id', '=', 'Libro.ID_EJEMPLAR')
-                    ->select('Ejemplar.EJEMPLAR','Libro.CODIGO_BARRA')
+                    ->join('materialBibliotecario', 'Ejemplar.id', '=', 'materialBibliotecario.ID_EJEMPLAR')
+                    ->select('Ejemplar.EJEMPLAR','materialBibliotecario.CODIGO_BARRA')
                     ->get();
                     activity()->log('Generó etiquetas');
 
-            return view('Etiquetas.AllTags')->with('tags',$tags)->render();
+           /* return view('Etiquetas.AllTags')->with('tags',$tags)->render();*/
         
             // No me funciona el css en el pdf y no soy muy bueno haciendolo desde cero
              
-            /*
+            
             $pdf = new Dompdf();
              $view =  \View::make("Etiquetas.AllTags", compact('tags'))->render();
              $pdf = \App::make('dompdf.wrapper');
              $pdf->loadHTML($view);        
              return $pdf->stream('reporte.pdf');
-            */        
+                   
         //}else{
           //  return view('home');
         //}  

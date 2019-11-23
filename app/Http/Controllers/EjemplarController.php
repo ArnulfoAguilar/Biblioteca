@@ -82,6 +82,7 @@ class EjemplarController extends Controller
         $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;
         $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
         $Ejemplar->ID_AREA = $request->AREA;
+        $Ejemplar->PRECIO = $request->PRECIO;
         $Ejemplar->save();
         activity()->performedOn($Ejemplar)->log('Guardó ejemplar ('.$Ejemplar->EJEMPLAR.')');
     }
@@ -148,6 +149,7 @@ class EjemplarController extends Controller
         $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;
         $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
         $Ejemplar->ID_AREA = $request->AREA;
+        $Ejemplar->PRECIO = $request->PRECIO;
         $Ejemplar->save();
         activity()->performedOn($Ejemplar)->log('Editó ejemplar ('.$Ejemplar->EJEMPLAR.')');
         return $Ejemplar;

@@ -39,20 +39,25 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4 form-group">
-                                    <label for="EDITORIAL">Editorial</label><b v-if="!$v.EJEMPLAR.EDITORIAL.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EDITORIAL" class="form-control" id="EDITORIAL" maxlength="100"
+                                <div class="col-md-3 form-group">
+                                    <label for="EDITORIAL">Editorial *</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDITORIAL" required class="form-control" id="EDITORIAL" maxlength="100"
                                     aria-describedby="emailHelp">
                                 </div>
-                                <div class="col-md-4 form-group">
-                                    <label for="EDICION">Edición</label><b v-if="!$v.EJEMPLAR.EDICION.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" class="form-control" id="EDICION" maxlength="100"
+                                <div class="col-md-3 form-group">
+                                    <label for="EDICION">Edición *</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" required class="form-control" id="EDICION" maxlength="100"
                                     aria-describedby="emailHelp">
                                 </div>
-                                <div class="col-md-4 form-group">
-                                    <label for="AÑO_EDICION">Año de edición</label><b v-if="!$v.EJEMPLAR.AÑO_EDICION.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.AÑO_EDICION" class="form-control" id="AÑO_EDICION"
+                                <div class="col-md-3 form-group">
+                                    <label for="AÑO_EDICION">Año de edición *</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.AÑO_EDICION" required class="form-control" id="AÑO_EDICION"
                                     aria-describedby="emailHelp">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="PRECIO">Precio *</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.PRECIO" required class="form-control" placeholder="$" id="PRECIO" maxlength="100"
+                                    aria-describedby="">
                                 </div>
                             </div>
                             <div class="row">
@@ -129,19 +134,29 @@
                                 <div class="col-md-4 form-group">
                                     <label for="PRIMER_SUMARIO">Primer sumario</label>
                                     <div>
-                                        <select2 :options="primerSumarios" :value="PRIMERSUMARIOID" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"></select2>
+                                        <!--select2  :options="primerSumarios" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"  >
+                                        </select2-->
+                                        <select class='form-control' v-model="PRIMERSUMARIOID" @change="getSegundoSumario">
+                                                    <option v-for = "primer in primerSumarios" :value="primer.id" @input="getSegundoSumario">{{primer.text}}</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="SEGUNDO_SUMARIO">Segundo sumario</label>
                                     <div>
-                                        <select2 :options="segundoSumarios" :value="SEGUNDOSUMARIOID" v-model="SEGUNDOSUMARIOID" @input="getTercerSumario"></select2>
+                                        <!--select2 :options="segundoSumarios" v-model="SEGUNDOSUMARIOID" @input="getTercerSumario"></select2-->
+                                         <select class='form-control' v-model="SEGUNDOSUMARIOID" @change="getTercerSumario">
+                                                    <option v-for = "segundo in segundoSumarios" :value="segundo.id"  >{{segundo.text}}</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="TERCER_SUMARIO">Tercer Sumario</label>
                                     <div>
-                                        <select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2>
+                                        <!--select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2-->
+                                        <select class='form-control' v-model="EJEMPLAR.TERCER_SUMARIO" >
+                                                    <option v-for = "tercero in tercerSumarios" :value="tercero.id" >{{tercero.text}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -252,10 +267,13 @@ export default {
                 ESTADO_EJEMPLAR:'',
                 LUGAR_EDICION:'',
                 TERCER_SUMARIO:'',
+                PRIMER_SUMARIO:'',
+                SEGUNDO_SUMARIO:'',
                 TIPO_EMPASTADO:'',
                 TIPO_ADQUISICION:'',
                 AREA:'',
-                CATALOGO_MATERIAL:''
+                CATALOGO_MATERIAL:'',
+                PRECIO:''
             },
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
@@ -339,6 +357,8 @@ export default {
         };
         this.sendData();
         this.inicializandoSelect2();
+        this.getSegundoSumario();
+        this.getTercerSumario();
     },
     mounted(){
        $('#modalForm').on('hide.bs.modal',this.vaciarModelo);
@@ -357,6 +377,7 @@ export default {
             this.tableLoader = true;
             axios.get('/ejemplars').then(res=>{
                 this.ejemplars=res.data;
+                console.log(this.ejemplars)
                 this.eventFromApp = {
                     name: 'sendData',
                     payload: this.ejemplars
@@ -391,12 +412,11 @@ export default {
             }
             if (componentState.lastAction ==='EditItem') {
                 this.titleToShow = this.editTitle;
-                // var segundo = await axios.get('/SegundoSumarioSelect/'+componentState.selectedItem.ID_PRIMER_SUMARIO)
-                // this.segundoSumarios=segundo.data;
-                // var tercero = await axios.get('/TercerSumarioSelect/'+componentState.selectedItem.ID_SEGUNDO_SUMARIO)
-                // this.tercerSumarios=tercero.data;
-                //console.log(componentState.selectedItem)
+
                 this.editarFormulario(componentState.selectedItem.data);
+                console.log("Termino primer sumario");
+                 this.setSegundoSumario(componentState.selectedItem.data);
+                 console.log("Termino seundo sumario");
                 this.$nextTick(()=>{$('#modalForm').modal('show');})
             }
             if (componentState.lastAction ==='DeleteItem') {
@@ -421,10 +441,13 @@ export default {
             $("#modalForm").modal('hide');
         },
         editarFormulario(item){
-            this.isEditing = true;
+            console.log(item)
+            
         //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
             this.PRIMERSUMARIOID=item.ID_PRIMER_SUMARIO;
+            this.getSegundoSumario();
             this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
+            this.getTercerSumario();
             this.EJEMPLAR.CATALOGO_MATERIAL=item.ID_CATALOGO_MATERIAL;
             this.EJEMPLAR.TERCER_SUMARIO=item.ID_TERCER_SUMARIO;
             this.EJEMPLAR.LUGAR_EDICION=item.LUGAR_EDICION;
@@ -444,7 +467,13 @@ export default {
             this.EJEMPLAR.EDITORIAL=item.EDITORIAL;
             this.EJEMPLAR.EDICION=item.EDICION;
             this.EJEMPLAR.AÑO_EDICION=item.AÑO_EDICION;
+            this.EJEMPLAR.PRECIO=item.PRECIO;
+            this.isEditing = true;
         //this.$forceUpdate();
+        },
+        setSegundoSumario(item){
+                this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
+                
         },
         eliminarEjemplar(EJEMPLAR, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
@@ -477,7 +506,8 @@ export default {
                 LUGAR_EDICION:'',
                 TERCER_SUMARIO:'',
                 TIPO_EMPASTADO:'',
-                TIPO_ADQUISICION:''
+                TIPO_ADQUISICION:'',
+                PRECIO:''
             };
             this.PRIMERSUMARIOID='';
             this.SEGUNDOSUMARIOID='';
@@ -527,18 +557,32 @@ export default {
             });
         },
         getSegundoSumario(){
-            if(this.PRIMERSUMARIOID>0){
+            console.log( this.isEditing)
+            if(this.PRIMERSUMARIOID>0 ){
+            console.log("ENTROOOO a get lista segunmdo sumario")
+                
                 axios.get('/SegundoSumarioSelect/'+this.PRIMERSUMARIOID).then((response)=>{
                     this.segundoSumarios = response.data;
+                    console.log("SEGUNDO SUMARIO ID"+this.SEGUNDOSUMARIOID)
                 });
+            }else{
+                this.SEGUNDOSUMARIOID = '';
+                this.segundoSumarios = [];
             }
-
+            
+        
         },
         getTercerSumario(){
-            if(this.PRIMERSUMARIOID>0 && this.SEGUNDOSUMARIOID>0){
+            
+            if((this.PRIMERSUMARIOID>0 && this.SEGUNDOSUMARIOID>0)){
+                
                 var response= axios.get('/TercerSumarioSelect/'+this.SEGUNDOSUMARIOID).then((response)=>{
                     this.tercerSumarios = response.data;
+                    
                 });
+            }else{
+                this.EJEMPLAR.TERCER_SUMARIO='';
+                this.tercerSumarios= []
             }
         }
     },

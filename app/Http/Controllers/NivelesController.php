@@ -12,11 +12,14 @@ class NivelesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function Nivel()
+    {
+        return view('administracion.Niveles');
+    }
     public function index()
     {
         $niveles= Niveles::all();
-        return view('administracion.Niveles')
-        ->with(['niveles' => $niveles]);
+        return $niveles;
     }
 
     /**
@@ -37,7 +40,12 @@ class NivelesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $NIVEL = new Niveles();
+        $NIVEL->NIVEL = $request->NIVEL;
+        $NIVEL->PUNTAJE_MINIMO = $request->PUNTAJE_MINIMO;
+        $NIVEL->BADGE = $request->BADGE;
+        $NIVEL->save();
+        activity()->log('NIVEL guardada');
     }
 
     /**
@@ -46,10 +54,10 @@ class NivelesController extends Controller
      * @param  \App\Niveles  $niveles
      * @return \Illuminate\Http\Response
      */
+    
     public function show($id)
     {
-        $niveles= Niveles::find($id);
-        return $niveles;
+
     }
 
     /**
@@ -70,9 +78,14 @@ class NivelesController extends Controller
      * @param  \App\Niveles  $niveles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Niveles $niveles)
+    public function update(Request $request, Niveles $niveles,$id)
     {
-        //
+        $NIVEL = Niveles::find($id);
+        $NIVEL->NIVEL = $request->NIVEL;
+        $NIVEL->PUNTAJE_MINIMO = $request->PUNTAJE_MINIMO;
+        $NIVEL->BADGE = $request->BADGE;
+        $NIVEL->save();
+        activity()->log('NIVEL Actualizado');
     }
 
     /**
@@ -81,8 +94,10 @@ class NivelesController extends Controller
      * @param  \App\Niveles  $niveles
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Niveles $niveles)
+    public function destroy($id)
     {
-        //
+        $NIVEL = Niveles::find($id);
+        $NIVEL->destroy();
+        activity()->log('Nivel eliminada');
     }
 }

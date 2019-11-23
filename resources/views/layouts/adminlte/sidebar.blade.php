@@ -136,46 +136,41 @@
         @endif
 
         <!--aportes-->
-        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-graduation-cap"></i>
-              <p>
-                Aportes
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-              <a href="{{route('aportes.index')}}" class="nav-link">
+@if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-graduation-cap"></i>
+            <p>
+              Aportes
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+            <a href="{{route('aportes.index')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Aportes</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('aportes.GetMisAportesAprobados')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Mis Aportes Aprobados</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('aportes.GetMisAportesSinAprobar')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Mis Aportes Sin Aprobar</p>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('aportes.GetVistaAportesDirector')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Mis Aprobados</p>
+                  <p>Vista Director</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{route('aportes.index',['id'=>0])}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lista Pendientes</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('aportes.index',['id'=>1])}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lista Aprobados</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                  <a href="{{route('aportes.index',['vista'=>2])}}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Aportes Vista Director</p>
-                  </a>
-                </li>
-              <li class="nav-item">
-                <a href="{{route('areas')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Item 2</p>
-                </a>
-              </li>
+
             </ul>
           </li>
         @endif

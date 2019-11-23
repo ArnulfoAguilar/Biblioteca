@@ -23,7 +23,7 @@ class CreateEjemplarsTable extends Migration
             $table->string('AÑO_EDICION', 4)->nullable();
             $table->string('LUGAR_EDICION', 100)->nullable();
             $table->string('OBSERVACIONES', 500)->nullable();
-            $table->string('IMAGEN', 100)->nullable();
+            $table->string('IMAGEN', 300)->nullable();
             $table->string('DESCRIPCION', 1500);
             $table->string('PALABRAS_CLAVE', 500)->nullable();
             $table->integer('NUMERO_PAGINAS')->nullable();
