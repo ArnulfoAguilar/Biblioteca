@@ -177,7 +177,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
 
     /*RUTA para select de Area*/
-    Route::get('/area', 'AreaController@areaSelect')->name('areas');
+    Route::get('/Area', 'AreaController@areaSelect')->name('areas');
     /*RUTA para select de Area*/
 
     //No le pongo middleware porque lo necesito para mostrar nombres en distintas vistas

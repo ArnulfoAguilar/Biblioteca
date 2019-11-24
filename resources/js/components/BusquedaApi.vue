@@ -354,6 +354,7 @@
                 
                 axios.get(this.URLChoose+this.chooseTerm)
                     .then(response => {
+                        console.log(response)
                         var description= response.data.volumeInfo.description.substr(0,1498);
                         this.chooseImg= response.data.volumeInfo.imageLinks;
                         this.EJEMPLAR.IMAGEN =this.chooseImg.thumbnail;
@@ -378,11 +379,11 @@
             });
             axios.get('/EstadoEjemplarSelect').then((response)=>{
                 this.estadoEjemplar = response.data;
-                onsole.log(this.estadoEjemplar)
+                console.log(this.estadoEjemplar)
             });
-            axios.get('/area').then((response)=>{
+            axios.get('/Area').then((response)=>{
                 this.areas = response.data;
-                //console.log(this.areas)
+                console.log(this.areas)
             });
             axios.get('/CatalogoMaterialSelect').then((response)=>{
                 this.catalogoMaterial = response.data;
@@ -415,6 +416,7 @@
                 }
                 else{
                     const ejemplarNuevo = this.EJEMPLAR;
+                    console.log(ejemplarNuevo)
                     axios.post('/Ejemplar', ejemplarNuevo)
                         .then(response=>{
                             $("#exampleModal").modal('hide');

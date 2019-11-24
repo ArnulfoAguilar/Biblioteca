@@ -549,8 +549,9 @@ export default {
             axios.get('/EstadoEjemplarSelect').then((response)=>{
                 this.estadoEjemplar = response.data;
             });
-            axios.get('/area').then((response)=>{
+            axios.get('/Area').then((response)=>{
                 this.areas = response.data;
+                console.log(this.areas)
             });
             axios.get('/CatalogoMaterialSelect').then((response)=>{
                 this.catalogoMaterial = response.data;

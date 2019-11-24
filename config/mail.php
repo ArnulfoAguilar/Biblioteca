@@ -90,10 +90,10 @@ return [
     */
 
     // 'username' => env('MAIL_USERNAME'),
-    'username' => '',
+    'username' => 'arnulfo.aguilar9405@gmail.com',
 
     // 'password' => env('MAIL_PASSWORD'),
-    'password' => '',
+    'password' => 'wwaydyjsrpjtxdcy',
 
     /*
     |--------------------------------------------------------------------------

@@ -16,3 +16,7 @@ php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProv
 
 npm install moment --save
 npm i bootbox 
+
+//No es npm, pero no encontre donde ponerlo xD
+// es para agregar al servidor y que se ejecuten las tareas programadas
+* * * * * php /ruta-al-proyecto/artisan schedule:run >> /dev/null 2>&1
