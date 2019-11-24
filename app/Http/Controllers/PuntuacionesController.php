@@ -12,11 +12,13 @@ class PuntuacionesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function Puntuacion(){
+        return view('administracion.Puntuaciones');
+    }
     public function index()
     {
-        $puntuaciones= Puntuaciones::all();
-        return view('administracion.Puntuaciones')
-        ->with(['puntuaciones' => $puntuaciones]);
+        $Puntuaciones= Puntuaciones::all();
+        return $Puntuaciones;
     }
 
     /**
@@ -37,7 +39,11 @@ class PuntuacionesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Puntuacion = new Puntuaciones();
+        $Puntuacion->PUNTUACION = $request->PUNTUACION;
+        $Puntuacion->VALOR = $request->VALOR;
+        $Puntuacion->save();
+        activity()->log('Puntuacion guardada');
     }
 
     /**
@@ -69,9 +75,14 @@ class PuntuacionesController extends Controller
      * @param  \App\Puntuaciones  $puntuaciones
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Puntuaciones $puntuaciones)
+    public function update(Request $request, Puntuaciones $puntuaciones,$id)
     {
-
+        $Puntuacion = Puntuaciones::find($id);
+        
+        $Puntuacion->PUNTUACION = $request->PUNTUACION;
+        $Puntuacion->VALOR = $request->VALOR;
+        $Puntuacion->save();
+        activity()->log('Puntuacion actualizada');
 
     }
 
@@ -81,8 +92,10 @@ class PuntuacionesController extends Controller
      * @param  \App\Puntuaciones  $puntuaciones
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Puntuaciones $puntuaciones)
+    public function destroy($id)
     {
-        //
+        $Puntuacion = Puntuaciones::find($id);
+        $Puntuacion->delete();
+        activity()->log('Puntuacion eliminada');
     }
 }

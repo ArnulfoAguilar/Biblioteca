@@ -74,6 +74,8 @@ Vue.component('estante-list', require('./components/Estante-list.vue').default);
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
 Vue.component('comentarios', require('./components/comentarios.vue').default);
 Vue.component('aportes', require('./components/Aportes.vue').default);
+Vue.component('mis-aportes-aprobados', require('./components/MisAportesAprobados.vue').default);
+Vue.component('mis-aportes-sin-aprobar', require('./components/MisAportesSinAprobar.vue').default);
 Vue.component('aportes-director', require('./components/Aportes-Director.vue').default);
 Vue.component('habilitar-aporte', require('./components/Habilitar-aporte.vue').default);
 Vue.component('habilitar-comentarios', require('./components/HabilitarComentarios.vue').default);
@@ -89,6 +91,9 @@ Vue.component('tipo-penalizaciones', require('./components/TipoPenalizaciones.vu
 Vue.component('asignacion-roles', require('./components/AsignacionRoles.vue').default);
 Vue.component('asignacion-comites', require('./components/AsignacionComites.vue').default);
 Vue.component('calendario', require('./components/calendario.vue').default);
+Vue.component('comites-list', require('./components/Comites.vue').default);
+Vue.component('puntuaciones-list', require('./components/Puntuaciones.vue').default);
+Vue.component('niveles-list', require('./components/Niveles.vue').default);
 
 // ------------------------MODULO DE BIOGRAFIA USUARIO---------------------------------------------
 Vue.component('biografia-sidebar', require('./components/biografia-sidebar.vue').default);
