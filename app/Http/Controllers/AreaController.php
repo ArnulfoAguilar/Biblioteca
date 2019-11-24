@@ -30,16 +30,7 @@ class AreaController extends Controller
          return response()->json($data);
 
 
-        /*$data = [];
         
-        
-        foreach ($Areas as $key => $value) {
-            $data[$key+1] =[
-                'id'   => $value->id,
-                'text' => $value->AREA,
-            ];
-        }
-        return response()->json($data);*/
        
     }
 

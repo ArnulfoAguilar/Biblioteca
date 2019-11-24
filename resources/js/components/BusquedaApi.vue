@@ -178,7 +178,7 @@
                             <div class="row">
 
                                 <div class="col-md-4 form-group">
-                                    <label for="LUGAR_EDICION">Lugar Edición</label>
+                                    <label for="LUGAR_EDICION">Lugar Edición </label>
                                     <input type="text" class="form-control" v-model="EJEMPLAR.LUGAR_EDICION" id="LUGAR_EDICION"
                                         aria-describedby="emailHelp">
 
@@ -275,8 +275,7 @@
         mounted() {
             
             this.inicializandoSelect2();
-            
-            console.log('Component mounted.')
+             $('#modalForm').on('hide.bs.modal',this.vaciarModelo);
         },
         data() {
             return {
@@ -311,8 +310,7 @@
                     AÑO_EDICION:'',
                     PALABRAS_CLAVE:'',
                     OBSERVACIONES:'',
-                    ESTADO_EJEMPLAR:'',
-                    LUGAR_EDICION:'',
+                    ESTADO_EJEMPLAR:'',LUGAR_EDICION:'',
                     PRIMER_SUMARIO:'',
                     SEGUNDO_SUMARIO:'',
                     TERCER_SUMARIO:'',
@@ -409,7 +407,15 @@
                 if(this.EJEMPLAR.EJEMPLAR === '' ||
                     this.EJEMPLAR.DESCRIPCION === '' ||
                     this.EJEMPLAR.ISBN === '' ||
-                    this.EJEMPLAR.AUTOR === '')
+                    this.EJEMPLAR.AUTOR === ''||
+                    this.EJEMPLAR.ESTADO_EJEMPLAR === ''||
+                   
+                    this.EJEMPLAR.TERCER_SUMARIO === ''||
+                    this.EJEMPLAR.TIPO_ADQUISICION === ''||
+                    this.EJEMPLAR.SUBTITULO === ''||
+                    this.EJEMPLAR.EDITORIAL === ''||
+                    this.EJEMPLAR.EDICION === ''||
+                    this.EJEMPLAR.AÑO_EDICION === '')
                 {
                     alert("Debes llenar todos los datos");
                     return;
@@ -420,15 +426,43 @@
                     axios.post('/Ejemplar', ejemplarNuevo)
                         .then(response=>{
                             $("#exampleModal").modal('hide');
-                            alert("Guardado correctamente");
+                    toastr.clear();
+                    toastr.options.closeButton = true;
+                    toastr.success('Libro agregado correctamente', 'Exito');
                             $("#exampleModal").modal('hide');
-                            console.log("Guardado");
+                            
+                            this.vaciarModelo();
                             $("#exampleModal").modal('hide');
                         }).catch(e=>{
                             alert("Error al Guardar" + e);
                         })
                 }
-            }
+            },vaciarModelo(){
+            this.EJEMPLAR = {
+                EJEMPLAR: '',
+                DESCRIPCION: '',
+                ISBN: '',
+                AUTOR: '',
+                NUMERO_PAGINAS: '',
+                COPIAS:'',
+                SUBTITULO:'',
+                EDITORIAL:'',
+                EDICION:'',
+                AÑO_EDICION:'',
+                //PALABRAS_CLAVE:'',
+                OBSERVACIONES:'',
+                ESTADO_EJEMPLAR:'',
+                LUGAR_EDICION:'',
+                TERCER_SUMARIO:'',
+                TIPO_EMPASTADO:'',
+                TIPO_ADQUISICION:'',
+                PRECIO:''
+            };
+            this.PRIMERSUMARIOID='';
+            this.SEGUNDOSUMARIOID='';
+            this.segundoSumarios=[];
+            this.tercerSumarios=[];
+        },
 
         },
         computed: {
