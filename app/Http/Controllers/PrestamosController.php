@@ -312,4 +312,14 @@ class PrestamosController extends Controller
             
             ]);
     }
+
+    public function verAporteOnLine($aporte){
+        $aporte_a_enviar = Aporte::find($aporte);
+        $aporte_a_enviar->VISTAS += 1;
+        $aporte_a_enviar->save();
+        return view('Prestamo.verPrestamoOnLine')->with([
+            'aporte'=> $aporte_a_enviar,
+            ]);
+    }
+
 }
