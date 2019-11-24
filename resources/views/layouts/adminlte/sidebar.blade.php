@@ -68,6 +68,15 @@
                 </a>
               </li>
               @endif
+
+              @if (Auth::user()->rol->id == 1)
+              <li class="nav-item">
+                <a href="{{route ('biblioteca.ver.solvencia')}}" class="nav-link {{( request()->is('biblioteca/solvencias/*') ) ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Extender Solvencia</p>
+                </a>
+              </li>
+              @endif
               
             </ul>
           </li>
