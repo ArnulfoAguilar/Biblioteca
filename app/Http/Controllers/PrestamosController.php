@@ -20,6 +20,9 @@ use App\Notifications\PrestamoAprobado;
 use App\Notifications\NuevaPenalizacion;
 use Illuminate\Support\Facades\Notification;
 
+use App\Mail\Notificacion;//usado para los emails
+use Illuminate\Support\Facades\Mail;//usado para los emails
+
 class PrestamosController extends Controller
 {
     public function index(Request $request)
@@ -109,6 +112,7 @@ class PrestamosController extends Controller
 
         $user = User::find(  $prestamo->ID_USUARIO );
         $user->notify(new PrestamoAprobado($prestamo));
+        //Mail::to($user->email)->send(new Notificacion($user->name, 1));
 
         activity()->performedOn($prestamo)->log('Reservó un préstamo ('.$prestamo->id.') ');
 
@@ -141,7 +145,9 @@ class PrestamosController extends Controller
         // $material->save();
 
         activity()->performedOn($prestamo)->log('Aprobó un préstamo ('.$prestamo->id.') ');
-
+        
+        // $user = User::find(  $prestamo->ID_USUARIO );
+        // Mail::to($user->email)->send(new Notificacion($user->name, 2));
 
     }
 
@@ -158,6 +164,9 @@ class PrestamosController extends Controller
         }
         
         activity()->performedOn($prestamo)->log('Finalizó un préstamo ('.$prestamo->id.') ');
+        
+        //$user = User::find(  $prestamo->ID_USUARIO );
+        //Mail::to($user->email)->send(new Notificacion($user->name, 3));
 
     }
 
@@ -258,12 +267,59 @@ class PrestamosController extends Controller
 
     }
 
+    public function solvencias(){
+        return view('Biblioteca.solvencias')->with([
+        ]);
+    }
+
+    public function solvenciasPost(Request $request){
+        // dd($request->nombre);
+        $users = User::where('name', 'ILIKE', "%$request->nombre%")
+        ->orWhere('email','ILIKE',"%$request->nombre%")->orderBy('id', 'ASC')->get();
+        // dd($users);
+        $cuentas_por_usuarios =[];
+        foreach ($users as $key => $user) {
+            $cuentas_prestamos = [];
+            
+
+            $prestados = Prestamo::where('ID_USUARIO', $user->id )
+            ->where('ID_ESTADO_PRESTAMO', '3')->count();
+            
+            array_push($cuentas_prestamos, $prestados);
+
+            $devolucion_pendiente = Prestamo::where('ID_USUARIO', $user->id )
+            ->where('ID_ESTADO_PRESTAMO', '4')->count();
+            array_push($cuentas_prestamos, $devolucion_pendiente);
+
+            $prorrogados = Prestamo::where('ID_USUARIO', $user->id )
+            ->where('ID_ESTADO_PRESTAMO', 6)->count();
+            array_push($cuentas_prestamos, $prorrogados);
+
+            $penalizados = Prestamo::where('ID_USUARIO', $user->id )
+            ->where('ID_ESTADO_PRESTAMO', 7)->count();
+            array_push($cuentas_prestamos, $penalizados);
+            
+            array_push($cuentas_por_usuarios, $cuentas_prestamos);
+            // dd($devolucion_pendiente);
+            
+        }
+
+        // dd($cuentas_por_usuarios);
+        return view('Biblioteca.solvencias')->with([
+            'busqueda' => $request->nombre,
+            'users' => $users,
+            'cuentas' => $cuentas_por_usuarios,
+            
+            ]);
+    }
+
     public function verAporteOnLine($aporte){
         $aporte_a_enviar = Aporte::find($aporte);
         $aporte_a_enviar->VISTAS += 1;
         $aporte_a_enviar->save();
         return view('Prestamo.verPrestamoOnLine')->with([
             'aporte'=> $aporte_a_enviar,
-        ]);
+            ]);
     }
+
 }

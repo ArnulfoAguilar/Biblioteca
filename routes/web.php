@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/ver/aporte/online/{aporte}', 'PrestamosController@verAporteOnLine')->name('ver.aporte.online');
 
+        Route::get('/biblioteca/solvencias/index', 'PrestamosController@solvencias')->name('biblioteca.ver.solvencia');
+        Route::get('/biblioteca/solvencias/post', 'PrestamosController@solvenciasPost')->name('biblioteca.ver.solvencia.post');
+
 
     });
 
