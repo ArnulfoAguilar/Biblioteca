@@ -13,7 +13,7 @@ class CreateEjemplarSumariosView extends Migration
     public function up()
     {
         DB::statement('
-            CREATE OR REPLACE VIEW public.vwejemplarsumarios
+            CREATE OR REPLACE VIEW public.vwejemplarsumarios as
             SELECT e.id,
             e."ISBN",
             e."EJEMPLAR",

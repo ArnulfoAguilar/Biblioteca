@@ -10,15 +10,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SendprestamoVencido extends Mailable
 {
     use Queueable, SerializesModels;
-
+    
+    public $EjemplarPrestado;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    
+    public function __construct($EjemplarPrestado)
     {
-        //
+        $this->EjemplarPrestado = $EjemplarPrestado;
     }
 
     /**
@@ -28,6 +30,9 @@ class SendprestamoVencido extends Mailable
      */
     public function build()
     {
-        return $this->view('Mails.prestamoVencido');
+        return $this->view('Mails.prestamoVencido')
+        ->with([
+            'Ejemplar' => $this->EjemplarPrestado,
+        ]);
     }
 }

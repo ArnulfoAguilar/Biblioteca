@@ -39,9 +39,12 @@ class PrestamoVencido extends Command
      */
     public function handle()
     {
-        $UsuariosMorosos = \DB::table('Prestamo')
-        ->select('ID_USUARIO')
-        ->whereRaw('Date(FECHA_DEVOLUCION) < CURDATE()');
-        Mail::to('arnulfo.aguilar9405@gmail.com')->send(new SendprestamoVencido());
+        $UsuariosMorosos = \DB::table('enviarcorreopenalizacionvw')->get();
+        
+        foreach ($UsuariosMorosos as $Usuario) {
+            $EjemplarPrestado = '';
+            Mail::to($Usuario->email)->send(new SendprestamoVencido($EjemplarPrestado));
+            
+        }
     }
 }

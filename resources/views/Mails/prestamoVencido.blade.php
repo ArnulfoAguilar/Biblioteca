@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-    <title>Nuevo aporte creado</title>
+<title>Se te ha vencido la fecha de prestamo del libro {{$EjemplarPrestado}}</title>
 </head>
 <body>
 <p>Se te ha vencido el tiempo de prestamo del libro</p>
