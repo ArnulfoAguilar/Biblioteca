@@ -275,7 +275,9 @@ class PrestamosController extends Controller
     public function solvenciasPost(Request $request){
         // dd($request->nombre);
         $users = User::where('name', 'ILIKE', "%$request->nombre%")
-        ->orWhere('email','ILIKE',"%$request->nombre%")->orderBy('id', 'ASC')->get();
+        ->orWhere('email','ILIKE',"%$request->nombre%")
+        ->orWhere('apellidos','ILIKE',"%$request->nombre%")
+        ->orderBy('id', 'ASC')->get();
         // dd($users);
         $cuentas_por_usuarios =[];
         foreach ($users as $key => $user) {
@@ -311,6 +313,14 @@ class PrestamosController extends Controller
             'cuentas' => $cuentas_por_usuarios,
             
             ]);
+    }
+
+    public function extenderSolvencia(Request $request){
+        // dd($request->id);
+        $user = User::find($request->id);
+        return view('Prestamo.extenderSolvencia')->with([
+            'user' => $user,
+        ]);
     }
 
     public function verAporteOnLine($aporte){

@@ -53,10 +53,10 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    @if(sizeof($ejemplares) <= 0 && sizeof($aportes) )
+                                    @if(sizeof($ejemplares) <= 0 && sizeof($aportes) <=0 )
                                         <tr>
                                             <td>--</td>
-                                            <td class="text-center" colspan="4">No Hay libros disponibles</td>
+                                            <td class="text-center" colspan="4">No Hay material disponible</td>
                                         </tr>
                                     @else
                                         @foreach ($aportes as $aporte)

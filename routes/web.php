@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/biblioteca/solvencias/index', 'PrestamosController@solvencias')->name('biblioteca.ver.solvencia');
         Route::get('/biblioteca/solvencias/post', 'PrestamosController@solvenciasPost')->name('biblioteca.ver.solvencia.post');
+        Route::get('/biblioteca/extender/solvencia', 'PrestamosController@extenderSolvencia')->name('biblioteca.extender.solvencia');
 
 
     });

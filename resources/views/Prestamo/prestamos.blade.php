@@ -93,12 +93,12 @@
                                             <td>
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 1 )
                                                     
-                                                    <button class="btn btn-sm btn-info reservar" title="Reservar" data-pres="{{$prestamo->id}}"><i class="fas fa-check"></i> OK</button>
+                                                    <button class="btn btn-sm btn-info reservar" title="Reservar" data-pres="{{$prestamo->id}}"><i class="fas fa-check"></i> Aprobar</button>
 
                                                 @endif
 
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 2)
-                                                    <button type="button" class="btn btn-sm btn-primary" title="Prestar" data-toggle="modal" data-target="#modalAprobar" 
+                                                    <button type="button" class="btn btn-sm btn-primary" title="Entregar" data-toggle="modal" data-target="#modalAprobar" 
                                                         data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion? $prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE: ' '}}">
                                                             <i class="fas fa-check"></i>
                                                     </button>
@@ -374,7 +374,7 @@
             var _token = $('input[name="_token"]').val();
 
             swal({
-                title: "¿Está seguro de RESERVAR este préstamo?",
+                title: "¿Está seguro de RESERVAR los materiales solicitados en el préstamo?",
                 icon: "warning",
                 buttons: true,
             })
@@ -416,7 +416,7 @@
             console.log(id, tipoPrestamo);
 
             swal({
-                title: "¿Esta seguro de aprobar este prestamo?",
+                title: "¿Esta seguro de aprobar este préstamo y entregar el material solicitado?",
                 icon: "warning",
                 buttons: true,
             })
