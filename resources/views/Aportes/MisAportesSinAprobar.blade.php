@@ -4,7 +4,7 @@
 @endsection
 
 @section('Encabezado') 
-    Mis aportes aprobados
+    Mis aportes sin aprobar
       
 @endsection
 @section('breadcrumbs')
