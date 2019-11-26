@@ -160,6 +160,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/administracion/calendario','HomeController@calendario')->name('calendario');
         Route::resource('/administracion/calendarios','CalendarioController');
+
+        Route::get('/administracion/get/users', 'UserController@getUsuarios', 'administracion.get.usuarios')->name('administracion.get.usuarios');
     });
 
     // -----------------------------------------OTRAS RUTAS -------------------------------------//

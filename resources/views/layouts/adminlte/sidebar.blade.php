@@ -262,6 +262,18 @@
                 </li>
               @endif
 
+              @if (Auth::user()->rol->id == 1 )
+                <li class="nav-item">
+                  <a href="{{route('administracion.get.usuarios')}}" 
+                    class="nav-link {{ ( request()->is('administracion/get/users') ) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Puntajes de usuarios</p>
+                  </a>
+                </li>
+              @endif
+
+              
+
 
             </ul>
           </li>

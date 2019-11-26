@@ -135,4 +135,11 @@ class UserController extends Controller
         ->where('ID_ROL', '!=', '1')
         ->get();
     }
+
+    public function getUsuarios(){
+        $users = User::orderBy('id', 'asc')->get();
+        return view('administracion.puntajes')->with([
+            'users' => $users,
+        ]);
+    }
 }

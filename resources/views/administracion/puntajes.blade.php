@@ -32,21 +32,15 @@
                     </div>
                     
                     <div class="card-body">
-                            <form class="form-inline" action="{{route ('biblioteca.ver.solvencia.post')}}">
-                                    <input id="nombre" name="nombre" class="form-control mr-sm-2 col-6" type="search" placeholder="-- Nombre de usuario --" aria-label="Search" value="{{ isset($busqueda) ? $busqueda : '' }}">
-                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-                            </form>
-                            
 
                             @if (isset($users))
                                 <br>
-                                <table class="table table-hover table-bordered" id="solvencias">
+                                <table class="table table-hover table-bordered" id="puntajes">
                                     <thead>
                                         <tr>
                                             <th>Numero</th>
                                             <th>Usuario</th>
-                                            <th>Estado</th>
-                                            <th>Detalle</th>
+                                            <th>Puntos</th>
                                             <th>Acciones</th>
                                         </tr>
                                         
@@ -57,41 +51,12 @@
                                                 <td>{{$key+1}}</td>
                                                 <td>{{$user->name}} {{$user->apellidos}}</td>
                                                 <td>    
-                                                    @if (array_sum($cuentas[$key]) == 0)
-                                                       <div class="badge bg-success">SOLVENTE</div>
-                                                    @else
-                                                        <div class="badge bg-danger">INSOLVENTE</div>
-                                                    @endif
+                                                    {{$user->PUNTOS}}
                                                 </td>
                                                 <td>
-                                                    @php
-                                                        $texto='';
-                                                    @endphp
-
-                                                    @if ($cuentas[$key][0] != 0)
-                                                       <div>Ha prestado material</div>
-                                                    @elseif($cuentas[$key][1] != 0)
-                                                        <div>Material pendiente de devolución</div>
-                                                    @elseif($cuentas[$key][2] != 0)
-                                                        <div>Prestamo prorrogado</div>
-                                                    @elseif($cuentas[$key][3] != 0)
-                                                        <div>Ha sido penalizado</div>
-                                                    @else
-                                                        <div>--</div>
-                                                    @endif
+                                                   
                                                 </td>
-                                                <td class="text-center">
-                                                    @if (array_sum($cuentas[$key]) == 0)
-                                                        <a href="{{route('biblioteca.extender.solvencia', ['id' =>$user->id])}}" target="_blank">
-                                                            <button type="button" class="btn btn-sm btn-success" title="Imprimir">
-                                                                <i class="fas fa-print"></i>
-                                                            </button>
-                                                        </a>
-                                                    @else
-                                                        <div class="badge bg-danger">INSOLVENTE</div>
-                                                    @endif
-                                                    
-                                                </td>
+                                                
                                             </tr>
                                         @endforeach
                                         
@@ -119,7 +84,7 @@
     <script type="text/javascript">
     
         $(document).ready( function () {
-            $('#solvencias').DataTable();
+            $('#puntajes').DataTable();
         } );
 
 
