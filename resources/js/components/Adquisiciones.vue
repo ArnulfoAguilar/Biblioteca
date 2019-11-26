@@ -25,12 +25,24 @@
         <div class="card-body" >
             <div class="post">
                 <div class="user-block">
-                  <!-- <img class="img-circle img-bordered-sm" src="../../public/iconos/spy.jpg" > -->
+                  <img class="img-circle img-bordered-sm" src="/iconos/spy.jpg" >
                   <span class="float-right">
-                    <a href="#" class="link-black text-sm">
-                    <i class="far fa-thumbs-up mr-1"></i> Like
+                    <!-- <a :href="'/adquisicion/nueva/interaccion?id=' + item.id" class="link-black text-sm">
+                        <i class="far fa-thumbs-up mr-1"></i> Me gusta
+                    </a> -->
+                    {{interacciones[index][0]}} Likes
+
+                    <a :href="'/adquisicion/quitar/interaccion?id=' + item.id" v-if="interacciones[index][1] == true" class="link-black text-sm">
+                        <i class="far fa-thumbs-down mr-1"></i> Ya no me gusta
                     </a>
+                    <a :href="'/adquisicion/nueva/interaccion?id=' + item.id" v-else class="link-black text-sm">
+                        <i class="far fa-thumbs-up mr-1"></i> Me gusta
+                    </a>
+
                   </span>
+                  
+                  
+
                   <span class="username">
                     <div v-for="(user,index) in Usuarios" :key="index">
                       <a href="#" v-if="user.id == item.ID_USUARIO">{{user.name}}</a>
@@ -113,6 +125,7 @@
         data(){
             return{
                 modoEditar: false,
+                interacciones: [],
                 Sugerencias: [],
                 Usuarios:[],
                 Areas:[],
@@ -126,17 +139,21 @@
             cargarSugerencias(){
               axios.get('/adquisiciones').then(response=>{
                 this.Sugerencias = response.data;
-                console.log(this.Sugerencias)
                 }
               )
               axios.get('/users').then(response=>{
                 this.Usuarios = response.data;
                 }
               )
-              axios.get('/area').then(response=>{
+              axios.get('/Area').then(response=>{
                 this.Areas = response.data;
                 }
               )
+              axios.get('/getInteracciones').then(response=>{
+                this.interacciones = response.data;
+                }
+              )
+              console.log(this.interacciones)
             },
             
             alerta(){

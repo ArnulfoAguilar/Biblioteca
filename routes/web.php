@@ -135,6 +135,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('/adquisiciones','AdquisicionController');
         Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
+        Route::get('/adquisicion/nueva/interaccion', 'AdquisicionController@nuevaInteraccion')->name('adquisicion.nueva.interaccion');
+        Route::get('/adquisicion/quitar/interaccion', 'AdquisicionController@quitarInteraccion')->name('adquisicion.quitar.interaccion');
+        Route::get('/getInteracciones', 'AdquisicionController@interacciones')->name('get.interacciones');
+
 
     });
 

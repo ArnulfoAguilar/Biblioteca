@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Adquisicion;
+use App\User;
+use Auth;
+use DB;
 
 use Illuminate\Http\Request;
 
@@ -16,7 +19,7 @@ class AdquisicionController extends Controller
      */
     public function index()
     {
-        return Adquisicion::orderBy('created_at','desc')->get();
+        return Adquisicion::orderBy('created_at','asc')->get();
     }
 
     /**
@@ -110,5 +113,47 @@ class AdquisicionController extends Controller
         $sugerencia_nombre = $sugerencia->TITULO;
         $sugerencia->delete();
         activity()->performedOn($sugerencia)->log('Sugerencia de adquisición eliminada ('.$sugerencia_nombre.')');
+    }
+
+    public function interacciones(Request $request){
+        // dd($request, Auth::user()->id);
+        $adquisiciones = Adquisicion::orderBy('created_at','asc')->get();
+        $cuenta_por_adq = [];
+        foreach ($adquisiciones as $key => $adquisicion) {
+            $cuentas = [];
+            $mis_int = DB::table('interaccion_sugerencia')
+            ->where('ID_USUARIO', Auth::user()->id)
+            ->where('ID_SUGERENCIA', $adquisicion->id)
+            ->count();
+            $interacciones = DB::table('interaccion_sugerencia')
+            ->where('ID_SUGERENCIA', $adquisicion->id)
+            ->count();
+            // dd($interacciones);
+            array_push($cuentas, $interacciones);
+            if ($mis_int == 0) {
+                array_push($cuentas, false);
+            }else{
+                array_push($cuentas, true);
+            }
+
+            array_push($cuenta_por_adq, $cuentas);
+            
+        }
+        return $cuenta_por_adq;
+    }
+
+    public function nuevaInteraccion(Request $request){
+        $user = Auth::user();
+        $adquisicion = Adquisicion::find($request->id);
+        $user->interaccionesSugerencias()->attach($adquisicion);
+        $user->save();
+        return redirect()->route('adquisicion.lista');
+    }
+    public function quitarInteraccion(Request $request){
+        $user = Auth::user();
+        $adquisicion = Adquisicion::find($request->id);
+        $user->interaccionesSugerencias()->detach($adquisicion);
+        $user->save();
+        return redirect()->route('adquisicion.lista');
     }
 }
