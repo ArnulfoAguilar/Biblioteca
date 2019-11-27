@@ -41,6 +41,7 @@
                                             <th>Numero</th>
                                             <th>Usuario</th>
                                             <th>Puntos</th>
+                                            <th>Nivel</th>
                                             <th>Acciones</th>
                                         </tr>
                                         
@@ -52,6 +53,9 @@
                                                 <td>{{$user->name}} {{$user->apellidos}}</td>
                                                 <td>    
                                                     {{$user->PUNTOS}}
+                                                </td>
+                                                <td>    
+                                                    {{$user->Nivel ? $user->Nivel->NIVEL.' (Nivel '.$user->ID_NIVEL.')' : 'Al menos es usuario'}}
                                                 </td>
                                                 <td>
                                                    
