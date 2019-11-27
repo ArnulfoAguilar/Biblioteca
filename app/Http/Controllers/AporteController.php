@@ -30,6 +30,8 @@ use FontLib\Table\Type\name;
 
 use Illuminate\Support\Facades\Notification;
 
+use Auth;
+
 class AporteController extends Controller
 {
     public function __construct()
@@ -57,6 +59,10 @@ class AporteController extends Controller
     public function GetMisAportesSinAprobar(Request $request)
     {
             return view('Aportes.MisAportesSinAprobar');
+    }
+    public function GetAportesArea(Request $request)
+    {
+            return view('Aportes.AportesArea');
     }
 
 
@@ -86,6 +92,16 @@ class AporteController extends Controller
             ->where([
                 ['HABILITADO','=','TRUE'],
                 ['ID_AUTOR','=',auth()->id()]
+            ])
+            ->latest()
+            ->get();
+    }
+    public function listaAportesArea(Request $request)
+    {
+        
+            return DB::table('lista_aportes')
+            ->where([
+                ['ID_AREA','=', Auth::user()->ID_COMITE],
             ])
             ->latest()
             ->get();

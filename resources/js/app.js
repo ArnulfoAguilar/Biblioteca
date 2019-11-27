@@ -74,6 +74,7 @@ Vue.component('estante-list', require('./components/Estante-list.vue').default);
 Vue.component('revisiones', require('./components/Revisiones.vue').default);
 Vue.component('comentarios', require('./components/comentarios.vue').default);
 Vue.component('aportes', require('./components/Aportes.vue').default);
+Vue.component('aportes-area', require('./components/AportesArea.vue').default);
 Vue.component('mis-aportes-aprobados', require('./components/MisAportesAprobados.vue').default);
 Vue.component('mis-aportes-sin-aprobar', require('./components/MisAportesSinAprobar.vue').default);
 Vue.component('aportes-director', require('./components/Aportes-Director.vue').default);
