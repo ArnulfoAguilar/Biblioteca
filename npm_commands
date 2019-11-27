@@ -5,7 +5,7 @@ npm install vuelidate --save
 npm install admin-lte@3.0.0-beta.2 --save
 npm install vue-swal
 
-//Para que funcione el activity log 
+//Para que funcione el activity log
 (Ojo si hace el migrate antes de el siguiente comando despues de esta linea
 Dara error al crear la tabla del activity log.)
 
@@ -15,7 +15,8 @@ php artisan migrate
 php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="config"
 
 npm install moment --save
-npm i bootbox 
+npm i bootbox
+npm install --save @fullcalendar/vue @fullcalendar/core @fullcalendar/daygrid
 
 //No es npm, pero no encontre donde ponerlo xD
 // es para agregar al servidor y que se ejecuten las tareas programadas

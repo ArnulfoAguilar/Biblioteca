@@ -20,8 +20,8 @@ class CreateFunctionAgregarCopia extends Migration
             --CODIGO_BARRA  TEXT := NEW."ISBN" || lpad(NEW."PAGINAS"::char ,6,"0");
             BEGIN
                 FOR i IN 1 .. NEW."NUMERO_COPIAS" LOOP
-                    INSERT INTO public."materialBibliotecario"("CODIGO_BARRA", "COPIA_NUMERO", "ID_EJEMPLAR","DISPONIBLE","created_at") 
-                    VALUES(NEW."ISBN" || lpad(i::char ,3,"0"), i, NEW.ID, TRUE, localtimestamp); 
+                    INSERT INTO public."materialBibliotecario"("CODIGO_BARRA", "COPIA_NUMERO", "ID_EJEMPLAR","DISPONIBLE","created_at")
+                    VALUES(NEW."ISBN" || lpad(i::char ,3,\'0\'), i, NEW.ID, TRUE, localtimestamp);
                 END LOOP;
             RETURN NEW;
             END $BODY$
@@ -37,10 +37,10 @@ class CreateFunctionAgregarCopia extends Migration
     public function down()
     {
         DB::statement('
-            DROP FUNCTION IF EXISTS FUN_AGREGAR_COPIAS;
+            DROP FUNCTION IF EXISTS FUN_AGREGAR_COPIAS();
         ');
 
-        
+
     }
 }
 
