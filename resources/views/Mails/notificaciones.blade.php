@@ -8,8 +8,10 @@
         <title>Préstamo aprobado</title>   
     @elseif($motivo == 2)
         <title>Préstamo realizado</title>
-    @elseif($motivo == 2)
+    @elseif($motivo == 3)
         <title>Material devuelto</title>
+    @elseif($motivo == 4)
+        <title>Reserva caducada</title>
     @endif
     
 </head>
@@ -27,6 +29,12 @@
     @elseif($motivo == 3)
         <p>¡Hola {{$user}}! Has devuelto el material prestado.</p>
         <p>Gracias por devolver el material a la biblioteca. Esperamos que el material haya sido de mucha utilidad para ti</p>
+        <br>
+    @elseif($motivo == 4)
+        <p>¡Hola {{$user}}! Tu reserva de libro a caducado.</p>
+        <p>Tu prestamo de material fue aprobado en biblioteca pero lamentablemente no retiraste el material.
+        <br>Debido a esto tu reserva caducó y ahora el material está disponible de nuevo para cualquiera que desee usarlo.
+        <br>Si lo deseas puedes reservarlo de nuevo, pero asegurate de retirarlo</p>
         <br>
     @endif
 

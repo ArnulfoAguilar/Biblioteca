@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\prestamoVencido',
+        'App\Console\Commands\ReservaVencida',
     ];
 
     /**
@@ -25,6 +26,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('prestamo:vencido')
+                  ->daily();
+
+         $schedule->command('reserva:vencida')
                   ->daily();
     }
 

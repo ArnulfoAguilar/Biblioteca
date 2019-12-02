@@ -11,6 +11,7 @@ use App\User;
 use App\Comentario;
 use App\Puntuaciones;
 use App\Niveles;
+use App\Modelos\Prestamo;
 
 
 use App\Configuracion;
