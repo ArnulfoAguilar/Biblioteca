@@ -15,6 +15,7 @@ use App\Aporte;
 use Illuminate\Http\Request;
 
 use DB;
+use Auth;
 
 use App\Notifications\PrestamoAprobado;
 use App\Notifications\NuevaPenalizacion;
@@ -67,6 +68,18 @@ class PrestamosController extends Controller
             }
         }
 
+        $permitido = true;
+        $prestamos = Auth::user()->prestamos;
+        if(Auth::user()->rol->id == 2){
+            foreach (Auth::user()->prestamos as $key => $prestamo) {
+                if($prestamo->ID_ESTADO_PRESTAMO == 1 || $prestamo->ID_ESTADO_PRESTAMO == 2 || $prestamo->ID_ESTADO_PRESTAMO == 3 || 
+                    $prestamo->ID_ESTADO_PRESTAMO == 4 || $prestamo->ID_ESTADO_PRESTAMO == 6 ){
+                        $permitido = false;
+                }
+            }
+        }
+        
+
         $aportes = Aporte::where('HABILITADO', true)->get();
 
         return view('Prestamo.realizarPrestamos')->with([
@@ -74,6 +87,7 @@ class PrestamosController extends Controller
             'aportes'=> $aportes,
             'cuentas'=> $cuentas,
             'penalizado' => $penalizado,
+            'permitido' => $permitido,
         ]);
     }
 
