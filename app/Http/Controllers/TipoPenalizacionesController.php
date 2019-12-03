@@ -47,7 +47,7 @@ class TipoPenalizacionesController extends Controller
         $tipoPenalizacion->TIPO_PENALIZACION = $request->TIPO_PENALIZACION;
         $tipoPenalizacion->Save();
 
-        activity()->performedOn($tipoPenalizacion)->log('Guardó comite ('.$tipoPenalizacion->TIPO_PENALIZACION.')');
+        activity()->performedOn($tipoPenalizacion)->log('Guardó tipo de penalización ('.$tipoPenalizacion->TIPO_PENALIZACION.')');
     }
 
     /**
@@ -85,7 +85,7 @@ class TipoPenalizacionesController extends Controller
         $tipoPenalizacion = tipoPenalizacion::find($request->id);
         $tipoPenalizacion->TIPO_PENALIZACION = $request->TIPO_PENALIZACION;
         $tipoPenalizacion->save();
-        activity()->performedOn($tipoPenalizacion)->log('Actualizó comite ('.$tipoPenalizacion->TIPO_PENALIZACION.')');
+        activity()->performedOn($tipoPenalizacion)->log('Actualizó tipo de penalización ('.$tipoPenalizacion->TIPO_PENALIZACION.')');
         return $tipoPenalizacion;
     }
 

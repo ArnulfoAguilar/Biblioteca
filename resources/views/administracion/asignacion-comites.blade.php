@@ -5,13 +5,13 @@
 -->
 @endsection
 @section('Encabezado')
-Asignacion de comites a usuarios
+Asignacion de departamentos a usuarios
 @endsection
 
 @section('breadcrumbs')
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="#">Administración</a></li>
-    <li class="breadcrumb-item active">Asignar Comites</li>
+    <li class="breadcrumb-item active">Asignar departamento</li>
 </ol>
 @endsection
 

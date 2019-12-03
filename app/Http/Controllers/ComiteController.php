@@ -57,7 +57,7 @@ class ComiteController extends Controller
         $newComite->ID_AREA = $newArea->id;
         $newComite->Save();
 
-        activity()->performedOn($newComite)->log('Guardó comite ('.$newComite->COMITE.')');
+        activity()->performedOn($newComite)->log('Guardó Departamento ('.$newComite->COMITE.')');
     }
 
     /**
@@ -98,7 +98,7 @@ class ComiteController extends Controller
         $newArea->AREA = $request->COMITE;
         $newComite->save();
         $newArea->save();
-        activity()->performedOn($newComite)->log('Actualizó comite ('.$newComite->COMITE.')');
+        activity()->performedOn($newComite)->log('Actualizó Departamento ('.$newComite->COMITE.')');
         return $newComite;
     }
 
@@ -115,7 +115,7 @@ class ComiteController extends Controller
         $comite = $newComite->COMITE;
         $newComite->delete();
         $newArea->delete();
-        activity()->performedOn($newComite)->log('Eliminó comite ('.$comite.')');
+        activity()->performedOn($newComite)->log('Eliminó Departamento ('.$comite.')');
     }
 
     public function asignarComiteIndex($user = null)

@@ -89,7 +89,7 @@
                 this.eventoFromCalendar=info;
                 var fecha = this.$moment(info.dateStr);
                 this.modalShowFlag=true;
-                this.modalTitle='Agregar fecha de asueto';
+                this.modalTitle='Asignar fecha no hábil';
                 this.evento.start=fecha.format('DD-MM-YYYY');
                 this.evento.year=fecha.year();
             },
@@ -100,7 +100,7 @@
                 var c = a.diff(b,'days');
                 if(c>1){
                     this.eventoFromCalendar=info;
-                    this.modalTitle='Agregar fecha de asueto';
+                    this.modalTitle='Agregar fechas no hábiles';
                     this.evento.start=b.format('DD-MM-YYYY');
                     this.evento.end=a.format('DD-MM-YYYY');
                     this.evento.year=this.$moment().year();
@@ -110,7 +110,7 @@
             eventClick(info){
                 var fin;
                 this.eventoFromCalendar = info.event
-                this.modalTitle='Detalles de fecha especial';
+                this.modalTitle='Detalles de fecha fecha no hábil';
                 var inicio = this.$moment(info.event.start).format('DD-MM-YYYY');
                 this.evento.start = inicio;
                 this.evento.id = info.event.id;

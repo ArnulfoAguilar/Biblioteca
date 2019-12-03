@@ -255,7 +255,7 @@
                   <a href="{{route('asignar.comites')}}"
                     class="nav-link {{ ( request()->is('administracion/asignar/comites') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Asignar comite</p>
+                    <p>Asignar departamento</p>
                   </a>
                 </li>
               @endif
@@ -314,7 +314,7 @@
                 <li class="nav-item">
                   <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('catalogos/comites') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Lista de comites</p>
+                    <p>Lista de departamentos</p>
                   </a>
                 </li>
               @endif

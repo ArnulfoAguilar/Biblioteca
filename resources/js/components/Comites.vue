@@ -31,7 +31,7 @@
                             
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Comite</button>
+                            <button class="btn btn-primary" type="submit">Guardar departamento</button>
                             <button class="btn btn-danger" type="submit"
                                 @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -80,8 +80,8 @@ export default {
             modoEditar: false,
             COMITE: { COMITE: '', },
             isEditing: false,
-            createTitle: 'Agregar Comite',
-            editTitle: 'Editar Comite',
+            createTitle: 'Agregar Departamento',
+            editTitle: 'Editar Departamento',
             titleToShow: '',
             hasError: false
         }
@@ -185,7 +185,7 @@ export default {
         },
         eliminarComite(COMITE, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "COMITE ${COMITE.data.COMITE}"?`);
+            const confirmacion = confirm(`¿Esta seguro de eliminar "DEPARTAMENTO ${COMITE.data.COMITE}"?`);
             if(confirmacion){
                 axios.delete(`/comites/${COMITE.data.id}`)
                 .then(()=>{
