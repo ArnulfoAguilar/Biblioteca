@@ -113,7 +113,7 @@
                 </li>
               @endif
 
-              @if (Auth::user()->rol->id == 1 )
+              @if (Auth::user()->rol->id == 'X' )
                 <li class="nav-item">
                   <a href="{{ route('busqueda') }}" class="nav-link {{ ( request()->is('inventario/ingreso/libro') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>

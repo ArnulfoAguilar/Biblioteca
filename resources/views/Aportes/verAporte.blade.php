@@ -274,7 +274,7 @@
                         if (palabra_en_comentario.index === regex.lastIndex){
                             regex.lastIndex++;
                         }
-                        // <th scope="col">Editar</th>
+                        swal({ text: 'Su comentario contiene palabras inadecuadas', title: 'Alto', icon: 'error',})
                     }else{
                         swal({ text: 'Espere la aprobación del administrador', title: 'Exito', icon: 'success',})
                         .then( (value) => {

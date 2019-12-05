@@ -42,7 +42,6 @@
                                             <th>Usuario</th>
                                             <th>Puntos</th>
                                             <th>Nivel</th>
-                                            <th>Acciones</th>
                                         </tr>
                                         
                                     </thead>
@@ -57,9 +56,7 @@
                                                 <td>    
                                                     {{$user->Nivel ? $user->Nivel->NIVEL.' (Nivel '.$user->ID_NIVEL.')' : 'Al menos es usuario'}}
                                                 </td>
-                                                <td>
-                                                   
-                                                </td>
+                 
                                                 
                                             </tr>
                                         @endforeach

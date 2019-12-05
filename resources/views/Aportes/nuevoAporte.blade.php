@@ -76,16 +76,16 @@ Crea tu Aporte
                                 <div class="form-group">
                                     <label for="Titulo">Titulo</label>
                                     <input type="text"  class="form-control" name="TITULO"
-                                        aria-describedby="Titulo" required>
+                                        aria-describedby="Titulo" required maxlength="250">
                                 </div>
                                 <div class="form-group">
                                     <label for="Descripcion">Descripcion</label>
                                     <input type="text"  class="form-control" name="DESCRIPCION"
-                                        aria-describedby="Descripcion" required>
+                                        aria-describedby="Descripcion" required maxlength="250">
                                 </div>
                                 <div class="form-group" id="contenido">
                                     <label for="Contenido">Contenido</label>
-                                    <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" >
+                                    <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" maxlength="50000">
                                     </textarea> 
                                 </div>
                                 <div class="form-group" id="archivos">

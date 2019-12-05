@@ -29,16 +29,16 @@ class LibroController extends Controller
                     ->get();
                     activity()->log('Generó etiquetas');
 
-           /* return view('Etiquetas.AllTags')->with('tags',$tags)->render();*/
+           return view('Etiquetas.AllTags')->with('tags',$tags)->render();
         
             // No me funciona el css en el pdf y no soy muy bueno haciendolo desde cero
              
             
-            $pdf = new Dompdf();
-             $view =  \View::make("Etiquetas.AllTags", compact('tags'))->render();
-             $pdf = \App::make('dompdf.wrapper');
-             $pdf->loadHTML($view);        
-             return $pdf->stream('reporte.pdf');
+            // $pdf = new Dompdf();
+            //  $view =  \View::make("Etiquetas.AllTags", compact('tags'))->render();
+            //  $pdf = \App::make('dompdf.wrapper');
+            //  $pdf->loadHTML($view);        
+            //  return $pdf->stream('reporte.pdf');
                    
         //}else{
           //  return view('home');
