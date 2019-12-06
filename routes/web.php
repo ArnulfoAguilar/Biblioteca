@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
         Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
+        Route::get('/biblioteca/imprimir/tejuelos', 'LibroController@Tejuelos')->name('imprimir.tejuelos');
         Route::get('/biblioteca/imprimir', 'LibroController@index')->name('imprimir');
         Route::get('/biblioteca/imprimir/{ejemplar}', 'LibroController@TagsEjemplar')->name('imprimir.Ejemplar');
 

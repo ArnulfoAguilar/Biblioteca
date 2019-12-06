@@ -24,14 +24,13 @@
                     <div class="card-header bg-dark">Listado de libros disponibles
                         <div class=" float-right">
                            <a href="{{ route('imprimir.all') }}" class="btn btn-sm btn-primary">Imprimir todos los ejemplares</a>
+                           <a href="{{ route('imprimir.tejuelos') }}" class="btn btn-sm btn-primary">Imprimir todos los tejuelos</a>
                         </div>
                     </div>
                     
                     <div class="card-body">
                             <div class="d-flex justify-content-center">
-                               
-
-                                    {{$ejemplares->links()}}
+                              {{$ejemplares->links()}}
                             </div>
 
                             <table class="table table-hover table-bordered" id="libros">
