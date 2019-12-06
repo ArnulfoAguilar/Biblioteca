@@ -30,8 +30,6 @@ class LibroController extends Controller
                     activity()->log('Generó etiquetas');
 
            return view('Etiquetas.AllTags')->with('tags',$tags)->render();
-        
-            // No me funciona el css en el pdf y no soy muy bueno haciendolo desde cero
              
             
             // $pdf = new Dompdf();
@@ -58,69 +56,15 @@ class LibroController extends Controller
         return $pdf->stream('reporte.pdf');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function tejuelos(){
+
+        $tejuelos = DB::table('Ejemplar')
+        ->join('materialBibliotecario', 'Ejemplar.id', '=', 'materialBibliotecario.ID_EJEMPLAR')
+        ->select('Ejemplar.ID_TERCER_SUMARIO','materialBibliotecario.id')
+        ->get();
+        return view('Etiquetas.Tejuelos')->with('tejuelos',$tejuelos)->render();
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Libro  $libro
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Libro $libro)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Libro  $libro
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Libro $libro)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Libro  $libro
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Libro $libro)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Libro  $libro
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Libro $libro)
-    {
-        //
-    }
+    
 }

@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Route::get('/biblioteca/busqueda/libro', 'HomeController@busquedaLibro')->name('buscar.disponible');
         Route::get('/biblioteca/imprimir/all', 'LibroController@AllTags')->name('imprimir.all');
+        Route::get('/biblioteca/imprimir/tejuelos', 'LibroController@Tejuelos')->name('imprimir.tejuelos');
         Route::get('/biblioteca/imprimir', 'LibroController@index')->name('imprimir');
         Route::get('/biblioteca/imprimir/{ejemplar}', 'LibroController@TagsEjemplar')->name('imprimir.Ejemplar');
 
@@ -72,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
         Route::resource('/ejemplars', 'EjemplarController');
+        Route::get('/ejemplar/existente/{ISBN}', 'EjemplarController@comprobarISBN')->name('busqueda');
         Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
         Route::resource('/Ejemplar', 'EjemplarController');
         Route::get('/catalogos/roles', 'HomeController@roles')->name('roles');

@@ -47,11 +47,13 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Solicitante</th>
                                     <th scope="col">Ejemplar Solicitado</th>
-                                    <th scope="col">Copia</th>
+                                    <th scope="col">Codigo Barra</th>
                                     <th scope="col">Estado</th>
                                     <th scope="col">Devolución esperada</th>
                                     <th scope="col">Devolución</th>
                                     <th scope="col">Acciones</th>
+                                    <
+
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -72,7 +74,7 @@
                                             </td>
                                             <td>
                                                 @foreach ($prestamo->materiales as $material)
-                                                    <div> {{$material->COPIA_NUMERO}}</div>
+                                                    <div> {{$material->CODIGO_BARRA}}</div>
                                                 @endforeach
                                             </td>
                                             <td>{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</td>

@@ -133,7 +133,7 @@
 
               @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
-                  <a href="{{ route('imprimir.all') }}" class="nav-link">
+                  <a href="{{ route('imprimir') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Códigos de barra</p>
                   </a>
