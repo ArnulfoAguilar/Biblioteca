@@ -230,10 +230,11 @@
                 const str = this.Comentario.COMENTARIO;
                 let palabra_en_comentario;
                 if ((palabra_en_comentario = regex.exec(str)) !== null) {
-
+console.log('Llego antes del if')
                   if (palabra_en_comentario.index === regex.lastIndex) {
                     regex.lastIndex++;
                   }
+                  
                   this.mostrar_alerta("Puede que su comentario tenga palabras inadecuadas.\n¿Desea continuar?");        
                 }else{
                   this.agregar_comentario();

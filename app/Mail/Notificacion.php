@@ -29,6 +29,7 @@ class Notificacion extends Mailable
     // 1=Prestamo aprobado
     // 2=Material prestado
     // 3=Prestamo finalizado
+    // 4=Reserva caducada
 
     /**
      * Build the message.

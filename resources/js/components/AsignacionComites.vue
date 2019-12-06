@@ -6,7 +6,7 @@
                     <!-- <div class="card-header">Información de la Biblioteca</div> -->
                     <!-- <div class="card-body"> -->
                         <form @submit.prevent="editarUsuario(usuario)" v-if="modoEditar">
-                            <label for="NOMBRE">Editar Asignacion de Comite:</label>
+                            <label for="NOMBRE">Editar Asignacion de Departamento:</label>
                             <div class="input-group">
                                 <input type="text" v-model="usuario.name" class="form-control col-md-6" id="NOMBRE"
                                     placeholder="Seleccione un usuario..." required disabled> 
@@ -24,7 +24,7 @@
                             </div>
                         </form>
                         <form @submit.prevent="agregar" v-else>
-                            <label for="NOMBRE">Editar Asignacion de Comite:</label>
+                            <label for="NOMBRE">Editar Asignacion de Departamento:</label>
                             <div class="input-group">
                                 <input type="text" v-model="usuario.name" class="form-control col-md-6" id="NOMBRE"
                                     placeholder="Seleccione un usuario..." required disabled> 
@@ -59,7 +59,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Comite</th>
+                                <th scope="col">Departamento</th>
                                 <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
@@ -74,7 +74,7 @@
                                     </td>
                                 </div>
                                 <td>
-                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" @click="editarFormulario(item)">Asignar Comite</a>
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" @click="editarFormulario(item)">Asignar Departamento</a>
                                 </td>
                                 </tr>
                             </tbody>

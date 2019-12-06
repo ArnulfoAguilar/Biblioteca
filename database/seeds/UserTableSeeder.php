@@ -78,8 +78,8 @@ class UserTableSeeder extends Seeder
         );
         DB::table('users')->insert(
             [
-                'name' => 'Comite',
-                'email' => 'comite@gmail.com',
+                'name' => 'Departamento',
+                'email' => 'departamento@gmail.com',
                 'password' => bcrypt('12345678'), // password
                 'ID_ROL' => '4',
                 'BIOGRAFIA' => 'Esta es mi pequeña biografia',
@@ -88,8 +88,8 @@ class UserTableSeeder extends Seeder
         );
         DB::table('users')->insert(
             [
-                'name' => 'Comite2',
-                'email' => 'comite2@gmail.com',
+                'name' => 'Departamento2',
+                'email' => 'departamento2@gmail.com',
                 'password' => bcrypt('12345678'), // password
                 'ID_ROL' => '4',
                 'BIOGRAFIA' => 'Esta es mi pequeña biografia',

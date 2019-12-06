@@ -117,7 +117,7 @@ class UserController extends Controller
         $usuario = User::find($request->id);
         $usuario->ID_COMITE = $request->ID_COMITE;
         $usuario->save();
-        activity()->log('Asignó comite a usuario');
+        activity()->log('Asignó departamento a usuario');
         return redirect()->route('asignar.comites');
     }
 

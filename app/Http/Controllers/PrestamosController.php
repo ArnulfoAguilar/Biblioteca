@@ -15,6 +15,7 @@ use App\Aporte;
 use Illuminate\Http\Request;
 
 use DB;
+use Auth;
 
 use App\Notifications\PrestamoAprobado;
 use App\Notifications\NuevaPenalizacion;
@@ -67,6 +68,18 @@ class PrestamosController extends Controller
             }
         }
 
+        $permitido = true;
+        $prestamos = Auth::user()->prestamos;
+        if(Auth::user()->rol->id == 2){
+            foreach (Auth::user()->prestamos as $key => $prestamo) {
+                if($prestamo->ID_ESTADO_PRESTAMO == 1 || $prestamo->ID_ESTADO_PRESTAMO == 2 || $prestamo->ID_ESTADO_PRESTAMO == 3 || 
+                    $prestamo->ID_ESTADO_PRESTAMO == 4 || $prestamo->ID_ESTADO_PRESTAMO == 6 ){
+                        $permitido = false;
+                }
+            }
+        }
+        
+
         $aportes = Aporte::where('HABILITADO', true)->get();
 
         return view('Prestamo.realizarPrestamos')->with([
@@ -74,6 +87,7 @@ class PrestamosController extends Controller
             'aportes'=> $aportes,
             'cuentas'=> $cuentas,
             'penalizado' => $penalizado,
+            'permitido' => $permitido,
         ]);
     }
 
@@ -112,7 +126,7 @@ class PrestamosController extends Controller
 
         $user = User::find(  $prestamo->ID_USUARIO );
         $user->notify(new PrestamoAprobado($prestamo));
-        //Mail::to($user->email)->send(new Notificacion($user->name, 1));
+        Mail::to($user->email)->send(new Notificacion($user->name, 1));
 
         activity()->performedOn($prestamo)->log('Reservó un préstamo ('.$prestamo->id.') ');
 
@@ -138,16 +152,12 @@ class PrestamosController extends Controller
             $prestamo->FECHA_ESPERADA_DEVOLUCION = date('Ymd H:i:s');
         }
 
-        // $material = materialBibliotecario::find($prestamo->ID_MATERIAL);
-        // $material->DISPONIBLE = false;
-
         $prestamo->save();
-        // $material->save();
 
         activity()->performedOn($prestamo)->log('Aprobó un préstamo ('.$prestamo->id.') ');
         
-        // $user = User::find(  $prestamo->ID_USUARIO );
-        // Mail::to($user->email)->send(new Notificacion($user->name, 2));
+        $user = User::find(  $prestamo->ID_USUARIO );
+        Mail::to($user->email)->send(new Notificacion($user->name, 2));
 
     }
 
@@ -165,8 +175,8 @@ class PrestamosController extends Controller
         
         activity()->performedOn($prestamo)->log('Finalizó un préstamo ('.$prestamo->id.') ');
         
-        //$user = User::find(  $prestamo->ID_USUARIO );
-        //Mail::to($user->email)->send(new Notificacion($user->name, 3));
+        $user = User::find(  $prestamo->ID_USUARIO );
+        Mail::to($user->email)->send(new Notificacion($user->name, 3));
 
     }
 
