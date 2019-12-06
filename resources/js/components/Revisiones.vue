@@ -72,7 +72,7 @@
                                         <div class="timeline-body">
                                             {{item.DETALLE_REVISION}}
                                         </div>
-                                        <div class="timeline-footer" v-if="usuario == item.ID_USUARIO">
+                                        <div class="timeline-footer" v-if="usuario == item.ID_USUARIO && item.ID_ESTADO_REVISION == 2">
                                             <a href="#" class="btn btn-primary btn-sm" @click="editarFormulario(item)" >Editar</a>
                                             <a href="#" class="btn btn-danger btn-sm" @click="eliminarRevision(item, index)" >Eliminar</a>
                                         </div>

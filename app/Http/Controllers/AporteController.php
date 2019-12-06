@@ -601,6 +601,7 @@ class AporteController extends Controller
         }else{
             $Aporte->COMENTARIOS = true;
         }
+        $Aporte->HABILITADO = false;
         $Aporte->Save();
 
         $registros = AportePalabraClavePivote::where('ID_APORTE','=',$Aporte->id)
@@ -624,7 +625,7 @@ class AporteController extends Controller
                         ->select('palabrasClave.id','palabrasClave.PALABRA')
                         ->get();
 
-        $users = User::where('ID_COMITE', $request->ID_AREA)->orWhere('ID_ROL', 1)->get();//Trae lo usuarios pertenecientes al area y a los admin
+        $users = User::where('ID_COMITE', $Aporte->ID_AREA)->orWhere('ID_ROL', 1)->get();//Trae lo usuarios pertenecientes al area y a los admin
         Notification::send($users, new AporteModificado($Aporte)); //Esto notifica a varios usuarios
         activity()->performedOn($Aporte)->log('Aporte actualizado ('.$Aporte->TITULO.')');
 
