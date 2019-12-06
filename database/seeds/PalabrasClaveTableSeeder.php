@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
 class PalabrasClaveTableSeeder extends Seeder
 {
     /**
@@ -11,19 +11,19 @@ class PalabrasClaveTableSeeder extends Seeder
      */
     public function run()
     {
-         DB::table('palabrasClave')->insert(['PALABRA'=>'ABORTO',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ABORTO INDUCIDO',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESIBILIDAD A LOS SERVICIOS DE SALUD',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A CARGOS DIRECTIVOS',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A CARGOS PUBLICOS',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A LA EDUCACIÓN',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A LA TECNOLOGÍA',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A LA TIERRA',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A LOS SERVICIOS DE SALUD',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO AL CREDITO',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO AL PODER',]);
- DB::table('palabrasClave')->insert(['PALABRA'=>'ACCIDENTES DE TRANSITO',]);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ABORTO']);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ABORTO INDUCIDO']);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESIBILIDAD A LOS SERVICIOS DE SALUD']);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO']);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A CARGOS DIRECTIVOS']);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A CARGOS PUBLICOS',]);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A LA EDUCACIÓN',]);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A LA TECNOLOGÍA',]);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A LA TIERRA',]);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO A LOS SERVICIOS DE SALUD',]);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO AL CREDITO',]);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCESO AL PODER',]);
+        DB::table('palabrasClave')->insert(['PALABRA'=>'ACCIDENTES DE TRANSITO',]);/*
  DB::table('palabrasClave')->insert(['PALABRA'=>'ACCIÓN POSITIVA',]);
  DB::table('palabrasClave')->insert(['PALABRA'=>'ACOSO LABORAL',]);
  DB::table('palabrasClave')->insert(['PALABRA'=>'ACOSO SEXUAL',]);
@@ -266,7 +266,7 @@ class PalabrasClaveTableSeeder extends Seeder
  DB::table('palabrasClave')->insert(['PALABRA'=>'XENOFOBIA',]);
  DB::table('palabrasClave')->insert(['PALABRA'=>'ZONAS FRANCAS',]);
  DB::table('palabrasClave')->insert(['PALABRA'=>'ZONAS URBANAS',]);
-
+*/
         
     }
 }
