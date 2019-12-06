@@ -62,4 +62,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Modelos\Prestamo', 'ID_USUARIO', 'id');
 
     }
+
+    public function interaccionesSugerencias()
+    {
+        return $this->belongsToMany('App\Adquisicion', 'interaccion_sugerencia', 'ID_USUARIO', 'ID_SUGERENCIA')->withTimestamps();
+    }
 }

@@ -14,4 +14,9 @@ class Adquisicion extends Model
         'ID_AREA',
         'ID_USUARIO'        
     ];
+
+    public function interaccionesUsuarios()
+    {
+        return $this->belongsToMany('App\User', 'interaccion_sugerencia', 'ID_SUGERENCIA', 'ID_USUARIO')->withTimestamps();
+    }
 }

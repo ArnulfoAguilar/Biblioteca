@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/biblioteca/solvencias/index', 'PrestamosController@solvencias')->name('biblioteca.ver.solvencia');
         Route::get('/biblioteca/solvencias/post', 'PrestamosController@solvenciasPost')->name('biblioteca.ver.solvencia.post');
+        Route::get('/biblioteca/extender/solvencia', 'PrestamosController@extenderSolvencia')->name('biblioteca.extender.solvencia');
 
 
     });
@@ -92,6 +93,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/listaMisAportesSinAprobar', 'AporteController@listaMisAportesSinAprobar')->name('aportes.listaMisAportesSinAprobar');
         Route::get('/GetMisAportesSinAprobar', 'AporteController@GetMisAportesSinAprobar')->name('aportes.GetMisAportesSinAprobar');
+        Route::get('/listaAportesArea', 'AporteController@listaAportesArea')->name('aportes.listaAportesArea');
+        Route::get('/GetAportesArea', 'AporteController@GetAportesArea')->name('aportes.GetAportesArea');
         Route::get('/GetVistaAportesDirector', 'AporteController@GetVistaAportesDirector')->name('aportes.GetVistaAportesDirector');
         Route::resource('/revisiones','RevisionController');
         Route::resource('/comentarios','ComentarioController');
@@ -134,6 +137,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('/adquisiciones','AdquisicionController');
         Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
+        Route::get('/adquisicion/nueva/interaccion', 'AdquisicionController@nuevaInteraccion')->name('adquisicion.nueva.interaccion');
+        Route::get('/adquisicion/quitar/interaccion', 'AdquisicionController@quitarInteraccion')->name('adquisicion.quitar.interaccion');
+        Route::get('/getInteracciones', 'AdquisicionController@interacciones')->name('get.interacciones');
+
 
     });
 
@@ -155,6 +162,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/administracion/calendario','HomeController@calendario')->name('calendario');
         Route::resource('/administracion/calendarios','CalendarioController');
+
+        Route::get('/administracion/get/users', 'UserController@getUsuarios', 'administracion.get.usuarios')->name('administracion.get.usuarios');
     });
 
     // -----------------------------------------OTRAS RUTAS -------------------------------------//

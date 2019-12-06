@@ -11,6 +11,7 @@ use App\User;
 use App\Comentario;
 use App\Puntuaciones;
 use App\Niveles;
+use App\Modelos\Prestamo;
 
 
 use App\Configuracion;
@@ -29,6 +30,8 @@ use Illuminate\Support\Facades\Mail;//usado para los emails
 use FontLib\Table\Type\name;
 
 use Illuminate\Support\Facades\Notification;
+
+use Auth;
 
 class AporteController extends Controller
 {
@@ -58,6 +61,10 @@ class AporteController extends Controller
     {
             return view('Aportes.MisAportesSinAprobar');
     }
+    public function GetAportesArea(Request $request)
+    {
+            return view('Aportes.AportesArea');
+    }
 
 
     public function listatodos(Request $request)
@@ -86,6 +93,16 @@ class AporteController extends Controller
             ->where([
                 ['HABILITADO','=','TRUE'],
                 ['ID_AUTOR','=',auth()->id()]
+            ])
+            ->latest()
+            ->get();
+    }
+    public function listaAportesArea(Request $request)
+    {
+        
+            return DB::table('lista_aportes')
+            ->where([
+                ['ID_AREA','=', Auth::user()->ID_COMITE],
             ])
             ->latest()
             ->get();
@@ -171,7 +188,7 @@ class AporteController extends Controller
         }else{
             if($request->ID_TIPO_APORTE==2){
             $validateData = $request->validate([
-                'archivo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:'.$valorMaximoArchivo,
+                'archivo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:'.$valorMaximoArchivo->TAMAÑO_MAXIMO_ARCHIVOS,
                 ],
                 [
                     'archivo.required' => 'El archivo es requerido',

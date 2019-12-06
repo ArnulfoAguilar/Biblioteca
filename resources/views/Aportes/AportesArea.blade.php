@@ -1,27 +1,31 @@
 @extends('layouts.adminLTE')
 @section('title')
-    Mis Aportes Sin Aprobar
+    Aportes por área
 @endsection
 
 @section('Encabezado') 
-    Mis aportes sin aprobar
+    Aportes por área
       
 @endsection
 @section('breadcrumbs')
-<div class="float-right">
-    <a class="btn btn-app" href="{{ route('aportes.create')}}">
-        <i class="far fa-plus-square"></i> Nuevo Aporte
-    </a>
-</div>
+
 @endsection    
 
 @section('content')
 
+<div>
+    @if (Auth::user()->ID_COMITE == null)
+    <div class="alert alert-danger" role="alert">
+        Para ver aportes en esta sección debe de tener asignada un área
+      </div>
+        
+    @endif
+</div>
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
         </div>
     @endif
-   <mis-aportes-sin-aprobar ></mis-aportes-sin-aprobar>
+   <aportes-area ></aportes-area>
     
 @endsection

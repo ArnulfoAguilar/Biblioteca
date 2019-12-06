@@ -113,7 +113,7 @@
                 </li>
               @endif
 
-              @if (Auth::user()->rol->id == 1 )
+              @if (Auth::user()->rol->id == 'X' )
                 <li class="nav-item">
                   <a href="{{ route('busqueda') }}" class="nav-link {{ ( request()->is('inventario/ingreso/libro') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -145,40 +145,58 @@
         @endif
 
         <!--aportes-->
-@if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-graduation-cap"></i>
-            <p>
-              Aportes
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-            <a href="{{route('aportes.index')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Aportes</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{route('aportes.GetMisAportesAprobados')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Mis Aportes Aprobados</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{route('aportes.GetMisAportesSinAprobar')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Mis Aportes Sin Aprobar</p>
-              </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('aportes.GetVistaAportesDirector')}}" class="nav-link">
+        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
+          <li class="nav-item has-treeview {{ ( request()->is('aportes') || request()->is('GetMisAportesAprobados') || request()->is('GetMisAportesSinAprobar')|| request()->is('GetVistaAportesDirector') || request()->is('GetAportesArea') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link  {{ ( request()->is('aportes') || request()->is('GetMisAportesAprobados') || request()->is('GetMisAportesSinAprobar')|| request()->is('GetVistaAportesDirector') || request()->is('GetAportesArea') ) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Aportes
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+              <a href="{{route('aportes.index')}}" class="nav-link {{ ( request()->is('aportes') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Vista Director</p>
+                  <p>Aportes de la comunidad</p>
                 </a>
               </li>
+
+
+              <li class="nav-item">
+                <a href="{{route('aportes.GetMisAportesAprobados')}}" class="nav-link {{ ( request()->is('GetMisAportesAprobados') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mis Aportes Aprobados</p>
+                </a>
+              </li>
+
+
+              <li class="nav-item">
+                <a href="{{route('aportes.GetMisAportesSinAprobar')}}" class="nav-link {{ ( request()->is('GetMisAportesSinAprobar') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mis Aportes Sin Aprobar</p>
+                </a>
+              </li>
+
+              @if (Auth::user()->rol->id == 1 )
+              <li class="nav-item">
+                <a href="{{route('aportes.GetVistaAportesDirector')}}" class="nav-link {{ ( request()->is('GetVistaAportesDirector') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Todos los aportes</p>
+                </a>
+              </li>
+              @endif
+
+              @if (Auth::user()->rol->id == 4 )
+              <li class="nav-item">
+                <a href="{{route('aportes.GetAportesArea')}}" class="nav-link {{ ( request()->is('GetAportesArea') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Aportes del área</p>
+                </a>
+              </li>
+              @endif
+
 
             </ul>
           </li>
@@ -237,7 +255,7 @@
                   <a href="{{route('asignar.comites')}}"
                     class="nav-link {{ ( request()->is('administracion/asignar/comites') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Asignar comite</p>
+                    <p>Asignar departamento</p>
                   </a>
                 </li>
               @endif
@@ -252,6 +270,18 @@
                   </a>
                 </li>
               @endif
+
+              @if (Auth::user()->rol->id == 1 )
+                <li class="nav-item">
+                  <a href="{{route('administracion.get.usuarios')}}" 
+                    class="nav-link {{ ( request()->is('administracion/get/users') ) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Puntajes de usuarios</p>
+                  </a>
+                </li>
+              @endif
+
+              
 
 
             </ul>
@@ -284,7 +314,7 @@
                 <li class="nav-item">
                   <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('catalogos/comites') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Lista de comites</p>
+                    <p>Lista de departamentos</p>
                   </a>
                 </li>
               @endif

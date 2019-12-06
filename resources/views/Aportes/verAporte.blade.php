@@ -38,7 +38,7 @@
                         <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Aporte </a></li>
                           
-                        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4 || Auth::user()->rol->id == $aporte->ID_USUARIO  )
+                        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4 || Auth::user()->id == $aporte->ID_USUARIO  )
                             <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Revisiones</a></li>
                         @endif
                         
@@ -55,7 +55,7 @@
 
                                 <h4 >Autor: {{$aporte->usuario->name}}</h4>
                                 <br>
-                     
+
                                 Palabras Clave:
                                 @foreach ($PalabrasClave as $palabraClave)
                                     <div class="badge bg-info">{{$palabraClave->PALABRA }}</div>
@@ -274,7 +274,7 @@
                         if (palabra_en_comentario.index === regex.lastIndex){
                             regex.lastIndex++;
                         }
-                        // <th scope="col">Editar</th>
+                        swal({ text: 'Su comentario contiene palabras inadecuadas', title: 'Alto', icon: 'error',})
                     }else{
                         swal({ text: 'Espere la aprobación del administrador', title: 'Exito', icon: 'success',})
                         .then( (value) => {

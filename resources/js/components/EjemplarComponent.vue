@@ -185,8 +185,9 @@
                 </form>
             </div>
         </div>
-        <!-- fin modal agregar -->
+        <!-- fin modal agregar -->{{isEditing}}
     </div>
+    
 </template>
 
 <script>
@@ -414,9 +415,7 @@ export default {
                 this.titleToShow = this.editTitle;
 
                 this.editarFormulario(componentState.selectedItem.data);
-                console.log("Termino primer sumario");
                  this.setSegundoSumario(componentState.selectedItem.data);
-                 console.log("Termino seundo sumario");
                 this.$nextTick(()=>{$('#modalForm').modal('show');})
             }
             if (componentState.lastAction ==='DeleteItem') {
@@ -431,6 +430,7 @@ export default {
             if(this.isEditing)
                 axios.put(`/ejemplars/${this.EJEMPLAR.id}`, ejemplarToSave).then(res=>{
                     this.modoEditar = false;
+                    this.isEditing = false;
                     this.success(msg);
                 });
             else
@@ -513,6 +513,7 @@ export default {
             this.SEGUNDOSUMARIOID='';
             this.segundoSumarios=[];
             this.tercerSumarios=[];
+            this.isEditing =false;
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion

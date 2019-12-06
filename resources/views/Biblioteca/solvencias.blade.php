@@ -32,11 +32,11 @@
                     </div>
                     
                     <div class="card-body">
-                            <form action="{{route ('biblioteca.ver.solvencia.post')}}">
-                                <label for="">Ingrese el nombre de usuario</label>
-                                <input id="nombre" name="nombre" class="form-control col-4" type="text" value="{{ isset($busqueda) ? $busqueda : '' }}">
-                                <button class="btn btn-success" type="submmit">Buscar</button>
+                            <form class="form-inline" action="{{route ('biblioteca.ver.solvencia.post')}}">
+                                    <input id="nombre" name="nombre" class="form-control mr-sm-2 col-6" type="search" placeholder="-- Nombre de usuario --" aria-label="Search" value="{{ isset($busqueda) ? $busqueda : '' }}">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                             </form>
+                            
 
                             @if (isset($users))
                                 <br>
@@ -55,7 +55,7 @@
                                         @foreach ($users as $key => $user)
                                             <tr>
                                                 <td>{{$key+1}}</td>
-                                                <td>{{$user->name}}</td>
+                                                <td>{{$user->name}} {{$user->apellidos}}</td>
                                                 <td>    
                                                     @if (array_sum($cuentas[$key]) == 0)
                                                        <div class="badge bg-success">SOLVENTE</div>
@@ -80,7 +80,18 @@
                                                         <div>--</div>
                                                     @endif
                                                 </td>
-                                                <td></td>
+                                                <td class="text-center">
+                                                    @if (array_sum($cuentas[$key]) == 0)
+                                                        <a href="{{route('biblioteca.extender.solvencia', ['id' =>$user->id])}}" target="_blank">
+                                                            <button type="button" class="btn btn-sm btn-success" title="Imprimir">
+                                                                <i class="fas fa-print"></i>
+                                                            </button>
+                                                        </a>
+                                                    @else
+                                                        <div class="badge bg-danger">INSOLVENTE</div>
+                                                    @endif
+                                                    
+                                                </td>
                                             </tr>
                                         @endforeach
                                         

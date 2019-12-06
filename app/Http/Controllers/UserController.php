@@ -117,7 +117,7 @@ class UserController extends Controller
         $usuario = User::find($request->id);
         $usuario->ID_COMITE = $request->ID_COMITE;
         $usuario->save();
-        activity()->log('Asignó comite a usuario');
+        activity()->log('Asignó departamento a usuario');
         return redirect()->route('asignar.comites');
     }
 
@@ -134,5 +134,12 @@ class UserController extends Controller
         return User::where('ID_ROL', '!=', '2')
         ->where('ID_ROL', '!=', '1')
         ->get();
+    }
+
+    public function getUsuarios(){
+        $users = User::orderBy('id', 'asc')->get();
+        return view('administracion.puntajes')->with([
+            'users' => $users,
+        ]);
     }
 }
