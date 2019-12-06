@@ -38,7 +38,7 @@
                                     'fecha_f' => $fecha_f
                                     ])->links()}} --}}
 
-                                    {{$prestamos->links()}}
+                                    {{-- {{$prestamos->links()}} --}}
                             </div>
 
                             <table class="table table-hover table-bordered" id="prestamos">
@@ -151,7 +151,8 @@
                                         'fecha_i' => $fecha_i,
                                         'fecha_f' => $fecha_f
                                         ])->links()}} --}}
-                                        {{$prestamos->links()}}
+
+                                        {{-- {{$prestamos->links()}} --}}
 
                                 </div>
                                

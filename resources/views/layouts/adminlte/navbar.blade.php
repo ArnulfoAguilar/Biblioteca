@@ -140,7 +140,7 @@
                     </li>
                   @else
                     <li class="">
-                        <a href="#" id="notificaciones" class="nav-link bg-purple" >Marcar como leídas</a>
+                        <a href="#" id="notificaciones" class="nav-link bg-purple" >Limpiar notificaciones</a>
                         <div class="dropdown-divider"></div>
                     </li>
                     @foreach (Auth::user()->unreadNotifications as $notification)
@@ -168,6 +168,10 @@
 
                           @if ($notification->type == 'App\Notifications\NuevaPenalizacion')
                             <a href="{{route ('mis.prestamos')}}" class="nav-link" >Haz sido penalizado en la biblioteca</a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\NuevoLike')
+                          <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" >Tienes un nuevo like en tu comentario</a>
                           @endif
 
                         <div class="dropdown-divider"></div>

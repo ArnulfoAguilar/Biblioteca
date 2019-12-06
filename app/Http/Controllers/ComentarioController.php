@@ -13,6 +13,7 @@ use App\Niveles;
 use App\User;
 
 use App\Notifications\NuevoComentario;
+use App\Notifications\NuevoLike;
 use Illuminate\Support\Facades\Notification;
 
 class ComentarioController extends Controller
@@ -67,6 +68,10 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_USUARIO = auth()->id();
         $InteraccionComentario->save();
         activity()->performedOn($InteraccionComentario)->log('Dió Like');
+
+        $comentario = Comentario::find($InteraccionComentario->ID_COMENTARIO);
+        $user = User::find($comentario->usuario->id);
+        $user->notify(new NuevoLike($comentario));
     }
 
     public function darDislike(Request $request)

@@ -39,7 +39,7 @@
                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Aporte </a></li>
                           
                         @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4 || Auth::user()->id == $aporte->ID_USUARIO  )
-                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Revisiones</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Observaciones</a></li>
                         @endif
                         
                         @if (Auth::user()->rol->id == 1  )
@@ -53,8 +53,13 @@
                         <div class="tab-content">
                           <div class="tab-pane active" id="activity">
 
-                                <h4 >Autor: {{$aporte->usuario->name}}</h4>
-                                <br>
+                                <h4 >Autor: {{$aporte->usuario->name}}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Estado: {{$aporte->HABILITADO == true ? 'HABILITADO' : 'PENDIENTE DE APROBACIÓN' }}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Visto {{$aporte->VISTAS }} veces
+                                </h4>
+                               <br>
 
                                 Palabras Clave:
                                 @foreach ($PalabrasClave as $palabraClave)

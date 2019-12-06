@@ -13,4 +13,9 @@ class Comentario extends Model
         'ID_USUARIO',
         'ID_APORTE'
     ];
+
+    public function usuario()
+    {
+        return $this->belongsTo('App\User', 'ID_USUARIO', 'id');
+    }
 }
