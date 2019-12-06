@@ -32,6 +32,7 @@ use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Notification;
 
 use Auth;
+use Exception;
 
 class AporteController extends Controller
 {
@@ -152,6 +153,7 @@ class AporteController extends Controller
 
     public function store(Request $request)
     {
+   
         $valorMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
                                             ->first();
         if($request->ID_TIPO_APORTE==1){
@@ -296,7 +298,7 @@ class AporteController extends Controller
             }
         }
         $Usuario->save();
-
+ 
         //Actualizar puntuacion//
         $TipoAporte = tipoAporte::find($request->ID_TIPO_APORTE);
         $PalabrasClave = DB::table('aportePalabraClavePivote')

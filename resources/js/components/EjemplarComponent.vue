@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-md-4 form-group">
                                     <label for="ISBN">ISBN</label><b v-if="!$v.EJEMPLAR.ISBN.required" class="error">*</b>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.ISBN" id="ISBN" maxlength="13"
+                                    <input type="text" class="form-control" @blur="buscarISBExistente()" v-model="EJEMPLAR.ISBN" id="ISBN" maxlength="13"
                                         aria-describedby="emailHelp">
                                     <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
                                 </div>
@@ -374,6 +374,27 @@ export default {
             this.getTercerSumario();
     }, */
     methods:{
+        buscarISBExistente(){
+            console.log(this.EJEMPLAR.ISBN)
+            axios.get('/ejemplar/existente/'+ this.EJEMPLAR.ISBN).then((response)=>{
+                console.log("EJEMPLAR EXISTENTE ISBN"+response.data);
+                if(Object.keys(response.data).length != 0){
+                   this.$swal(
+                  {
+                    title: 'Alto',
+                    text: "Ya existe un libro con este ISBN",
+                    icon: 'warning',
+                    buttons: {
+                      cancel: true,
+                    },
+                  }).then((value) => {
+                    
+                  }
+                  ); 
+                  this.EJEMPLAR.ISBN='';      
+                }
+            });
+        },
         sendData(){
             this.tableLoader = true;
             axios.get('/ejemplars').then(res=>{

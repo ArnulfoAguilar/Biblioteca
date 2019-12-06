@@ -73,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
         Route::resource('/ejemplars', 'EjemplarController');
+        Route::get('/ejemplar/existente/{ISBN}', 'EjemplarController@comprobarISBN')->name('busqueda');
         Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
         Route::resource('/Ejemplar', 'EjemplarController');
         Route::get('/catalogos/roles', 'HomeController@roles')->name('roles');

@@ -169,4 +169,7 @@ class EjemplarController extends Controller
         activity()->log('Eliminó ejemplar');
 
     }
+    public function comprobarISBN($ISBN){
+        return Ejemplar::where('ISBN',$ISBN)->get();
+    }
 }
