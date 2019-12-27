@@ -106,7 +106,7 @@
                                                             </div>
                                                         @elseif( $permitido == false )
                                                             <div class="badge bg-red">
-                                                                Ya ha realizado un préstamo
+                                                                Limite de pretsamos alcanzado
                                                             </div>
                                                         @else
                                                             <button type="button" class="btn btn-sm btn-primary" title="Prestar" data-toggle="modal" data-target="#modalSolicitar" 

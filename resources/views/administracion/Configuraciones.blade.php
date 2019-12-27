@@ -81,6 +81,31 @@
                                     <input type="number"  class="form-control" name="archivoSize" placeholder="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}} Kb"
                                         value="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}}"
                                         aria-describedby="Titulo" required>
+                                </div>
+
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Máximo de préstamos para Alumnos</label>
+                                    <input type="text"  class="form-control" name="max_alumnos" value="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_ALUMNO : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_ALUMNO : ''}}"
+                                        aria-describedby="Titulo" required>
+                                </div>
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Máximo de préstamos para Docentes</label>
+                                    <input type="number"  class="form-control" name="max_docentes" value="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_DOCENTE : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_DOCENTE : ''}}"
+                                        aria-describedby="Titulo" required>
+                                </div>
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Máximo de préstamos para Departamento</label>
+                                    <input type="number"  class="form-control" name="max_comite" value="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_COMITE : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_COMITE : ''}}"
+                                        aria-describedby="Titulo" required>
+                                </div>
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Máximo de préstamos para Administradores</label>
+                                    <input type="number"  class="form-control" name="max_admin" placeholder="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_ADMINISTRADOR : ''}} "
+                                        value="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_ADMINISTRADOR : ''}}"
+                                        aria-describedby="Titulo" required>
                                 </div>                            
                             </div><div>
                                 <div class="form-group col-md-4 col-xs-12">
