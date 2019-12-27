@@ -45,7 +45,7 @@ class AdquisicionController extends Controller
             $sugerencia->TITULO = $request->TITULO;
             $sugerencia->DESCRIPCION = $request->DESCRIPCION;
             $sugerencia->CONTENIDO = $request->CONTENIDO;
-            $sugerencia->ID_AREA = $request->ID_AREA;
+            $sugerencia->ID_AREA = Auth::user()->comite->id;
             $sugerencia->ID_USUARIO = auth()->id();
             $sugerencia->save();
             activity()->performedOn($sugerencia)->log('Sugerencia de adquisición guardada ('.$sugerencia->TITULO.')');
@@ -91,7 +91,7 @@ class AdquisicionController extends Controller
             $sugerencia->TITULO = $request->TITULO;
             $sugerencia->DESCRIPCION = $request->DESCRIPCION;
             $sugerencia->CONTENIDO = $request->CONTENIDO;
-            $sugerencia->ID_AREA = $request->ID_AREA;
+            $sugerencia->ID_AREA = Auth::user()->comite->id;
             $sugerencia->ID_USUARIO = auth()->id();
             $sugerencia->save();
             activity()->performedOn($sugerencia)->log('Sugerencia de adquisición actualizada ('.$sugerencia->TITULO.')');

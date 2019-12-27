@@ -92,15 +92,7 @@
                                     <textarea class="form-control" id="DESCRIPCION" v-model="Sugerencia.CONTENIDO"
                                         rows="3" required></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label for="AUTOR">Area</label>
-                                        <select class="form-control col-md-12" v-model="Sugerencia.ID_AREA" required>
-                                          <option disabled value="">Por favor seleccione una</option>
-                                          <option v-for="(item, index) in Areas" :key="index" v-bind:value="item.id">
-                                          {{ item.text }}
-                                          </option>
-                                        </select>
-                                </div>
+                                
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-success float-left" type="submit">Guardar</button>

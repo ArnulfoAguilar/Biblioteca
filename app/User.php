@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'ID_ROL', 'BIOGRAFIA'
+        'name', 'email', 'password', 'ID_ROL', 'BIOGRAFIA' , 'ID_COMITE'
     ];
 
     /**
@@ -40,6 +40,11 @@ class User extends Authenticatable
     public function rol()
     {
         return $this->belongsTo('App\Rol', 'ID_ROL', 'id');
+    }
+
+    public function comite()
+    {
+        return $this->belongsTo('App\Comite', 'ID_COMITE', 'id');
     }
 
     public function aportes()
