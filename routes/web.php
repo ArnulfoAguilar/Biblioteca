@@ -166,6 +166,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/administracion/calendarios','CalendarioController');
 
         Route::get('/administracion/get/users', 'UserController@getUsuarios', 'administracion.get.usuarios')->name('administracion.get.usuarios');
+
+        Route::get('/administracion/asignar/permisos/{id?}', 'RolController@asignarPermisoIndex')->name('administracion.asignar.permiso');
+        Route::POST('/administracion/asignar/permisos/post', 'RolController@asignarPermisoPost')->name('administracion.asignar.permiso.post');
+
     });
 
     // -----------------------------------------OTRAS RUTAS -------------------------------------//

@@ -240,6 +240,15 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+
+              @if (Auth::user()->rol->id == 1 )
+                <li class="nav-item">
+                  <a href="{{route('administracion.asignar.permiso')}}" class="nav-link {{ ( request()->is('administracion/asignar/permisos*') ) ? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Permisos</p>
+                  </a>
+                </li>
+              @endif
               
               @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
