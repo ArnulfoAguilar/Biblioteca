@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Permiso;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -71,5 +73,18 @@ class User extends Authenticatable
     public function interaccionesSugerencias()
     {
         return $this->belongsToMany('App\Adquisicion', 'interaccion_sugerencia', 'ID_USUARIO', 'ID_SUGERENCIA')->withTimestamps();
+    }
+
+    public function hasPermiso($correlativosSolicitado){
+        $correlativos = [];
+        foreach ($this->rol->permisos as $permiso) {
+            array_push($correlativos, $permiso->correlativo);
+        }
+        foreach ($correlativosSolicitado as $corSoli) {
+            if( ! in_array($corSoli, $correlativos) ){
+                return false;
+            }
+        }
+        return true;
     }
 }

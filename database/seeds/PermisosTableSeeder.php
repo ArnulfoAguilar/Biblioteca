@@ -105,90 +105,104 @@ class PermisosTableSeeder extends Seeder
         DB::table('permisos')->insert([
             'id' => 14,
             'correlativo' => 14,
+            'nombre_corto' => 'aportes-area',
+            'nombre' => 'Aportes del area',
+            'descripcion' => 'Muestra todos los aportes del area asignada al usuario',
+        ]);
+        DB::table('permisos')->insert([
+            'id' => 15,
+            'correlativo' => 15,
             'nombre_corto' => 'adqui',
             'nombre' => 'Ver sugerencias de adquisicion',
             'descripcion' => 'Muestra las sugerencias de adquisicion',
         ]);
         DB::table('permisos')->insert([
-            'id' => 15,
-            'correlativo' => 15,
+            'id' => 16,
+            'correlativo' => 16,
             'nombre_corto' => 'adqui-add',
             'nombre' => 'crear sugerencia de adquisicion',
             'descripcion' => 'Muestra lo necesario para realizar una sugerencia de adquisicion',
         ]);
         DB::table('permisos')->insert([
-            'id' => 16,
-            'correlativo' => 16,
+            'id' => 17,
+            'correlativo' => 17,
             'nombre_corto' => 'link-rol',
             'nombre' => 'Asignar rol',
             'descripcion' => 'Muestra lo necesario para asignar un rol a un usuario',
         ]);
         DB::table('permisos')->insert([
-            'id' => 17,
-            'correlativo' => 17,
+            'id' => 18,
+            'correlativo' => 18,
             'nombre_corto' => 'link-dep',
             'nombre' => 'Asignar departamento',
             'descripcion' => 'Muestra lo necesario para asignar departamento a un usuario',
         ]);
         DB::table('permisos')->insert([
-            'id' => 18,
-            'correlativo' => 18,
+            'id' => 19,
+            'correlativo' => 19,
             'nombre_corto' => 'calendario',
             'nombre' => 'Calendario',
             'descripcion' => 'Muestra el calendario para asignar dias no habiles',
         ]);
         DB::table('permisos')->insert([
-            'id' => 19,
-            'correlativo' => 19,
+            'id' => 20,
+            'correlativo' => 20,
             'nombre_corto' => 'points',
             'nombre' => 'Puntajes de usuarios',
             'descripcion' => 'Muestra los puntajes de los usuarios en el sistema',
         ]);
         DB::table('permisos')->insert([
-            'id' => 20,
-            'correlativo' => 20,
+            'id' => 21,
+            'correlativo' => 21,
+            'nombre_corto' => 'manag-role',
+            'nombre' => 'Gestion de roles',
+            'descripcion' => 'Muestra lo necesario para gestionar roles',
+        ]);
+        DB::table('permisos')->insert([
+            'id' => 22,
+            'correlativo' => 22,
             'nombre_corto' => 'manag-dep',
             'nombre' => 'Gestionar departamentos',
             'descripcion' => 'Muestra lo necesario para gestionar departamentos',
         ]);
         DB::table('permisos')->insert([
-            'id' => 21,
-            'correlativo' => 21,
+            'id' => 23,
+            'correlativo' => 23,
             'nombre_corto' => 'manag-words',
             'nombre' => 'Gestionar palabras prohibidas',
             'descripcion' => 'Muestra lo necesario para gestionar las palabras prohibidas',
         ]);
         DB::table('permisos')->insert([
-            'id' => 22,
-            'correlativo' => 22,
+            'id' => 24,
+            'correlativo' => 24,
             'nombre_corto' => 'type-penalty',
             'nombre' => 'Gestionar tipos de penalizaciones',
             'descripcion' => 'Muestra lo necesario para gestionar tipos de penalizaciones',
         ]);
         DB::table('permisos')->insert([
-            'id' => 23,
-            'correlativo' => 23,
+            'id' => 25,
+            'correlativo' => 25,
             'nombre_corto' => 'config',
             'nombre' => 'Configuraciones',
             'descripcion' => 'Muestra las configuraciones parametrizables del sistema',
         ]);
         DB::table('permisos')->insert([
-            'id' => 24,
-            'correlativo' => 24,
+            'id' => 26,
+            'correlativo' => 26,
             'nombre_corto' => 'log',
             'nombre' => 'Registro de actividad',
             'descripcion' => 'Muestra el registro de actividad en el sistema',
         ]);
         DB::table('permisos')->insert([
-            'id' => 25,
-            'correlativo' => 25,
+            'id' => 27,
+            'correlativo' => 27,
             'nombre_corto' => 'per-area',
             'nombre' => 'Grafico de aportes por area',
             'descripcion' => 'Muestra el Grafico de aportes por area',
         ]);
         DB::table('permisos')->insert([
-            'id' => 26,
-            'correlativo' => 26,
+            'id' => 28,
+            'correlativo' => 28,
             'nombre_corto' => 'per-year',
             'nombre' => 'Grafico de aportes por año',
             'descripcion' => 'Muestra el Grafico de aportes por area',

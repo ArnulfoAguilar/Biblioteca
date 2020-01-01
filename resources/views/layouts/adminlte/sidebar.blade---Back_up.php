@@ -18,7 +18,7 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
              
-        @if ( Auth::user()->hasPermiso([1]) || Auth::user()->hasPermiso([2]) || Auth::user()->hasPermiso([3]) || Auth::user()->hasPermiso([4]) || Auth::user()->hasPermiso([5]) )
+        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
           <li class="nav-item has-treeview {{ ( request()->is('biblioteca/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('biblioteca/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-atlas"></i>
@@ -30,7 +30,7 @@
             </a>
             <ul class="nav nav-treeview">
               
-              @if( Auth::user()->hasPermiso([1]) )
+              @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
                 <li class="nav-item">
                   <a href="{{ route('realizar.prestamo') }}" class="nav-link {{ ( request()->is('biblioteca/realizar/prestamo') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -41,7 +41,7 @@
               
 
               
-              @if ( Auth::user()->hasPermiso([2]) )
+              @if (Auth::user()->rol->id == 1 )
               <li class="nav-item">
                 <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo/lista') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
@@ -50,7 +50,7 @@
               </li>
               @endif
               
-              @if ( Auth::user()->hasPermiso([3]) )
+              @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
               <li class="nav-item">
               <a href="{{route ('mis.prestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos') ) ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
@@ -60,7 +60,7 @@
               @endif
 
 
-              @if ( Auth::user()->hasPermiso([4]) )
+              @if (Auth::user()->rol->id == 1)
               <li class="nav-item">
                 <a href="{{route ('penalizaciones.lista')}}" class="nav-link {{( request()->is('biblioteca/penalizaciones') ) ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
@@ -69,7 +69,7 @@
               </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([5]) )
+              @if (Auth::user()->rol->id == 1)
               <li class="nav-item">
                 <a href="{{route ('biblioteca.ver.solvencia')}}" class="nav-link {{( request()->is('biblioteca/solvencias/*') ) ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
@@ -84,7 +84,7 @@
 
         
         <!--inventario-->
-        @if ( Auth::user()->hasPermiso([6]) || Auth::user()->hasPermiso([7]) || Auth::user()->hasPermiso([8]) || Auth::user()->hasPermiso([9])  )
+        @if (Auth::user()->rol->id == 1)
           <li class="nav-item has-treeview {{ ( request()->is('inventario/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('inventario/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-book"></i>
@@ -95,7 +95,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @if ( Auth::user()->hasPermiso([6]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{ route('biblioteca') }}" class="nav-link {{ ( request()->is('inventario/bibliotecas') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -104,7 +104,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([7]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{ route('inventario.estantes') }}" class="nav-link {{ ( request()->is('inventario/estantes') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -122,7 +122,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([8]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{ route('lista.ejemplares') }}" class="nav-link {{ ( request()->is('inventario/lista/ejemplares') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -131,7 +131,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([9]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{ route('imprimir') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -145,7 +145,7 @@
         @endif
 
         <!--aportes-->
-        @if ( Auth::user()->hasPermiso([10]) || Auth::user()->hasPermiso([11]) || Auth::user()->hasPermiso([12]) || Auth::user()->hasPermiso([13]) || Auth::user()->hasPermiso([14]) )
+        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
           <li class="nav-item has-treeview {{ ( request()->is('aportes') || request()->is('GetMisAportesAprobados') || request()->is('GetMisAportesSinAprobar')|| request()->is('GetVistaAportesDirector') || request()->is('GetAportesArea') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link  {{ ( request()->is('aportes') || request()->is('GetMisAportesAprobados') || request()->is('GetMisAportesSinAprobar')|| request()->is('GetVistaAportesDirector') || request()->is('GetAportesArea') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-graduation-cap"></i>
@@ -156,34 +156,30 @@
             </a>
             <ul class="nav nav-treeview">
               
-              @if ( Auth::user()->hasPermiso([10]) )
-                <li class="nav-item">
-                  <a href="{{route('aportes.index')}}" class="nav-link {{ ( request()->is('aportes') ) ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Aportes de la comunidad</p>
-                  </a>
-                </li>    
-              @endif
-              
-              @if ( Auth::user()->hasPermiso([11]) )
-                <li class="nav-item">
-                  <a href="{{route('aportes.GetMisAportesAprobados')}}" class="nav-link {{ ( request()->is('GetMisAportesAprobados') ) ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Mis Aportes Aprobados</p>
-                  </a>
-                </li>    
-              @endif
-              
-              @if ( Auth::user()->hasPermiso([12]) )
-                <li class="nav-item">
-                  <a href="{{route('aportes.GetMisAportesSinAprobar')}}" class="nav-link {{ ( request()->is('GetMisAportesSinAprobar') ) ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Mis Aportes Sin Aprobar</p>
-                  </a>
-                </li>    
-              @endif
-              
-              @if ( Auth::user()->hasPermiso([13]) )
+              <li class="nav-item">
+              <a href="{{route('aportes.index')}}" class="nav-link {{ ( request()->is('aportes') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Aportes de la comunidad</p>
+                </a>
+              </li>
+
+
+              <li class="nav-item">
+                <a href="{{route('aportes.GetMisAportesAprobados')}}" class="nav-link {{ ( request()->is('GetMisAportesAprobados') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mis Aportes Aprobados</p>
+                </a>
+              </li>
+
+
+              <li class="nav-item">
+                <a href="{{route('aportes.GetMisAportesSinAprobar')}}" class="nav-link {{ ( request()->is('GetMisAportesSinAprobar') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mis Aportes Sin Aprobar</p>
+                </a>
+              </li>
+
+              @if (Auth::user()->rol->id == 1 )
               <li class="nav-item">
                 <a href="{{route('aportes.GetVistaAportesDirector')}}" class="nav-link {{ ( request()->is('GetVistaAportesDirector') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
@@ -192,7 +188,7 @@
               </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([14]) )
+              @if (Auth::user()->rol->id == 4 )
               <li class="nav-item">
                 <a href="{{route('aportes.GetAportesArea')}}" class="nav-link {{ ( request()->is('GetAportesArea') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
@@ -208,7 +204,7 @@
 
 
         <!--adquisiciones-->
-        @if ( Auth::user()->hasPermiso([15]) )
+        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
           <li class="nav-item has-treeview {{ ( request()->is('adquisicion/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('adquisicion/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-atlas"></i>
@@ -219,7 +215,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-                @if ( Auth::user()->hasPermiso([15]) )
+                @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4 )
                   <li class="nav-item">
                     <a href="{{route('adquisicion.lista')}}"
                       class="nav-link {{ ( request()->is('adquisicion/lista') ) ? 'active' : '' }}">
@@ -254,7 +250,7 @@
                 </li>
               @endif
               
-              @if ( Auth::user()->hasPermiso([17]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('asignar.roles')}}" class="nav-link {{ ( request()->is('administracion/asignar/roles') ) ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
@@ -263,7 +259,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([18]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('asignar.comites')}}"
                     class="nav-link {{ ( request()->is('administracion/asignar/comites') ) ? 'active' : '' }}">
@@ -274,7 +270,7 @@
               @endif
 
 
-              @if ( Auth::user()->hasPermiso([19]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('calendario')}}" 
                     class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
@@ -284,7 +280,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([20]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('administracion.get.usuarios')}}" 
                     class="nav-link {{ ( request()->is('administracion/get/users') ) ? 'active' : '' }}">
@@ -303,7 +299,7 @@
 
 
         {{-- Catalogos --}}
-        @if (Auth::user()->rol->id == 1 || Auth::user()->hasPermiso([21]) || Auth::user()->hasPermiso([22]) || Auth::user()->hasPermiso([23]) || Auth::user()->hasPermiso([24]) || Auth::user()->hasPermiso([25]) || Auth::user()->hasPermiso([26])   )
+        @if (Auth::user()->rol->id == 1)
           <li class="nav-item has-treeview {{ ( request()->is('catalogos/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('catalogos/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-list-alt"></i>
@@ -314,7 +310,7 @@
             </a>
             <ul class="nav nav-treeview">
               
-              @if ( Auth::user()->hasPermiso([21]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('roles')}}" class="nav-link {{ ( request()->is('catalogos/roles') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -323,7 +319,7 @@
                 </li>
               @endif
     
-              @if ( Auth::user()->hasPermiso([22]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('catalogos/comites') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -332,7 +328,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([23]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('palabras.prohibidas')}}"
                     class="nav-link {{ ( request()->is('catalogos/palabras-prohibidas') ) ? 'active' : '' }}">
@@ -342,7 +338,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([24]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('tipos.penalizaciones')}}"
                     class="nav-link {{ ( request()->is('catalogos/tipos/penalizaciones') ) ? 'active' : '' }}">
@@ -352,7 +348,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([25]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('Configuracion')}}"
                     class="nav-link {{ ( request()->is('catalogos/Configuracion') ) ? 'active' : '' }}">
@@ -362,7 +358,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([26]) )
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{route('registro.actividad')}}"
                     class="nav-link {{ ( request()->is('catalogos/registro/actividad') ) ? 'active' : '' }}">
@@ -372,13 +368,15 @@
                 </li>
               @endif
 
+
+    
             </ul>
           </li>
         @endif
 
 
         {{-- Catalogos --}}
-        @if ( Auth::user()->hasPermiso([27]) || Auth::user()->hasPermiso([28]) )
+        @if (Auth::user()->rol->id == '1' )
           <li class="nav-item has-treeview {{ ( request()->is('graficos/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('graficos/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-list-alt"></i>
@@ -389,7 +387,7 @@
             </a>
             <ul class="nav nav-treeview">
 
-              @if ( Auth::user()->hasPermiso([27]) )
+              @if (Auth::user()->rol->id == '1' )
                 <li class="nav-item">
                   <a href="{{route('graficos.aportes')}}"
                     class="nav-link {{ ( request()->is('graficos/aportes') ) ? 'active' : '' }}">
@@ -399,7 +397,7 @@
                 </li>
               @endif
 
-              @if ( Auth::user()->hasPermiso([28]) )
+              @if (Auth::user()->rol->id == '1' )
                 <li class="nav-item">
                   <a href="{{route('graficos.aportes.anio')}}"
                     class="nav-link {{ ( request()->is('graficos/aportes/anio') ) ? 'active' : '' }}">
@@ -410,6 +408,20 @@
               @endif
                 
             </ul>
+          </li>
+        @endif
+
+
+        @if (Auth::user()->hasPermiso([1, 2]) )
+          <li class="nav-item has-treeview {{ ( request()->is('graficos/*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('graficos/*') ) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-list-alt"></i>
+              <p>
+                Pruebas de permisos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            
           </li>
         @endif
         
