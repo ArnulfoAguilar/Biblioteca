@@ -148,7 +148,9 @@
     <script type="text/javascript">
     
         $(document).ready( function () {
-            $('#prestamos').DataTable();
+            $('#prestamos').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
         } );
 
     </script>

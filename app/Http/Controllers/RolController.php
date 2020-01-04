@@ -133,8 +133,12 @@ class RolController extends Controller
         
         $rol = Rol::find($request->id_rol);
         $rol->permisos()->detach();
-        foreach ($request->permisos as $key => $permiso) {
-            $rol->permisos()->attach($permiso);
+        if($request->permisos != null){
+            foreach ($request->permisos as $key => $permiso) {
+                $rol->permisos()->attach($permiso);
+            }
+        }else{
+            $rol->permisos()->detach();
         }
         // return redirect()->route('administracion.asignar.permiso');   
         return back()->with('success','Permisos asignados con éxito!');     

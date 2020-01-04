@@ -30,7 +30,7 @@
                     
                     <div class="card-body">
                             <div class="d-flex justify-content-center">
-                              {{$ejemplares->links()}}
+                              {{-- {{$ejemplares->links()}} --}}
                             </div>
 
                             <table class="table table-hover table-bordered" id="libros">
@@ -76,7 +76,7 @@
                                         'fecha_i' => $fecha_i,
                                         'fecha_f' => $fecha_f
                                         ])->links()}} --}}
-                                        {{$ejemplares->links()}}
+                                        {{-- {{$ejemplares->links()}} --}}
 
                                 </div>
                                

@@ -53,7 +53,7 @@ class PrestamosController extends Controller
     public function realizarPrestamo(Request $request)
     {
         $cuentas = [];
-        $ejemplares = Ejemplar::paginate(20);
+        $ejemplares = Ejemplar::all();
         foreach ($ejemplares as $key => $ejemplar) {
             $cuentas[] += materialBibliotecario::where('ID_EJEMPLAR', $ejemplar->id)
             ->where('DISPONIBLE', true)->count();
@@ -63,7 +63,8 @@ class PrestamosController extends Controller
         $penalizado=false;
         $penalizaciones = Penalizacion::where('SOLVENTADA', '!=', true)->get();
         foreach ($penalizaciones as $key => $penalizacion) {
-            if ($penalizacion->prestamo->usuario->id == auth()->id() && $penalizacion->tipo->id == 3) {
+            // if ($penalizacion->prestamo->usuario->id == auth()->id() && $penalizacion->tipo->id == 3) {
+            if ($penalizacion->prestamo->usuario->id == auth()->id() ) {
                 $penalizado=true;
             }
         }

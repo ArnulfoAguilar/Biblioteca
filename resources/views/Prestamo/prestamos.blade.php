@@ -51,8 +51,9 @@
                                     <th scope="col">Estado</th>
                                     <th scope="col">Devolución esperada</th>
                                     <th scope="col">Devolución</th>
+                                    <th scope="col">fecha</th>
                                     <th scope="col">Acciones</th>
-                                    <
+                                    
 
                                   </tr>
                                 </thead>
@@ -92,6 +93,7 @@
                                                     --
                                                 @endif
                                             </td>
+                                            <td>{{$prestamo->created_at}}</td>
                                             <td>
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 1 )
                                                     
@@ -329,7 +331,9 @@
     <script type="text/javascript">
 
         $(document).ready( function () {
-            $('#prestamos').DataTable();
+            $('#prestamos').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
         } );
 
         $('#modalAprobar').on('show.bs.modal', function (event) {

@@ -17,8 +17,8 @@
             <form @submit.prevent="submitHandler">
                 <div class="row">
                     <div class="col-md-12 form-group">
-                        <label>Nombre de asueto:</label>
-                        <input type="text" class="form-control" v-model="evento.title" required>
+                        <label>Nombre de inactividad:</label>
+                        <input type="text" class="form-control" v-model="evento.title" autocomplete="off" required maxlength="255">
                     </div>
                     <div class="col-md-6 form-group">
                         <label>Fecha de inicio:</label>

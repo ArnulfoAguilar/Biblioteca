@@ -74,20 +74,20 @@ Editar
                                 
                                 <div class="form-group">
                                     <label for="Titulo">Titulo</label>
-                                <input type="text"  class="form-control"  value="{{$aporte->TITULO}}" name="TITULO"
-                                        aria-describedby="Titulo" required>
+                                <input type="text"  class="form-control"  value="{{$aporte->TITULO}}" name="TITULO" autocomplete="off"
+                                        aria-describedby="Titulo" required maxlength="250">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="Descripcion">Descripcion</label>
-                                    <input type="text"  class="form-control" value="{{$aporte->DESCRIPCION}}" name="DESCRIPCION"
-                                        aria-describedby="Descripcion" required>
+                                    <input type="text"  class="form-control" value="{{$aporte->DESCRIPCION}}" name="DESCRIPCION" autocomplete="off"
+                                        aria-describedby="Descripcion" required maxlength="250">
                                 </div>
 
                                 <div class="form-group" id="contenido">
                                         <label for="Contenido">Contenido</label>
                                         @if($TipoAporteSelect->id==1)
-                                        <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" >
+                                        <textarea type="text" class="form-control" id="Summernote" name ="CONTENIDO" rows="20" maxlength="50000">
                                         {!! $aporte->CONTENIDO !!}
                                         </textarea> 
                                         @endif

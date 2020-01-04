@@ -16,7 +16,7 @@ class PenalizacionController extends Controller
      */
     public function index()
     {
-        $penalizaciones = Penalizacion::paginate(10);
+        $penalizaciones = Penalizacion::all();
         return view('Penalizacion.penalizaciones')->with([
             'penalizaciones'=> $penalizaciones,
         ]);

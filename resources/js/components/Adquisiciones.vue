@@ -77,20 +77,20 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="NOMBRE">Título de la sugerencia</label>
-                                    <input type="text" v-model="Sugerencia.TITULO" class="form-control" id="NOMBRE"
-                                        aria-describedby="emailHelp" required>
+                                    <input type="text" v-model="Sugerencia.TITULO" class="form-control" id="NOMBRE" autocomplete="off"
+                                        aria-describedby="emailHelp" required maxlength="250">
                                 </div>
                                 <div class="form-group">
                                     <label for="DESCRIPCION">Descripción</label>
                                     <textarea class="form-control" id="DESCRIPCION" v-model="Sugerencia.DESCRIPCION"
-                                        rows="3" required></textarea>
+                                        rows="3" required maxlength="250"></textarea>
                                     <!-- <input type="text" class="form-control" v-model="Sugerencia.DESCRIPCION" id="ISBN"
                                         aria-describedby="emailHelp" required> -->
                                 </div>
                                 <div class="form-group">
                                     <label for="ISBN">Justificación de la sugerencia</label>
                                     <textarea class="form-control" id="DESCRIPCION" v-model="Sugerencia.CONTENIDO"
-                                        rows="3" required></textarea>
+                                        rows="3" required maxlength="50000"></textarea>
                                 </div>
                                 
                             </div>

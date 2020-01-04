@@ -23,58 +23,58 @@
                             <div class="row">
                                 <div class="col-md-4 form-group">
                                     <label for="ISBN">ISBN</label><b v-if="!$v.EJEMPLAR.ISBN.required" class="error">*</b>
-                                    <input type="text" class="form-control" @blur="buscarISBExistente()" v-model="EJEMPLAR.ISBN" id="ISBN" maxlength="13"
+                                    <input type="text" class="form-control" @blur="buscarISBExistente()" v-model="EJEMPLAR.ISBN" id="ISBN" maxlength="13" autocomplete="off"
                                         aria-describedby="emailHelp">
                                     <div v-if="!$v.EJEMPLAR.ISBN.numeric" class="error">este campo solo acepta numeros</div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="NOMBRE">Nombre</label><b v-if="!$v.EJEMPLAR.EJEMPLAR.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE" maxlength="500"
+                                    <input type="text" v-model.lazy="EJEMPLAR.EJEMPLAR" class="form-control" id="NOMBRE" maxlength="500" autocomplete="off"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="SUBTITULO">Subtitulo</label><b v-if="!$v.EJEMPLAR.SUBTITULO.required" class="error">*</b>
-                                    <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO" maxlength="400"
+                                    <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO" maxlength="400" autocomplete="off"
                                     aria-describedby="emailHelp">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
                                     <label for="EDITORIAL">Editorial *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EDITORIAL" required class="form-control" id="EDITORIAL" maxlength="100"
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDITORIAL" required class="form-control" id="EDITORIAL" maxlength="100" autocomplete="off"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="EDICION">Edición *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" required class="form-control" id="EDICION" maxlength="100"
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" required class="form-control" id="EDICION" maxlength="100" autocomplete="off"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="AÑO_EDICION">Año de edición *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.AÑO_EDICION" required class="form-control" id="AÑO_EDICION"
+                                    <input type="text" v-model.lazy="EJEMPLAR.AÑO_EDICION" required class="form-control" id="AÑO_EDICION" autocomplete="off"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="PRECIO">Precio *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.PRECIO" required class="form-control" placeholder="$" id="PRECIO" maxlength="100"
+                                    <input type="text" v-model.lazy="EJEMPLAR.PRECIO" required class="form-control" placeholder="$" id="PRECIO" maxlength="100" autocomplete="off"
                                     aria-describedby="">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 form-group">
                                     <label for="AUTOR">AUTOR/es</label><b v-if="!$v.EJEMPLAR.AUTOR.required" class="error">*</b>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR" maxlength="255"
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.AUTOR" id="AUTOR" maxlength="255" autocomplete="off"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="PAGINAS">Numero de paginas</label><b v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.required" class="error">*</b>
-                                    <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
+                                    <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS" autocomplete="off"
                                         aria-describedby="emailHelp">
                                     <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.numeric" class="error">este campo solo acepta numeros</div>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label for="copias">Numero de copias</label><b v-if="!$v.EJEMPLAR.COPIAS.required" class="error">*</b>
-                                    <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS"
+                                    <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS" autocomplete="off"
                                         aria-describedby="emailHelp">
                                     <div v-if="!$v.EJEMPLAR.COPIAS.numeric" class="error">este campo solo acepta numeros</div>
                                 </div>
@@ -88,7 +88,7 @@
                                 </div>-->
                                 <div class="col-md-4 form-group">
                                     <label for="LUGAR_EDICION">Lugar Edición</label>
-                                    <input type="text" class="form-control" v-model="EJEMPLAR.LUGAR_EDICION" id="LUGAR_EDICION"
+                                    <input type="text" class="form-control" v-model="EJEMPLAR.LUGAR_EDICION" id="LUGAR_EDICION" autocomplete="off"
                                         aria-describedby="emailHelp">
                                     <!--<div v-if="!$v.EJEMPLAR.CATEGORIA.required" class="error">este campo es obligatorio</div>-->
                                 </div>
@@ -163,7 +163,7 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label for="DESCRIPCION">Descripción</label><b v-if="!$v.EJEMPLAR.DESCRIPCION.required" class="error">*</b>
-                                    <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION" maxlength="1500"
+                                    <textarea class="form-control" id="DESCRIPCION" v-model="EJEMPLAR.DESCRIPCION" maxlength="1500" 
                                         rows="3"></textarea>
                                 </div>
                                 <div class="col-md-6 form-group">

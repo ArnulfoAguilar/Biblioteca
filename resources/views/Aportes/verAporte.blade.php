@@ -53,12 +53,14 @@
                         <div class="tab-content">
                           <div class="tab-pane active" id="activity">
 
-                                <h4 >Autor: {{$aporte->usuario->name}}
+                                <h5 >Autor: {{$aporte->usuario->name}}
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    Estado: {{$aporte->HABILITADO == true ? 'HABILITADO' : 'PENDIENTE DE APROBACIÓN' }}
+                                    Estado: {{$aporte->HABILITADO == true ? 'Habilitado' : 'Pendiente de aprobación' }}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Área: {{$aporte->area->AREA}}
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     Visto {{$aporte->VISTAS }} veces
-                                </h4>
+                                </h5>
                                <br>
 
                                 Palabras Clave:
