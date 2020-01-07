@@ -1,7 +1,7 @@
 <template>
 <div>
       <div class="d-flex justify-content-end" v-for="(user,index) in Usuarios" :key="index">
-          <button v-if="usuario == user.id && user.ID_ROL == 4" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Crear nueva sugerencia</button>
+          <button v-if="usuario == user.id && user.ID_ROL == 4 && user.ID_COMITE != null" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Crear nueva sugerencia</button>
       </div>
 
       <br>
