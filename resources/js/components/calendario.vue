@@ -10,7 +10,7 @@
         @select='dateRange'
         @eventClick='eventClick'
         ref="Calendar"
-        :events="eventos"
+        :events="fechas"
         :displayEventTime="false"
         ></FullCalendar>
         <bootbox-modal v-if="modalShowFlag" @close="modalClosing" :title="modalTitle">
@@ -51,7 +51,6 @@
             FullCalendar
         },
         data(){
-            const vm = this;
             return{
                 calendar:{
                     defaultView:'dayGridMonth',
@@ -64,7 +63,7 @@
                     defaultTheme: 'bootstrap',
                     selectable: true
                 },
-                eventos: [],
+                //eventos: this.getEventos(),
                 evento:{
                     id:'',
                     start:'',
@@ -75,14 +74,17 @@
                 },
                 eventoFromCalendar:{},
                 modalShowFlag:false,
-                modalTitle:''
+                modalTitle:'',
+                fechas: []
 
             }
         },
-        created(){
-            axios.get('/administracion/calendarios').then(response=>{
+        async created(){
+            /*axios.get('/administracion/calendarios').then(response=>{
                 this.eventos = response.data;
-            });
+            });*/
+            debugger;
+            this.fechas = await this.getEventos();
         },
         methods:{
             dateClick(info){
@@ -94,7 +96,6 @@
                 this.evento.year=fecha.year();
             },
             dateRange(info){
-                debugger;
                 var a = this.$moment(info.end);
                 var b = this.$moment(info.start);
                 var c = a.diff(b,'days');
@@ -153,8 +154,8 @@
                     msg = 'Guardado correctamente';
 
                 }
-                const response = await axios.get('/administracion/calendarios');
-                this.eventos=response.data;
+                //const response = await axios.get('/administracion/calendarios');
+                this.fechas= await this.getEventos();
                 toastr.clear();
                 toastr.options.closeButton = true;
                 toastr.success(msg, 'Exito');
@@ -172,9 +173,16 @@
                         toastr.success('Eliminado correctamente', 'Exito');
                     })
                     const response = await axios.get('/administracion/calendarios');
-                    this.eventos=response.data;
+                    this.fechas= await this.getEventos();
                 }
             },
+            async getEventos(){
+                const response = await axios.get('/administracion/calendarios');
+                console.log(response.data);
+                return response.data;
+            }
+        },
+        computed:{
 
         }
     }

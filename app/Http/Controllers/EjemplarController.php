@@ -53,6 +53,7 @@ class EjemplarController extends Controller
         $url = $request->IMAGEN;
         if ($url != null) {
             $contents = file_get_contents($url);
+            //dd($contents);
             $file = '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
             Storage::put($file, $contents);
         }

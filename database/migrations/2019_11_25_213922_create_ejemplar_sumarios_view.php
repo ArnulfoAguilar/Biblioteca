@@ -77,6 +77,6 @@ class CreateEjemplarSumariosView extends Migration
      */
     public function down()
     {
-        DB::statement('DROP VIEW IF EXISTS vwEjemplarSumarios');
+        DB::statement('DROP VIEW IF EXISTS vwejemplarsumarios');
     }
 }
