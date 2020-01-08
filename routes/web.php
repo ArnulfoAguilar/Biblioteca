@@ -178,6 +178,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/administracion/asignar/permisos/{id?}', 'RolController@asignarPermisoIndex')->name('administracion.asignar.permiso');
         Route::POST('/administracion/asignar/permisos/post', 'RolController@asignarPermisoPost')->name('administracion.asignar.permiso.post');
 
+        Route::get('/administracion/gestion/usuarios', 'UserController@gestionUsuarios')->name('administracion.gestion.usuarios');
+        Route::POST('/administracion/import/usuarios', 'ImportController@importUsuarios')->name('administracion.import.usuarios');
     });
 
     // -----------------------------------------OTRAS RUTAS -------------------------------------//

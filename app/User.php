@@ -18,7 +18,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'ID_ROL', 'BIOGRAFIA' , 'ID_COMITE'
+        'name', 
+        'email',
+        'apellidos',
+        'carnet', 
+        'password', 
+        'ID_ROL', 
+        'BIOGRAFIA' , 
+        'ID_COMITE'
     ];
 
     /**

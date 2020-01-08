@@ -207,6 +207,13 @@ class PermisosTableSeeder extends Seeder
             'nombre' => 'Grafico de aportes por año',
             'descripcion' => 'Muestra el Grafico de aportes por area',
         ]);
+        DB::table('permisos')->insert([
+            'id' => 29,
+            'correlativo' => 29,
+            'nombre_corto' => 'stats',
+            'nombre' => 'Estadisticas',
+            'descripcion' => 'Muestra las estadisticas en la pantalla principal',
+        ]);
         
         
     }

@@ -10,7 +10,7 @@
 
     <br>
     <div class="row">
-        @if (Auth::user()->rol->id == 1)
+        @if (Auth::user()->hasPermiso([29]))
             <div class="col-lg-4 col-xs-6">
                 <div class="small-box bg-green">
                     <div class="inner">
@@ -25,9 +25,7 @@
                     <a href="{{route('aportes.index',['id'=>1])}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-        @endif
-        
-        @if (Auth::user()->rol->id == 1)
+
             <div class="col-lg-4 col-xs-6">
                 <div class="small-box bg-info">
                     <div class="inner">
@@ -42,9 +40,7 @@
                     <a href="{{route('aportes.index',['id'=>0])}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-        @endif
-        
-        @if (Auth::user()->rol->id == 1)
+
             <div class="col-lg-4 col-xs-6">
                 <div class="small-box bg-gray">
                     <div class="inner">
@@ -65,7 +61,7 @@
     <br>
 
     <div class="row">
-            @if (Auth::user()->rol->id == 1)
+            @if (Auth::user()->hasPermiso([29]) )
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-light">
                         <div class="inner">
@@ -80,9 +76,7 @@
                         <a href="{{route('prestamos')}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-            @endif
             
-            @if (Auth::user()->rol->id == 1)
             <div class="col-lg-4 col-xs-6">
                 <div class="small-box bg-yellow">
                     <div class="inner">
@@ -97,10 +91,8 @@
                     <a href="{{route('aportes.index',['vista'=>2])}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-        @endif
-            
-            @if (Auth::user()->rol->id == 1)
-                <div class="col-lg-4 col-xs-6">
+        
+            <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-danger">
                         <div class="inner">
     

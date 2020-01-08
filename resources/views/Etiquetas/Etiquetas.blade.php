@@ -23,8 +23,8 @@
                 <div class="card">
                     <div class="card-header bg-dark">Listado de libros disponibles
                         <div class=" float-right">
-                           <a href="{{ route('imprimir.all') }}" class="btn btn-sm btn-primary">Imprimir todos los ejemplares</a>
-                           <a href="{{ route('imprimir.tejuelos') }}" class="btn btn-sm btn-primary">Imprimir todos los tejuelos</a>
+                           <a href="{{ route('imprimir.all') }}" class="btn btn-sm btn-success">Imprimir todos los ejemplares</a>
+                           <a href="{{ route('imprimir.tejuelos') }}" class="btn btn-sm btn-success">Imprimir todos los tejuelos</a>
                         </div>
                     </div>
                     

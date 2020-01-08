@@ -253,6 +253,15 @@
                   </a>
                 </li>
               @endif
+
+              {{-- @if (Auth::user()->rol->id == 1 ) --}}
+                <li class="nav-item">
+                  <a href="{{route('administracion.gestion.usuarios')}}" class="nav-link {{ ( request()->is('administracion/gestion/usuarios*') ) ? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Usuarios</p>
+                  </a>
+                </li>
+              {{-- @endif --}}
               
               @if ( Auth::user()->hasPermiso([17]) )
                 <li class="nav-item">

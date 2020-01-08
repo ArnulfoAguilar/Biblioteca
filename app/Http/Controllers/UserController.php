@@ -142,4 +142,11 @@ class UserController extends Controller
             'users' => $users,
         ]);
     }
+
+    public function gestionUsuarios(){
+        $users = User::orderBy('id', 'asc')->get();
+        return view('administracion.usuarios')->with([
+            'users' => $users,
+        ]);
+    }
 }
