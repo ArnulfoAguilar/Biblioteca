@@ -72,32 +72,7 @@
             </ul>
           </li>
         @endif         
-        <!--adquisiciones-->
-        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
-        <li class="nav-item has-treeview {{ ( request()->is('adquisicion/*') ) ? 'menu-open' : '' }}">
-          <a href="#" class="nav-link {{ ( request()->is('adquisicion/*') ) ? 'active' : '' }}">
-            <i class="nav-icon fas fa-atlas"></i>
-
-            <p>
-              Adquisiciones
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-              @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4 )
-                <li class="nav-item">
-                  <a href="{{route('adquisicion.lista')}}"
-                    class="nav-link {{ ( request()->is('adquisicion/lista') ) ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Ver sugerencias</p>
-                  </a>
-                </li>
-              @endif
-
-            </ul>
-        </li>
-      @endif
-
+       
              <!--aportes-->
                 @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 2 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
                 <li class="nav-item has-treeview {{ ( request()->is('aportes') || request()->is('GetMisAportesAprobados') || request()->is('GetMisAportesSinAprobar')|| request()->is('GetVistaAportesDirector') || request()->is('GetAportesArea') ) ? 'menu-open' : '' }}">
@@ -347,6 +322,15 @@
               @endif
 
               @if (Auth::user()->rol->id == 1 )
+              <li class="nav-item">
+                <a href="{{ route('imprimir') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Códigos de barra</p>
+                </a>
+              </li>
+            @endif
+
+              @if (Auth::user()->rol->id == 1 )
                 <li class="nav-item">
                   <a href="{{ route('inventario.estantes') }}" class="nav-link {{ ( request()->is('inventario/estantes') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -372,19 +356,45 @@
                   </a>
                 </li>
               @endif
-
               @if (Auth::user()->rol->id == 1 )
-                <li class="nav-item">
-                  <a href="{{ route('imprimir') }}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Códigos de barra</p>
-                  </a>
-                </li>
-              @endif
-
+              <li class="nav-item">
+                <a href="{{route('inventariar')}}" class="nav-link {{ ( request()->is('inventario/lista/ejemplares') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Inventariar final período</p>
+                </a>
+              </li>
+            @endif
             </ul>
           </li>
         @endif
+
+         <!--Reportes-->
+         @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
+         <li class="nav-item has-treeview {{ ( request()->is('Reportes/*') ) ? 'menu-open' : '' }}">
+           <a href="#" class="nav-link {{ ( request()->is('Reportes/*') ) ? 'active' : '' }}">
+             <i class="nav-icon fas fa-atlas"></i>
+ 
+             <p>
+                Reportes estadísticos
+             </p>
+           </a>
+ 
+         </li>
+       @endif
+
+           <!--adquisiciones-->
+        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
+        <li class="nav-item has-treeview {{ ( request()->is('adquisicion/*') ) ? 'menu-open' : '' }}">
+          <a href="{{route('adquisicion.lista')}}" class="nav-link {{ ( request()->is('adquisicion/*') ) ? 'active' : '' }}">
+            <i class="nav-icon fas fa-atlas"></i>
+
+            <p>
+               Sugerencias de Adquisicion
+            </p>
+          </a>
+
+        </li>
+      @endif
 
         
       </ul>

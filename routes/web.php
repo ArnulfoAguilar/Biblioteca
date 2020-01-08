@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Controllers\MaterialBibliotecarioController;
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -78,7 +80,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/Ejemplar', 'EjemplarController');
         Route::get('/catalogos/roles', 'HomeController@roles')->name('roles');
         Route::get('/catalogos/tipos/penalizaciones', 'HomeController@tiposPenalizaciones')->name('tipos.penalizaciones');
+        Route::get('/inventariar', 'HomeController@inventariar')->name('inventariar');
+        Route::put('/inventariarLibro', 'MaterialBibliotecario@Inventariar')->name('inventariarLibro');
 
+        
     });
 
     // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
@@ -115,6 +120,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
         Route::resource('/Ejemplar', 'EjemplarController');
         Route::resource('/material', 'MaterialBibliotecarioController');
+        Route::get('/material/FindBarcode/{barcode}','MaterialBibliotecarioController@findBarcode')->name('MaterialBarcode');
         // Route::get('/administracion/roles', 'HomeController@roles')->name('roles');
 
 
@@ -122,7 +128,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/interacciones/{id}', 'ComentarioController@interacciones');
         Route::get('/interactue', 'ComentarioController@interactue');
         Route::post('/dislikeComentario/{id}', 'ComentarioController@interaccionDislike')->name('interaccion.dislike');
-
         Route::get('/interactue_prueba/{idA}/{idC}', 'ComentarioController@interactue_prueba');
 
         //MIs rutas (K) para comentarios sin VUE
@@ -172,13 +177,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
 
-    Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
-    Route::get('/SegundoSumarioSelect/{id}', 'segundoSumarioController@segundoSumarioSelect');
-    Route::get('/TercerSumarioSelect/{id}', 'tercerSumarioController@tercerSumarioSelect');
-
     Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leidas');
     
-    // ESTAS SON LAS MIAMA QUE ESTASN ACA ARRIBA O QUE PEX? 
     Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
     Route::get('/SegundoSumarioSelect/{id}', 'SegundoSumarioController@segundoSumarioSelect');
     Route::get('/TercerSumarioSelect/{id}', 'TercerSumarioController@tercerSumarioSelect');
@@ -194,7 +194,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/Area', 'AreaController@areaSelect')->name('areas');
     /*RUTA para select de Area*/
 
-    //No le pongo middleware porque lo necesito para mostrar nombres en distintas vistas
     Route::resource('/users', 'UserController');
     Route::get('/usuarios/para/asignacion/comite', 'UserController@obtenerUsuarios');
 
