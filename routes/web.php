@@ -180,6 +180,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/administracion/gestion/usuarios', 'UserController@gestionUsuarios')->name('administracion.gestion.usuarios');
         Route::POST('/administracion/import/usuarios', 'ImportController@importUsuarios')->name('administracion.import.usuarios');
+
+        Route::get('/administracion/gestion/usuario/edit/{id?}', 'UserController@editarUsuario')->name('administracion.gestion.usuario.edit');
+        Route::POST('/administracion/gestion/usuario/edit/post', 'UserController@editarUsuarioPost')->name('administracion.gestion.usuario.edit.post');
     });
 
     // -----------------------------------------OTRAS RUTAS -------------------------------------//

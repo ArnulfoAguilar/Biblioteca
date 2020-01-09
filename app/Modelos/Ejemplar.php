@@ -22,6 +22,7 @@ class Ejemplar extends Model
         'ID_TERCER_SUMARIO',
         'PRECIO',
         'ID_TIPO_ADQUISICION',
+        'ID_ESTANTE',
 
         ];
     use SoftDeletes;
@@ -34,5 +35,10 @@ class Ejemplar extends Model
     public function tipoAdquisicion()
     {
         return $this->belongsTo('App\Modelos\tipoAdquisicion', 'ID_TIPO_ADQUISICION', 'ID_TIPO_ADQUISICION');
+    }
+
+    public function estante()
+    {
+        return $this->belongsTo('App\Estante', 'ID_ESTANTE', 'id');
     }
 }

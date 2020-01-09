@@ -60,7 +60,8 @@ Gestión de usuarios
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->apellidos}}</td>
                                     <td>
-                                        <a href="" class="btn btn-primary btn-sm" >Editar</a>
+                                        {{-- <a href="" class="btn btn-primary btn-sm" >Editar</a> --}}
+                                        <a href="{{route('administracion.gestion.usuario.edit', $user)}}" class="btn btn-primary btn-sm" >Editar</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -84,7 +85,7 @@ Gestión de usuarios
 
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Aprobar Préstamo</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Importar usuarios desde un archivo excel</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
