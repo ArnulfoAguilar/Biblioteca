@@ -81,7 +81,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/catalogos/roles', 'HomeController@roles')->name('roles');
         Route::get('/catalogos/tipos/penalizaciones', 'HomeController@tiposPenalizaciones')->name('tipos.penalizaciones');
         Route::get('/inventariar', 'HomeController@inventariar')->name('inventariar');
-        Route::put('/inventariarLibro', 'MaterialBibliotecario@Inventariar')->name('inventariarLibro');
+        Route::put('/inventariarLibro', 'MaterialBibliotecarioController@Inventariar')->name('inventariarLibro');
 
         
     });

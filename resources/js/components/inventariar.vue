@@ -21,11 +21,11 @@
               
             </div>
             <div class="col-12 col-sm-6">
-              <h3 class="my-3" v-model="this.EJEMPLAR.EJEMPLAR">{{this.EJEMPLAR.EJEMPLAR}}</h3>
-              <p v-model="this.EJEMPLAR.DESCRIPCION">{{ this.EJEMPLAR.DESCRIPCION }}</p>
+              <h3 class="my-3" >{{this.EJEMPLAR.EJEMPLAR}}</h3>
+              <p >{{ this.EJEMPLAR.DESCRIPCION }}</p>
               <hr/>
               <h3 class="my-3">Observaciones</h3>
-                <textarea class="col-12" v-model="this.EJEMPLAR.OBSERVACIONES">{{ this.EJEMPLAR.OBSERVACIONES }}</textarea>
+                <textarea class="col-12" v-model="EJEMPLAR.OBSERVACIONES"></textarea>
               <hr>
               <div class="mt-4">
                 <button class="btn btn-primary btn-lg btn-flat" ref="update" v-on:click="inventariar">
@@ -97,10 +97,12 @@
                 window.location.href='/inventariar';
             },
             inventariar(){
-                const ejemplarInventariar= this.EJEMPLAR;
-                    axios.put('/inventariarLibro', ejemplarInventariar)
+                const ejemplarInventariar = this.EJEMPLAR;
+                    axios.put('/inventariarLibro/', ejemplarInventariar)
                         .then(response=>{
-                            
+                           
+                            window.location.href='/inventariar';
+                            toastr.success('Se actualizo', 'Exito');
                         }).catch(e=>{
                             alert("Error al Guardar" + e);
                         })

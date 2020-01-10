@@ -70,7 +70,7 @@ class MaterialBibliotecarioController extends Controller
         return response()->json($consulta);
     }
     
-    public function Inventariar($request)
+    public function Inventariar(Request $request)
     {
         $materialBibliotecario = materialBibliotecario::find($request->ID_MATERIAL_BIBLIOTECARIO);
         $materialBibliotecario->OBSERVACIONES = $request->OBSERVACIONES;
