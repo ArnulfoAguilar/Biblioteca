@@ -358,7 +358,7 @@
               @endif
               @if (Auth::user()->rol->id == 1 )
               <li class="nav-item">
-                <a href="{{route('inventariar')}}" class="nav-link {{ ( request()->is('inventario/lista/ejemplares') ) ? 'active' : '' }}">
+                <a href="{{route('inventariar')}}" class="nav-link {{ ( request()->is('/inventariar') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Inventariar final período</p>
                 </a>
