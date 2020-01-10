@@ -29,7 +29,7 @@ class PrestamosController extends Controller
     public function index(Request $request)
     {
 
-        $prestamos = Prestamo::orderBy('id', 'ASC')->paginate(10);
+        $prestamos = Prestamo::orderBy('id', 'ASC')->get();
 
         $tiposPrestamos = tipoPrestamo::all();
         $tiposPenalizaciones = tipoPenalizacion::all();
