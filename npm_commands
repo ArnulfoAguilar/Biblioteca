@@ -18,6 +18,8 @@ npm install moment --save
 npm i bootbox
 npm install --save @fullcalendar/vue @fullcalendar/core @fullcalendar/daygrid
 
+composer require fruitcake/laravel-cors
+
 //No es npm, pero no encontre donde ponerlo xD
 // es para agregar al servidor y que se ejecuten las tareas programadas
 * * * * * php /ruta-al-proyecto/artisan schedule:run >> /dev/null 2>&1

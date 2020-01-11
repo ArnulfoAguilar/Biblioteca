@@ -90,10 +90,11 @@ return [
     */
 
     // 'username' => env('MAIL_USERNAME'),
-    'username' => 'arnulfo.aguilar9405@gmail.com',
+    'username' => 'cepasiapbil@gmail.com',
 
     // 'password' => env('MAIL_PASSWORD'),
-    'password' => 'wwaydyjsrpjtxdcy',
+    // 'password' => 'wwaydyjsrpjtxdcy',
+    'password' => 'hlnjkvljkrqtanaz',
 
     /*
     |--------------------------------------------------------------------------
