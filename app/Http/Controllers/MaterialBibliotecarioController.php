@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\materialBibliotecario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class MaterialBibliotecarioController extends Controller
 {
@@ -63,6 +64,20 @@ class MaterialBibliotecarioController extends Controller
         //
     }
 
+    public function findBarcode($barcode)
+    {
+        $consulta = DB::table('busquedamaterialprestamosview')->where('CODIGO_BARRA', '=', $barcode)->first();
+        return response()->json($consulta);
+    }
+    
+    public function Inventariar(Request $request)
+    {
+        $materialBibliotecario = materialBibliotecario::find($request->ID_MATERIAL_BIBLIOTECARIO);
+        $materialBibliotecario->OBSERVACIONES = $request->OBSERVACIONES;
+        $materialBibliotecario->FECHA_INVENTARIADO = Carbon::now();
+        $materialBibliotecario->save();
+        return view('administracion.inventariarLibros');
+    }
     /**
      * Show the form for editing the specified resource.
      *

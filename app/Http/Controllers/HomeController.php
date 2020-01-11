@@ -80,10 +80,10 @@ class HomeController extends Controller
         $user->unreadNotifications->markAsRead();
     }
     
-    // public function prestamos()
-    // {
-    //     return view('Prestamo/prestamo');
-    // }
+    public function inventariar()
+    {
+        return view('administracion.inventariarLibros');
+    }
 
     public function calendario()
     {

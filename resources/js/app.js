@@ -69,6 +69,7 @@ Vue.component('aportes', require('./components/Aportes.vue').default);
 // ------------------------MODULO DE INVENTARIO---------------------------------------------
 Vue.component('biblioteca-list', require('./components/Biblioteca-list.vue').default);
 Vue.component('estante-list', require('./components/Estante-list.vue').default);
+Vue.component('inventariar-libros', require('./components/inventariar.vue').default);
 
 // ------------------------MODULO DE APORTES---------------------------------------------
 Vue.component('revisiones', require('./components/Revisiones.vue').default);

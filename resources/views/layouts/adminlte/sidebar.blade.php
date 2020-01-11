@@ -24,7 +24,7 @@
               <i class="nav-icon fas fa-atlas"></i>
 
               <p>
-                Biblioteca
+                Administración
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -97,49 +97,42 @@
             <ul class="nav nav-treeview">
               @if ( Auth::user()->hasPermiso([6]) )
                 <li class="nav-item">
-                  <a href="{{ route('biblioteca') }}" class="nav-link {{ ( request()->is('inventario/bibliotecas') ) ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Bibliotecas</p>
+                  <a href="{{route('asignar.roles')}}" class="nav-link {{ ( request()->is('administracion/asignar/roles') ) ? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Asignar rol</p>
                   </a>
                 </li>
               @endif
 
               @if ( Auth::user()->hasPermiso([7]) )
                 <li class="nav-item">
-                  <a href="{{ route('inventario.estantes') }}" class="nav-link {{ ( request()->is('inventario/estantes') ) ? 'active' : '' }}">
+                  <a href="{{route('asignar.comites')}}"
+                    class="nav-link {{ ( request()->is('administracion/asignar/comites') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Estantes</p>
-                  </a>
-                </li>
-              @endif
-
-              @if (Auth::user()->rol->id == 'X' )
-                <li class="nav-item">
-                  <a href="{{ route('busqueda') }}" class="nav-link {{ ( request()->is('inventario/ingreso/libro') ) ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Ingreso de libro</p>
+                    <p>Asignar departamento</p>
                   </a>
                 </li>
               @endif
 
               @if ( Auth::user()->hasPermiso([8]) )
                 <li class="nav-item">
-                  <a href="{{ route('lista.ejemplares') }}" class="nav-link {{ ( request()->is('inventario/lista/ejemplares') ) ? 'active' : '' }}">
+                  <a href="{{route('calendario')}}" 
+                    class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Lista de ejemplares</p>
+                    <p>Calendario</p>
                   </a>
                 </li>
               @endif
 
               @if ( Auth::user()->hasPermiso([9]) )
                 <li class="nav-item">
-                  <a href="{{ route('imprimir') }}" class="nav-link">
+                  <a href="{{route('administracion.get.usuarios')}}" 
+                    class="nav-link {{ ( request()->is('administracion/get/users') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Códigos de barra</p>
+                    <p>Puntajes de usuarios</p>
                   </a>
                 </li>
               @endif
-
             </ul>
           </li>
         @endif
@@ -150,7 +143,7 @@
             <a href="#" class="nav-link  {{ ( request()->is('aportes') || request()->is('GetMisAportesAprobados') || request()->is('GetMisAportesSinAprobar')|| request()->is('GetVistaAportesDirector') || request()->is('GetAportesArea') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
-                Aportes
+                Biblioteca
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -187,16 +180,16 @@
               <li class="nav-item">
                 <a href="{{route('aportes.GetVistaAportesDirector')}}" class="nav-link {{ ( request()->is('GetVistaAportesDirector') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Todos los aportes</p>
+                  <p>Penalizaciones</p>
                 </a>
               </li>
               @endif
 
               @if ( Auth::user()->hasPermiso([14]) )
               <li class="nav-item">
-                <a href="{{route('aportes.GetAportesArea')}}" class="nav-link {{ ( request()->is('GetAportesArea') ) ? 'active' : '' }}">
+                <a href="{{route ('biblioteca.ver.solvencia')}}" class="nav-link {{( request()->is('biblioteca/solvencias/*') ) ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Aportes del área</p>
+                  <p>Extender Solvencia</p>
                 </a>
               </li>
               @endif
@@ -310,7 +303,6 @@
           </li>
         @endif
 
-
         {{-- Catalogos --}}
         @if (Auth::user()->rol->id == 1 || Auth::user()->hasPermiso([21]) || Auth::user()->hasPermiso([22]) || Auth::user()->hasPermiso([23]) || Auth::user()->hasPermiso([24]) || Auth::user()->hasPermiso([25]) || Auth::user()->hasPermiso([26])   )
           <li class="nav-item has-treeview {{ ( request()->is('catalogos/*') ) ? 'menu-open' : '' }}">
@@ -380,7 +372,6 @@
                   </a>
                 </li>
               @endif
-
             </ul>
           </li>
         @endif

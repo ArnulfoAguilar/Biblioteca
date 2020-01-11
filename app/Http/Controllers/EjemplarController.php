@@ -122,8 +122,8 @@ class EjemplarController extends Controller
         $url = $request->IMAGEN;
         if ($url != null) {
             $contents = file_get_contents($url);
-            $file = '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
-            Storage::put($file, $contents);
+            $file = public_path().'/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
+            file_put_contents($file, $contents);
         }
         $Ejemplar = Ejemplar::find($ejemplar->id);
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;

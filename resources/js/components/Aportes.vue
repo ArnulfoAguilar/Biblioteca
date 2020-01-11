@@ -2,8 +2,8 @@
     <div class="container ">
       
       <div class="row" >      
-        <div class="input-group mb-1 col-12">
-            <input type="text" class="form-control" name="" id=""  v-model="search_titulo" autofocus>
+        <div class="input-group mb-1 col-10">
+            <input type="text" class="form-control" placeholder="Busca aportes de tu interés" name="" id=""  v-model="search_titulo" autofocus>
         </div>   
         <br> <br><br> 
             <!-- Box Comment -->
