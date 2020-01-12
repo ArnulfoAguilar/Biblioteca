@@ -151,6 +151,26 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="BIBLIOTECA">Biblioteca</label>
+                                    <div>
+                                        <!--select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2-->
+                                        <select class='form-control' v-model="BIBLIOTECA" @change="getEstantes">
+                                                <option v-for = "biblioteca in bibliotecas" :value="biblioteca.id" >{{biblioteca.text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div>
+                                        <label for="ESTANTE">Estante</label>
+                                        <!--select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2-->
+                                        <select class='form-control' v-model="EJEMPLAR.ESTANTE" >
+                                                <option v-for = "estante in estantes" :value="estante.id" >{{estante.text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
@@ -253,6 +273,8 @@ export default {
             estadoEjemplar: [],
             areas: [],
             catalogoMaterial: [],
+            bibliotecas: [],
+            estantes:[],
             modoEditar: false,
             EJEMPLAR: {
                 EJEMPLAR: '',
@@ -277,13 +299,15 @@ export default {
                 AREA:'',
                 CATALOGO_MATERIAL:'',
                 PRECIO:'',
-                IMAGEN:''
+                IMAGEN:'',
+                ESTANTE:''
             },
             isEditing: false,
             createTitle: 'Agregar Ejemplar',
             editTitle: 'Editar Ejemplar',
             titleToShow: '',
             hasError: false,
+            BIBLIOTECA:'',
             PRIMERSUMARIOID:'',
             SEGUNDOSUMARIOID:'',
             portada:''
@@ -530,7 +554,9 @@ export default {
                 TIPO_EMPASTADO:'',
                 TIPO_ADQUISICION:'',
                 PRECIO:'',
-                IMAGEN:''
+                IMAGEN:'',
+                BIBLIOTECA:'',
+                ESTANTE:''
             };
             this.PRIMERSUMARIOID='';
             this.SEGUNDOSUMARIOID='';
@@ -580,6 +606,9 @@ export default {
             axios.get('/CatalogoMaterialSelect').then((response)=>{
                 this.catalogoMaterial = response.data;
             });
+            axios.get('/inventario/bibliotecaToSelect').then((response)=>{
+                this.bibliotecas = response.data;
+            });
         },
         getSegundoSumario(){
             console.log( this.isEditing)
@@ -602,6 +631,19 @@ export default {
             }else{
                 this.EJEMPLAR.TERCER_SUMARIO='';
                 this.tercerSumarios= []
+            }
+        },
+        getEstantes(){
+            console.log( this.isEditing)
+            if(this.BIBLIOTECA>0 ){
+            console.log("ENTROOOO a get lista segunmdo sumario")
+                axios.get('/inventario/estantesToSelect/'+this.BIBLIOTECA).then((response)=>{
+                    this.estantes = response.data;
+                    console.log("BIBLIOTECA ID"+this.BIBLIOTECA);
+                });
+            }else{
+                this.SEGUNDOSUMARIOID = '';
+                this.segundoSumarios = [];
             }
         },
         onChange(e){

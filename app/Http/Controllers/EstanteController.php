@@ -108,4 +108,20 @@ class EstanteController extends Controller
         activity()->log('Eliminó estante');
 
     }
+
+    public function estanteToSelect($id){
+        $estantes = Estante::where('ID_BIBLIOTECA', $id)->get();
+        $data = [];
+        $data[0] = [
+            'id'   => 0,
+            'text' => 'Seleccione',
+        ];
+        foreach ($estantes as $key => $value) {
+            $data[$key + 1] = [
+                'id'   => $value->id,
+                'text' => $value->ESTANTE,
+            ];
+        }
+        return response()->json($data);
+    }
 }

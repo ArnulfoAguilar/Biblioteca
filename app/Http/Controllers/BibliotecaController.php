@@ -94,4 +94,20 @@ class BibliotecaController extends Controller
         $biblioteca->delete();
         activity()->log('Biblioteca eliminada ('.$biblioteca->BIBLIOTECA.')');
     }
+    public function bibliotecaToSelect()
+    {
+        $bibliotecas = Biblioteca::all();
+        $data = [];
+        $data[0] = [
+            'id'   => 0,
+            'text' => 'Seleccione',
+        ];
+        foreach ($bibliotecas as $key => $value) {
+            $data[$key + 1] = [
+                'id'   => $value->id,
+                'text' => $value->BIBLIOTECA,
+            ];
+        }
+        return response()->json($data);
+    }
 }

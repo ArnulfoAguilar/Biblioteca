@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('biblioteca/mis/prestamos', 'PrestamosController@misPrestamos')->name('mis.prestamos');
 
         Route::get('biblioteca/realizar/prestamo', 'PrestamosController@realizarPrestamo')->name('realizar.prestamo');
-        
+
         Route::POST('/solicitar/prestamo', 'PrestamosController@solicitarPrestamo')->name('solicitar.prestamo');
         Route::POST('/reservar/prestamo', 'PrestamosController@reservarPrestamo')->name('reservar.prestamo');
         Route::POST('/aprobar/prestamo', 'PrestamosController@aprobarPrestamo')->name('aprobar.prestamo');
@@ -76,9 +76,11 @@ Route::middleware(['auth'])->group(function () {
 
 
         Route::get('/inventario/bibliotecas', 'BibliotecaController@biblioteca')->name('biblioteca');
+        Route::get('/inventario/bibliotecaToSelect', 'BibliotecaController@bibliotecaToSelect')->name('bibliotecaToSelect');
         Route::resource('/Biblioteca', 'BibliotecaController');
 
         Route::get('/inventario/estantes', 'EstanteController@estante')->name('inventario.estantes');
+        Route::get('/inventario/estantesToSelect/{idBiblioteca}', 'EstanteController@estanteToSelect')->name('inventario.estantesToSelect');
         Route::resource('/Estante', 'EstanteController');
 
         Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
@@ -91,7 +93,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/inventariar', 'HomeController@inventariar')->name('inventariar');
         Route::put('/inventariarLibro', 'MaterialBibliotecarioController@Inventariar')->name('inventariarLibro');
 
-        
+
     });
 
     // ------------------------------- RUTAS DEL MODULO DE APORTES-------------------------------//
@@ -122,7 +124,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/interaccionesComentario/{id}', 'ComentarioController@interaccionesComentario')->name('interaccion.report');
         Route::resource('/palabraProhibida', 'PalabraProhibidaController');
         Route::get('/palabras-prohibidas','PalabraProhibidaController@palabraProhibida');
-        
+
         Route::get('/inventario/lista/ejemplares', 'HomeController@listaEjemplares')->name('lista.ejemplares');
         Route::resource('/ejemplars', 'EjemplarController');
         Route::get('/inventario/ingreso/libro', 'HomeController@busqueda')->name('busqueda');
@@ -195,7 +197,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::post('/marcar/leidas', 'HomeController@marcarLeidas')->name('marcar.leidas');
-    
+
     Route::get('/PrimerSumarioSelect', 'PrimerSumarioController@primerSumarioSelect');
     Route::get('/SegundoSumarioSelect/{id}', 'SegundoSumarioController@segundoSumarioSelect');
     Route::get('/TercerSumarioSelect/{id}', 'TercerSumarioController@tercerSumarioSelect');
@@ -238,7 +240,7 @@ Route::middleware(['auth'])->group(function () {
 
     // -----------------------------------------ERRORES RUTAS -------------------------------------//
     Route::get('/error/1', 'ErroresController@error1')->name('error1');
-    
+
     // -----------------------------------------PERFIL DE USUARIO -------------------------------------//
     Route::get('/Usuario/totalAportesCreados/{id}', 'UserController@totalAportesCreados')->name('totalAportesCreados');
     Route::get('/aportesProfile', 'AporteController@aportesProfile');
