@@ -373,7 +373,6 @@ export default {
         //console.log('tratando de llenar los combos');
             this.getSegundoSumario();
         }
-
         if(this.EJEMPLAR.TERCER_SUMARIO>0&& this.tercerSumarios.length===0)
             this.getTercerSumario();
     }, */
@@ -392,7 +391,6 @@ export default {
                       cancel: true,
                     },
                   }).then((value) => {
-
                   }
                   );
                   this.EJEMPLAR.ISBN='';
@@ -434,11 +432,9 @@ export default {
             if (componentState.lastAction ==='AddItem') {
                 this.titleToShow = this.createTitle;
                 $('#modalForm').modal('show');
-
             }
             if (componentState.lastAction ==='EditItem') {
                 this.titleToShow = this.editTitle;
-
                 this.editarFormulario(componentState.selectedItem.data);
                  this.setSegundoSumario(componentState.selectedItem.data);
                 this.$nextTick(()=>{$('#modalForm').modal('show');})
@@ -469,7 +465,6 @@ export default {
         },
         editarFormulario(item){
             console.log(item)
-
         //this.EJEMPLAR.PALABRAS_CLAVE=item.PALABRAS_CLAVE;
             this.PRIMERSUMARIOID=item.ID_PRIMER_SUMARIO;
             this.getSegundoSumario();
@@ -501,7 +496,6 @@ export default {
         },
         setSegundoSumario(item){
                 this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
-
         },
         eliminarEjemplar(EJEMPLAR, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
@@ -591,7 +585,6 @@ export default {
             console.log( this.isEditing)
             if(this.PRIMERSUMARIOID>0 ){
             console.log("ENTROOOO a get lista segunmdo sumario")
-
                 axios.get('/SegundoSumarioSelect/'+this.PRIMERSUMARIOID).then((response)=>{
                     this.segundoSumarios = response.data;
                     console.log("SEGUNDO SUMARIO ID"+this.SEGUNDOSUMARIOID)
@@ -600,16 +593,11 @@ export default {
                 this.SEGUNDOSUMARIOID = '';
                 this.segundoSumarios = [];
             }
-
-
         },
         getTercerSumario(){
-
             if((this.PRIMERSUMARIOID>0 && this.SEGUNDOSUMARIOID>0)){
-
                 var response= axios.get('/TercerSumarioSelect/'+this.SEGUNDOSUMARIOID).then((response)=>{
                     this.tercerSumarios = response.data;
-
                 });
             }else{
                 this.EJEMPLAR.TERCER_SUMARIO='';
@@ -636,5 +624,4 @@ export default {
 </script>
 
 <style>
-
 </style>
