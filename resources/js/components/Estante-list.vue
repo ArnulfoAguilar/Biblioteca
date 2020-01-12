@@ -22,7 +22,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre</label>
-                                <input type="text" v-model.lazy="Estante.ESTANTE" class="form-control" id="ESTANTE"
+                                <input type="text" v-model.lazy="Estante.ESTANTE" class="form-control" id="ESTANTE" autocomplete="off" maxlength="255"
                                     aria-describedby="emailHelp">
                                 <div v-if="!$v.Estante.ESTANTE.required" class="error">Este campo es obligatorio</div>
                             </div>

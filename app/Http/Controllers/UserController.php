@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\User;
 
@@ -141,5 +141,34 @@ class UserController extends Controller
         return view('administracion.puntajes')->with([
             'users' => $users,
         ]);
+    }
+
+    public function gestionUsuarios(){
+        $users = User::orderBy('id', 'asc')->get();
+        return view('administracion.usuarios')->with([
+            'users' => $users,
+        ]);
+    }
+
+    public function editarUsuario($user){
+        $user = User::find($user);
+        return view('administracion.usuario-edit')->with([
+            'user' => $user,
+        ]); 
+    }
+
+    public function editarUsuarioPost(Request $request){
+        // dd($request);
+        $user = User::find($request->id);
+        $user->name = $request->nombres; 
+        $user->apellidos = $request->apellidos; 
+        $user->email = $request->email; 
+        if($request->password != null){
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+
+        return back()->with('success', 'Usuario editado correctamente');
+         
     }
 }

@@ -18,6 +18,7 @@ npm install moment --save
 npm i bootbox
 npm install --save @fullcalendar/vue @fullcalendar/core @fullcalendar/daygrid
 
+composer require maatwebsite/excel
 composer require fruitcake/laravel-cors
 
 //No es npm, pero no encontre donde ponerlo xD

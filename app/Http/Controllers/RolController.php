@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Rol;
+use App\Permiso;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -113,6 +114,34 @@ class RolController extends Controller
             'usuarios' => $usuarios,
             'user' => $user
         ]);
+    }
+
+    public function asignarPermisoIndex($rol = null){
+        if($rol){
+            $rol = Rol::find($rol);
+        }
+        $roles = Rol::all();
+        $permisos = Permiso::all();
+        return view('administracion.asignacion-permisos')->with([
+            'roles' => $roles,
+            'permisos' => $permisos,
+            'rol' => $rol,
+        ]);
+    }
+
+    public function asignarPermisoPost(Request $request){
+        
+        $rol = Rol::find($request->id_rol);
+        $rol->permisos()->detach();
+        if($request->permisos != null){
+            foreach ($request->permisos as $key => $permiso) {
+                $rol->permisos()->attach($permiso);
+            }
+        }else{
+            $rol->permisos()->detach();
+        }
+        // return redirect()->route('administracion.asignar.permiso');   
+        return back()->with('success','Permisos asignados con éxito!');     
     }
     
 }

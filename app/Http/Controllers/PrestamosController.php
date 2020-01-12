@@ -53,7 +53,7 @@ class PrestamosController extends Controller
     public function realizarPrestamo(Request $request)
     {
         $cuentas = [];
-        $ejemplares = Ejemplar::paginate(20);
+        $ejemplares = Ejemplar::all();
         foreach ($ejemplares as $key => $ejemplar) {
             $cuentas[] += materialBibliotecario::where('ID_EJEMPLAR', $ejemplar->id)
             ->where('DISPONIBLE', true)->count();
@@ -63,21 +63,54 @@ class PrestamosController extends Controller
         $penalizado=false;
         $penalizaciones = Penalizacion::where('SOLVENTADA', '!=', true)->get();
         foreach ($penalizaciones as $key => $penalizacion) {
-            if ($penalizacion->prestamo->usuario->id == auth()->id() && $penalizacion->tipo->id == 3) {
+            // if ($penalizacion->prestamo->usuario->id == auth()->id() && $penalizacion->tipo->id == 3) {
+            if ($penalizacion->prestamo->usuario->id == auth()->id() ) {
                 $penalizado=true;
             }
         }
 
         $permitido = true;
+        $configuraciones= Configuracion::first();
         $prestamos = Auth::user()->prestamos;
-        if(Auth::user()->rol->id == 2){
+        
+        $cuenta_prestamos = 0;
+        // if(Auth::user()->rol->id == 2){
             foreach (Auth::user()->prestamos as $key => $prestamo) {
                 if($prestamo->ID_ESTADO_PRESTAMO == 1 || $prestamo->ID_ESTADO_PRESTAMO == 2 || $prestamo->ID_ESTADO_PRESTAMO == 3 || 
                     $prestamo->ID_ESTADO_PRESTAMO == 4 || $prestamo->ID_ESTADO_PRESTAMO == 6 ){
-                        $permitido = false;
+                        $cuenta_prestamos ++;
                 }
             }
+        // }
+
+        
+        switch (Auth::user()->rol->id) {
+            case '1':
+                if($cuenta_prestamos >= $configuraciones->PRESTAMOS_MAXIMOS_ADMINISTRADOR ){
+                    $permitido = false;
+                }
+                break;
+            case '2':
+                if($cuenta_prestamos >= $configuraciones->PRESTAMOS_MAXIMOS_ALUMNO ){
+                    $permitido = false;
+                }
+                break;
+            case '3':
+                if($cuenta_prestamos >= $configuraciones->PRESTAMOS_MAXIMOS_DOCENTE ){
+                    $permitido = false;
+                }
+                break;
+            case '4':
+                if($cuenta_prestamos >= $configuraciones->PRESTAMOS_MAXIMOS_COMITE ){
+                    $permitido = false;
+                }
+                break;
+            
+            default:
+                # code...
+                break;
         }
+        
         
 
         $aportes = Aporte::where('HABILITADO', true)->get();

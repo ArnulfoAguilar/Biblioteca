@@ -38,7 +38,7 @@
                                     'fecha_f' => $fecha_f
                                     ])->links()}} --}}
 
-                                    {{$ejemplares->links()}}
+                                    {{-- {{$ejemplares->links()}} --}}
                             </div>
 
                             <table class="table table-hover table-bordered" id="libros">
@@ -102,11 +102,11 @@
                                                     <td class="text-center">
                                                         @if ($penalizado == true)
                                                             <div class="badge bg-red">
-                                                                Usted esta penalizado
+                                                                Usted está penalizado
                                                             </div>
                                                         @elseif( $permitido == false )
                                                             <div class="badge bg-red">
-                                                                Ya ha realizado un préstamo
+                                                                Limite de préstamos alcanzado
                                                             </div>
                                                         @else
                                                             <button type="button" class="btn btn-sm btn-primary" title="Prestar" data-toggle="modal" data-target="#modalSolicitar" 
@@ -142,7 +142,7 @@
                                         'fecha_i' => $fecha_i,
                                         'fecha_f' => $fecha_f
                                         ])->links()}} --}}
-                                        {{$ejemplares->links()}}
+                                        {{-- {{$ejemplares->links()}} --}}
 
                                 </div>
                                

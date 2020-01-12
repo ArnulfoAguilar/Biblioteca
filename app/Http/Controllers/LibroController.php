@@ -14,7 +14,7 @@ class LibroController extends Controller
      *los libros, para imprimir
      */
     public function index(){
-        $ejemplares = Ejemplar::paginate(20);
+        $ejemplares = Ejemplar::all();
 
         return view('Etiquetas.Etiquetas')->with([
             'ejemplares'=> $ejemplares

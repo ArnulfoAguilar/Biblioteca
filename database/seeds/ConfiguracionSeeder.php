@@ -17,7 +17,11 @@ class ConfiguracionSeeder extends Seeder
             'HABILITAR_COMENTARIOS' => True,
             'TAMAÑO_MAXIMO_ARCHIVOS'=>3000,
             'NOMBRE_INSTITUCION'=>"Colegio Padre Arrupe",
-            'DIRECCION_INSTITUCION'=>"Calle Padre Salazar Simpson, San Salvador"
+            'DIRECCION_INSTITUCION'=>"Calle Padre Salazar Simpson, San Salvador",
+            'PRESTAMOS_MAXIMOS_ALUMNO'=> 1,
+            'PRESTAMOS_MAXIMOS_DOCENTE'=> 5,
+            'PRESTAMOS_MAXIMOS_COMITE'=> 10,
+            'PRESTAMOS_MAXIMOS_ADMINISTRADOR'=>50
         ]);
     }
 }

@@ -28,5 +28,10 @@ class Aporte extends Model
         return $this->belongsTo('App\User', 'ID_USUARIO', 'id');
     }
 
+    public function area()
+    {
+        return $this->belongsTo('App\Area', 'ID_AREA', 'id');
+    }
+
 
 }

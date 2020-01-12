@@ -36,6 +36,10 @@ class ConfiguracionController extends Controller
         $request->customSwitch3 == '' || $request->customSwitch3 == null ? $configuracion->HABILITAR_COMENTARIOS = false:$configuracion->HABILITAR_COMENTARIOS = true;
         $request->nombreInstitucion != null ? $configuracion->NOMBRE_INSTITUCION = $request->nombreInstitucion: '';
         $request->direccionInstitucion != null ? $configuracion->DIRECCION_INSTITUCION = $request->direccionInstitucion: '';
+        $request->max_alumnos != null ? $configuracion->PRESTAMOS_MAXIMOS_ALUMNO = $request->max_alumnos: '';
+        $request->max_docentes != null ? $configuracion->PRESTAMOS_MAXIMOS_DOCENTE = $request->max_docentes: '';
+        $request->max_comite != null ? $configuracion->PRESTAMOS_MAXIMOS_COMITE = $request->max_comite: '';
+        $request->max_admin != null ? $configuracion->PRESTAMOS_MAXIMOS_ADMINISTRADOR = $request->max_admin: '';
         $configuracion->Save();
         $configuraciones= Configuracion::first();
         activity()->performedOn($configuracion)->log('Modifico las configuraciones');

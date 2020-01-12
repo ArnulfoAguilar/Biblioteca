@@ -19,6 +19,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    return "Cache is cleared";
+});
+
 Route::middleware(['auth'])->group(function () {
 
 
@@ -171,6 +179,15 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/administracion/calendarios','CalendarioController');
 
         Route::get('/administracion/get/users', 'UserController@getUsuarios', 'administracion.get.usuarios')->name('administracion.get.usuarios');
+
+        Route::get('/administracion/asignar/permisos/{id?}', 'RolController@asignarPermisoIndex')->name('administracion.asignar.permiso');
+        Route::POST('/administracion/asignar/permisos/post', 'RolController@asignarPermisoPost')->name('administracion.asignar.permiso.post');
+
+        Route::get('/administracion/gestion/usuarios', 'UserController@gestionUsuarios')->name('administracion.gestion.usuarios');
+        Route::POST('/administracion/import/usuarios', 'ImportController@importUsuarios')->name('administracion.import.usuarios');
+
+        Route::get('/administracion/gestion/usuario/edit/{id?}', 'UserController@editarUsuario')->name('administracion.gestion.usuario.edit');
+        Route::POST('/administracion/gestion/usuario/edit/post', 'UserController@editarUsuarioPost')->name('administracion.gestion.usuario.edit.post');
     });
 
     // -----------------------------------------OTRAS RUTAS -------------------------------------//

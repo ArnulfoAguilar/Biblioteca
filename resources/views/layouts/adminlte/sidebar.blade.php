@@ -192,7 +192,7 @@
         @endif
 
         {{-- Catalogos --}}
-        @if (Auth::user()->rol->id == 1)
+        @if (Auth::user()->rol->id == 1 || Auth::user()->hasPermiso([21]) || Auth::user()->hasPermiso([22]) || Auth::user()->hasPermiso([23]) || Auth::user()->hasPermiso([24]) || Auth::user()->hasPermiso([25]) || Auth::user()->hasPermiso([26])   )
           <li class="nav-item has-treeview {{ ( request()->is('catalogos/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('catalogos/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-list-alt"></i>
@@ -203,7 +203,7 @@
             </a>
             <ul class="nav nav-treeview">
               
-              @if (Auth::user()->rol->id == 1 )
+              @if ( Auth::user()->hasPermiso([21]) )
                 <li class="nav-item">
                   <a href="{{route('roles')}}" class="nav-link {{ ( request()->is('catalogos/roles') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -212,7 +212,7 @@
                 </li>
               @endif
     
-              @if (Auth::user()->rol->id == 1 )
+              @if ( Auth::user()->hasPermiso([22]) )
                 <li class="nav-item">
                   <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('catalogos/comites') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -221,7 +221,7 @@
                 </li>
               @endif
 
-              @if (Auth::user()->rol->id == 1 )
+              @if ( Auth::user()->hasPermiso([23]) )
                 <li class="nav-item">
                   <a href="{{route('palabras.prohibidas')}}"
                     class="nav-link {{ ( request()->is('catalogos/palabras-prohibidas') ) ? 'active' : '' }}">
@@ -231,7 +231,7 @@
                 </li>
               @endif
 
-              @if (Auth::user()->rol->id == 1 )
+              @if ( Auth::user()->hasPermiso([24]) )
                 <li class="nav-item">
                   <a href="{{route('tipos.penalizaciones')}}"
                     class="nav-link {{ ( request()->is('catalogos/tipos/penalizaciones') ) ? 'active' : '' }}">
@@ -241,7 +241,7 @@
                 </li>
               @endif
 
-              @if (Auth::user()->rol->id == 1 )
+              @if ( Auth::user()->hasPermiso([25]) )
                 <li class="nav-item">
                   <a href="{{route('Configuracion')}}"
                     class="nav-link {{ ( request()->is('catalogos/Configuracion') ) ? 'active' : '' }}">
@@ -251,7 +251,7 @@
                 </li>
               @endif
 
-              @if (Auth::user()->rol->id == 1 )
+              @if ( Auth::user()->hasPermiso([26]) )
                 <li class="nav-item">
                   <a href="{{route('registro.actividad')}}"
                     class="nav-link {{ ( request()->is('catalogos/registro/actividad') ) ? 'active' : '' }}">
@@ -266,7 +266,7 @@
 
 
         {{-- Catalogos --}}
-        @if (Auth::user()->rol->id == '1' )
+        @if ( Auth::user()->hasPermiso([27]) || Auth::user()->hasPermiso([28]) )
           <li class="nav-item has-treeview {{ ( request()->is('graficos/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('graficos/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-list-alt"></i>
@@ -277,7 +277,7 @@
             </a>
             <ul class="nav nav-treeview">
 
-              @if (Auth::user()->rol->id == '1' )
+              @if ( Auth::user()->hasPermiso([27]) )
                 <li class="nav-item">
                   <a href="{{route('graficos.aportes')}}"
                     class="nav-link {{ ( request()->is('graficos/aportes') ) ? 'active' : '' }}">
@@ -287,7 +287,7 @@
                 </li>
               @endif
 
-              @if (Auth::user()->rol->id == '1' )
+              @if ( Auth::user()->hasPermiso([28]) )
                 <li class="nav-item">
                   <a href="{{route('graficos.aportes.anio')}}"
                     class="nav-link {{ ( request()->is('graficos/aportes/anio') ) ? 'active' : '' }}">

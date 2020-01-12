@@ -38,7 +38,7 @@
                                     'fecha_f' => $fecha_f
                                     ])->links()}} --}}
 
-                                    {{$penalizaciones->links()}}
+                                    {{-- {{$penalizaciones->links()}} --}}
                             </div>
 
                             <table class="table table-hover table-bordered" id="penalizaciones">
@@ -106,7 +106,7 @@
                                         'fecha_i' => $fecha_i,
                                         'fecha_f' => $fecha_f
                                         ])->links()}} --}}
-                                        {{$penalizaciones->links()}}
+                                        {{-- {{$penalizaciones->links()}} --}}
 
                                 </div>
                                
@@ -133,7 +133,9 @@
     <script type="text/javascript">
     
         $(document).ready( function () {
-            $('#penalizaciones').DataTable();
+            $('#penalizaciones').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
         } );
 
         $(".solventar").click(function(){

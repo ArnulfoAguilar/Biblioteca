@@ -53,12 +53,14 @@
                         <div class="tab-content">
                           <div class="tab-pane active" id="activity">
 
-                                <h4 >Autor: {{$aporte->usuario->name}}
+                                <h5 >Autor: {{$aporte->usuario->name}}
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    Estado: {{$aporte->HABILITADO == true ? 'HABILITADO' : 'PENDIENTE DE APROBACIÓN' }}
+                                    Estado: {{$aporte->HABILITADO == true ? 'Habilitado' : 'Pendiente de aprobación' }}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Área: {{$aporte->area->AREA}}
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     Visto {{$aporte->VISTAS }} veces
-                                </h4>
+                                </h5>
                                <br>
 
                                 Palabras Clave:
@@ -131,15 +133,20 @@
                                                                 @foreach ($interacciones as $interaccion)
                                                                     @if ($interaccion->id_comentario == $comentario->id)
                                                                         <?php $dioLike = true;?>
-                                                                        <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button"  class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down">{{ $comentario->total_likes }}</i> Dislike</button>
+                                                                        {{ $comentario->total_likes }} Likes &nbsp;
+                                                                        {{-- <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button" class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down"></i> Dislike</button> --}}
+                                                                        <a href="#"class="link-black text-sm dislike" data-i="{{$interaccion->id_interaccion}}"><i class="far fa-thumbs-down mr-1"></i>Ya no me gusta</a>
                                                                     @endif
                                                                 @endforeach
                                                                 @if ($dioLike)
                                                                     <?php $dioLike = false;?>
                                                                 @else
-                                                                    <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up">{{ $comentario->total_likes }}</i> Like</button>
-                                                                @endif
-                                                                <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
+                                                                    {{ $comentario->total_likes }} Likes &nbsp;
+                                                                    {{-- {{ $comentario->total_likes }} Likes <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up"></i> Like</button> --}}
+                                                                    <a href="#"class="link-black text-sm like" data-c="{{$comentario->id}}"><i class="far fa-thumbs-up mr-1"></i>Me gusta</a>
+                                                                    @endif
+                                                                &nbsp;&nbsp;<a href="#"class="link-black text-sm"><i class="fas fa-ban mr-1"></i>Reportar</a>
+                                                                {{-- <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button> --}}
                                                             </div>
                                                         </div>
                                                                         <!-- /.card-comment -->

@@ -20,7 +20,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="NOMBRE">Palabra</label><b v-if="!$v.PalabraProhibida.PALABRA.required" class="error">*</b>
-                                <input type="text" v-model.lazy="$v.PalabraProhibida.$model.PALABRA" class="form-control" id="PALABRA"
+                                <input type="text" v-model.lazy="$v.PalabraProhibida.$model.PALABRA" class="form-control" id="PALABRA" autocomplete="off" maxlength="255"
                                     aria-describedby="emailHelp">
 
                             </div>

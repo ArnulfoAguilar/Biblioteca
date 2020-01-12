@@ -56,31 +56,56 @@
                                     <label for="Titulo">Nombre del colegio</label>
                                     <input type="text"  class="form-control" name="nombreInstitucion" value="{{$configuraciones ? $configuraciones->NOMBRE_INSTITUCION : ''}}" 
                                         placeholder="{{$configuraciones ? $configuraciones->NOMBRE_INSTITUCION : ''}}"
-                                        aria-describedby="Titulo" required>
+                                        aria-describedby="Titulo" required maxlength="255">
                                 </div>
                                 <div class="form-group col-md-12 col-xs-12">
                                         <label for="Titulo">Direccion del colegio</label>
                                         <input type="text"  class="form-control" name="direccionInstitucion" value="{{$configuraciones ? $configuraciones->DIRECCION_INSTITUCION : ''}}" 
                                             placeholder="{{$configuraciones ? $configuraciones->DIRECCION_INSTITUCION : ''}}"
-                                            aria-describedby="Titulo" required>
+                                            aria-describedby="Titulo" required maxlength="255">
                                     </div>
                                 <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Días Habiles de Préstamo</label>
                                     <input type="number"  class="form-control" name="diasHabiles" value="{{$configuraciones ? $configuraciones->DIAS_HABILES_PRORROGA : ''}}" 
                                         placeholder="{{$configuraciones ? $configuraciones->DIAS_HABILES_PRORROGA : ''}}"
-                                        aria-describedby="Titulo" required>
+                                        aria-describedby="Titulo" required max="365">
                                 </div>
                                 <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Días para prórroga</label>
                                     <input type="number"  class="form-control" name="diasProrroga" value="{{$configuraciones ? $configuraciones->DIAS_PRORROGABLES : ''}}" 
                                         placeholder="{{$configuraciones ? $configuraciones->DIAS_PRORROGABLES : ''}}"
-                                        aria-describedby="Titulo" required>
+                                        aria-describedby="Titulo" required max="365">
                                 </div>
                                 <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Tamaño de Archivo (Kb)</label>
                                     <input type="number"  class="form-control" name="archivoSize" placeholder="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}} Kb"
                                         value="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}}"
-                                        aria-describedby="Titulo" required>
+                                        aria-describedby="Titulo" required max="1000000">
+                                </div>
+
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Máximo de préstamos para Alumnos</label>
+                                    <input type="number"  class="form-control" name="max_alumnos" value="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_ALUMNO : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_ALUMNO : ''}}"
+                                        min="1" aria-describedby="Titulo" required max="1000">
+                                </div>
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Máximo de préstamos para Docentes</label>
+                                    <input type="number"  class="form-control" name="max_docentes" value="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_DOCENTE : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_DOCENTE : ''}}"
+                                        min="1" aria-describedby="Titulo" required max="1000">
+                                </div>
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Máximo de préstamos para Departamento</label>
+                                    <input type="number"  class="form-control" name="max_comite" value="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_COMITE : ''}}" 
+                                        placeholder="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_COMITE : ''}}"
+                                        min="1" aria-describedby="Titulo" required max="1000">
+                                </div>
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Máximo de préstamos para Administradores</label>
+                                    <input type="number"  class="form-control" name="max_admin" placeholder="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_ADMINISTRADOR : ''}} "
+                                        value="{{$configuraciones ? $configuraciones->PRESTAMOS_MAXIMOS_ADMINISTRADOR : ''}}"
+                                        min="1" aria-describedby="Titulo" required max="1000">
                                 </div>                            
                             </div><div>
                                 <div class="form-group col-md-4 col-xs-12">

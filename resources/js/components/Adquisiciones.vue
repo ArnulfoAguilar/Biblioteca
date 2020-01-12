@@ -1,7 +1,7 @@
 <template>
 <div>
       <div class="d-flex justify-content-end" v-for="(user,index) in Usuarios" :key="index">
-          <button v-if="usuario == user.id && user.ID_ROL == 4" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Crear nueva sugerencia</button>
+          <button v-if="usuario == user.id && user.ID_ROL == 4 && user.ID_COMITE != null" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Crear nueva sugerencia</button>
       </div>
 
       <br>
@@ -77,30 +77,22 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="NOMBRE">Título de la sugerencia</label>
-                                    <input type="text" v-model="Sugerencia.TITULO" class="form-control" id="NOMBRE"
-                                        aria-describedby="emailHelp" required>
+                                    <input type="text" v-model="Sugerencia.TITULO" class="form-control" id="NOMBRE" autocomplete="off"
+                                        aria-describedby="emailHelp" required maxlength="250">
                                 </div>
                                 <div class="form-group">
                                     <label for="DESCRIPCION">Descripción</label>
                                     <textarea class="form-control" id="DESCRIPCION" v-model="Sugerencia.DESCRIPCION"
-                                        rows="3" required></textarea>
+                                        rows="3" required maxlength="250"></textarea>
                                     <!-- <input type="text" class="form-control" v-model="Sugerencia.DESCRIPCION" id="ISBN"
                                         aria-describedby="emailHelp" required> -->
                                 </div>
                                 <div class="form-group">
                                     <label for="ISBN">Justificación de la sugerencia</label>
                                     <textarea class="form-control" id="DESCRIPCION" v-model="Sugerencia.CONTENIDO"
-                                        rows="3" required></textarea>
+                                        rows="3" required maxlength="50000"></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label for="AUTOR">Area</label>
-                                        <select class="form-control col-md-12" v-model="Sugerencia.ID_AREA" required>
-                                          <option disabled value="">Por favor seleccione una</option>
-                                          <option v-for="(item, index) in Areas" :key="index" v-bind:value="item.id">
-                                          {{ item.text }}
-                                          </option>
-                                        </select>
-                                </div>
+                                
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-success float-left" type="submit">Guardar</button>
