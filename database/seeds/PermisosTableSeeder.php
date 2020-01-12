@@ -214,6 +214,13 @@ class PermisosTableSeeder extends Seeder
             'nombre' => 'Estadisticas',
             'descripcion' => 'Muestra las estadisticas en la pantalla principal',
         ]);
+        DB::table('permisos')->insert([
+            'id' => 30,
+            'correlativo' => 30,
+            'nombre_corto' => 'manag-inv-season',
+            'nombre' => 'Gestion de invenatario al fin de periodo',
+            'descripcion' => 'Muestra lo necesario para la gestion de inventario al fin de periodo',
+        ]);
         
         
     }
