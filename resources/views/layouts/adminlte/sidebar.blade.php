@@ -113,14 +113,14 @@
                 </li>
               @endif
 
-              @if (Auth::user()->rol->id == 'X' )
+              {{-- @if (Auth::user()->rol->id == 'X' ) --}}
                 <li class="nav-item">
                   <a href="{{ route('busqueda') }}" class="nav-link {{ ( request()->is('inventario/ingreso/libro') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ingreso de libro</p>
                   </a>
                 </li>
-              @endif
+              {{-- @endif --}}
 
               @if ( Auth::user()->hasPermiso([8]) )
                 <li class="nav-item">
