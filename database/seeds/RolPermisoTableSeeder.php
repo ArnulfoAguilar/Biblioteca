@@ -41,6 +41,9 @@ class RolPermisoTableSeeder extends Seeder
         DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 28]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 29]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 30]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 31]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 32]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 33]);
 
         DB::table('rol_permiso')->insert(['ID_ROL' => 2,'ID_PERMISO' => 1]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 2,'ID_PERMISO' => 3]);
@@ -53,7 +56,9 @@ class RolPermisoTableSeeder extends Seeder
         DB::table('rol_permiso')->insert(['ID_ROL' => 3,'ID_PERMISO' => 10]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 3,'ID_PERMISO' => 11]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 3,'ID_PERMISO' => 12]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 3,'ID_PERMISO' => 14]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 3,'ID_PERMISO' => 15]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 3,'ID_PERMISO' => 31]);
 
         DB::table('rol_permiso')->insert(['ID_ROL' => 4,'ID_PERMISO' => 1]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 4,'ID_PERMISO' => 3]);
@@ -63,6 +68,8 @@ class RolPermisoTableSeeder extends Seeder
         DB::table('rol_permiso')->insert(['ID_ROL' => 4,'ID_PERMISO' => 14]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 4,'ID_PERMISO' => 15]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 4,'ID_PERMISO' => 16]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 4,'ID_PERMISO' => 31]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 4,'ID_PERMISO' => 33]);
 
     }
 }

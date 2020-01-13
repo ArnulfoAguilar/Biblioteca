@@ -221,6 +221,27 @@ class PermisosTableSeeder extends Seeder
             'nombre' => 'Inventario Final de periodo',
             'descripcion' => 'Muestra lo necesario para Inventario Final de periodo',
         ]);
+        DB::table('permisos')->insert([
+            'id' => 31,
+            'correlativo' => 31,
+            'nombre_corto' => 'observaciones',
+            'nombre' => 'Ver Observaciones de aporte',
+            'descripcion' => 'Permite ver las observaciones de los aportes',
+        ]);
+        DB::table('permisos')->insert([
+            'id' => 32,
+            'correlativo' => 32,
+            'nombre_corto' => 'manag-coments',
+            'nombre' => 'Gestionar comentarios',
+            'descripcion' => 'Muestra lo necesario para gestionar los comentarios de los aportes',
+        ]);
+        DB::table('permisos')->insert([
+            'id' => 33,
+            'correlativo' => 33,
+            'nombre_corto' => 'aporte-aprobar',
+            'nombre' => 'Aprobar aporte',
+            'descripcion' => 'Permite habilitar los aportes',
+        ]);
         
         
     }
