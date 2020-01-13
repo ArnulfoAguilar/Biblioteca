@@ -561,7 +561,6 @@ export default {
             this.SEGUNDOSUMARIOID='';
             this.segundoSumarios=[];
             this.tercerSumarios=[];
-            this.bibliotecas=[];
             this.estantes=[];
             this.isEditing =false;
             this.portada = '';
@@ -657,7 +656,6 @@ export default {
                 this.EJEMPLAR.IMAGEN = e.target.result;
             }
             reader.readAsDataURL(file);
-                console.log('ejemplar',this.EJEMPLAR);
         }
     },
 }
