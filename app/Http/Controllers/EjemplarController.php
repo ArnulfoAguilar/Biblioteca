@@ -51,11 +51,11 @@ class EjemplarController extends Controller
     public function store(Request $request)
     {
         $url = $request->IMAGEN;
+        dd($url);
         if ($url != null) {
             $contents = file_get_contents($url);
-            //dd($contents);
-            $file = '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
-            Storage::put($file, $contents);
+            $file = public_path() . '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
+            file_put_contents($file, $contents);
         }
         $Ejemplar = new Ejemplar();
         $Ejemplar->DESCRIPCION = $request->DESCRIPCION;
@@ -84,6 +84,7 @@ class EjemplarController extends Controller
         $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
         $Ejemplar->ID_AREA = $request->AREA;
         $Ejemplar->PRECIO = $request->PRECIO;
+        $Ejemplar->ID_ESTANTE = $request->ESTANTE;
         $Ejemplar->save();
         activity()->performedOn($Ejemplar)->log('Guardó ejemplar ('.$Ejemplar->EJEMPLAR.')');
     }

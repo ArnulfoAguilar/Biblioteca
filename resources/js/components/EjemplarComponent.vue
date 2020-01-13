@@ -129,7 +129,7 @@
                                         <!--select2  :options="primerSumarios" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"  >
                                         </select2-->
                                         <select class='form-control' v-model="PRIMERSUMARIOID" @change="getSegundoSumario">
-                                                    <option v-for = "primer in primerSumarios" :value="primer.id" @input="getSegundoSumario">{{primer.text}}</option>
+                                            <option v-for = "primer in primerSumarios" :value="primer.id" @input="getSegundoSumario">{{primer.text}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
                                     <div>
                                         <!--select2 :options="segundoSumarios" v-model="SEGUNDOSUMARIOID" @input="getTercerSumario"></select2-->
                                          <select class='form-control' v-model="SEGUNDOSUMARIOID" @change="getTercerSumario">
-                                                    <option v-for = "segundo in segundoSumarios" :value="segundo.id"  >{{segundo.text}}</option>
+                                            <option v-for = "segundo in segundoSumarios" :value="segundo.id"  >{{segundo.text}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -147,16 +147,15 @@
                                     <div>
                                         <!--select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2-->
                                         <select class='form-control' v-model="EJEMPLAR.TERCER_SUMARIO" >
-                                                    <option v-for = "tercero in tercerSumarios" :value="tercero.id" >{{tercero.text}}</option>
+                                            <option v-for = "tercero in tercerSumarios" :value="tercero.id" >{{tercero.text}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="BIBLIOTECA">Biblioteca</label>
                                     <div>
-                                        <!--select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2-->
                                         <select class='form-control' v-model="BIBLIOTECA" @change="getEstantes">
-                                                <option v-for = "biblioteca in bibliotecas" :value="biblioteca.id" >{{biblioteca.text}}</option>
+                                            <option v-for = "biblioteca in bibliotecas" :value="biblioteca.id" >{{biblioteca.text}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -165,9 +164,8 @@
                                 <div class="col-md-3">
                                     <div>
                                         <label for="ESTANTE">Estante</label>
-                                        <!--select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2-->
                                         <select class='form-control' v-model="EJEMPLAR.ESTANTE" >
-                                                <option v-for = "estante in estantes" :value="estante.id" >{{estante.text}}</option>
+                                            <option v-for = "estante in estantes" :value="estante.id" >{{estante.text}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -515,8 +513,10 @@ export default {
             this.EJEMPLAR.AÑO_EDICION=item.AÑO_EDICION;
             this.EJEMPLAR.PRECIO=item.PRECIO;
             this.EJEMPLAR.IMAGEN=item.IMAGEN;
+            this.BIBLIOTECA = item.ID_BIBLIOTECA;
+            this.getEstantes();
+            this.EJEMPLAR.ESTANTE = item.ID_ESTANTE;
             this.isEditing = true;
-        //this.$forceUpdate();
         },
         setSegundoSumario(item){
                 this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
@@ -555,14 +555,17 @@ export default {
                 TIPO_ADQUISICION:'',
                 PRECIO:'',
                 IMAGEN:'',
-                BIBLIOTECA:'',
                 ESTANTE:''
             };
             this.PRIMERSUMARIOID='';
             this.SEGUNDOSUMARIOID='';
             this.segundoSumarios=[];
             this.tercerSumarios=[];
+            this.bibliotecas=[];
+            this.estantes=[];
             this.isEditing =false;
+            this.portada = '';
+            this.BIBLIOTECA = '';
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
          *basicamente es el toastr indicandonos el exitos de la operacion
@@ -601,7 +604,6 @@ export default {
             });
             axios.get('/Area').then((response)=>{
                 this.areas = response.data;
-                console.log(this.areas)
             });
             axios.get('/CatalogoMaterialSelect').then((response)=>{
                 this.catalogoMaterial = response.data;
@@ -611,12 +613,9 @@ export default {
             });
         },
         getSegundoSumario(){
-            console.log( this.isEditing)
             if(this.PRIMERSUMARIOID>0 ){
-            console.log("ENTROOOO a get lista segunmdo sumario")
                 axios.get('/SegundoSumarioSelect/'+this.PRIMERSUMARIOID).then((response)=>{
                     this.segundoSumarios = response.data;
-                    console.log("SEGUNDO SUMARIO ID"+this.SEGUNDOSUMARIOID)
                 });
             }else{
                 this.SEGUNDOSUMARIOID = '';
@@ -634,16 +633,13 @@ export default {
             }
         },
         getEstantes(){
-            console.log( this.isEditing)
             if(this.BIBLIOTECA>0 ){
-            console.log("ENTROOOO a get lista segunmdo sumario")
                 axios.get('/inventario/estantesToSelect/'+this.BIBLIOTECA).then((response)=>{
                     this.estantes = response.data;
-                    console.log("BIBLIOTECA ID"+this.BIBLIOTECA);
                 });
             }else{
-                this.SEGUNDOSUMARIOID = '';
-                this.segundoSumarios = [];
+                this.EJEMPLAR.ESTANTE = '';
+                this.estantes = [];
             }
         },
         onChange(e){
@@ -651,6 +647,7 @@ export default {
             if (!files.length){
                 return;
             }
+
             this.portada = URL.createObjectURL(files[0]);
             this.createImage(files[0]);
         },
@@ -660,6 +657,7 @@ export default {
                 this.EJEMPLAR.IMAGEN = e.target.result;
             }
             reader.readAsDataURL(file);
+                console.log('ejemplar',this.EJEMPLAR);
         }
     },
 }
