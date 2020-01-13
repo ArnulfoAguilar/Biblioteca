@@ -62,6 +62,12 @@ class CreateEjemplarsTable extends Migration
                 ->on('catalogoMaterial')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
+            $table->bigInteger('ID_ESTANTE')->nullable()->unsigned();
+            $table->foreign('ID_ESTANTE')
+                ->references('id')
+                ->on('Estante')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

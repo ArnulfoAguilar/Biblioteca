@@ -51,10 +51,11 @@ class EjemplarController extends Controller
     public function store(Request $request)
     {
         $url = $request->IMAGEN;
-        dd($url);
+        //dd($url);
         if ($url != null) {
             $contents = file_get_contents($url);
             $file = public_path() . '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
+            // $file = public_path() . '/bookImages/' .$request->EJEMPLAR. ".png";
             file_put_contents($file, $contents);
         }
         $Ejemplar = new Ejemplar();
@@ -124,6 +125,7 @@ class EjemplarController extends Controller
         if ($url != null) {
             $contents = file_get_contents($url);
             $file = public_path().'/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
+            // $file = public_path().'/bookImages/' .$request->EJEMPLAR. ".png";
             file_put_contents($file, $contents);
         }
         $Ejemplar = Ejemplar::find($ejemplar->id);

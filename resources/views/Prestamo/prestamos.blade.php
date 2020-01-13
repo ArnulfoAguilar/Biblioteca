@@ -47,6 +47,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Solicitante</th>
                                     <th scope="col">Ejemplar Solicitado</th>
+                                    <th scope="col">Ubicación</th>
                                     <th scope="col">Codigo Barra</th>
                                     <th scope="col">Estado</th>
                                     <th scope="col">Devolución esperada</th>
@@ -71,11 +72,19 @@
                                             <td>
                                                 @foreach ($prestamo->materiales as $material)
                                                     <div> {{$material->ejemplar->EJEMPLAR}}</div>
+                                                    {{-- <div class="badge bg-green"> {{$material->ejemplar->EJEMPLAR}}</div> --}}
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach ($prestamo->materiales as $material)
+                                                    <div> {{$material->ejemplar->estante->ESTANTE}}</div>
+                                                    {{-- <div class="badge bg-green"> {{$material->ejemplar->estante->ESTANTE}}</div> --}}
                                                 @endforeach
                                             </td>
                                             <td>
                                                 @foreach ($prestamo->materiales as $material)
                                                     <div> {{$material->CODIGO_BARRA}}</div>
+                                                    {{-- <div class="badge bg-purple"> {{$material->CODIGO_BARRA}}</div> --}}
                                                 @endforeach
                                             </td>
                                             <td>{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</td>

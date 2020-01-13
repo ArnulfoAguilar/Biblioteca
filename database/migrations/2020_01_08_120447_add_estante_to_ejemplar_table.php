@@ -14,12 +14,12 @@ class AddEstanteToEjemplarTable extends Migration
     public function up()
     {
         Schema::table('Ejemplar', function (Blueprint $table) {
-            $table->bigInteger('ID_ESTANTE')->unsigned()->nullable();
-            $table->foreign('ID_ESTANTE')
-                ->references('id')
-                ->on('Estante')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            // $table->bigInteger('ID_ESTANTE')->unsigned()->nullable();
+            // $table->foreign('ID_ESTANTE')
+            //     ->references('id')
+            //     ->on('Estante')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
         });
     }
 

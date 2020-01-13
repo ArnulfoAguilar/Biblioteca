@@ -163,7 +163,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Aprobar Préstamo</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Realizar Préstamo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -171,6 +171,12 @@
                 <div class="modal-body">
                     <div class="row">
                         <input class="form-control" type="hidden" id="id_ejemplar" disabled>
+                        <div class="form-group col-md-3">
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{-- <label for="AUTOR">Imagen del libro</label> --}}
+                            <img id="imagen_portada" src="" alt="Imagen de portada" width="200" height="200">
+                        </div>
                         <div class="form-group col-md-12">
                             <label for="AUTOR">Nombre del libro</label>
                             <input class="form-control" type="text" id="ejemplar" disabled>
@@ -233,6 +239,8 @@
             $('.modal-body #edicion').val(ejemplar.EDICION);
             $('.modal-body #editorial').val(ejemplar.EDITORIAL);
             $('.modal-body #disponible').val(disponible);
+            
+            $('.modal-body #imagen_portada').attr('src', ejemplar.IMAGEN.substring(32));
 
         });
 
