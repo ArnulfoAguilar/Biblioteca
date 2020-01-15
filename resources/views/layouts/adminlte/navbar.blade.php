@@ -133,7 +133,7 @@
                       {{count(Auth::user()->unreadNotifications)}}
                     </span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300%;" role="menu">
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:700%;" role="menu">
                   @if ( sizeof(Auth::user()->unreadNotifications) == 0 )
                     <li class="">
                       <a href="#" class="nav-link" >No tienes notificaciones </a>
@@ -147,11 +147,11 @@
                       <li class="">
 
                           @if ($notification->type == 'App\Notifications\NewAporte')
-                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte de <b>{{ $notification->data["user"]["name"] }}</b></a>
+                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" >Nuevo aporte: <b>{{$notification->data["aporte"]["TITULO"]}}</b>  realizado por: <b>{{ $notification->data["user"]["name"] }}</b></a>
                           @endif
 
                           @if ($notification->type == 'App\Notifications\AporteModificado')
-                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> modificó su aporte</a>
+                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> modificó el aporte {{$notification->data["aporte"]["TITULO"]}}</a>
                           @endif
 
                           @if ($notification->type == 'App\Notifications\NuevoComentario')
@@ -159,7 +159,7 @@
                           @endif
 
                           @if ($notification->type == 'App\Notifications\NuevaRevision')
-                            <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Te hizo una observación</a>
+                            <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Te hizo una observación en el aporte: {{$notification->data["aporte"]["TITULO"]}} </a>
                           @endif
 
                           @if ($notification->type == 'App\Notifications\PrestamoAprobado')
