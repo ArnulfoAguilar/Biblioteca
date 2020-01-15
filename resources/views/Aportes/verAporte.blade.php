@@ -131,13 +131,13 @@
                                                                 @foreach ($interacciones as $interaccion)
                                                                     @if ($interaccion->id_comentario == $comentario->id)
                                                                         <?php $dioLike = true;?>
-                                                                        <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button"  class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down">{{ $comentario->total_likes }}</i> Dislike</button>
+                                                                        <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button"  class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down"></i> </button> {{ $comentario->total_likes }} likes
                                                                     @endif
                                                                 @endforeach
                                                                 @if ($dioLike)
                                                                     <?php $dioLike = false;?>
                                                                 @else
-                                                                    <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up">{{ $comentario->total_likes }}</i> Like</button>
+                                                                    <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up"></i> </button> {{ $comentario->total_likes }} likes
                                                                 @endif
                                                                 <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
                                                             </div>
@@ -165,9 +165,6 @@
                                                             </form>  
                                                         </div>
                                                     </div>
-
-
-
                                                 @endif  
                                             </div>
                                         </div>
@@ -230,11 +227,10 @@
                 _token: _token,
             } ,
             success: function(result) {
-                swal({ text: 'Te gusta el comentario', title: 'Like', icon: 'success',})
-                        .then( (value) => {
+                /*swal({ text: 'Te gusta el comentario', title: 'Like', icon: 'success',})
+                        .then( (value) => {*/
                             location.reload();
-                        });
-                
+                        //});
             }
         });
     });
@@ -250,10 +246,10 @@
                 _token: _token,
             } ,
             success: function(result) {
-                swal({ text: 'Te ha dejado de gustar el comentario', title: 'Dislike', icon: 'success',})
-                        .then( (value) => {
+               /* swal({ text: 'Te ha dejado de gustar el comentario', title: 'Dislike', icon: 'success',})
+                        .then( (value) => {*/
                             location.reload();
-                        });
+                       // });
             }
         });
     });
