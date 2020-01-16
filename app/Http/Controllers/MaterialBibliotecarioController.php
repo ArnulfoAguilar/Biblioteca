@@ -84,31 +84,5 @@ class MaterialBibliotecarioController extends Controller
      * @param  \App\materialBibliotecario  $materialBibliotecario
      * @return \Illuminate\Http\Response
      */
-    public function edit(materialBibliotecario $materialBibliotecario)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\materialBibliotecario  $materialBibliotecario
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, materialBibliotecario $materialBibliotecario)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\materialBibliotecario  $materialBibliotecario
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(materialBibliotecario $materialBibliotecario)
-    {
-        //
-    }
+ 
 }

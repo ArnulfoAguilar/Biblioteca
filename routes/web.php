@@ -226,5 +226,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/Usuario/totalAportesCreados/{id}', 'UserController@totalAportesCreados')->name('totalAportesCreados');
     Route::get('/aportesProfile', 'AporteController@aportesProfile');
 
-
+    //-----------------------------------------Reportes-----------------------------------------------//
+    Route::get('/reporte/usuariosMasActivos', 'ReportesEstadisticosController@UsuariosMasActivos')->name('reportes.UsuariosMasActivos');
 });
