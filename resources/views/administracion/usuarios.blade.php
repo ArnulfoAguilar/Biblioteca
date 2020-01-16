@@ -61,7 +61,7 @@ Gestión de usuarios
                                     <td>{{$user->apellidos}}</td>
                                     <td>
                                         {{-- <a href="" class="btn btn-primary btn-sm" >Editar</a> --}}
-                                        <a href="{{route('administracion.gestion.usuario.edit', $user)}}" class="btn btn-primary btn-sm" >Editar</a>
+                                        <a href="{{route('administracion.gestion.usuario.edit', $user)}}" class="btn btn-primary btn-sm" >Ver/Editar</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -16,7 +16,7 @@ class AreaTableSeeder extends Seeder
             'AREA' => 'MATEMATICAS',
         ]);
         DB::table('Area')->insert([
-            'AREA' => 'LENGUAJE',
+            'AREA' => 'LENGUA',
         ]);
         DB::table('Area')->insert([
             'AREA' => 'SOCIALES',
