@@ -371,7 +371,7 @@
          <!--Reportes-->
          @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4)
          <li class="nav-item has-treeview {{ ( request()->is('Reportes/*') ) ? 'menu-open' : '' }}">
-           <a href="#" class="nav-link {{ ( request()->is('Reportes/*') ) ? 'active' : '' }}">
+         <a href="{{route('reportes.UsuariosMasActivos')}}" class="nav-link {{ ( request()->is('Reportes/*') ) ? 'active' : '' }}">
              <i class="nav-icon fas fa-atlas"></i>
  
              <p>

@@ -82,7 +82,7 @@
         <main class="py-4">
                 <div class="row">
                         @foreach($tejuelos as $tejuelo)
-                                <div class="col-lg-3 justify-content-center">
+                                <div class="col-lg-1 justify-content-center">
                                     <div class="card text-center">
                                         <ul class="list-group">
                                             <li class="list-group-item">
