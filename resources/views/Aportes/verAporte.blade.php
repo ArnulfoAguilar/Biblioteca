@@ -129,10 +129,15 @@
                                                             <div class="row float-right">
                                                                 {{-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> --}}
                                                                 <?php $dioLike = false;?>
+                                                                <?php $reporto = false;?>
                                                                 @foreach ($interacciones as $interaccion)
-                                                                    @if ($interaccion->id_comentario == $comentario->id)
+                                                                    @if ($interaccion->id_comentario == $comentario->id && $interaccion->id_interaccion==1)
                                                                         <?php $dioLike = true;?>
                                                                         <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button"  class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down"></i> </button> {{ $comentario->total_likes }} likes
+                                                                    @endif
+                                                                    @if ($interaccion->id_comentario == $comentario->id && $interaccion->id_interaccion==2)
+                                                                    <?php $reporto = true;?>
+                                                                                                                                        
                                                                     @endif
                                                                 @endforeach
                                                                 @if ($dioLike)
@@ -140,7 +145,13 @@
                                                                 @else
                                                                     <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up"></i> </button> {{ $comentario->total_likes }} likes
                                                                 @endif
-                                                                <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
+                                                                
+                                                                
+                                                                @if ($reporto==false)
+                                                                    <button id="reportarComentario" data-c="{{$comentario->id}}" type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
+                                                                @endif
+                                                                
+
                                                             </div>
                                                         </div>
                                                                         <!-- /.card-comment -->
@@ -209,12 +220,30 @@
 
 @section('jsExtra')
 
-{{-- <script src="jquery.min.js"></script>
-<script src="toastr.js"></script> --}}
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
 
+    });
+    $('#reportarComentario').click(function (e) {
+        console.log('LLEGO A REPORT')
+        var c = $(this).data('c');
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url: "{{ route('reportarComentario') }}",
+            method: "POST",
+            data: {
+                comentario:c,
+                _token: _token,
+            } ,
+            success: function(result) {
+                swal({ text: 'Haz reportado el comentario', title: 'Report', icon: 'danger',})
+                        .then( (value) => {
+                            location.reload();
+                        });
+            }
+        });
     });
     $('.like').click(function (e) {
         var c = $(this).data('c');

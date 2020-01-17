@@ -142,6 +142,7 @@ Route::middleware(['auth'])->group(function () {
 
         //MIs rutas (K) para comentarios sin VUE
         Route::post('/darLike', 'ComentarioController@darLike')->name('dar.like');
+        Route::post('/reportarComentario', 'ComentarioController@reportarComentario')->name('reportarComentario');
         Route::post('/darDislike', 'ComentarioController@darDislike')->name('dar.dislike');
         Route::post('/guadarComentario', 'ComentarioController@guardarComentario')->name('guardar.comentario');
         Route::post('/listaMalasPalabras', 'PalabraProhibidaController@lista')->name('lista.malas.palabras');

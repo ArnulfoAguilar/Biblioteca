@@ -108,15 +108,13 @@ class ComentarioController extends Controller
 // FIN HEchos para la seccion de comentarios sin vue----------------------------------
 
     
-    public function interaccionReport(Request $request)
+    public function reportarComentario(Request $request)
     {
         $InteraccionComentario = new interaccionComentario();
-        $InteraccionComentario->DESCRIPCION = $request->DESCRIPCION;
-        $InteraccionComentario->ID_TIPO_INTERACCION=1;
-        $InteraccionComentario->ID_COMENTARIO= $request->ID_COMENTARIO;
-        $InteraccionComentario->ID_USUARIO = $request->ID_USUARIO;
+        $InteraccionComentario->ID_TIPO_INTERACCION=2;
+        $InteraccionComentario->ID_COMENTARIO= $request->comentario;
+        $InteraccionComentario->ID_USUARIO = auth()->id();
         $InteraccionComentario->save();
-        activity()->performedOn($Comentario)->log('Reportó');
     }
     public function interaccionesComentario(Request $request)
     {
@@ -166,14 +164,6 @@ class ComentarioController extends Controller
 
     }
 
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $Comentario =new Comentario();
@@ -189,51 +179,7 @@ class ComentarioController extends Controller
         activity()->performedOn($Comentario)->log('Hizo comentario con id: '.$Comentario->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Comentario  $comentario
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comentario $comentario)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Comentario  $comentario
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comentario $comentario)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comentario  $comentario
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Comentario $comentario)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Comentario  $comentario
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Comentario $comentario)
-    {
-        //
-    }
-
+    
     public function todos(Request $request)
     {
         if($request->ajax()){

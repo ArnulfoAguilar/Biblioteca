@@ -364,7 +364,6 @@ class AporteController extends Controller
         ->join('interaccionComentario', 'Comentario.id', '=', 'interaccionComentario.ID_COMENTARIO')
         ->where('interaccionComentario.ID_USUARIO', '=', auth()->id() )
         ->get();
-
         $comentarios = DB::table('comentarioslikes')
         ->where('ID_APORTE', $aporte->id)
         ->where('HABILITADO', true)->get();
