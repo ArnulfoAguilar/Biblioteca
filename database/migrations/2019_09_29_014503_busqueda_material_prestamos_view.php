@@ -29,7 +29,10 @@ class BusquedaMaterialPrestamosView extends Migration
         fe."ID_BIBLIOTECA",
         fe."ID_ESTANTE",
         fe."FILAESTANTE",
-        ej."ID_TIPO_ADQUISICION"
+        ej."ID_TIPO_ADQUISICION",
+        mb.id AS id_material_bibliotecario,
+        ej."IMAGEN",
+        mb."OBSERVACIONES"
         FROM "materialBibliotecario" mb
         JOIN "Ejemplar" ej ON mb."ID_EJEMPLAR" = ej.id
         LEFT JOIN "filaEstante" fe ON fe.id = mb."ID_FILA"
