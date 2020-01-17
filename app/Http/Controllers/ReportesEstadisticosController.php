@@ -10,23 +10,21 @@ use App\Modelos\Ejemplar;
 
 class ReportesEstadisticosController extends Controller
 {
-    public function UsuariosMasActivos(Request $request)
+    public function UsuariosMasActivos()
     {
-        //if($request->ajax()){
             $users=  DB::select('SELECT * FROM "users" order by "PUNTOS" DESC FETCH FIRST 10 rows only');
                     activity()->log('Generó Usuarios mas activos');
 
            return view('Reportes.usuariosMasActivos')->with('users',$users)->render();
-             
-            
-            /* $pdf = new Dompdf();
-              $view =  \View::make("Reportes.usuariosMasActivos", compact('users'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-              $pdf->loadHTML($view);        
-              return $pdf->stream('UsuariosMasActivos.pdf');*/
-                   
-        //}else{
-          //  return view('home');
-        //}  
+              
+    }
+
+    public function LibrosDaniados()
+    {
+      $librosdañados=  Ejemplar::where('ID_ESTADO_EJEMPLAR',2) //CATALOGO ID_ESTADO_EJEMPLAR 2 es "MALO"
+                    ->get();
+                    activity()->log('Se genero el PDF libros mas dañados');
+
+           return view('Reportes.librosDaniados')->with('librosdaniados',$librosdañados)->render();
     }
 }
