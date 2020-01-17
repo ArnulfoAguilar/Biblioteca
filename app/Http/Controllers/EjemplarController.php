@@ -51,7 +51,7 @@ class EjemplarController extends Controller
     public function store(Request $request)
     {
         $url = $request->IMAGEN;
-        dd($url);
+        //dd($url);
         if ($url != null) {
             $contents = file_get_contents($url);
             $file = public_path() . '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
@@ -89,27 +89,7 @@ class EjemplarController extends Controller
         activity()->performedOn($Ejemplar)->log('Guardó ejemplar ('.$Ejemplar->EJEMPLAR.')');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Ejemplar  $ejemplar
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Ejemplar $ejemplar)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Ejemplar  $ejemplar
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ejemplar $ejemplar)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

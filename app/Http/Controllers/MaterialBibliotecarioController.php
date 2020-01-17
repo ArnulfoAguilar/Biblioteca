@@ -32,38 +32,6 @@ class MaterialBibliotecarioController extends Controller
             return redirect('home');
         }
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\materialBibliotecario  $materialBibliotecario
-     * @return \Illuminate\Http\Response
-     */
-    public function show(materialBibliotecario $materialBibliotecario)
-    {
-        //
-    }
-
     public function findBarcode($barcode)
     {
         $consulta = DB::table('busquedamaterialprestamosview')->where('CODIGO_BARRA', '=', $barcode)->first();
@@ -78,37 +46,6 @@ class MaterialBibliotecarioController extends Controller
         $materialBibliotecario->save();
         return view('administracion.inventariarLibros');
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\materialBibliotecario  $materialBibliotecario
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(materialBibliotecario $materialBibliotecario)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\materialBibliotecario  $materialBibliotecario
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, materialBibliotecario $materialBibliotecario)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\materialBibliotecario  $materialBibliotecario
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(materialBibliotecario $materialBibliotecario)
-    {
-        //
-    }
+ 
 }

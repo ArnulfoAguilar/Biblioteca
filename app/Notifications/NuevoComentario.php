@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 use App\Comentario;
+use App\Aporte;
 use App\User;
 
 class NuevoComentario extends Notification

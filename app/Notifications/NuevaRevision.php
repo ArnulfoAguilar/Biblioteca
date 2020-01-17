@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 use App\Revision;
+use App\Aporte;
 use App\User;
 
 class NuevaRevision extends Notification
@@ -50,7 +51,8 @@ class NuevaRevision extends Notification
     {
         return [
             'revision' => $this->revision,
-            'user' => User::find($this->revision->ID_USUARIO)
+            'user' => User::find($this->revision->ID_USUARIO),
+            'aporte' => Aporte::find($this->revision->ID_APORTE)
         ];
     }
     

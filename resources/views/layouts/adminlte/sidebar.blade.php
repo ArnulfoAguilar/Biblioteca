@@ -17,7 +17,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-             
+
         @if ( Auth::user()->hasPermiso([1]) || Auth::user()->hasPermiso([2]) || Auth::user()->hasPermiso([3]) || Auth::user()->hasPermiso([4]) || Auth::user()->hasPermiso([5]) )
           <li class="nav-item has-treeview {{ ( request()->is('biblioteca/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('biblioteca/*') ) ? 'active' : '' }}">
@@ -29,7 +29,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              
+
               @if( Auth::user()->hasPermiso([1]) )
                 <li class="nav-item">
                   <a href="{{ route('realizar.prestamo') }}" class="nav-link {{ ( request()->is('biblioteca/realizar/prestamo') ) ? 'active' : '' }}">
@@ -38,9 +38,9 @@
                   </a>
                 </li>
               @endif
-              
 
-              
+
+
               @if ( Auth::user()->hasPermiso([2]) )
               <li class="nav-item">
                 <a href="{{route ('prestamos')}}" class="nav-link {{ ( request()->is('biblioteca/prestamo/lista') ) ? 'active' : '' }}">
@@ -49,7 +49,7 @@
                 </a>
               </li>
               @endif
-              
+
               @if ( Auth::user()->hasPermiso([3]) )
               <li class="nav-item">
               <a href="{{route ('mis.prestamos')}}" class="nav-link {{( request()->is('biblioteca/mis/prestamos') ) ? 'active' : ''}}">
@@ -77,12 +77,12 @@
                 </a>
               </li>
               @endif
-              
+
             </ul>
           </li>
         @endif
 
-        
+
         <!--inventario-->
         @if ( Auth::user()->hasPermiso([6]) || Auth::user()->hasPermiso([7]) || Auth::user()->hasPermiso([8]) || Auth::user()->hasPermiso([9])  )
           <li class="nav-item has-treeview {{ ( request()->is('inventario/*') ) ? 'menu-open' : '' }}">
@@ -164,34 +164,34 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              
+
               @if ( Auth::user()->hasPermiso([10]) )
                 <li class="nav-item">
                   <a href="{{route('aportes.index')}}" class="nav-link {{ ( request()->is('aportes') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Aportes de la comunidad</p>
                   </a>
-                </li>    
+                </li>
               @endif
-              
+
               @if ( Auth::user()->hasPermiso([11]) )
                 <li class="nav-item">
                   <a href="{{route('aportes.GetMisAportesAprobados')}}" class="nav-link {{ ( request()->is('GetMisAportesAprobados') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Mis Aportes Aprobados</p>
                   </a>
-                </li>    
+                </li>
               @endif
-              
+
               @if ( Auth::user()->hasPermiso([12]) )
                 <li class="nav-item">
                   <a href="{{route('aportes.GetMisAportesSinAprobar')}}" class="nav-link {{ ( request()->is('GetMisAportesSinAprobar') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Mis Aportes Sin Aprobar</p>
                   </a>
-                </li>    
+                </li>
               @endif
-              
+
               @if ( Auth::user()->hasPermiso([13]) )
               <li class="nav-item">
                 <a href="{{route('aportes.GetVistaAportesDirector')}}" class="nav-link {{ ( request()->is('GetVistaAportesDirector') ) ? 'active' : '' }}">
@@ -241,7 +241,7 @@
               </ul>
           </li>
         @endif
-        
+
         {{-- admisnistracion --}}
         @if (Auth::user()->rol->id == 1 )
           <li class="nav-item has-treeview {{ ( request()->is('administracion/*') ) ? 'menu-open' : '' }}">
@@ -271,7 +271,7 @@
                   </a>
                 </li>
               {{-- @endif --}}
-              
+
               @if ( Auth::user()->hasPermiso([17]) )
                 <li class="nav-item">
                   <a href="{{route('asignar.roles')}}" class="nav-link {{ ( request()->is('administracion/asignar/roles') ) ? 'active' : '' }}">
@@ -294,7 +294,7 @@
 
               @if ( Auth::user()->hasPermiso([19]) )
                 <li class="nav-item">
-                  <a href="{{route('calendario')}}" 
+                  <a href="{{route('calendario')}}"
                     class="nav-link {{ ( request()->is('administracion/calendario') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Calendario</p>
@@ -304,7 +304,7 @@
 
               @if ( Auth::user()->hasPermiso([20]) )
                 <li class="nav-item">
-                  <a href="{{route('administracion.get.usuarios')}}" 
+                  <a href="{{route('administracion.get.usuarios')}}"
                     class="nav-link {{ ( request()->is('administracion/get/users') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Puntajes de usuarios</p>
@@ -312,7 +312,7 @@
                 </li>
               @endif
 
-              
+
 
 
             </ul>
@@ -331,7 +331,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              
+
               @if ( Auth::user()->hasPermiso([21]) )
                 <li class="nav-item">
                   <a href="{{route('roles')}}" class="nav-link {{ ( request()->is('catalogos/roles') ) ? 'active' : '' }}">
@@ -340,7 +340,7 @@
                   </a>
                 </li>
               @endif
-    
+
               @if ( Auth::user()->hasPermiso([22]) )
                 <li class="nav-item">
                   <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('catalogos/comites') ) ? 'active' : '' }}">
@@ -426,11 +426,11 @@
                   </a>
                 </li>
               @endif
-                
+
             </ul>
           </li>
         @endif
-        
+
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
