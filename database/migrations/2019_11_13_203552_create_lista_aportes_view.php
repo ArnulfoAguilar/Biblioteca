@@ -20,6 +20,7 @@ class CreateListaAportesView extends Migration
                 A."TITULO",
                 A."DESCRIPCION",
                 A.created_at,
+                A.deleted_at,
                 A."HABILITADO",
                 A."ID_AREA",
                 A."ID_USUARIO" AS "ID_AUTOR",

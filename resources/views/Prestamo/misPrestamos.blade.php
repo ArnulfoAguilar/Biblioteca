@@ -77,9 +77,11 @@
                                                     @switch($prestamo->estadoPrestamo->id)
                                                         @case(1)
                                                             <div class="badge bg-info">{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</div>
+                                                            <button class="btn btn-sm btn-danger cancelar" title="Cancelar" data-pres="{{$prestamo->id}}"><i class="far fa-times-circle"></i></button>
                                                             @break
                                                         @case(2)
                                                             <div class="badge bg-primary">{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</div>
+                                                            <button class="btn btn-sm btn-danger cancelar" title="Cancelar" data-pres="{{$prestamo->id}}"><i class="far fa-times-circle"></i></button>
                                                         @break
                                                         @case(3)
                                                             <div class="badge bg-warning">{{$prestamo->estadoPrestamo->ESTADO_PRESTAMO}}</div>
@@ -151,6 +153,46 @@
             $('#prestamos').DataTable({
                 "order": [[ 0, "desc" ]]
             });
+
+            $(".cancelar").click(function(){
+                var id = $(this).data('pres');
+                var _token = $('input[name="_token"]').val();
+
+                swal({
+                    title: "¿Está seguro de cancelar este préstamo?",
+                    text: "El libro estará disponible para otros préstamos",
+                    icon: "warning",
+                    buttons: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: "{{ route('cancelar.prestamo')}}",
+                            method: "POST",
+                            data: {
+                                id: id,
+                                _token: _token,
+                            },
+                            success: function (result) {
+                                swal({ icon: 'success', title: 'Éxito', text: 'Préstamo cancelado exitosamente',})
+                                .then((value) => {
+                                    location.reload();
+                                });
+                            },
+                            error: function (result) {
+                                swal({ icon: 'error', title: 'Error', text: 'Intente de nuevo. Si eso no funciona contacte al administrador',})
+                                .then((value) => {
+                                    location.reload();
+                                });
+                            },
+                        })
+                    } else {
+                        location.reload();
+                    }
+                });
+
+            });
+
         } );
 
     </script>

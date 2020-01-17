@@ -73,6 +73,7 @@ class AporteController extends Controller
        
             return DB::table('lista_aportes')
             ->where('HABILITADO','=','TRUE')
+            ->where('deleted_at', null)
             ->latest()
             ->get();
        
@@ -84,6 +85,7 @@ class AporteController extends Controller
                 ['HABILITADO','=','FALSE'],
                 ['ID_AUTOR','=',auth()->id()]
             ])
+            ->where('deleted_at', null)
             ->latest()
             ->get();
     }
@@ -95,6 +97,7 @@ class AporteController extends Controller
                 ['HABILITADO','=','TRUE'],
                 ['ID_AUTOR','=',auth()->id()]
             ])
+            ->where('deleted_at', null)
             ->latest()
             ->get();
     }
@@ -105,6 +108,7 @@ class AporteController extends Controller
             ->where([
                 ['ID_AREA','=', Auth::user()->ID_COMITE],
             ])
+            ->where('deleted_at', null)
             ->latest()
             ->get();
     }
@@ -122,7 +126,9 @@ class AporteController extends Controller
 
     public function listaDirector(Request $request)
     {
-        return Aporte::orderBy('created_at', 'desc')->get();
+        return Aporte::orderBy('created_at', 'desc')
+        ->where('deleted_at', null)
+        ->get();
     }
 
     /**
@@ -645,11 +651,21 @@ class AporteController extends Controller
      */
     public function destroy(Aporte $aporte)
     {
-        //
+
     }
 
     public function obtener(Request $request)
     {
-        return Aporte::where('id', $request->id)->get();
+        return Aporte::where('id', $request->id)
+        ->where('deleted_at', null)
+        ->get();
+    }
+
+    public function eliminar(Request $request)
+    {
+        // dd($request);
+        $apo = Aporte::find($request->id);
+        $apo->delete();
+        return redirect()->route('aportes.lista.todos');
     }
 }

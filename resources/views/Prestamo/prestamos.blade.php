@@ -77,7 +77,11 @@
                                             </td>
                                             <td>
                                                 @foreach ($prestamo->materiales as $material)
-                                                    <div> {{$material->ejemplar->estante->ESTANTE}}</div>
+                                                    @if ($material->ejemplar->estante)
+                                                        <div>{{$material->ejemplar->estante->ESTANTE}}</div>                                                    
+                                                    @else
+                                                        <div>--</div>
+                                                    @endif
                                                     {{-- <div class="badge bg-green"> {{$material->ejemplar->estante->ESTANTE}}</div> --}}
                                                 @endforeach
                                             </td>
@@ -107,6 +111,7 @@
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 1 )
                                                     
                                                     <button class="btn btn-sm btn-info reservar" title="Reservar" data-pres="{{$prestamo->id}}"><i class="fas fa-check"></i> Aprobar</button>
+                                                    <button class="btn btn-sm btn-danger cancelar" title="Cancelar" data-pres="{{$prestamo->id}}"><i class="far fa-times-circle"></i></button>
 
                                                 @endif
 

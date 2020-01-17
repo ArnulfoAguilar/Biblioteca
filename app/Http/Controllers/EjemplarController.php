@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Modelos\Ejemplar;
+use App\materialBibliotecario;
 use App\Modelos\VwEjemplarSumarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -171,6 +172,14 @@ class EjemplarController extends Controller
         $Ejemplar = Ejemplar::find($ejemplar->id);
         $Ejemplar->delete();
         activity()->log('Eliminó ejemplar');
+        
+        $materiales = materialBibliotecario::where('ID_EJEMPLAR', $ejemplar->id)->get();
+        if($materiales->count() > 0){
+            foreach ($materiales as $key => $material) {
+                $material->delete();
+            }
+        }
+        
 
     }
     public function comprobarISBN($ISBN){

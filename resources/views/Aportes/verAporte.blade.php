@@ -200,9 +200,16 @@
                       <div class="card-footer">
                         @if ( Auth::user()->hasPermiso([33]) )
                             @if ($aporte->HABILITADO == false)
-                                        <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
+                                <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
                             @endif
                         @endif
+
+                        @if ( Auth::user()->id == $aporte->ID_USUARIO && $aporte->deleted_at == null  )
+                            <a class="btn btn-danger" href="{{ route('aportes.aporte.eliminar', ['id' => $aporte->id])}}">
+                                <i class="fas fa-x"></i> Eliminar aporte
+                            </a>
+                        @endif
+
                       </div><!-- /.card-footer -->
 
                     </div>
