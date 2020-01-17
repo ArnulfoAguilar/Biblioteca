@@ -131,5 +131,4 @@ class ComiteController extends Controller
             'user' => $user
         ]);
     }
-    
 }

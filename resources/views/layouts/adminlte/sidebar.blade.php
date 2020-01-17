@@ -395,7 +395,52 @@
         @endif
 
 
-        {{-- Catalogos --}}
+        {{-- Reportes --}}
+        @if ( Auth::user()->hasPermiso([31]) || Auth::user()->hasPermiso([32]) || Auth::user()->hasPermiso([33]) )
+          <li class="nav-item has-treeview {{ ( request()->is('graficos/*') ) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ ( request()->is('graficos/*') ) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-list-alt"></i>
+              <p>
+                Reportes
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+              @if ( Auth::user()->hasPermiso([31]) )
+                <li class="nav-item">
+                  <a href="{{route('reportes.UsuariosMasActivos')}}"
+                    class="nav-link {{ ( request()->is('reporte/usuariosMasActivos') ) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Usuarios mas activos</p>
+                  </a>
+                </li>
+              @endif
+
+              @if ( Auth::user()->hasPermiso([32]) )
+                <li class="nav-item">
+                  <a href="{{route('reportes.librosDaniados')}}"
+                    class="nav-link {{ ( request()->is('reporte/librosDaniados') ) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Libros dañados</p>
+                  </a>
+                </li>
+              @endif
+
+              @if ( Auth::user()->hasPermiso([33]) )
+              <li class="nav-item">
+                <a href="{{route('reportes.LibrosSinInventariar')}}"
+                  class="nav-link {{ ( request()->is('reporte/librosSinInventariar') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Libros sin inventariar</p>
+                </a>
+              </li>
+            @endif
+
+            </ul>
+          </li>
+        @endif
+        {{-- Graficos --}}
         @if ( Auth::user()->hasPermiso([27]) || Auth::user()->hasPermiso([28]) )
           <li class="nav-item has-treeview {{ ( request()->is('graficos/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('graficos/*') ) ? 'active' : '' }}">
@@ -430,6 +475,7 @@
             </ul>
           </li>
         @endif
+
 
       </ul>
     </nav>

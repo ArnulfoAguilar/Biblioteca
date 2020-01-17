@@ -248,4 +248,5 @@ Route::middleware(['auth'])->group(function () {
     //-----------------------------------------Reportes-----------------------------------------------//
     Route::get('/reporte/usuariosMasActivos', 'ReportesEstadisticosController@UsuariosMasActivos')->name('reportes.UsuariosMasActivos');
     Route::get('/reporte/librosDaniados', 'ReportesEstadisticosController@librosDaniados')->name('reportes.librosDaniados');
+    Route::get('/reporte/librosSinInventariar', 'ReportesEstadisticosController@LibrosSinInventariar')->name('reportes.LibrosSinInventariar');
 });

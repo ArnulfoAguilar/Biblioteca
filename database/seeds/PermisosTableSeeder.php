@@ -221,6 +221,27 @@ class PermisosTableSeeder extends Seeder
             'nombre' => 'Inventario Final de periodo',
             'descripcion' => 'Muestra lo necesario para Inventario Final de periodo',
         ]);
+        DB::table('permisos')->insert([
+            'id' => 31,
+            'correlativo' => 31,
+            'nombre_corto' => 'report-usuarios-mas-activos',
+            'nombre' => 'Reporte de usuarios mas activos',
+            'descripcion' => 'Muestra el reporte de los usuarios que mas actividad han tenido en la aplicación',
+        ]);
+        DB::table('permisos')->insert([
+            'id' => 32,
+            'correlativo' => 32,
+            'nombre_corto' => 'report-libros-daniados',
+            'nombre' => 'Reporte de libros dañados',
+            'descripcion' => 'Muestra el reporte de los libros que tienen algun defecto',
+        ]);
+        DB::table('permisos')->insert([
+            'id' => 33,
+            'correlativo' => 33,
+            'nombre_corto' => 'report-libros-sin-inventariar',
+            'nombre' => 'Reporte de libros que faltan por inventariar',
+            'descripcion' => 'Muestra el reporte de los libros que aun no se han inventariado',
+        ]);
         
         
     }

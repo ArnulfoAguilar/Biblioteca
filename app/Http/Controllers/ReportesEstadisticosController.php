@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Dompdf\Dompdf;
 use App\Libro;
+use App\materialBibliotecario;
 use App\Modelos\Ejemplar;
 
 class ReportesEstadisticosController extends Controller
@@ -26,5 +27,14 @@ class ReportesEstadisticosController extends Controller
                     activity()->log('Se genero el PDF libros mas dañados');
 
            return view('Reportes.librosDaniados')->with('librosdaniados',$librosdañados)->render();
+    }
+
+    public function LibrosSinInventariar()
+    {
+      $librosSinInventariar=  materialBibliotecario::whereYear('FECHA_INVENTARIADO','<',now())
+                    ->get();
+                    activity()->log('Se genero el PDF libros sin inventariar');
+
+           return view('Reportes.librosSinInventariar')->with('librosSinInventariar',$librosSinInventariar)->render();
     }
 }
