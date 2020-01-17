@@ -16,17 +16,30 @@
             {{ session('status') }}
         </div>
     @endif
+    <div id="titulo" class="row" >
+        <div class="col-md-2"></div>
+        <div height="100px" class="col-md-2 ">
+            <img height="150px" src="/iconos/arrupe_logo.png" alt="Logo Padre Arrupe">
+        </div>
+        <div class="col-md-6 text-left" style="font-size:19pt;">
+            <p>
+                <b>
+                    <br>
+                    <span>COLEGIO ESPAÑOL PADRE ARRUPE</span>
+                    <br>
+                    <span>Usuarios mas activos</span>
+                    <br>
+                </b>
+            </p>
+        </div>
+    </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-dark">Top 10 Usuarios más activos
                         <div class=" float-right">
-                            {{-- <form class="form-inline" action="{{route('registro.actividad')}}" method="GET">
-                                <input type="date" class="form-control mb-2 mr-sm-2" name="fecha_i" placeholder="Desde" value="{{$fecha_i ? $fecha_i : '' }}">
-                                <input type="date" class="form-control mb-2 mr-sm-2" name="fecha_f" placeholder="Hasta" value="{{$fecha_f ? $fecha_f : '' }}">
-                                <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-search"></i></button>
-                            </form> --}}
+                            
                         </div>
                     </div>
                     
@@ -78,6 +91,7 @@
         
             $(document).ready( function () {
                 $('#penalizaciones').DataTable();
+                window.print();
             } );
     
     
