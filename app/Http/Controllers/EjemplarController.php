@@ -55,7 +55,7 @@ class EjemplarController extends Controller
         //dd($url);
         if ($url != null) {
             $contents = file_get_contents($url);
-            $file = public_path() . '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
+            $file = public_path().'/bookImages/'.urlencode($request->EJEMPLAR) . ".png";
             // $file = public_path() . '/bookImages/' .$request->EJEMPLAR. ".png";
             file_put_contents($file, $contents);
         }
