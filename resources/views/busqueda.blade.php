@@ -18,7 +18,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <meta name="csrf-token" content="{{ csrf_token() }}"-->
       @yield('cssextra')
   </head>
-
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 

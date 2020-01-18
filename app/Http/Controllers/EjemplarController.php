@@ -53,10 +53,10 @@ class EjemplarController extends Controller
     {
         $url = $request->IMAGEN;
         //dd($url);
-        if ($url != null) {
+        if ($url != null) { 
             $contents = file_get_contents($url);
-            $file = public_path().'/bookImages/'.urlencode($request->EJEMPLAR) . ".png";
-            // $file = public_path() . '/bookImages/' .$request->EJEMPLAR. ".png";
+            $name ='/bookImages/'.auth()->id().time().".png";
+            $file = public_path().$name;
             file_put_contents($file, $contents);
         }
         $Ejemplar = new Ejemplar();
@@ -67,7 +67,7 @@ class EjemplarController extends Controller
         if ($url == null) {
             $Ejemplar->IMAGEN = '';
         } else {
-            $Ejemplar->IMAGEN = $file;
+            $Ejemplar->IMAGEN = $name;
         }
         $Ejemplar->ID_TERCER_SUMARIO = $request->TERCERSUMARIO;
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;

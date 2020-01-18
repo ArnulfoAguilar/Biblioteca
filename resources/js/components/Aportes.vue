@@ -1,6 +1,5 @@
 <template>
-    <div class="container ">
-      
+    <div class="container ">    
       <div class="row" >      
         <div class="input-group mb-1 col-10">
             <input type="text" class="form-control" placeholder="Busca aportes de tu interés" name="" id=""  v-model="search_titulo" autofocus>
@@ -75,7 +74,6 @@
         },
         computed:{
             searchEjemplar: function(){
-              console.log(this.search_titulo.length)
                 if(this.search_titulo!='' && this.search_titulo.length > 2){
                    
                    return this.Aportes.filter((item) => 

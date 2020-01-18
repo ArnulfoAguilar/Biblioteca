@@ -240,7 +240,7 @@
             $('.modal-body #editorial').val(ejemplar.EDITORIAL);
             $('.modal-body #disponible').val(disponible);
             
-            $('.modal-body #imagen_portada').attr('src', ejemplar.IMAGEN.substring(32));
+            $('.modal-body #imagen_portada').attr('src', ejemplar.IMAGEN);
 
         });
 
