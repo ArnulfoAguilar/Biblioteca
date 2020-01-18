@@ -36,6 +36,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoPrestamoTableSeeder::class);
         $this->call(PermisosTableSeeder::class);
         $this->call(RolPermisoTableSeeder::class);
+        $this->call(BibliotecaTableSeeder::class);
+        $this->call(EstanteTableSeeder::class);
 
     }
 }
