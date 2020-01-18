@@ -200,7 +200,7 @@
                       </div><!-- /.card-body -->
 
                       <div class="card-footer">
-                        @if ( Auth::user()->hasPermiso([33]) )
+                        @if ( Auth::user()->hasPermiso([36]) )
                             @if ($aporte->HABILITADO == false)
                                 <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
                             @endif
