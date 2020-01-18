@@ -242,7 +242,34 @@ class PermisosTableSeeder extends Seeder
             'nombre' => 'Reporte de libros que faltan por inventariar',
             'descripcion' => 'Muestra el reporte de los libros que aun no se han inventariado',
         ]);
-        
+
+
+        DB::table('permisos')->insert([
+            'id' => 34,
+            'correlativo' => 34,
+            'nombre_corto' => 'observaciones',
+            'nombre' => 'Ver Observaciones de aporte',
+            'descripcion' => 'Permite ver las observaciones de los aportes',
+        ]);
+        //Era el 31
+
+        DB::table('permisos')->insert([
+            'id' => 35,
+            'correlativo' => 35,
+            'nombre_corto' => 'manag-coments',
+            'nombre' => 'Gestionar comentarios',
+            'descripcion' => 'Muestra lo necesario para gestionar los comentarios de los aportes',
+        ]);
+        //era el 32
+
+        DB::table('permisos')->insert([
+            'id' => 36,
+            'correlativo' => 36,
+            'nombre_corto' => 'aporte-aprobar',
+            'nombre' => 'Aprobar aporte',
+            'descripcion' => 'Permite habilitar los aportes',
+        ]);
+        //era el 33
         
     }
 }

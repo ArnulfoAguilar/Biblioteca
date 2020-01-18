@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Modelos\Ejemplar;
+use App\materialBibliotecario;
 use App\Modelos\VwEjemplarSumarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -51,10 +52,11 @@ class EjemplarController extends Controller
     public function store(Request $request)
     {
         $url = $request->IMAGEN;
-        dd($url);
+        //dd($url);
         if ($url != null) {
             $contents = file_get_contents($url);
             $file = public_path() . '/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
+            // $file = public_path() . '/bookImages/' .$request->EJEMPLAR. ".png";
             file_put_contents($file, $contents);
         }
         $Ejemplar = new Ejemplar();
@@ -104,6 +106,7 @@ class EjemplarController extends Controller
         if ($url != null) {
             $contents = file_get_contents($url);
             $file = public_path().'/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
+            // $file = public_path().'/bookImages/' .$request->EJEMPLAR. ".png";
             file_put_contents($file, $contents);
         }
         $Ejemplar = Ejemplar::find($ejemplar->id);
@@ -149,6 +152,14 @@ class EjemplarController extends Controller
         $Ejemplar = Ejemplar::find($ejemplar->id);
         $Ejemplar->delete();
         activity()->log('Eliminó ejemplar');
+        
+        $materiales = materialBibliotecario::where('ID_EJEMPLAR', $ejemplar->id)->get();
+        if($materiales->count() > 0){
+            foreach ($materiales as $key => $material) {
+                $material->delete();
+            }
+        }
+        
 
     }
     public function comprobarISBN($ISBN){

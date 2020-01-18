@@ -17,7 +17,7 @@ class ComiteTableSeeder extends Seeder
             'ID_AREA' => '1',
         ]);
         DB::table('Comite')->insert([
-            'COMITE' => 'LENGUAJE',
+            'COMITE' => 'LENGUA',
             'ID_AREA' => '2',
         ]);
         DB::table('Comite')->insert([

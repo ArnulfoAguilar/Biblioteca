@@ -375,4 +375,9 @@ class PrestamosController extends Controller
             ]);
     }
 
+    public function destroy(Request $request){
+        $prestamo = Prestamo::find($request->id);
+        dd($prestamo);
+    }
+
 }

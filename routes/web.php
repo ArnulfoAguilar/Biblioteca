@@ -100,6 +100,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['web', 'rol:1,2,3,4'])->group(function () {
 
         Route::resource('/aportes', 'AporteController');
+        Route::get('/aporte/eliminar', 'AporteController@eliminar')->name('aportes.aporte.eliminar');
         Route::get('/aporte/obtener', 'AporteController@obtener')->name('obtener.aporte');
         Route::get('/listaAportes', 'AporteController@lista')->name('aportes.lista');
         Route::get('/aporte/habilitar', 'AporteController@habilitar')->name('aportes.habilitar');

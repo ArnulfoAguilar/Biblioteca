@@ -38,12 +38,13 @@
                       <div class="card-header p-2">
                         <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Aporte </a></li>
-
-                        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 3 || Auth::user()->rol->id == 4 || Auth::user()->id == $aporte->ID_USUARIO  )
+                          
+                        @if ( Auth::user()->hasPermiso([34]) || Auth::user()->id == $aporte->ID_USUARIO  )
+                        {{-- @if ( Auth::user()->hasPermiso([31]) ) --}}
                             <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Observaciones</a></li>
                         @endif
-
-                        @if (Auth::user()->rol->id == 1  )
+                        
+                        @if ( Auth::user()->hasPermiso([35]) )
                         <li class="nav-item"><a class="nav-link" href="#comentarios" data-toggle="tab">Comentarios</a></li>
                         @endif
 
@@ -199,11 +200,18 @@
                       </div><!-- /.card-body -->
 
                       <div class="card-footer">
-                        @if (Auth::user()->rol->id == 1 || Auth::user()->rol->id == 4 )
+                        @if ( Auth::user()->hasPermiso([33]) )
                             @if ($aporte->HABILITADO == false)
-                                        <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>
+                                <habilitar-aporte aporte="{{$aporte->id}}"></habilitar-aporte>  
                             @endif
                         @endif
+
+                        @if ( Auth::user()->id == $aporte->ID_USUARIO && $aporte->deleted_at == null  )
+                            <a class="btn btn-danger" href="{{ route('aportes.aporte.eliminar', ['id' => $aporte->id])}}">
+                                <i class="fas fa-x"></i> Eliminar aporte
+                            </a>
+                        @endif
+
                       </div><!-- /.card-footer -->
 
                     </div>
