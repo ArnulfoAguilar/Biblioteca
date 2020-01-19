@@ -27,7 +27,7 @@
                     <br>
                     <span>COLEGIO ESPAÑOL PADRE ARRUPE</span>
                     <br>
-                    <span>Usuarios mas activos</span>
+                    <span>Libros Dañados</span>
                     <br>
                 </b>
             </p>

@@ -27,7 +27,7 @@
                     <br>
                     <span>COLEGIO ESPAÑOL PADRE ARRUPE</span>
                     <br>
-                    <span>Usuarios mas activos</span>
+                    <span>Libros sin inventariar</span>
                     <br>
                 </b>
             </p>
