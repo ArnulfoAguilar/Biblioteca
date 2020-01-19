@@ -47,6 +47,8 @@ class RolPermisoTableSeeder extends Seeder
         DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 34]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 35]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 36]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 37]);
+        DB::table('rol_permiso')->insert(['ID_ROL' => 1,'ID_PERMISO' => 38]);
 
         DB::table('rol_permiso')->insert(['ID_ROL' => 2,'ID_PERMISO' => 1]);
         DB::table('rol_permiso')->insert(['ID_ROL' => 2,'ID_PERMISO' => 3]);

@@ -192,6 +192,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/administracion/gestion/usuario/edit/{id?}', 'UserController@editarUsuario')->name('administracion.gestion.usuario.edit');
         Route::POST('/administracion/gestion/usuario/edit/post', 'UserController@editarUsuarioPost')->name('administracion.gestion.usuario.edit.post');
+        
+        Route::POST('/administracion/gestion/usuario/store', 'UserController@guardarUsuario')->name('administracion.gestion.usuario.store');
     });
 
     // -----------------------------------------OTRAS RUTAS -------------------------------------//

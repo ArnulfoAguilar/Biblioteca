@@ -243,7 +243,7 @@
         @endif
 
         {{-- admisnistracion --}}
-        @if (Auth::user()->rol->id == 1 )
+        @if (Auth::user()->hasPermiso([37]) )
           <li class="nav-item has-treeview {{ ( request()->is('administracion/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('administracion/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-graduation-cap"></i>
@@ -254,7 +254,7 @@
             </a>
             <ul class="nav nav-treeview">
 
-              @if (Auth::user()->rol->id == 1 )
+              @if ( Auth::user()->hasPermiso([37]) )
                 <li class="nav-item">
                   <a href="{{route('administracion.asignar.permiso')}}" class="nav-link {{ ( request()->is('administracion/asignar/permisos*') ) ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
@@ -263,14 +263,14 @@
                 </li>
               @endif
 
-              {{-- @if (Auth::user()->rol->id == 1 ) --}}
+              @if (Auth::user()->hasPermiso([38]) )
                 <li class="nav-item">
                   <a href="{{route('administracion.gestion.usuarios')}}" class="nav-link {{ ( request()->is('administracion/gestion/usuarios*') ) ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Usuarios</p>
                   </a>
                 </li>
-              {{-- @endif --}}
+              @endif
 
               @if ( Auth::user()->hasPermiso([17]) )
                 <li class="nav-item">
@@ -321,7 +321,8 @@
 
 
         {{-- Catalogos --}}
-        @if (Auth::user()->rol->id == 1 || Auth::user()->hasPermiso([21]) || Auth::user()->hasPermiso([22]) || Auth::user()->hasPermiso([23]) || Auth::user()->hasPermiso([24]) || Auth::user()->hasPermiso([25]) || Auth::user()->hasPermiso([26])   )
+        {{-- @if (Auth::user()->rol->id == 1 || Auth::user()->hasPermiso([21]) || Auth::user()->hasPermiso([22]) || Auth::user()->hasPermiso([23]) || Auth::user()->hasPermiso([24]) || Auth::user()->hasPermiso([25]) || Auth::user()->hasPermiso([26])   ) --}}
+        @if (Auth::user()->hasPermiso([21]) || Auth::user()->hasPermiso([22]) || Auth::user()->hasPermiso([23]) || Auth::user()->hasPermiso([24]) || Auth::user()->hasPermiso([25]) || Auth::user()->hasPermiso([26])   )
           <li class="nav-item has-treeview {{ ( request()->is('catalogos/*') ) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ ( request()->is('catalogos/*') ) ? 'active' : '' }}">
               <i class="nav-icon fas fa-list-alt"></i>

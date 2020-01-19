@@ -150,8 +150,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function editarUsuario($user){
-        $user = User::find($user);
+    public function editarUsuario($user = null){
+        if($user){
+            $user = User::find($user);
+        }
         return view('administracion.usuario-edit')->with([
             'user' => $user,
         ]); 
@@ -163,12 +165,33 @@ class UserController extends Controller
         $user->name = $request->nombres; 
         $user->apellidos = $request->apellidos; 
         $user->email = $request->email; 
+        $user->carnet = $request->carnet; 
         if($request->password != null){
             $user->password = Hash::make($request->password);
         }
         $user->save();
 
         return back()->with('success', 'Usuario editado correctamente');
+         
+    }
+
+    public function guardarUsuario(Request $request){
+        // dd($request);
+        // dd($request);
+        $user = new User();
+        $user->name = $request->nombres; 
+        $user->apellidos = $request->apellidos; 
+        $user->email = $request->email; 
+        $user->carnet = $request->carnet;
+        if($request->password != null){
+            $user->password = Hash::make($request->password);
+        }else{
+            $user->password = Hash::make('12345678');
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Usuario guardado correctamente');
          
     }
 }

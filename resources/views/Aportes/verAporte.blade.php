@@ -189,7 +189,7 @@
                                 <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}" rol="{{Auth::user()->ID_ROL}}" usuario="{{Auth::user()->id}}"></revisiones>
                           </div>
 
-                        @if (Auth::user()->rol->id == 1  )
+                        @if (Auth::user()->hasPermiso([35])  )
                             <div class="tab-pane" id="comentarios">
                                 <habilitar-comentarios aporte="{{$aporte->id}}"></habilitar-comentarios>
                             </div>
