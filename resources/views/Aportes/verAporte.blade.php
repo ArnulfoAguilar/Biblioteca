@@ -138,9 +138,9 @@
                                                                         
                                                                         {{ $comentario->total_likes }} Likes &nbsp;
                                                                         {{-- <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button" class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down"></i> Dislike</button> --}}
+                                                                        <a href="#"class="link-black text-sm dislike" data-i="{{$interaccion->id_interaccion}}"><i class="far fa-thumbs-down mr-1"></i>Ya no me gusta</a>
                                                                         {{--NEW--2lines--}}
                                                                         
-                                                                        <a href="#"class="link-black text-sm dislike" data-i="{{$interaccion->id_interaccion}}"><i class="far fa-thumbs-down mr-1"></i>Ya no me gusta</a>
                                                                     @endif
                                                                     @if ($interaccion->id_comentario == $comentario->id && $interaccion->id_interaccion==2)
                                                                     <?php $reporto = true;?>
