@@ -366,7 +366,7 @@ class AporteController extends Controller
         ->get();
         $TipoAporte = tipoAporte::find($aporte->ID_TIPO_APORTE);
         
-        $interacciones = Comentario::select('Comentario.id as id_comentario', 'interaccionComentario.id as id_interaccion')
+        $interacciones = Comentario::select('Comentario.id as id_comentario', 'interaccionComentario.id as id_interaccion', 'interaccionComentario.ID_TIPO_INTERACCION as tipo')
         ->join('interaccionComentario', 'Comentario.id', '=', 'interaccionComentario.ID_COMENTARIO')
         ->where('interaccionComentario.ID_USUARIO', '=', auth()->id() )
         ->get();
