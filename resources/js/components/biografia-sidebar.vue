@@ -73,8 +73,12 @@
             },
             Insignia()
             {
+              
                  axios.get('/Niveles/'+this.idnivel).then(response=>{
+                  console.log("nivellllll"+response.data);
                   this.Niveles = response.data;
+
+                  console.log(this.Niveles);
                   this.src=this.Niveles.BAGDE;
                   }
                 )                
