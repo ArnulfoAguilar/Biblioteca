@@ -160,10 +160,18 @@ class UserController extends Controller
     }
 
     public function editarUsuarioPost(Request $request){
-        // dd($request);
+        
+
         $user = User::find($request->id);
         $user->name = $request->nombres; 
-        $user->apellidos = $request->apellidos; 
+        $user->apellidos = $request->apellidos;
+        if($user->email != $request->email){
+            $user_existente = User::where('email', $request->email);
+            if($user_existente->count() > 0 ){
+                return back()->with('error', 'El Email digitado <<'.$request->email.'>> ya existe para otro usuario');
+            }
+        }
+        
         $user->email = $request->email; 
         $user->carnet = $request->carnet; 
         if($request->password != null){
@@ -176,8 +184,11 @@ class UserController extends Controller
     }
 
     public function guardarUsuario(Request $request){
-        // dd($request);
-        // dd($request);
+        $user_existente = User::where('email', $request->email);
+        if($user_existente->count() > 0 ){
+            return back()->with('error', 'El Email digitado <<'.$request->email.'>> ya existe para otro usuario');
+        }
+
         $user = new User();
         $user->name = $request->nombres; 
         $user->apellidos = $request->apellidos; 
@@ -188,7 +199,6 @@ class UserController extends Controller
         }else{
             $user->password = Hash::make('12345678');
         }
-
         $user->save();
 
         return back()->with('success', 'Usuario guardado correctamente');

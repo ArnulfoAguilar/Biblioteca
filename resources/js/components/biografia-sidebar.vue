@@ -80,6 +80,7 @@
 
                   console.log(this.Niveles);
                   this.src=this.Niveles.BAGDE;
+                  // console.log(this.src);
                   }
                 )                
             },

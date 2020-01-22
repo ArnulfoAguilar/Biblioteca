@@ -54,7 +54,7 @@
                                                     {{$user->PUNTOS}}
                                                 </td>
                                                 <td>    
-                                                    {{$user->Nivel ? $user->Nivel->NIVEL.' (Nivel '.$user->ID_NIVEL.')' : 'Al menos es usuario'}}
+                                                    {{$user->Nivel ? $user->Nivel->NIVEL.' (Nivel '.$user->ID_NIVEL.')' : '-- Ningun nivel alcanzado --'}}
                                                 </td>
                  
                                                 
