@@ -285,7 +285,7 @@ class PrestamosController extends Controller
         
         $asuetos = DB::table('calendarios')
         ->where('inicio_inactividad', '>=', $hoy )
-        ->where('inicio_inactividad', '<', date("d-m-Y",strtotime($hoy."+ 60 days")) )
+        ->where('inicio_inactividad', '<', date("Y-m-d",strtotime($hoy."+ 60 days")) )
         ->orderBy('inicio_inactividad', 'asc')
         ->get();
         
