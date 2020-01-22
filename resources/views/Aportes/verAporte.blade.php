@@ -153,14 +153,14 @@
                                                                 <a href="#"class="link-black text-sm like" data-c="{{$comentario->id}}"><i class="far fa-thumbs-up mr-1"></i>Me gusta</a>
                                                             @endif
 
-                                                            @if ($reporto)
+                                                            {{--@if ($reporto)
                                                                 <?php $reporto = false;?>
-                                                            @else
+                                                            @else --}}
                                                                 
                                                                 &nbsp;&nbsp;<a href="#"class="link-black text-sm reportarComentario" data-c="{{$comentario->id}}"><i class="fas fa-ban mr-1"></i>Reportar</a>
 
 
-                                                            @endif
+                                                            {{-- @endif --}}
 
                                                             
                                                         </div>
