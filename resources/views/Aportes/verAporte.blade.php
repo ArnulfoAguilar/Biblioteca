@@ -130,13 +130,19 @@
                                                         <div class="row float-right">
                                                             {{-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> --}}
                                                             <?php $dioLike = false;?>
+                                                            <?php $reporto = false;?>
                                                             @foreach ($interacciones as $interaccion)
-                                                                @if ($interaccion->id_comentario == $comentario->id )
+                                                                @if ($interaccion->id_comentario == $comentario->id && $interaccion->tipo == 1)
                                                                     <?php $dioLike = true;?>
                                                                     {{ $comentario->total_likes }} Likes &nbsp;
                                                                     {{-- <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button" class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down"></i> Dislike</button> --}}
                                                                     <a href="#"class="link-black text-sm dislike" data-i="{{$interaccion->id_interaccion}}"><i class="far fa-thumbs-down mr-1"></i>Ya no me gusta</a>
                                                                 @endif
+
+                                                                @if ($interaccion->tipo == 2)
+                                                                    <?php $reporto = true;?>
+                                                                @endif
+
                                                             @endforeach
 
                                                             @if ($dioLike)
@@ -147,7 +153,16 @@
                                                                 <a href="#"class="link-black text-sm like" data-c="{{$comentario->id}}"><i class="far fa-thumbs-up mr-1"></i>Me gusta</a>
                                                             @endif
 
-                                                            &nbsp;&nbsp;<a href="#"class="link-black text-sm reportarComentario" data-c="{{$comentario->id}}"><i class="fas fa-ban mr-1"></i>Reportar</a>
+                                                            @if ($reporto)
+                                                                <?php $reporto = false;?>
+                                                            @else
+                                                                
+                                                                &nbsp;&nbsp;<a href="#"class="link-black text-sm reportarComentario" data-c="{{$comentario->id}}"><i class="fas fa-ban mr-1"></i>Reportar</a>
+
+
+                                                            @endif
+
+                                                            
                                                         </div>
                                                     </div>
                                                                     <!-- /.card-comment -->
