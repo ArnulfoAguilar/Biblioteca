@@ -174,6 +174,10 @@
                           <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" >Tienes un nuevo like en tu comentario</a>
                           @endif
 
+                          @if ($notification->type == 'App\Notifications\NewReport')
+                          <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" >Se ha reportado el comentario "{{$notification->data["comentario"]["COMENTARIO"]}}"</a>
+                          @endif
+
                         <div class="dropdown-divider"></div>
                       </li>
                     @endforeach

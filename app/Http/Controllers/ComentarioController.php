@@ -14,6 +14,7 @@ use App\User;
 
 use App\Notifications\NuevoComentario;
 use App\Notifications\NuevoLike;
+use App\Notifications\NewReport;
 use Illuminate\Support\Facades\Notification;
 
 class ComentarioController extends Controller
@@ -115,6 +116,10 @@ class ComentarioController extends Controller
         $InteraccionComentario->ID_COMENTARIO= $request->comentario;
         $InteraccionComentario->ID_USUARIO = auth()->id();
         $InteraccionComentario->save();
+
+        $users = User::where('ID_ROL', 1)->get();//Trae lo usuarios admin
+        Notification::send($users, new NewReport($InteraccionComentario)); //Esto notifica a varios usuarios
+            
     }
     public function interaccionesComentario(Request $request)
     {
