@@ -27,8 +27,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $hoy = date("d-m-Y");
-        $antes = date("d-m-Y",strtotime($hoy."- 7 days"));
+        $hoy = date("Y-m-d");
+        $antes = date("Y-m-d",strtotime($hoy."- 7 days"));
 
         $habilitados = DB::table('Aporte')->where('HABILITADO', true)->count();
         $pendientes = DB::table('Aporte')->where('HABILITADO', false)->count();
