@@ -225,7 +225,7 @@ class PrestamosController extends Controller
         }
 
 
-        $devolucion = date("d-m-Y",strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION.$dias));
+        $devolucion = date("Y-m-d",strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION.$dias));
 
         $prestamo->FECHA_ESPERADA_DEVOLUCION = PrestamosController::verificarDevolucion($devolucion);
        
