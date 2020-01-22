@@ -113,51 +113,46 @@
                                                 {{-- <comentarios aporte="{{ $aporte->id }}" usuario=" {{ Auth::user()->id }}"></comentarios> --}}
 
                                                 @foreach ($comentarios as $comentario)
-                                                    <div class="card-footer card-comments">
-
-                                                        <div class="card-comment" >
-                                                        <!-- User image -->
-                                                            <img class="img-circle img-sm" src="" alt="">
-
-                                                            <div class="comment-text">
-                                                            <span class="username">
-                                                                {{$comentario->name}}
-                                                            <span class="text-muted float-right">{{ $comentario->created_at}}</span>
-                                                            </span><!-- /.username -->
-                                                            {{ $comentario->COMENTARIO}}
-                                                            </div>
-                                                                        <!-- /.comment-text -->
-                                                            <div class="row float-right">
-                                                                {{-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> --}}
-                                                                <?php $dioLike = false;?>
-                                                                <?php $reporto = false;?>
-                                                                @foreach ($interacciones as $interaccion)
-                                                                    @if ($interaccion->id_comentario == $comentario->id && $interaccion->id_interaccion==1)
-                                                                        <?php $dioLike = true;?>
-                                                                        <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button"  class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down"></i> </button> {{ $comentario->total_likes }} likes
-                                                                    @endif
-                                                                    @if ($interaccion->id_comentario == $comentario->id && $interaccion->id_interaccion==2)
-                                                                    <?php $reporto = true;?>
-                                                                                                                                        
-                                                                    @endif
-                                                                @endforeach
-                                                                @if ($dioLike)
-                                                                    <?php $dioLike = false;?>
-                                                                @else
-                                                                    <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up"></i> </button> {{ $comentario->total_likes }} likes
-                                                                @endif
-                                                                
-                                                                
-                                                                @if ($reporto==false)
-                                                                    <button id="reportarComentario" data-c="{{$comentario->id}}" type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
-                                                                @endif
-                                                                
-
-                                                            </div>
+                                                <div class="card-footer card-comments">
+                                                    
+                                                    <div class="card-comment" >
+                                                    <!-- User image -->
+                                                        <img class="img-circle img-sm" src="" alt="">
+                                                    
+                                                        <div class="comment-text">
+                                                        <span class="username">
+                                                            {{$comentario->name}}
+                                                        <span class="text-muted float-right">{{ $comentario->created_at}}</span>
+                                                        </span><!-- /.username -->
+                                                        {{ $comentario->COMENTARIO}}
                                                         </div>
-                                                                        <!-- /.card-comment -->
+                                                                    <!-- /.comment-text -->
+                                                        <div class="row float-right">
+                                                            {{-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> --}}
+                                                            <?php $dioLike = false;?>
+                                                            @foreach ($interacciones as $interaccion)
+                                                                @if ($interaccion->id_comentario == $comentario->id )
+                                                                    <?php $dioLike = true;?>
+                                                                    {{ $comentario->total_likes }} Likes &nbsp;
+                                                                    {{-- <button class="dislike" data-i="{{$interaccion->id_interaccion}}" type="button" class="btn btn-default btn-sm " ><i class="fas fa-thumbs-down"></i> Dislike</button> --}}
+                                                                    <a href="#"class="link-black text-sm dislike" data-i="{{$interaccion->id_interaccion}}"><i class="far fa-thumbs-down mr-1"></i>Ya no me gusta</a>
+                                                                @endif
+                                                            @endforeach
+
+                                                            @if ($dioLike)
+                                                                <?php $dioLike = false;?>
+                                                            @else
+                                                                {{ $comentario->total_likes }} Likes &nbsp;
+                                                                {{-- {{ $comentario->total_likes }} Likes <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up"></i> Like</button> --}}
+                                                                <a href="#"class="link-black text-sm like" data-c="{{$comentario->id}}"><i class="far fa-thumbs-up mr-1"></i>Me gusta</a>
+                                                            @endif
+
+                                                            &nbsp;&nbsp;<a href="#"class="link-black text-sm reportarComentario" data-c="{{$comentario->id}}"><i class="fas fa-ban mr-1"></i>Reportar</a>
+                                                        </div>
                                                     </div>
-                                                @endforeach
+                                                                    <!-- /.card-comment -->
+                                                </div>
+                                            @endforeach
 
                                                     <div class="card-footer">
                                                         <img class="img-fluid img-circle img-sm" src="" alt="">
@@ -189,7 +184,7 @@
                                 <revisiones aporte="{{$aporte->id}}" area="{{$aporte->ID_AREA}}" rol="{{Auth::user()->ID_ROL}}" usuario="{{Auth::user()->id}}"></revisiones>
                           </div>
 
-                        @if (Auth::user()->rol->id == 1  )
+                        @if (Auth::user()->hasPermiso([35])  )
                             <div class="tab-pane" id="comentarios">
                                 <habilitar-comentarios aporte="{{$aporte->id}}"></habilitar-comentarios>
                             </div>
@@ -234,7 +229,7 @@
     $(document).ready(function() {
 
     });
-    $('#reportarComentario').click(function (e) {
+    $('.reportarComentario').click(function (e) {
         console.log('LLEGO A REPORT')
         var c = $(this).data('c');
         var _token = $('input[name="_token"]').val();
@@ -246,7 +241,7 @@
                 _token: _token,
             } ,
             success: function(result) {
-                swal({ text: 'Haz reportado el comentario', title: 'Report', icon: 'danger',})
+                swal({ text: 'Haz reportado el comentario', title: 'Report', icon: 'success',})
                         .then( (value) => {
                             location.reload();
                         });
@@ -264,10 +259,10 @@
                 _token: _token,
             } ,
             success: function(result) {
-                /*swal({ text: 'Te gusta el comentario', title: 'Like', icon: 'success',})
-                        .then( (value) => {*/
+                swal({ text: 'Te gusta el comentario', title: 'Like', icon: 'success',})
+                        .then( (value) => {
                             location.reload();
-                        //});
+                        });
             }
         });
     });
@@ -282,10 +277,10 @@
                 _token: _token,
             } ,
             success: function(result) {
-               /* swal({ text: 'Te ha dejado de gustar el comentario', title: 'Dislike', icon: 'success',})
-                        .then( (value) => {*/
+               swal({ text: 'Te ha dejado de gustar el comentario', title: 'Dislike', icon: 'success',})
+                        .then( (value) => {
                             location.reload();
-                       // });
+                       });
             }
         });
     });

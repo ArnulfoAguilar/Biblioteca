@@ -270,6 +270,20 @@ class PermisosTableSeeder extends Seeder
             'descripcion' => 'Permite habilitar los aportes',
         ]);
         //era el 33
+        DB::table('permisos')->insert([
+            'id' => 37,
+            'correlativo' => 37,
+            'nombre_corto' => 'manag-permisos',
+            'nombre' => 'Gestionar Permisos',
+            'descripcion' => 'Permite gestionar los permisos',
+        ]);
+        DB::table('permisos')->insert([
+            'id' => 38,
+            'correlativo' => 38,
+            'nombre_corto' => 'manag-users',
+            'nombre' => 'Gestionar usuarios',
+            'descripcion' => 'Permite gestionar usuarios',
+        ]);
         
     }
 }

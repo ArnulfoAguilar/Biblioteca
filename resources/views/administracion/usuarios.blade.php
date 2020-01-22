@@ -39,8 +39,12 @@ Gestión de usuarios
                     Usuarios
                     <div class=" float-right">
                         <button type="button" class="btn btn-sm btn-success" title="Importar" data-toggle="modal" data-target="#import">
-                                <i class="fas fa-check"></i> Importar Excel
+                                <i class="fas fa-users"></i> Importar usuarios Excel
                         </button>
+                        {{-- <button type="button" class="btn btn-sm btn-success" title="Importar" >
+                                <i class="fas fa-user"></i> Agregar un usuario
+                        </button> --}}
+                        <a href="{{route('administracion.gestion.usuario.edit')}}" class="btn btn-success btn-sm" > <i class="fas fa-user"></i>Agregar un usuario</a>
                      </div>
                 </div>
                 <div class="card-body">

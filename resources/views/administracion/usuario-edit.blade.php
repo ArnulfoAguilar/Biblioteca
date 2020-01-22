@@ -7,7 +7,7 @@
 @section('breadcrumbs')
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="#">Administración</a></li>
-    <li class="breadcrumb-item active">Editar Usuario</li>
+    <li class="breadcrumb-item active">{{$user? 'Editar Usuario' : 'Agregar usuario'}}</li>
   </ol>
 @endsection
 
@@ -27,9 +27,9 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <form  id="editarUsuario" action="{{route('administracion.gestion.usuario.edit.post')}}" method="POST" enctype="multipart/form-data">
+                    <form  id="editarUsuario" action="{{$user ? route('administracion.gestion.usuario.edit.post') : route('administracion.gestion.usuario.store') }}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
-                        <div class="card-header bg-dark">Editando Usuario</div>
+                        <div class="card-header bg-dark">{{$user ? 'Editando Usuario' : 'Agregando usuario'}}</div>
                         
                             @if(!empty($errors->all()))
                                 <div class="alert alert-danger alert-dismissible">
@@ -51,7 +51,7 @@
 
                         <div class="card-body">
                             <div class="row">
-                                <input type="hidden" name="id" value="{{$user->id}}">
+                                <input type="hidden" name="id" value="{{$user ? $user->id : ''}}">
                                 <div class="form-group col-md-4 col-xs-12">
                                     <label for="Titulo">Nombres</label>
                                     <input type="text"  class="form-control" name="nombres" value="{{$user ? $user->name : ''}}" 
@@ -63,17 +63,25 @@
                                         required maxlength="255">
                                 </div>
                                 <div class="form-group col-md-4 col-xs-12">
-                                    <label for="Titulo">Email</label>
-                                    <input type="text"  class="form-control" name="email" value="{{$user ? $user->email : ''}}" 
+                                    <label for="Titulo">Carnet</label>
+                                    <input type="text"  class="form-control" name="carnet" value="{{$user ? $user->carnet : ''}}" 
                                         required maxlength="255">
+                                </div>
+                                <div class="form-group col-md-4 col-xs-12">
+                                    <label for="Titulo">Email</label>
+                                    <input type="email"  class="form-control" name="email" value="{{$user ? $user->email : ''}}" 
+                                        required maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$">
                                 </div>
                                 
                                 
                             </div>
 
-                            <div class="alert alert-warning alert-block">
-                                <strong>Si no desea cambiar la contraseña, favor dejar el campo en blanco. El sistema no modificará la contraseña actual</strong>
-                            </div>
+                            @if ($user)
+                                <div class="alert alert-warning alert-block">
+                                    <strong>Si no desea cambiar la contraseña, favor dejar el campo en blanco. El sistema no modificará la contraseña actual</strong>
+                                </div>
+                            @endif
+                            
 
                             <div class="row">
                                 <div class="form-group col-md-4 col-xs-12">

@@ -84,9 +84,12 @@ class User extends Authenticatable
 
     public function hasPermiso($correlativosSolicitado){
         $correlativos = [];
-        foreach ($this->rol->permisos as $permiso) {
-            array_push($correlativos, $permiso->correlativo);
+        if($this->rol){
+            foreach ($this->rol->permisos as $permiso) {
+                array_push($correlativos, $permiso->correlativo);
+            }
         }
+        
         foreach ($correlativosSolicitado as $corSoli) {
             if( ! in_array($corSoli, $correlativos) ){
                 return false;

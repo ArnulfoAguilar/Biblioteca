@@ -22,7 +22,8 @@
                     <div class="icon">
                         <i class="fas fa-check"></i>
                     </div>
-                    <a href="{{route('aportes.index',['id'=>1])}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
+                    {{-- <a href="{{route('aportes.index',['id'=>1])}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a> --}}
+                    <a href="{{route('aportes.index')}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -37,7 +38,7 @@
                     <div class="icon">
                         <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <a href="{{route('aportes.index',['id'=>0])}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{route('aportes.index')}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -88,7 +89,7 @@
                     <div class="icon">
                         <i class="fab fa-wpforms"></i>
                     </div>
-                    <a href="{{route('aportes.index',['vista'=>2])}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{route('aportes.index')}}" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         
@@ -96,7 +97,7 @@
                     <div class="small-box bg-danger">
                         <div class="inner">
     
-                            <p>Alguna estadística</p>
+                            <p>Alguna otra estadística</p>
                             <h4>#</h4>
 
                         </div>
