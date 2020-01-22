@@ -143,7 +143,7 @@ class AporteController extends Controller
         $PalabrasClave = palabrasClave::all();
         $TamañoMaximoArchivo= Configuracion::select('TAMAÑO_MAXIMO_ARCHIVOS')
                                             ->first();
-        return view('Aportes.NuevoAporte')
+        return view('Aportes.nuevoAporte')
             ->with(['Areas' => $Areas])
             ->with(['PalabrasClave' => $PalabrasClave])
             ->with(['TipoAportes' => $TipoAportes])
