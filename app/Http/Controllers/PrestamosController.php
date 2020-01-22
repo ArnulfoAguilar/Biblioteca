@@ -177,7 +177,7 @@ class PrestamosController extends Controller
             $dias = "+ ".(string)$dia->DIAS_HABILES_PRORROGA." days";
         }
 
-        $devolucion = date("d-m-Y",strtotime($prestamo->FECHA_PRESTAMO.$dias));
+        $devolucion = date("Y-m-d",strtotime($prestamo->FECHA_PRESTAMO.$dias));
 
         $prestamo->FECHA_ESPERADA_DEVOLUCION = PrestamosController::verificarDevolucion($devolucion);
        
