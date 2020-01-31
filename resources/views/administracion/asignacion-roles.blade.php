@@ -101,7 +101,7 @@ Asignación de roles a usuarios
         </div>
     </div>
 </div> --}}
-<asignación-roles></asignación-roles>
+<asignacion-roles></asignacion-roles>
 
 @endsection
 
