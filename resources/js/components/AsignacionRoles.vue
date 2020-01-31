@@ -50,7 +50,7 @@
             <div class="col col-12">
                 <div class="card">
                     <div class="card-header bg-dark d-flex justify-content-between">
-                        <div class="card-title">Usuarios</div>
+                        <div class="card-title"> Usuarios</div>
                         <div class="card-options">
                             <input type="text" placeholder="Buscar" class="form-control" v-model="name">
                         </div>
