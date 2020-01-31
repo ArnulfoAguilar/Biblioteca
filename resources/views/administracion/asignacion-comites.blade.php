@@ -5,7 +5,7 @@
 -->
 @endsection
 @section('Encabezado')
-Asignacion de departamentos a usuarios
+Asignación de departamentos a usuarios
 @endsection
 
 @section('breadcrumbs')

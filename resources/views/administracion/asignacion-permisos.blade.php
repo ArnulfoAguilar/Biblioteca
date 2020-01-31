@@ -5,7 +5,7 @@
 -->
 @endsection
 @section('Encabezado')
-Asignacion de Permisos a Roles
+Asignación de Permisos a Roles
 @endsection
 
 @section('breadcrumbs')
@@ -35,7 +35,7 @@ Asignacion de Permisos a Roles
 </div>
 @endif
 
-            <label>Editar Asignacion de Rol:</label>
+            <label>Editar Asignación de Rol:</label>
             <input name="id_rol" type="hidden" class="form-control" value="{{$rol? $rol->id : '' }}">
             <input name="nombre_rol" type="text" class="form-control" 
                 placeholder="Seleccione un rol..." required 
@@ -66,7 +66,7 @@ Asignacion de Permisos a Roles
             
 
             {{-- <div class="col-sm-12 mb-3">
-                <label for="NOMBRE">Editar Asignacion de Rol:</label>
+                <label for="NOMBRE">Editar Asignación de Rol:</label>
                 <div class="input-group">
                     <input name="id_rol" class="form-control" value="{{$rol? $rol->id : '' }}" disabled>
                     <input type="text" class="form-control col-md-9" placeholder="Seleccione un rol..." required
