@@ -4,9 +4,6 @@
           <button v-if="usuario == user.id && user.ID_ROL == 4 && user.ID_COMITE != null" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Crear nueva sugerencia</button>
       </div>
 
-      <input type="text" placeholder="Buscar" class="form-control col-3" v-model="name">
-
-      <br>
 
       <div v-if="Sugerencias < 1">
         <ul class="timeline timeline-inverse">
@@ -21,6 +18,9 @@
         </ul>
       </div>
 
+      <input type="text" placeholder="Buscar" class="form-control col-3" v-model="name">
+
+      <br>
 
 
       <div class= "card" v-for="(item,index) in searchSugerencia" :key="index">
