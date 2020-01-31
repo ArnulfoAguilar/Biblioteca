@@ -49,9 +49,14 @@
 
             <div class="col col-12">
                 <div class="card">
-                    <div class="card-header bg-dark">
-                        Usuarios
+                    <div class="card-header bg-dark d-flex justify-content-between">
+                        <div class="card-title">Usuarios</div>
+                        <div class="card-options">
+                            <input type="text" placeholder="Buscar" class="form-control" v-model="name">
+                        </div>
+                        
                     </div>
+                    
                     <div class="card-body">
                         <table class="table table-hover" id="usuarios">
                             <thead>
@@ -64,7 +69,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in usuarios" :key="index">
+                                <tr v-for="(item, index) in searchUsuarios" :key="index">
                                 <th scope="row">{{item.id}}</th>
                                 <td>{{item.name}}</td>
                                 <td>{{item.email}}</td>
@@ -110,6 +115,7 @@
                 usuarios: [],
                 roles:[],
                 usuario: {id:'', name:'', email:'', ID_ROL:''},
+                name: '',
             }
         },
         created(){
@@ -171,6 +177,10 @@
                         }
                     });
                     return rolito
+                },
+
+                searchUsuarios: function(){
+                    return this.usuarios.filter((item) => item.name.toUpperCase().includes(this.name.toUpperCase())); 
                 }
         }
     }

@@ -5,7 +5,7 @@
 -->
 @endsection
 @section('Encabezado')
-Asignacion de Permisos a Roles
+Asignación de Permisos a Roles
 @endsection
 
 @section('breadcrumbs')
@@ -35,7 +35,7 @@ Asignacion de Permisos a Roles
 </div>
 @endif
 
-            <label>Editar Asignacion de Rol:</label>
+            <label>Editar Asignación de Rol:</label>
             <input name="id_rol" type="hidden" class="form-control" value="{{$rol? $rol->id : '' }}">
             <input name="nombre_rol" type="text" class="form-control" 
                 placeholder="Seleccione un rol..." required 
@@ -66,7 +66,7 @@ Asignacion de Permisos a Roles
             
 
             {{-- <div class="col-sm-12 mb-3">
-                <label for="NOMBRE">Editar Asignacion de Rol:</label>
+                <label for="NOMBRE">Editar Asignación de Rol:</label>
                 <div class="input-group">
                     <input name="id_rol" class="form-control" value="{{$rol? $rol->id : '' }}" disabled>
                     <input type="text" class="form-control col-md-9" placeholder="Seleccione un rol..." required
@@ -106,7 +106,7 @@ Asignacion de Permisos a Roles
                     Roles
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover" id="usuarios">
+                    <table class="table table-hover" id="roles">
                         <thead>
                             <tr>
                             <th scope="col">N°</th>
@@ -148,13 +148,72 @@ Asignacion de Permisos a Roles
 @endsection
 
 @section('jsExtra')
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.multiple').select2();
-        $('.cancelar').click( function() {
-            console.log('Entro')
-            window.location.replace("http://127.0.0.1:8000/administracion/asignar/permisos");
-        })
-    });
-</script>
+
+<link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+    
+    <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
+
+    <script type="text/javascript">
+
+        $('#roles').DataTable({
+            "order": [[ 0, "asc" ]]
+        });
+
+        $(document).ready(function() {
+            $('.multiple').select2();
+            $('.cancelar').click( function() {
+                console.log('Entro')
+                window.location.replace("http://127.0.0.1:8000/administracion/asignar/permisos");
+            })
+        });
+    </script>
 @endsection
+
+
+<script type="text/javascript">
+    
+    $(document).ready( function () {
+        
+
+        $(".cancelar").click(function(){
+            var id = $(this).data('pres');
+            var _token = $('input[name="_token"]').val();
+
+            swal({
+                title: "¿Está seguro de cancelar este préstamo?",
+                text: "El libro estará disponible para otros préstamos",
+                icon: "warning",
+                buttons: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{ route('cancelar.prestamo')}}",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            _token: _token,
+                        },
+                        success: function (result) {
+                            swal({ icon: 'success', title: 'Éxito', text: 'Préstamo cancelado exitosamente',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                        error: function (result) {
+                            swal({ icon: 'error', title: 'Error', text: 'Intente de nuevo. Si eso no funciona contacte al administrador',})
+                            .then((value) => {
+                                location.reload();
+                            });
+                        },
+                    })
+                } else {
+                    location.reload();
+                }
+            });
+
+        });
+
+    } );
+
+</script>

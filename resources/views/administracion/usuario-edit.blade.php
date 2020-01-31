@@ -12,12 +12,21 @@
 @endsection
 
 @section('content')
+
 @if ($message = Session::get('success'))
 <div class="alert alert-success alert-block">
 	<button type="button" class="close btn btn-sm btn-danger" data-dismiss="alert">×</button>	
         <strong>{{ $message }}</strong>
 </div>
 @endif
+
+@if ($message = Session::get('error'))
+<div class="alert alert-error alert-block">
+	<button type="button" class="close btn btn-sm btn-danger" data-dismiss="alert">×</button>	
+        <strong>{{ $message }}</strong>
+</div>
+@endif
+
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -79,6 +88,10 @@
                             @if ($user)
                                 <div class="alert alert-warning alert-block">
                                     <strong>Si no desea cambiar la contraseña, favor dejar el campo en blanco. El sistema no modificará la contraseña actual</strong>
+                                </div>
+                            @else
+                                <div class="alert alert-warning alert-block">
+                                    <strong>Si no escribe una contraseña se establecera '12345678' por defecto</strong>
                                 </div>
                             @endif
                             

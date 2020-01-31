@@ -57,7 +57,8 @@ class NivelesController extends Controller
     
     public function show($id)
     {
-
+        
+        return $NIVEL = Niveles::find($id);
     }
 
     /**

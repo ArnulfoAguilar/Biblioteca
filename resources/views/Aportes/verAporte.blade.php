@@ -139,7 +139,7 @@
                                                                     <a href="#"class="link-black text-sm dislike" data-i="{{$interaccion->id_interaccion}}"><i class="far fa-thumbs-down mr-1"></i>Ya no me gusta</a>
                                                                 @endif
 
-                                                                @if ($interaccion->tipo == 2)
+                                                                @if ($interaccion->id_comentario == $comentario->id && $interaccion->tipo == 2)
                                                                     <?php $reporto = true;?>
                                                                 @endif
 
@@ -152,8 +152,13 @@
                                                                 {{-- {{ $comentario->total_likes }} Likes <button class="like" data-c="{{$comentario->id}}" type="button"  class="btn btn-default btn-sm " ><i class="far fa-thumbs-up"></i> Like</button> --}}
                                                                 <a href="#"class="link-black text-sm like" data-c="{{$comentario->id}}"><i class="far fa-thumbs-up mr-1"></i>Me gusta</a>
                                                             @endif
+
+                                                            @if ($reporto)
+                                                                <?php $reporto = false;?>
+                                                            @else
+                                                                &nbsp;&nbsp;<a href="#"class="link-black text-sm reportarComentario" data-c="{{$comentario->id}}"><i class="fas fa-ban mr-1"></i>Reportar</a>
+                                                            @endif
                                                             
-                                                            &nbsp;&nbsp;<a href="#"class="link-black text-sm reportarComentario" data-c="{{$comentario->id}}"><i class="fas fa-ban mr-1"></i>Reportar</a>
                                                             
                                                         </div>
                                                     </div>

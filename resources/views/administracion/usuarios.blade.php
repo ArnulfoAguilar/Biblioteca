@@ -34,6 +34,12 @@ Gestión de usuarios
     <div class="row ">
         
         <div class="col col-12 mt-3">
+
+            <div class="alert alert-warning alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>	
+                    <strong>Orden de columnas para importar desde excel: NOMBRES, APELLIDOS, CARNET, EMAIL</strong>
+            </div>
+
             <div class="card">
                 <div class="card-header bg-dark">
                     Usuarios
@@ -54,6 +60,7 @@ Gestión de usuarios
                             <th scope="col">N°</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Apellidos</th>
+                            <th scope="col">Carnet</th>
                             <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -63,6 +70,7 @@ Gestión de usuarios
                                     <th scope="row">{{$key+1}}</th>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->apellidos}}</td>
+                                    <td>{{ $user->carnet ? $user->carnet : 'Sin Carnet' }}</td>
                                     <td>
                                         {{-- <a href="" class="btn btn-primary btn-sm" >Editar</a> --}}
                                         <a href="{{route('administracion.gestion.usuario.edit', $user)}}" class="btn btn-primary btn-sm" >Ver/Editar</a>

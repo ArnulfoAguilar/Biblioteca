@@ -5,7 +5,7 @@
 -->
 @endsection
 @section('Encabezado')
-Asignacion de roles a usuarios
+Asignación de roles a usuarios
 @endsection
 
 @section('breadcrumbs')
@@ -101,7 +101,7 @@ Asignacion de roles a usuarios
         </div>
     </div>
 </div> --}}
-<asignacion-roles></asignacion-roles>
+<asignación-roles></asignación-roles>
 
 @endsection
 
