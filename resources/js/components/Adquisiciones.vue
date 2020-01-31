@@ -4,6 +4,8 @@
           <button v-if="usuario == user.id && user.ID_ROL == 4 && user.ID_COMITE != null" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditar">Crear nueva sugerencia</button>
       </div>
 
+      <input type="text" placeholder="Buscar" class="form-control col-3" v-model="name">
+
       <br>
 
       <div v-if="Sugerencias < 1">
@@ -19,7 +21,9 @@
         </ul>
       </div>
 
-      <div class= "card" v-for="(item,index) in Sugerencias" :key="index">
+
+
+      <div class= "card" v-for="(item,index) in searchSugerencia" :key="index">
         <!-- <div class="card-header">
         </div> -->
         <div class="card-body" >
@@ -89,7 +93,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="ISBN">Justificación de la sugerencia</label>
-                                    <textarea class="form-control" id="DESCRIPCION" v-model="Sugerencia.CONTENIDO"
+                                    <textarea class="form-control" id="JUSTIFICACION" v-model="Sugerencia.CONTENIDO"
                                         rows="3" required maxlength="50000"></textarea>
                                 </div>
                                 
@@ -121,7 +125,8 @@
                 Sugerencias: [],
                 Usuarios:[],
                 Areas:[],
-                Sugerencia: { id:'', TITULO:'', DESCRIPCION:'', CONTENIDO:'', ID_AREA:'', ID_USUARIO:'',}
+                Sugerencia: { id:'', TITULO:'', DESCRIPCION:'', CONTENIDO:'', ID_AREA:'', ID_USUARIO:''},
+                name: '',
             }
         },
         created(){
@@ -237,13 +242,18 @@
 
         },
 
-        // computed: {
-        //   // a computed getter
-        //   momento: function (date) {
-        //     var now = moment(date);
-        //     return now.startOf('hour').fromNow();
-        //   }
-        // },
+
+        computed:{
+          searchSugerencia: function(){
+            return this.Sugerencias.filter((item) => 
+              item.TITULO.toUpperCase().includes(this.name.toUpperCase()) ||
+              item.DESCRIPCION.toUpperCase().includes(this.name.toUpperCase()) ||
+              item.CONTENIDO.toUpperCase().includes(this.name.toUpperCase()) 
+
+            ); 
+          }
+        },
+        
       
 
     }

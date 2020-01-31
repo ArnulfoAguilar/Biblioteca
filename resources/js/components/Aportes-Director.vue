@@ -1,9 +1,14 @@
 <template>
     <div class="container"> 
       <!-- TIMELINE -->
+      <!-- <div class="d-flex align-items-end"> -->
+        <input type="text" placeholder="Buscar" class="form-control col-3" v-model="name">
+        <br>
+      <!-- </div> -->
+
       <div class="tab-pane active" id="timeline">
         <ul class="timeline timeline-inverse">
-            <li v-for="(item, index) in Aportes" :key="index">
+            <li v-for="(item, index) in searchAporte" :key="index">
                 <i class="fas fa-check-circle bg-success" v-if="item.HABILITADO == true"></i>
                 <i class="fas fa-eye bg-warning" v-else></i>
                 <div class="timeline-item">
@@ -46,7 +51,8 @@
         data(){
             return{
                 Aportes: [],
-                Aporte: { TITULO:'', DESCRIPCION:'', CREATED_AT:'', NAME:''}
+                Aporte: { TITULO:'', DESCRIPCION:'', CREATED_AT:'', NAME:''},
+                name :'',
             }
         },
         created(){
@@ -89,6 +95,14 @@
 
         },
       
+        computed :{
+          searchAporte: function(){
+                    return this.Aportes.filter((item) => 
+                      item.TITULO.toUpperCase().includes(this.name.toUpperCase()) ||
+                      item.DESCRIPCION.toUpperCase().includes(this.name.toUpperCase())
+                    ); 
+                }
+        },
 
     }
 </script>
