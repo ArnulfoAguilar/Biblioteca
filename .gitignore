@@ -11,6 +11,9 @@ public/aportesImages
 # Laravel 5 & Lumen specific
 public/storage
 public/hot
+public/aportesArchivos
+public/aportesImages
+public/bookImages
 storage/*.key
 .env
 Homestead.yaml
