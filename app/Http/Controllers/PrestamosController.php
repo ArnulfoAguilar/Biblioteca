@@ -291,16 +291,16 @@ class PrestamosController extends Controller
         
         foreach ($asuetos as $key => $asueto) {
             if ($asueto->fin_inactividad == null) {
-                if (date("d-m-Y",strtotime($asueto->inicio_inactividad)) == $devolucion) {
-                    $devolucion = date("d-m-Y",strtotime($asueto->inicio_inactividad."+ 1 days"));
+                if (date("Y-m-d",strtotime($asueto->inicio_inactividad)) == $devolucion) {
+                    $devolucion = date("Y-m-d",strtotime($asueto->inicio_inactividad."+ 1 days"));
                 }
             }else{
                 if 
                 (
-                    $devolucion >= date("d-m-Y",strtotime($asueto->inicio_inactividad)) && 
-                    $devolucion <= date("d-m-Y",strtotime($asueto->fin_inactividad))
+                    $devolucion >= date("Y-m-d",strtotime($asueto->inicio_inactividad)) && 
+                    $devolucion <= date("Y-m-d",strtotime($asueto->fin_inactividad))
                 ){
-                    $devolucion = date("d-m-Y",strtotime($asueto->fin_inactividad));
+                    $devolucion = date("Y-m-d",strtotime($asueto->fin_inactividad));
                 }
             }
            

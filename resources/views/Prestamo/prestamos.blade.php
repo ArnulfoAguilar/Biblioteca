@@ -110,7 +110,7 @@
                                             <td>
                                                 @if ($prestamo->ID_ESTADO_PRESTAMO == 1 )
                                                     
-                                                    <button class="btn btn-sm btn-info reservar" title="Reservar" data-pres="{{$prestamo->id}}"><i class="fas fa-check"></i> Aprobar</button>
+                                                    <button class="btn btn-sm btn-info reservar" title="Reservar" data-pres="{{$prestamo->id}}"><i class="fas fa-archive"></i> </button>
                                                     <button class="btn btn-sm btn-danger cancelar" title="Cancelar" data-pres="{{$prestamo->id}}"><i class="far fa-times-circle"></i></button>
 
                                                 @endif
@@ -145,7 +145,7 @@
                                                     <div class="badge bg-red">Penalizado</div>
                                                 @endif
 
-                                                @if ( date('d-m-Y') > date('d-m-Y', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) 
+                                                @if ( date('Y-m-d') > date('Y-m-d', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) 
                                                     && $prestamo->ID_ESTADO_PRESTAMO!=5 && $prestamo->ID_ESTADO_PRESTAMO!=7 )
                                                     <button type="button" class="btn btn-sm btn-danger" title="Penalizar" data-toggle="modal" data-target="#modalPenalizar" 
                                                         data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion? $prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE: ' '}}" data-tipoprestamo="{{$prestamo->tipoPrestamo->TIPO_PRESTAMO}}">

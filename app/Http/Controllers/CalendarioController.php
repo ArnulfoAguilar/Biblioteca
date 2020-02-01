@@ -59,6 +59,18 @@ class CalendarioController extends Controller
             $evento->año_fecha = $request->year;
             $evento->save();
         }
+
+        // $prestamos = Prestamo::where('FECHA_ESPERADA_DEVOLUCION', '=', '')
+        // ->with(['estadoPrestamo' => function ($query) {
+        //     $query->where('ESTADO_PRESTAMO', 'like', 'Prestado')
+        //     ->orWhere('ESTADO_PRESTAMO', 'like', 'Pendiente de Devolución')
+        //     ->orWhere('ESTADO_PRESTAMO', 'like', 'Prorrogado')
+        //     ;
+        // }])->get();
+
+        // foreach ($prestamos as $key => $prestamo) {
+        //     $prestamo->FECHA_ESPERADA_DEVOLUCION = date("Y-m-d",strtotime($evento->fin_inactividad."+ 1 days"));
+        // }
     }
 
     /**
