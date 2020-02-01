@@ -49,11 +49,8 @@ class LibroController extends Controller
         ->select('Ejemplar.EJEMPLAR','materialBibliotecario.CODIGO_BARRA')
         ->get();
         activity()->log('Generó etiquetas del ejemplar con ID'.$id);
-        $pdf = new Dompdf();
-        $view =  \View::make("Etiquetas.AllTags", compact('tags'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);        
-        return $pdf->stream('reporte.pdf');
+        
+        return view('Etiquetas.AllTags')->with('tags',$tags)->render();
     }
 
     public function tejuelos(){

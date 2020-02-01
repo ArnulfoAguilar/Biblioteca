@@ -107,6 +107,7 @@
 
         $(document).ready( function () {
             $('#libros').DataTable();
+
         } );
       
     </script>
@@ -114,5 +115,6 @@
 
 
 @endsection
+
 
 
