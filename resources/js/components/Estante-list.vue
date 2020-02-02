@@ -13,7 +13,7 @@
         <div id="modalAgregar" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
-                <form @submit.prevent="submitHandler($v.$invalid)" > 
+                <form @submit.prevent="submitHandler($v.$invalid)" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">{{titleToShow}}</h4>
@@ -21,13 +21,12 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="NOMBRE">Nombre</label>
+                                <label for="NOMBRE">Nombre</label><b v-if="!$v.Estante.ESTANTE.required" class="error">*</b>
                                 <input type="text" v-model.lazy="Estante.ESTANTE" class="form-control" id="ESTANTE" autocomplete="off" maxlength="255"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.Estante.ESTANTE.required" class="error">Este campo es obligatorio</div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group"><b v-if="!$v.Estante.ID_BIBLIOTECA.required" class="error">*</b>
                                 <label for="NOMBRE">Biblioteca a la que pertenece</label>
                                 <select class="form-control" v-model="Estante.ID_BIBLIOTECA">
                                     <option disabled value="">Por favor seleccione una</option>
@@ -35,9 +34,12 @@
                                     {{ item.BIBLIOTECA }}
                                     </option>
                                 </select>
-                                <div v-if="!$v.Estante.ID_BIBLIOTECA.required" class="error">Este campo es obligatorio</div>
                             </div>
-
+                            <div class="row text-center">
+                                <div class="col-md-12 text-center">
+                                    <b class="error">*Campos obligatorios</b>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" type="submit">Guardar Estante</button>
@@ -89,7 +91,7 @@ export default {
                     filterable: true,
                     enabled: true
                 },
-                
+
             ],
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
@@ -115,7 +117,7 @@ export default {
             ID_BIBLIOTECA:{
                 required
             },
-            
+
         }
     },
     created(){
@@ -153,8 +155,8 @@ export default {
 
             axios.get('/Biblioteca').then(res=>{
                 this.bibliotecas = res.data;
-                
-           
+
+
             console.log(this.bibliotecas);
             });
         },
@@ -178,7 +180,7 @@ export default {
                 })
                 axios.get('/Biblioteca').then((result)=>{
                     this.bibliotecas=result.data;
-                    
+
                 })
             }
             if (componentState.lastAction ==='AddItem') {

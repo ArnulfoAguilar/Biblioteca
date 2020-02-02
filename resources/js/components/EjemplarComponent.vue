@@ -33,7 +33,7 @@
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="SUBTITULO">Subtitulo</label><b v-if="!$v.EJEMPLAR.SUBTITULO.required" class="error">*</b>
+                                    <label for="SUBTITULO">Subtitulo</label>
                                     <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO" maxlength="400" autocomplete="off"
                                     aria-describedby="emailHelp">
                                 </div>
@@ -45,8 +45,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label for="EDICION">Edición *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" required class="form-control" id="EDICION" maxlength="100" autocomplete="off"
+                                    <label for="EDICION">Edición</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" class="form-control" id="EDICION" maxlength="100" autocomplete="off"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
@@ -55,8 +55,8 @@
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="PRECIO">Precio *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.PRECIO" required class="form-control" placeholder="$" id="PRECIO" maxlength="100" autocomplete="off"
+                                    <label for="PRECIO">Precio</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.PRECIO" class="form-control" placeholder="$" id="PRECIO" maxlength="100" autocomplete="off"
                                     aria-describedby="">
                                 </div>
                                 <div class="col-md-3 form-group">
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 form-group">
                                     <div>
                                         <label for="ESTANTE">Estante</label>
                                         <select class='form-control' v-model="EJEMPLAR.ESTANTE" >
@@ -187,7 +187,7 @@
                                         rows="3"></textarea>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label for="OBSERVACIONES">Observaciones</label><b v-if="!$v.EJEMPLAR.OBSERVACIONES.required" class="error">*</b>
+                                    <label for="OBSERVACIONES">Observaciones</label>
                                 <textarea class="form-control" id="OBSERVACIONES" v-model="EJEMPLAR.OBSERVACIONES" maxlength="500"
                                     rows="3"></textarea>
                                 </div>
@@ -316,9 +316,6 @@ export default {
             EJEMPLAR:{
                 required
             },
-            SUBTITULO:{
-                required
-            },
             ISBN:{
                 required,
                 numeric
@@ -327,9 +324,6 @@ export default {
                 required
             },
             DESCRIPCION:{
-                required
-            },
-            OBSERVACIONES:{
                 required
             },
             EDITORIAL:{
@@ -341,24 +335,6 @@ export default {
             AÑO_EDICION:{
                 required
             },
-            /*PALABRAS_CLAVE:{
-                required
-            },
-            ESTADO_EJEMPLAR:{
-                required
-            },
-            TIPO_ADQUISICION:{
-                required
-            },
-            TIPO_EMPASTADO:{
-                required
-            },
-            TERCER_SUMARIO:{
-                required
-            },
-            CATEGORIA:{
-                required
-            },*/
             NUMERO_PAGINAS:{
                 required,
                 numeric
@@ -390,14 +366,6 @@ export default {
     mounted(){
        $('#modalForm').on('hide.bs.modal',this.vaciarModelo);
     },
-    /* beforeUpdate(){
-        if(this.SEGUNDOSUMARIOID>0 && this.segundoSumarios.length===0){
-        //console.log('tratando de llenar los combos');
-            this.getSegundoSumario();
-        }
-        if(this.EJEMPLAR.TERCER_SUMARIO>0&& this.tercerSumarios.length===0)
-            this.getTercerSumario();
-    }, */
     methods:{
         buscarISBExistente(){
             console.log(this.EJEMPLAR.ISBN)

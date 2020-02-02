@@ -22,7 +22,6 @@
                                 <label for="NOMBRE">Palabra</label><b v-if="!$v.PalabraProhibida.PALABRA.required" class="error">*</b>
                                 <input type="text" v-model.lazy="$v.PalabraProhibida.$model.PALABRA" class="form-control" id="PALABRA" autocomplete="off" maxlength="255"
                                     aria-describedby="emailHelp">
-
                             </div>
                             <div class="row text-center">
                                 <div class="col-md-12 text-center">

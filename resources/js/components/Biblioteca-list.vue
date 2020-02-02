@@ -21,10 +21,14 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="NOMBRE">Nombre</label>
+                                <label for="NOMBRE">Nombre</label><b v-if="!$v.Biblioteca.BIBLIOTECA.required" class="error">*</b>
                                 <input type="text" v-model.lazy="Biblioteca.BIBLIOTECA" class="form-control" id="BIBLIOTECA" autocomplete="off" maxlength="255"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.Biblioteca.BIBLIOTECA.required" class="error">Este campo es obligatorio</div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-md-12 text-center">
+                                    <b class="error">*Campos obligatorios</b>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -68,7 +72,7 @@ export default {
                     filterable: true,
                     enabled: true
                 },
-                
+
             ],
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
@@ -90,7 +94,7 @@ export default {
             BIBLIOTECA:{
                 required
             },
-            
+
         }
     },
     created(){

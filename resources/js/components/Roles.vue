@@ -21,14 +21,15 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="NOMBRE">Nombre</label>
+                                <label for="NOMBRE">Nombre</label><b v-if="!$v.ROL.ROL.required" class="error">*</b>
                                 <input type="text" v-model.lazy="ROL.ROL" class="form-control" id="NOMBRE" autocomplete="off" maxlength="50"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.ROL.ROL.required" class="error">Este campo es obligatorio</div>
                             </div>
-                            
-                            
-                            
+                            <div class="row text-center">
+                                <div class="col-md-12 text-center">
+                                    <b class="error">*Campos obligatorios</b>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" type="submit">Guardar Rol</button>
@@ -179,7 +180,7 @@ export default {
         },
         editarFormulario(item){
         this.ROL.ROL = item.data.ROL;
-        
+
         this.ROL.id = item.data.id;
         this.isEditing = true;
         },

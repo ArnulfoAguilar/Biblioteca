@@ -21,14 +21,15 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="NOMBRE">Nombre</label>
+                                <label for="NOMBRE">Nombre</label><b v-if="!$v.TIPO_PENALIZACION.TIPO_PENALIZACION.required" class="error">*</b>
                                 <input type="text" v-model.lazy="TIPO_PENALIZACION.TIPO_PENALIZACION" class="form-control" id="NOMBRE" autocomplete="off" maxlength="600"
                                     aria-describedby="emailHelp">
-                                <div v-if="!$v.TIPO_PENALIZACION.TIPO_PENALIZACION.required" class="error">Este campo es obligatorio</div>
                             </div>
-                            
-                            
-                            
+                            <div class="row text-center">
+                                <div class="col-md-12 text-center">
+                                    <b class="error">*Campos obligatorios</b>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" type="submit">Guardar Penalizacion</button>
@@ -182,7 +183,7 @@ export default {
         },
         editarFormulario(item){
         this.TIPO_PENALIZACION.TIPO_PENALIZACION = item.data.TIPO_PENALIZACION;
-        
+
         this.TIPO_PENALIZACION.id = item.data.id;
         this.isEditing = true;
         this.modoEditar = true;
