@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Calendario;
+use App\Modelos\Prestamo;
 use Illuminate\Http\Request;
 
 class CalendarioController extends Controller
@@ -54,23 +55,30 @@ class CalendarioController extends Controller
         if($request->ajax()){
             $evento = new Calendario();
             $evento->inicio_inactividad = $request->start;
+            $fecha_i = $request->start;
             $evento->fin_inactividad = $request->end;
+            $fecha_f = $request->end;
             $evento->nombre_inactividad = $request->title;
             $evento->año_fecha = $request->year;
             $evento->save();
         }
 
-        // $prestamos = Prestamo::where('FECHA_ESPERADA_DEVOLUCION', '=', '')
-        // ->with(['estadoPrestamo' => function ($query) {
-        //     $query->where('ESTADO_PRESTAMO', 'like', 'Prestado')
-        //     ->orWhere('ESTADO_PRESTAMO', 'like', 'Pendiente de Devolución')
-        //     ->orWhere('ESTADO_PRESTAMO', 'like', 'Prorrogado')
-        //     ;
-        // }])->get();
-
-        // foreach ($prestamos as $key => $prestamo) {
-        //     $prestamo->FECHA_ESPERADA_DEVOLUCION = date("Y-m-d",strtotime($evento->fin_inactividad."+ 1 days"));
-        // }
+        $prestamos = Prestamo::whereIn('ID_ESTADO_PRESTAMO', ['3','4','6'])->get();
+        foreach ($prestamos as $key => $prestamo) {
+            $fecha_esp_dev = date("Y-m-d",strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION));
+            if($request->end == null){
+                if( $fecha_esp_dev == $request->start){
+                    $prestamo->FECHA_ESPERADA_DEVOLUCION = date("Y-m-d",strtotime($request->start."+ 1 days"));
+                    $prestamo->save();
+                }
+            }else{
+                if($fecha_esp_dev >= $request->start && $fecha_esp_dev <= $request->end ){
+                    $prestamo->FECHA_ESPERADA_DEVOLUCION = date("Y-m-d",strtotime($request->end."+ 1 days"));
+                    $prestamo->save();
+                }
+            }
+            
+        }
     }
 
     /**

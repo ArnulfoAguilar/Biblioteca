@@ -146,9 +146,9 @@
                                                 @endif
 
                                                 @if ( date('Y-m-d') > date('Y-m-d', strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION)) 
-                                                    && $prestamo->ID_ESTADO_PRESTAMO!=5 && $prestamo->ID_ESTADO_PRESTAMO!=7 )
+                                                    && $prestamo->ID_ESTADO_PRESTAMO==3  && $prestamo->ID_ESTADO_PRESTAMO==4 && $prestamo->ID_ESTADO_PRESTAMO==6 )
                                                     <button type="button" class="btn btn-sm btn-danger" title="Penalizar" data-toggle="modal" data-target="#modalPenalizar" 
-                                                        data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion? $prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE: ' '}}" data-tipoprestamo="{{$prestamo->tipoPrestamo->TIPO_PRESTAMO}}">
+                                                        data-prestamo="{{$prestamo}}" data-adquisicion="{{$prestamo->materiales[0]->ejemplar->tipoAdquisicion? $prestamo->materiales[0]->ejemplar->tipoAdquisicion->NOMBRE: ' '}}" data-tipoprestamo="{{$prestamo->tipoPrestamo ? $prestamo->tipoPrestamo->TIPO_PRESTAMO : ''}}">
                                                             <i class="fas fa-ruler"></i>
                                                     </button>
                                                 @endif
