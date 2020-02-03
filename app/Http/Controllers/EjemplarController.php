@@ -53,7 +53,7 @@ class EjemplarController extends Controller
     {
         $url = $request->IMAGEN;
         //dd($url);
-        if ($url != null) { 
+        if ($url != null) {
             $contents = file_get_contents($url);
             $name ='/bookImages/'.auth()->id().time().".png";
             $file = public_path().$name;
@@ -104,9 +104,13 @@ class EjemplarController extends Controller
     {
         $url = $request->IMAGEN;
         if ($url != null) {
-            $contents = file_get_contents($url);
+            /* $contents = file_get_contents($url);
             $file = public_path().'/bookImages/' . urlencode($request->EJEMPLAR) . ".png";
             // $file = public_path().'/bookImages/' .$request->EJEMPLAR. ".png";
+            file_put_contents($file, $contents); */
+            $contents = file_get_contents($url);
+            $name = '/bookImages/' . auth()->id() . time() . ".png";
+            $file = public_path() . $name;
             file_put_contents($file, $contents);
         }
         $Ejemplar = Ejemplar::find($ejemplar->id);
@@ -117,7 +121,7 @@ class EjemplarController extends Controller
         if ($url == null) {
             $Ejemplar->IMAGEN = '';
         } else {
-            $Ejemplar->IMAGEN = $file;
+            $Ejemplar->IMAGEN = $name;
         }
         $Ejemplar->NUMERO_PAGINAS = $request->NUMERO_PAGINAS;
         $Ejemplar->NUMERO_COPIAS = $request->COPIAS;
@@ -152,14 +156,14 @@ class EjemplarController extends Controller
         $Ejemplar = Ejemplar::find($ejemplar->id);
         $Ejemplar->delete();
         activity()->log('Eliminó ejemplar');
-        
+
         $materiales = materialBibliotecario::where('ID_EJEMPLAR', $ejemplar->id)->get();
         if($materiales->count() > 0){
             foreach ($materiales as $key => $material) {
                 $material->delete();
             }
         }
-        
+
 
     }
     public function comprobarISBN($ISBN){
