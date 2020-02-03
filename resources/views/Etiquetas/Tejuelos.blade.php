@@ -19,10 +19,14 @@
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         <p style="max-height: 23px; overflow:hidden">
+                                            {{ $tejuelo->ID_PRIMER_SUMARIO}}
+                                            {{ $tejuelo->ID_SEGUNDO_SUMARIO}}
                                             {{ $tejuelo->ID_TERCER_SUMARIO}}
                                         </p>
                                        
-                                        <p> {{ $tejuelo->id }} </p>
+                                        <p> {{ $tejuelo->ID_BIBLIOTECA }}
+                                            {{ $tejuelo->ID_ESTANTE }} 
+                                        </p>
                                     </li>
                                     
                                 </ul>
@@ -32,21 +36,15 @@
         </div>
         
 </main>
-
-    @endsection
-    @section('jsExtra')
+@endsection
+@section('jsExtra')
     
-        <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
-        
+        <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">  
         <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
-    
-        <script type="text/javascript">
-        
+        <script type="text/javascript"> 
             $(document).ready( function () {
                 window.print();
             } );
-    
-    
         </script>
     
-    @endsection
+@endsection

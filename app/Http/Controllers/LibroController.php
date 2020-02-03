@@ -55,9 +55,7 @@ class LibroController extends Controller
 
     public function tejuelos(){
 
-        $tejuelos = DB::table('Ejemplar')
-        ->join('materialBibliotecario', 'Ejemplar.id', '=', 'materialBibliotecario.ID_EJEMPLAR')
-        ->select('Ejemplar.ID_TERCER_SUMARIO','materialBibliotecario.id')
+        $tejuelos = DB::table('vwejemplarsumarios')
         ->get();
         return view('Etiquetas.Tejuelos')->with('tejuelos',$tejuelos)->render();
 
