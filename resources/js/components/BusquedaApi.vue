@@ -53,8 +53,8 @@
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="SUBTITULO">Subtitulo *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" required class="form-control" id="SUBTITULO" maxlength="400"
+                                    <label for="SUBTITULO">Subtitulo</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO" maxlength="400"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
@@ -65,18 +65,18 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label for="EDICION">Edición *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" required class="form-control" id="EDICION" maxlength="100"
+                                    <label for="EDICION">Edición</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.EDICION" class="form-control" id="EDICION" maxlength="100"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="AÑO_EDICION">Año de edición *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.AÑO_EDICION" required class="form-control" id="AÑO_EDICION"
+                                    <input type="number" v-model.lazy="EJEMPLAR.AÑO_EDICION" required class="form-control" id="AÑO_EDICION"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="PRECIO">Precio *</label>
-                                    <input type="text" v-model.lazy="EJEMPLAR.PRECIO" required class="form-control" placeholder="$" id="EDITORIAL" maxlength="100"
+                                    <label for="PRECIO">Precio</label>
+                                    <input type="text" v-model.lazy="EJEMPLAR.PRECIO" class="form-control" placeholder="$" id="EDITORIAL" maxlength="100"
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
@@ -183,8 +183,8 @@
                                         rows="3"></textarea>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label for="OBSERVACIONES">Observaciones *</label>
-                                <textarea class="form-control" required id="OBSERVACIONES" v-model="EJEMPLAR.OBSERVACIONES" maxlength="500"
+                                    <label for="OBSERVACIONES">Observaciones</label>
+                                <textarea class="form-control" id="OBSERVACIONES" v-model="EJEMPLAR.OBSERVACIONES" maxlength="500"
                                     rows="3"></textarea>
                                 </div>
                             </div>

@@ -176,7 +176,7 @@
                                     <input type="file" accept="image/jpeg,image/png" @change="onChange">
                                 </div>
                                 <div class="col-md-12">
-                                    <label>Previsualizción de la imagen: </label>
+                                    <label>Previsualización de la imagen: </label>
                                     <img :src="(portada)?portada:''" alt="" height="150px" width="150px">
                                 </div>
                             </div>
@@ -485,6 +485,7 @@ export default {
             this.getEstantes();
             this.EJEMPLAR.ESTANTE = item.ID_ESTANTE;
             this.isEditing = true;
+	    this.portada = item.IMAGEN;
         },
         setSegundoSumario(item){
                 this.SEGUNDOSUMARIOID=item.ID_SEGUNDO_SUMARIO;
