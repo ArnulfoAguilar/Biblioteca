@@ -68,12 +68,12 @@ class CalendarioController extends Controller
             $fecha_esp_dev = date("Y-m-d",strtotime($prestamo->FECHA_ESPERADA_DEVOLUCION));
             if($request->end == null){
                 if( $fecha_esp_dev == $request->start){
-                    $prestamo->FECHA_ESPERADA_DEVOLUCION = date("Y-m-d",strtotime($request->start."+ 1 days"));
+                    $prestamo->FECHA_ESPERADA_DEVOLUCION = date("Y-m-d",strtotime($request->start));
                     $prestamo->save();
                 }
             }else{
                 if($fecha_esp_dev >= $request->start && $fecha_esp_dev <= $request->end ){
-                    $prestamo->FECHA_ESPERADA_DEVOLUCION = date("Y-m-d",strtotime($request->end."+ 1 days"));
+                    $prestamo->FECHA_ESPERADA_DEVOLUCION = date("Y-m-d",strtotime($request->end));
                     $prestamo->save();
                 }
             }
