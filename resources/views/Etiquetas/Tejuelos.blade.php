@@ -26,7 +26,7 @@
                                         <p>
                                             {{$tejuelo->AUTOR }}
                                         </p>
-                                        <p> {{ $tejuelo->ID_BIBLIOTECA }}
+                                        <p>
                                             {{ $tejuelo->id }} 
                                         </p>
                                     </li>
