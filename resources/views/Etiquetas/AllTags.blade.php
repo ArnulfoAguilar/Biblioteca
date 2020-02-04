@@ -11,17 +11,18 @@
   </ol>
 @endsection
     @section('content')
-    <main class="py-4">
+    <main class="xs-4">
         <div class="row">
             @foreach($tags as $tag)
-                    <div class="col-lg-4 justify-content-center">
+                    <div class="col-md-4 justify-content-center" >
                         <div class="card text-center">
                             <ul class="list-group">
                                 <li class="list-group-item">
-                                    <p style="max-height: 23px; overflow:hidden">
+                                    <p style="max-height: 25px; overflow:hidden">
                                         {{ $tag->EJEMPLAR }}
                                     </p>
-                                    <p> {!! DNS1D::getBarcodeHTML($tag->CODIGO_BARRA, "C128") !!} </p>
+                                    <p> 
+                                        {!! '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($tag->CODIGO_BARRA, "C128") . '" alt="barcode"   />' !!}
                                     <p> {{ $tag->CODIGO_BARRA }} </p>
                                 </li>
                                 
@@ -36,14 +37,14 @@
     @endsection
     @section('jsExtra')
     
-        <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+        <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css" media='screen,print'>
         
         <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
     
         <script type="text/javascript">
         
             $(document).ready( function () {
-               // window.print();
+                window.print();
             } );
     
     

@@ -99,7 +99,7 @@
 
 @section('jsExtra')
 
-    <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+    <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css" media='screen,print'>
     
     <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
 
