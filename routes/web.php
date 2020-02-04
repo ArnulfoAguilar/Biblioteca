@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/biblioteca/imprimir/tejuelos', 'LibroController@Tejuelos')->name('imprimir.tejuelos');
         Route::get('/biblioteca/imprimir', 'LibroController@index')->name('imprimir');
         Route::get('/biblioteca/imprimir/{ejemplar}', 'LibroController@TagsEjemplar')->name('imprimir.Ejemplar');
+        Route::get('/biblioteca/tejuelo/{ejemplar}', 'LibroController@TagsTejuelo')->name('imprimir.Tejuelo');
 
         // Route::get('/biblioteca/prestamo', 'HomeController@prestamos')->name('prestamos');
         Route::resource('/biblioteca/prestamos', 'PrestamoController');

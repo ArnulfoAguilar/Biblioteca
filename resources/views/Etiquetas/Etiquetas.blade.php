@@ -39,7 +39,8 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Título</th>
                                     <th scope="col">Autor</th>
-                                    <th scope="col">Acciones</th>
+                                    <th scope="col">Imprimir codigo de barra</th>
+                                    <th scope="col">Imprimir tejuelo</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -55,9 +56,10 @@
                                             <td>{{$ejemplar->AUTOR}}</td>
                                             <td>{{$ejemplar->EDICION}}</td>
                                             <td class="text-center">
-                                                
-                           <a href="{{ route('imprimir.Ejemplar', ['ejemplar' => $ejemplar->id])}}" class="btn btn-sm btn-primary"><i class="fa fa-hand-paper"></i><br>Imprimir ejemplar</a>
-                                                   
+                                                <a href="{{ route('imprimir.Ejemplar', ['ejemplar' => $ejemplar->id])}}" class="btn btn-sm btn-primary"><i class="fa fa-hand-paper"></i><br>Imprimir Codigo de barra</a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{{ route('imprimir.Tejuelo', ['ejemplar' => $ejemplar->id])}}" class="btn btn-sm btn-primary"><i class="fa fa-hand-paper"></i><br>Imprimir Tejuelo</a>    
                                             </td>
                                         </tr>
                                     @endforeach
