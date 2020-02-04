@@ -27,7 +27,7 @@
                                             {{$tejuelo->AUTOR }}
                                         </p>
                                         <p>
-                                            {{ $tejuelo->id }} 
+                                            {{ $tejuelo->COPIA_NUMERO }} 
                                         </p>
                                     </li>
                                     
