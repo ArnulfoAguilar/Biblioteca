@@ -60,7 +60,7 @@
                                         
                                     <h3 class="text-center">{{$aporte->DESCRIPCION}}</h3>
                                     <br>
-                                    <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="auto" height="auto">
+                                    <img src="{!! $aporte->CONTENIDO !!}" alt="Logotipo de HTML5" width="640" height="640">
                                 
                                 @else
                                     <h1 class="text-center">TITULO: {{$aporte->TITULO}}</h1>
