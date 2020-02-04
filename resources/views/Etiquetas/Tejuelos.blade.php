@@ -23,9 +23,11 @@
                                             {{ $tejuelo->ID_SEGUNDO_SUMARIO}}
                                             {{ $tejuelo->ID_TERCER_SUMARIO}}
                                         </p>
-                                       
+                                        <p>
+                                            {{$tejuelo->AUTOR }}
+                                        </p>
                                         <p> {{ $tejuelo->ID_BIBLIOTECA }}
-                                            {{ $tejuelo->ID_ESTANTE }} 
+                                            {{ $tejuelo->id }} 
                                         </p>
                                     </li>
                                     

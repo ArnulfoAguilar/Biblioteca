@@ -57,6 +57,12 @@ class LibroController extends Controller
 
         $tejuelos = DB::table('vwejemplarsumarios')
         ->get();
+        foreach ($tejuelos as $key => $value) {
+            $autor=str_split($value->AUTOR,3);
+            $value->AUTOR = $autor[0];
+            $value->id =str_pad($value->id, 4,"0", STR_PAD_LEFT);
+        }
+       
         return view('Etiquetas.Tejuelos')->with('tejuelos',$tejuelos)->render();
 
     }
