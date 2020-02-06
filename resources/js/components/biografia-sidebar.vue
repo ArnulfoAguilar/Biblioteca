@@ -1,5 +1,5 @@
 <template>
-   
+
        <div class="col-md-3">
 
             <!-- Profile Image -->
@@ -26,11 +26,11 @@
             <!-- About Me Box -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Acerca de mi</h3>
+                <h3 class="card-title">Acerca de mí</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <strong><i class="fas fa-book mr-1"></i>Biografia</strong>
+                <strong><i class="fas fa-book mr-1"></i>Biografía</strong>
 
                 <p class="text-muted">
                   {{this.biografia}}
@@ -69,11 +69,11 @@
                  axios.get('/Usuario/totalAportesCreados/'+this.usuarioid).then(response=>{
                   this.CantidadAportesRealizados = response.data;
                   }
-                )                
+                )
             },
             Insignia()
             {
-              
+
                  axios.get('/Niveles/'+this.idnivel).then(response=>{
                   console.log("nivellllll"+response.data);
                   this.Niveles = response.data;
@@ -82,13 +82,13 @@
                   this.src=this.Niveles.BAGDE;
                   // console.log(this.src);
                   }
-                )                
+                )
             },
             verAporte(id){
               window.location.href='/aportes/'+id;
-            }, 
+            },
 
         },
-         
+
     }
 </script>
