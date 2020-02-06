@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Guardar Penalizacion</button>
+                            <button class="btn btn-primary" type="submit">Guardar Penalización</button>
                             <button class="btn btn-danger" type="submit"
                                 @click="cancelarEdicion" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -65,7 +65,7 @@ export default {
             columns: [
                 {
                     name:'TIPO_PENALIZACION',
-                    title:'Penalizacion',
+                    title:'Penalización',
                     order: 1,
                     sort: true,
                     type: 'string',
@@ -81,8 +81,8 @@ export default {
             modoEditar: false,
             TIPO_PENALIZACION: { TIPO_PENALIZACION: '', },
             isEditing: false,
-            createTitle: 'Agregar Penalizacion',
-            editTitle: 'Editar Penalizacion',
+            createTitle: 'Agregar Penalización',
+            editTitle: 'Editar Penalización',
             titleToShow: '',
             hasError: false
         }
@@ -191,14 +191,14 @@ export default {
         eliminarComite(TIPO_PENALIZACION, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
             console.log(TIPO_PENALIZACION.data.id);
-            const confirmacion = confirm(`¿Esta seguro de eliminar "TIPO_PENALIZACION: ${TIPO_PENALIZACION.data.TIPO_PENALIZACION} "?`);
+            const confirmacion = confirm(`¿Está seguro de eliminar "TIPO_PENALIZACION: ${TIPO_PENALIZACION.data.TIPO_PENALIZACION} "?`);
             if(confirmacion){
                 axios.delete(`/penalizaciones/${TIPO_PENALIZACION.data.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
-                    toastr.success('Eliminado correctamente', 'Exito');
+                    toastr.success('Eliminado correctamente', 'Éxito');
                     console.log("TIPO_PENALIZACION ELIMINADA");
                 })
             }
@@ -215,7 +215,7 @@ export default {
             this.sendData();
             toastr.clear();
             toastr.options.closeButton = true;
-            toastr.success(msg, 'Exito');
+            toastr.success(msg, 'Éxito');
         },
         /*Este es el metodo que se ejecuta al hacer submit del formulario
          *el parametro error es una propiedad que nos ofrece vuelidate

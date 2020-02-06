@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-end">   
+    <div class="d-flex justify-content-end">
         <button class="btn btn-primary" @click="habilitar()">
           <i class="fas fa-check"></i> Aprobar para publicación
         </button>
@@ -25,7 +25,7 @@
                   if(response.data == '1'){
                     toastr.clear();
                     toastr.options.closeButton = true;
-                    toastr.success('Aporte aprobado y habilitado', 'Exito');
+                    toastr.success('Aporte aprobado y habilitado', 'Éxito');
                     location.reload();
                   }else{
                     toastr.clear();

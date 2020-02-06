@@ -1,5 +1,5 @@
 <template>
-    <div class="container"> 
+    <div class="container">
       <!-- TIMELINE -->
       <div class="tab-pane active" id="timeline">
         <ul class="timeline timeline-inverse">
@@ -7,11 +7,11 @@
                 <i class="fas fa-eye bg-success" v-if="item.HABILITADO == true"></i>
                 <i class="fas fa-eye-slash bg-warning" v-else></i>
                 <div class="timeline-item">
-                    <span class="time"><i class="far fa-clock"></i> {{item.created_at}}</span>                    
+                    <span class="time"><i class="far fa-clock"></i> {{item.created_at}}</span>
                     <div class="timeline-header">
                       <div v-for="(user, index) in Users" :key="index">
                         <div v-if="user.id == item.ID_USUARIO">
-                           Comentario de <a href="#">{{ user.name }}</a> 
+                           Comentario de <a href="#">{{ user.name }}</a>
                            <b v-if="item.HABILITADO == true">(Visible)</b>
                            <b v-else>(Oculto)</b>
                         </div>
@@ -19,8 +19,8 @@
                     </div>
                     <div class="timeline-body">
                       {{ item.COMENTARIO}}
-                      <a href="#" class="btn btn-success btn-sm float-right" @click="habilitar(item.id)" v-if="item.HABILITADO == false"> <i class="fas fa-check"></i>Aprobar para publicación </a> 
-                      <a href="#" class="btn btn-secondary btn-sm float-right" @click="habilitar(item.id)"  v-else> <i class="fas fa-times"></i> Deshabilitar para publicación </a> 
+                      <a href="#" class="btn btn-success btn-sm float-right" @click="habilitar(item.id)" v-if="item.HABILITADO == false"> <i class="fas fa-check"></i>Aprobar para publicación </a>
+                      <a href="#" class="btn btn-secondary btn-sm float-right" @click="habilitar(item.id)"  v-else> <i class="fas fa-times"></i> Deshabilitar para publicación </a>
                     </div>
                 </div>
             </li>
@@ -69,19 +69,19 @@
                 }
               )
             },
-            
+
             habilitar(id){
               this.$swal(
                 {
-                  title: '¿Estas seguro?',
-                  text: "¡Esta a punto de hacer publico algo !",
+                  title: '¿Éstas seguro?',
+                  text: "¡Ésta a punto de hacer publico algo !",
                   icon: 'warning',
                   buttons: { cancel: true, confirm: true, },
                 }).then((value) => {
                   if (value) {
                     axios.get('/comentario/habilitar?id='+id).then(response=>{
                       if(response.data == '1'){
-                        swal({title:'Exito',text:'Cambio efectuado exitosamente',icon:'success',  buttons: ["Ver cambios", "Okay"]})
+                        swal({title:'Éxito',text:'Cambio efectuado exitosamente',icon:'success',  buttons: ["Ver cambios", "Okay"]})
                         .then((value) => {
                             if(!value){
                               location.reload();
@@ -91,19 +91,19 @@
                       }else{
                         swal('Error','Ocurrio un error al procesar su solicitud','error')
                         this.cargarComentarios()
-                        
+
                       }
                     })
                   }
                 },
-                
+
               );
 
-              
+
             },
 
         },
-      
+
 
     }
 </script>

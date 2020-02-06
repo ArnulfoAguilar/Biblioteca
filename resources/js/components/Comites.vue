@@ -186,14 +186,14 @@ export default {
         },
         eliminarComite(COMITE, index){
             // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
-            const confirmacion = confirm(`¿Esta seguro de eliminar "DEPARTAMENTO ${COMITE.data.COMITE}"?`);
+            const confirmacion = confirm(`¿Ésta seguro de eliminar "DEPARTAMENTO ${COMITE.data.COMITE}"?`);
             if(confirmacion){
                 axios.delete(`/comites/${COMITE.data.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
-                    toastr.success('Eliminado correctamente', 'Exito');
+                    toastr.success('Eliminado correctamente', 'Éxito');
                     console.log("COMITE ELIMINADO");
                 })
             }
@@ -209,7 +209,7 @@ export default {
             this.sendData();
             toastr.clear();
             toastr.options.closeButton = true;
-            toastr.success(msg, 'Exito');
+            toastr.success(msg, 'Éxito');
         },
         /*Este es el metodo que se ejecuta al hacer submit del formulario
          *el parametro error es una propiedad que nos ofrece vuelidate

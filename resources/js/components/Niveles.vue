@@ -98,7 +98,7 @@ export default {
                     filterable: true,
                     enabled: true
                 },
-                
+
             ],
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
@@ -126,7 +126,7 @@ export default {
             BADGE:{
                 required
             },
-            
+
         }
     },
     created(){
@@ -222,14 +222,14 @@ export default {
         this.isEditing = true;
         },
         eliminarNivel(Nivel, index){
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Nivel ${Nivel.NIVEL}"?`);
+            const confirmacion = confirm(`¿Ésta seguro de eliminar "Nivel ${Nivel.NIVEL}"?`);
             if(confirmacion){
                 axios.delete(`/Niveles/${Nivel.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
-                    toastr.success('Eliminado correctamente', 'Exito');
+                    toastr.success('Eliminado correctamente', 'Éxito');
                     console.log("Nivel ELIMINADO");
                 })
             }
@@ -245,7 +245,7 @@ export default {
             this.sendData();
             toastr.clear();
             toastr.options.closeButton = true;
-            toastr.success(msg, 'Exito');
+            toastr.success(msg, 'Éxito');
         },
         /*Este es el metodo que se ejecuta al hacer submit del formulario
          *el parametro error es una propiedad que nos ofrece vuelidate

@@ -9,7 +9,7 @@
                             <label for="NOMBRE">Editar Asignación de Departamento:</label>
                             <div class="input-group">
                                 <input type="text" v-model="usuario.name" class="form-control col-md-6" id="NOMBRE"
-                                    placeholder="Seleccione un usuario..." required disabled> 
+                                    placeholder="Seleccione un usuario..." required disabled>
                                     <select class="form-control col-md-4" v-model="usuario.ID_COMITE">
                                         <option disabled value="">Por favor seleccione una</option>
                                         <option v-for="(item, index) in comites" :key="index" v-bind:value="item.id">
@@ -18,7 +18,7 @@
                                     </select>
                                 <div class="row col-md-3">
                                     <button class="btn btn-success col-md-6" type="submit">Guardar</button>
-                                    <button class="btn btn-danger col-md-6" type="submit" 
+                                    <button class="btn btn-danger col-md-6" type="submit"
                                     @click="cancelarEdicion">Cancelar</button>
                                 </div>
                             </div>
@@ -27,7 +27,7 @@
                             <label for="NOMBRE">Editar Asignación de Departamento:</label>
                             <div class="input-group">
                                 <input type="text" v-model="usuario.name" class="form-control col-md-6" id="NOMBRE"
-                                    placeholder="Seleccione un usuario..." required disabled> 
+                                    placeholder="Seleccione un usuario..." required disabled>
                                     <select class="form-control col-md-4" v-model="usuario.ID_COMITE" disabled>
                                         <option disabled value="">Por favor seleccione una</option>
                                         <option v-for="(item, index) in comites" :key="index" v-bind:value="item.id">
@@ -36,13 +36,13 @@
                                     </select>
                                 <div class="row col-md-3">
                                     <button class="btn btn-success col-md-6" type="submit" disabled>Guardar</button>
-                                    <button class="btn btn-danger col-md-6" type="submit" 
+                                    <button class="btn btn-danger col-md-6" type="submit"
                                     @click="cancelarEdicion" disabled>Cancelar</button>
                                 </div>
                             </div>
                         </form>
 
-                        
+
                     <!-- </div> -->
                 <!-- </div> -->
             </div>
@@ -83,7 +83,7 @@
 
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
 <!-- Datos del componente VUE -->
         <!-- <div class="row">
@@ -98,7 +98,7 @@
 
 <script>
     export default {
-        
+
         mounted() {
             console.log('Asigancion de comites mounted.')
         },
@@ -126,7 +126,7 @@
                 });
             },
 
-            
+
 
             editarFormulario(item){
                 this.usuario.id = item.id
@@ -138,24 +138,24 @@
             },
 
             editarUsuario(usuario){
-                
+
             const parametros = {
                 id: usuario.id,
                 ID_COMITE: usuario.ID_COMITE,
                 };
-                
+
             axios.post('/administracion/asignar/comite', parametros)
                 .then(response=>{
                     this.modoEditar = false;
                     toastr.clear();
                     toastr.options.closeButton = true;
-                    toastr.success('Comite asignado correctamente', 'Exito');
+                    toastr.success('Comite asignado correctamente', 'Éxito');
                     console.log("Editado correctamente");
                     this.usuario= {id:'', name:'', email:'', ID_ROL:'', ID_COMITE:''};
                     this.cargar();
                 })
             },
-            
+
             cancelarEdicion(){
                 this.modoEditar = false;
                 this.usuario= {id:'', name:'', email:'', ID_ROL:'', ID_COMITE:''};
@@ -176,7 +176,7 @@
                 },
 
                 searchUsuarios: function(){
-                    return this.usuarios.filter((item) => item.name.toUpperCase().includes(this.name.toUpperCase())); 
+                    return this.usuarios.filter((item) => item.name.toUpperCase().includes(this.name.toUpperCase()));
                 }
         }
     }

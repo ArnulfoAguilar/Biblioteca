@@ -44,8 +44,8 @@
                     </a>
 
                   </span>
-                  
-                  
+
+
 
                   <span class="username">
                     <div v-for="(user,index) in Usuarios" :key="index">
@@ -54,7 +54,7 @@
                     <div v-for="(area,index) in Areas" :key="index">
                       <p class="mb-0" v-if="item.ID_AREA == area.id">{{area.text}}</p>
                     </div>
-                      
+
                   </span>
                   <span class="description">Compartido publicamente - {{item.created_at}}</span>
                 </div>
@@ -96,7 +96,7 @@
                                     <textarea class="form-control" id="JUSTIFICACION" v-model="Sugerencia.CONTENIDO"
                                         rows="3" required maxlength="50000"></textarea>
                                 </div>
-                                
+
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-success float-left" type="submit">Guardar</button>
@@ -152,7 +152,7 @@
               )
               console.log(this.interacciones)
             },
-            
+
             alerta(){
               this.$swal(
                 {
@@ -199,7 +199,7 @@
                   console.log("Actualizado correctamente");
                   toastr.clear();
                   toastr.options.closeButton = true;
-                  toastr.success('Datos de la sugerencia actualizados correctamente', 'Exito');
+                  toastr.success('Datos de la sugerencia actualizados correctamente', 'Éxito');
                 })
 
               }else{
@@ -208,7 +208,7 @@
                   console.log("Guardado correctamente");
                   toastr.clear();
                   toastr.options.closeButton = true;
-                  toastr.success('Datos de la sugerencia guardados correctamente', 'Exito');
+                  toastr.success('Datos de la sugerencia guardados correctamente', 'Éxito');
                 })
               }
               this.cargarSugerencias();
@@ -231,13 +231,13 @@
                   if (value) {
                     axios.delete(`/adquisiciones/${Sugerencia.id}`)
                     .then(()=>{
-                        swal('Exito','Registro Borrado','success')
+                        swal('Éxito','Registro Borrado','success')
                         this.cargarSugerencias();
                     })
                   }
                 }
               );
-                
+
             },
 
         },
@@ -245,16 +245,16 @@
 
         computed:{
           searchSugerencia: function(){
-            return this.Sugerencias.filter((item) => 
+            return this.Sugerencias.filter((item) =>
               item.TITULO.toUpperCase().includes(this.name.toUpperCase()) ||
               item.DESCRIPCION.toUpperCase().includes(this.name.toUpperCase()) ||
-              item.CONTENIDO.toUpperCase().includes(this.name.toUpperCase()) 
+              item.CONTENIDO.toUpperCase().includes(this.name.toUpperCase())
 
-            ); 
+            );
           }
         },
-        
-      
+
+
 
     }
 </script>

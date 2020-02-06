@@ -83,7 +83,7 @@ export default {
                     filterable: true,
                     enabled: true
                 },
-                
+
             ],
             /*isEditing nos hace la distincion si se esta editando o
              *ingresando un nuevo registro, y los titulos son los
@@ -108,7 +108,7 @@ export default {
             VALOR:{
                 required
             },
-            
+
         }
     },
     created(){
@@ -203,14 +203,14 @@ export default {
         this.isEditing = true;
         },
         EliminarPuntuacion(Puntuacion, index){
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Puntuacion ${Puntuacion.PUNTUACION}"?`);
+            const confirmacion = confirm(`¿Ésta seguro de eliminar "Puntuación ${Puntuacion.PUNTUACION}"?`);
             if(confirmacion){
                 axios.delete(`/Puntuaciones/${Puntuacion.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
-                    toastr.success('Eliminado correctamente', 'Exito');
+                    toastr.success('Eliminado correctamente', 'Éxito');
                     console.log("Puntuacion ELIMINADO");
                 })
             }
@@ -226,7 +226,7 @@ export default {
             this.sendData();
             toastr.clear();
             toastr.options.closeButton = true;
-            toastr.success(msg, 'Exito');
+            toastr.success(msg, 'Éxito');
         },
         /*Este es el metodo que se ejecuta al hacer submit del formulario
          *el parametro error es una propiedad que nos ofrece vuelidate

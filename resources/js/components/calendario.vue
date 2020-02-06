@@ -164,13 +164,13 @@
             async eliminarEvento(){
                 // swal.fire('¿Está seguro de eliminar ese registro?','Esta accion es irreversible','question');
                 this.modalClosing();
-                const confirmacion = confirm(`¿Esta seguro de eliminar "Evento ${this.evento.title}"?`);
+                const confirmacion = confirm(`¿Ésta seguro de eliminar "Evento ${this.evento.title}"?`);
                 if(confirmacion){
                     axios.delete(`/administracion/calendarios/${this.evento.id}`)
                     .then(()=>{
                         toastr.clear();
                         toastr.options.closeButton = true;
-                        toastr.success('Eliminado correctamente', 'Exito');
+                        toastr.success('Eliminado correctamente', 'Éxito');
                     })
                     const response = await axios.get('/administracion/calendarios');
                     this.fechas= await this.getEventos();

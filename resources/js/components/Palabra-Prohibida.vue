@@ -191,14 +191,14 @@ export default {
                   }
                 }
               );*/
-            const confirmacion = confirm(`¿Esta seguro de eliminar "Palabra ${PalabraProhibida.PALABRA}"?`);
+            const confirmacion = confirm(`¿Ésta seguro de eliminar "Palabra ${PalabraProhibida.PALABRA}"?`);
             if(confirmacion){
                 axios.delete(`/palabraProhibida/${PalabraProhibida.id}`)
                 .then(()=>{
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
-                    toastr.success('Eliminado correctamente', 'Exito');
+                    toastr.success('Eliminado correctamente', 'Éxito');
                 })
             }
         },
