@@ -67,29 +67,27 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label for="PAGINAS">Numero de paginas</label><b v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.required" class="error">*</b>
+                                    <label for="PAGINAS">Número de páginas</label><b v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.required" class="error">*</b>
                                     <input type="number" class="form-control" id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS" autocomplete="off"
                                         aria-describedby="emailHelp">
-                                    <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.NUMERO_PAGINAS.numeric" class="error">este campo solo acepta números</div>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="copias">Numero de copias</label><b v-if="!$v.EJEMPLAR.COPIAS.required" class="error">*</b>
+                                    <label for="copias">Número de copias</label><b v-if="!$v.EJEMPLAR.COPIAS.required" class="error">*</b>
                                     <input type="number" class="form-control" id="copias" v-model="EJEMPLAR.COPIAS" autocomplete="off"
                                         aria-describedby="emailHelp">
-                                    <div v-if="!$v.EJEMPLAR.COPIAS.numeric" class="error">este campo solo acepta numeros</div>
+                                    <div v-if="!$v.EJEMPLAR.COPIAS.numeric" class="error">este campo solo acepta números</div>
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="LUGAR_EDICION">Lugar Edición</label>
                                     <input type="text" class="form-control" v-model="EJEMPLAR.LUGAR_EDICION" id="LUGAR_EDICION" autocomplete="off"
                                         aria-describedby="emailHelp">
-                                    <!--<div v-if="!$v.EJEMPLAR.CATEGORIA.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="CATALOGO_MATERIAL">Tipo de material</label>
                                     <div>
                                         <select2 :options="catalogoMaterial" :value="EJEMPLAR.CATALOGO_MATERIAL" v-model="EJEMPLAR.CATALOGO_MATERIAL"></select2>
                                     </div>
-                                    <!--<div v-if="!$v.EJEMPLAR.TERCER_SUMARIO.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                             </div>
                             <div class="row">
@@ -98,36 +96,30 @@
                                     <div>
                                         <select2 :options="tipoEmpastados" :value="EJEMPLAR.TIPO_EMPASTADO" v-model="EJEMPLAR.TIPO_EMPASTADO"></select2>
                                     </div>
-                                    <!--<div v-if="!$v.EJEMPLAR.TIPO_EMPASTADO.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="TIPO_ADQUISICION">Tipo adquisición</label>
                                     <div>
                                         <select2 :options="tipoAdquisicion" :value="EJEMPLAR.TIPO_ADQUISICION" v-model="EJEMPLAR.TIPO_ADQUISICION"></select2>
                                     </div>
-                                    <!--<div v-if="!$v.EJEMPLAR.TIPO_ADQUISICION.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="ESTADO_EJEMPLAR">Estado de ejemplar</label>
                                     <div>
                                         <select2 :options="estadoEjemplar" :value="EJEMPLAR.ESTADO_EJEMPLAR" v-model="EJEMPLAR.ESTADO_EJEMPLAR"></select2>
                                     </div>
-                                    <!--<div v-if="!$v.EJEMPLAR.ESTADO_EJEMPLAR.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="AREA">Area</label>
+                                    <label for="AREA">Área</label>
                                     <div>
                                         <select2 :options="areas" :value="EJEMPLAR.AREA" v-model="EJEMPLAR.AREA"></select2>
                                     </div>
-                                    <!--<div v-if="!$v.EJEMPLAR.ESTADO_EJEMPLAR.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
                                     <label for="PRIMER_SUMARIO">Primer sumario</label>
                                     <div>
-                                        <!--select2  :options="primerSumarios" v-model="PRIMERSUMARIOID" @input="getSegundoSumario"  >
-                                        </select2-->
                                         <select class='form-control' v-model="PRIMERSUMARIOID" @change="getSegundoSumario">
                                             <option v-for = "primer in primerSumarios" :value="primer.id" @input="getSegundoSumario">{{primer.text}}</option>
                                         </select>
@@ -136,7 +128,6 @@
                                 <div class="col-md-3 form-group">
                                     <label for="SEGUNDO_SUMARIO">Segundo sumario</label>
                                     <div>
-                                        <!--select2 :options="segundoSumarios" v-model="SEGUNDOSUMARIOID" @input="getTercerSumario"></select2-->
                                          <select class='form-control' v-model="SEGUNDOSUMARIOID" @change="getTercerSumario">
                                             <option v-for = "segundo in segundoSumarios" :value="segundo.id"  >{{segundo.text}}</option>
                                         </select>
@@ -145,7 +136,6 @@
                                 <div class="col-md-3 form-group">
                                     <label for="TERCER_SUMARIO">Tercer Sumario</label>
                                     <div>
-                                        <!--select2 :options="tercerSumarios" :value="EJEMPLAR.TERCER_SUMARIO" v-model="EJEMPLAR.TERCER_SUMARIO"></select2-->
                                         <select class='form-control' v-model="EJEMPLAR.TERCER_SUMARIO" >
                                             <option v-for = "tercero in tercerSumarios" :value="tercero.id" >{{tercero.text}}</option>
                                         </select>
@@ -327,9 +317,6 @@ export default {
                 required
             },
             EDITORIAL:{
-                required
-            },
-            EDICION:{
                 required
             },
             AÑO_EDICION:{

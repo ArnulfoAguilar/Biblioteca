@@ -3,7 +3,7 @@
         <!--BUSQUEDA-->
         <section class="book-search" id="bookSearchApp" >
             <form id="book-search" class="input-group input-group-lg col-md-6" style="margin-left: auto; margin-right: auto;" @submit.prevent="search">
-                <h2 class="col-md-12">Busqueda de libros por titulo</h2>
+                <h2 class="col-md-12">Búsqueda de libros por título</h2>
                 <input type="text" class="form-control col-md-9" v-model.trim="searchTerm" placeholder="⌕">
                 <button class="btn btn-info btn-flat col-md-3" type="submit">Buscar!</button>
             </form>
@@ -87,12 +87,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label for="PAGINAS">Numero de paginas *</label>
+                                    <label for="PAGINAS">Número de páginas *</label>
                                     <input type="number" class="form-control" required id="PAGINAS" v-model="EJEMPLAR.NUMERO_PAGINAS"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="copias">Numero de copias *</label>
+                                    <label for="copias">Número de copias *</label>
                                     <input type="number" class="form-control"  required id="copias" v-model="EJEMPLAR.COPIAS"
                                         aria-describedby="emailHelp">
 
@@ -132,7 +132,7 @@
                                     <!--<div v-if="!$v.EJEMPLAR.ESTADO_EJEMPLAR.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="AREA">Area</label>
+                                    <label for="AREA">Área</label>
                                     <div>
                                         <select2 :options="areas" :value="EJEMPLAR.AREA" v-model="EJEMPLAR.AREA"></select2>
                                     </div>
@@ -359,13 +359,8 @@
                     this.EJEMPLAR.DESCRIPCION === '' ||
                     this.EJEMPLAR.ISBN === '' ||
                     this.EJEMPLAR.AUTOR === ''||
-                    this.EJEMPLAR.ESTADO_EJEMPLAR === ''||
-
                     this.EJEMPLAR.TERCER_SUMARIO === ''||
-                    this.EJEMPLAR.TIPO_ADQUISICION === ''||
-                    this.EJEMPLAR.SUBTITULO === ''||
                     this.EJEMPLAR.EDITORIAL === ''||
-                    this.EJEMPLAR.EDICION === ''||
                     this.EJEMPLAR.AÑO_EDICION === '')
                 {
                     alert("Debes llenar todos los datos");
@@ -376,14 +371,14 @@
                     console.log(ejemplarNuevo)
                     axios.post('/Ejemplar', ejemplarNuevo)
                         .then(response=>{
-                            $("#exampleModal").modal('hide');
+                            $("#modalForm").modal('hide');
                     toastr.clear();
                     toastr.options.closeButton = true;
                     toastr.success('Libro agregado correctamente', 'Exito');
-                            $("#exampleModal").modal('hide');
+                            $("#modalForm").modal('hide');
 
                             this.vaciarModelo();
-                            $("#exampleModal").modal('hide');
+                            $("#modalForm").modal('hide');
                         }).catch(e=>{
                             alert("Error al Guardar" + e);
                         })
@@ -401,7 +396,6 @@
                 EDITORIAL:'',
                 EDICION:'',
                 AÑO_EDICION:'',
-                //PALABRAS_CLAVE:'',
                 OBSERVACIONES:'',
                 ESTADO_EJEMPLAR:'',
                 LUGAR_EDICION:'',
