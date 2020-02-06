@@ -162,6 +162,10 @@
                             <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Te hizo una observación en el aporte: {{$notification->data["aporte"]["TITULO"]}} </a>
                           @endif
 
+                          @if ($notification->type == 'App\Notifications\RevisionSolventada')
+                            <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Solvento su revision en tu aporte: {{$notification->data["aporte"]["TITULO"]}} </a>
+                          @endif
+
                           @if ($notification->type == 'App\Notifications\PrestamoAprobado')
                             <a href="{{route ('mis.prestamos')}}" class="nav-link" >Tu Préstamo fue aprobado</a>
                           @endif
