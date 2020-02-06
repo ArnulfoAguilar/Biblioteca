@@ -112,7 +112,9 @@ class RevisionController extends Controller
         // $user->notify(new Revisiones($revision));
 
         $user = User::find($revision->aporte->usuario->id);
-        $user->notify(new NuevaRevision($revision));
+        if($revision->ID_ESTADO_REVISION == 2){
+            $user->notify(new NuevaRevision($revision));
+        }
         activity()->performedOn($revision)->log('Modificó revisión ('.$revision->id.')');
         return $revision;
     }
