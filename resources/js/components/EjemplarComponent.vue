@@ -33,7 +33,7 @@
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="SUBTITULO">Subtitulo</label>
+                                    <label for="SUBTITULO">Subtítulo</label>
                                     <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO" maxlength="400" autocomplete="off"
                                     aria-describedby="emailHelp">
                                 </div>
@@ -486,7 +486,7 @@ export default {
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
-                    toastr.success('Eliminado correctamente', 'Exito');
+                    toastr.success('Eliminado correctamente', 'Éxito');
                 })
             }
         },

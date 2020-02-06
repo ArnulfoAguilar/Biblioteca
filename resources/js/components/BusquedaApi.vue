@@ -53,7 +53,7 @@
                                     aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="SUBTITULO">Subtitulo</label>
+                                    <label for="SUBTITULO">Subtítulo</label>
                                     <input type="text" v-model.lazy="EJEMPLAR.SUBTITULO" class="form-control" id="SUBTITULO" maxlength="400"
                                     aria-describedby="emailHelp">
                                 </div>
@@ -374,7 +374,7 @@
                             $("#modalForm").modal('hide');
                     toastr.clear();
                     toastr.options.closeButton = true;
-                    toastr.success('Libro agregado correctamente', 'Exito');
+                    toastr.success('Libro agregado correctamente', 'Éxito');
                             $("#modalForm").modal('hide');
 
                             this.vaciarModelo();
