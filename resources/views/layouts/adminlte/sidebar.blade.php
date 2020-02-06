@@ -133,7 +133,7 @@
 
               @if ( Auth::user()->hasPermiso([9]) )
                 <li class="nav-item">
-                  <a href="{{ route('imprimir') }}" class="nav-link">
+                  <a href="{{ route('imprimir') }}" class="nav-link {{ ( request()->is('inventario/codigos/imprimir') ) ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Códigos de barra</p>
                   </a>
