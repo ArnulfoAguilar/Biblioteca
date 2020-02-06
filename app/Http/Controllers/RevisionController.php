@@ -10,6 +10,7 @@ use App\Modelos\Aporte;
 use App\User;
 
 use App\Notifications\NuevaRevision;
+use App\Notifications\RevisionSolventada;
 use Illuminate\Support\Facades\Notification;
 
 class RevisionController extends Controller
@@ -114,6 +115,8 @@ class RevisionController extends Controller
         $user = User::find($revision->aporte->usuario->id);
         if($revision->ID_ESTADO_REVISION == 2){
             $user->notify(new NuevaRevision($revision));
+        }else{
+            $user->notify(new RevisionSolventada($revision));
         }
         activity()->performedOn($revision)->log('Modificó revisión ('.$revision->id.')');
         return $revision;

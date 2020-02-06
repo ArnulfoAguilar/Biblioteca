@@ -154,12 +154,20 @@
                             <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> modificó el aporte {{$notification->data["aporte"]["TITULO"]}}</a>
                           @endif
 
+                          @if ($notification->type == 'App\Notifications\AporteAprobado')
+                            <a href="/aportes/{{$notification->data["aporte"]["id"]}}" class="nav-link" > Tu aporte <b>{{$notification->data["aporte"]["TITULO"]}}</b> fué aprobado para su publicación</a>
+                          @endif
+
                           @if ($notification->type == 'App\Notifications\NuevoComentario')
                             <a href="/aportes/{{$notification->data["comentario"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Comentó tu aporte</a>
                           @endif
 
                           @if ($notification->type == 'App\Notifications\NuevaRevision')
                             <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Te hizo una observación en el aporte: {{$notification->data["aporte"]["TITULO"]}} </a>
+                          @endif
+
+                          @if ($notification->type == 'App\Notifications\RevisionSolventada')
+                            <a href="/aportes/{{$notification->data["revision"]["ID_APORTE"]}}" class="nav-link" ><b>{{ $notification->data["user"]["name"] }}</b> Solvento su revision en tu aporte: {{$notification->data["aporte"]["TITULO"]}} </a>
                           @endif
 
                           @if ($notification->type == 'App\Notifications\PrestamoAprobado')

@@ -23,6 +23,7 @@ use TJGazel\Toastr\Facades\Toastr;
 
 use App\Notifications\NewAporte;
 use App\Notifications\AporteModificado;
+use App\Notifications\AporteAprobado;
 
 use App\Mail\Notificacion;//usado para los emails
 use Illuminate\Support\Facades\Mail;//usado para los emails
@@ -433,6 +434,8 @@ class AporteController extends Controller
                 }
             }
             $Usuario->save();
+
+            $Usuario->notify(new AporteAprobado($aporte));
             //Actualizar puntuacion habilitar aporte// 
             return '1';
         }else{
