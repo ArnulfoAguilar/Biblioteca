@@ -22,11 +22,11 @@ class ReportesEstadisticosController extends Controller
 
     public function LibrosDaniados()
     {
-      $librosdañados=  Ejemplar::where('ID_ESTADO_EJEMPLAR',2) //CATALOGO ID_ESTADO_EJEMPLAR 2 es "MALO"
+      $librosd=  Ejemplar::where('ID_ESTADO_EJEMPLAR',2) //CATALOGO ID_ESTADO_EJEMPLAR 2 es "MALO"
                     ->get();
                     activity()->log('Se genero el PDF libros mas dañados');
 
-           return view('Reportes.librosDaniados')->with('librosdaniados',$librosdañados)->render();
+           return view('Reportes.librosDaniados')->with('librosd',$librosd)->render();
     }
 
     public function LibrosSinInventariar()
