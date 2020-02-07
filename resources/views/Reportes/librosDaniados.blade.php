@@ -43,8 +43,9 @@
                     </div>
                     
                     <div class="card-body">
-                            @if (isset($users))
+                           
                                 <br>
+                                @if ($librosd->Count()>0)
                                 <table class="table table-hover table-bordered" id="">
                                     <thead>
                                         <tr>
@@ -57,16 +58,14 @@
                                         
                                     </thead>
                                     <tbody>
-                                        @foreach ($librosdaniados as $key => $libro)
+                                        @foreach ($librosd as $key => $libro)
                                             <tr>
                                                 <td>{{$key+1}}</td>
                                                 <td>{{$libro->EJEMPLAR}}</td>
                                                 <td>    
                                                     {{$libro->SUBTITULO}}
                                                 </td>
-                                                <td>    
-                                                    {{$libro->SUBTITULO}}
-                                                </td>
+
                                                 <td>    
                                                     {{$libro->PRECIO}}
                                                 </td>
@@ -78,7 +77,11 @@
                                         
                                     </tbody>
                                 </table>
-                            @endif
+                            
+                                @else
+                                    <h3>No hay libros dañados</h3>
+                                @endif
+                                
                         </div>
                         
                     </div>

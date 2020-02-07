@@ -43,8 +43,8 @@
                     </div>
                     
                     <div class="card-body">
-                            @if (isset($users))
                                 <br>
+                                @if ($librosSinInventariar->count() > 0)
                                 <table class="table table-hover table-bordered" id="">
                                     <thead>
                                         <tr>
@@ -57,28 +57,34 @@
                                         
                                     </thead>
                                     <tbody>
-                                        @foreach ($librosSinInventariar as $key => $libro)
-                                            <tr>
-                                                <td>{{$key+1}}</td>
-                                                <td>{{$libro->CODIGO_BARRA}}</td>
-                                                <td>    
-                                                    {{$libro->Ejemplar->EJEMPLAR}}
-                                                </td>
-                                                <td>    
-                                                    {{$libro->COPIA_NUMERO}}
-                                                </td>
-                                                <td>    
-                                                    {{$libro->Ejemplar->PRECIO}}
-                                                </td>
-                                                <td>    
-                                                    {{$libro->OBSERVACIONES}}
-                                                </td>
-                                            </tr>
-                                        @endforeach
                                         
+                                      
+                                            
+                                        @foreach ($librosSinInventariar as $key => $libro)
+                                        <tr>
+                                            <td>{{$key+1}}</td>
+                                            <td>{{$libro->CODIGO_BARRA}}</td>
+                                            <td>    
+                                                {{$libro->Ejemplar->EJEMPLAR}}
+                                            </td>
+                                            <td>    
+                                                {{$libro->COPIA_NUMERO}}
+                                            </td>
+                                            <td>    
+                                                {{$libro->Ejemplar->PRECIO}}
+                                            </td>
+                                            <td>    
+                                                {{$libro->OBSERVACIONES}}
+                                            </td>
+                                        </tr>
+                                    
                                     </tbody>
                                 </table>
-                            @endif
+                                @endforeach
+                                    
+                                    @else
+                                    <h3>Todos los libros están inventariados</h3>        
+                                    @endif
                         </div>
                         
                     </div>
