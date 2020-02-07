@@ -54,6 +54,15 @@
                 </a>
               </li>
             @endif
+            @if ( Auth::user()->hasPermiso([25]) )
+              <li class="nav-item">
+                <a href="{{route('Configuracion')}}"
+                  class="nav-link {{ ( request()->is('catalogos/Configuracion') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Configuraciones </p>
+                </a>
+              </li>
+            @endif
             @if ( Auth::user()->hasPermiso([20]) )
               <li class="nav-item">
                 <a href="{{route('Configuracion.puntuacion')}}"
@@ -250,15 +259,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @if ( Auth::user()->hasPermiso([25]) )
-              <li class="nav-item">
-                <a href="{{route('Configuracion')}}"
-                  class="nav-link {{ ( request()->is('catalogos/Configuracion') ) ? 'active' : '' }}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Configuraciones </p>
-                </a>
-              </li>
-            @endif
+              
             @if ( Auth::user()->hasPermiso([22]) )
             <li class="nav-item">
               <a href="{{route('comites')}}" class="nav-link {{ ( request()->is('catalogos/comites') ) ? 'active' : '' }}">
