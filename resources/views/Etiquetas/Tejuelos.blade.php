@@ -6,8 +6,8 @@
 
 @section('breadcrumbs')
 <ol class="breadcrumb float-sm-right">
-    <li class="breadcrumb-item"><a href="#">Solvencia de usuarios</a></li>
-    <li class="breadcrumb-item active">Biblioteca</li>
+    <li class="breadcrumb-item"><a href="#">Biblioteca</a></li>
+    <li class="breadcrumb-item active">Imprimir tejuelos</li>
   </ol>
 @endsection
     @section('content')

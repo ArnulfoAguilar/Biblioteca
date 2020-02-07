@@ -6,8 +6,8 @@
 
 @section('breadcrumbs')
 <ol class="breadcrumb float-sm-right">
-    <li class="breadcrumb-item"><a href="#">Imprimir codigos de barra</a></li>
-    <li class="breadcrumb-item active">Biblioteca</li>
+    <li class="breadcrumb-item"><a href="#">Biblioteca</a></li>
+    <li class="breadcrumb-item active">Etiquetado de Libros</li>
   </ol>
 @endsection
 
