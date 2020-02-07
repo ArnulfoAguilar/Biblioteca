@@ -56,6 +56,15 @@
             @endif
             @if ( Auth::user()->hasPermiso([20]) )
               <li class="nav-item">
+                <a href="{{route('Configuracion.puntuacion')}}"
+                  class="nav-link {{ ( request()->is('/Puntuacion') ) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Puntuación</p>
+                </a>
+              </li>
+            @endif
+            @if ( Auth::user()->hasPermiso([20]) )
+              <li class="nav-item">
                 <a href="{{route('Configuracion.Nivel')}}"
                   class="nav-link {{ ( request()->is('/Nivel') ) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
@@ -80,15 +89,7 @@
                 </a>
               </li>
             @endif
-            @if ( Auth::user()->hasPermiso([20]) )
-              <li class="nav-item">
-                <a href="{{route('Configuracion.puntuacion')}}"
-                  class="nav-link {{ ( request()->is('/Puntuacion') ) ? 'active' : '' }}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Puntuación</p>
-                </a>
-              </li>
-            @endif
+            
             @if (Auth::user()->hasPermiso([38]) )
               <li class="nav-item">
                 <a href="{{route('administracion.gestion.usuarios')}}" class="nav-link {{ ( request()->is('administracion/gestion/usuarios*') ) ? 'active' : '' }}">
