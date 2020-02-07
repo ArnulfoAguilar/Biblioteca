@@ -93,20 +93,7 @@
                 </div>
             </div>
         
-            <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-danger">
-                        <div class="inner">
-    
-                            <p>Alguna otra estadística</p>
-                            <h4>#</h4>
-
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-ban"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
+           
             @endif
         </div>
     

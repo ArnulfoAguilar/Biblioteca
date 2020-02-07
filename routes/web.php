@@ -154,7 +154,6 @@ Route::middleware(['auth'])->group(function () {
 
 
     // ------------------------------- RUTAS DEL MODULO DE ADQUISICIONES-------------------------//
-    Route::middleware(['web', 'rol:1,4'])->group(function () {
 
         Route::resource('/adquisiciones','AdquisicionController');
         Route::get('/adquisicion/lista', 'HomeController@adquisiciones')->name('adquisicion.lista');
@@ -163,7 +162,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/getInteracciones', 'AdquisicionController@interacciones')->name('get.interacciones');
 
 
-    });
+   
 
     // ---------------------------------RUTAS DEL MODULO DE ADMINISTRACION -------------------------------------//
 
