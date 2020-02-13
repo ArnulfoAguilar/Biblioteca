@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Idioma;
 use App\Modelos\catalogoMaterial;
 use App\Modelos\estadoEjemplar;
 use App\Modelos\tipoAdquisicion;
@@ -67,6 +68,25 @@ class Select2Controller extends Controller
         }
         return response()->json($data);
     }
+
+    public function idiomaSelect()
+    {
+        $idioma = Idioma::all();
+
+        $data = [];
+        $data[0] = [
+            'id'   => 0,
+            'text' => 'Seleccione',
+        ];
+        foreach ($idioma as $key => $value) {
+            $data[$key + 1] = [
+                'id'   => $value->ID_IDIOMA,
+                'text' => $value->IDIOMA,
+            ];
+        }
+        return response()->json($data);
+    }
+
     public function catalogoMaterialSelect()
     {
         $materiales = catalogoMaterial::all();

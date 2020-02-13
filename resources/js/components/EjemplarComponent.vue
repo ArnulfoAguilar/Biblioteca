@@ -104,9 +104,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="ESTADO_EJEMPLAR">Estado de ejemplar</label>
+                                    <label for="IDIOMA">Idioma</label>
                                     <div>
-                                        <select2 :options="estadoEjemplar" :value="EJEMPLAR.ESTADO_EJEMPLAR" v-model="EJEMPLAR.ESTADO_EJEMPLAR"></select2>
+                                        <select2 :options="idioma" :value="EJEMPLAR.IDIOMA" v-model="EJEMPLAR.IDIOMA"></select2>
                                     </div>
                                 </div>
                                 <div class="col-md-3 form-group">
@@ -258,7 +258,7 @@ export default {
             tercerSumarios: [],
             tipoEmpastados: [],
             tipoAdquisicion: [],
-            estadoEjemplar: [],
+            idioma: [],
             areas: [],
             catalogoMaterial: [],
             bibliotecas: [],
@@ -277,7 +277,7 @@ export default {
                 AÑO_EDICION:'',
                 PALABRAS_CLAVE:'',
                 OBSERVACIONES:'',
-                ESTADO_EJEMPLAR:'',
+                IDIOMA:'',
                 LUGAR_EDICION:'',
                 TERCER_SUMARIO:'',
                 PRIMER_SUMARIO:'',
@@ -452,7 +452,7 @@ export default {
             this.EJEMPLAR.LUGAR_EDICION=item.LUGAR_EDICION;
             this.EJEMPLAR.TIPO_EMPASTADO=item.ID_TIPO_EMPASTADO;
             this.EJEMPLAR.TIPO_ADQUISICION=item.ID_TIPO_ADQUISICION;
-            this.EJEMPLAR.ESTADO_EJEMPLAR=item.ID_ESTADO_EJEMPLAR;
+            this.EJEMPLAR.IDIOMA=item.ID_IDIOMA;
             this.EJEMPLAR.AREA=item.ID_AREA;
             this.EJEMPLAR.OBSERVACIONES=item.OBSERVACIONES;
             this.EJEMPLAR.EJEMPLAR = item.EJEMPLAR;
@@ -504,7 +504,7 @@ export default {
                 AÑO_EDICION:'',
                 //PALABRAS_CLAVE:'',
                 OBSERVACIONES:'',
-                ESTADO_EJEMPLAR:'',
+                IDIOMA:'',
                 LUGAR_EDICION:'',
                 TERCER_SUMARIO:'',
                 TIPO_EMPASTADO:'',
@@ -554,8 +554,8 @@ export default {
             axios.get('/TipoAdquisicionSelect').then((response)=>{
                 this.tipoAdquisicion = response.data;
             });
-            axios.get('/EstadoEjemplarSelect').then((response)=>{
-                this.estadoEjemplar = response.data;
+            axios.get('/idiomaSelect').then((response)=>{
+                this.idioma = response.data;
             });
             axios.get('/Area').then((response)=>{
                 this.areas = response.data;

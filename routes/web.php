@@ -211,6 +211,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/TipoEmpastadoSelect', 'Select2Controller@tipoEmpastadoSelect');
     Route::get('/TipoAdquisicionSelect', 'Select2Controller@tipoAdquisicionSelect');
     Route::get('/EstadoEjemplarSelect', 'Select2Controller@estadoEjemplarSelect');
+    Route::get('/IdiomaSelect', 'Select2Controller@idiomaSelect');
     Route::get('/CatalogoMaterialSelect', 'Select2Controller@catalogoMaterialSelect');
     Route::get('/TipoPrestamoSelect', 'Select2Controller@tipoPrestamoSelect');
 
@@ -254,4 +255,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reporte/usuariosMasActivos', 'ReportesEstadisticosController@UsuariosMasActivos')->name('reportes.UsuariosMasActivos');
     Route::get('/reporte/librosDaniados', 'ReportesEstadisticosController@librosDaniados')->name('reportes.librosDaniados');
     Route::get('/reporte/librosSinInventariar', 'ReportesEstadisticosController@LibrosSinInventariar')->name('reportes.LibrosSinInventariar');
+    Route::get('/reporte/AportesPorArea', 'ReportesEstadisticosController@AportesPorArea')->name('reportes.AportesPorArea');
 });

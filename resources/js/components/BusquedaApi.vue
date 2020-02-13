@@ -125,11 +125,11 @@
                                     <!--<div v-if="!$v.EJEMPLAR.TIPO_ADQUISICION.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="ESTADO_EJEMPLAR">Estado de ejemplar</label>
+                                    <label for="IDIOMA">Estado de ejemplar</label>
                                     <div>
-                                        <select2 :options="estadoEjemplar" :value="EJEMPLAR.ESTADO_EJEMPLAR" v-model="EJEMPLAR.ESTADO_EJEMPLAR"></select2>
+                                        <select2 :options="idioma" :value="EJEMPLAR.IDIOMA" v-model="EJEMPLAR.IDIOMA"></select2>
                                     </div>
-                                    <!--<div v-if="!$v.EJEMPLAR.ESTADO_EJEMPLAR.required" class="error">este campo es obligatorio</div>-->
+                                    <!--<div v-if="!$v.EJEMPLAR.IDIOMA.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="AREA">Área</label>
@@ -224,7 +224,7 @@
                 primerSumarios :[],
                 tipoEmpastados:[],
                 tipoAdquisicion:[],
-                estadoEjemplar:[],
+                idioma:[],
                 areas:[],
                 catalogoMaterial:[],
                 segundoSumarios: [],
@@ -247,7 +247,7 @@
                     AÑO_EDICION:'',
                     PALABRAS_CLAVE:'',
                     OBSERVACIONES:'',
-                    ESTADO_EJEMPLAR:'',LUGAR_EDICION:'',
+                    IDIOMA:'',LUGAR_EDICION:'',
                     PRIMER_SUMARIO:'',
                     SEGUNDO_SUMARIO:'',
                     TERCER_SUMARIO:'',
@@ -313,9 +313,9 @@
                 axios.get('/TipoAdquisicionSelect').then((response)=>{
                     this.tipoAdquisicion = response.data;
                 });
-                axios.get('/EstadoEjemplarSelect').then((response)=>{
-                    this.estadoEjemplar = response.data;
-                    console.log(this.estadoEjemplar)
+                axios.get('/IdiomaSelect').then((response)=>{
+                    this.idioma = response.data;
+                    console.log(this.idioma)
                 });
                 axios.get('/Area').then((response)=>{
                     this.areas = response.data;
@@ -397,7 +397,7 @@
                 EDICION:'',
                 AÑO_EDICION:'',
                 OBSERVACIONES:'',
-                ESTADO_EJEMPLAR:'',
+                IDIOMA:'',
                 LUGAR_EDICION:'',
                 TERCER_SUMARIO:'',
                 TIPO_EMPASTADO:'',

@@ -51,9 +51,14 @@ class CreateEjemplarsTable extends Migration
                 ->on('tipoAdquisicion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->bigInteger('ID_ESTADO_EJEMPLAR')->nullable()->unsigned();
+            /**$table->bigInteger('ID_ESTADO_EJEMPLAR')->nullable()->unsigned();
             $table->foreign('ID_ESTADO_EJEMPLAR')->references('ID_ESTADO_EJEMPLAR')
                 ->on('estadoEjemplar')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');**/
+            $table->bigInteger('ID_IDIOMA')->nullable()->unsigned();
+            $table->foreign('ID_IDIOMA')->references('ID_IDIOMA')
+                ->on('Idioma')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->bigInteger('ID_CATALOGO_MATERIAL')->nullable()->unsigned();

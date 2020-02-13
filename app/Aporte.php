@@ -34,6 +34,7 @@ class Aporte extends Model
     {
         return $this->belongsTo('App\Area', 'ID_AREA', 'id');
     }
+  
 
 
 }

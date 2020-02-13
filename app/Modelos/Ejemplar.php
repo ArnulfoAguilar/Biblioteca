@@ -23,6 +23,7 @@ class Ejemplar extends Model
         'PRECIO',
         'ID_TIPO_ADQUISICION',
         'ID_ESTANTE',
+        'ID_IDIOMA'
 
         ];
     use SoftDeletes;
@@ -40,5 +41,9 @@ class Ejemplar extends Model
     public function estante()
     {
         return $this->belongsTo('App\Estante', 'ID_ESTANTE', 'id');
+    }
+    public function idioma()
+    {
+        return $this->belongsTo('App\Idioma','ID_IDIOMA','ID_IDIOMA');
     }
 }

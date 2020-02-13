@@ -37,4 +37,12 @@ class ReportesEstadisticosController extends Controller
 
            return view('Reportes.librosSinInventariar')->with('librosSinInventariar',$librosSinInventariar)->render();
     }
+
+    public function AportesPorArea()
+    {
+      $AportesxArea=DB::select('SELECT count(*), "ID_AREA" FROM "Aporte" group by "ID_AREA";');
+      activity()->log('Generó reporte total de aportes por area');
+
+           return view('Reportes.AportesPorArea')->with('AportesxArea',$AportesxArea)->render();
+    }
 }

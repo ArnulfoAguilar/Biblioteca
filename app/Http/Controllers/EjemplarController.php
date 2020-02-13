@@ -82,7 +82,7 @@ class EjemplarController extends Controller
         $Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
         $Ejemplar->ID_TIPO_EMPASTADO = $request->TIPO_EMPASTADO;
         $Ejemplar->ID_TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
-        $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;
+        $Ejemplar->ID_IDIOMA = $request->IDIOMA;
         $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
         $Ejemplar->ID_AREA = $request->AREA;
         $Ejemplar->PRECIO = $request->PRECIO;
@@ -135,7 +135,7 @@ class EjemplarController extends Controller
         $Ejemplar->ID_TERCER_SUMARIO = $request->TERCER_SUMARIO;
         $Ejemplar->ID_TIPO_EMPASTADO = $request->TIPO_EMPASTADO;
         $Ejemplar->ID_TIPO_ADQUISICION = $request->TIPO_ADQUISICION;
-        $Ejemplar->ID_ESTADO_EJEMPLAR = $request->ESTADO_EJEMPLAR;
+        $Ejemplar->ID_IDIOMA = $request->IDIOMA;
         $Ejemplar->ID_CATALOGO_MATERIAL = $request->CATALOGO_MATERIAL;
         $Ejemplar->ID_AREA = $request->AREA;
         $Ejemplar->PRECIO = $request->PRECIO;
