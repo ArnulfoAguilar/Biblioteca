@@ -158,7 +158,7 @@
                 this.fechas= await this.getEventos();
                 toastr.clear();
                 toastr.options.closeButton = true;
-                toastr.success(msg, 'Exito');
+                toastr.success(msg, 'Éxito');
                 this.modalClosing();
             },
             async eliminarEvento(){

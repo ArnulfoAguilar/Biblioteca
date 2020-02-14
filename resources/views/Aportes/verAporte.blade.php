@@ -319,7 +319,7 @@
                         }
                         swal({ text: 'Su comentario contiene palabras inadecuadas', title: 'Alto', icon: 'error',})
                     }else{
-                        swal({ text: 'Espere la aprobación del administrador', title: 'Exito', icon: 'success',})
+                        swal({ text: 'Espere la aprobación del administrador', title: 'Éxito', icon: 'success',})
                         .then( (value) => {
 
                             form.submit();

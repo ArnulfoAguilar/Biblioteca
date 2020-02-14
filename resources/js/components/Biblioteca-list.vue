@@ -198,7 +198,7 @@ export default {
                     toastr.clear();
                     this.sendData();
                     toastr.options.closeButton = true;
-                    toastr.success('Eliminado correctamente', 'Exito');
+                    toastr.success('Eliminado correctamente', 'Éxito');
                     console.log("BIBLIOTECA ELIMINADO");
                 })
             }
@@ -208,13 +208,13 @@ export default {
             this.Biblioteca = {id: '', BIBLIOTECA: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
-         *basicamente es el toastr indicandonos el exitos de la operacion
+         *basicamente es el toastr indicandonos el Éxitos de la operacion
          *y la actualizacion del contenido de la tabla*/
         success(msg){
             this.sendData();
             toastr.clear();
             toastr.options.closeButton = true;
-            toastr.success(msg, 'Exito');
+            toastr.success(msg, 'Éxito');
         },
         /*Este es el metodo que se ejecuta al hacer submit del formulario
          *el parametro error es una propiedad que nos ofrece vuelidate

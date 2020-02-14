@@ -184,7 +184,7 @@
                     this.ejemplars.push(ejemplarServidor);
                     toastr.clear();
                     toastr.options.closeButton = true;
-                    toastr.success('Agregado correctamente', 'Exito');
+                    toastr.success('Agregado correctamente', 'Éxito');
                     this.actualizar();
                     console.log("Guardado");
                     $("#modalAgregar").modal('hide');
@@ -221,7 +221,7 @@
                 console.log("Editado correctamente");
                 toastr.clear();
                 toastr.options.closeButton = true;
-                toastr.success('Editado correctamente', 'Exito');
+                toastr.success('Editado correctamente', 'Éxito');
                 $("#modalEditar").modal('hide');
                 this.actualizar();
                 })
@@ -237,7 +237,7 @@
                         this.ejemplars.splice(index, 1);
                         toastr.clear();
                         toastr.options.closeButton = true;
-                        toastr.success('Eliminado correctamente', 'Exito');
+                        toastr.success('Eliminado correctamente', 'Éxito');
                         this.actualizar();
                         console.log("EJEMPLAR ELIMINADO");
                     })

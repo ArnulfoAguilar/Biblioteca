@@ -203,7 +203,7 @@ export default {
             this.COMITE = {COMITE: ''};
         },
         /*este metodo se ejecuta en respuesta de la promesa del axios
-         *basicamente es el toastr indicandonos el exitos de la operacion
+         *basicamente es el toastr indicandonos el Éxitos de la operacion
          *y la actualizacion del contenido de la tabla*/
         success(msg){
             this.sendData();
