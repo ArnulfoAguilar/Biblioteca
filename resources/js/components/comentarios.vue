@@ -61,7 +61,7 @@
               </div> -->
 
               <!-- <button type="button"  class="btn btn-default btn-sm " @click="like(datos.id)"><i class="far fa-thumbs-up">{{ datos.total_likes }}</i> Like</button> -->
-              <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Report</button>
+              <button type="button" class="btn btn-default btn-sm "><i class="fas fa-ban"></i> Reportar</button>
             </div>
         </div>
                         <!-- /.card-comment -->
