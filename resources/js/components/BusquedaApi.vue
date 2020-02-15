@@ -125,7 +125,7 @@
                                     <!--<div v-if="!$v.EJEMPLAR.TIPO_ADQUISICION.required" class="error">este campo es obligatorio</div>-->
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="IDIOMA">Estado de ejemplar</label>
+                                    <label for="IDIOMA">Idioma</label>
                                     <div>
                                         <select2 :options="idioma" :value="EJEMPLAR.IDIOMA" v-model="EJEMPLAR.IDIOMA"></select2>
                                     </div>
