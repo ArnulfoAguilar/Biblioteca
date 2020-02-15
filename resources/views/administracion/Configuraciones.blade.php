@@ -59,7 +59,7 @@
                                         aria-describedby="Titulo" required maxlength="255">
                                 </div>
                                 <div class="form-group col-md-12 col-xs-12">
-                                        <label for="Titulo">Direccion del colegio</label>
+                                        <label for="Titulo">Dirección del colegio</label>
                                         <input type="text"  class="form-control" name="direccionInstitucion" value="{{$configuraciones ? $configuraciones->DIRECCION_INSTITUCION : ''}}" 
                                             placeholder="{{$configuraciones ? $configuraciones->DIRECCION_INSTITUCION : ''}}"
                                             aria-describedby="Titulo" required maxlength="255">
@@ -77,7 +77,7 @@
                                         aria-describedby="Titulo" required max="365">
                                 </div>
                                 <div class="form-group col-md-4 col-xs-12">
-                                    <label for="Titulo">Tamaño de Archivo (Kb)</label>
+                                    <label for="Titulo">Tamaño máx. para archivos (Kb)</label>
                                     <input type="number"  class="form-control" name="archivoSize" placeholder="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}} Kb"
                                         value="{{$configuraciones ? $configuraciones->TAMAÑO_MAXIMO_ARCHIVOS : ''}}"
                                         aria-describedby="Titulo" required max="1000000">
